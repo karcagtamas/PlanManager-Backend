@@ -43,7 +43,10 @@ namespace PlanManager.Backend
             app.UseAuthorization();
 
             app.UseEndpoints(
-                endpoints => { endpoints.MapControllers(); }
+                endpoints =>
+                {
+                    endpoints.MapControllers();
+                }
             );
         }
     }
