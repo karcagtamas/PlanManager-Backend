@@ -1,0 +1,18 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "PlanManagerDb": "Server=(local)\\sqlexpress;Database=PlanManagerDb;Trusted_Connection=True;MultipleActiveResultSets=True",
+    "PlanManagerDb": "Server=localhost;Database=PlanManagerDb;User Id=SA;password=<Jelszó>;Trusted_Connection=False;MultipleActiveResultSets=true;"
+  },
+  "ApplicationSettings": {
+    "JWTSecret": "0123456789012345KPlanManager",
+    "ClientURL": "http://localhost:4200"
+  }
+}
