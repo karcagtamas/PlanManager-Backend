@@ -27,13 +27,14 @@ namespace PlanManager.DataAccess.Entities
         [Required]
         public DateTime StartTime { get; set; }
         
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
         
-        public int PriorityLevel { get; set; }
+        public int? PriorityLevel { get; set; }
         
+        [Required]
         public bool IsPublic { get; set; }
         
-        public int PlanTypeId { get; set; }
+        public int? PlanTypeId { get; set; }
 
         public virtual User Owner { get; set; }
         public virtual PlanType PlanType { get; set; }

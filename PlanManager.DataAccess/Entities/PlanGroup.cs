@@ -7,6 +7,9 @@ namespace PlanManager.DataAccess.Entities
     {
         [Required]
         public int Id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
         
         [Required]
         public string CreatorId { get; set; }
@@ -20,6 +23,7 @@ namespace PlanManager.DataAccess.Entities
         [Required]
         public DateTime LastUpdate { get; set; }
         
+        [Required]
         public bool IsArchived { get; set; }
 
         public virtual User Creator { get; set; }
