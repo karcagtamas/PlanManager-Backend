@@ -1,6 +1,6 @@
 namespace PlanManager.Services.Services
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
         public AuthService()
         {

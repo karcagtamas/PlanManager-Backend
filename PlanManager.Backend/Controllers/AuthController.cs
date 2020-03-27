@@ -12,5 +12,12 @@ namespace PlanManager.Backend.Controllers
         {
             
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult GetSomething()
+        {
+            return Ok(new[] {"Alma", "Nem"});
+        }
     }
 }

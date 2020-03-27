@@ -18,7 +18,9 @@ namespace PlanManager.Backend
         }
 
         public static IWebHost CreateWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>().Build();
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
 
     }
 }
