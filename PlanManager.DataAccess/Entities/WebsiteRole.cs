@@ -1,12 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace PlanManager.DataAccess.Entities
 {
-    public class WebsiteRole
+    public class WebsiteRole : IdentityRole
     {
-        [Required]
-        public int Id { get; set; }
-        
         [Required]
         public string Title { get; set; }
         

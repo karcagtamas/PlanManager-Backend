@@ -1,6 +1,6 @@
 namespace PlanManager.Services.Services
 {
-    public class UtilsService : IUtilsService
+    public interface IAuthService
     {
         
     }
