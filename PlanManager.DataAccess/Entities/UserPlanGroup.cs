@@ -1,13 +1,23 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace PlanManager.DataAccess.Entities
 {
     public class UserPlanGroup
     {
+        [Required]
         public string UserId { get; set; }
+        
+        [Required]
         public int GroupId { get; set; }
+        
+        [Required]
         public int RoleId { get; set; }
+        
+        [Required]
         public DateTime Connection { get; set; }
+        
+        [Required]
         public string AddedById { get; set; }
 
         public virtual User User { get; set; }

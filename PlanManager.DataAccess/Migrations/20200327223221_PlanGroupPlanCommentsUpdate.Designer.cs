@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlanManager.DataAccess;
 
 namespace PlanManager.DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200327223221_PlanGroupPlanCommentsUpdate")]
+    partial class PlanGroupPlanCommentsUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,25 +227,6 @@ namespace PlanManager.DataAccess.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("PlanManager.DataAccess.Entities.GroupRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AccessLevel")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GroupRoles");
                 });
 
             modelBuilder.Entity("PlanManager.DataAccess.Entities.MarkType", b =>
@@ -556,37 +539,6 @@ namespace PlanManager.DataAccess.Migrations
                     b.ToTable("PlanTypes");
                 });
 
-            modelBuilder.Entity("PlanManager.DataAccess.Entities.UserPlanGroup", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AddedById")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("Connection")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "GroupId");
-
-                    b.HasIndex("AddedById");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("UserPlanGroupsSwitch");
-                });
-
             modelBuilder.Entity("PlanManager.DataAccess.Entities.WebsiteRole", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
@@ -785,33 +737,6 @@ namespace PlanManager.DataAccess.Migrations
                         .WithMany("CreatedPlanGroupPlanComment")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PlanManager.DataAccess.Entities.UserPlanGroup", b =>
-                {
-                    b.HasOne("PlanManager.DataAccess.Entities.User", "AddedBy")
-                        .WithMany("AddedUsersToGroups")
-                        .HasForeignKey("AddedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PlanManager.DataAccess.Entities.PlanGroup", "Group")
-                        .WithMany("Users")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PlanManager.DataAccess.Entities.GroupRole", "Role")
-                        .WithMany("GroupMembers")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PlanManager.DataAccess.Entities.User", "User")
-                        .WithMany("Groups")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

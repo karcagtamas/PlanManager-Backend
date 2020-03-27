@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PlanManager.DataAccess.Entities
@@ -12,5 +14,7 @@ namespace PlanManager.DataAccess.Entities
         
         [Required]
         public int AccessLevel { get; set; }
+
+        public virtual ICollection<UserPlanGroup> GroupMembers { get; set; }
     }
 }
