@@ -39,36 +39,34 @@ namespace PlanManager.DataAccess
                 .Property(x => x.IsActive)
                 .HasDefaultValue(true);
             
-            /*
             builder.Entity<User>()
                 .HasData(new User
                 {
                     UserName = "karcagtamas", Email = "karcagtamas@outlook.com", Id = "44045506-66fd-4af8-9d59-133c47d1787c", EmailConfirmed = true,
                     IsActive = true, FullName = "Karcag Tamas", NormalizedEmail = "KARCAGTAMAS@OUTLOOK.COM",
-                    PasswordHash = "AQAAAAEAACcQAAAAEO63AxrjsIMhxb+PwM5vgswD02RkjLZwk3McOsvpafKn/BVDR88NSrmiQWmRpl+nhA==", NormalizedUserName = "KARCAGTAMAS"
+                    PasswordHash = "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==", NormalizedUserName = "KARCAGTAMAS"
                 });
             builder.Entity<User>()
                 .HasData(new User
                 {
                     UserName = "aaronkaa", Email = "aron.klenovszky@gmail.com", Id = "f8237fac-c6dc-47b0-8f71-b72f93368b02", EmailConfirmed = true,
                     IsActive = true, FullName = "Klenovszky Áron", NormalizedEmail = "ARON.KLENOVSZKY@GMAIL.COM",
-                    PasswordHash = "", NormalizedUserName = "AARONKAA"
+                    PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", NormalizedUserName = "AARONKAA"
                 });
             builder.Entity<User>()
                 .HasData(new User
                 {
                     UserName = "root", Email = "root@karcags.hu", Id = "cd5e5069-59c8-4163-95c5-776fab95e51a", EmailConfirmed = true,
                     IsActive = true, FullName = "Root", NormalizedEmail = "ROOT@KARCAGS.HU",
-                    PasswordHash = "AQAAAAEAACcQAAAAEO63AxrjsIMhxb+PwM5vgswD02RkjLZwk3McOsvpafKn/BVDR88NSrmiQWmRpl+nhA==", NormalizedUserName = "ROOT"
+                    PasswordHash = "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==", NormalizedUserName = "ROOT"
                 });
             builder.Entity<User>()
                 .HasData(new User
                 {
                     UserName = "barni363hun", Email = "barni.pbs@gmail.com", Id = "fa2edf69-5fc8-a163-9fc5-726f3b94e51b", EmailConfirmed = true,
                     IsActive = true, FullName = "Root", NormalizedEmail = "BARNI.PBS@GMAIL.COM",
-                    PasswordHash = "AQAAAAEAACcQAAAAEO63AxrjsIMhxb+PwM5vgswD02RkjLZwk3McOsvpafKn/BVDR88NSrmiQWmRpl+nhA==", NormalizedUserName = "BARNI363HUN"
+                    PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", NormalizedUserName = "BARNI363HUN"
                 });
-            */
 
             // Website table settings
             builder.Entity<WebsiteRole>()

@@ -95,9 +95,11 @@ namespace PlanManager.Backend
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
-
+            else
+            {
+                app.UseHttpsRedirection();
+            }
+            
             app.UseRouting();
 
             app.UseAuthorization();
