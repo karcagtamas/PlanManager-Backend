@@ -1,4 +1,7 @@
+#nullable enable
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PlanManager.DataAccess.Entities
@@ -17,8 +20,7 @@ namespace PlanManager.DataAccess.Entities
         [Required]
         public DateTime Creation { get; set; }
         
-        [Required]
-        public string LastUpdaterId { get; set; }
+        public string? LastUpdaterId { get; set; }
         
         [Required]
         public DateTime LastUpdate { get; set; }
@@ -29,5 +31,13 @@ namespace PlanManager.DataAccess.Entities
         public virtual User Creator { get; set; }
         
         public virtual User LastUpdater { get; set; }
+
+        public virtual ICollection<PlanGroupIdea> Ideas { get; set; }
+
+        public virtual ICollection<PlanGroupChatMessage> Messages { get; set; }
+
+        public virtual ICollection<PlanGroupPlan> Plans { get; set; }
+
+        public virtual ICollection<UserPlanGroup> Users { get; set; }
     }
 }

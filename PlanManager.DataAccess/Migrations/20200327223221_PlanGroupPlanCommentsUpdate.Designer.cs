@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlanManager.DataAccess;
 
 namespace PlanManager.DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200327223221_PlanGroupPlanCommentsUpdate")]
+    partial class PlanGroupPlanCommentsUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,63 +229,6 @@ namespace PlanManager.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("PlanManager.DataAccess.Entities.GroupRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AccessLevel")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GroupRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AccessLevel = 0,
-                            Title = "Visitor"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AccessLevel = 1,
-                            Title = "Normal"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AccessLevel = 2,
-                            Title = "Editor"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            AccessLevel = 3,
-                            Title = "Moderator"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            AccessLevel = 4,
-                            Title = "Administrator"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            AccessLevel = 5,
-                            Title = "Owner"
-                        });
-                });
-
             modelBuilder.Entity("PlanManager.DataAccess.Entities.MarkType", b =>
                 {
                     b.Property<int>("Id")
@@ -299,28 +244,6 @@ namespace PlanManager.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MarkTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Title = "Responsible"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Title = "Owner"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Title = "Modifier"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Title = "Leader"
-                        });
                 });
 
             modelBuilder.Entity("PlanManager.DataAccess.Entities.Plan", b =>
@@ -614,69 +537,6 @@ namespace PlanManager.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PlanTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Plan"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Future Idea"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Nice To Have"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Learning"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Decision"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Event"
-                        });
-                });
-
-            modelBuilder.Entity("PlanManager.DataAccess.Entities.UserPlanGroup", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AddedById")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("Connection")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "GroupId");
-
-                    b.HasIndex("AddedById");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("UserPlanGroupsSwitch");
                 });
 
             modelBuilder.Entity("PlanManager.DataAccess.Entities.WebsiteRole", b =>
@@ -686,49 +546,11 @@ namespace PlanManager.DataAccess.Migrations
                     b.Property<int>("AccessLevel")
                         .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("WebsiteRole");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9",
-                            ConcurrencyStamp = "",
-                            Name = "Visitor",
-                            NormalizedName = "VISITOR",
-                            AccessLevel = 0
-                        },
-                        new
-                        {
-                            Id = "776474d7-8d01-4809-963e-c721f39dbb45",
-                            ConcurrencyStamp = "",
-                            Name = "Normal",
-                            NormalizedName = "NORMAL",
-                            AccessLevel = 1
-                        },
-                        new
-                        {
-                            Id = "5e0a9192-793f-4c85-a0b1-3198295bf409",
-                            ConcurrencyStamp = "",
-                            Name = "Moderator",
-                            NormalizedName = "MODERATOR",
-                            AccessLevel = 2
-                        },
-                        new
-                        {
-                            Id = "936e42dc-5d3f-4355-bc3a-304a4fe4f518",
-                            ConcurrencyStamp = "",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR",
-                            AccessLevel = 3
-                        },
-                        new
-                        {
-                            Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20",
-                            ConcurrencyStamp = "",
-                            Name = "Root",
-                            NormalizedName = "ROOT",
-                            AccessLevel = 4
-                        });
+                    b.HasDiscriminator().HasValue("WebsiteRole");
                 });
 
             modelBuilder.Entity("PlanManager.DataAccess.Entities.User", b =>
@@ -915,33 +737,6 @@ namespace PlanManager.DataAccess.Migrations
                         .WithMany("CreatedPlanGroupPlanComment")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PlanManager.DataAccess.Entities.UserPlanGroup", b =>
-                {
-                    b.HasOne("PlanManager.DataAccess.Entities.User", "AddedBy")
-                        .WithMany("AddedUsersToGroups")
-                        .HasForeignKey("AddedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PlanManager.DataAccess.Entities.PlanGroup", "Group")
-                        .WithMany("Users")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PlanManager.DataAccess.Entities.GroupRole", "Role")
-                        .WithMany("GroupMembers")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PlanManager.DataAccess.Entities.User", "User")
-                        .WithMany("Groups")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
