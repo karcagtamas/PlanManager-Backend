@@ -38,6 +38,63 @@ namespace PlanManager.DataAccess
             builder.Entity<User>()
                 .Property(x => x.IsActive)
                 .HasDefaultValue(true);
+            
+            /*
+            builder.Entity<User>()
+                .HasData(new User
+                {
+                    UserName = "karcagtamas", Email = "karcagtamas@outlook.com", Id = "44045506-66fd-4af8-9d59-133c47d1787c", EmailConfirmed = true,
+                    IsActive = true, FullName = "Karcag Tamas", NormalizedEmail = "KARCAGTAMAS@OUTLOOK.COM",
+                    PasswordHash = "AQAAAAEAACcQAAAAEO63AxrjsIMhxb+PwM5vgswD02RkjLZwk3McOsvpafKn/BVDR88NSrmiQWmRpl+nhA==", NormalizedUserName = "KARCAGTAMAS"
+                });
+            builder.Entity<User>()
+                .HasData(new User
+                {
+                    UserName = "aaronkaa", Email = "aron.klenovszky@gmail.com", Id = "f8237fac-c6dc-47b0-8f71-b72f93368b02", EmailConfirmed = true,
+                    IsActive = true, FullName = "Klenovszky Áron", NormalizedEmail = "ARON.KLENOVSZKY@GMAIL.COM",
+                    PasswordHash = "", NormalizedUserName = "AARONKAA"
+                });
+            builder.Entity<User>()
+                .HasData(new User
+                {
+                    UserName = "root", Email = "root@karcags.hu", Id = "cd5e5069-59c8-4163-95c5-776fab95e51a", EmailConfirmed = true,
+                    IsActive = true, FullName = "Root", NormalizedEmail = "ROOT@KARCAGS.HU",
+                    PasswordHash = "AQAAAAEAACcQAAAAEO63AxrjsIMhxb+PwM5vgswD02RkjLZwk3McOsvpafKn/BVDR88NSrmiQWmRpl+nhA==", NormalizedUserName = "ROOT"
+                });
+            builder.Entity<User>()
+                .HasData(new User
+                {
+                    UserName = "barni363hun", Email = "barni.pbs@gmail.com", Id = "fa2edf69-5fc8-a163-9fc5-726f3b94e51b", EmailConfirmed = true,
+                    IsActive = true, FullName = "Root", NormalizedEmail = "BARNI.PBS@GMAIL.COM",
+                    PasswordHash = "AQAAAAEAACcQAAAAEO63AxrjsIMhxb+PwM5vgswD02RkjLZwk3McOsvpafKn/BVDR88NSrmiQWmRpl+nhA==", NormalizedUserName = "BARNI363HUN"
+                });
+            */
+
+            // Website table settings
+            builder.Entity<WebsiteRole>()
+                .HasData(new WebsiteRole {Id = "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9", AccessLevel = 0, Name = "Visitor", NormalizedName = "VISITOR"});
+            builder.Entity<WebsiteRole>()
+                .HasData(new WebsiteRole {Id = "776474d7-8d01-4809-963e-c721f39dbb45", AccessLevel = 1, Name = "Normal", NormalizedName = "NORMAL"});
+            builder.Entity<WebsiteRole>()
+                .HasData(new WebsiteRole {Id = "5e0a9192-793f-4c85-a0b1-3198295bf409", AccessLevel = 2, Name = "Moderator", NormalizedName = "MODERATOR"});
+            builder.Entity<WebsiteRole>()
+                .HasData(new WebsiteRole {Id = "936e42dc-5d3f-4355-bc3a-304a4fe4f518", AccessLevel = 3, Name = "Administrator", NormalizedName = "ADMINISTRATOR"});
+            builder.Entity<WebsiteRole>()
+                .HasData(new WebsiteRole {Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20", AccessLevel = 4, Name = "Root", NormalizedName = "ROOT"});
+            
+            // Plan type table settings
+            builder.Entity<PlanType>()
+                .HasData(new PlanType { Id = 1, Name = "Plan"});
+            builder.Entity<PlanType>()
+                .HasData(new PlanType { Id = 2, Name = "Future Idea"});
+            builder.Entity<PlanType>()
+                .HasData(new PlanType { Id = 3, Name = "Nice To Have"});
+            builder.Entity<PlanType>()
+                .HasData(new PlanType { Id = 4, Name = "Learning"});
+            builder.Entity<PlanType>()
+                .HasData(new PlanType { Id = 5, Name = "Decision"});
+            builder.Entity<PlanType>()
+                .HasData(new PlanType { Id = 6, Name = "Event"});
 
             // Plan table settings
             builder.Entity<Plan>()
@@ -112,6 +169,16 @@ namespace PlanManager.DataAccess
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
             
+            // Mark type table settings
+            builder.Entity<MarkType>()
+                .HasData(new MarkType { Id = 1, Title = "Responsible"});
+            builder.Entity<MarkType>()
+                .HasData(new MarkType { Id = 2, Title = "Owner"});
+            builder.Entity<MarkType>()
+                .HasData(new MarkType { Id = 3, Title = "Modifier"});
+            builder.Entity<MarkType>()
+                .HasData(new MarkType { Id = 4, Title = "Leader"});
+            
             // Plan group plan table settings
             builder.Entity<PlanGroupPlan>()
                 .Property(x => x.Creation)
@@ -165,6 +232,20 @@ namespace PlanManager.DataAccess
                 .WithMany(x => x.Comments)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+            
+            // Group role table settings
+            builder.Entity<GroupRole>()
+                .HasData(new GroupRole { Id = 1, Title = "Visitor", AccessLevel = 0});
+            builder.Entity<GroupRole>()
+                .HasData(new GroupRole { Id = 2, Title = "Normal", AccessLevel = 1});
+            builder.Entity<GroupRole>()
+                .HasData(new GroupRole { Id = 3, Title = "Editor", AccessLevel = 2});
+            builder.Entity<GroupRole>()
+                .HasData(new GroupRole { Id = 4, Title = "Moderator", AccessLevel = 3});
+            builder.Entity<GroupRole>()
+                .HasData(new GroupRole { Id = 5, Title = "Administrator", AccessLevel = 4});
+            builder.Entity<GroupRole>()
+                .HasData(new GroupRole { Id = 6, Title = "Owner", AccessLevel = 5});
             
             // User - Plan group switch table settings
             builder.Entity<UserPlanGroup>()
