@@ -1,7 +1,5 @@
-namespace PlanManager.Services.DTOs
-{
-    public class UserDto
-    {
-        
+namespace PlanManager.Services.DTOs {
+    public class UserDto {
+        public string UserName { get; set; }
     }
 }

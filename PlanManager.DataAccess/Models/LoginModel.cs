@@ -1,8 +1,11 @@
-namespace PlanManager.DataAccess.Models
-{
-    public class LoginModel
-    {
+using System.ComponentModel.DataAnnotations;
+
+namespace PlanManager.DataAccess.Models {
+    public class LoginModel {
+        [Required]
         public string UserName { get; set; }
+
+        [Required]
         public string Password { get; set; }
     }
 }

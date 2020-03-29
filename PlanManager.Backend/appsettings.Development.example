@@ -12,7 +12,7 @@
     "PlanManagerDb": "Server=localhost;Database=PlanManagerDb;User Id=SA;password=<Jelszó>;Trusted_Connection=False;MultipleActiveResultSets=true;"
   },
   "ApplicationSettings": {
-    "JWTSecret": "0123456789012345KPlanManager",
+    "JwtSecret": "0123456789012345KPlanManager",
     "ClientURL": "http://localhost:4200"
   }
 }
