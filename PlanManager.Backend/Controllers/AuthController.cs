@@ -15,11 +15,11 @@ namespace PlanManager.Backend.Controllers {
     [ApiController]
     public class AuthController : ControllerBase {
         private readonly IAuthService _authService;
-        private readonly ILogger<AuthController> _logger;
+        private readonly IUtilsService _utilsService;
 
-        public AuthController (IAuthService authService, ILogger<AuthController> logger) {
+        public AuthController (IAuthService authService, IUtilsService utilsService) {
             _authService = authService;
-            _logger = logger;
+            _utilsService = utilsService;
         }
 
         [HttpPost ("registration")]
@@ -29,8 +29,7 @@ namespace PlanManager.Backend.Controllers {
                 IdentityResult result = await _authService.Registration (model);
                 return Ok (result);
             } catch (Exception e) {
-                _logger.LogError (e.Message);
-                return BadRequest (new ErrorResponse (e));
+                return BadRequest (_utilsService.LogError(e));
             }
         }
 
@@ -41,8 +40,7 @@ namespace PlanManager.Backend.Controllers {
                 string token = await _authService.Login (model);
                 return Ok (new { token });
             } catch (Exception e) {
-                _logger.LogError (e.Message);
-                return BadRequest (new ErrorResponse (e));
+                return BadRequest (_utilsService.LogError(e));
             }
         }
     }

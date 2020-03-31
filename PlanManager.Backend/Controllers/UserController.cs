@@ -17,17 +17,11 @@ namespace PlanManager.Backend.Controllers {
     [ApiController]
     public class UserController : ControllerBase {
         private readonly IUserService _userService;
-        private readonly ILogger<UserController> _logger;
-        private readonly DatabaseContext _context;
         private readonly IUtilsService _utilsService;
-        private readonly UserManager<User> _userManager;
 
-        public UserController (IUserService userService, ILogger<UserController> logger, DatabaseContext context, IUtilsService utilsService, UserManager<User> userManager) {
+        public UserController (IUserService userService, IUtilsService utilsService) {
             _userService = userService;
-            _logger = logger;
-            _context = context;
             _utilsService = utilsService;
-            _userManager = userManager;
         }
 
         [HttpGet]
