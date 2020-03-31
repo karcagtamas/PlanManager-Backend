@@ -34,7 +34,7 @@ namespace PlanManager.Backend.Controllers {
             }
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login ([FromBody] LoginModel model) {
             try {
@@ -45,12 +45,5 @@ namespace PlanManager.Backend.Controllers {
                 return BadRequest (new ErrorResponse (e));
             }
         }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult GetSomething () {
-            return Ok (new [] { "Alma", "Nem" });
-        }
-
     }
 }
