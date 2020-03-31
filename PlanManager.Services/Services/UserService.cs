@@ -49,5 +49,19 @@ namespace PlanManager.Services.Services
             var userDto = _mapper.Map<UserDto>(user);
             return userDto;
         }
+
+        public void UpdateUser(UserUpdateDto updateDto)
+        {
+            var user = _utilsService.GetCurrentUser();
+            if (updateDto == null)
+            {
+                throw new Exception(_utilsService.AddUserToMessage(_userMessages.InvalidUserUpdate, user));
+            }
+
+            user.FullName = updateDto.FullName;
+            _context.AppUsers.Update(user);
+            _context.SaveChanges();
+            _utilsService.LogInformation(_userMessages.UserUpdate, user);
+        }
     }
 }

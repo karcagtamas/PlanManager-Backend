@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using PlanManager.DataAccess;
 using PlanManager.DataAccess.Entities;
 using PlanManager.DataAccess.Models;
+using PlanManager.Services.DTOs;
 using PlanManager.Services.Services;
 
 namespace PlanManager.Backend.Controllers {
@@ -35,6 +36,20 @@ namespace PlanManager.Backend.Controllers {
             try
             {
                 return Ok(_userService.GetUser());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(_utilsService.LogError(e));
+            }
+        }
+
+        [HttpPut]
+        public IActionResult UpdateUser([FromBody] UserUpdateDto updateDto)
+        {
+            try
+            {
+                _userService.UpdateUser(updateDto);
+                return Ok();
             }
             catch (Exception e)
             {

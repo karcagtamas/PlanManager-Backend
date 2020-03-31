@@ -42,5 +42,15 @@ namespace PlanManager.Services.Services
         {
             return _contextAccessor.HttpContext.User.Identity.Name;
         }
+
+        public string AddUserToMessage(string message, User user)
+        {
+            return $"Invalid action for user {user.UserName} ({user.Id}): {message}";
+        }
+
+        public void LogInformation(string action, User user)
+        {
+            _logger.LogInformation($"Successfully {action} by user {user.UserName} ({user.Id})");
+        }
     }
 }

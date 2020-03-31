@@ -6,5 +6,6 @@ namespace PlanManager.Services.Services
     public interface IUserService
     {
         UserDto GetUser();
+        void UpdateUser(UserUpdateDto updateDto);
     }
 }
