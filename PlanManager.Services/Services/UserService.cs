@@ -21,6 +21,9 @@ using PlanManager.Services.Utils;
 
 namespace PlanManager.Services.Services
 {
+    /// <summary>
+    /// User Service
+    /// </summary>
     public class UserService : IUserService
     {
         private readonly ILogger<AuthService> _logger;
@@ -29,6 +32,13 @@ namespace PlanManager.Services.Services
         private readonly IUtilsService _utilsService;
         private readonly UserMessages _userMessages;
 
+        /// <summary>
+        /// User Service constructor
+        /// </summary>
+        /// <param name="logger">Logger</param>
+        /// <param name="context">Database Context</param>
+        /// <param name="mapper">Mapper</param>
+        /// <param name="utilsService">Utils Service</param>
         public UserService(ILogger<AuthService> logger, DatabaseContext context, IMapper mapper, IUtilsService utilsService)
         {
             _logger = logger;
@@ -37,7 +47,12 @@ namespace PlanManager.Services.Services
             _utilsService = utilsService;
             _userMessages = new UserMessages();
         }
-
+        
+        /// <summary>
+        /// Gets current user's data object
+        /// </summary>
+        /// <returns>User DTO</returns>
+        /// <exception cref="Exception">Invalid user id</exception>
         public UserDto GetUser()
         {
             var user = _utilsService.GetCurrentUser();
@@ -49,7 +64,12 @@ namespace PlanManager.Services.Services
             var userDto = _mapper.Map<UserDto>(user);
             return userDto;
         }
-
+        
+        /// <summary>
+        /// Update current user's data object by the given update object
+        /// </summary>
+        /// <param name="updateDto">Update object</param>
+        /// <exception cref="Exception">Invalid user update object</exception>
         public void UpdateUser(UserUpdateDto updateDto)
         {
             var user = _utilsService.GetCurrentUser();
@@ -58,7 +78,9 @@ namespace PlanManager.Services.Services
                 throw new Exception(_utilsService.AddUserToMessage(_userMessages.InvalidUserUpdate, user));
             }
 
-            user.FullName = updateDto.FullName;
+            _mapper.Map(updateDto, user);
+
+            // user.FullName = updateDto.FullName;
             _context.AppUsers.Update(user);
             _context.SaveChanges();
             _utilsService.LogInformation(_userMessages.UserUpdate, user);
