@@ -7,7 +7,7 @@ namespace PlanManager.Services.Services
     {
         List<PlanListDto> GetPlans();
         List<PlanListDto> GetMyPlans();
-        List<PlanDto> GetPlan(int id);
+        PlanDto GetPlan(int id);
         List<PlanListDto> GetUserPublicPlans(string userId);
         void CreatePlan(PlanCreateDto model);
         void UpdatePlan(int id, PlanUpdateDto model);

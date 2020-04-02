@@ -8,5 +8,6 @@ namespace PlanManager.Services.Messages
         
         // Actions
         public readonly string UserUpdate = "user update";
+        public readonly string UserGet = "user get";
     }
 }

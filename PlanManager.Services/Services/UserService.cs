@@ -54,6 +54,7 @@ namespace PlanManager.Services.Services
 
             var userDto = _mapper.Map<UserDto>(user);
             userDto.Roles = (await _userManager.GetRolesAsync(user)).ToList();
+            _utilsService.LogInformation(_userMessages.UserGet, user);
             return userDto;
         }
         
