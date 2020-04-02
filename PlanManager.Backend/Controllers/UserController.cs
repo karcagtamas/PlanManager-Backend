@@ -25,11 +25,11 @@ namespace PlanManager.Backend.Controllers {
         }
 
         [HttpGet]
-        public IActionResult GetUser()
+        public async Task<IActionResult> GetUser()
         {
             try
             {
-                return Ok(_userService.GetUser());
+                return Ok(await _userService.GetUser());
             }
             catch (Exception e)
             {

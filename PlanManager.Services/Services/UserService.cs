@@ -1,23 +1,13 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 using AutoMapper;
-using Castle.Core.Logging;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using PlanManager.DataAccess;
 using PlanManager.DataAccess.Entities;
-using PlanManager.DataAccess.Models;
 using PlanManager.Services.DTOs;
 using PlanManager.Services.Messages;
-using PlanManager.Services.Utils;
 
 namespace PlanManager.Services.Services
 {
@@ -26,10 +16,10 @@ namespace PlanManager.Services.Services
     /// </summary>
     public class UserService : IUserService
     {
-        private readonly ILogger<AuthService> _logger;
         private readonly DatabaseContext _context;
         private readonly IMapper _mapper;
         private readonly IUtilsService _utilsService;
+        private readonly UserManager<User> _userManager;
         private readonly UserMessages _userMessages;
 
         /// <summary>
@@ -39,12 +29,13 @@ namespace PlanManager.Services.Services
         /// <param name="context">Database Context</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
-        public UserService(ILogger<AuthService> logger, DatabaseContext context, IMapper mapper, IUtilsService utilsService)
+        /// <param name="userManager"></param>
+        public UserService(ILogger<AuthService> logger, DatabaseContext context, IMapper mapper, IUtilsService utilsService, UserManager<User> userManager, RoleManager<WebsiteRole> roleManager)
         {
-            _logger = logger;
             _context = context;
             _mapper = mapper;
             _utilsService = utilsService;
+            _userManager = userManager;
             _userMessages = new UserMessages();
         }
         
@@ -53,7 +44,7 @@ namespace PlanManager.Services.Services
         /// </summary>
         /// <returns>User DTO</returns>
         /// <exception cref="Exception">Invalid user id</exception>
-        public UserDto GetUser()
+        public async Task<UserDto> GetUser()
         {
             var user = _utilsService.GetCurrentUser();
             if (user == null)
@@ -62,6 +53,7 @@ namespace PlanManager.Services.Services
             }
 
             var userDto = _mapper.Map<UserDto>(user);
+            userDto.Roles = (await _userManager.GetRolesAsync(user)).ToList();
             return userDto;
         }
         

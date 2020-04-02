@@ -6,7 +6,8 @@ namespace PlanManager.Services.Profiles {
     public class UserProfile : Profile {
         public UserProfile ()
         {
-            CreateMap<User, UserDto>();
+            CreateMap<User, UserDto>()
+                .ForMember(dest => dest.Roles, opt => opt.Ignore());
         }
     }
 }

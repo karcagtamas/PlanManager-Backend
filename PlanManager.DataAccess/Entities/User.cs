@@ -20,6 +20,9 @@ namespace PlanManager.DataAccess.Entities {
         [Required]
         [Column (TypeName = "datetime2")]
         public DateTime LastLogin { get; set; }
+        
+        [EmailAddress] 
+        public string SecondaryEmail { get; set; }
 
         public virtual ICollection<Plan> Plans { get; set; }
 

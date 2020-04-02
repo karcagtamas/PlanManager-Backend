@@ -5,7 +5,7 @@ namespace PlanManager.Services.Services
 {
     public interface IUserService
     {
-        UserDto GetUser();
+        Task<UserDto> GetUser();
         void UpdateUser(UserUpdateDto updateDto);
     }
 }
