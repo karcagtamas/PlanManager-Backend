@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -38,8 +39,13 @@ namespace PlanManager.Backend {
 
             services.AddScoped<IAuthService, AuthService> ();
             services.AddScoped<IUtilsService, UtilsService> ();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPlanService, PlanService>();
+            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddAutoMapper (typeof (UserProfile));
+            services.AddAutoMapper(typeof(UserProfile));
+            services.AddAutoMapper(typeof(PlanProfile));
 
             services.AddDbContextPool<DatabaseContext> (options => {
                 options.UseLazyLoadingProxies ().UseSqlServer (Configuration.GetConnectionString ("PlanManagerDb"));

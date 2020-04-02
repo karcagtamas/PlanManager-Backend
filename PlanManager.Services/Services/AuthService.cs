@@ -17,6 +17,9 @@ using PlanManager.Services.Utils;
 
 namespace PlanManager.Services.Services
 {
+    /// <summary>
+    /// Auth Service
+    /// </summary>
     public class AuthService : IAuthService
     {
         private readonly UserManager<User> _userManager;
@@ -24,7 +27,15 @@ namespace PlanManager.Services.Services
         private readonly RoleManager<WebsiteRole> _roleManager;
         private readonly ILogger<AuthService> _logger;
         private readonly DatabaseContext _context;
-
+        
+        /// <summary>
+        /// Auth Service constructor
+        /// </summary>
+        /// <param name="userManager">User Manager</param>
+        /// <param name="appSettings">App Settings</param>
+        /// <param name="roleManager">Role Manager</param>
+        /// <param name="logger">Logger</param>
+        /// <param name="context">Database Context</param>
         public AuthService(UserManager<User> userManager, IOptions<ApplicationSettings> appSettings, RoleManager<WebsiteRole> roleManager, ILogger<AuthService> logger, DatabaseContext context)
         {
             _userManager = userManager;
@@ -33,7 +44,12 @@ namespace PlanManager.Services.Services
             _logger = logger;
             _context = context;
         }
-
+        
+        /// <summary>
+        /// Registration by registration model
+        /// </summary>
+        /// <param name="model">Model for the registration with main data</param>
+        /// <returns>Result of the registration</returns>
         public async Task<IdentityResult> Registration(RegistrationModel model)
         {
             User appUser = new User
@@ -48,7 +64,13 @@ namespace PlanManager.Services.Services
             _logger.LogInformation($"{user.UserName}'s registration was successfully with e-mail {user.Email}");
             return result;
         }
-
+        
+        /// <summary>
+        /// Login by the login model
+        /// </summary>
+        /// <param name="model">Model for the login with login credentials</param>
+        /// <returns>Token</returns>
+        /// <exception cref="Exception">Incorrect credentials</exception>
         public async Task<string> Login(LoginModel model)
         {
             User user = await _userManager.FindByNameAsync(model.UserName);
