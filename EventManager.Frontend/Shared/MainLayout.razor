@@ -1,15 +1,24 @@
 ﻿@inherits LayoutComponentBase
+<MatThemeProvider Theme="@theme1">
+    <MatAppBarContainer>
+        <Navigator />
+        <MatAppBarContent id="main">
+            @Body
+        </MatAppBarContent>
+    </MatAppBarContainer>
+</MatThemeProvider>
 
-<div class="sidebar">
-    <NavMenu />
-</div>
-
-<div class="main">
-    <div class="top-row px-4">
-        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-    </div>
-
-    <div class="content px-4">
-        @Body
-    </div>
-</div>
+@code
+{
+    MatTheme theme1 = new MatTheme
+    {
+        Primary = "#5120a5",
+        Secondary = MatThemeColors.BlueGrey._500.Value
+    };
+ 
+    /* MatTheme theme2 = new MatTheme
+    {
+        Primary = "green",
+        Secondary = "orange"
+    }; */
+}
