@@ -1,0 +1,63 @@
+@page "/auth/login"
+@using EventManager.Frontend.Services
+@layout AuthLayout
+@inject IAuthService AuthService
+
+<MatCard class="auth-card">
+    <div class="main-title">
+        Login
+    </div>
+    <p class="form-field">
+            
+        <MatTextField
+            @bind-Value="@UserName"
+             Label="Username"
+             Required="true"
+             Dense="true"
+             Style="width: 100%"
+             Outlined="true"></MatTextField>
+    </p>
+    <p class="form-field">
+            
+        <MatTextField
+            @bind-Value="@Password"
+             Dense="true"
+             Label="Password"
+             Outlined="true"
+             Required="true"
+             Type="password"
+             Icon="lock_outline"
+             Style="width: 100%"
+             IconTrailing="true"></MatTextField>
+    </p>
+    <p class="text-center">
+        <MatButton Raised="true" @onclick="LoginInto">Login</MatButton>
+    </p>
+</MatCard>
+
+
+@code {
+
+    private string UserName { get; set; }
+    private string Password { get; set; }
+
+    private void LoginInto()
+    {
+        if (!String.IsNullOrEmpty(UserName) && !String.IsNullOrEmpty(Password))
+        {
+               AuthService.Login(UserName, Password);
+        } 
+    }
+
+}
+
+<style>
+    .auth-card {
+        padding: 1rem;
+    }
+    
+    .form-field {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;        
+    }
+</style>

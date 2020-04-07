@@ -1,5 +1,6 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+/* Common settings */
 html, body {
     font-family: 'Comic Neue', cursive !important;
 }
@@ -12,11 +13,18 @@ html, body {
     font-family: 'Material Icons' !important;
 }
 
+.mdc-button {
+    text-transform: unset !important;
+    margin-left: 0.8rem;
+}
+
+/* Main settings */
 #main {
     padding: 1rem;
     margin-top: 4rem;
 }
 
+/* Navigator settings */
 .navigator .navigator-title a {
     color: white;
 }
@@ -27,10 +35,13 @@ html, body {
     text-decoration: unset;
 }
 
-.mdc-button {
-    text-transform: unset !important;
-    margin-left: 0.8rem;
+/* Title box */
+.main-title {
+    color: #5120a5;
+    font-weight: bold;
+    font-size: 1.6rem;
 }
+
 
 app {
     position: relative;
