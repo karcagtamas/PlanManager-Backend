@@ -32,7 +32,9 @@ namespace PlanManager.Backend {
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices (IServiceCollection services) {
+        public void ConfigureServices (IServiceCollection services)
+        {
+            
             services.Configure<ApplicationSettings> (Configuration.GetSection ("ApplicationSettings"));
 
             services.AddLogging ();
@@ -80,6 +82,7 @@ namespace PlanManager.Backend {
             });
 
             services.AddControllers ();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -97,6 +100,8 @@ namespace PlanManager.Backend {
             app.UseAuthorization ();
 
             app.UseEndpoints (endpoints => { endpoints.MapControllers (); });
+
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
         }
     }
 }
