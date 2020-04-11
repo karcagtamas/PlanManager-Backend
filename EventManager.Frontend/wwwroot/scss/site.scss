@@ -1,41 +1,47 @@
-@import url("../css/open-iconic/font/css/open-iconic-bootstrap.min.css");
+@import url('../css/open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import "variables.scss";
+
 html, body {
-  font-family: "Bree Serif", serif;
+  font-family: 'Bree Serif', serif;
 }
 
 .em-panel {
-  border-radius: 4px;
-  border: 1px solid #5120a5;
-  box-shadow: 0 0 0.4rem #5120a5;
-}
-.em-panel .panel-title {
-  background-color: #5120a5;
-  color: #f9f9f9;
-  font-size: 1.8rem;
-  text-align: center;
-  padding: 0.6rem;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-}
-.em-panel .panel-content {
-  padding: 1rem;
+  border-radius: $border-radius;
+  border: 1px solid $primary;
+  box-shadow: 0 0 0.4rem $primary;
+  
+  .panel-title {
+    background-color: $primary;
+    color: $white;
+    font-size: 1.8rem;
+    text-align: center;
+    padding: 0.6rem;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+  
+  .panel-content {
+    padding: 1rem;
+  }
 }
 
 .em-button {
   padding: 0.3rem !important;
-  border-radius: 4px;
-  border: 1px solid #5120a5;
-  box-shadow: 0 0 0.2rem #5120a5;
-}
-.em-button-primary {
-  background-color: #5120a5;
-  color: #f9f9f9;
-  transition-duration: 0.5s;
-}
-.em-button-primary:hover {
-  background-color: #683ab7;
-  transition-duration: 0.5s;
-  transform: scale(1.1);
+  border-radius: $border-radius;
+  border: 1px solid $primary;
+  box-shadow: 0 0 0.2rem $primary;
+  
+  &-primary {
+    background-color: $primary;
+    color: $white;
+    transition-duration: 0.5s;
+    
+    &:hover {
+      background-color: #683ab7;
+      transition-duration: 0.5s;
+      transform: scale(1.1);
+    }
+  }
 }
 
 .row, .col {
@@ -43,20 +49,24 @@ html, body {
   padding: 0;
 }
 
+
 .input-element {
   margin-bottom: 1rem;
-}
-.input-element * {
-  width: 100%;
-}
-.input-element input {
-  border-radius: 4px;
-  border: 1px solid #5120a5;
-  padding: 0.4rem;
-}
-.input-element input:focus {
-  box-shadow: 0 0 5px #5120a5;
-  outline: unset;
+  
+  * {
+    width: 100%;
+  }
+  
+  input {
+    border-radius: 4px;
+    border: 1px solid $primary;
+    padding: 0.4rem;
+    
+    &:focus {
+      box-shadow: 0 0 5px $primary;
+      outline: unset;
+    }
+  }
 }
 
 a, .btn-link {
@@ -102,11 +112,11 @@ app {
 }
 
 .sidebar {
-  background-image: linear-gradient(180deg, #052767 0%, #3a0647 70%);
+  background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
 
 .sidebar .top-row {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0,0,0,0.4);
 }
 
 .sidebar .navbar-brand {
@@ -143,12 +153,12 @@ app {
 }
 
 .sidebar .nav-item a.active {
-  background-color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(255,255,255,0.25);
   color: white;
 }
 
 .sidebar .nav-item a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255,255,255,0.1);
   color: white;
 }
 
@@ -161,11 +171,11 @@ app {
 }
 
 .valid.modified:not([type=checkbox]) {
-  box-shadow: 0 0 5px #1d9932;
+  box-shadow: 0 0 5px $green;
 }
 
 .invalid {
-  box-shadow: 0 0 5px #ef5350;
+  box-shadow: 0 0 5px $red;
 }
 
 .validation-errors {
@@ -175,7 +185,7 @@ app {
 }
 
 .validation-message {
-  color: #ef5350;
+  color: $red;
 }
 
 #blazor-error-ui {
@@ -210,6 +220,7 @@ app {
     margin-left: 0;
   }
 }
+
 @media (min-width: 768px) {
   app {
     flex-direction: row;
@@ -241,5 +252,3 @@ app {
     display: block;
   }
 }
-
-/*# sourceMappingURL=site.css.map */
