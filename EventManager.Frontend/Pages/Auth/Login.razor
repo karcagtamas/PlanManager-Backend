@@ -1,10 +1,14 @@
 @page "/auth/login"
-@using EventManager.Frontend.Data.Models
+@inherits LoginBase
 @layout AuthLayout
 
 <AuthPanel Title="@Title">
+    @if (DisplayError)
+    {
+        <ErrorAlert Message="@ErrorMessage"></ErrorAlert>
+    }
     <EditForm Model="Model" OnValidSubmit="SignIn">
-        <DataAnnotationsValidator />
+        <DataAnnotationsValidator/>
         <div class="input-element">
             <label>User Name</label> <br/>
             <InputText @bind-Value="Model.UserName"></InputText>
@@ -16,33 +20,6 @@
         <div class="p-1">
             <button type="submit" class="em-button em-button-primary col col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">Sign In</button>
         </div>
-        <ValidationSummary />
+        <ValidationSummary/>
     </EditForm>
 </AuthPanel>
-
-@code
-{
-    public string Title { get; set; } = "Login";
-    public LoginModel Model { get; set; }
-
-    protected override void OnInitialized()
-    {
-        Model = new LoginModel
-        {
-            UserName = "",
-            Password = ""
-        };
-        base.OnInitialized();
-    }
-
-    protected void SignIn()
-    {
-        Console.WriteLine("Login");
-        Model = new LoginModel
-        {
-            UserName = "",
-            Password = ""
-        };
-    }
-
-}
