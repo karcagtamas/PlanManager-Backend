@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +36,18 @@ namespace PlanManager.Backend {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials()
+                            .WithOrigins("https://localhost:5001");
+                    });
+            });
             
             services.Configure<ApplicationSettings> (Configuration.GetSection ("ApplicationSettings"));
 
@@ -82,7 +96,6 @@ namespace PlanManager.Backend {
             });
 
             services.AddControllers ();
-            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,10 +111,10 @@ namespace PlanManager.Backend {
             app.UseRouting ();
 
             app.UseAuthorization ();
+            
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints (endpoints => { endpoints.MapControllers (); });
-
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
         }
     }
 }
