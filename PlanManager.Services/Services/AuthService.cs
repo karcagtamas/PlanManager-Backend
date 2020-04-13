@@ -77,11 +77,13 @@ namespace PlanManager.Services.Services
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 IList<string> roles = await _userManager.GetRolesAsync(user);
-                Claim[] claims = new Claim[1 + roles.Count];
+                Claim[] claims = new Claim[3 + roles.Count];
                 claims[0] = new Claim("UserId", user.Id);
-                for (int i = 1; i < claims.Length; i++)
+                claims[1] = new Claim(ClaimTypes.Name, user.UserName);
+                claims[2] = new Claim(ClaimTypes.Email, user.Email);
+                for (int i = 3; i < claims.Length; i++)
                 {
-                    claims[i] = new Claim(ClaimTypes.Role, roles[i - 1]);
+                    claims[i] = new Claim(ClaimTypes.Role, roles[i - 3]);
                 }
 
                 SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
