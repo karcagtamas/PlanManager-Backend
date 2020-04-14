@@ -1,9 +1,11 @@
+#nullable enable
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace PlanManager.DataAccess.Entities
+namespace PlanManager.DataAccess.Entities.PM
 {
-    public class Plan
+    public class PlanGroupPlan
     {
         [Required]
         public int Id { get; set; }
@@ -20,9 +22,10 @@ namespace PlanManager.DataAccess.Entities
         
         [Required]
         public DateTime Creation { get; set; }
+
+        public string? LastUpdaterId { get; set; }
         
-        [Required]
-        public DateTime LastUpdate { get; set; }
+        public DateTime? LastUpdate { get; set; }
         
         [Required]
         public DateTime StartTime { get; set; }
@@ -36,7 +39,19 @@ namespace PlanManager.DataAccess.Entities
         
         public int? PlanTypeId { get; set; }
 
+        public string MarkedUserId { get; set; }
+
+        public int? MarkTypeId { get; set; }
+
+        public int GroupId { get; set; }
+
         public virtual User Owner { get; set; }
+        public virtual User LastUpdater { get; set; }
         public virtual PlanType PlanType { get; set; }
+        public virtual User MarkedUser { get; set; }
+        public virtual MarkType MarkType { get; set; }
+        public virtual PlanGroup Group { get; set; }
+
+        public virtual ICollection<PlanGroupPlanComment> Comments { get; set; }
     }
 }

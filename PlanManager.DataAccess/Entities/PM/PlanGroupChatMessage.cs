@@ -1,28 +1,27 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace PlanManager.DataAccess.Entities
+namespace PlanManager.DataAccess.Entities.PM
 {
-    public class PlanGroupPlanComment
+    public class PlanGroupChatMessage
     {
         [Required]
         public int Id { get; set; }
         
         [Required]
-        [MaxLength(256)]
-        public string Comment { get; set; }
+        public string Message { get; set; }
         
         [Required]
         public string SenderId { get; set; }
         
         [Required]
-        public DateTime Creation { get; set; }
-        
+        public DateTime Sent { get; set; }
+
         [Required]
-        public int PlanId { get; set; }
+        public int GroupId { get; set; }
 
         public virtual User Sender { get; set; }
 
-        public virtual PlanGroupPlan Plan { get; set; }
+        public virtual PlanGroup Group { get; set; }
     }
 }

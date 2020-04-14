@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AutoMapper;
 using PlanManager.DataAccess.Entities;
+using PlanManager.DataAccess.Entities.PM;
 using PlanManager.Services.DTOs;
 
 namespace PlanManager.Services.Profiles

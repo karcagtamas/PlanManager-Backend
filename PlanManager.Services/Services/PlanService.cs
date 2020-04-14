@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using PlanManager.DataAccess;
 using PlanManager.DataAccess.Entities;
+using PlanManager.DataAccess.Entities.PM;
 using PlanManager.Services.DTOs;
 using PlanManager.Services.Messages;
 

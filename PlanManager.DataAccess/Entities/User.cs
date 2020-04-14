@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
+using PlanManager.DataAccess.Entities.PM;
 
 namespace PlanManager.DataAccess.Entities {
     public class User : IdentityUser {
@@ -23,7 +24,15 @@ namespace PlanManager.DataAccess.Entities {
         
         [EmailAddress] 
         public string SecondaryEmail { get; set; }
+        
+        [MaxLength(6)]
+        public string TShirtSize { get; set; }
+        
+        public string Allergy { get; set; }
 
+        [MaxLength(40)]
+        public string Group { get; set; }
+        
         public virtual ICollection<Plan> Plans { get; set; }
 
         public virtual ICollection<PlanGroup> CreatedPlanGroups { get; set; }

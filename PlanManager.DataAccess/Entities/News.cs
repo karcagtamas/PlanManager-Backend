@@ -3,15 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PlanManager.DataAccess.Entities
 {
-    public class PlanGroupIdea
+    public class News
     {
         [Required]
         public int Id { get; set; }
-        
+
         [Required]
-        [MaxLength(200)]
+        [MaxLength(512)]
         public string Content { get; set; }
-        
+
         [Required]
         public string CreatorId { get; set; }
         
@@ -19,10 +19,13 @@ namespace PlanManager.DataAccess.Entities
         public DateTime Creation { get; set; }
         
         [Required]
-        public int GroupId { get; set; }
+        public string LastUpdaterId { get; set; }
+        
+        [Required]
+        public DateTime LastUpdate { get; set; }
 
         public virtual User Creator { get; set; }
-
-        public virtual PlanGroup Group { get; set; }
+        
+        public virtual User LastUpdater { get; set; }
     }
 }

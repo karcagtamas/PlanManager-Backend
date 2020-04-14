@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PlanManager.DataAccess.Entities;
+using PlanManager.DataAccess.Entities.PM;
 
 namespace PlanManager.DataAccess {
     public class DatabaseContext : IdentityDbContext {

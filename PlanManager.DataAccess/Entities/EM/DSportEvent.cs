@@ -1,0 +1,45 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace PlanManager.DataAccess.Entities.EM
+{
+    public class DSportEvent
+    {
+        [Required]
+        public int Id { get; set; }
+
+        [Required]
+        public int EventId { get; set; }
+
+        public int? Injured { get; set; }
+
+        public int? Visitors { get; set; }
+
+        public int? VisitorLimit { get; set; }
+
+        public decimal? VisitorCost { get; set; }
+
+        public int? Players { get; set; }
+
+        public int? PlayerLimit { get; set; }
+
+        public decimal? PlayerCost { get; set; }
+
+        public decimal? PlayerDeposit { get; set; }
+
+        public int? Helpers { get; set; }
+
+        public int? HelperLimit { get; set; }
+
+        public decimal? FixTeamDeposit { get; set; }
+
+        public decimal? FixTeamCost { get; set; }
+
+        public int? TeamLimit { get; set; }
+
+        public string MatchJudges { get; set; }
+        
+        public string Doctors { get; set; }
+        
+        public virtual MasterEvent Event { get; set; }
+    }
+}

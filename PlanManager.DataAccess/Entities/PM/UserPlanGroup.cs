@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace PlanManager.DataAccess.Entities
+namespace PlanManager.DataAccess.Entities.PM
 {
     public class UserPlanGroup
     {

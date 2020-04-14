@@ -1,10 +1,9 @@
 #nullable enable
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace PlanManager.DataAccess.Entities
+namespace PlanManager.DataAccess.Entities.PM
 {
     public class PlanGroup
     {
