@@ -14,8 +14,13 @@ namespace PlanManager.DataAccess.Entities.EM
         [Required] 
         public DateTime ConnectionDate { get; set; }
 
-        public virtual User User { get; set; }
+        [Required]
+        public string AddedById { get; set; }
 
+        public virtual User User { get; set; }
+        
         public virtual MasterEvent Event { get; set; }
+        
+        public virtual User AddedBy { get; set; }
     }
 }

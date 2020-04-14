@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PlanManager.DataAccess.Entities.EM
@@ -18,5 +20,7 @@ namespace PlanManager.DataAccess.Entities.EM
         public int EventId { get; set; }
 
         public virtual MasterEvent Event { get; set; }
+
+        public virtual ICollection<UserEventRole> Users { get; set; }
     }
 }

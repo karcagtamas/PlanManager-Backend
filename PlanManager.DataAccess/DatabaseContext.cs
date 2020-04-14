@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PlanManager.DataAccess.Entities;
+using PlanManager.DataAccess.Entities.EM;
 using PlanManager.DataAccess.Entities.PM;
 
 namespace PlanManager.DataAccess {
     public class DatabaseContext : IdentityDbContext {
         public DbSet<User> AppUsers { get; set; }
         public DbSet<WebsiteRole> AppRoles { get; set; }
+        
+        // PM
         public DbSet<PlanType> PlanTypes { get; set; }
         public DbSet<Plan> Plans { get; set; }
         public DbSet<PlanGroup> PlanGroups { get; set; }
@@ -17,6 +20,14 @@ namespace PlanManager.DataAccess {
         public DbSet<PlanGroupPlanComment> PlanGroupPlanComments { get; set; }
         public DbSet<GroupRole> GroupRoles { get; set; }
         public DbSet<UserPlanGroup> UserPlanGroupsSwitch { get; set; }
+        
+        // EM
+        public DbSet<MasterEvent> MasterEvents { get; set; }
+        public DbSet<DSportEvent> DSportEvents { get; set; }
+        public DbSet<DGtEvent> DGtEvents { get; set; }
+        public DbSet<UserEvent> UserEventsSwitch { get; set; }
+        public DbSet<EventRole> EventRoles { get; set; }
+        public DbSet<UserEventRole> UserEventRolesSwitch { get; set; }
 
         public DatabaseContext (DbContextOptions<DatabaseContext> options) : base (options) {
 
@@ -262,6 +273,95 @@ namespace PlanManager.DataAccess {
             builder.Entity<UserPlanGroup> ()
                 .HasOne (x => x.AddedBy)
                 .WithMany (x => x.AddedUsersToGroups)
+                .IsRequired ()
+                .OnDelete (DeleteBehavior.Restrict);
+            
+            // Master Events
+            builder.Entity<MasterEvent>()
+                .Property(x => x.CreationDate)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<MasterEvent>()
+                .Property(x => x.LastUpdate)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<MasterEvent>()
+                .Property(x => x.IsDisabled)
+                .HasDefaultValue(false);
+            builder.Entity<MasterEvent>()
+                .Property(x => x.IsLocked)
+                .HasDefaultValue(false);
+            builder.Entity<MasterEvent>()
+                .HasOne(x => x.Creator)
+                .WithMany(x => x.CreatedMasterEvents)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<MasterEvent>()
+                .HasOne(x => x.LastUpdater)
+                .WithMany(x => x.UpdatedMasterEvents)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            // D Sport Events
+            builder.Entity<DSportEvent>()
+                .HasOne(x => x.Event)
+                .WithOne(x => x.SportEvent)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            // D Gt Events
+            builder.Entity<DGtEvent>()
+                .HasOne(x => x.Event)
+                .WithOne(x => x.GtEvent)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            // User - Event Switch
+            builder.Entity<UserEvent> ()
+                .HasKey (x => new { x.UserId, x.EventId });
+            builder.Entity<UserEvent>()
+                .Property(x => x.ConnectionDate)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<UserEvent> ()
+                .HasOne (x => x.User)
+                .WithMany (x => x.Events)
+                .IsRequired ()
+                .OnDelete (DeleteBehavior.Cascade);
+            builder.Entity<UserEvent> ()
+                .HasOne (x => x.Event)
+                .WithMany (x => x.Users)
+                .IsRequired ()
+                .OnDelete (DeleteBehavior.Cascade);
+            builder.Entity<UserEvent> ()
+                .HasOne (x => x.AddedBy)
+                .WithMany (x => x.AddedUsersToEvents)
+                .IsRequired ()
+                .OnDelete (DeleteBehavior.Restrict);
+            
+            // Event Roles table settings
+            builder.Entity<EventRole>()
+                .HasOne(x => x.Event)
+                .WithOne(x => x.Roles)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            // User - Event Roles Switch table settings
+            builder.Entity<UserEventRole> ()
+                .HasKey (x => new { x.UserId, x.RoleId });
+            builder.Entity<UserEventRole>()
+                .Property(x => x.OwnershipDate)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<UserEventRole> ()
+                .HasOne (x => x.User)
+                .WithMany (x => x.EventRoles)
+                .IsRequired ()
+                .OnDelete (DeleteBehavior.Cascade);
+            builder.Entity<UserEventRole> ()
+                .HasOne (x => x.Role)
+                .WithMany (x => x.Users)
+                .IsRequired ()
+                .OnDelete (DeleteBehavior.Cascade);
+            builder.Entity<UserEventRole> ()
+                .HasOne (x => x.AddedBy)
+                .WithMany (x => x.AddedRolesToEvent)
                 .IsRequired ()
                 .OnDelete (DeleteBehavior.Restrict);
         }

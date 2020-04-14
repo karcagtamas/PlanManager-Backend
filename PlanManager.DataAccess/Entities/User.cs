@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
+using PlanManager.DataAccess.Entities.EM;
 using PlanManager.DataAccess.Entities.PM;
 
 namespace PlanManager.DataAccess.Entities {
@@ -53,5 +54,17 @@ namespace PlanManager.DataAccess.Entities {
         public virtual ICollection<UserPlanGroup> Groups { get; set; }
 
         public virtual ICollection<UserPlanGroup> AddedUsersToGroups { get; set; }
+
+        public virtual ICollection<MasterEvent> CreatedMasterEvents { get; set; }
+
+        public virtual ICollection<MasterEvent> UpdatedMasterEvents { get; set; }
+
+        public virtual ICollection<UserEvent> Events { get; set; }
+
+        public virtual ICollection<UserEvent> AddedUsersToEvents { get; set; }
+
+        public virtual ICollection<UserEventRole> EventRoles { get; set; }
+
+        public virtual ICollection<UserEventRole> AddedRolesToEvent { get; set; }
     }
 }

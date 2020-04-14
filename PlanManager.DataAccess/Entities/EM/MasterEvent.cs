@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PlanManager.DataAccess.Entities.EM
@@ -47,5 +49,13 @@ namespace PlanManager.DataAccess.Entities.EM
         public virtual User Creator { get; set; }
 
         public virtual User LastUpdater { get; set; }
+
+        public virtual DSportEvent SportEvent { get; set; }
+        
+        public virtual DGtEvent GtEvent { get; set; }
+
+        public virtual ICollection<UserEvent> Users { get; set; }
+
+        public virtual EventRole Roles { get; set; }
     }
 }
