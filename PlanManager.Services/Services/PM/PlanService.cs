@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using PlanManager.DataAccess;
-using PlanManager.DataAccess.Entities;
 using PlanManager.DataAccess.Entities.PM;
-using PlanManager.Services.DTOs;
-using PlanManager.Services.Messages;
+using PlanManager.Services.DTOs.PM;
+using PlanManager.Services.Messages.PM;
 
-namespace PlanManager.Services.Services
+namespace PlanManager.Services.Services.PM
 {
     public class PlanService : IPlanService
     {

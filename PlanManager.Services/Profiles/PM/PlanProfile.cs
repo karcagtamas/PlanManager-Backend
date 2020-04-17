@@ -4,7 +4,7 @@ using AutoMapper;
 using PlanManager.DataAccess.Entities.PM;
 using PlanManager.Services.DTOs.PM;
 
-namespace PlanManager.Services.Profiles
+namespace PlanManager.Services.Profiles.PM
 {
     public class PlanProfile : Profile
     {

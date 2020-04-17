@@ -13,7 +13,7 @@ namespace PlanManager.DataAccess.Models
         {
             this.Content = content;
             this.IsSuccess = isSuccess;
-            this.Message = "It is was success";
+            this.Message = "It was success";
             this.StatusCode = "200";
         }
         public ServerResponse(Exception e)

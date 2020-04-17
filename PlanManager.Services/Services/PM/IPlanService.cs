@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using PlanManager.Services.DTOs;
+using PlanManager.Services.DTOs.PM;
 
-namespace PlanManager.Services.Services
+namespace PlanManager.Services.Services.PM
 {
     public interface IPlanService
     {

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PlanManager.DataAccess.Entities.EM
 {
@@ -15,6 +16,7 @@ namespace PlanManager.DataAccess.Entities.EM
 
         public int? Greeny { get; set; }
 
+        [Column(TypeName = "decimal(10,4)")]
         public decimal? GreenyCost { get; set; }
 
         public virtual MasterEvent Event { get; set; }

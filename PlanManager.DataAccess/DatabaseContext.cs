@@ -287,6 +287,9 @@ namespace PlanManager.DataAccess {
                 .Property(x => x.IsDisabled)
                 .HasDefaultValue(false);
             builder.Entity<MasterEvent>()
+                .Property(x => x.IsPublic)
+                .HasDefaultValue(true);
+            builder.Entity<MasterEvent>()
                 .Property(x => x.IsLocked)
                 .HasDefaultValue(false);
             builder.Entity<MasterEvent>()

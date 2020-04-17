@@ -23,6 +23,9 @@ namespace PlanManager.DataAccess.Entities.EM
         public bool IsDisabled { get; set; }
         
         [Required]
+        public bool IsPublic { get; set; }
+        
+        [Required]
         public string CreatorId { get; set; }
         
         [Required]

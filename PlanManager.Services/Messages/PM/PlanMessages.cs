@@ -1,4 +1,4 @@
-namespace PlanManager.Services.Messages
+namespace PlanManager.Services.Messages.PM
 {
     public class PlanMessages
     {

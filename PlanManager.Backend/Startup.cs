@@ -22,7 +22,11 @@ using Microsoft.IdentityModel.Tokens;
 using PlanManager.DataAccess;
 using PlanManager.DataAccess.Entities;
 using PlanManager.Services.Profiles;
+using PlanManager.Services.Profiles.EM;
+using PlanManager.Services.Profiles.PM;
 using PlanManager.Services.Services;
+using PlanManager.Services.Services.EM;
+using PlanManager.Services.Services.PM;
 using PlanManager.Services.Utils;
 
 namespace PlanManager.Backend {
@@ -57,11 +61,13 @@ namespace PlanManager.Backend {
             services.AddScoped<IUtilsService, UtilsService> ();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPlanService, PlanService>();
+            services.AddScoped<IEventService, EventService>();
             
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddAutoMapper(typeof(UserProfile));
             services.AddAutoMapper(typeof(PlanProfile));
+            services.AddAutoMapper(typeof(EventProfile));
 
             services.AddDbContextPool<DatabaseContext> (options => {
                 options.UseLazyLoadingProxies ().UseSqlServer (Configuration.GetConnectionString ("PlanManagerDb"));

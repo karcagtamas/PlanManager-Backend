@@ -1,4 +1,4 @@
-namespace PlanManager.Services.DTOs
+namespace PlanManager.Services.DTOs.PM
 {
     public class PlanDto
     {
