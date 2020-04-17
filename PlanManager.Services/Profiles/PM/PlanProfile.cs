@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using AutoMapper;
-using PlanManager.DataAccess.Entities;
 using PlanManager.DataAccess.Entities.PM;
-using PlanManager.Services.DTOs;
+using PlanManager.Services.DTOs.PM;
 
 namespace PlanManager.Services.Profiles
 {
