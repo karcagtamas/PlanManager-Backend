@@ -10,8 +10,7 @@ namespace PlanManager.DataAccess.Entities.EM
 
         [Required]
         public int EventId { get; set; }
-
-        [Required]
+        
         public string TShirtColor { get; set; }
 
         public int? Greeny { get; set; }
