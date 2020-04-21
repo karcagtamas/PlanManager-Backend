@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PlanManager.DataAccess.Models;
@@ -37,6 +38,95 @@ namespace PlanManager.Backend.Controllers
                 return Ok(new ServerResponse<Object>(e));
             }
             
+        }
+
+        [HttpGet("{eventId}")]
+        public IActionResult GetEvent(int eventId)
+        {
+            try
+            {
+                return Ok(new ServerResponse<EventDto>(_eventService.GetEvent(eventId), true));
+            }
+            catch (Exception e)
+            {
+                _utilsService.LogError(e);
+                return Ok(new ServerResponse<Object>(e));
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CreateEvent([FromBody] EventCreateDto model)
+        {
+            try
+            {
+                _eventService.CreateEvent(model);
+                return Ok(new ServerResponse<Object>(null, true));
+            }
+            catch (Exception e)
+            {
+                _utilsService.LogError(e);
+                return Ok(new ServerResponse<Object>(e));
+            }
+        }
+
+        [HttpPost("gt/{eventId}")]
+        public IActionResult SetEventAsGtEvent(int eventId)
+        {
+            try
+            {
+                _eventService.SetEventAsGtEvent(eventId);
+                return Ok(new ServerResponse<Object>(null, true));
+            }
+            catch (Exception e)
+            {
+                _utilsService.LogError(e);
+                return Ok(new ServerResponse<Object>(e));
+            }
+        }
+        
+        [HttpPost("sport/{eventId}")]
+        public IActionResult SetEventAsSportEvent(int eventId)
+        {
+            try
+            {
+                _eventService.SetEventAsSportEvent(eventId);
+                return Ok(new ServerResponse<Object>(null, true));
+            }
+            catch (Exception e)
+            {
+                _utilsService.LogError(e);
+                return Ok(new ServerResponse<Object>(e));
+            }
+        }
+
+        [HttpDelete("{eventId}")]
+        public IActionResult DeleteEvent(int eventId)
+        {
+            try
+            {
+                _eventService.DeleteEvent(eventId);
+                return Ok(new ServerResponse<Object>(null, true));
+            }
+            catch (Exception e)
+            {
+                _utilsService.LogError(e);
+                return Ok(new ServerResponse<Object>(e));
+            }
+        }
+
+        [HttpPut("{eventId}/status/{type}")]
+        public IActionResult SetStatus(int eventId, string type, [FromBody] bool status)
+        {
+            try
+            {
+                _eventService.SetEventStatus(eventId, type, status);
+                return Ok(new ServerResponse<Object>(null, true));
+            }
+            catch (Exception e)
+            {
+                _utilsService.LogError(e);
+                return Ok(new ServerResponse<Object>(e));
+            }
         }
     }
 }

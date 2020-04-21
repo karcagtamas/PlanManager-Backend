@@ -18,5 +18,6 @@ namespace PlanManager.Services.Messages.EM
         
         // Invalid
         public readonly string InvalidEventId = "Invalid event Id.";
+        public readonly string InvalidStatusType = "Invalid status type.";
     }
 }

@@ -22,8 +22,10 @@ namespace PlanManager.Services.DTOs.EM
         public bool IsDisabled { get; set; }
         public bool IsPublic { get; set; }
         public string CreatorId { get; set; }
+        public string Creator { get; set; }
         public DateTime CreationDate { get; set; }
         public string LastUpdaterId { get; set; }
+        public string LastUpdater { get; set; }
         public DateTime LastUpdate { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

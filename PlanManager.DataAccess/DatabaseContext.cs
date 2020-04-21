@@ -342,7 +342,7 @@ namespace PlanManager.DataAccess {
             // Event Roles table settings
             builder.Entity<EventRole>()
                 .HasOne(x => x.Event)
-                .WithOne(x => x.Roles)
+                .WithMany(x => x.Roles)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
             
