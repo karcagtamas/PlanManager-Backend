@@ -12,6 +12,7 @@ using PlanManager.Services.DTOs;
 using PlanManager.Services.Services;
 
 namespace PlanManager.Backend.Controllers {
+    
     [Route ("api/[controller]")]
     [Authorize]
     [ApiController]

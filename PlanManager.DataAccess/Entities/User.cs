@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
+using PlanManager.DataAccess.Entities.EM;
+using PlanManager.DataAccess.Entities.PM;
 
 namespace PlanManager.DataAccess.Entities {
     public class User : IdentityUser {
@@ -23,7 +25,15 @@ namespace PlanManager.DataAccess.Entities {
         
         [EmailAddress] 
         public string SecondaryEmail { get; set; }
+        
+        [MaxLength(6)]
+        public string TShirtSize { get; set; }
+        
+        public string Allergy { get; set; }
 
+        [MaxLength(40)]
+        public string Group { get; set; }
+        
         public virtual ICollection<Plan> Plans { get; set; }
 
         public virtual ICollection<PlanGroup> CreatedPlanGroups { get; set; }
@@ -44,5 +54,17 @@ namespace PlanManager.DataAccess.Entities {
         public virtual ICollection<UserPlanGroup> Groups { get; set; }
 
         public virtual ICollection<UserPlanGroup> AddedUsersToGroups { get; set; }
+
+        public virtual ICollection<MasterEvent> CreatedMasterEvents { get; set; }
+
+        public virtual ICollection<MasterEvent> UpdatedMasterEvents { get; set; }
+
+        public virtual ICollection<UserEvent> Events { get; set; }
+
+        public virtual ICollection<UserEvent> AddedUsersToEvents { get; set; }
+
+        public virtual ICollection<UserEventRole> EventRoles { get; set; }
+
+        public virtual ICollection<UserEventRole> AddedRolesToEvent { get; set; }
     }
 }

@@ -29,11 +29,12 @@ namespace PlanManager.Backend.Controllers {
         {
             try
             {
-                return Ok(await _userService.GetUser());
+                return Ok(new ServerResponse<UserDto>(await _userService.GetUser(), true));
             }
             catch (Exception e)
             {
-                return BadRequest(_utilsService.LogError(e));
+                _utilsService.LogError(e);
+                return Ok(new ServerResponse<Object>(e));
             }
         }
 
@@ -43,11 +44,12 @@ namespace PlanManager.Backend.Controllers {
             try
             {
                 _userService.UpdateUser(updateDto);
-                return Ok();
+                return Ok(new ServerResponse<Object>(null, true));
             }
             catch (Exception e)
             {
-                return BadRequest(_utilsService.LogError(e));
+                _utilsService.LogError(e);
+                return Ok(new ServerResponse<Object>(e));
             }
         }
     }

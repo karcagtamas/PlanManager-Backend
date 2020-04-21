@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlanManager.DataAccess;
 
 namespace PlanManager.DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200417144343_EventUpdate")]
+    partial class EventUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -244,6 +246,7 @@ namespace PlanManager.DataAccess.Migrations
                         .HasColumnType("decimal(10,4)");
 
                     b.Property<string>("TShirtColor")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -337,7 +340,8 @@ namespace PlanManager.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("EventId")
+                        .IsUnique();
 
                     b.ToTable("EventRoles");
                 });
@@ -934,7 +938,7 @@ namespace PlanManager.DataAccess.Migrations
                         new
                         {
                             Id = "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9",
-                            ConcurrencyStamp = "e0341698-e788-4711-9d75-0eaf13389fe2",
+                            ConcurrencyStamp = "5b66a9d1-2dc2-4f49-a37d-ec2fda33d23b",
                             Name = "Visitor",
                             NormalizedName = "VISITOR",
                             AccessLevel = 0
@@ -942,7 +946,7 @@ namespace PlanManager.DataAccess.Migrations
                         new
                         {
                             Id = "776474d7-8d01-4809-963e-c721f39dbb45",
-                            ConcurrencyStamp = "12bd67bb-3755-4a19-a63c-c95793295edd",
+                            ConcurrencyStamp = "db9c9ae3-0b48-4034-b2fe-a9a5b59069b9",
                             Name = "Normal",
                             NormalizedName = "NORMAL",
                             AccessLevel = 1
@@ -950,7 +954,7 @@ namespace PlanManager.DataAccess.Migrations
                         new
                         {
                             Id = "5e0a9192-793f-4c85-a0b1-3198295bf409",
-                            ConcurrencyStamp = "87e96172-fc77-44c0-bc0f-36f76ff60312",
+                            ConcurrencyStamp = "4cf8d562-50e4-412d-8ace-33eb66d62a30",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR",
                             AccessLevel = 2
@@ -958,7 +962,7 @@ namespace PlanManager.DataAccess.Migrations
                         new
                         {
                             Id = "936e42dc-5d3f-4355-bc3a-304a4fe4f518",
-                            ConcurrencyStamp = "8736edfe-75c8-4d79-a35a-068b28bf7199",
+                            ConcurrencyStamp = "164eb52f-9f8a-415e-a8cf-3d110ef71951",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR",
                             AccessLevel = 3
@@ -966,7 +970,7 @@ namespace PlanManager.DataAccess.Migrations
                         new
                         {
                             Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20",
-                            ConcurrencyStamp = "9af0502b-bbfc-49a0-be66-b25b74b781e4",
+                            ConcurrencyStamp = "a2f9bec4-7a06-455b-afd4-1cca3aede014",
                             Name = "Root",
                             NormalizedName = "ROOT",
                             AccessLevel = 4
@@ -1017,7 +1021,7 @@ namespace PlanManager.DataAccess.Migrations
                         {
                             Id = "44045506-66fd-4af8-9d59-133c47d1787c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f36cc2ff-1949-4347-bbac-b72bf03fcf0d",
+                            ConcurrencyStamp = "3c3274c9-317f-4147-9ec8-fc1d87c08c1b",
                             Email = "karcagtamas@outlook.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1025,7 +1029,7 @@ namespace PlanManager.DataAccess.Migrations
                             NormalizedUserName = "KARCAGTAMAS",
                             PasswordHash = "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "af9fd038-dfb8-4871-8e8d-b42390e0aeaf",
+                            SecurityStamp = "b4480d12-b910-49f8-8a88-d6315fba5ef8",
                             TwoFactorEnabled = false,
                             UserName = "karcagtamas",
                             FullName = "Karcag Tamas",
@@ -1037,7 +1041,7 @@ namespace PlanManager.DataAccess.Migrations
                         {
                             Id = "f8237fac-c6dc-47b0-8f71-b72f93368b02",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "78b590c1-9602-4116-ab18-88f16abeb4ff",
+                            ConcurrencyStamp = "d2046b88-6b1c-4722-879d-4c862e990fc8",
                             Email = "aron.klenovszky@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1045,7 +1049,7 @@ namespace PlanManager.DataAccess.Migrations
                             NormalizedUserName = "AARONKAA",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4ae11205-07ea-464c-938b-bc369db27f26",
+                            SecurityStamp = "5a074f22-a17d-4fb8-b5b0-4790518d559a",
                             TwoFactorEnabled = false,
                             UserName = "aaronkaa",
                             FullName = "Klenovszky Áron",
@@ -1057,7 +1061,7 @@ namespace PlanManager.DataAccess.Migrations
                         {
                             Id = "cd5e5069-59c8-4163-95c5-776fab95e51a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d292b9b4-639a-4fd6-a8d8-ef8995273b82",
+                            ConcurrencyStamp = "53c2e65c-7168-4953-9084-6e7d77515305",
                             Email = "root@karcags.hu",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1065,7 +1069,7 @@ namespace PlanManager.DataAccess.Migrations
                             NormalizedUserName = "ROOT",
                             PasswordHash = "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8b0c7454-e351-424d-8c33-15ded4b658ce",
+                            SecurityStamp = "a4ccfce7-43bd-4514-ac2e-9ae17908d53d",
                             TwoFactorEnabled = false,
                             UserName = "root",
                             FullName = "Root",
@@ -1077,7 +1081,7 @@ namespace PlanManager.DataAccess.Migrations
                         {
                             Id = "fa2edf69-5fc8-a163-9fc5-726f3b94e51b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "24c48aa9-cbe6-4a39-bcd0-ae44ba0958ab",
+                            ConcurrencyStamp = "244a8fa2-b17d-45d6-acd7-6f0f6a248c8c",
                             Email = "barni.pbs@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1085,7 +1089,7 @@ namespace PlanManager.DataAccess.Migrations
                             NormalizedUserName = "BARNI363HUN",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d7e6b28d-1ac1-405a-aef6-786d4c3ca329",
+                            SecurityStamp = "8ed54a15-5130-479a-bd61-1de34ca48f0f",
                             TwoFactorEnabled = false,
                             UserName = "barni363hun",
                             FullName = "Root",
@@ -1167,8 +1171,8 @@ namespace PlanManager.DataAccess.Migrations
             modelBuilder.Entity("PlanManager.DataAccess.Entities.EM.EventRole", b =>
                 {
                     b.HasOne("PlanManager.DataAccess.Entities.EM.MasterEvent", "Event")
-                        .WithMany("Roles")
-                        .HasForeignKey("EventId")
+                        .WithOne("Roles")
+                        .HasForeignKey("PlanManager.DataAccess.Entities.EM.EventRole", "EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

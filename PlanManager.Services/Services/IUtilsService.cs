@@ -9,7 +9,7 @@ namespace PlanManager.Services.Services
 {
     public interface IUtilsService
     {
-        ErrorResponse LogError(Exception e);
+        void LogError(Exception e);
         User GetCurrentUser();
         string GetCurrentUserId();
         string AddUserToMessage(string message, User user);

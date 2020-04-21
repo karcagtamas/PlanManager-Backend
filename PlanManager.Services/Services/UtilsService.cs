@@ -41,10 +41,9 @@ namespace PlanManager.Services.Services
         /// </summary>
         /// <param name="e">Exception for logging</param>
         /// <returns>Error Response from Exception</returns>
-        public ErrorResponse LogError(Exception e)
+        public void LogError(Exception e)
         {
             _logger.LogError(e.Message);
-            return new ErrorResponse(e);
         }
         
         /// <summary>

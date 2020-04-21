@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +22,11 @@ using Microsoft.IdentityModel.Tokens;
 using PlanManager.DataAccess;
 using PlanManager.DataAccess.Entities;
 using PlanManager.Services.Profiles;
+using PlanManager.Services.Profiles.EM;
+using PlanManager.Services.Profiles.PM;
 using PlanManager.Services.Services;
+using PlanManager.Services.Services.EM;
+using PlanManager.Services.Services.PM;
 using PlanManager.Services.Utils;
 
 namespace PlanManager.Backend {
@@ -32,7 +38,21 @@ namespace PlanManager.Backend {
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices (IServiceCollection services) {
+        public void ConfigureServices (IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials()
+                            .WithOrigins("https://localhost:5001");
+                    });
+            });
+            
             services.Configure<ApplicationSettings> (Configuration.GetSection ("ApplicationSettings"));
 
             services.AddLogging ();
@@ -41,11 +61,13 @@ namespace PlanManager.Backend {
             services.AddScoped<IUtilsService, UtilsService> ();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPlanService, PlanService>();
+            services.AddScoped<IEventService, EventService>();
             
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddAutoMapper(typeof(UserProfile));
             services.AddAutoMapper(typeof(PlanProfile));
+            services.AddAutoMapper(typeof(EventProfile));
 
             services.AddDbContextPool<DatabaseContext> (options => {
                 options.UseLazyLoadingProxies ().UseSqlServer (Configuration.GetConnectionString ("PlanManagerDb"));
@@ -95,6 +117,8 @@ namespace PlanManager.Backend {
             app.UseRouting ();
 
             app.UseAuthorization ();
+            
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints (endpoints => { endpoints.MapControllers (); });
         }
