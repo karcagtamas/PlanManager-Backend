@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using PlanManager.DataAccess.Entities.EM;
+using PlanManager.DataAccess.Enums;
 using PlanManager.Services.DTOs.EM;
 
 namespace PlanManager.Services.Profiles.EM
@@ -12,7 +13,7 @@ namespace PlanManager.Services.Profiles.EM
             CreateMap<MasterEvent, MyEventListDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
                 .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.Users.Count))
-                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.GtEvent != null ? "GT" : src.SportEvent != null ? "Sport" : "Empty"));
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => GetTypeOfEvent(src)));
             // CreateMap<List<MasterEvent>, List<MyEventListDto>>();
             CreateMap<MasterEvent, MasterEventDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
@@ -27,6 +28,22 @@ namespace PlanManager.Services.Profiles.EM
             CreateMap<MasterEventUpdateDto, MasterEvent>();
             CreateMap<GtEventUpdateDto, DGtEvent>();
             CreateMap<SportEventUpdateDto, DSportEvent>();
+        }
+
+        private string GetTypeOfEvent(MasterEvent masterEvent)
+        {
+            List<string> types = new List<string>();
+            if (masterEvent.GtEvent != null)
+            {
+                types.Add(EventType.Gt.ToString());
+            }
+
+            if (masterEvent.SportEvent != null)
+            {
+                types.Add(EventType.Sport.ToString());
+            }
+
+            return types.Count == 0 ? EventType.Empty.ToString() : string.Join(", ", types);
         }
     }
 }

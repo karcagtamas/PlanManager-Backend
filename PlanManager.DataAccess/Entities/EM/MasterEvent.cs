@@ -41,14 +41,6 @@ namespace PlanManager.DataAccess.Entities.EM
 
         public DateTime? EndDate { get; set; }
 
-        public int? StartHour { get; set; }
-
-        public int? EndHour { get; set; }
-
-        public int? StartMinute { get; set; }
-
-        public int? EndMinute { get; set; }
-
         public virtual User Creator { get; set; }
 
         public virtual User LastUpdater { get; set; }

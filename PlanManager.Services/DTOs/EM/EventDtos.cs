@@ -29,10 +29,6 @@ namespace PlanManager.Services.DTOs.EM
         public DateTime LastUpdate { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public int? StartHour { get; set; }
-        public int? EndHour { get; set; }
-        public int? StartMinute { get; set; }
-        public int? EndMinute { get; set; }
     }
 
     public class EventDto
@@ -91,14 +87,6 @@ namespace PlanManager.Services.DTOs.EM
         public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
-
-        public int? StartHour { get; set; }
-
-        public int? EndHour { get; set; }
-
-        public int? StartMinute { get; set; }
-
-        public int? EndMinute { get; set; }
     }
 
     public class GtEventUpdateDto
