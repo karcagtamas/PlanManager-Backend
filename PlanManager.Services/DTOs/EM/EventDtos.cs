@@ -63,7 +63,7 @@ namespace PlanManager.Services.DTOs.EM
         public decimal? FixTeamCost { get; set; }
         public int? TeamLimit { get; set; }
         public string MatchJudges { get; set; }
-
+        public string Doctors { get; set; }
     }
 
     public class EventCreateDto
@@ -80,6 +80,7 @@ namespace PlanManager.Services.DTOs.EM
         public int Id { get; set; }
         
         [Required]
+        [MaxLength(256)]
         public string Title { get; set; }
 
         public string Description { get; set; }
@@ -87,6 +88,15 @@ namespace PlanManager.Services.DTOs.EM
         public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+        
+        [Required]
+        public bool IsLocked { get; set; }
+        
+        [Required]
+        public bool IsDisabled { get; set; }
+        
+        [Required]
+        public bool IsPublic { get; set; }
     }
 
     public class GtEventUpdateDto

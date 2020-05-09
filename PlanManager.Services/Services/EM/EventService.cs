@@ -182,15 +182,16 @@ namespace PlanManager.Services.Services.EM
         public void UpdateSportEvent(SportEventUpdateDto model)
         {
             var user = _utilsService.GetCurrentUser();
-            var masterEvent = _context.DSportEvents.Find(model.Id);
-            if (masterEvent == null)
+            var sportEvent = _context.DSportEvents.Find(model.Id);
+            if (sportEvent == null)
             {
                 throw new Exception(_utilsService.AddUserToMessage(_eventMessages.InvalidEventId, user));
             }
 
-            _mapper.Map(model, masterEvent);
-            // TODO: Last updater
-            _context.DSportEvents.Update(masterEvent);
+            _mapper.Map(model, sportEvent);
+            sportEvent.Event.LastUpdater = user;
+            sportEvent.Event.LastUpdate = DateTime.Now;
+            _context.DSportEvents.Update(sportEvent);
             _context.SaveChanges();
             _utilsService.LogInformation(_eventMessages.DSportEventUpdate, user);
         }
@@ -198,15 +199,16 @@ namespace PlanManager.Services.Services.EM
         public void UpdateGtEvent(GtEventUpdateDto model)
         {
             var user = _utilsService.GetCurrentUser();
-            var masterEvent = _context.DGtEvents.Find(model.Id);
-            if (masterEvent == null)
+            var gtEvent = _context.DGtEvents.Find(model.Id);
+            if (gtEvent == null)
             {
                 throw new Exception(_utilsService.AddUserToMessage(_eventMessages.InvalidEventId, user));
             }
 
-            _mapper.Map(model, masterEvent);
-            // TODO: Last updater
-            _context.DGtEvents.Update(masterEvent);
+            _mapper.Map(model, gtEvent);
+            gtEvent.Event.LastUpdater = user;
+            gtEvent.Event.LastUpdate = DateTime.Now;
+            _context.DGtEvents.Update(gtEvent);
             _context.SaveChanges();
             _utilsService.LogInformation(_eventMessages.DGtEventUpdate, user);
         }
@@ -223,76 +225,6 @@ namespace PlanManager.Services.Services.EM
             _context.MasterEvents.Remove(masterEvent);
             _context.SaveChanges();
             _utilsService.LogInformation(_eventMessages.EventDelete, user);
-        }
-
-        public void SetEventStatus(int eventId, string type, bool status)
-        {
-            var user = _utilsService.GetCurrentUser();
-            switch (type)
-            {
-                case "public":
-                    SetEventPublicStatus(eventId, status, user);
-                    break;
-                case "disable":
-                    SetEventDisabledStatus(eventId, status, user);
-                    break;
-                case "lock":
-                    SetEventLockedStatus(eventId, status, user);
-                    break;
-                default:
-                    throw new Exception(_utilsService.AddUserToMessage(_eventMessages.InvalidStatusType, user));
-            }
-        }
-
-        public void SetEventLockedStatus(int eventId, bool status, User user)
-        {
-            var masterEvent = _context.MasterEvents.Find(eventId);
-            if (masterEvent == null)
-            {
-                throw new Exception(_utilsService.AddUserToMessage(_eventMessages.InvalidEventId, user));
-            }
-
-            masterEvent.IsLocked = status;
-            masterEvent.LastUpdaterId = user.Id;
-            masterEvent.LastUpdate = DateTime.Now;
-
-            _context.MasterEvents.Update(masterEvent);
-            _context.SaveChanges();
-            _utilsService.LogInformation(_eventMessages.EventIsLockedStatusUpdate, user);
-        }
-
-        public void SetEventPublicStatus(int eventId, bool status, User user)
-        {
-            var masterEvent = _context.MasterEvents.Find(eventId);
-            if (masterEvent == null)
-            {
-                throw new Exception(_utilsService.AddUserToMessage(_eventMessages.InvalidEventId, user));
-            }
-
-            masterEvent.IsPublic = status;
-            masterEvent.LastUpdaterId = user.Id;
-            masterEvent.LastUpdate = DateTime.Now;
-
-            _context.MasterEvents.Update(masterEvent);
-            _context.SaveChanges();
-            _utilsService.LogInformation(_eventMessages.EventIsPublicStatusUpdate, user);
-        }
-
-        public void SetEventDisabledStatus(int eventId, bool status, User user)
-        {
-            var masterEvent = _context.MasterEvents.Find(eventId);
-            if (masterEvent == null)
-            {
-                throw new Exception(_utilsService.AddUserToMessage(_eventMessages.InvalidEventId, user));
-            }
-
-            masterEvent.IsDisabled = status;
-            masterEvent.LastUpdaterId = user.Id;
-            masterEvent.LastUpdate = DateTime.Now;
-
-            _context.MasterEvents.Update(masterEvent);
-            _context.SaveChanges();
-            _utilsService.LogInformation(_eventMessages.EventIsDisabledStatusUpdate, user);
         }
     }
 }

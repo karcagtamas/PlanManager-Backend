@@ -114,12 +114,42 @@ namespace PlanManager.Backend.Controllers
             }
         }
 
-        [HttpPut("{eventId}/status/{type}")]
-        public IActionResult SetStatus(int eventId, string type, [FromBody] bool status)
+        [HttpPut("{eventId}")]
+        public IActionResult UpdateMaterEvent(int eventId, [FromBody] MasterEventUpdateDto masterUpdate)
         {
             try
             {
-                _eventService.SetEventStatus(eventId, type, status);
+                _eventService.UpdateMasterEvent(masterUpdate);
+                return Ok(new ServerResponse<Object>(null, true));
+            }
+            catch (Exception e)
+            {
+                _utilsService.LogError(e);
+                return Ok(new ServerResponse<Object>(e));
+            }
+        }
+        
+        [HttpPut("sport/{sportEventId}")]
+        public IActionResult UpdateSportEvent(int sportEventId, [FromBody] SportEventUpdateDto sportUpdate)
+        {
+            try
+            {
+                _eventService.UpdateSportEvent(sportUpdate);
+                return Ok(new ServerResponse<Object>(null, true));
+            }
+            catch (Exception e)
+            {
+                _utilsService.LogError(e);
+                return Ok(new ServerResponse<Object>(e));
+            }
+        }
+        
+        [HttpPut("gt/{gtEventId}")]
+        public IActionResult UpdateGtEvent(int gtEventId, [FromBody] GtEventUpdateDto updateGt)
+        {
+            try
+            {
+                _eventService.UpdateGtEvent(updateGt);
                 return Ok(new ServerResponse<Object>(null, true));
             }
             catch (Exception e)
