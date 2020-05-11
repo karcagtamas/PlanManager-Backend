@@ -28,6 +28,9 @@ namespace PlanManager.Services.Profiles.EM
             CreateMap<MasterEventUpdateDto, MasterEvent>();
             CreateMap<GtEventUpdateDto, DGtEvent>();
             CreateMap<SportEventUpdateDto, DSportEvent>();
+
+            CreateMap<EventAction, EventActionListDto>()
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User.UserName));
         }
 
         private string GetTypeOfEvent(MasterEvent masterEvent)

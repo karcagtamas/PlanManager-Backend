@@ -66,5 +66,7 @@ namespace PlanManager.DataAccess.Entities {
         public virtual ICollection<UserEventRole> EventRoles { get; set; }
 
         public virtual ICollection<UserEventRole> AddedRolesToEvent { get; set; }
+        
+        public virtual ICollection<EventAction> CausedEventActions { get; set; }
     }
 }

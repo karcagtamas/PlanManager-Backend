@@ -62,6 +62,7 @@ namespace PlanManager.Backend {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPlanService, PlanService>();
             services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IEventActionService, EventActionService>();
             
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
