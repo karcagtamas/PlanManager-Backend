@@ -1,0 +1,17 @@
+@inherits LayoutComponentBase
+
+<div class="sidebar">
+    <NavMenu/>
+</div>
+
+<div class="main">
+    <div class="top-row px-4 auth em-top-row">
+        <LoginDisplay/>
+    </div>
+
+    <div class="content px-1">
+        <MatCard class="p-3">
+            @Body
+        </MatCard>
+    </div>
+</div>

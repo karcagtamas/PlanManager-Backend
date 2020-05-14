@@ -1,0 +1,26 @@
+@page "/auth/login"
+@inherits LoginBase
+@layout AuthLayout
+
+<AuthPanel Title="@Title">
+    <EditForm Model="Model" OnValidSubmit="SignIn">
+        <DataAnnotationsValidator/>
+        <div class="mb-3">
+            <MatTextField class="w-100" @bind-Value="Model.UserName" Label="User Name" Outlined="true"></MatTextField>
+        </div>
+        <div class="mb-3">
+            <MatTextField class="w-100" type="password" @bind-Value="Model.Password" Label="Password" Outlined="true"></MatTextField>
+        </div>
+        <div class="p-1 text-center">
+            <MatButton Raised="true">Sign In</MatButton>
+        </div>
+        
+        <ValidationSummary/>
+    </EditForm>
+    <div class="col col-12 row mt-2">
+        <div class="col col-6 p-1"></div>
+        <div class="col col-6 p-1 text-right">
+            <MatButton Outlined="true" @onclick="@(() => Navigate("/auth/registration"))">Registration</MatButton>
+        </div>
+    </div>
+</AuthPanel>
