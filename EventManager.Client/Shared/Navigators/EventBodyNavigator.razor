@@ -1,11 +1,9 @@
-<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand em-main-title" href="">Event Manager</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div>
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+<div class="em-navbar h-100">
+    <div class="em-navbar-brand-outer">
+        <div class="em-navbar-brand">
+            Event Manager
+        </div>
+    </div>
     <MatNavMenu>
         <AuthorizeView>
             <Authorized>
@@ -27,7 +25,7 @@
             </NotAuthorized>
         </AuthorizeView>
     </MatNavMenu>
-    <hr />
+    <hr/>
     <MatNavMenu>
         <AuthorizeView>
             <Authorized>
@@ -39,20 +37,13 @@
 </div>
 
 @code {
+
     [Parameter]
     public int Id { get; set; }
-    
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
 
     protected string GetPath(string page)
     {
         return $"/events/{Id}/{page}";
     }
+
 }
