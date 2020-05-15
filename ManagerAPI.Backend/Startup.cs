@@ -4,7 +4,7 @@ using AutoMapper;
 using EventManager.Services.Profiles;
 using EventManager.Services.Services;
 using ManagerAPI.DataAccess;
-using ManagerAPI.DataAccess.Entities;
+using ManagerAPI.Models.Entities;
 using ManagerAPI.Services.Profiles;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Utils;
@@ -49,6 +49,20 @@ namespace ManagerAPI.Backend
             });
 
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
+            
+            var mapperConfig = new MapperConfiguration(x =>
+            {
+                x.AddProfile(new UserProfile());
+                x.AddProfile(new EventProfile());
+                x.AddProfile(new PlanProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+            
+            /*services.AddAutoMapper(typeof(UserProfile));
+            services.AddAutoMapper(typeof(EventProfile));
+            services.AddAutoMapper(typeof(PlanProfile));*/
 
             services.AddLogging();
 
@@ -60,11 +74,7 @@ namespace ManagerAPI.Backend
             services.AddScoped<IEventActionService, EventActionService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddAutoMapper(typeof(UserProfile));
-            services.AddAutoMapper(typeof(PlanProfile));
-            services.AddAutoMapper(typeof(EventProfile));
-
+            
             services.AddDbContextPool<DatabaseContext>(options =>
             {
                 options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("PlanManagerDb"));

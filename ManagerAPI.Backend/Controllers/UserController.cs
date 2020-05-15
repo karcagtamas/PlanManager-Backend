@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using ManagerAPI.DataAccess.Models;
-using ManagerAPI.Services.DTOs;
+using ManagerAPI.Models.DTOs;
+using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

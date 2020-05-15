@@ -1,0 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
+
+namespace ManagerAPI.Models.Entities
+{
+    public class WebsiteRole : IdentityRole
+    {
+        [Required]
+        public int AccessLevel { get; set; }
+    }
+}

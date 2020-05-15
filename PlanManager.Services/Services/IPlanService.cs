@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using PlanManager.Services.DTOs;
+using ManagerAPI.Models.DTOs;
 
 namespace PlanManager.Services.Services
 {

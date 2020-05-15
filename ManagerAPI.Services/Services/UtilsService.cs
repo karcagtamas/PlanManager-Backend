@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using ManagerAPI.DataAccess;
-using ManagerAPI.DataAccess.Entities;
+using ManagerAPI.Models.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;

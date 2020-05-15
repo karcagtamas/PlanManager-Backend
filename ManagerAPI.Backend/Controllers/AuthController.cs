@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using ManagerAPI.DataAccess.Models;
+using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

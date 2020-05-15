@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using ManagerAPI.Services.DTOs;
+using ManagerAPI.Models.DTOs;
 
 namespace ManagerAPI.Services.Services
 {

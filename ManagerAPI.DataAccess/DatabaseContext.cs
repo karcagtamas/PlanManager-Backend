@@ -1,6 +1,4 @@
-using ManagerAPI.DataAccess.Entities;
-using ManagerAPI.DataAccess.Entities.EM;
-using ManagerAPI.DataAccess.Entities.PM;
+using ManagerAPI.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

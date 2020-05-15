@@ -1,5 +1,5 @@
 using System;
-using ManagerAPI.DataAccess.Entities;
+using ManagerAPI.Models.Entities;
 
 namespace ManagerAPI.Services.Services
 {
