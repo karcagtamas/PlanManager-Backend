@@ -1,0 +1,43 @@
+@page "/events/my-events"
+@attribute [Authorize]
+@layout EventsLayout
+@using Microsoft.AspNetCore.Authorization
+@inherits MyEventsBase
+
+<div>
+    <h1 class="em-page-title">My Events</h1>
+
+    @if (MyEvents != null)
+    {
+        <table class="em-table">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Members</th>
+                <th>Creation</th>
+                <th>Creator</th>
+                <th>Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var myEvent in MyEvents)
+            {
+                <tr @onclick="@(() => RedirectTo(myEvent.Id))">
+                    <td>@myEvent.Title</td>
+                    <td>@myEvent.Members</td>
+                    <td>@HelperService.DateToString(myEvent.CreationDate)</td>
+                    <td>@myEvent.Creator</td>
+                    <td>@myEvent.Type</td>
+                </tr>
+            }
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="6">
+                    Sum: @MyEvents.Count
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    }
+</div>

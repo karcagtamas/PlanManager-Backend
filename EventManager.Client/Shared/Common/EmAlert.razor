@@ -1,0 +1,35 @@
+@using EventManager.Client.Enums
+<div class="em-alert em-alert-@TypeClass">
+    @Message
+</div>
+
+@code
+{
+    [Parameter]
+    public string Message { get; set; }
+    
+    [Parameter]
+    public AlertType Type { get; set; }
+
+    public string TypeClass { get; set; } = "info";
+
+    protected override void OnInitialized()
+    {
+        switch (Type)
+        {
+            case AlertType.Success:
+                TypeClass = "success";
+                break;
+            case AlertType.Error:
+                TypeClass = "error";
+                break;
+            case AlertType.Info:
+                TypeClass = "info";
+                break;
+            case AlertType.Warning:
+                TypeClass = "warning";
+                break;
+        }
+        base.OnInitialized();
+    }
+}

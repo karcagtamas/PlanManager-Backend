@@ -1,0 +1,42 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand em-main-title" href="">Event Manager</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <MatNavMenu>
+        <AuthorizeView>
+            <Authorized>
+                <MatNavItem Href="">Home</MatNavItem>
+                <MatNavItem Href="/counter">Counter</MatNavItem>
+                <MatNavSubMenu>
+                    <MatNavSubMenuHeader>
+                        <MatNavItem AllowSelection="false">Events</MatNavItem>
+                    </MatNavSubMenuHeader>
+                    <MatNavSubMenuList>
+                        <MatNavItem Href="/events/home">Event Home</MatNavItem>
+                        <MatNavItem Href="/events/my-events">My Events</MatNavItem>
+                        <MatNavItem Href="/events/create">Create</MatNavItem>
+                    </MatNavSubMenuList>
+                </MatNavSubMenu>
+            </Authorized>
+            <NotAuthorized>
+                <MatNavItem Href="">Home</MatNavItem>
+            </NotAuthorized>
+        </AuthorizeView>
+    </MatNavMenu>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+}

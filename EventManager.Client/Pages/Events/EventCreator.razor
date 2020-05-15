@@ -1,0 +1,23 @@
+@page "/events/create"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@layout EventsLayout
+@inherits EventCreatorBase
+
+<div>
+    <h1 class="em-page-title">Create Event</h1>
+    <EditForm Model="Model" OnValidSubmit="Create">
+            <DataAnnotationsValidator/>
+            <div class="mb-3">
+                <MatTextField class="w-100" @bind-Value="Model.Title" Label="Title" Outlined="true"></MatTextField>
+            </div>
+            <div class="mb-3">
+                <MatTextField class="w-100" @bind-Value="Model.Description" Label="Description" Outlined="true" TextArea="true"></MatTextField>
+            </div>
+            <div class="p-1 text-center">
+                <MatButton Raised="true">Create</MatButton>
+            </div>
+            
+            <ValidationSummary/>
+        </EditForm>
+</div>

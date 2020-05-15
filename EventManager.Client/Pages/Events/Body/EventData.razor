@@ -1,0 +1,205 @@
+@page "/events/{Id:int}/data"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inherits EventDataBase
+@layout EventBodyLayout
+
+@if (Event?.MasterEvent != null)
+{
+    <div class="em-page-panel">
+        <h1 class="em-page-title">@Event.MasterEvent.Title</h1>
+        <div class="row">
+            <div class="col col-12 col-md-6 p-2">
+                <div>
+                    <hr/>
+                    <EditForm Model="MasterUpdate" OnValidSubmit="UpdateMaster">
+                        <div class="em-section-title">Master section</div>
+                        <div>
+                            <div class="em-sub-title">Datas</div>
+                            <div class="em-sub-panel">
+                                <div class="row">
+                                    <div class="col col-12 p-1">
+                                        <MatTextField class="w-100" @bind-Value="MasterUpdate.Title" Label="Title" Dense="true" Outlined="true"></MatTextField>
+                                    </div>
+                                    <div class="col col-12 p-1">
+                                        <MatTextField class="w-100" @bind-Value="MasterUpdate.Description" Label="Description" Outlined="true" TextArea="true"></MatTextField>
+                                    </div>
+                                    <div class="col col-12 col-md-6 p-1">
+                                        <MatTextField class="w-100" @bind-Value="Event.MasterEvent.Creator" Dense="true" ReadOnly="true" Label="Creator" Outlined="true"></MatTextField>
+                                    </div>
+                                    <div class="col col-12 col-md-6 p-1">
+                                        <MatDatePicker class="w-100" @bind-Value="Event.MasterEvent.CreationDate" Dense="true" ReadOnly="true" Label="Creation" Outlined="true" Format="yyyy-MM-dd HH:mm:ss" DisableCalendar="true"></MatDatePicker>
+                                    </div>
+                                    <div class="col col-12 col-md-6 p-1">
+                                        <MatTextField class="w-100" @bind-Value="Event.MasterEvent.LastUpdater" Dense="true" ReadOnly="true" Label="Last Updater" Outlined="true"></MatTextField>
+                                    </div>
+                                    <div class="col col-12 col-md-6 p-1">
+                                        <MatDatePicker class="w-100" @bind-Value="Event.MasterEvent.LastUpdate" Dense="true" ReadOnly="true" Label="Last Update" Outlined="true" Format="yyyy-MM-dd HH:mm:ss" DisableCalendar="true"></MatDatePicker>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="em-sub-title">Statuses</div>
+                            <div class="em-sub-panel">
+                                <div class="row">
+                                    <div class="col col-6 col-sm-4 col-md-3 col-lg-2 p-1">
+                                        <MatSlideToggle class="w-100" @bind-Value="MasterUpdate.IsDisabled" Label="Disabled"></MatSlideToggle>
+                                    </div>
+                                    <div class="col col-6 col-sm-4 col-md-3 col-lg-2 p-1">
+                                        <MatSlideToggle class="w-100" @bind-Value="MasterUpdate.IsLocked" Label="Locked"></MatSlideToggle>
+                                    </div>
+                                    <div class="col col-6 col-sm-4 col-md-3 col-lg-2 p-1">
+                                        <MatSlideToggle class="w-100" @bind-Value="MasterUpdate.IsPublic" Label="Public"></MatSlideToggle>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="em-sub-title">Date Settings</div>
+                            <div class="em-sub-panel">
+                                <div class="row">
+                                    <div class="col col-sm-12 col-md-6 col-xl-4 p-1">
+                                        <MatDatePicker class="w-100" @bind-Value="MasterUpdate.StartDate" Dense="true" EnableTime="true" Label="Start Date" Format="yyyy-MM-dd HH:mm:ss" Outlined="true" AllowInput="false"></MatDatePicker>
+                                    </div>
+                                    <div class="col col-sm-12 col-md-6 col-xl-4 p-1">
+                                        <MatDatePicker class="w-100" @bind-Value="MasterUpdate.EndDate" Dense="true" EnableTime="true" Label="End Date" Format="yyyy-MM-dd HH:mm:ss" Outlined="true" AllowInput="false"></MatDatePicker>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <MatButton Raised="true" type="submit" @onclick="UpdateMaster">Save Master Event</MatButton>
+                            </div>
+                        </div>
+                    </EditForm>
+                </div>
+                @if (Event.SportEvent != null)
+                {
+                    <div>
+                        <hr/>
+                        <EditForm Model="SportUpdate" OnValidSubmit="UpdateSport">
+                            <div class="em-section-title">
+                                Sport section
+                            </div>
+                            <div>
+                                <div class="em-sub-title">Limits</div>
+                                <div class="em-sub-panel">
+                                    <div class="row">
+                                        <div class="col col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+                                            <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" @bind-Value="SportUpdate.PlayerLimit" Dense="true" Label="Player" Outlined="true"></MatNumericUpDownField>
+                                        </div>
+                                        <div class="col col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+                                            <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" @bind-Value="SportUpdate.VisitorLimit" Dense="true" Label="Visitor" Outlined="true"></MatNumericUpDownField>
+                                        </div>
+                                        <div class="col col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+                                            <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" @bind-Value="SportUpdate.HelperLimit" Dense="true" Label="Helper" Outlined="true"></MatNumericUpDownField>
+                                        </div>
+                                        <div class="col col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+                                            <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" @bind-Value="SportUpdate.TeamLimit" Dense="true" Label="Team" Outlined="true"></MatNumericUpDownField>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="em-sub-title">Counts currently</div>
+                                <div class="em-sub-panel">
+                                    <div class="row">
+                                        <div class="col col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+                                            <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" @bind-Value="SportUpdate.Players" Dense="true" Label="Players" Outlined="true"></MatNumericUpDownField>
+                                        </div>
+                                        <div class="col col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+                                            <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" @bind-Value="SportUpdate.Visitors" Dense="true" Label="Visitors" Outlined="true"></MatNumericUpDownField>
+                                        </div>
+                                        <div class="col col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+                                            <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" @bind-Value="SportUpdate.Helpers" Dense="true" Label="Helpers" Outlined="true"></MatNumericUpDownField>
+                                        </div>
+                                        <div class="col col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+                                            <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" @bind-Value="SportUpdate.Injured" Dense="true" Label="Injured" Outlined="true"></MatNumericUpDownField>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="em-sub-title">Costs</div>
+                                <div class="em-sub-panel">
+                                    <div class="row">
+                                        <div class="col col-md-12 col-lg-6 col-xl-4 p-1">
+                                            <MatNumericUpDownField class="w-100" DecimalPlaces="2" Minimum="0" @bind-Value="SportUpdate.PlayerCost" Dense="true" Label="Player" Outlined="true"></MatNumericUpDownField>
+                                        </div>
+                                        <div class="col col-md-12 col-lg-6 col-xl-4 p-1">
+                                            <MatNumericUpDownField class="w-100" DecimalPlaces="2" Minimum="0" @bind-Value="SportUpdate.VisitorCost" Dense="true" Label="Visitor" Outlined="true"></MatNumericUpDownField>
+                                        </div>
+                                        <div class="col col-md-12 col-lg-6 col-xl-4 p-1">
+                                            <MatNumericUpDownField class="w-100" DecimalPlaces="2" Minimum="0" @bind-Value="SportUpdate.FixTeamCost" Dense="true" Label="Fix Team" Outlined="true"></MatNumericUpDownField>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="em-sub-title">Deposits</div>
+                                <div class="em-sub-panel">
+                                    <div class="row">
+                                        <div class="col col-md-12 col-lg-6 col-xl-4 p-1">
+                                            <MatNumericUpDownField class="w-100" DecimalPlaces="2" Minimum="0" @bind-Value="SportUpdate.PlayerDeposit" Dense="true" Label="Player" Outlined="true"></MatNumericUpDownField>
+                                        </div>
+                                        <div class="col col-md-12 col-lg-6 col-xl-4 p-1">
+                                            <MatNumericUpDownField class="w-100" DecimalPlaces="2" Minimum="0" @bind-Value="SportUpdate.FixTeamDeposit" Dense="true" Label="Fix Team" Outlined="true"></MatNumericUpDownField>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="em-sub-title">Others</div>
+                                <div class="em-sub-panel">
+                                    <div class="row">
+                                        <div class="col col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+                                            <MatTextField class="w-100" @bind-Value="SportUpdate.MatchJudges" Dense="true" Label="Judges" Outlined="true"></MatTextField>
+                                        </div>
+                                        <div class="col col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+                                            <MatTextField class="w-100" @bind-Value="SportUpdate.Doctors" Dense="true" Label="Doctors" Outlined="true"></MatTextField>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <MatButton Raised="true" @onclick="UpdateSport">Save Sport Event</MatButton>
+                            </div>
+                        </EditForm>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <MatButton @onclick="SetEventAsSport">Create Sport Event</MatButton>
+                    </div>
+                }
+                @if (Event.GtEvent != null)
+                {
+                    <div>
+                        <hr/>
+                        <EditForm Model="GtUpdate" OnValidSubmit="UpdateGt">
+                            <div class="em-section-title">
+                                Gt section
+                            </div>
+                            <div class="em-sub-panel">
+                                <div class="row">
+                                    <div class="col col-md-12 col-lg-8 col-xl-6 p-1">
+                                        <MatTextField class="w-100" @bind-Value="GtUpdate.TShirtColor" Dense="true" Label="TShirtColor" Outlined="true"></MatTextField>
+                                    </div>
+                                    <div class="col col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+                                        <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" @bind-Value="GtUpdate.Greeny" Dense="true" Label="Greeny" Outlined="true"></MatNumericUpDownField>
+                                    </div>
+                                    <div class="col col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+                                        <MatNumericUpDownField class="w-100" DecimalPlaces="2" Minimum="0" @bind-Value="GtUpdate.GreenyCost" Dense="true" Label="Greeny Cost" Outlined="true"></MatNumericUpDownField>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <MatButton Raised="true" @onclick="UpdateGt">Save Gt Event</MatButton>
+                            </div>
+                        </EditForm>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <MatButton @onclick="SetEventAsGt">Create Gt Event</MatButton>
+                    </div>
+                }
+            </div>
+            <div class="col col-12 col-md-6 p-2">
+                <hr/>
+                <div class="em-section-title">Action Timeline</div>
+            </div>
+        </div>
+
+    </div>
+}
