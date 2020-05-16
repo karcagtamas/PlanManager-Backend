@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Models.DTOs 
+namespace EventManager.Client.Models.User
 {
-    /// <summary>
-    /// User DTO
-    /// </summary>
     public class UserDto 
     {
         public string Id { get; set; }
@@ -19,11 +16,7 @@ namespace ManagerAPI.Models.DTOs
         public string PhoneNumber { get; set; }
         public List<string> Roles { get; set; }
     }
-    
-    /// <summary>
-    /// User Update DTO
-    /// Model for user Update
-    /// </summary>
+
     public class UserUpdateDto
     {
         [Required]
@@ -40,5 +33,14 @@ namespace ManagerAPI.Models.DTOs
         
         [Phone]
         public string PhoneNumber { get; set; }
+
+        public UserUpdateDto(UserDto user)
+        {
+            this.Id = user.Id;
+            this.FullName = user.FullName;
+            this.Email = user.Email;
+            this.SecondaryEmail = user.SecondaryEmail;
+            this.PhoneNumber = user.PhoneNumber;
+        }
     }
 }

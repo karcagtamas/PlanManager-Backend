@@ -7,8 +7,9 @@
     <MatNavMenu>
         <AuthorizeView>
             <Authorized>
-                <MatNavItem Href="">Home</MatNavItem>
+                <MatNavItem Href="" class="important">Home</MatNavItem>
                 <MatNavItem Href="/counter">Counter</MatNavItem>
+                <MatNavItem Href="/my-profile">My Profile</MatNavItem>
                 <MatNavSubMenu>
                     <MatNavSubMenuHeader>
                         <MatNavItem AllowSelection="false">Events</MatNavItem>
@@ -19,10 +20,10 @@
                         <MatNavItem Href="/events/create">Create</MatNavItem>
                     </MatNavSubMenuList>
                 </MatNavSubMenu>
-                <MatNavItem Href="/auth/logout">Logout</MatNavItem>
+                <MatNavItem Href="/auth/logout" class="important">Logout</MatNavItem>
             </Authorized>
             <NotAuthorized>
-                <MatNavItem Href="">Home</MatNavItem>
+                <MatNavItem Href="" class="important">Home</MatNavItem>
                 <MatNavItem Href="/auth/login">Login</MatNavItem>
                 <MatNavItem Href="/auth/registration">Registration</MatNavItem>
             </NotAuthorized>

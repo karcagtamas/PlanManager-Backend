@@ -54,7 +54,7 @@ body {
   font-size: 1.2rem; }
 
 .em-page-title {
-  font-size: 1.6rem;
+  font-size: 2rem;
   color: #5120a5; }
 
 .em-section-title {
@@ -68,10 +68,6 @@ body {
 
 .em-sub-panel {
   padding: 0.6rem; }
-
-.em-page-panel {
-  max-height: 85vh;
-  overflow: auto; }
 
 .em-top-row {
   background-color: #5120a5 !important;
@@ -87,15 +83,37 @@ body {
   height: 400px;
   width: auto; }
 
+.em-my-profile .my-profile-picture {
+  position: relative;
+  margin: 5rem auto auto;
+  width: 400px;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 50%;
+  transition-duration: 0.5s; }
+  .em-my-profile .my-profile-picture:hover {
+    transition-duration: 0.5s;
+    transform: scale(1.4, 1.4); }
+  .em-my-profile .my-profile-picture img {
+    width: auto;
+    height: 100%;
+    margin-left: -50%; }
+
+.em-image-block img {
+  transition-duration: 0.5s; }
+  .em-image-block img:hover {
+    transition-duration: 0.5s;
+    transform: scale(1.1, 1.1); }
+
 .em-table {
   width: 100%;
   border-collapse: collapse;
   border-radius: 4px;
   overflow: hidden; }
   .em-table thead tr th {
-    color: #5120a5;
+    color: #f9f9f9;
     padding: 0.4rem;
-    background-color: #b99ee7; }
+    background-color: rgba(81, 32, 165, 0.8); }
   .em-table tbody tr {
     transition-duration: 0.5s;
     border-bottom: 1px solid #a3a3a3; }
@@ -109,17 +127,20 @@ body {
     .em-table tbody tr:last-child {
       border-bottom: none; }
     .em-table tbody tr:nth-child(even) {
-      background-color: rgba(88, 0, 248, 0.04); }
+      background-color: rgba(80, 0, 255, 0.3); }
   .em-table tbody .selected {
     background-color: rgba(92, 0, 255, 0.1);
     color: #ef5350; }
   .em-table tfoot tr th {
-    color: #5120a5;
+    color: #f9f9f9;
     padding: 0.4rem;
-    background-color: #b99ee7; }
+    background-color: rgba(81, 32, 165, 0.8); }
 
 .mdc-text-field__input.invalid {
   border-bottom-color: #ef5350 !important; }
+
+.mdc-floating-label.mat-floating-label--float-above-outlined.mdc-floating-label--float-above {
+  background-color: transparent !important; }
 
 .mdc-sub-menu-icon {
   top: 15% !important; }
@@ -128,7 +149,10 @@ body {
   margin: 0 0.4rem !important;
   border-radius: 4px; }
   .mdc-nav-item:hover {
-    background-color: rgba(92, 0, 255, 0.1) !important; }
+    background-color: rgba(92, 0, 255, 0.1) !important;
+    color: #5120a5 !important; }
+  .mdc-nav-item.important {
+    background-color: #ffbbbb; }
 
 .row, .col {
   /*margin: 0;*/

@@ -1,5 +1,50 @@
 @page "/my-profile"
+@using Microsoft.AspNetCore.Authorization
+@inherits MyProfileBase
+@attribute [Authorize]
 
-<div>
-    
-</div>
+@if (User != null)
+{
+    <div class="em-my-profile">
+        <h1 class="em-page-title">My Profile - @User.UserName</h1>
+
+        <div class="row col col-12">
+            <div class="col col-12 col-md-6 p-2">
+                <div class="em-image-block my-profile-picture">
+                    <img src="/images/profile-sample.jpg" alt="@User.UserName"/>
+                </div>
+            </div>
+            <div class="col col-12 col-md-6 p-2">
+                <div class="em-sub-title">Informations</div>
+                <div class="col col-12 p-1">
+                    <MatDatePicker class="w-100" @bind-Value="User.LastLogin" Dense="true" ReadOnly="true" Label="Last Login" Outlined="true" Format="yyyy-MM-dd HH:mm:ss" DisableCalendar="true"></MatDatePicker>
+                </div>
+                <div class="col col-12 p-1">
+                    <MatDatePicker class="w-100" @bind-Value="User.RegistrationDate" Dense="true" ReadOnly="true" Label="Registration Date" Outlined="true" Format="yyyy-MM-dd HH:mm:ss" DisableCalendar="true"></MatDatePicker>
+                </div>
+                <div class="col col-12 p-1">
+                    <MatTextField class="w-100" @bind-Value="Roles" Label="Roles" ReadOnly="true" Dense="true" Outlined="true"></MatTextField>
+                </div>
+                <EditForm Model="UserUpdate">
+                    <div class="em-sub-title">Settings</div>
+                    <div class="col col-12 p-1">
+                        <MatTextField class="w-100" @bind-Value="UserUpdate.FullName" Label="Full Name" Dense="true" Outlined="true"></MatTextField>
+                    </div>
+                    <div class="col col-12 p-1">
+                        <MatTextField class="w-100" @bind-Value="UserUpdate.Email" Label="E-mail" Dense="true" Outlined="true"></MatTextField>
+                    </div>
+                    <div class="col col-12 p-1">
+                        <MatTextField class="w-100" @bind-Value="UserUpdate.PhoneNumber" Label="Phone Number" Dense="true" Outlined="true"></MatTextField>
+                    </div>
+                    <div class="col col-12 p-1">
+                        <MatTextField class="w-100" @bind-Value="UserUpdate.SecondaryEmail" Label="Secondary E-mail" Dense="true" Outlined="true"></MatTextField>
+                    </div>
+                    <div class="text-right">
+                        <MatButton Raised="true" type="submit" @onclick="UpdateUser">Save Settings</MatButton>
+                    </div>
+                </EditForm>
+
+            </div>
+        </div>
+    </div>
+}

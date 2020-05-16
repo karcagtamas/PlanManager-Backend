@@ -8,6 +8,8 @@ namespace ManagerAPI.Services.Profiles {
         {
             CreateMap<User, UserDto>()
                 .ForMember(dest => dest.Roles, opt => opt.Ignore());
+
+            CreateMap<UserUpdateDto, User>();
         }
     }
 }

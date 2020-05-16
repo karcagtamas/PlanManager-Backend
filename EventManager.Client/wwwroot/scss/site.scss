@@ -83,7 +83,7 @@ body {
 }
 
 .em-page-title {
-  font-size: 1.6rem;
+  font-size: 2rem;
   color: $primary;
 }
 
@@ -100,11 +100,6 @@ body {
 
 .em-sub-panel {
   padding: 0.6rem;
-}
-
-.em-page-panel {
-  max-height: 85vh;
-  overflow: auto;
 }
 
 .em-top-row {
@@ -128,6 +123,39 @@ body {
   }
 }
 
+.em-my-profile {
+  .my-profile-picture {
+    position: relative;
+    margin: 5rem auto auto;
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 50%;
+    transition-duration: 0.5s;
+    
+    &:hover {
+      transition-duration: 0.5s;
+      transform: scale(1.4, 1.4);
+    }
+    
+    img {
+      width: auto;
+      height: 100%;
+      margin-left: -50%;
+    }
+  }
+}
+
+.em-image-block {
+  img {
+    transition-duration: 0.5s;
+    &:hover {
+      transition-duration: 0.5s;
+      transform: scale(1.1, 1.1);
+    }
+  }
+}
+
 .em-table {
   width: 100%;
   border-collapse: collapse;
@@ -137,9 +165,9 @@ body {
   thead {
     tr {
       th {
-        color: $primary;
+        color: $white;
         padding: 0.4rem;
-        background-color: $primary-lighter;
+        background-color: $primary-trans;
       }
     }
   }
@@ -154,7 +182,7 @@ body {
       }
 
       &:hover {
-        background-color: $primary-trans !important;
+        background-color: $primary-hover !important;
         color: $primary;
         transition-duration: 0.5s;
         cursor: pointer;
@@ -165,12 +193,12 @@ body {
       }
 
       &:nth-child(even) {
-        background-color: $primary-hover;
+        background-color: $primary-secondary-trans;
       }
     }
 
     .selected {
-      background-color: $primary-trans;
+      background-color: $primary-hover;
       color: $red;
     }
   }
@@ -178,9 +206,9 @@ body {
   tfoot {
     tr {
       th {
-        color: $primary;
+        color: $white;
         padding: 0.4rem;
-        background-color: $primary-lighter;
+        background-color: $primary-trans;
       }
     }
   }
@@ -188,6 +216,10 @@ body {
 
 .mdc-text-field__input.invalid {
   border-bottom-color: $red !important;
+}
+
+.mdc-floating-label.mat-floating-label--float-above-outlined.mdc-floating-label--float-above {
+  background-color: transparent !important;
 }
 
 .mdc-sub-menu-icon {
@@ -199,7 +231,12 @@ body {
   border-radius: 4px;
 
   &:hover {
-    background-color: $primary-trans !important;
+    background-color: $primary-hover !important;
+    color: $primary !important;
+  }
+  
+  &.important {
+    background-color: $red-light;
   }
 }
 
@@ -253,7 +290,7 @@ body {
 
       &:hover {
         cursor: pointer;
-        background-color: $primary-trans;
+        background-color: $primary-hover;
         color: $primary;
         transition-duration: 0.5s;
       }
