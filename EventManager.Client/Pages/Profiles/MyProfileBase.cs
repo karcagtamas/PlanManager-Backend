@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventManager.Client.Models.User;
 using EventManager.Client.Services;
@@ -19,12 +20,14 @@ namespace EventManager.Client.Pages.Profiles
         public IHelperService HelperService { get; set; }
         public UserDto User { get; set; }
         public UserUpdateDto UserUpdate { get; set; }
+        protected List<GenderDto> Genders { get; set; }
         
         public string Roles { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             await GetUser();
+            await GetGenders();
         }
 
         protected async Task GetUser()
@@ -37,6 +40,26 @@ namespace EventManager.Client.Pages.Profiles
                     User = result.Content;
                     UserUpdate = new UserUpdateDto(User);
                     Roles = string.Join(", ", Roles);
+                }
+                else
+                {
+                    Toaster.Add(result.Message, MatToastType.Danger, "My Profile Error");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        
+        protected async Task GetGenders()
+        {
+            try
+            {
+                var result = await UserService.GetGenders();
+                if (result.IsSuccess)
+                {
+                    Genders = result.Content;
                 }
                 else
                 {

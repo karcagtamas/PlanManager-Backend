@@ -11,39 +11,103 @@
         <div class="row col col-12">
             <div class="col col-12 col-md-6 p-2">
                 <div class="em-image-block my-profile-picture">
-                    <img src="/images/profile-sample.jpg" alt="@User.UserName"/>
+                    <img src="/images/profile-icon.jpg" alt="@User.UserName"/>
                 </div>
-            </div>
-            <div class="col col-12 col-md-6 p-2">
                 <div class="em-sub-title">Informations</div>
-                <div class="col col-12 p-1">
-                    <MatDatePicker class="w-100" @bind-Value="User.LastLogin" Dense="true" ReadOnly="true" Label="Last Login" Outlined="true" Format="yyyy-MM-dd HH:mm:ss" DisableCalendar="true"></MatDatePicker>
-                </div>
-                <div class="col col-12 p-1">
-                    <MatDatePicker class="w-100" @bind-Value="User.RegistrationDate" Dense="true" ReadOnly="true" Label="Registration Date" Outlined="true" Format="yyyy-MM-dd HH:mm:ss" DisableCalendar="true"></MatDatePicker>
+                <div class="row col col-12">
+                    <div class="col col-6 p-1">
+                        <MatDatePicker class="w-100" @bind-Value="User.LastLogin" Dense="true" ReadOnly="true" Label="Last Login" Outlined="true" Format="yyyy-MM-dd HH:mm:ss" DisableCalendar="true"></MatDatePicker>
+                    </div>
+                    <div class="col col-6 p-1">
+                        <MatDatePicker class="w-100" @bind-Value="User.RegistrationDate" Dense="true" ReadOnly="true" Label="Registration Date" Outlined="true" Format="yyyy-MM-dd HH:mm:ss" DisableCalendar="true"></MatDatePicker>
+                    </div>
                 </div>
                 <div class="col col-12 p-1">
                     <MatTextField class="w-100" @bind-Value="Roles" Label="Roles" ReadOnly="true" Dense="true" Outlined="true"></MatTextField>
                 </div>
-                <EditForm Model="UserUpdate">
+            </div>
+            <div class="col col-12 col-md-6 p-2">
+                <EditForm Model="UserUpdate" OnValidSubmit="UpdateUser">
+                    <DataAnnotationsValidator/>
                     <div class="em-sub-title">Settings</div>
-                    <div class="col col-12 p-1">
-                        <MatTextField class="w-100" @bind-Value="UserUpdate.FullName" Label="Full Name" Dense="true" Outlined="true"></MatTextField>
+                    <div class="row col col-12">
+                        <div class="col col-6 p-1">
+                            <MatTextField class="w-100" @bind-Value="UserUpdate.FullName" Label="Full Name" Dense="true" Outlined="true"></MatTextField>
+                            <ValidationMessage For="() => UserUpdate.FullName"/>
+                        </div>
+                        <div class="col col-6 p-1">
+                            <MatDatePicker class="w-100" @bind-Value="UserUpdate.BirthDay" Dense="true" Label="Birthday" Format="yyyy-MM-dd" Outlined="true" AllowInput="false"></MatDatePicker>
+                        </div>
                     </div>
                     <div class="col col-12 p-1">
                         <MatTextField class="w-100" @bind-Value="UserUpdate.Email" Label="E-mail" Dense="true" Outlined="true"></MatTextField>
+                        <ValidationMessage For="() => UserUpdate.Email"/>
                     </div>
-                    <div class="col col-12 p-1">
-                        <MatTextField class="w-100" @bind-Value="UserUpdate.PhoneNumber" Label="Phone Number" Dense="true" Outlined="true"></MatTextField>
+                    <div class="row col col-12">
+                        <div class="col col-6 p-1">
+                            <MatTextField class="w-100" @bind-Value="UserUpdate.PhoneNumber" Label="Phone Number" Dense="true" Outlined="true"></MatTextField>
+                            <ValidationMessage For="() => UserUpdate.PhoneNumber"/>
+                        </div>
+                        @if (Genders != null)
+                        {
+                            <div class="col col-6 p-1">
+                                <MatSelect Class="w-100" @bind-Value="UserUpdate.GenderId" Label="Gender" Dense="true" Outlined="true">
+                                    <MatOption TValue="int?" Value="null"></MatOption>
+                                    @foreach (var i in Genders)
+                                    {
+                                        <MatOption TValue="int?" Value="i.Id">@i.Name</MatOption>
+                                    }
+                                </MatSelect>
+                            </div>
+                        }
                     </div>
                     <div class="col col-12 p-1">
                         <MatTextField class="w-100" @bind-Value="UserUpdate.SecondaryEmail" Label="Secondary E-mail" Dense="true" Outlined="true"></MatTextField>
+                        <ValidationMessage For="() => UserUpdate.SecondaryEmail"/>
+                    </div>
+                    <div class="row col col-12">
+                        <div class="col col-6 p-1">
+                            <MatTextField class="w-100" @bind-Value="UserUpdate.TShirtSize" Label="TShirt Size" Dense="true" Outlined="true"></MatTextField>
+                            <ValidationMessage For="() => UserUpdate.TShirtSize"/>
+                        </div>
+                        <div class="col col-6 p-1">
+                            <MatTextField class="w-100" @bind-Value="UserUpdate.Group" Label="Group" Dense="true" Outlined="true"></MatTextField>
+                            <ValidationMessage For="() => UserUpdate.Group"/>
+                        </div>
+                    </div>
+                    <div class="col col-12 p-1">
+                        <MatTextField class="w-100" @bind-Value="UserUpdate.Allergy" Label="Allergy" Dense="true" Outlined="true" TextArea="true"></MatTextField>
+                    </div>
+                    <div class="row col col-12">
+                        <div class="col col-6 p-1">
+                            <MatTextField class="w-100" @bind-Value="UserUpdate.Country" Label="Country" Dense="true" Outlined="true"></MatTextField>
+                            <ValidationMessage For="() => UserUpdate.Country"/>
+                        </div>
+                        <div class="col col-6 p-1">
+                            <MatTextField class="w-100" @bind-Value="UserUpdate.City" Label="City" Dense="true" Outlined="true"></MatTextField>
+                            <ValidationMessage For="() => UserUpdate.City"/>
+                        </div>
                     </div>
                     <div class="text-right">
-                        <MatButton Raised="true" type="submit" @onclick="UpdateUser">Save Settings</MatButton>
+                        <MatButton Raised="true" type="submit">Save Settings</MatButton>
                     </div>
                 </EditForm>
 
+                <div class="m-3">
+                    <div class="em-sub-title">Danger Zone</div>
+                    <div class="text-center">
+                        <MatButton>Change Password</MatButton>
+                    </div>
+                    <div class="text-center">
+                        <MatButton>Change Profile Image</MatButton>
+                    </div>
+                    <div class="text-center">
+                        <MatButton>Change Username</MatButton>
+                    </div>
+                    <div class="text-center">
+                        <MatButton>Disable User</MatButton>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

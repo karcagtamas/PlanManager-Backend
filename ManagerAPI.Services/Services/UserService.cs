@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -47,10 +48,6 @@ namespace ManagerAPI.Services.Services
         public async Task<UserDto> GetUser()
         {
             var user = _utilsService.GetCurrentUser();
-            if (user == null)
-            {
-                throw new Exception(_userMessages.InvalidUserId);   
-            }
 
             var userDto = _mapper.Map<UserDto>(user);
             userDto.Roles = (await _userManager.GetRolesAsync(user)).ToList();
@@ -77,6 +74,14 @@ namespace ManagerAPI.Services.Services
             _context.AppUsers.Update(user);
             _context.SaveChanges();
             _utilsService.LogInformation(_userMessages.UserUpdate, user);
+        }
+
+        public List<GenderDto> GetGenders()
+        {
+            var user = _utilsService.GetCurrentUser();
+            var genders = _mapper.Map<List<GenderDto>>(_context.Genders.ToList());
+            _utilsService.LogInformation(_userMessages.GendersGet, user);
+            return genders;
         }
     }
 }

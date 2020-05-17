@@ -84,8 +84,9 @@ body {
   width: auto; }
 
 .em-my-profile .my-profile-picture {
+  text-align: center;
   position: relative;
-  margin: 5rem auto auto;
+  margin: 5rem auto;
   width: 400px;
   height: 400px;
   overflow: hidden;
@@ -96,9 +97,8 @@ body {
     transition-duration: 0.5s;
     transform: scale(1.4, 1.4); }
   .em-my-profile .my-profile-picture img {
-    width: auto;
-    height: 100%;
-    margin-left: -50%; }
+    width: 100%;
+    height: auto; }
 
 .em-image-block img {
   transition-duration: 0.5s; }
@@ -145,6 +145,9 @@ body {
 
 .mdc-sub-menu-icon {
   top: 15% !important; }
+
+.mdc-select__anchor {
+  width: 100% !important; }
 
 .mdc-nav-item {
   margin: 0 0.4rem !important;

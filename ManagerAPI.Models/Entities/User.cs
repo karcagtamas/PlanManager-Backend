@@ -31,6 +31,20 @@ namespace ManagerAPI.Models.Entities {
 
         [MaxLength(40)]
         public string Group { get; set; }
+
+        public DateTime? BirthDay { get; set; }
+        
+        public string ProfileImageTitle { get; set; }
+
+        public byte[] ProfileImageData { get; set; }
+        
+        [MaxLength(120)]
+        public string Country { get; set; }
+
+        public int? GenderId { get; set; }
+        
+        [MaxLength(120)]
+        public string City { get; set; }
         
         public virtual ICollection<Plan> Plans { get; set; }
 
@@ -66,5 +80,7 @@ namespace ManagerAPI.Models.Entities {
         public virtual ICollection<UserEventRole> AddedRolesToEvent { get; set; }
         
         public virtual ICollection<EventAction> CausedEventActions { get; set; }
+        
+        public virtual Gender Gender { get; set; }
     }
 }

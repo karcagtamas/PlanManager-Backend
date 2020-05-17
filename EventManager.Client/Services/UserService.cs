@@ -30,5 +30,12 @@ namespace EventManager.Client.Services
 
             return result;
         }
+
+        public async Task<ApiResponseModel<List<GenderDto>>> GetGenders()
+        {
+            var result = await _httpClient.GetJsonAsync<ApiResponseModel<List<GenderDto>>>($"{_url}/genders");
+
+            return result;
+        }
     }
 }

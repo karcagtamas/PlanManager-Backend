@@ -17,6 +17,15 @@ namespace ManagerAPI.Models.DTOs
         public DateTime LastLogin { get; set; }
         public string SecondaryEmail { get; set; }
         public string PhoneNumber { get; set; }
+        public string TShirtSize { get; set; }
+        public string Allergy { get; set; }
+        public string Group { get; set; }
+        public DateTime? BirthDay { get; set; }
+        public string ProfileImageTitle { get; set; }
+        public byte[] ProfileImageData { get; set; }
+        public string Country { get; set; }
+        public int? GenderId { get; set; }
+        public string City { get; set; }
         public List<string> Roles { get; set; }
     }
     
@@ -29,6 +38,7 @@ namespace ManagerAPI.Models.DTOs
         [Required]
         public string Id { get; set; }
         
+        [MaxLength(100)]
         public string FullName { get; set; }
         
         [Required]
@@ -40,5 +50,23 @@ namespace ManagerAPI.Models.DTOs
         
         [Phone]
         public string PhoneNumber { get; set; }
+        
+        [MaxLength(6)]
+        public string TShirtSize { get; set; }
+        
+        public string Allergy { get; set; }
+        
+        [MaxLength(40)]
+        public string Group { get; set; }
+        
+        public DateTime? BirthDay { get; set; }
+        
+        [MaxLength(120)]
+        public string Country { get; set; }
+        
+        public int? GenderId { get; set; }
+        
+        [MaxLength(120)]
+        public string City { get; set; }
     }
 }

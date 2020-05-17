@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Models;
@@ -40,6 +41,20 @@ namespace ManagerAPI.Backend.Controllers {
             {
                 _userService.UpdateUser(updateDto);
                 return Ok(new ServerResponse<Object>(null, true));
+            }
+            catch (Exception e)
+            {
+                _utilsService.LogError(e);
+                return Ok(new ServerResponse<Object>(e));
+            }
+        }
+
+        [HttpGet("genders")]
+        public IActionResult GetGenders()
+        {
+            try
+            {
+                return Ok(new ServerResponse<List<GenderDto>>(_userService.GetGenders(), true));
             }
             catch (Exception e)
             {
