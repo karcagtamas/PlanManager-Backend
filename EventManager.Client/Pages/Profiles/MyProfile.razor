@@ -1,5 +1,6 @@
 @page "/my-profile"
 @using Microsoft.AspNetCore.Authorization
+@using EventManager.Client.Enums
 @inherits MyProfileBase
 @attribute [Authorize]
 
@@ -96,7 +97,7 @@
                 <div class="m-3">
                     <div class="em-sub-title">Danger Zone</div>
                     <div class="text-center">
-                        <MatButton>Change Password</MatButton>
+                        <MatButton @onclick="OpenChangePasswordDialog">Change Password</MatButton>
                     </div>
                     <div class="text-center">
                         <MatButton>Change Profile Image</MatButton>
@@ -105,10 +106,12 @@
                         <MatButton>Change Username</MatButton>
                     </div>
                     <div class="text-center">
-                        <MatButton>Disable User</MatButton>
+                        <MatButton @onclick="DisableUser">Disable User</MatButton>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <Confirm Response="@HandleConfirmResponse" Name="own user" Type="@ConfirmType.Disable" DialogIsOpen="@ShowConfirmDialog"></Confirm>
+    <ChangePassword Response="@HandleChangePasswordResponse" DialogIsOpen="@ShowChangePasswordDialog"></ChangePassword>
 }

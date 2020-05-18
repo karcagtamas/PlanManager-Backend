@@ -77,5 +77,15 @@
       <Content Update="Pages\Profiles\MyProfile.razor">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </Content>
+      <Content Update="Shared\Common\Confirm.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </Content>
+      <Content Update="Shared\Components\MyProfile\ChangePassword.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Shared\Components\Events" />
     </ItemGroup>
 </Project>

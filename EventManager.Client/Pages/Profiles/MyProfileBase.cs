@@ -21,6 +21,9 @@ namespace EventManager.Client.Pages.Profiles
         public UserDto User { get; set; }
         public UserUpdateDto UserUpdate { get; set; }
         protected List<GenderDto> Genders { get; set; }
+
+        protected bool ShowConfirmDialog { get; set; } = false;
+        protected bool ShowChangePasswordDialog { get; set; } = false;
         
         public string Roles { get; set; }
 
@@ -84,7 +87,7 @@ namespace EventManager.Client.Pages.Profiles
                 }
                 else
                 {
-                    Toaster.Add(result.Message, MatToastType.Danger, "Master Event Error");
+                    Toaster.Add(result.Message, MatToastType.Danger, "My Profile Error");
                 }
             }
             catch (Exception e)
@@ -92,6 +95,30 @@ namespace EventManager.Client.Pages.Profiles
                 Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "My Profile Error");
                 Console.WriteLine(e);
             }
+        }
+
+        protected void DisableUser()
+        {
+            ShowConfirmDialog = true;
+        }
+
+        protected void HandleConfirmResponse(bool response)
+        {
+            ShowConfirmDialog = false;
+            if (response)
+            {
+                // TODO: Disable user
+            }
+        }
+
+        protected void OpenChangePasswordDialog()
+        {
+            ShowChangePasswordDialog = true;
+        }
+
+        protected void HandleChangePasswordResponse(bool needRefresh)
+        {
+            ShowChangePasswordDialog = false;
         }
     }
 }

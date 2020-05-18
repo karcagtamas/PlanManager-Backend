@@ -12,5 +12,7 @@ namespace EventManager.Client.Services
         Task<ApiResponseModel<object>> UpdateUser(UserUpdateDto userUpdate);
 
         Task<ApiResponseModel<List<GenderDto>>> GetGenders();
+
+        Task<ApiResponseModel<object>> UpdatePassword(string password);
     }
 }

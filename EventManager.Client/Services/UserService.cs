@@ -37,5 +37,12 @@ namespace EventManager.Client.Services
 
             return result;
         }
+
+        public async Task<ApiResponseModel<object>> UpdatePassword(string password)
+        {
+            var result = await _httpClient.PostJsonAsync<ApiResponseModel<object>>($"{_url}/password", password);
+
+            return result;
+        }
     }
 }
