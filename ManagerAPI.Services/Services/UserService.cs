@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -82,6 +83,22 @@ namespace ManagerAPI.Services.Services
             var genders = _mapper.Map<List<GenderDto>>(_context.Genders.ToList());
             _utilsService.LogInformation(_userMessages.GendersGet, user);
             return genders;
+        }
+
+        public void UpdateProfileImage(byte[] image)
+        {
+            var user = _utilsService.GetCurrentUser();
+
+            if (image == null || image.Length == 0)
+            {
+                throw new Exception(_utilsService.AddUserToMessage(_userMessages.InvalidImage, user));
+            }
+
+            user.ProfileImageData = image;
+            user.ProfileImageTitle = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+            _context.AppUsers.Update(user);
+            _context.SaveChanges();
+            _utilsService.LogInformation(_userMessages.ProfileImageUpdate, user);
         }
     }
 }

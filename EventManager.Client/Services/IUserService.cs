@@ -14,5 +14,7 @@ namespace EventManager.Client.Services
         Task<ApiResponseModel<List<GenderDto>>> GetGenders();
 
         Task<ApiResponseModel<object>> UpdatePassword(string password);
+
+        Task<ApiResponseModel<object>> UpdateProfileImage(byte[] image);
     }
 }

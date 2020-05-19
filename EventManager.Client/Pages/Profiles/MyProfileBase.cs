@@ -24,6 +24,8 @@ namespace EventManager.Client.Pages.Profiles
 
         protected bool ShowConfirmDialog { get; set; } = false;
         protected bool ShowChangePasswordDialog { get; set; } = false;
+        protected bool ShowUploadProfileImageDialog { get; set; } = false;
+        protected string Image { get; set; }
         
         public string Roles { get; set; }
 
@@ -43,6 +45,11 @@ namespace EventManager.Client.Pages.Profiles
                     User = result.Content;
                     UserUpdate = new UserUpdateDto(User);
                     Roles = string.Join(", ", Roles);
+                    if (User.ProfileImageData.Length != 0)
+                    {
+                        var base64 = Convert.ToBase64String(User.ProfileImageData);
+                        this.Image = $"data:image/gif;base64,{base64}";
+                    }
                 }
                 else
                 {
@@ -119,6 +126,20 @@ namespace EventManager.Client.Pages.Profiles
         protected void HandleChangePasswordResponse(bool needRefresh)
         {
             ShowChangePasswordDialog = false;
+        }
+
+        protected void OpenUploadProfileImageDialog()
+        {
+            ShowUploadProfileImageDialog = true;
+        }
+
+        protected async Task HandleUploadProfileImageResponse(bool needRefresh)
+        {
+            if (needRefresh)
+            {
+                await GetUser();
+            }
+            ShowUploadProfileImageDialog = false;
         }
     }
 }

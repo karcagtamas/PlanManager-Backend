@@ -9,5 +9,6 @@ namespace ManagerAPI.Services.Services
         Task<UserDto> GetUser();
         void UpdateUser(UserUpdateDto updateDto);
         List<GenderDto> GetGenders();
+        void UpdateProfileImage(byte[] image);
     }
 }

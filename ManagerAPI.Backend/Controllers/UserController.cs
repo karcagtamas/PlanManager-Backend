@@ -62,5 +62,20 @@ namespace ManagerAPI.Backend.Controllers {
                 return Ok(new ServerResponse<Object>(e));
             }
         }
+
+        [HttpPut("profile-image")]
+        public IActionResult UpdateProfileImage([FromBody] byte[] image)
+        {
+            try
+            {
+                _userService.UpdateProfileImage(image);
+                return Ok(new ServerResponse<Object>(null, true));
+            }
+            catch (Exception e)
+            {
+                _utilsService.LogError(e);
+                return Ok(new ServerResponse<Object>(e));
+            }
+        }
     }
 }

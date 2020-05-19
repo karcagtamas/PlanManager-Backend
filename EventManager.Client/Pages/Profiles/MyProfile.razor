@@ -12,7 +12,15 @@
         <div class="row col col-12">
             <div class="col col-12 col-md-6 p-2">
                 <div class="em-image-block my-profile-picture">
-                    <img src="/images/profile-icon.jpg" alt="@User.UserName"/>
+                    @if (User.ProfileImageData.Length == 0)
+                    {
+                        <img src="/images/profile-icon.jpg" alt="@User.UserName"/>
+                    }
+                    else
+                    {
+                        <img src="@Image" alt="@User.ProfileImageTitle" />
+                    }
+                    
                 </div>
                 <div class="em-sub-title">Informations</div>
                 <div class="row col col-12">
@@ -100,7 +108,7 @@
                         <MatButton @onclick="OpenChangePasswordDialog">Change Password</MatButton>
                     </div>
                     <div class="text-center">
-                        <MatButton>Change Profile Image</MatButton>
+                        <MatButton @onclick="OpenUploadProfileImageDialog">Change Profile Image</MatButton>
                     </div>
                     <div class="text-center">
                         <MatButton>Change Username</MatButton>
@@ -114,4 +122,5 @@
     </div>
     <Confirm Response="@HandleConfirmResponse" Name="own user" Type="@ConfirmType.Disable" DialogIsOpen="@ShowConfirmDialog"></Confirm>
     <ChangePassword Response="@HandleChangePasswordResponse" DialogIsOpen="@ShowChangePasswordDialog"></ChangePassword>
+    <UploadProfileImage Response="@HandleUploadProfileImageResponse" DialogIsOpen="@ShowUploadProfileImageDialog"></UploadProfileImage>
 }

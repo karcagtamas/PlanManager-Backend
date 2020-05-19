@@ -40,7 +40,14 @@ namespace EventManager.Client.Services
 
         public async Task<ApiResponseModel<object>> UpdatePassword(string password)
         {
-            var result = await _httpClient.PostJsonAsync<ApiResponseModel<object>>($"{_url}/password", password);
+            var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}/password", password);
+
+            return result;
+        }
+
+        public async Task<ApiResponseModel<object>> UpdateProfileImage(byte[] image)
+        {
+            var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}/profile-image", image);
 
             return result;
         }
