@@ -40,11 +40,14 @@ namespace EventManager.Client.Shared.Components.MyProfile
         {
             try
             {
-                var result = await UserService.UpdatePassword("");
+                var result = await UserService.UpdatePassword(new Models.PasswordUpdateModel
+                {
+                    NewPassword = PasswordUpdate.NewPassword,
+                    OldPassword = PasswordUpdate.OldPassword
+                });
                 if (result.IsSuccess)
                 {
                     Toaster.Add("Successfully updated password", MatToastType.Success, "My Profile");
-                    // DialogIsOpen = false;
                     await Response.InvokeAsync(true);
                 }
                 else

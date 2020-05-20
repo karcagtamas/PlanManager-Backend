@@ -86,6 +86,9 @@
       <Content Update="Shared\Components\MyProfile\UploadProfileImage.razor">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </Content>
+      <Content Update="Shared\Components\MyProfile\ChangeUsername.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>

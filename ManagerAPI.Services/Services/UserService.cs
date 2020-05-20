@@ -100,5 +100,57 @@ namespace ManagerAPI.Services.Services
             _context.SaveChanges();
             _utilsService.LogInformation(_userMessages.ProfileImageUpdate, user);
         }
+
+        public async Task UpdatePassword(string oldPassword, string newPassword)
+        {
+            var user = _utilsService.GetCurrentUser();
+
+            if (await _userManager.CheckPasswordAsync(user, oldPassword))
+            {
+                if (newPassword == oldPassword)
+                {
+                    throw new Exception(_utilsService.AddUserToMessage(_userMessages.OldAndNewPasswordCannotBeSame, user));
+                }
+
+                var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+                if (!result.Succeeded)
+                {
+                    throw new Exception(_utilsService.AddUserToMessage(result.Errors.ToString(), user));
+                }
+            }
+            else
+            {
+                throw new Exception(_utilsService.AddUserToMessage(_userMessages.InvalidOldPassword, user));
+            }
+            _utilsService.LogInformation(_userMessages.PasswordUpdate, user);
+        }
+
+        public async Task UpdateUsername(string newUsername)
+        {
+            var user = _utilsService.GetCurrentUser();
+            if (newUsername != user.UserName)
+            {
+                var result = await _userManager.SetUserNameAsync(user, newUsername);
+                if (!result.Succeeded)
+                {
+                    throw new Exception(_utilsService.AddUserToMessage(result.Errors.ToString(), user));
+                }
+            }
+            else
+            {
+                throw new Exception(_utilsService.AddUserToMessage(_userMessages.AlreadyOwnThisUsername, user));
+            }
+            _utilsService.LogInformation(_userMessages.UsernameUpdate, user);
+        }
+
+        public void DisableUser()
+        {
+            var user = _utilsService.GetCurrentUser();
+            user.IsActive = false;
+
+            _context.AppUsers.Update(user);
+            _context.SaveChanges();
+            _utilsService.LogInformation(_userMessages.DisableStatus, user);
+        }
     }
 }

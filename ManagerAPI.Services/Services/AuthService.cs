@@ -48,7 +48,7 @@ namespace ManagerAPI.Services.Services
         /// </summary>
         /// <param name="model">Model for the registration with main data</param>
         /// <returns>Result of the registration</returns>
-        public async Task<IdentityResult> Registration(RegistrationModel model)
+        public async Task Registration(RegistrationModel model)
         {
             User appUser = new User
             {
@@ -57,10 +57,16 @@ namespace ManagerAPI.Services.Services
                 FullName = model.FullName
             };
             IdentityResult result = await _userManager.CreateAsync(appUser, model.Password);
-            User user = await _userManager.FindByNameAsync(appUser.UserName);
-            await _userManager.AddToRoleAsync(user, Roles.NORMAL);
-            _logger.LogInformation($"{user.UserName}'s registration was successfully with e-mail {user.Email}");
-            return result;
+            if (result.Succeeded)
+            {
+                User user = await _userManager.FindByNameAsync(appUser.UserName);
+                await _userManager.AddToRoleAsync(user, Roles.NORMAL);
+                _logger.LogInformation($"{user.UserName}'s registration was successfully with e-mail {user.Email}");
+            }
+            else
+            {
+                throw new Exception(result.Errors.ToString());
+            }
         }
         
         /// <summary>
@@ -72,7 +78,7 @@ namespace ManagerAPI.Services.Services
         public async Task<string> Login(LoginModel model)
         {
             User user = await _userManager.FindByNameAsync(model.UserName);
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            if (user != null && user.IsActive && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 IList<string> roles = await _userManager.GetRolesAsync(user);
                 Claim[] claims = new Claim[3 + roles.Count];

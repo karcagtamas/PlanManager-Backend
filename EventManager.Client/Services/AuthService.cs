@@ -24,9 +24,9 @@ namespace EventManager.Client.Services
             _localStorageService = localStorageService;
         }
         
-        public async Task<ApiResponseModel<RegistrationResponse>> Register(RegistrationModel model)
+        public async Task<ApiResponseModel<object>> Register(RegistrationModel model)
         {
-            var result = await _httpClient.PostJsonAsync<ApiResponseModel<RegistrationResponse>>(_url + "/registration", model);
+            var result = await _httpClient.PostJsonAsync<ApiResponseModel<object>>(_url + "/registration", model);
 
             return result;
         }

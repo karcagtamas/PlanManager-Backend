@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Models.User;
 using Microsoft.AspNetCore.Components;
+using PasswordUpdateModel = EventManager.Client.Models.PasswordUpdateModel;
 
 namespace EventManager.Client.Services
 {
@@ -38,9 +39,9 @@ namespace EventManager.Client.Services
             return result;
         }
 
-        public async Task<ApiResponseModel<object>> UpdatePassword(string password)
+        public async Task<ApiResponseModel<object>> UpdatePassword(PasswordUpdateModel model)
         {
-            var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}/password", password);
+            var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}/password", model);
 
             return result;
         }
@@ -48,6 +49,20 @@ namespace EventManager.Client.Services
         public async Task<ApiResponseModel<object>> UpdateProfileImage(byte[] image)
         {
             var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}/profile-image", image);
+
+            return result;
+        }
+        
+        public async Task<ApiResponseModel<object>> UpdateUsername(UsernameUpdateModel model)
+        {
+            var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}/username", model);
+
+            return result;
+        }
+        
+        public async Task<ApiResponseModel<object>> DisableUser()
+        {
+            var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}/disable", null);
 
             return result;
         }

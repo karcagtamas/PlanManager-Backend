@@ -6,7 +6,7 @@ namespace ManagerAPI.Services.Services
 {
     public interface IAuthService
     {
-        Task<IdentityResult> Registration(RegistrationModel model);
+        Task Registration(RegistrationModel model);
         Task<string> Login(LoginModel model);
     }
 }

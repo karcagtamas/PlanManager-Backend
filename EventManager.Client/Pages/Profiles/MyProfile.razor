@@ -18,9 +18,9 @@
                     }
                     else
                     {
-                        <img src="@Image" alt="@User.ProfileImageTitle" />
+                        <img src="@Image" alt="@User.ProfileImageTitle"/>
                     }
-                    
+
                 </div>
                 <div class="em-sub-title">Informations</div>
                 <div class="row col col-12">
@@ -111,7 +111,7 @@
                         <MatButton @onclick="OpenUploadProfileImageDialog">Change Profile Image</MatButton>
                     </div>
                     <div class="text-center">
-                        <MatButton>Change Username</MatButton>
+                        <MatButton @onclick="OpenChangeUsernameDialog">Change Username</MatButton>
                     </div>
                     <div class="text-center">
                         <MatButton @onclick="DisableUser">Disable User</MatButton>
@@ -123,4 +123,5 @@
     <Confirm Response="@HandleConfirmResponse" Name="own user" Type="@ConfirmType.Disable" DialogIsOpen="@ShowConfirmDialog"></Confirm>
     <ChangePassword Response="@HandleChangePasswordResponse" DialogIsOpen="@ShowChangePasswordDialog"></ChangePassword>
     <UploadProfileImage Response="@HandleUploadProfileImageResponse" DialogIsOpen="@ShowUploadProfileImageDialog"></UploadProfileImage>
+    <ChangeUsername Response="@HandleChangeUsernameResponse" DialogIsOpen="@ShowChangeUsernameDialog"></ChangeUsername>
 }

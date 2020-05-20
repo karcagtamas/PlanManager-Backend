@@ -12,6 +12,9 @@ namespace EventManager.Client.Pages.Profiles
     {
         [Inject] 
         private IUserService UserService { get; set; }
+        
+        [Inject]
+        private IAuthService AuthService { get; set; }
 
         [Inject]
         private IMatToaster Toaster { get; set; }
@@ -25,6 +28,7 @@ namespace EventManager.Client.Pages.Profiles
         protected bool ShowConfirmDialog { get; set; } = false;
         protected bool ShowChangePasswordDialog { get; set; } = false;
         protected bool ShowUploadProfileImageDialog { get; set; } = false;
+        protected bool ShowChangeUsernameDialog { get; set; } = false;
         protected string Image { get; set; }
         
         public string Roles { get; set; }
@@ -109,12 +113,29 @@ namespace EventManager.Client.Pages.Profiles
             ShowConfirmDialog = true;
         }
 
-        protected void HandleConfirmResponse(bool response)
+        protected async Task HandleConfirmResponse(bool response)
         {
             ShowConfirmDialog = false;
             if (response)
             {
-                // TODO: Disable user
+                try
+                {
+                    var result = await UserService.DisableUser();
+                    if (result.IsSuccess)
+                    {
+                        Toaster.Add("Successfully disabled User", MatToastType.Success, "My Profile");
+                        await AuthService.Logout();
+                    }
+                    else
+                    {
+                        Toaster.Add(result.Message, MatToastType.Danger, "My Profile Error");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "My Profile Error");
+                    Console.WriteLine(e);
+                }
             }
         }
 
@@ -123,9 +144,13 @@ namespace EventManager.Client.Pages.Profiles
             ShowChangePasswordDialog = true;
         }
 
-        protected void HandleChangePasswordResponse(bool needRefresh)
+        protected async Task HandleChangePasswordResponse(bool needLogout)
         {
             ShowChangePasswordDialog = false;
+            if (needLogout)
+            {
+                await AuthService.Logout();
+            }
         }
 
         protected void OpenUploadProfileImageDialog()
@@ -140,6 +165,20 @@ namespace EventManager.Client.Pages.Profiles
                 await GetUser();
             }
             ShowUploadProfileImageDialog = false;
+        }
+        
+        protected void OpenChangeUsernameDialog()
+        {
+            ShowChangeUsernameDialog = true;
+        }
+
+        protected async Task HandleChangeUsernameResponse(bool needLogout)
+        {    
+            if (needLogout)
+            {
+                await AuthService.Logout();
+            }
+            ShowChangeUsernameDialog = false;
         }
     }
 }
