@@ -1,6 +1,8 @@
 @import url('../css/open-iconic/font/css/open-iconic-bootstrap.min.css');
 @import "variables.scss";
 
+/* General body settings */
+
 html, body {
   font-family: 'Bree Serif', serif;
   height: 100%;
@@ -32,6 +34,24 @@ body {
   font-family: Icons, serif !important;
 }
 
+/* General styles */
+
+.row, .col {
+  padding: 0;
+}
+
+.row {
+  margin: 0;
+}
+
+.em-sub-title {
+  color: $primary;
+}
+
+.em-sub-panel {
+  padding: 0.6rem;
+}
+
 .em-panel {
   .panel-title {
     color: $primary;
@@ -45,16 +65,14 @@ body {
 .em-primary {
   background-color: $primary !important;
   color: $white !important;
+} 
+
+.em-accent-color {
+  color: $accent;
 }
 
-.mdc-button {
-  text-transform: none !important;
-  font-size: 1.05rem !important;
-  line-height: 2.25rem !important;
-}
-
-.mdc-notched-outline__notch {
-  text-align: center !important;
+.em-warn-color {
+  color: $warn;
 }
 
 .em-alert {
@@ -94,23 +112,16 @@ body {
   text-align: center;
 }
 
-.em-sub-title {
-  color: $primary;
-}
-
-.em-sub-panel {
-  padding: 0.6rem;
-}
-
 .em-top-row {
   background-color: $primary !important;
   color: $white !important;
   border-bottom-color: $primary !important;
 }
 
-.mdc-text-field__input.valid.modified {
-  border-bottom-color: $green !important;
-}
+
+
+
+/* Main page */
 
 .main-page {
   div {
@@ -123,9 +134,23 @@ body {
   }
 }
 
+.main-box {
+  max-height: 100vh;
+  padding: 1rem;
+
+  .main-content {
+    overflow: auto;
+    height: 100%;
+    background-color: $white-trans;
+  }
+}
+
+
+
+/* My profile page */
+
 .em-my-profile {
   .my-profile-picture {
-    text-align: center;
     position: relative;
     margin: 5rem auto;
     width: 400px;
@@ -141,12 +166,17 @@ body {
     }
     
     img {
-      width: 100%;
-      height: auto;
+      width: auto;
+      height: 100%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -webkit-transform: translateY(-50%) translateX(-50%);    
     }
   }
 }
 
+/* Image block */
 .em-image-block {
   img {
     transition-duration: 0.5s;
@@ -156,6 +186,9 @@ body {
     }
   }
 }
+
+
+/* Table settings */
 
 .em-table {
   width: 100%;
@@ -215,21 +248,11 @@ body {
   }
 }
 
-.mdc-text-field__input.invalid {
-  border-bottom-color: $red !important;
-}
 
-.mdc-floating-label.mat-floating-label--float-above-outlined.mdc-floating-label--float-above {
-  background-color: transparent !important;
-}
 
-.mdc-sub-menu-icon {
-  top: 15% !important;
-}
 
-.mdc-select__anchor {
-  width: 100% !important;
-}
+
+/* MatBlazor settings */
 
 .mdc-nav-item {
   margin: 0 0.4rem !important;
@@ -245,15 +268,39 @@ body {
   }
 }
 
-.row, .col {
-  /*margin: 0;*/
-  padding: 0;
+.mdc-floating-label.mat-floating-label--float-above-outlined.mdc-floating-label--float-above {
+  background-color: transparent !important;
 }
 
-.row {
-  margin: 0;
+.mdc-sub-menu-icon {
+  top: 15% !important;
 }
 
+.mdc-select__anchor {
+  width: 100% !important;
+}
+
+.mdc-text-field__input.invalid {
+  border-bottom-color: $red !important;
+}
+
+.mdc-text-field__input.valid.modified {
+  border-bottom-color: $green !important;
+}
+
+.mdc-button {
+  text-transform: none !important;
+  font-size: 1.05rem !important;
+  line-height: 2.25rem !important;
+}
+
+.mdc-notched-outline__notch {
+  text-align: center !important;
+}
+
+
+
+/* Input settings */
 .input-element {
   margin-bottom: 1rem;
 
@@ -263,19 +310,12 @@ body {
 
 }
 
-.main-box {
-  max-height: 100vh;
-  padding: 1rem;
 
-  .main-content {
-    overflow: auto;
-    height: 100%;
-    background-color: $white-trans;
-  }
-}
+
+/* Navbar */
 
 .em-navbar-outer {
-  height: 100vh;  
+  height: 100vh;
 }
 
 .em-navbar {
@@ -304,37 +344,17 @@ body {
 
 }
 
+
+
+/* App */
+
 app {
   position: relative;
   display: flex;
   flex-direction: column;
 }
 
-.top-row {
-  height: 3.5rem;
-  display: flex;
-  align-items: center;
-}
-
-.main {
-  flex: 1;
-
-  .top-row {
-    background-color: $primary;
-    border-bottom: 1px solid $primary;
-    justify-content: flex-end;
-  }
-}
-
-.main .top-row > a, .main .top-row .btn-link {
-  white-space: nowrap;
-  margin-left: 1.5rem;
-}
-
-.navbar-toggler {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
+/* Validation */
 .validation-errors {
   padding: 0.6rem 0.6rem 0.6rem 2rem;
   margin-top: 0.4rem;
@@ -345,6 +365,8 @@ app {
   color: $red;
 }
 
+
+/* Error ui */
 #blazor-error-ui {
   background: lightyellow;
   bottom: 0;
@@ -355,15 +377,16 @@ app {
   position: fixed;
   width: 100%;
   z-index: 1000;
+  
+  .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+  }
 }
 
-#blazor-error-ui .dismiss {
-  cursor: pointer;
-  position: absolute;
-  right: 0.75rem;
-  top: 0.5rem;
-}
-
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
 }
