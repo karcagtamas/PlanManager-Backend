@@ -9,13 +9,10 @@ namespace EventManager.Client.Services
     public interface IUserService
     {
         Task<ApiResponseModel<UserDto>> GetUser();
-
+        Task<ApiResponseModel<UserShortDto>> GetShortUser();
         Task<ApiResponseModel<object>> UpdateUser(UserUpdateDto userUpdate);
-
         Task<ApiResponseModel<List<GenderDto>>> GetGenders();
-
         Task<ApiResponseModel<object>> UpdatePassword(PasswordUpdateModel model);
-
         Task<ApiResponseModel<object>> UpdateProfileImage(byte[] image);
         Task<ApiResponseModel<object>> UpdateUsername(UsernameUpdateModel model);
         Task<ApiResponseModel<object>> DisableUser();

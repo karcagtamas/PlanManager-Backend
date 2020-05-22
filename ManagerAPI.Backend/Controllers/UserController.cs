@@ -38,11 +38,25 @@ namespace ManagerAPI.Backend.Controllers
             }
         }
 
+        [HttpGet("shorter")]
+        public IActionResult GetShortUser()
+        {
+            try
+            {
+                return Ok(new ServerResponse<UserShortDto>(_userService.GetShortUser(), true));
+            }
+            catch (Exception e)
+            {
+                _utilsService.LogError(e);
+                return Ok(new ServerResponse<Object>(e));
+            }
+        }
+
         [HttpPut]
         public IActionResult UpdateUser([FromBody] UserUpdateDto updateDto)
         {
             try
-            {
+            {    
                 _userService.UpdateUser(updateDto);
                 return Ok(new ServerResponse<Object>(null, true));
             }

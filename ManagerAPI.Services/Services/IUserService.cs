@@ -8,6 +8,7 @@ namespace ManagerAPI.Services.Services
     public interface IUserService
     {
         Task<UserDto> GetUser();
+        UserShortDto GetShortUser();
         void UpdateUser(UserUpdateDto updateDto);
         List<GenderDto> GetGenders();
         void UpdateProfileImage(byte[] image);

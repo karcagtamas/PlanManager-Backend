@@ -28,6 +28,14 @@ namespace ManagerAPI.Models.DTOs
         public string City { get; set; }
         public List<string> Roles { get; set; }
     }
+
+    public class UserShortDto
+    {
+        public string Id { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public DateTime LastLogin { get; set; }
+    }
     
     /// <summary>
     /// User Update DTO

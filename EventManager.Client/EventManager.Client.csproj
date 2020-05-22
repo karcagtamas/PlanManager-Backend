@@ -89,6 +89,9 @@
       <Content Update="Shared\Components\MyProfile\ChangeUsername.razor">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </Content>
+      <Content Update="Shared\Common\CurrentUser.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>

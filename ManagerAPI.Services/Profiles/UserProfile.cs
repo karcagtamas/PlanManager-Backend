@@ -12,6 +12,7 @@ namespace ManagerAPI.Services.Profiles {
 
             CreateMap<UserUpdateDto, User>();
             CreateMap<Gender, GenderDto>();
+            CreateMap<User, UserShortDto>();
         }
     }
 }

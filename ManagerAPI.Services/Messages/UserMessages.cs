@@ -13,6 +13,7 @@ namespace ManagerAPI.Services.Messages
         // Actions
         public readonly string UserUpdate = "user update";
         public readonly string UserGet = "user get";
+        public readonly string UserShortGet = "user short get";
         public readonly string GendersGet = "gender get";
         public readonly string ProfileImageUpdate = "profile image update";
         public readonly string UsernameUpdate = "username update";

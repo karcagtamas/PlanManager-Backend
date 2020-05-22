@@ -310,6 +310,14 @@ body {
 
 }
 
+/* Current user panel */
+.em-current-user {
+  .data {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
 
 
 /* Navbar */
@@ -320,6 +328,8 @@ body {
 
 .em-navbar {
   background-color: $white-trans;
+  display: flex;
+  flex-direction: column;
 
   .em-navbar-brand-outer {
     padding: 0.5rem;
@@ -340,6 +350,10 @@ body {
         transition-duration: 0.5s;
       }
     }
+  }
+  
+  .vert-spacer {
+    flex-grow: 1;
   }
 
 }

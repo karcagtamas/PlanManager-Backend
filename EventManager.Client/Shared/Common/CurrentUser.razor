@@ -1,0 +1,20 @@
+@inherits CurrentUserBase
+
+<div class="p-1 em-current-user">
+    @if (User != null)
+    {
+        <div class="p-1 data" title="@User.Username">
+            <strong>Username: </strong> @User.Username
+        </div>
+        <div class="p-1 data" title="@User.Email">
+            <strong>E-mail: </strong> @User.Email
+        </div>
+        <div class="p-1 data" title="@HelperService.DateToString(User.LastLogin)">
+            <strong>Last Login: </strong> @HelperService.DateToString(User.LastLogin)
+        </div>
+        <div>
+            <MatIconButton Icon="power_settings_new" @onclick="Logout"></MatIconButton>
+            <MatIconButton Icon="favorite"></MatIconButton>
+        </div>
+    }
+</div>

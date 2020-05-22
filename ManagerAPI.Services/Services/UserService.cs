@@ -55,7 +55,16 @@ namespace ManagerAPI.Services.Services
             _utilsService.LogInformation(_userMessages.UserGet, user);
             return userDto;
         }
-        
+
+        public UserShortDto GetShortUser()
+        {
+            var user = _utilsService.GetCurrentUser();
+
+            var userDto = _mapper.Map<UserShortDto>(user);
+            _utilsService.LogInformation(_userMessages.UserShortGet, user);
+            return userDto;
+        }
+
         /// <summary>
         /// Update current user's data object by the given update object
         /// </summary>

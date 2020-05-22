@@ -25,6 +25,13 @@ namespace EventManager.Client.Services
             return result;
         }
 
+        public async Task<ApiResponseModel<UserShortDto>> GetShortUser()
+        {
+            var result = await _httpClient.GetJsonAsync<ApiResponseModel<UserShortDto>>($"{_url}/shorter");
+
+            return result;
+        }
+
         public async Task<ApiResponseModel<object>> UpdateUser(UserUpdateDto userUpdate)
         {
             var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}", userUpdate);
