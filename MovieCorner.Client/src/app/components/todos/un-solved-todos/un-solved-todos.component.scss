@@ -1,0 +1,18 @@
+.todos {
+  .todo-block {
+    padding: 1rem;
+    .title {
+      margin-top: 1rem;
+    }
+    .todo {
+      padding: 0.2rem;
+
+      .todo-card {
+        display: flex;
+      }
+      .spacer {
+        flex-grow: 1;
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+<div *ngIf="userProfile">
+  <div><strong>Username: </strong> {{ userProfile.userName }}</div>
+  <div><strong>E-mail: </strong> {{ userProfile.email }}</div>
+  <div><strong>Full Name: </strong> {{ userProfile.fullName }}</div>
+  <div>
+    <strong>Last Login: </strong>
+    {{ userProfile.lastLogin | date: 'yyyy. MM. dd. HH:mm:ss' }}
+  </div>
+  <div>
+    <strong>Registration Date: </strong>
+    {{ userProfile.registrationDate | date: 'yyyy. MM. dd. HH:mm:ss' }}
+  </div>
+  <div><strong>TShirt size: </strong> {{ userProfile.tShirtSize }}</div>
+  <div><strong>Class: </strong> {{ userProfile.class }}</div>
+  <div><strong>Allergy: </strong> {{ userProfile.allergy }}</div>
+</div>

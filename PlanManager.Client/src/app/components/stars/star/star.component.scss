@@ -1,0 +1,79 @@
+@import 'src/variables';
+
+@keyframes twinkle_1 {
+  0% {
+    opacity: 1;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes twinkle_2 {
+  0% {
+    opacity: 1;
+  }
+
+  25% {
+    opacity: 0;
+  }
+
+  80% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes twinkle_3 {
+  0% {
+    opacity: 1;
+  }
+
+  30% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.star_1 {
+  width: 1px;
+  height: 1px;
+  //animation: twinkle_1 3s ease-in-out infinite;
+}
+
+.star_2 {
+  width: 2px;
+  height: 2px;
+  box-shadow: 0 0 2px 1px $white-light, 0 0 2px 1px $white-light inset;
+  //animation: twinkle_2 12s ease-in-out infinite;
+}
+
+.star_3 {
+  width: 2px;
+  height: 2px;
+  box-shadow: 0 0 2px 0 $white-light, 0 0 2px 1px $white-light inset;
+  //animation: twinkle_3 7s ease-in-out infinite;
+}
+
+.star {
+  position: absolute;
+}

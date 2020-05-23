@@ -1,38 +1,29 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ManagerAPI.Models.Entities
+
 {
     public class ToDo
     {
-        [Required]
+        [Key]
         public int Id { get; set; }
-        
-        [Required]
-        public string Text { get; set; }
-        
-        [Required]
-        public int EventId { get; set; }
 
         [Required]
-        public string CreatorId { get; set; }
-        
-        [Required]
-        public DateTime CreationDate { get; set; }
-        
-        [Required]
-        public string LastUpdaterId { get; set; }
-        
-        [Required]
-        public DateTime LastUpdate { get; set; }
-        
-        [Required]
-        public bool IsSolved { get; set; }
+        [Column(TypeName = "nvarchar(100)")]
+        public string Title { get; set; }
 
-        public virtual MasterEvent Event { get; set; }
+        [Required]
+        public bool IsSolved { get; set; } = false;
 
-        public virtual User Creator { get; set; }
-        
-        public virtual User LastUpdater { get; set; }
+        [Required]
+        public string OwnerId { get; set; }
+
+        [Required]
+        [Column(TypeName = "datetime2")]
+        public DateTime DueDate { get; set; }
+
+        public virtual User Owner { get; set; }
     }
 }

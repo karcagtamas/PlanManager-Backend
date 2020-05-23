@@ -1,0 +1,56 @@
+@import 'src/_variables.scss';
+
+.home {
+  .card {
+    mat-card-title {
+      color: $white;
+
+      .main-title {
+        font-size: 1.5em;
+      }
+    }
+
+    .apps {
+      margin-top: 2rem;
+      .app {
+        .app-button {
+          font-size: $header-font-size;
+          color: $white;
+          border: 1px solid $white;
+          border-radius: $pm-border-radius;
+          padding: 1rem;
+          height: 100%;
+          transition-duration: 1s;
+          padding: 10rem;
+
+          &:hover {
+            cursor: pointer;
+
+            transition-duration: 1s;
+          }
+        }
+
+        .app-button.pm {
+          background-color: $pm-primary;
+
+          &:hover {
+            background-color: $pm-primary-lighter;
+          }
+        }
+        .app-button.em {
+          background-color: $em-primary;
+
+          &:hover {
+            background-color: $em-primary-lighter;
+          }
+        }
+      }
+    }
+  }
+}
+
+::ng-deep .mat-card {
+  background-color: $pm-primary-trans !important;
+  border: 1px solid $white;
+  border-radius: $pm-border-radius;
+}

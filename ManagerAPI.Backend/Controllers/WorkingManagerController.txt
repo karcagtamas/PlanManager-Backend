@@ -1,0 +1,137 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using KarcagS.Backend.Models;
+using KarcagS.DataAccess.DTOs;
+using KarcagS.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
+namespace KarcagS.Backend.Controllers
+{
+    [Route("api/[controller]")]
+    [Authorize]
+    [ApiController]
+    public class WorkingManagerController : ControllerBase
+    {
+        private readonly IWorkingManagerService _workingManagerService;
+        private readonly ILogger<WorkingManagerController> _logger;
+        public WorkingManagerController(IWorkingManagerService workingManagerService, ILogger<WorkingManagerController> logger)
+        {
+            _workingManagerService = workingManagerService;
+            _logger = logger;
+        }
+
+        [HttpGet("{Day}")]
+        public IActionResult GetWorkingDay(DateTime day)
+        {
+            try
+            {
+                string userId = User.Claims.First(c => c.Type == "UserID").Value;
+                return Ok(_workingManagerService.GetWorkingDay(userId, day));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CreateWorkingDay([FromBody]WorkingDayDTO workingDay)
+        {
+            try
+            {
+                string userId = User.Claims.First(c => c.Type == "UserID").Value;
+                _workingManagerService.CreateWorkingDay(userId, workingDay);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpPut("{WorkingDayId}")]
+        public IActionResult UpdateWorkingDay(int workingDayId, [FromBody] WorkingDayDTO workingDay)
+        {
+            try
+            {
+                string userId = User.Claims.First(c => c.Type == "UserID").Value;
+                _workingManagerService.UpdateWorkingDay(userId, workingDayId, workingDay);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpPost("{WorkingDayId}/field")]
+        public IActionResult AddWorkingField(int workingDayId, [FromBody]WorkingFieldDTO workingField)
+        {
+            try
+            {
+                string userId = User.Claims.First(c => c.Type == "UserID").Value;
+                _workingManagerService.AddWorkingField(userId, workingDayId, workingField);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpDelete("field/{WorkingFieldId}")]
+        public IActionResult DeleteWorkingField(int workingFieldId)
+        {
+            try
+            {
+                string userId = User.Claims.First(c => c.Type == "UserID").Value;
+                _workingManagerService.DeleteWorkingField(userId, workingFieldId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpPut("field/{WorkingFieldId}")]
+        public IActionResult UpdateWorkingField(int workingFieldId, [FromBody] WorkingFieldDTO workingField)
+        {
+            try
+            {
+                string userId = User.Claims.First(c => c.Type == "UserID").Value;
+                _workingManagerService.UpdateWorkingField(userId, workingFieldId, workingField);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpGet("types")]
+        public IActionResult GetWorkingDayTypes()
+        {
+            try
+            {
+                return Ok(_workingManagerService.GetWorkingDayTypes());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+    }
+}

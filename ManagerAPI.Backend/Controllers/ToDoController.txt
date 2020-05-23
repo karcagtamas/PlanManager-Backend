@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using KarcagS.Backend.Models;
+using KarcagS.DataAccess.DTOs;
+using KarcagS.Service.Interfaces;
+using KarcagSAPI.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
+namespace KarcagS.Backend.Controllers
+{
+    [Route("api/[controller]")]
+    [Authorize]
+    [ApiController]
+    public class ToDoController : ControllerBase
+    {
+        private readonly IToDoService _toDoService;
+        private readonly ILogger<ToDoController> _logger;
+        public ToDoController(IToDoService toDoService, ILogger<ToDoController> logger)
+        {
+            _toDoService = toDoService;
+            _logger = logger;
+        }
+
+        [HttpGet]
+        public IActionResult GetToDos([FromQuery]bool isSolved)
+        {
+            try
+            {
+                var userId = User.Claims.First(c => c.Type == "UserID").Value;
+                return Ok(_toDoService.GetToDos(userId, isSolved));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpGet("{Id}")]
+        public IActionResult GetToDo(int id)
+        {
+            var userId = User.Claims.First(c => c.Type == "UserID").Value;
+
+            try
+            {
+                ToDoDataDTO todo = _toDoService.GetToDo(id);
+                if (todo == null)
+                {
+                    return BadRequest();
+                }
+                return Ok(_toDoService.GetToDo(id));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult CreateToDo(ToDoCreateDTO toDo)
+        {
+            string userId = User.Claims.First(c => c.Type == "UserID").Value;
+            try
+            {
+                return Ok(_toDoService.CreateToDo(toDo, userId));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpDelete("{Id}")]
+        public IActionResult DeleteToDo(int id)
+        {
+            try
+            {
+                _toDoService.DeleteToDo(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+
+                _logger.LogError(e.Message);
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpPut("{Id}")]
+        public IActionResult UpdateToDo(int id, [FromBody] ToDoDataDTO toDo)
+        {
+            if (toDo.Id != id)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var userId = User.Claims.First(c => c.Type == "UserID").Value;
+                _toDoService.UpdateToDo(toDo, userId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+
+                _logger.LogError(e.Message);
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+    }
+}

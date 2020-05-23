@@ -1,0 +1,14 @@
+<div class="sidenav">
+  <div class="title">Menu</div>
+  <mat-divider></mat-divider>
+  <div
+    *ngFor="let item of sideMenuItems"
+    class="sidenav-item"
+    [routerLink]="item.route"
+    routerLinkActive="activeSideMenu"
+  >
+    <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+    &nbsp;
+    {{ item.title }}
+  </div>
+</div>

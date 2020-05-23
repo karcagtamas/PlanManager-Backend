@@ -1,0 +1,109 @@
+/* You can add global styles to this file, and also import other style files */
+@import './theme.scss';
+@import 'src/variables.scss';
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '~ngx-toastr/toastr';
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background-color: #fcc0c0;
+  background-image: url('src/assets/wp-dark.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+* {
+  font-family: 'Crete Round', serif !important;
+}
+
+mat-icon {
+  font-family: 'Material Icons', serif !important;
+}
+
+mat-error {
+  font-size: $small-font-size;
+}
+
+.activeMenu {
+  color: $pm-accent !important;
+}
+
+.activeSideMenu {
+  color: $pm-primary !important;
+}
+
+.error-snackbar {
+  background-color: $pm-warn;
+}
+
+.warning-snackbar {
+  background-color: $pm-accent;
+}
+
+.success-snackbar {
+  background-color: $green-dark;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+mat-card-title {
+  color: $pm-primary;
+}
+
+.mat-dialog-container {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  .mat-toolbar {
+    .close {
+      display: inline;
+      margin-left: auto;
+      color: $white-light;
+    }
+  }
+  .modal-container {
+    padding: 24px;
+    max-height: calc(100vh - 180px);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  // border-radius: 100px;
+  background: $pm-primary-lighter;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $pm-primary-light;
+  // border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $pm-primary;
+}
+
+mat-sidenav-container {
+  margin-top: 0 !important;
+  top: 2.6rem !important;
+}
+
+.row {
+  margin: 0;
+  padding: 0;
+}

@@ -1,0 +1,80 @@
+<div id="content">
+  <div class="container-fluid">
+    <div class="row" id="content-row">
+      <div class="col-md-4">
+        <div class="row" id="pic-div">
+          <div>
+            <img
+              id="pic"
+              src="../../../assets/wp.jpg"
+              alt="{{ user.userName }}"
+            />
+            <h1>{{ user.fullName }}</h1>
+          </div>
+        </div>
+        <div class="row" id="moredata-div">
+          <div id="moredata">
+            <!--Ide jöhet a jövőben további funkció,gomb stb....-->
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8" id="main-div">
+        <mat-card id="mat-card">
+          <h1>
+            <mat-icon>
+              portrait
+            </mat-icon>
+            Username: {{ user.userName }}
+          </h1>
+          <h1>
+            <mat-icon>
+              local_post_office
+            </mat-icon>
+            E-Mail: {{ user.email }}
+          </h1>
+          <h1>
+            <mat-icon>
+              mail_outline
+            </mat-icon>
+            Secondary E-Mail: {{ user.secondaryEmail }}
+          </h1>
+          <h1>
+            <mat-icon>
+              local_offer
+            </mat-icon>
+            Full name: {{ user.fullName }}
+          </h1>
+
+          <h1>
+            <mat-icon>
+              how_to_reg
+            </mat-icon>
+            Date of registry:
+            {{ user.registrationDate | date: 'yyyy-MM-dd HH:mm:ss' }}
+          </h1>
+          <h1>
+            <mat-icon>
+              restore
+            </mat-icon>
+            Last login: {{ user.lastLogin | date: 'yyyy-MM-dd HH:mm:ss' }}
+          </h1>
+          <h1>
+            <mat-icon>
+              vpn_key
+            </mat-icon>
+            Authorization {{ roleNumbers }}: {{ user.roles }}
+          </h1>
+          <h1>
+            <mat-icon>
+              call
+            </mat-icon>
+            Phone number: {{ user.phone }}
+          </h1>
+          <button class="mat-raised-button">
+            Modify Profile
+          </button>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

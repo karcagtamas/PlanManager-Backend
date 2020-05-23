@@ -1,0 +1,83 @@
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using DataAccess.Entities;
+using KarcagS.DataAccess.Entities;
+
+namespace DataAccess
+{
+    public class KarcagSContext : IdentityDbContext
+    {
+        public DbSet<User> ApplicationUsers { get; set; }
+
+        public DbSet<WebsiteRole> WebsiteRoles { get; set; }
+
+        public DbSet<ToDo> ToDos { get; set; }
+
+        public DbSet<Notification> Notifications { get; set; }
+
+        public DbSet<Message> Messages { get; set; }
+
+        public DbSet<Movie> Movies { get; set; }
+
+        public DbSet<UserMovie> UserMovie { get; set; }
+
+        public DbSet<WorkingField> WorkingFields { get; set; }
+
+        public DbSet<WorkingDay> WorkingDays { get; set; }
+
+        public DbSet<Series> Serieses { get; set; }
+
+        public DbSet<Season> Seasons { get; set; }
+
+        public DbSet<Episode> Episodes { get; set; }
+
+        public DbSet<UserEpisode> UserEpisode { get; set; }
+
+        public DbSet<WorkingDayType> WorkingDayTypes { get; set; }
+
+        public KarcagSContext(DbContextOptions<KarcagSContext> options): base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<ToDo>().Property(t => t.IsSolved).HasDefaultValue(false);
+            builder.Entity<User>().Property(u => u.RegistrationDate).HasDefaultValueSql("getdate()");
+            builder.Entity<User>().Property(u => u.IsBlocked).HasDefaultValue(false);
+            builder.Entity<Notification>().Property(n => n.Date).HasDefaultValueSql("getdate()");
+            builder.Entity<Notification>().Property(n => n.Seen).HasDefaultValue(false);
+            builder.Entity<Message>().Property(m => m.Date).HasDefaultValueSql("getdate()");
+
+            builder.Entity<Message>().HasOne(m => m.Sender).WithMany(u => u.SentMessages).OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Message>().HasOne(m => m.Receiver).WithMany(u => u.ReceivedMessages).OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<UserMovie>().HasKey(um => new { um.MovieId, um.UserId });
+
+            builder.Entity<Series>().Property(s => s.CreationTime).HasDefaultValueSql("getdate()");
+
+            builder.Entity<UserEpisode>().HasKey(ue => new { ue.EpisodeId, ue.UserId });
+
+            builder.Entity<User>().HasData(new User { Id = "cd5e5069-59c8-4163-95c5-776fab95e51a", FullName = "God", LockoutEnabled = true, NormalizedUserName = "GOD", NormalizedEmail = "KARCAGTAMAS@KARCAGS.HU", UserName = "God", Email = "karcagtamas@karcags.hu", PasswordHash = "AQAAAAEAACcQAAAAEO63AxrjsIMhxb+PwM5vgswD02RkjLZwk3McOsvpafKn/BVDR88NSrmiQWmRpl+nhA==" });
+            builder.Entity<User>().HasData(new User { Id = "44045506-66fd-4af8-9d59-133c47d1787c", TShirtSize = "L", Allergy = "", Class = "Uni", FullName = "Karcag Tamas", LockoutEnabled = true, NormalizedUserName = "KARCAGTAMAS", NormalizedEmail = "KARCAGTAMAS@OUTLOOK.HU", UserName = "karcagtamas", Email = "karcagtamas@outlook.com", PasswordHash = "AQAAAAEAACcQAAAAEO63AxrjsIMhxb+PwM5vgswD02RkjLZwk3McOsvpafKn/BVDR88NSrmiQWmRpl+nhA==" });
+            builder.Entity<WebsiteRole>().HasData(new WebsiteRole { Name = "Administrator", NormalizedName = "ADMINISTRATOR", Id = "776474d7-8d01-4809-963e-c721f39dbb45" });
+            builder.Entity<WebsiteRole>().HasData(new WebsiteRole { Name = "Moderator", NormalizedName = "MODERATOR", Id = "a0b62b9b-1572-44ac-beb9-196b078a5688" });
+            builder.Entity<WebsiteRole>().HasData(new WebsiteRole { Name = "General User", NormalizedName = "GENERAL USER", Id = "b0f363e5-9552-417d-97f9-e2d09d83b7c9" });
+            builder.Entity<WebsiteRole>().HasData(new WebsiteRole { Name = "Root", NormalizedName = "ROOT", Id = "f965d0e6-64d9-46fc-8c68-aacc790b25da" });
+            builder.Entity<WebsiteRole>().HasData(new WebsiteRole { Name = "Working Manager", NormalizedName = "WORKING MANAGER" });
+            builder.Entity<WebsiteRole>().HasData(new WebsiteRole { Name = "Series Manager", NormalizedName = "SERIES MANAGER" });
+            builder.Entity<WebsiteRole>().HasData(new WebsiteRole { Name = "Movie Manager", NormalizedName = "MOVIE MANAGER" });
+            builder.Entity<WebsiteRole>().HasData(new WebsiteRole { Name = "Event Manager", NormalizedName = "EVENT MANAGER" });
+
+            var defaultType = new WorkingDayType { Id = 1, Title = "Work Day", DayIsActive = true };
+            builder.Entity<WorkingDayType>().HasData(defaultType);
+            builder.Entity<WorkingDayType>().HasData(new WorkingDayType { Id = 2, Title = "Weekend", DayIsActive = false });
+            builder.Entity<WorkingDayType>().HasData(new WorkingDayType { Id = 3, Title = "Free", DayIsActive = false });
+            builder.Entity<WorkingDayType>().HasData(new WorkingDayType { Id = 4, Title = "University", DayIsActive = true });
+            builder.Entity<WorkingDayType>().HasData(new WorkingDayType { Id = 5, Title = "Without Work Day", DayIsActive = false });
+
+            builder.Entity<WorkingDay>().Property(wd => wd.TypeId).HasDefaultValue(1);
+        }
+    }
+}

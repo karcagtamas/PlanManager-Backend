@@ -1,0 +1,176 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using KarcagS.Backend.Models;
+using KarcagS.DataAccess.DTOs;
+using KarcagS.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
+namespace KarcagS.Backend.Controllers
+{
+    [Route("api/[controller]")]
+    [Authorize]
+    [ApiController]
+    public class SeriesController : ControllerBase
+    {
+        private readonly ISeriesService _seriesService;
+        private readonly ILogger<SeriesController> _logger;
+        public SeriesController(ISeriesService seriesService, ILogger<SeriesController> logger)
+        {
+            _seriesService = seriesService;
+            _logger = logger;
+        }
+
+        [HttpGet]
+        public IActionResult GetAllSeries()
+        {
+            try
+            {
+                var userId = User.Claims.First(c => c.Type == "UserID").Value;
+                return Ok(_seriesService.GetAllSeries(userId));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpGet("my")]
+        public IActionResult GetMySeries()
+        {
+            try
+            {
+                var userId = User.Claims.First(c => c.Type == "UserID").Value;
+                return Ok(_seriesService.GetMySeries(userId));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpPost("/season/{seasonId}/episodes")]
+        public IActionResult AddEpisodesToSeason([FromBody] int[] nums, int seasonId)
+        {
+            try
+            {
+                var userId = User.Claims.First(c => c.Type == "UserID").Value;
+                _seriesService.AddEpisodesToSeason(nums, seasonId, userId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpPost("/{seriesId}/seasons")]
+        public IActionResult AddSeasonsToSeries([FromBody] int[] nums, int seriesId)
+        {
+            try
+            {
+                var userId = User.Claims.First(c => c.Type == "UserID").Value;
+                _seriesService.AddSeasonsToSeries(nums, seriesId, userId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CreateSeries([FromBody] SeriesDTO series)
+        {
+            try
+            {
+                var userId = User.Claims.First(c => c.Type == "UserID").Value;
+                _seriesService.CreateSeries(series, userId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpDelete("season/episodes")]
+        public IActionResult DeleteEpisodesFromSeason([FromQuery] int[] episodeIds)
+        {
+            try
+            {
+                var userId = User.Claims.First(c => c.Type == "UserID").Value;
+                _seriesService.DeleteEpisodesFromSeason(episodeIds, userId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpDelete("seasons")]
+        public IActionResult DeleteSeasonsFromSeries([FromQuery] int[] seasonIds)
+        {
+            try
+            {
+                var userId = User.Claims.First(c => c.Type == "UserID").Value;
+                _seriesService.DeleteEpisodesFromSeason(seasonIds, userId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpDelete("{seriesId}")]
+        public IActionResult DeleteSeries(int seriesId)
+        {
+            try
+            {
+                var userId = User.Claims.First(c => c.Type == "UserID").Value;
+                _seriesService.DeleteSeries(seriesId, userId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpPut("season/episode/{episodeId}")]
+        public IActionResult UpdateEpisode(int episodeId, [FromBody] EpisodeDTO episode)
+        {
+            try
+            {
+                var userId = User.Claims.First(c => c.Type == "UserID").Value;
+                _seriesService.UpdateEpisode(episodeId, episode, userId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpPut("{seriesId}")]
+        public IActionResult UpdateSeries(int seriesId, [FromBody] SeriesDTO series)
+        {
+            try
+            {
+                var userId = User.Claims.First(c => c.Type == "UserID").Value;
+                _seriesService.UpdateSeries(seriesId, series, userId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+    }
+}
