@@ -1,0 +1,110 @@
+<mat-toolbar color="primary">
+  <span>{{ title }} WorkingDay</span>
+  <span class="close">
+    <button mat-icon-button>
+      <mat-icon (click)="exitWithoutAction()">close</mat-icon>
+    </button>
+  </span>
+</mat-toolbar>
+<div class="modal-container">
+  <form [formGroup]="form" (submit)="save()">
+    <mat-dialog-content>
+      <div>
+        <div class="row col-12">
+          <div class="col-12">
+            <mat-form-field>
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="type">
+                <mat-option
+                  [value]="type.id"
+                  *ngFor="let type of workingDayTypes"
+                  >{{ type.title }}</mat-option
+                >
+              </mat-select>
+              <mat-error *ngIf="utilService.hasError(form, 'type', 'required')">
+                {{ utilService.isRequiredMessage() }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <h4>Start time</h4>
+            <mat-form-field>
+              <mat-label>Hour</mat-label>
+              <input matInput type="number" formControlName="startHour" />
+              <mat-error
+                *ngIf="utilService.hasError(form, 'startHour', 'required')"
+              >
+                {{ utilService.isRequiredMessage() }}
+              </mat-error>
+              <mat-error *ngIf="utilService.hasError(form, 'startHour', 'max')">
+                {{ utilService.maxLengthMessage(23) }}
+              </mat-error>
+              <mat-error *ngIf="utilService.hasError(form, 'startHour', 'min')">
+                {{ utilService.maxLengthMessage(0) }}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Minute</mat-label>
+              <input matInput type="number" formControlName="startMin" />
+              <mat-error
+                *ngIf="utilService.hasError(form, 'startMin', 'required')"
+              >
+                {{ utilService.isRequiredMessage() }}
+              </mat-error>
+              <mat-error *ngIf="utilService.hasError(form, 'startMin', 'max')">
+                {{ utilService.maxLengthMessage(59) }}
+              </mat-error>
+              <mat-error *ngIf="utilService.hasError(form, 'startMin', 'min')">
+                {{ utilService.maxLengthMessage(0) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <h4>End time</h4>
+            <mat-form-field>
+              <mat-label>Hour</mat-label>
+              <input matInput type="number" formControlName="endHour" />
+              <mat-error
+                *ngIf="utilService.hasError(form, 'endHour', 'required')"
+              >
+                {{ utilService.isRequiredMessage() }}
+              </mat-error>
+              <mat-error *ngIf="utilService.hasError(form, 'endHour', 'max')">
+                {{ utilService.maxLengthMessage(23) }}
+              </mat-error>
+              <mat-error *ngIf="utilService.hasError(form, 'endHour', 'min')">
+                {{ utilService.maxLengthMessage(0) }}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Minute</mat-label>
+              <input matInput type="number" formControlName="endMin" />
+              <mat-error
+                *ngIf="utilService.hasError(form, 'endMin', 'required')"
+              >
+                {{ utilService.isRequiredMessage() }}
+              </mat-error>
+              <mat-error *ngIf="utilService.hasError(form, 'endMin', 'max')">
+                {{ utilService.maxLengthMessage(59) }}
+              </mat-error>
+              <mat-error *ngIf="utilService.hasError(form, 'endMin', 'min')">
+                {{ utilService.maxLengthMessage(0) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" type="submit">Save</button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="exitWithoutAction()"
+      >
+        Close
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

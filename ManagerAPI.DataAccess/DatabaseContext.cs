@@ -1,6 +1,4 @@
-using ManagerAPI.DataAccess.Entities;
-using ManagerAPI.DataAccess.Entities.EM;
-using ManagerAPI.DataAccess.Entities.PM;
+using ManagerAPI.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +6,7 @@ namespace ManagerAPI.DataAccess
 {
     public class DatabaseContext : IdentityDbContext
     {
+        public DbSet<Gender> Genders { get; set; }
         public DbSet<User> AppUsers { get; set; }
         public DbSet<WebsiteRole> AppRoles { get; set; }
 
@@ -40,6 +39,14 @@ namespace ManagerAPI.DataAccess
         {
             base.OnModelCreating(builder);
 
+            // Gender table settings
+            builder.Entity<Gender>()
+                .HasData(new Gender { Id = 1, Name = "Male"});
+            builder.Entity<Gender>()
+                .HasData(new Gender { Id = 2, Name = "Female"});
+            builder.Entity<Gender>()
+                .HasData(new Gender { Id = 3, Name = "Other"});
+
             // User table settings
             builder.Entity<User>()
                 .Property(x => x.LastLogin)
@@ -50,6 +57,11 @@ namespace ManagerAPI.DataAccess
             builder.Entity<User>()
                 .Property(x => x.IsActive)
                 .HasDefaultValue(true);
+
+            builder.Entity<User>()
+                .HasOne(x => x.Gender)
+                .WithMany(x => x.Users)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<User>()
                 .HasData(new User

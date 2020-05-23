@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.DataAccess.Entities;
-using ManagerAPI.Services.DTOs;
+using ManagerAPI.Models.DTOs;
+using ManagerAPI.Models.Entities;
 using ManagerAPI.Services.Messages;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -47,17 +49,22 @@ namespace ManagerAPI.Services.Services
         public async Task<UserDto> GetUser()
         {
             var user = _utilsService.GetCurrentUser();
-            if (user == null)
-            {
-                throw new Exception(_userMessages.InvalidUserId);   
-            }
 
             var userDto = _mapper.Map<UserDto>(user);
             userDto.Roles = (await _userManager.GetRolesAsync(user)).ToList();
             _utilsService.LogInformation(_userMessages.UserGet, user);
             return userDto;
         }
-        
+
+        public UserShortDto GetShortUser()
+        {
+            var user = _utilsService.GetCurrentUser();
+
+            var userDto = _mapper.Map<UserShortDto>(user);
+            _utilsService.LogInformation(_userMessages.UserShortGet, user);
+            return userDto;
+        }
+
         /// <summary>
         /// Update current user's data object by the given update object
         /// </summary>
@@ -77,6 +84,82 @@ namespace ManagerAPI.Services.Services
             _context.AppUsers.Update(user);
             _context.SaveChanges();
             _utilsService.LogInformation(_userMessages.UserUpdate, user);
+        }
+
+        public List<GenderDto> GetGenders()
+        {
+            var user = _utilsService.GetCurrentUser();
+            var genders = _mapper.Map<List<GenderDto>>(_context.Genders.ToList());
+            _utilsService.LogInformation(_userMessages.GendersGet, user);
+            return genders;
+        }
+
+        public void UpdateProfileImage(byte[] image)
+        {
+            var user = _utilsService.GetCurrentUser();
+
+            if (image == null || image.Length == 0)
+            {
+                throw new Exception(_utilsService.AddUserToMessage(_userMessages.InvalidImage, user));
+            }
+
+            user.ProfileImageData = image;
+            user.ProfileImageTitle = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+            _context.AppUsers.Update(user);
+            _context.SaveChanges();
+            _utilsService.LogInformation(_userMessages.ProfileImageUpdate, user);
+        }
+
+        public async Task UpdatePassword(string oldPassword, string newPassword)
+        {
+            var user = _utilsService.GetCurrentUser();
+
+            if (await _userManager.CheckPasswordAsync(user, oldPassword))
+            {
+                if (newPassword == oldPassword)
+                {
+                    throw new Exception(_utilsService.AddUserToMessage(_userMessages.OldAndNewPasswordCannotBeSame, user));
+                }
+
+                var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+                if (!result.Succeeded)
+                {
+                    throw new Exception(_utilsService.AddUserToMessage(result.Errors.ToString(), user));
+                }
+            }
+            else
+            {
+                throw new Exception(_utilsService.AddUserToMessage(_userMessages.InvalidOldPassword, user));
+            }
+            _utilsService.LogInformation(_userMessages.PasswordUpdate, user);
+        }
+
+        public async Task UpdateUsername(string newUsername)
+        {
+            var user = _utilsService.GetCurrentUser();
+            if (newUsername != user.UserName)
+            {
+                var result = await _userManager.SetUserNameAsync(user, newUsername);
+                if (!result.Succeeded)
+                {
+                    throw new Exception(_utilsService.AddUserToMessage(result.Errors.ToString(), user));
+                }
+            }
+            else
+            {
+                throw new Exception(_utilsService.AddUserToMessage(_userMessages.AlreadyOwnThisUsername, user));
+            }
+            _utilsService.LogInformation(_userMessages.UsernameUpdate, user);
+        }
+
+        public void DisableUser()
+        {
+            var user = _utilsService.GetCurrentUser();
+            user.IsActive = false;
+
+            _context.AppUsers.Update(user);
+            _context.SaveChanges();
+            _utilsService.LogInformation(_userMessages.DisableStatus, user);
         }
     }
 }

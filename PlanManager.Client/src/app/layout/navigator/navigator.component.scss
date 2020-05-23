@@ -1,0 +1,47 @@
+@import 'src/variables.scss';
+
+.nav {
+  border-radius: unset;
+  position: fixed;
+  top: 0;
+  height: 2.6rem;
+  box-shadow: 0 0 5px 2px $black;
+  color: $white;
+  background-color: $pm-primary;
+  z-index: 1;
+
+  .title {
+    font-size: 1.7rem;
+    margin-left: 16px;
+    margin-right: 16px;
+    cursor: pointer;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+}
+
+::ng-deep .mat-menu-item {
+  line-height: 30px !important;
+  height: 30px !important;
+  color: $white !important;
+}
+
+::ng-deep .mat-menu-content {
+  background-color: $pm-primary-trans;
+  border: 1px solid $white;
+  border-radius: 6px;
+}
+
+::ng-deep .mat-menu-panel {
+  background-color: transparent;
+}
+
+.exit-button {
+  color: $white !important;
+}
+
+.denethor {
+  height: 1.3rem;
+}

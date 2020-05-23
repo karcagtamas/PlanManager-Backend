@@ -1,0 +1,36 @@
+@import 'src/variables.scss';
+
+.header {
+  display: flex;
+  .spacer {
+    flex-grow: 1;
+  }
+}
+
+.correct {
+  color: $green;
+}
+
+.incorrect {
+  color: $red;
+}
+
+.workDay {
+  background-color: $green-light;
+}
+
+.weekend {
+  background-color: $yellow-light;
+}
+
+.free {
+  background-color: $orange;
+}
+
+.university {
+  background-color: $blue-light;
+}
+
+.withoutWorkDay {
+  background-color: $red-light;
+}

@@ -1,0 +1,130 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using KarcagS.Backend.Models;
+using KarcagS.DataAccess.DTOs;
+using KarcagS.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace KarcagS.Backend.Controllers
+{
+    [Route("api/[controller]")]
+    [Authorize]
+    [ApiController]
+    public class MovieController : ControllerBase
+    {
+        private readonly IMovieService _movieService;
+        public MovieController(IMovieService movieService)
+        {
+            _movieService = movieService;
+        }
+
+        [HttpGet]
+        public IActionResult GetMovies()
+        {
+            return Ok(_movieService.GetMovies());
+        }
+
+        [HttpGet("{Id}")]
+        public IActionResult GetMovie(int id)
+        {
+            try
+            {
+                return Ok(_movieService.GetMovie(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpGet("my")]
+        public IActionResult GetOwnMovies()
+        {
+            string userId = User.Claims.First(c => c.Type == "UserID").Value;
+            try
+            {
+                return Ok(_movieService.GetOwnMovies(userId));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CreateMovie([FromBody] MovieCreateDTO model)
+        {
+            string userId = User.Claims.First(c => c.Type == "UserID").Value;
+            try
+            {
+                return Ok(_movieService.CreateMovie(model, userId));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpPut("{Id}")]
+        public IActionResult UpdateMovie(int id, [FromBody] MovieUpdateDTO model)
+        {
+            try
+            {
+                _movieService.UpdateMovie(model, id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpDelete("{Id}")]
+        public IActionResult DeleteMovie(int id)
+        {
+            try
+            {
+                _movieService.DeleteMovie(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpPut("map")]
+        public IActionResult UpdateMovieMappings([FromBody] List<MovieListDTO> list)
+        {
+            string userId = User.Claims.First(c => c.Type == "UserID").Value;
+            try
+            {
+                _movieService.UpdateMovieMappings(userId, list);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+
+        [HttpPost("map/status/{Id}")]
+        public IActionResult UpdateSeenStatus(int id, [FromBody] MovieSeenUpdateModel seen)
+        {
+            string userId = User.Claims.First(c => c.Type == "UserID").Value;
+            try
+            {
+                _movieService.UpdateSeenStatus(id, userId, seen.Seen);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorResponse(e.Message));
+            }
+        }
+    }
+}

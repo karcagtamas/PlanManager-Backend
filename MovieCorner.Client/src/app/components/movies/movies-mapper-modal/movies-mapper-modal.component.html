@@ -1,0 +1,94 @@
+<mat-toolbar color="primary">
+  <span>Movie - User mapping</span>
+  <span class="close">
+    <button mat-icon-button>
+      <mat-icon (click)="exitWithoutAction()">close</mat-icon>
+    </button>
+  </span>
+</mat-toolbar>
+<div class="modal-container">
+  <mat-dialog-content>
+    <div class="row col-12">
+      <div class="col col-6 table-col">
+        <div class="mat-elevation-z8">
+          <table
+            mat-table
+            [dataSource]="allMovies"
+            matSort
+            multiTemplateDataRows
+          >
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+              <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="year">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Year</th>
+              <td mat-cell *matCellDef="let row">{{ row.year }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              (click)="setAllMovieAsSelected(row)"
+              [ngClass]="{ selected: row === selectedAllMovie }"
+            ></tr>
+          </table>
+        </div>
+      </div>
+      <div class="col col-6 table-col">
+        <div class="mat-elevation-z8">
+          <table
+            mat-table
+            [dataSource]="selectedMovies"
+            matSort
+            multiTemplateDataRows
+          >
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+              <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="year">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Year</th>
+              <td mat-cell *matCellDef="let row">{{ row.year }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              (click)="setSelectedMovieAsSelected(row)"
+              [ngClass]="{ selected: row === selectedSelectedMovie }"
+            ></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" type="button" (click)="save()">
+      Save
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="exitWithoutAction()"
+    >
+      Close
+    </button>
+    <span class="spacer"></span>
+    <button mat-icon-button color="accent" (click)="transferMovieToAllList()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      color="accent"
+      (click)="transferMovieToSelectedList()"
+    >
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </mat-dialog-actions>
+</div>

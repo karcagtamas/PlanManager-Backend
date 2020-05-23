@@ -1,0 +1,34 @@
+@using EventManager.Client.Enums
+<MatDialog @bind-IsOpen="@DialogIsOpen">
+    <MatDialogTitle>Confirm Action</MatDialogTitle>
+    <MatDialogContent>
+        <p>@GetMessage()</p>             
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton @onclick="(() => Response.InvokeAsync(true))">Confirm</MatButton>
+        <MatButton @onclick="(() => Response.InvokeAsync(false))">Cancel</MatButton>
+    </MatDialogActions>
+</MatDialog>
+
+@code {
+
+    [Parameter]
+    public bool DialogIsOpen { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
+    
+    [Parameter]
+    public ConfirmType Type { get; set; }
+    
+    [Parameter]
+    public EventCallback<bool> Response { get; set; }
+
+    protected string GetMessage()
+    {
+        string baseMsg = "Are you really want to";
+        string type = Type.ToString();
+        return $"{baseMsg} {type} {Name}";
+    }
+
+}

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using AutoMapper;
-using EventManager.Services.DTOs;
-using ManagerAPI.DataAccess.Entities.EM;
-using ManagerAPI.DataAccess.Enums;
+using ManagerAPI.Models.DTOs;
+using ManagerAPI.Models.Entities;
+using ManagerAPI.Models.Enums;
 
 namespace EventManager.Services.Profiles
 {
@@ -24,7 +24,9 @@ namespace EventManager.Services.Profiles
                 .ForMember(dest => dest.MasterEvent, opt => opt.MapFrom(src => src))
                 .ForMember(dest => dest.GtEvent, opt => opt.MapFrom(src => src.GtEvent))
                 .ForMember(dest => dest.SportEvent, opt => opt.MapFrom(src => src.SportEvent));
-            CreateMap<EventCreateDto, MasterEvent>();
+            CreateMap<EventCreateDto, MasterEvent>()
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
             CreateMap<MasterEventUpdateDto, MasterEvent>();
             CreateMap<GtEventUpdateDto, DGtEvent>();
             CreateMap<SportEventUpdateDto, DSportEvent>();

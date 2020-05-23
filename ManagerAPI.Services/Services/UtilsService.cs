@@ -1,7 +1,8 @@
 using System;
 using System.Linq;
 using ManagerAPI.DataAccess;
-using ManagerAPI.DataAccess.Entities;
+using ManagerAPI.Models.Entities;
+using ManagerAPI.Services.Messages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -17,6 +18,7 @@ namespace ManagerAPI.Services.Services
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly UserManager<User> _userManager;
         private readonly DatabaseContext _context;
+        private readonly UserMessages _userMessages;
 
         /// <summary>
         /// Utils Service constructor
@@ -31,6 +33,7 @@ namespace ManagerAPI.Services.Services
             _contextAccessor = contextAccessor;
             _userManager = userManager;
             _context = context;
+            _userMessages = new UserMessages();
         }
         
         /// <summary>
@@ -51,6 +54,10 @@ namespace ManagerAPI.Services.Services
         {
             var userId = GetCurrentUserId();
             var user = _context.AppUsers.Find(userId);
+            if (user == null)
+            {
+                throw new Exception(_userMessages.InvalidUserId);   
+            }
             return user;
         }
         

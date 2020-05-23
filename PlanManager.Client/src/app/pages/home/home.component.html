@@ -1,0 +1,24 @@
+<div class="p-3 h-100 home">
+  <mat-card class="h-100 card">
+    <mat-card-title>
+      <span class="main-title">AppCenter</span>
+      - Choose an application
+    </mat-card-title>
+    <div class="row col col-12 apps">
+      <div class="col col-12 col-md-6 text-center app">
+        <div class="text-center app-button pm" [routerLink]="['pm']">
+          <span>
+            Plan Manager
+          </span>
+        </div>
+      </div>
+      <div class="col col-12 col-md-6 text-center app">
+        <div class="text-center app-button em" [routerLink]="['em']">
+          <span>
+            Event Manager
+          </span>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,36 @@
+<mat-toolbar class="nav">
+  <span class="title" [routerLink]="['/pm']">Plan Manager</span>
+  <!-- Profile menu -->
+  <button mat-button [matMenuTriggerFor]="menu">Profile</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item [routerLink]="['/pm', 'profile']">Data</button>
+    <button mat-menu-item [routerLink]="['/pm', 'profile', 'settings']">
+      Settings
+    </button>
+  </mat-menu>
+
+  <!-- Plan menu -->
+  <button mat-button [matMenuTriggerFor]="menu">Plans</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item [routerLink]="['/pm', 'plans']">Plans</button>
+  </mat-menu>
+
+  <span class="spacer"></span>
+  <button mat-icon-button [mat-menu-trigger-for]="profile">
+    <mat-icon>person</mat-icon>
+  </button>
+
+  <mat-menu #profile="matMenu">
+    <div mat-menu-item><strong>Username: </strong> user.userName</div>
+    <div mat-menu-item><strong>E-mail: </strong> user.email</div>
+    <div mat-menu-item>
+      <strong>Last Login: </strong>
+      user.lastLogin
+    </div>
+    <button mat-menu-item class="exit-button">
+      <mat-icon style="color: white;">exit_to_app</mat-icon>
+      Log Out
+    </button>
+  </mat-menu>
+</mat-toolbar>
+<div class="denethor"></div>

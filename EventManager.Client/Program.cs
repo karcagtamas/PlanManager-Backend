@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
+using EventManager.Client.Models.User;
 using EventManager.Client.Services;
 using MatBlazor;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -23,6 +24,7 @@ namespace EventManager.Client
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IHelperService, HelperService>();
             builder.Services.AddScoped<IEventService, EventService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddMatToaster(config =>
             {

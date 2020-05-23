@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using ManagerAPI.DataAccess.Models;
+using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -23,8 +23,8 @@ namespace ManagerAPI.Backend.Controllers {
         [AllowAnonymous]
         public async Task<IActionResult> Registration ([FromBody] RegistrationModel model) {
             try {
-                IdentityResult result = await _authService.Registration (model);
-                return Ok (new ServerResponse<IdentityResult>(result, true));
+                await _authService.Registration (model);
+                return Ok (new ServerResponse<object>(null, true));
             } catch (Exception e)
             {
                 _utilsService.LogError(e);

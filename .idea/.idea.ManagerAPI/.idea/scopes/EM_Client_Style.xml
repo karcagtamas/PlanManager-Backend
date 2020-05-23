@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="EM.Client.Style" pattern="file[riderModule]:EventManager.Client/wwwroot/scss/*" />
+</component>

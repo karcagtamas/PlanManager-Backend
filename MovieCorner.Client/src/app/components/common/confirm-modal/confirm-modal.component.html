@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+  <span>{{ title }}</span>
+  <span class="close">
+    <button mat-icon-button>
+      <mat-icon (click)="exit(false)">close</mat-icon>
+    </button>
+  </span>
+</mat-toolbar>
+<div class="modal-container">
+  <mat-dialog-content> {{ text }} </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="exit(true)">
+      Confirm
+    </button>
+    <button mat-raised-button color="primary" (click)="exit(false)">
+      Cancel
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,58 @@
+@import './theme.scss';
+@include mat-core();
+
+$pm-primary: mat-color($pm-primary-palette);
+$pm-primary-light: #a03636;
+$pm-primary-lighter: #d46a6a;
+$pm-primary-trans: rgba(75, 0, 0, 0.1);
+$pm-accent: mat-color($pm-accent-palette);
+$pm-warn: mat-color($pm-warning-palette);
+$pm-border-radius: 3px;
+
+$em-primary: mat-color($em-primary-palette);
+$em-primary-light: #683ab7;
+$em-primary-lighter: #b99ee7;
+$em-accent: mat-color($em-accent-palette);
+$em-warn: mat-color($em-warning-palette);
+
+$white-light: #ffffff;
+$white: #f9f9f9;
+$white-dark: #f5f5f5;
+
+$black-light: #333333;
+$black: #201f20;
+$black-dark: #000000;
+
+$gray-light: #e1e0e1;
+$gray: #a3a3a3;
+$egrey: #d9d9d9;
+$gray-dark: rgb(41, 41, 41);
+
+$green-light: #cbffbb;
+$green: #1d9932;
+$green-dark: #052d05;
+
+$red-light: #ffbbbb;
+$red: #ef5350;
+
+$yellow-light: rgb(255, 247, 172);
+$yellow: #ff0;
+$orange: #f0ae49;
+$orange-dark: #b16b02;
+
+$blue-light: #bbbbff;
+$blue: #0027bc;
+
+$small-font-size: 11px;
+$font-size: 14px;
+$menu-font-size: 20px;
+$header-font-size: 24px;
+
+$important-1: rgba(235, 109, 109, 0.75);
+$important-2: rgba(235, 159, 109, 0.75);
+$important-3: rgba(235, 223, 109, 0.75);
+$solved: rgba(156, 133, 133, 0.75);
+$exp: rgba(255, 0, 0, 0.75);
+
+$panel-bg: rgba(0, 0, 0, 0.5);
+$wb-bg: rgb(46, 2, 104);

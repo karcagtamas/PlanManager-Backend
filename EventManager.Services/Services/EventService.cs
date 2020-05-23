@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using EventManager.Services.DTOs;
 using EventManager.Services.Messages;
 using ManagerAPI.DataAccess;
-using ManagerAPI.DataAccess.Entities.EM;
+using ManagerAPI.Models.DTOs;
+using ManagerAPI.Models.Entities;
 using ManagerAPI.Services.Services;
 
 namespace EventManager.Services.Services

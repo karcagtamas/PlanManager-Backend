@@ -2,11 +2,14 @@
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 
-<h1>Counter</h1>
+<div class="main-page">
+    <h1>Counter</h1>
+    
+    <p>Current count: @currentCount</p>
+    
+    <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+</div>
 
-<p>Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 @code {
     private int currentCount = 0;

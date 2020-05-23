@@ -1,0 +1,63 @@
+<mat-toolbar color="primary">
+  <span>{{ title }} Movie</span>
+  <span class="close">
+    <button mat-icon-button>
+      <mat-icon (click)="exitWithoutAction()">close</mat-icon>
+    </button>
+  </span>
+</mat-toolbar>
+<div class="modal-container">
+  <form [formGroup]="form" (submit)="save()">
+    <mat-dialog-content>
+      <div>
+        <mat-form-field>
+          <mat-label>Title</mat-label>
+          <input matInput type="text" formControlName="title" />
+          <mat-error *ngIf="utilService.hasError(form, 'title', 'required')">
+            {{ utilService.isRequiredMessage() }}
+          </mat-error>
+          <mat-error *ngIf="utilService.hasError(form, 'title', 'maxlength')">
+            {{ utilService.maxLengthMessage(150) }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            type="text"
+            formControlName="description"
+          ></textarea>
+          <mat-error
+            *ngIf="utilService.hasError(form, 'description', 'maxlength')"
+          >
+            {{ utilService.maxLengthMessage(999) }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Year</mat-label>
+          <input matInput type="number" formControlName="year" />
+          <mat-error *ngIf="utilService.hasError(form, 'year', 'max')">
+            {{ utilService.maxMessage(validYear) }}
+          </mat-error>
+          <mat-error *ngIf="utilService.hasError(form, 'year', 'min')">
+            {{ utilService.minMessage(1500) }}
+          </mat-error>
+          <mat-error *ngIf="utilService.hasError(form, 'year', 'required')">
+            {{ utilService.isRequiredMessage() }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" type="submit">Save</button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="exitWithoutAction()"
+      >
+        Close
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

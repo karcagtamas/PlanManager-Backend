@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using EventManager.Services.DTOs;
 using EventManager.Services.Services;
-using ManagerAPI.DataAccess.Models;
+using ManagerAPI.Models.DTOs;
+using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,5 @@
 using System;
-using ManagerAPI.DataAccess.Entities;
+using ManagerAPI.Models.Entities;
 
 namespace ManagerAPI.Services.Services
 {
@@ -10,5 +10,7 @@ namespace ManagerAPI.Services.Services
         string GetCurrentUserId();
         string AddUserToMessage(string message, User user);
         void LogInformation(string action, User user);
+        
+        
     }
 }

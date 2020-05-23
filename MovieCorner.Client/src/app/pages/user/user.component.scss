@@ -1,0 +1,25 @@
+@import 'src/variables.scss';
+
+.user-panel {
+  top: 1rem;
+
+  mat-card {
+    mat-card-title {
+      color: $primary;
+    }
+    img {
+      width: 200px;
+      height: 200px;
+      margin: auto;
+      display: block;
+      margin-bottom: 2rem;
+    }
+
+    .action-buttons {
+      margin: 0;
+      button {
+        width: 100%;
+      }
+    }
+  }
+}

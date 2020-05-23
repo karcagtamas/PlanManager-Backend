@@ -1,0 +1,223 @@
+@import '../node_modules/@angular/material/theming';
+
+@include mat-core();
+
+$em-primary: (
+  50: #eae4f4,
+  100: #cbbce4,
+  200: #a890d2,
+  300: #8563c0,
+  400: #6b41b3,
+  500: #5120a5,
+  600: #4a1c9d,
+  700: #401893,
+  800: #37138a,
+  900: #270b79,
+  A100: #bbaaff,
+  A200: #9377ff,
+  A400: #6a44ff,
+  A700: #562aff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #ffffff,
+    A700: #ffffff
+  )
+);
+
+$pm-primary: (
+  50: #e9e0e0,
+  100: #c9b3b3,
+  200: #a58080,
+  300: #814d4d,
+  400: #662626,
+  500: #4b0000,
+  600: #440000,
+  700: #3b0000,
+  800: #330000,
+  900: #230000,
+  A100: #ff5f5f,
+  A200: #ff2c2c,
+  A400: #f80000,
+  A700: #df0000,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff
+  )
+);
+
+$em-accent: (
+  50: #f8efe0,
+  100: #ecd6b3,
+  200: #e0bb80,
+  300: #d4a04d,
+  400: #ca8b26,
+  500: #c17700,
+  600: #bb6f00,
+  700: #b36400,
+  800: #ab5a00,
+  900: #9e4700,
+  A100: #ffddc9,
+  A200: #ffbd96,
+  A400: #ff9e63,
+  A700: #ff8e49,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000
+  )
+);
+
+$pm-accent: (
+  50: #f8efe0,
+  100: #ecd6b3,
+  200: #e0bb80,
+  300: #d4a04d,
+  400: #ca8b26,
+  500: #c17700,
+  600: #bb6f00,
+  700: #b36400,
+  800: #ab5a00,
+  900: #9e4700,
+  A100: #ffddc9,
+  A200: #ffbd96,
+  A400: #ff9e63,
+  A700: #ff8e49,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000
+  )
+);
+
+$em-warning: (
+  50: #f9e0e0,
+  100: #f0b3b3,
+  200: #e68080,
+  300: #db4d4d,
+  400: #d42626,
+  500: #cc0000,
+  600: #c70000,
+  700: #c00000,
+  800: #b90000,
+  900: #ad0000,
+  A100: #ffd7d7,
+  A200: #ffa4a4,
+  A400: #ff7171,
+  A700: #ff5858,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000
+  )
+);
+
+$pm-warning: (
+  50: #f9e0e0,
+  100: #f0b3b3,
+  200: #e68080,
+  300: #db4d4d,
+  400: #d42626,
+  500: #cc0000,
+  600: #c70000,
+  700: #c00000,
+  800: #b90000,
+  900: #ad0000,
+  A100: #ffd7d7,
+  A200: #ffa4a4,
+  A400: #ff7171,
+  A700: #ff5858,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000
+  )
+);
+
+$em-primary-palette: mat-palette($em-primary);
+$em-accent-palette: mat-palette($em-accent);
+$em-warning-palette: mat-palette($em-warning);
+
+$pm-primary-palette: mat-palette($pm-primary);
+$pm-accent-palette: mat-palette($pm-accent);
+$pm-warning-palette: mat-palette($pm-warning);
+
+$pm-theme: mat-light-theme(
+  $pm-primary-palette,
+  $pm-accent-palette,
+  $pm-warning-palette
+);
+
+$em-theme: mat-dark-theme(
+  $em-primary-palette,
+  $em-accent-palette,
+  $em-warning-palette
+);
+
+@include angular-material-theme($pm-theme);

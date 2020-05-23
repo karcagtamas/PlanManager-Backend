@@ -1,0 +1,111 @@
+@import './theme.scss';
+@import 'src/variables.scss';
+@import '../node_modules//bootstrap/dist/css/bootstrap.min.css';
+@import '~ngx-toastr/toastr';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: rgb(255, 178, 182);
+  background: linear-gradient(
+    60deg,
+    rgba(255, 178, 182, 1) 0%,
+    rgba(226, 194, 255, 1) 50%,
+    rgba(173, 153, 255, 1) 100%
+  );
+  color: $white;
+}
+
+* {
+  font-family: 'Crete Round', serif !important;
+}
+
+mat-icon {
+  font-family: 'Material Icons' !important;
+}
+
+mat-error {
+  font-size: $small-font-size;
+}
+
+.activeMenu {
+  color: $accent !important;
+}
+
+.activeSideMenu {
+  color: $primary !important;
+}
+
+.error-snackbar {
+  background-color: $warn;
+}
+
+.warning-snackbar {
+  background-color: $accent;
+}
+
+.success-snackbar {
+  background-color: $green-dark;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+mat-card-title {
+  color: $primary;
+}
+
+.mat-dialog-container {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  .mat-toolbar {
+    .close {
+      display: inline;
+      margin-left: auto;
+      color: $white-light;
+    }
+  }
+  .modal-container {
+    padding: 24px;
+    max-height: calc(100vh - 180px);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  // border-radius: 100px;
+  background: $primary-lighter;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $primary-light;
+  // border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $primary;
+}
+
+mat-sidenav-container {
+  margin-top: 0 !important;
+  top: 2.6rem !important;
+}
+
+.row {
+  margin: 0;
+  padding: 0;
+}
