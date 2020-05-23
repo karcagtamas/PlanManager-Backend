@@ -4,11 +4,7 @@
       <div class="col-md-4">
         <div class="row" id="pic-div">
           <div>
-            <img
-              id="pic"
-              src="../../../assets/wp.jpg"
-              alt="{{ user.userName }}"
-            />
+            <img id="pic" src="../../../assets/wp.jpg" alt="{{ user.userName }}" />
             <h1>{{ user.fullName }}</h1>
           </div>
         </div>
@@ -70,7 +66,7 @@
             </mat-icon>
             Phone number: {{ user.phone }}
           </h1>
-          <button class="mat-raised-button">
+          <button class="mat-raised-button" [routerLink]="['/pm/profile/settings']">
             Modify Profile
           </button>
         </mat-card>

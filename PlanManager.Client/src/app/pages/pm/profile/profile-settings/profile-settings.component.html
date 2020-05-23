@@ -1,1 +1,89 @@
-<p>profile-settings works!</p>
+<div id="content">
+  <div class="container-fluid">
+    <form>
+      <div class="row" id="content-row">
+        <div class="col-md-4">
+          <div class="row" id="pic-div">
+            <div>
+              <img id="pic" src="../../../assets/wp.jpg" alt="{{ user.userName }}" title="It's-a me MARIO!" />
+              <h1>Upload new profile picture!</h1>
+            </div>
+          </div>
+          <!--
+          <div class="row" id="moredata-div">
+
+            <div id="moredata">
+
+            </div>
+        </div>
+            -->
+        </div>
+        <div class="col-md-8 " id="main-div">
+          <mat-card id="mat-card">
+            <div class="form-group row">
+              <h1 for="UNInput" class="col-sm-4">
+                <mat-icon>
+                  portrait
+                </mat-icon>
+                Username:
+              </h1>
+              <input type="text" class="form-control col-sm-8 d" id="UNInput" value="{{user.userName}}">
+            </div>
+            <div class="form-group row">
+              <h1 for="EMailInput" class="col-sm-4">
+                <mat-icon>
+                  local_post_office
+                </mat-icon>
+                E-Mail:
+              </h1>
+              <input type="text" class="form-control col-sm-8 l" id="EmailInput" value="{{user.email}}">
+            </div>
+            <div class="form-group row">
+              <h1 for="2EMailInput" class="col-sm-4">
+                <mat-icon>
+                  mail_outline
+                </mat-icon>
+                Secondary E-Mail:
+              </h1>
+              <input type="text" class="form-control col-sm-8 d" id="2EmailInput" value="{{user.secondaryEmail}}">
+            </div>
+            <div class="form-group row">
+              <h1 for="fullNameInput" class="col-sm-4">
+                <mat-icon>
+                  local_offer
+                </mat-icon>
+                Full name:
+              </h1>
+              <input type="text" class="form-control col-sm-8 l" id="fullNameInput" value="{{user.fullName}}">
+            </div>
+            <div class="form-group row">
+              <h1 for="PNInput" class="col-sm-4">
+                <mat-icon>
+                  call
+                </mat-icon>
+                Phone number:
+              </h1>
+              <input type="text" class="form-control col-sm-8 d" id="PNInput" value="{{user.phone}}">
+            </div>
+            <div class="form-group row">
+              <div class="col-md-5 savelabel">
+                <h1>
+                  <mat-icon>
+                    save
+                  </mat-icon>
+                  Save your changes here
+                  <mat-icon>
+                    arrow_forward
+                  </mat-icon>
+                </h1>
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="push-me">SAVE</button>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
