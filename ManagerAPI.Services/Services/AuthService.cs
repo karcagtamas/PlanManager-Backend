@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Models.Entities;
+using ManagerAPI.Models.Enums;
 using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Utils;
 using Microsoft.AspNetCore.Identity;
@@ -25,7 +26,8 @@ namespace ManagerAPI.Services.Services
         private readonly RoleManager<WebsiteRole> _roleManager;
         private readonly ILogger<AuthService> _logger;
         private readonly DatabaseContext _context;
-        
+        private readonly INotificationService _notificationService;
+
         /// <summary>
         /// Auth Service constructor
         /// </summary>
@@ -34,13 +36,15 @@ namespace ManagerAPI.Services.Services
         /// <param name="roleManager">Role Manager</param>
         /// <param name="logger">Logger</param>
         /// <param name="context">Database Context</param>
-        public AuthService(UserManager<User> userManager, IOptions<ApplicationSettings> appSettings, RoleManager<WebsiteRole> roleManager, ILogger<AuthService> logger, DatabaseContext context)
+        /// <param name="notificationService">Notification Service</param>
+        public AuthService(UserManager<User> userManager, IOptions<ApplicationSettings> appSettings, RoleManager<WebsiteRole> roleManager, ILogger<AuthService> logger, DatabaseContext context, INotificationService notificationService)
         {
             _userManager = userManager;
             _appSettings = appSettings.Value;
             _roleManager = roleManager;
             _logger = logger;
             _context = context;
+            _notificationService = notificationService;
         }
         
         /// <summary>
@@ -62,6 +66,7 @@ namespace ManagerAPI.Services.Services
                 User user = await _userManager.FindByNameAsync(appUser.UserName);
                 await _userManager.AddToRoleAsync(user, Roles.NORMAL);
                 _logger.LogInformation($"{user.UserName}'s registration was successfully with e-mail {user.Email}");
+                _notificationService.AddSystemNotificationByType(SystemNotificationType.Registration, user);
             }
             else
             {
@@ -103,12 +108,19 @@ namespace ManagerAPI.Services.Services
                 _context.AppUsers.Update(user);
                 _context.SaveChanges();
                 _logger.LogInformation($"User {user.UserName} successfully logged in.");
+                _notificationService.AddSystemNotificationByType(SystemNotificationType.Login, user);
                 return token;
             }
             else
             {
                 throw new Exception($"Username or password is incorrect.");
             }
+        }
+
+        public void Logout(string userId)
+        {
+            var user = _context.AppUsers.Find(userId);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.Logout, user);
         }
     }
 }

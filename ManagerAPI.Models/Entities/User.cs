@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -47,40 +48,24 @@ namespace ManagerAPI.Models.Entities {
         public string City { get; set; }
         
         public virtual ICollection<Plan> Plans { get; set; }
-
         public virtual ICollection<PlanGroup> CreatedPlanGroups { get; set; }
-
         public virtual ICollection<PlanGroup> LastUpdatedPlanGroups { get; set; }
-
         public virtual ICollection<PlanGroupIdea> CreatedPlanGroupIdeas { get; set; }
-
         public virtual ICollection<PlanGroupChatMessage> SentPlanGroupChatMessages { get; set; }
-
         public virtual ICollection<PlanGroupPlan> MarkedOnGroupPlans { get; set; }
-
         public virtual ICollection<PlanGroupPlan> CreatedPlanGroupPlans { get; set; }
         public virtual ICollection<PlanGroupPlan> LastUpdatedPlanGroupPlans { get; set; }
-
         public virtual ICollection<PlanGroupPlanComment> CreatedPlanGroupPlanComment { get; set; }
-
         public virtual ICollection<UserPlanGroup> Groups { get; set; }
-
         public virtual ICollection<UserPlanGroup> AddedUsersToGroups { get; set; }
-
         public virtual ICollection<MasterEvent> CreatedMasterEvents { get; set; }
-
         public virtual ICollection<MasterEvent> UpdatedMasterEvents { get; set; }
-
         public virtual ICollection<UserEvent> Events { get; set; }
-
         public virtual ICollection<UserEvent> AddedUsersToEvents { get; set; }
-
         public virtual ICollection<UserEventRole> EventRoles { get; set; }
-
         public virtual ICollection<UserEventRole> AddedRolesToEvent { get; set; }
-        
         public virtual ICollection<EventAction> CausedEventActions { get; set; }
-        
         public virtual Gender Gender { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }

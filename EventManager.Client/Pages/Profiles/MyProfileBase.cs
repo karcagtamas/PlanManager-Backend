@@ -48,7 +48,7 @@ namespace EventManager.Client.Pages.Profiles
                 {
                     User = result.Content;
                     UserUpdate = new UserUpdateDto(User);
-                    Roles = string.Join(", ", Roles);
+                    Roles = string.Join(", ", User.Roles);
                     if (User.ProfileImageData.Length != 0)
                     {
                         var base64 = Convert.ToBase64String(User.ProfileImageData);

@@ -4,14 +4,16 @@ using ManagerAPI.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManagerAPI.DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200524195942_NotificationUpdate")]
+    partial class NotificationUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -383,9 +385,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("SentDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
@@ -740,34 +740,6 @@ namespace ManagerAPI.DataAccess.Migrations
                             ImportanceLevel = 3,
                             SystemId = 2,
                             Title = "Event PayOut Updated"
-                        },
-                        new
-                        {
-                            Id = 39,
-                            ImportanceLevel = 3,
-                            SystemId = 1,
-                            Title = "Password Changed"
-                        },
-                        new
-                        {
-                            Id = 40,
-                            ImportanceLevel = 1,
-                            SystemId = 1,
-                            Title = "Profile Image Changed"
-                        },
-                        new
-                        {
-                            Id = 41,
-                            ImportanceLevel = 2,
-                            SystemId = 1,
-                            Title = "Username Changed"
-                        },
-                        new
-                        {
-                            Id = 42,
-                            ImportanceLevel = 3,
-                            SystemId = 1,
-                            Title = "Profile Disabled"
                         });
                 });
 
@@ -1400,7 +1372,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9",
-                            ConcurrencyStamp = "67110f87-1ece-4eaa-9e4a-4c55e97eb74b",
+                            ConcurrencyStamp = "fd0bcc81-b150-4024-9aaf-bb2f76fcc413",
                             Name = "Visitor",
                             NormalizedName = "VISITOR",
                             AccessLevel = 0
@@ -1408,7 +1380,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "776474d7-8d01-4809-963e-c721f39dbb45",
-                            ConcurrencyStamp = "35514d28-974b-4fa2-818e-9d8e5c896577",
+                            ConcurrencyStamp = "d4325be6-234c-4840-9f3c-f754280c56d6",
                             Name = "Normal",
                             NormalizedName = "NORMAL",
                             AccessLevel = 1
@@ -1416,7 +1388,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "5e0a9192-793f-4c85-a0b1-3198295bf409",
-                            ConcurrencyStamp = "60b8f211-bfaf-4560-9f18-874e9d6a2591",
+                            ConcurrencyStamp = "c6c3f271-d2fa-4aec-9518-5ce609df57ac",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR",
                             AccessLevel = 2
@@ -1424,7 +1396,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "936e42dc-5d3f-4355-bc3a-304a4fe4f518",
-                            ConcurrencyStamp = "4febaea2-b10a-4af3-9da8-efc3f33a7cdd",
+                            ConcurrencyStamp = "c0ed15ff-ec19-4b27-88ad-5722a7f136e4",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR",
                             AccessLevel = 3
@@ -1432,7 +1404,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20",
-                            ConcurrencyStamp = "e42f498a-ac90-4ff7-ab1e-de853895de1e",
+                            ConcurrencyStamp = "29e54655-0207-4261-b2b2-0ccc2e7c1285",
                             Name = "Root",
                             NormalizedName = "ROOT",
                             AccessLevel = 4
@@ -1505,7 +1477,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "44045506-66fd-4af8-9d59-133c47d1787c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b3cb411b-32da-4988-b1ae-0334baea4e66",
+                            ConcurrencyStamp = "49088773-cf31-46fa-96bb-bc463f77a98a",
                             Email = "karcagtamas@outlook.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1513,7 +1485,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "KARCAGTAMAS",
                             PasswordHash = "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5e68a52f-8002-4c4f-b393-bc69fd021983",
+                            SecurityStamp = "a4c51be8-f020-48d2-9ac0-fb3f517982f8",
                             TwoFactorEnabled = false,
                             UserName = "karcagtamas",
                             FullName = "Karcag Tamas",
@@ -1525,7 +1497,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "f8237fac-c6dc-47b0-8f71-b72f93368b02",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "38dcaed3-9b36-46e7-ac49-026b40770394",
+                            ConcurrencyStamp = "5ce928d3-80df-405f-bc62-37e07c8a1ebd",
                             Email = "aron.klenovszky@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1533,7 +1505,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "AARONKAA",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2bc4de0e-e4db-4402-8465-e2a70f5e655d",
+                            SecurityStamp = "023b4be8-7ccc-4c68-9281-3151182365f5",
                             TwoFactorEnabled = false,
                             UserName = "aaronkaa",
                             FullName = "Klenovszky Áron",
@@ -1545,7 +1517,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "cd5e5069-59c8-4163-95c5-776fab95e51a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "869999b6-6e14-44a9-b906-6fb1ded11d9f",
+                            ConcurrencyStamp = "ee654dd4-f4d4-46c2-b0eb-52bc64f05cac",
                             Email = "root@karcags.hu",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1553,7 +1525,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "ROOT",
                             PasswordHash = "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "df39dd36-c60b-416f-8068-41bbf7730d1f",
+                            SecurityStamp = "552c8e7d-da35-47f3-a709-d64e4d7670c9",
                             TwoFactorEnabled = false,
                             UserName = "root",
                             FullName = "Root",
@@ -1565,7 +1537,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "fa2edf69-5fc8-a163-9fc5-726f3b94e51b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8ed08d79-7d04-436a-a183-990797824efa",
+                            ConcurrencyStamp = "c435044a-5fe7-4dd4-88cf-f41f9950513e",
                             Email = "barni.pbs@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1573,7 +1545,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "BARNI363HUN",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e0ea616b-9bbe-48bd-9abc-3134e10f181f",
+                            SecurityStamp = "89cab713-c296-4427-a070-f9ec7573b17e",
                             TwoFactorEnabled = false,
                             UserName = "barni363hun",
                             FullName = "Root",

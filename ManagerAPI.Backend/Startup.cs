@@ -72,6 +72,7 @@ namespace ManagerAPI.Backend
             services.AddScoped<IPlanService, PlanService>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IEventActionService, EventActionService>();
+            services.AddScoped<INotificationService, NotificationService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
