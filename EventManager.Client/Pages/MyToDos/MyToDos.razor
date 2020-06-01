@@ -1,8 +1,7 @@
 ﻿@page "/my-todos"
 @attribute [Microsoft.AspNetCore.Authorization.Authorize]
+@inherits MyToDoBase
 
-<h3>MyToDos</h3>
-
-@code {
-
-}
+    <div class="em-my-todos">
+        <h1 class="em-page-title">My ToDo List</h1>
+    </div>

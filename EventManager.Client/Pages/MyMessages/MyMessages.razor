@@ -1,8 +1,7 @@
 ﻿@page "/my-messages"
 @attribute [Microsoft.AspNetCore.Authorization.Authorize]
+@inherits MyMessagesBase
 
-<h3>MyMessages</h3>
-
-@code {
-
-}
+<div class="em-my-messages">
+    <h1 class="em-page-title">My Messages</h1>
+</div>

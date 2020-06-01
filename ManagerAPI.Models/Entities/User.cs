@@ -67,5 +67,9 @@ namespace ManagerAPI.Models.Entities {
         public virtual ICollection<EventAction> CausedEventActions { get; set; }
         public virtual Gender Gender { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
+        public virtual ICollection<FriendRequest> SentFriendRequest { get; set; }
+        public virtual ICollection<FriendRequest> ReceivedFriendRequest { get; set; }
+        public virtual ICollection<Friends> FriendListLeft { get; set; }
+        public virtual ICollection<Friends> FriendListRight { get; set; }
     }
 }
