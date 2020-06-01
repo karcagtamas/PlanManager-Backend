@@ -176,6 +176,48 @@ body {
   }
 }
 
+/* My notification page */
+.em-my-notifications {
+    .em-notification {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+
+        .em-notification-footer {
+            font-size: 0.8rem;
+            color: $primary;
+            font-style: italic;
+            display: flex;
+
+            .spacer {
+                flex-grow: 1;
+            }
+        }
+
+        .em-notification-content {
+            text-align: justify;
+        }
+
+        .em-notification-right {
+            text-align: right;
+        }
+
+        &.importance-1 {
+            background-color: $important-1;
+        }
+
+        &.importance-2 {
+            background-color: $important-2;
+        }
+
+        &.importance-3 {
+            background-color: $important-3;
+        }
+    }
+}
+
 /* Image block */
 .em-image-block {
   img {
