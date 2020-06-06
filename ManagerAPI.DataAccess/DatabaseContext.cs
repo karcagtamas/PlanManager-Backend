@@ -12,6 +12,8 @@ namespace ManagerAPI.DataAccess
         public DbSet<NotificationSystem> NotificationSystems { get; set; }
         public DbSet<NotificationType> NotificationTypes { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<FriendRequest> FriendRequests { get; set; }
+        public DbSet<Friends> Friends { get; set; }
 
         // PM
         public DbSet<PlanType> PlanTypes { get; set; }
@@ -290,6 +292,47 @@ namespace ManagerAPI.DataAccess
             builder.Entity<Notification>()
                 .Property(x => x.SentDate)
                 .HasDefaultValueSql("getdate()");
+
+            // Friend request table settings
+            builder.Entity<FriendRequest>()
+                .Property(x => x.ResponseDate)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<FriendRequest>()
+                .Property(x => x.SentDate)
+                .HasDefaultValueSql("getdate()");
+
+            builder.Entity<FriendRequest>()
+                .HasOne(x => x.Destination)
+                .WithMany(x => x.ReceivedFriendRequest)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<FriendRequest>()
+                .HasOne(x => x.Sender)
+                .WithMany(x => x.SentFriendRequest)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Friends table settings
+            builder.Entity<Friends>()
+               .HasKey(x => new { x.UserId, x.FriendId });
+            builder.Entity<Friends>()
+                .Property(x => x.ConnectionDate)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<Friends>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.FriendListLeft)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Friends>()
+                .HasOne(x => x.Friend)
+                .WithMany(x => x.FriendListRight)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Friends>()
+                .HasOne(x => x.Request)
+                .WithMany(x => x.FriendCollection)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             // Plan type table settings

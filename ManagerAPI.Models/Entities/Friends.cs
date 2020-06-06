@@ -11,7 +11,7 @@ namespace ManagerAPI.Models.Entities
         public string UserId { get; set; }
 
         [Required]
-        public string FirendId { get; set; }
+        public string FriendId { get; set; }
 
         [Required]
         public DateTime ConnectionDate { get; set; }

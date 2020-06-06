@@ -164,6 +164,73 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("EventRoles");
                 });
 
+            modelBuilder.Entity("ManagerAPI.Models.Entities.FriendRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DestinationId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(120)")
+                        .HasMaxLength(120);
+
+                    b.Property<bool?>("Response")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ResponseDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("SentDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DestinationId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("FriendRequests");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.Friends", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FriendId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("ConnectionDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<int>("RequestId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "FriendId");
+
+                    b.HasIndex("FriendId");
+
+                    b.HasIndex("RequestId");
+
+                    b.ToTable("Friends");
+                });
+
             modelBuilder.Entity("ManagerAPI.Models.Entities.Gender", b =>
                 {
                     b.Property<int>("Id")
@@ -1400,7 +1467,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9",
-                            ConcurrencyStamp = "67110f87-1ece-4eaa-9e4a-4c55e97eb74b",
+                            ConcurrencyStamp = "f3ac44b9-d100-4e12-b127-65c8722c736c",
                             Name = "Visitor",
                             NormalizedName = "VISITOR",
                             AccessLevel = 0
@@ -1408,7 +1475,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "776474d7-8d01-4809-963e-c721f39dbb45",
-                            ConcurrencyStamp = "35514d28-974b-4fa2-818e-9d8e5c896577",
+                            ConcurrencyStamp = "f356aab7-e1b1-4b49-838f-3b1a7d060543",
                             Name = "Normal",
                             NormalizedName = "NORMAL",
                             AccessLevel = 1
@@ -1416,7 +1483,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "5e0a9192-793f-4c85-a0b1-3198295bf409",
-                            ConcurrencyStamp = "60b8f211-bfaf-4560-9f18-874e9d6a2591",
+                            ConcurrencyStamp = "10183fa8-7fe6-4b0a-aab7-4180b7b0b7a6",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR",
                             AccessLevel = 2
@@ -1424,7 +1491,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "936e42dc-5d3f-4355-bc3a-304a4fe4f518",
-                            ConcurrencyStamp = "4febaea2-b10a-4af3-9da8-efc3f33a7cdd",
+                            ConcurrencyStamp = "3e1d420f-d24c-457c-b232-bf71153b4d0a",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR",
                             AccessLevel = 3
@@ -1432,7 +1499,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20",
-                            ConcurrencyStamp = "e42f498a-ac90-4ff7-ab1e-de853895de1e",
+                            ConcurrencyStamp = "a3ec989b-2122-4bde-9e95-d1163d781e1b",
                             Name = "Root",
                             NormalizedName = "ROOT",
                             AccessLevel = 4
@@ -1505,7 +1572,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "44045506-66fd-4af8-9d59-133c47d1787c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b3cb411b-32da-4988-b1ae-0334baea4e66",
+                            ConcurrencyStamp = "4f4e70e1-bd51-4545-a74a-7c7c492357c4",
                             Email = "karcagtamas@outlook.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1513,7 +1580,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "KARCAGTAMAS",
                             PasswordHash = "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5e68a52f-8002-4c4f-b393-bc69fd021983",
+                            SecurityStamp = "1e160195-b2e8-4e08-8e8b-154727d9eeaf",
                             TwoFactorEnabled = false,
                             UserName = "karcagtamas",
                             FullName = "Karcag Tamas",
@@ -1525,7 +1592,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "f8237fac-c6dc-47b0-8f71-b72f93368b02",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "38dcaed3-9b36-46e7-ac49-026b40770394",
+                            ConcurrencyStamp = "2a41499c-424b-4082-bc94-f796c9ebee35",
                             Email = "aron.klenovszky@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1533,7 +1600,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "AARONKAA",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2bc4de0e-e4db-4402-8465-e2a70f5e655d",
+                            SecurityStamp = "f0336874-c71d-44e3-a1ba-0a3e0e285952",
                             TwoFactorEnabled = false,
                             UserName = "aaronkaa",
                             FullName = "Klenovszky Áron",
@@ -1545,7 +1612,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "cd5e5069-59c8-4163-95c5-776fab95e51a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "869999b6-6e14-44a9-b906-6fb1ded11d9f",
+                            ConcurrencyStamp = "e51a9889-a255-4813-abe9-a6056e0c42ed",
                             Email = "root@karcags.hu",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1553,7 +1620,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "ROOT",
                             PasswordHash = "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "df39dd36-c60b-416f-8068-41bbf7730d1f",
+                            SecurityStamp = "a6b5148e-d1ff-4d2a-8362-d5671e2f9715",
                             TwoFactorEnabled = false,
                             UserName = "root",
                             FullName = "Root",
@@ -1565,7 +1632,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "fa2edf69-5fc8-a163-9fc5-726f3b94e51b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8ed08d79-7d04-436a-a183-990797824efa",
+                            ConcurrencyStamp = "dc350ac4-5243-4529-b917-330bf2db7d20",
                             Email = "barni.pbs@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1573,7 +1640,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "BARNI363HUN",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e0ea616b-9bbe-48bd-9abc-3134e10f181f",
+                            SecurityStamp = "260cc8fb-1ae6-492a-9ab6-0d1880753baf",
                             TwoFactorEnabled = false,
                             UserName = "barni363hun",
                             FullName = "Root",
@@ -1621,6 +1688,42 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.HasOne("ManagerAPI.Models.Entities.MasterEvent", "Event")
                         .WithMany("Roles")
                         .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.FriendRequest", b =>
+                {
+                    b.HasOne("ManagerAPI.Models.Entities.User", "Destination")
+                        .WithMany("ReceivedFriendRequest")
+                        .HasForeignKey("DestinationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ManagerAPI.Models.Entities.User", "Sender")
+                        .WithMany("SentFriendRequest")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.Friends", b =>
+                {
+                    b.HasOne("ManagerAPI.Models.Entities.User", "Friend")
+                        .WithMany("FriendListRight")
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ManagerAPI.Models.Entities.FriendRequest", "Request")
+                        .WithMany("FriendCollection")
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                        .WithMany("FriendListLeft")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

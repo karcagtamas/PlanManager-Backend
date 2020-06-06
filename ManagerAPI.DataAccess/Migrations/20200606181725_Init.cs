@@ -24,37 +24,16 @@ namespace ManagerAPI.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "Genders",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false),
-                    FullName = table.Column<string>(maxLength: 100, nullable: true),
-                    IsActive = table.Column<bool>(nullable: true, defaultValue: true),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "getdate()"),
-                    LastLogin = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "getdate()"),
-                    SecondaryEmail = table.Column<string>(nullable: true),
-                    TShirtSize = table.Column<string>(maxLength: 6, nullable: true),
-                    Allergy = table.Column<string>(nullable: true),
-                    Group = table.Column<string>(maxLength: 40, nullable: true)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("PK_Genders", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,6 +61,20 @@ namespace ManagerAPI.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MarkTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NotificationSystems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: false),
+                    ShortName = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotificationSystems", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,6 +107,73 @@ namespace ManagerAPI.DataAccess.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    FullName = table.Column<string>(maxLength: 100, nullable: true),
+                    IsActive = table.Column<bool>(nullable: true, defaultValue: true),
+                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "getdate()"),
+                    LastLogin = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "getdate()"),
+                    SecondaryEmail = table.Column<string>(nullable: true),
+                    TShirtSize = table.Column<string>(maxLength: 6, nullable: true),
+                    Allergy = table.Column<string>(nullable: true),
+                    Group = table.Column<string>(maxLength: 40, nullable: true),
+                    BirthDay = table.Column<DateTime>(nullable: true),
+                    ProfileImageTitle = table.Column<string>(nullable: true),
+                    ProfileImageData = table.Column<byte[]>(nullable: true),
+                    Country = table.Column<string>(maxLength: 120, nullable: true),
+                    GenderId = table.Column<int>(nullable: true),
+                    City = table.Column<string>(maxLength: 120, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Genders_GenderId",
+                        column: x => x.GenderId,
+                        principalTable: "Genders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NotificationTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(nullable: false),
+                    ImportanceLevel = table.Column<int>(nullable: false),
+                    SystemId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotificationTypes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NotificationTypes_NotificationSystems_SystemId",
+                        column: x => x.SystemId,
+                        principalTable: "NotificationSystems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -201,6 +261,36 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FriendRequests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SenderId = table.Column<string>(nullable: false),
+                    DestinationId = table.Column<string>(nullable: false),
+                    SentDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    Message = table.Column<string>(maxLength: 120, nullable: false),
+                    Response = table.Column<bool>(nullable: true),
+                    ResponseDate = table.Column<DateTime>(nullable: true, defaultValueSql: "getdate()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FriendRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FriendRequests_AspNetUsers_DestinationId",
+                        column: x => x.DestinationId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FriendRequests_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -300,6 +390,68 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "PlanTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notifications",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(maxLength: 256, nullable: false),
+                    SentDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    OwnerId = table.Column<string>(nullable: false),
+                    IsRead = table.Column<bool>(nullable: false, defaultValue: false),
+                    Archived = table.Column<bool>(nullable: false, defaultValue: false),
+                    TypeId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notifications_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Notifications_NotificationTypes_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "NotificationTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Friends",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    FriendId = table.Column<string>(nullable: false),
+                    ConnectionDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    RequestId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Friends", x => new { x.UserId, x.FriendId });
+                    table.ForeignKey(
+                        name: "FK_Friends_AspNetUsers_FriendId",
+                        column: x => x.FriendId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Friends_FriendRequests_RequestId",
+                        column: x => x.RequestId,
+                        principalTable: "FriendRequests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Friends_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -661,22 +813,32 @@ namespace ManagerAPI.DataAccess.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Discriminator", "Name", "NormalizedName", "AccessLevel" },
                 values: new object[,]
                 {
-                    { "fa5deb78-59c2-4faa-83dc-6c3369eedf20", "d12e4d61-0686-49b6-b35d-31decaecfd7e", "WebsiteRole", "Root", "ROOT", 4 },
-                    { "5e0a9192-793f-4c85-a0b1-3198295bf409", "cfbe1ed3-cdb6-4ed8-94af-7842a4afcafb", "WebsiteRole", "Moderator", "MODERATOR", 2 },
-                    { "776474d7-8d01-4809-963e-c721f39dbb45", "67930d6a-e2d7-479d-836c-fb8824bcf3d4", "WebsiteRole", "Normal", "NORMAL", 1 },
-                    { "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9", "f801a247-556b-47b8-a0c7-a5515a012472", "WebsiteRole", "Visitor", "VISITOR", 0 },
-                    { "936e42dc-5d3f-4355-bc3a-304a4fe4f518", "b6711316-85c6-414c-b97e-9c0445faa015", "WebsiteRole", "Administrator", "ADMINISTRATOR", 3 }
+                    { "fa5deb78-59c2-4faa-83dc-6c3369eedf20", "a3ec989b-2122-4bde-9e95-d1163d781e1b", "WebsiteRole", "Root", "ROOT", 4 },
+                    { "5e0a9192-793f-4c85-a0b1-3198295bf409", "10183fa8-7fe6-4b0a-aab7-4180b7b0b7a6", "WebsiteRole", "Moderator", "MODERATOR", 2 },
+                    { "776474d7-8d01-4809-963e-c721f39dbb45", "f356aab7-e1b1-4b49-838f-3b1a7d060543", "WebsiteRole", "Normal", "NORMAL", 1 },
+                    { "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9", "f3ac44b9-d100-4e12-b127-65c8722c736c", "WebsiteRole", "Visitor", "VISITOR", 0 },
+                    { "936e42dc-5d3f-4355-bc3a-304a4fe4f518", "3e1d420f-d24c-457c-b232-bf71153b4d0a", "WebsiteRole", "Administrator", "ADMINISTRATOR", 3 }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "Allergy", "FullName", "Group", "IsActive", "SecondaryEmail", "TShirtSize" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "Allergy", "BirthDay", "City", "Country", "FullName", "GenderId", "Group", "IsActive", "ProfileImageData", "ProfileImageTitle", "SecondaryEmail", "TShirtSize" },
                 values: new object[,]
                 {
-                    { "fa2edf69-5fc8-a163-9fc5-726f3b94e51b", 0, "54794122-681c-43cb-bc56-e38acdd3e251", "User", "barni.pbs@gmail.com", true, false, null, "BARNI.PBS@GMAIL.COM", "BARNI363HUN", "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", null, false, "b09575e5-11b2-4ca2-9536-bf6c837081d3", false, "barni363hun", null, "Root", null, true, null, null },
-                    { "cd5e5069-59c8-4163-95c5-776fab95e51a", 0, "7aecb808-8ff1-41d6-a767-a116f3d6f9b6", "User", "root@karcags.hu", true, false, null, "ROOT@KARCAGS.HU", "ROOT", "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==", null, false, "2aa75e5e-39f2-4ec5-a810-ea6779206fe4", false, "root", null, "Root", null, true, null, null },
-                    { "f8237fac-c6dc-47b0-8f71-b72f93368b02", 0, "4553a626-aa79-4adc-acd8-d4ca69b3d406", "User", "aron.klenovszky@gmail.com", true, false, null, "ARON.KLENOVSZKY@GMAIL.COM", "AARONKAA", "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", null, false, "3d6ab21e-cf0d-4acc-8184-ba3d328617ec", false, "aaronkaa", null, "Klenovszky Áron", null, true, null, null },
-                    { "44045506-66fd-4af8-9d59-133c47d1787c", 0, "8a50ebd0-5505-42b6-a3f8-5cc333a3ff61", "User", "karcagtamas@outlook.com", true, false, null, "KARCAGTAMAS@OUTLOOK.COM", "KARCAGTAMAS", "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==", null, false, "0714adcc-b601-49f9-8d36-d5c2953a913b", false, "karcagtamas", null, "Karcag Tamas", null, true, null, null }
+                    { "fa2edf69-5fc8-a163-9fc5-726f3b94e51b", 0, "dc350ac4-5243-4529-b917-330bf2db7d20", "User", "barni.pbs@gmail.com", true, false, null, "BARNI.PBS@GMAIL.COM", "BARNI363HUN", "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", null, false, "260cc8fb-1ae6-492a-9ab6-0d1880753baf", false, "barni363hun", null, null, null, null, "Root", null, null, true, null, null, null, null },
+                    { "cd5e5069-59c8-4163-95c5-776fab95e51a", 0, "e51a9889-a255-4813-abe9-a6056e0c42ed", "User", "root@karcags.hu", true, false, null, "ROOT@KARCAGS.HU", "ROOT", "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==", null, false, "a6b5148e-d1ff-4d2a-8362-d5671e2f9715", false, "root", null, null, null, null, "Root", null, null, true, null, null, null, null },
+                    { "f8237fac-c6dc-47b0-8f71-b72f93368b02", 0, "2a41499c-424b-4082-bc94-f796c9ebee35", "User", "aron.klenovszky@gmail.com", true, false, null, "ARON.KLENOVSZKY@GMAIL.COM", "AARONKAA", "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", null, false, "f0336874-c71d-44e3-a1ba-0a3e0e285952", false, "aaronkaa", null, null, null, null, "Klenovszky Áron", null, null, true, null, null, null, null },
+                    { "44045506-66fd-4af8-9d59-133c47d1787c", 0, "4f4e70e1-bd51-4545-a74a-7c7c492357c4", "User", "karcagtamas@outlook.com", true, false, null, "KARCAGTAMAS@OUTLOOK.COM", "KARCAGTAMAS", "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==", null, false, "1e160195-b2e8-4e08-8e8b-154727d9eeaf", false, "karcagtamas", null, null, null, null, "Karcag Tamas", null, null, true, null, null, null, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Genders",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Male" },
+                    { 2, "Female" },
+                    { 3, "Other" }
                 });
 
             migrationBuilder.InsertData(
@@ -686,10 +848,10 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     { 1, 0, "Visitor" },
                     { 6, 5, "Owner" },
-                    { 5, 4, "Administrator" },
-                    { 4, 3, "Moderator" },
+                    { 2, 1, "Normal" },
                     { 3, 2, "Editor" },
-                    { 2, 1, "Normal" }
+                    { 4, 3, "Moderator" },
+                    { 5, 4, "Administrator" }
                 });
 
             migrationBuilder.InsertData(
@@ -697,10 +859,22 @@ namespace ManagerAPI.DataAccess.Migrations
                 columns: new[] { "Id", "Title" },
                 values: new object[,]
                 {
-                    { 3, "Modifier" },
                     { 2, "Owner" },
-                    { 1, "Responsible" },
-                    { 4, "Leader" }
+                    { 3, "Modifier" },
+                    { 4, "Leader" },
+                    { 1, "Responsible" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "NotificationSystems",
+                columns: new[] { "Id", "Name", "ShortName" },
+                values: new object[,]
+                {
+                    { 4, "Movie Corner", "MC" },
+                    { 5, "Work Manager", "WM" },
+                    { 3, "Plan Manager", "PM" },
+                    { 2, "Event Manager", "EM" },
+                    { 1, "System", "Sys" }
                 });
 
             migrationBuilder.InsertData(
@@ -708,12 +882,61 @@ namespace ManagerAPI.DataAccess.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Plan" },
-                    { 2, "Future Idea" },
-                    { 4, "Learning" },
-                    { 5, "Decision" },
                     { 6, "Event" },
-                    { 3, "Nice To Have" }
+                    { 3, "Nice To Have" },
+                    { 2, "Future Idea" },
+                    { 1, "Plan" },
+                    { 5, "Decision" },
+                    { 4, "Learning" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "NotificationTypes",
+                columns: new[] { "Id", "ImportanceLevel", "SystemId", "Title" },
+                values: new object[,]
+                {
+                    { 1, 2, 1, "Login" },
+                    { 20, 1, 2, "Decline Event Invitation" },
+                    { 21, 3, 2, "Event Member Removed" },
+                    { 22, 3, 2, "Removed From An Event" },
+                    { 23, 2, 2, "Event Evolved To Sport Event" },
+                    { 24, 2, 2, "Event Evolved To GT Event" },
+                    { 25, 1, 2, "Event Date Changed" },
+                    { 26, 2, 2, "Event Role Added" },
+                    { 27, 2, 2, "Event Role Updated" },
+                    { 28, 3, 2, "Event Role Deleted" },
+                    { 29, 2, 2, "Event Role Added To A User" },
+                    { 30, 2, 2, "Role Added In An Event" },
+                    { 31, 2, 2, "Event Role Removed From A User" },
+                    { 32, 2, 2, "Role Removed In An Event" },
+                    { 33, 2, 2, "Event ToDo Added" },
+                    { 34, 2, 2, "Event ToDo Deleted" },
+                    { 35, 1, 2, "Event ToDo Updated" },
+                    { 36, 3, 2, "Event PayOut Added" },
+                    { 19, 1, 2, "Accept Event Invitation" },
+                    { 18, 1, 2, "Invited To An Event" },
+                    { 17, 2, 2, "Invitation Declined" },
+                    { 16, 2, 2, "Invitation Accepted" },
+                    { 2, 3, 1, "Registration" },
+                    { 3, 1, 1, "Logout" },
+                    { 4, 3, 1, "My Profile Updated" },
+                    { 5, 1, 1, "Message Arrived" },
+                    { 6, 2, 1, "ToDo Added" },
+                    { 7, 2, 1, "ToDo Deleted" },
+                    { 8, 1, 1, "ToDo Updated" },
+                    { 39, 3, 1, "Password Changed" },
+                    { 37, 3, 2, "Event PayOut Deleted" },
+                    { 40, 1, 1, "Profile Image Changed" },
+                    { 42, 3, 1, "Profile Disabled" },
+                    { 9, 3, 2, "Event Created" },
+                    { 10, 3, 2, "Event Disabled" },
+                    { 11, 2, 2, "Event Published" },
+                    { 12, 1, 2, "Event Locked" },
+                    { 13, 2, 2, "Event Updated" },
+                    { 14, 1, 2, "Event Message Arrived" },
+                    { 15, 2, 2, "Event Member Invited" },
+                    { 41, 2, 1, "Username Changed" },
+                    { 38, 3, 2, "Event PayOut Updated" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -742,6 +965,11 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_GenderId",
+                table: "AspNetUsers",
+                column: "GenderId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -783,6 +1011,26 @@ namespace ManagerAPI.DataAccess.Migrations
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FriendRequests_DestinationId",
+                table: "FriendRequests",
+                column: "DestinationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FriendRequests_SenderId",
+                table: "FriendRequests",
+                column: "SenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Friends_FriendId",
+                table: "Friends",
+                column: "FriendId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Friends_RequestId",
+                table: "Friends",
+                column: "RequestId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MasterEvents_CreatorId",
                 table: "MasterEvents",
                 column: "CreatorId");
@@ -791,6 +1039,21 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "IX_MasterEvents_LastUpdaterId",
                 table: "MasterEvents",
                 column: "LastUpdaterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifications_OwnerId",
+                table: "Notifications",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifications_TypeId",
+                table: "Notifications",
+                column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NotificationTypes_SystemId",
+                table: "NotificationTypes",
+                column: "SystemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlanGroupChatMessages_GroupId",
@@ -935,6 +1198,12 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "EventActions");
 
             migrationBuilder.DropTable(
+                name: "Friends");
+
+            migrationBuilder.DropTable(
+                name: "Notifications");
+
+            migrationBuilder.DropTable(
                 name: "PlanGroupChatMessages");
 
             migrationBuilder.DropTable(
@@ -959,6 +1228,12 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "FriendRequests");
+
+            migrationBuilder.DropTable(
+                name: "NotificationTypes");
+
+            migrationBuilder.DropTable(
                 name: "PlanGroupPlans");
 
             migrationBuilder.DropTable(
@@ -966,6 +1241,9 @@ namespace ManagerAPI.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "GroupRoles");
+
+            migrationBuilder.DropTable(
+                name: "NotificationSystems");
 
             migrationBuilder.DropTable(
                 name: "PlanGroups");
@@ -981,6 +1259,9 @@ namespace ManagerAPI.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Genders");
         }
     }
 }

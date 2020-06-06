@@ -25,6 +25,8 @@ namespace ManagerAPI.Models.Entities
 
         public bool? Response { get; set; }
 
+        public DateTime? ResponseDate { get; set; }
+
         public virtual User Sender { get; set; }
 
         public virtual User Destination { get; set; }
