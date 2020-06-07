@@ -8,5 +8,7 @@ namespace ManagerAPI.Services.Messages
         
         // Actions
         public readonly string NotificationAdded = "notification added";
+        public readonly string GetCountOfUnReadNotifications = "count of unread notifications got";
+        public readonly string GetMyNotifications = "my notifications got";
     }
 }

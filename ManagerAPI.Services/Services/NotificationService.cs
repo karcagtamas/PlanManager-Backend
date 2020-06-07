@@ -72,13 +72,31 @@ namespace ManagerAPI.Services.Services
             _utilsService.LogInformation(_notificationMessages.NotificationAdded, user);
         }
 
+        public int GetCountOfUnReadNotifications()
+        {
+            var user = _utilsService.GetCurrentUser();
+
+            var count = user.Notifications.Where(x => !x.IsRead).Count();
+
+            _utilsService.LogInformation(_notificationMessages.GetCountOfUnReadNotifications, user);
+
+            return count;
+        }
+
         public List<NotificationDto> GetMyNotifications()
         {
             var user = _utilsService.GetCurrentUser();
 
             var list = _mapper.Map<List<NotificationDto>>(_context.Notifications.Where(x => x.OwnerId == user.Id).OrderByDescending(x => x.SentDate).ToList());
 
+            _utilsService.LogInformation(_notificationMessages.GetMyNotifications, user);
+
             return list;
+        }
+
+        public void SetAsReadNotificationsById(int[] notifications)
+        {
+            throw new NotImplementedException();
         }
     }
 }
