@@ -7,9 +7,9 @@ namespace ManagerAPI.Services.Services
     public interface IFriendService
     {
         List<FriendListDto> GetMyFriends();
-        void RemoveFriend(int friendId);
+        void RemoveFriend(string friendId);
         List<FriendRequestListDto> GetMyFriendRequests(bool? type);
         void SendFriendRequestResponse(FriendRequestResponseModel model);
-        void SendFriendRequest(int destinationUser);
+        void SendFriendRequest(FriendRequestModel model);
     }
 }

@@ -13,6 +13,12 @@ namespace ManagerAPI.Models.Enums
         PasswordChanged = 39,
         ProfileImageChanged = 40,
         UsernameChanged = 41,
-        ProfileDisabled = 42
+        ProfileDisabled = 42,
+        FriendRequestReceived = 43,
+        FriendRequestSent = 44,
+        FriendRequestAccepted = 45,
+        FriendRequestDeclined = 46,
+        YouHasANewFriend = 47,
+        FriendRemoved = 48
     }
 }

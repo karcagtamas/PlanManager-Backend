@@ -271,6 +271,24 @@ namespace ManagerAPI.DataAccess
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
                 { Id = 42, Title = "Profile Disabled", ImportanceLevel = 3, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 43, Title = "Friend Request Received", ImportanceLevel = 2, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 44, Title = "Friend Request Sent", ImportanceLevel = 1, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 45, Title = "Friend Request Accepted", ImportanceLevel = 2, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 46, Title = "Friend Request Declined", ImportanceLevel = 2, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 47, Title = "You Has a new Friend", ImportanceLevel = 2, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 48, Title = "Friend Removed", ImportanceLevel = 3, SystemId = 1 });
 
             // Notification table settings
             builder.Entity<Notification>()
