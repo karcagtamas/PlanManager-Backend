@@ -14,6 +14,8 @@ namespace ManagerAPI.DataAccess
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<FriendRequest> FriendRequests { get; set; }
         public DbSet<Friends> Friends { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<News> News { get; set; }
 
         // PM
         public DbSet<PlanType> PlanTypes { get; set; }
@@ -352,6 +354,38 @@ namespace ManagerAPI.DataAccess
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Message table settings
+            builder.Entity<Message>()
+               .Property(x => x.Date)
+               .HasDefaultValueSql("getdate()");
+            builder.Entity<Message>()
+                .HasOne(x => x.Sender)
+                .WithMany(x => x.SentMessages)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Message>()
+                .HasOne(x => x.Receiver)
+                .WithMany(x => x.ReceivedMessages)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // News table settings
+            builder.Entity<News>()
+              .Property(x => x.Creation)
+              .HasDefaultValueSql("getdate()");
+            builder.Entity<News>()
+              .Property(x => x.LastUpdate)
+              .HasDefaultValueSql("getdate()");
+            builder.Entity<News>()
+                .HasOne(x => x.Creator)
+                .WithMany(x => x.CreatedNews)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<News>()
+                .HasOne(x => x.LastUpdater)
+                .WithMany(x => x.UpdatedNews)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Plan type table settings
             builder.Entity<PlanType>()

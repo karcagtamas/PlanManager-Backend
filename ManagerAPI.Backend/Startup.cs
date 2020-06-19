@@ -57,6 +57,7 @@ namespace ManagerAPI.Backend
                 x.AddProfile(new PlanProfile());
                 x.AddProfile(new NotificationProfile());
                 x.AddProfile(new FriendProfile());
+                x.AddProfile(new MessageProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

@@ -71,5 +71,9 @@ namespace ManagerAPI.Models.Entities {
         public virtual ICollection<FriendRequest> ReceivedFriendRequest { get; set; }
         public virtual ICollection<Friends> FriendListLeft { get; set; }
         public virtual ICollection<Friends> FriendListRight { get; set; }
+        public virtual ICollection<Message> SentMessages { get; set; }
+        public virtual ICollection<Message> ReceivedMessages { get; set; }
+        public virtual ICollection<News> CreatedNews { get; set; }
+        public virtual ICollection<News> UpdatedNews { get; set; }
     }
 }
