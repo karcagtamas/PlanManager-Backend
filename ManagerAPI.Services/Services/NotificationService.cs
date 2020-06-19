@@ -32,7 +32,7 @@ namespace ManagerAPI.Services.Services
             _mapper = mapper;
             _notificationMessages = new NotificationMessages();
         }
-        
+
         /// <summary>
         /// Add System notification by given type
         /// </summary>
@@ -41,7 +41,8 @@ namespace ManagerAPI.Services.Services
         public void AddSystemNotificationByType(SystemNotificationType type, User user)
         {
             // Determine message by type
-            string val = type switch
+            string val = type
+            switch
             {
                 SystemNotificationType.Login => $"Successfully logged in. Welcome.",
                 SystemNotificationType.Logout => $"Successfully logged out.",
@@ -55,15 +56,16 @@ namespace ManagerAPI.Services.Services
                 SystemNotificationType.ProfileImageChanged => $"Profile image changed",
                 SystemNotificationType.UsernameChanged => $"Username changed",
                 SystemNotificationType.ProfileDisabled => $"Profile disabled",
-                _ => throw new Exception(_utilsService.AddUserToMessage(_notificationMessages.InvalidSystemNotificationType, user)),
+                _ =>
+                throw new Exception(_utilsService.AddUserToMessage(_notificationMessages.InvalidSystemNotificationType, user)),
             };
-             
+
             // Create notification
             var notification = new Notification
             {
                 Content = val,
                 OwnerId = user.Id,
-                TypeId = (int) type
+                TypeId = (int)type
             };
 
             // Save notification
@@ -96,7 +98,14 @@ namespace ManagerAPI.Services.Services
 
         public void SetAsReadNotificationsById(int[] notifications)
         {
-            throw new NotImplementedException();
+            var list = _context.Notifications.Where(x => notifications.ToList().Contains(x.Id)).ToList();
+
+            foreach (var i in list)
+            {
+                i.IsRead = true;
+            }
+
+            _context.Notifications.UpdateRange(list);
         }
     }
 }
