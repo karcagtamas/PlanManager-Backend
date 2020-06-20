@@ -12,6 +12,9 @@ using System.Text;
 
 namespace ManagerAPI.Services.Services
 {
+    /// <summary>
+    /// Message Service
+    /// </summary>
     public class MessageService : IMessageService
     {
         private IUtilsService UtilsService { get; }
@@ -19,6 +22,13 @@ namespace ManagerAPI.Services.Services
         private DatabaseContext Context { get; }
         private IMapper Mapper { get; }
 
+        /// <summary>
+        /// Injector Constructor
+        /// </summary>
+        /// <param name="utilsService">Utils Service</param>
+        /// <param name="notificationService">Notification Service</param>
+        /// <param name="context">Database Context</param>
+        /// <param name="mapper">Mapper</param>
         public MessageService(IUtilsService utilsService, INotificationService notificationService, DatabaseContext context, IMapper mapper)
         {
             UtilsService = utilsService;
@@ -27,7 +37,11 @@ namespace ManagerAPI.Services.Services
             Mapper = mapper;
         }
 
-
+        /// <summary>
+        /// Get current user's messages
+        /// </summary>
+        /// <param name="friendId">Partner Id</param>
+        /// <returns>List of messages</returns>
         public List<MessageDto> GetMessages(int friendId)
         {
             var user = UtilsService.GetCurrentUser();
@@ -39,6 +53,10 @@ namespace ManagerAPI.Services.Services
             return list;
         }
 
+        /// <summary>
+        /// Send message to partner
+        /// </summary>
+        /// <param name="model">Model of message sending</param>
         public void SendMessage(MessageModel model)
         {
             var user = UtilsService.GetCurrentUser();

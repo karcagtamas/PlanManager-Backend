@@ -12,38 +12,57 @@ using Microsoft.AspNetCore.Mvc;
 namespace ManagerAPI.Backend.Controllers
 {
     /// <summary>
-    /// Notification Controller
+    /// News Controller
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class NotificationController : ControllerBase
+    public class NewsController : ControllerBase
     {
-        private readonly INotificationService _notificationService;
+        private readonly INewsService _newsService;
         private readonly IUtilsService _utilsService;
 
         /// <summary>
         /// Injector Constructor
         /// </summary>
-        /// <param name="notificationService">Notification Service</param>
+        /// <param name="newsService">News Service</param>
         /// <param name="utilsService">Utils Service</param>
-        public NotificationController(INotificationService notificationService, IUtilsService utilsService)
+        public NewsController(INewsService newsService, IUtilsService utilsService)
         {
-            _notificationService = notificationService;
+            _newsService = newsService;
             _utilsService = utilsService;
         }
 
+        /// <summary>
+        /// Delete news by Id
+        /// </summary>
+        /// <param name="postId">News Id</param>
+        /// <returns>Server Response</returns>
+        [HttpDelete("{postId}")]
+        public IActionResult DeleteNews(int postId)
+        {
+            try
+            {
+                _newsService.DeleteNews(postId);
+                return Ok(new ServerResponse<object>(null, true));
+            }
+            catch (Exception e)
+            {
+                _utilsService.LogError(e);
+                return Ok(new ServerResponse<object>(e));
+            }
+        }
 
         /// <summary>
-        /// Get My Notifications
+        /// Get all news
         /// </summary>
         /// <returns>Server Response</returns>
         [HttpGet]
-        public IActionResult GetMyNotifications()
+        public IActionResult GetNewsPosts()
         {
             try
             {
-                return Ok(new ServerResponse<List<NotificationDto>>(_notificationService.GetMyNotifications(), true));
+                return Ok(new ServerResponse<List<NewsDto>>(_newsService.GetNewsPosts(), true));
             }
             catch (Exception e)
             {
@@ -53,15 +72,17 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         /// <summary>
-        /// Get count of unread notifications
+        /// Create new news
         /// </summary>
+        /// <param name="model">Model of news for creation</param>
         /// <returns>Server Response</returns>
-        [HttpGet("unreads/count")]
-        public IActionResult GetCountOfUnReadNotifications()
+        [HttpPost]
+        public IActionResult PostNews([FromBody] PostModel model)
         {
             try
             {
-                return Ok(new ServerResponse<int>(_notificationService.GetCountOfUnReadNotifications(), true));
+                _newsService.PostNews(model);
+                return Ok(new ServerResponse<object>(null, true));
             }
             catch (Exception e)
             {
@@ -71,16 +92,16 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         /// <summary>
-        /// Set notifications as read
+        /// Update news
         /// </summary>
-        /// <param name="notifications">Ids of the notifications</param>
+        /// <param name="model">Model of news</param>
         /// <returns>Server Response</returns>
         [HttpPut]
-        public IActionResult SetAsReadNotificationsById([FromBody] int[] notifications)
+        public IActionResult UpdateNews([FromBody] PostModel model)
         {
             try
             {
-                _notificationService.SetAsReadNotificationsById(notifications);
+                _newsService.UpdateNews(model);
                 return Ok(new ServerResponse<object>(null, true));
             }
             catch (Exception e)

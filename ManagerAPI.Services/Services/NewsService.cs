@@ -12,6 +12,9 @@ using System.Text;
 
 namespace ManagerAPI.Services.Services
 {
+    /// <summary>
+    /// News Service
+    /// </summary>
     public class NewsService : INewsService
     {
         private DatabaseContext Context { get; }
@@ -19,6 +22,13 @@ namespace ManagerAPI.Services.Services
         private INotificationService NotificationService { get; }
         private IMapper Mapper { get; }
 
+        /// <summary>
+        /// Injector Constructor
+        /// </summary>
+        /// <param name="context">Database Context</param>
+        /// <param name="utilsService">Utils Service</param>
+        /// <param name="notificationService">Notification Service</param>
+        /// <param name="mapper">Mapper</param>
         public NewsService(DatabaseContext context, IUtilsService utilsService, INotificationService notificationService, IMapper mapper)
         {
             Context = context;
@@ -27,6 +37,10 @@ namespace ManagerAPI.Services.Services
             Mapper = mapper;
         }
 
+        /// <summary>
+        /// Delete News by Id
+        /// </summary>
+        /// <param name="postId">News Id</param>
         public void DeleteNews(int postId)
         {
             var user = UtilsService.GetCurrentUser();
@@ -46,17 +60,25 @@ namespace ManagerAPI.Services.Services
             NotificationService.AddSystemNotificationByType(SystemNotificationType.NewsDeleted, creator);
         }
 
+        /// <summary>
+        /// Get all news
+        /// </summary>
+        /// <returns>List of news</returns>
         public List<NewsDto> GetNewsPosts()
         {
             var user = UtilsService.GetCurrentUser();
 
-            var list = Mapper.Map<List<NewsDto>>(Context.News.ToList());
+            var list = Mapper.Map<List<NewsDto>>(Context.News.OrderBy(x => x.Creation).ToList());
 
             UtilsService.LogInformation(NewsMessages.NewsGet, user);
 
             return list;
         }
 
+        /// <summary>
+        /// Create new news
+        /// </summary>
+        /// <param name="model">Model of news for creation</param>
         public void PostNews(PostModel model)
         {
             var user = UtilsService.GetCurrentUser();
@@ -73,6 +95,10 @@ namespace ManagerAPI.Services.Services
             NotificationService.AddSystemNotificationByType(SystemNotificationType.NewsAdded, user);
         }
 
+        /// <summary>
+        /// Update news
+        /// </summary>
+        /// <param name="model">Model of news</param>
         public void UpdateNews(PostModel model)
         {
             var user = UtilsService.GetCurrentUser();

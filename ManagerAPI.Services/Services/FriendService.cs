@@ -8,11 +8,12 @@ using ManagerAPI.Services.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace ManagerAPI.Services.Services
 {
+    /// <summary>
+    /// Friend Service
+    /// </summary>
     public class FriendService : IFriendService
     {
         private IUtilsService UtilsService { get; }
@@ -21,6 +22,13 @@ namespace ManagerAPI.Services.Services
         private NotificationService NotificationService { get; }
         private FriendMessages FriendMessages { get; set; }
 
+        /// <summary>
+        /// Injector Constructor
+        /// </summary>
+        /// <param name="utilsService">Utils Service</param>
+        /// <param name="mapper">Mapper</param>
+        /// <param name="context">Database Context</param>
+        /// <param name="notificationService">Notification Service</param>
         public FriendService(IUtilsService utilsService, IMapper mapper, DatabaseContext context, NotificationService notificationService)
         {
             UtilsService = utilsService;
@@ -29,7 +37,11 @@ namespace ManagerAPI.Services.Services
             NotificationService = notificationService;
         }
 
-
+        /// <summary>
+        /// Get current user's got friend requests
+        /// </summary>
+        /// <param name="type">Undecided / accepted / declined</param>
+        /// <returns>List of friend requests</returns>
         public List<FriendRequestListDto> GetMyFriendRequests(bool? type)
         {
             var user = UtilsService.GetCurrentUser();
@@ -41,6 +53,11 @@ namespace ManagerAPI.Services.Services
             return list;
         }
 
+        /// <summary>
+        /// Get current user's friends
+        /// Add notification rows
+        /// </summary>
+        /// <returns>List of friends</returns>
         public List<FriendListDto> GetMyFriends()
         {
             var user = UtilsService.GetCurrentUser();
@@ -52,6 +69,11 @@ namespace ManagerAPI.Services.Services
             return list;
         }
 
+        /// <summary>
+        /// Remove current user's friend by Id
+        /// Add notification rows
+        /// </summary>
+        /// <param name="friendId">Friend Id</param>
         public void RemoveFriend(string friendId)
         {
             var user = UtilsService.GetCurrentUser();
@@ -68,6 +90,11 @@ namespace ManagerAPI.Services.Services
             NotificationService.AddSystemNotificationByType(SystemNotificationType.FriendRemoved, friend);
         }
 
+        /// <summary>
+        /// Send friend request
+        /// Add notification rows
+        /// </summary>
+        /// <param name="model">Model of the request</param>
         public void SendFriendRequest(FriendRequestModel model)
         {
             var user = UtilsService.GetCurrentUser();
@@ -94,6 +121,11 @@ namespace ManagerAPI.Services.Services
             NotificationService.AddSystemNotificationByType(SystemNotificationType.FriendRequestReceived, destination);
         }
 
+        /// <summary>
+        /// Send friend request response
+        /// Add notification rows
+        /// </summary>
+        /// <param name="model">Model of response</param>
         public void SendFriendRequestResponse(FriendRequestResponseModel model)
         {
             var user = UtilsService.GetCurrentUser();

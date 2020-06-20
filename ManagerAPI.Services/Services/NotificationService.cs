@@ -21,7 +21,7 @@ namespace ManagerAPI.Services.Services
         private readonly NotificationMessages _notificationMessages;
 
         /// <summary>
-        /// Injector consturctor
+        /// Injector constructor
         /// </summary>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="context">Database context</param>
@@ -74,6 +74,10 @@ namespace ManagerAPI.Services.Services
             _utilsService.LogInformation(_notificationMessages.NotificationAdded, user);
         }
 
+        /// <summary>
+        /// Get count of unread notifications
+        /// </summary>
+        /// <returns>Count</returns>
         public int GetCountOfUnReadNotifications()
         {
             var user = _utilsService.GetCurrentUser();
@@ -85,6 +89,10 @@ namespace ManagerAPI.Services.Services
             return count;
         }
 
+        /// <summary>
+        /// Get current logged in user's notifications
+        /// </summary>
+        /// <returns>List of notifications</returns>
         public List<NotificationDto> GetMyNotifications()
         {
             var user = _utilsService.GetCurrentUser();
@@ -96,6 +104,10 @@ namespace ManagerAPI.Services.Services
             return list;
         }
 
+        /// <summary>
+        /// Set notifications as read
+        /// </summary>
+        /// <param name="notifications">Ids of the notifications</param>
         public void SetAsReadNotificationsById(int[] notifications)
         {
             var list = _context.Notifications.Where(x => notifications.ToList().Contains(x.Id)).ToList();
