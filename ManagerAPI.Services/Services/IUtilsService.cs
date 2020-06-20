@@ -10,7 +10,5 @@ namespace ManagerAPI.Services.Services
         string GetCurrentUserId();
         string AddUserToMessage(string message, User user);
         void LogInformation(string action, User user);
-        
-        
     }
 }

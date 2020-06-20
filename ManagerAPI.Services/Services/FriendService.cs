@@ -60,6 +60,7 @@ namespace ManagerAPI.Services.Services
             var requests = Context.Friends.Where(x => x.User.Id == user.Id && x.Friend.Id == friendId || x.User.Id == friendId && x.Friend.Id == user.Id).ToList();
 
             Context.Friends.RemoveRange(requests);
+            Context.SaveChanges();
 
             UtilsService.LogInformation(FriendMessages.FriendRemove, user);
 
@@ -85,6 +86,7 @@ namespace ManagerAPI.Services.Services
             request.DestinationId = destination.Id;
 
             Context.FriendRequests.Add(request);
+            Context.SaveChanges();
 
             UtilsService.LogInformation(FriendMessages.FriendRequestSend, user);
 
@@ -106,6 +108,7 @@ namespace ManagerAPI.Services.Services
             request.Response = model.Response;
             request.ResponseDate = DateTime.Now;
             Context.FriendRequests.Update(request);
+            Context.SaveChanges();
             UtilsService.LogInformation(FriendMessages.FriendRequestResponseSend, user);
             NotificationService.AddSystemNotificationByType(model.Response ? SystemNotificationType.FriendRequestAccepted : SystemNotificationType.FriendRequestDeclined, request.Sender);
 
@@ -122,6 +125,8 @@ namespace ManagerAPI.Services.Services
                 friend2.UserId = request.Sender.Id;
                 friend2.FriendId = user.Id;
                 Context.Friends.Update(friend2);
+
+                Context.SaveChanges();
 
                 NotificationService.AddSystemNotificationByType(SystemNotificationType.YouHasANewFriend, user);
                 NotificationService.AddSystemNotificationByType(SystemNotificationType.YouHasANewFriend, request.Sender);

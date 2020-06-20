@@ -18,7 +18,6 @@ namespace ManagerAPI.Services.Services
         private INotificationService NotificationService { get; }
         private DatabaseContext Context { get; }
         private IMapper Mapper { get; }
-        private MessageMessages MessageMessages { get; }
 
         public MessageService(IUtilsService utilsService, INotificationService notificationService, DatabaseContext context, IMapper mapper)
         {
@@ -26,7 +25,6 @@ namespace ManagerAPI.Services.Services
             NotificationService = notificationService;
             Context = context;
             Mapper = mapper;
-            MessageMessages = new MessageMessages();
         }
 
 
@@ -46,6 +44,11 @@ namespace ManagerAPI.Services.Services
             var user = UtilsService.GetCurrentUser();
             var partner = Context.AppUsers.Find(model.PartnerId);
 
+            if (partner == null)
+            {
+                throw new Exception(MessageMessages.InvalidPartner);
+            }
+
             var message = new Message();
 
             message.SenderId = user.Id;
@@ -53,6 +56,7 @@ namespace ManagerAPI.Services.Services
             message.Text = model.Message;
 
             Context.Messages.Add(message);
+            Context.SaveChanges();
 
             UtilsService.LogInformation(MessageMessages.MessageSend, user);
             NotificationService.AddSystemNotificationByType(SystemNotificationType.MessageArrived, partner);

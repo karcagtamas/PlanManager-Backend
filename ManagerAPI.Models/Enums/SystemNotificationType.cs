@@ -19,6 +19,9 @@ namespace ManagerAPI.Models.Enums
         FriendRequestAccepted = 45,
         FriendRequestDeclined = 46,
         YouHasANewFriend = 47,
-        FriendRemoved = 48
+        FriendRemoved = 48,
+        NewsAdded = 49,
+        NewsUpdated = 50,
+        NewsDeleted = 51
     }
 }

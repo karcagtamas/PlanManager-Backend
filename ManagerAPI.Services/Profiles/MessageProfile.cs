@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ManagerAPI.Services.Profiles
 {
-    class MessageProfile : Profile
+    public class MessageProfile : Profile
     {
         public MessageProfile()
         {

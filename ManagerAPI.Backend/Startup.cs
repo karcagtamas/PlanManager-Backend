@@ -58,6 +58,7 @@ namespace ManagerAPI.Backend
                 x.AddProfile(new NotificationProfile());
                 x.AddProfile(new FriendProfile());
                 x.AddProfile(new MessageProfile());
+                x.AddProfile(new NewsProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -77,6 +78,8 @@ namespace ManagerAPI.Backend
             services.AddScoped<IEventActionService, EventActionService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IFriendService, FriendService>();
+            services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<INewsService, NewsService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
