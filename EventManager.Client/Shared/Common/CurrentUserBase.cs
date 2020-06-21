@@ -16,13 +16,18 @@ namespace EventManager.Client.Shared.Common
         
         [Inject]
         protected IAuthService AuthService { get; set; }
+
+        [Inject]
+        protected INotificationService NotificationService { get; set; }
         
         protected UserShortDto User { get; set; }
+        protected int UnReadNotificationCount { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             User = null;
             await GetUser();
+            await GetCountOfUnreadNotifications();
         }
 
         protected async Task GetUser()
@@ -31,6 +36,19 @@ namespace EventManager.Client.Shared.Common
             {
                 var result = await UserService.GetShortUser();
                 User = result.IsSuccess ? result.Content : null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        protected async Task GetCountOfUnreadNotifications()
+        {
+            try
+            {
+                var result = await NotificationService.GetCountOfUnReadNotifications();
+                UnReadNotificationCount = result.IsSuccess ? result.Content : 0;
             }
             catch (Exception e)
             {

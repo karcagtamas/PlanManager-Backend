@@ -12,6 +12,12 @@
         <div class="p-1 data" title="@HelperService.DateToString(User.LastLogin)">
             <strong>Last Login: </strong> @HelperService.DateToString(User.LastLogin)
         </div>
+        @if (UnReadNotificationCount > 0)
+        {
+            <div class="p-1 data em-warn-color">
+                You have <strong>@UnReadNotificationCount</strong> unread notification(s).
+            </div>
+        }
         <div>
             <MatIconButton Icon="power_settings_new" @onclick="Logout"></MatIconButton>
             <MatIconButton Icon="favorite"></MatIconButton>
