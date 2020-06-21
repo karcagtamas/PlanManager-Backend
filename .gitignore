@@ -6,3 +6,5 @@ obj/
 PlanManager.Backend/appsettings.json
 
 PlanManager.Backend/appsettings.Development.json
+
+.vs/

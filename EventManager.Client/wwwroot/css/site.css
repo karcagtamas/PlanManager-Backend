@@ -136,11 +136,11 @@ body {
   .em-my-notifications .em-notification .em-notification-right {
     text-align: right; }
   .em-my-notifications .em-notification.importance-1 {
-    background-color: rgba(235, 109, 109, 0.75); }
+    background-color: rgba(235, 223, 109, 0.75); }
   .em-my-notifications .em-notification.importance-2 {
     background-color: rgba(235, 159, 109, 0.75); }
   .em-my-notifications .em-notification.importance-3 {
-    background-color: rgba(235, 223, 109, 0.75); }
+    background-color: rgba(235, 109, 109, 0.75); }
 
 /* Image block */
 .em-image-block img {
@@ -182,6 +182,9 @@ body {
     background-color: rgba(81, 32, 165, 0.8); }
 
 /* MatBlazor settings */
+.mat-checkbox label {
+  margin-bottom: 0; }
+
 .mdc-nav-item {
   margin: 0 0.4rem !important;
   border-radius: 4px; }

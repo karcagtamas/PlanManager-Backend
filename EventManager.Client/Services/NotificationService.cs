@@ -19,9 +19,23 @@ namespace EventManager.Client.Services
             _httpClient = httpClient;
         }
 
+        public async Task<ApiResponseModel<int>> GetCountOfUnReadNotifications()
+        {
+            var result = await _httpClient.GetJsonAsync<ApiResponseModel<int>>($"{_url}/unreads/count");
+
+            return result;
+        }
+
         public async Task<ApiResponseModel<List<NotificationDto>>> GetMyNotifications()
         {
             var result = await _httpClient.GetJsonAsync<ApiResponseModel<List<NotificationDto>>>($"{_url}");
+
+            return result;
+        }
+
+        public async Task<ApiResponseModel<object>> SetUnReadsToRead(int[] ids)
+        {
+            var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}", ids);
 
             return result;
         }

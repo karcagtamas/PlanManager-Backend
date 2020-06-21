@@ -10,5 +10,7 @@ namespace EventManager.Client.Services
     public interface INotificationService
     {
         Task<ApiResponseModel<List<NotificationDto>>> GetMyNotifications();
+        Task<ApiResponseModel<object>> SetUnReadsToRead(int[] ids);
+        Task<ApiResponseModel<int>> GetCountOfUnReadNotifications();
     }
 }

@@ -294,6 +294,12 @@ body {
 
 /* MatBlazor settings */
 
+.mat-checkbox {
+    label {
+        margin-bottom: 0;
+    }
+}
+
 .mdc-nav-item {
   margin: 0 0.4rem !important;
   border-radius: 4px;

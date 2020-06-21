@@ -4,6 +4,7 @@ using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.Notifications
@@ -17,10 +18,14 @@ namespace EventManager.Client.Pages.Notifications
         public IMatToaster Toaster { get; set; }
 
         public List<NotificationDto> Notifications { get; set; }
+        public List<NotificationDto> FilteredNotifications { get; set; }
+        protected bool ShowRead { get; set; } = false;
+        protected int? Importance { get; set; } = null;
 
         protected override async Task OnInitializedAsync()
         {
             await GetNotifications();
+            await SetUnReadsToRead();
         }
 
         protected async Task GetNotifications()
@@ -31,6 +36,7 @@ namespace EventManager.Client.Pages.Notifications
                 if (result.IsSuccess)
                 {
                     Notifications = result.Content;
+                    FilterNotifications();
                 }
                 else
                 {
@@ -41,6 +47,53 @@ namespace EventManager.Client.Pages.Notifications
             {
                 Console.WriteLine(e);
             }
-        } 
+        }
+        
+        protected async Task SetUnReadsToRead()
+        {
+            List<int> ids = new List<int>();
+            foreach (var i in Notifications)
+            {
+                if (!i.IsRead)
+                {
+                    ids.Add(i.Id);
+                }
+            }
+
+            try
+            {
+                var result = await NotificationService.SetUnReadsToRead(ids.ToArray());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        protected void ShowReadValueChangedEvent(bool value)
+        {
+            ShowRead = value;            
+            FilterNotifications();
+        }
+
+        protected void ImportanceValueChangedEvent(int? value)
+        {
+            Importance = value;
+            FilterNotifications();
+        }
+
+        protected void FilterNotifications()
+        {
+            var query = Notifications.AsQueryable();
+            if (!ShowRead)
+            {
+                query = query.Where(x => !x.IsRead);
+            }
+            if (Importance != null)
+            {
+                query = query.Where(x => x.ImportanceLevel == Importance);
+            }
+            FilteredNotifications = query.ToList();
+        }
     }
 }
