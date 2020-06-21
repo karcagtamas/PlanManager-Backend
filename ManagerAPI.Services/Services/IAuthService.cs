@@ -8,5 +8,6 @@ namespace ManagerAPI.Services.Services
     {
         Task Registration(RegistrationModel model);
         Task<string> Login(LoginModel model);
+        void Logout(string userId);
     }
 }

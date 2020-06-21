@@ -1,0 +1,17 @@
+﻿@page "/my-notifications"
+@attribute [Microsoft.AspNetCore.Authorization.Authorize]
+@inherits MyNotificationsBase
+
+@if (Notifications != null && Notifications.Count > 0)
+{
+    <div class="em-my-notifications">
+        <h1 class="em-page-title">My Notifications</h1>
+
+        <div class="notification-list p-2">
+            @foreach (var notification in Notifications)
+            {
+                <MyNotification Notification="notification"></MyNotification>
+            }
+        </div>
+    </div>
+}

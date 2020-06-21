@@ -10,7 +10,7 @@ namespace ManagerAPI.Models.Entities
 
         [Required]
         [MaxLength(256)]
-        public string Message { get; set; }
+        public string Content { get; set; }
 
         [Required]
         public DateTime SentDate { get; set; }
@@ -20,7 +20,14 @@ namespace ManagerAPI.Models.Entities
         
         [Required] 
         public bool IsRead { get; set; }
+        
+        [Required]
+        public bool Archived { get; set; }
+        
+        [Required]
+        public int TypeId { get; set; }
 
         public virtual User Owner { get; set; }
+        public virtual NotificationType Type { get; set; }
     }
 }

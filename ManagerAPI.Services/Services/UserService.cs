@@ -7,6 +7,7 @@ using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Entities;
+using ManagerAPI.Models.Enums;
 using ManagerAPI.Services.Messages;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,8 @@ namespace ManagerAPI.Services.Services
         private readonly IMapper _mapper;
         private readonly IUtilsService _utilsService;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<WebsiteRole> _roleManager;
+        private readonly INotificationService _notificationService;
         private readonly UserMessages _userMessages;
 
         /// <summary>
@@ -31,13 +34,17 @@ namespace ManagerAPI.Services.Services
         /// <param name="context">Database Context</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
-        /// <param name="userManager"></param>
-        public UserService(ILogger<AuthService> logger, DatabaseContext context, IMapper mapper, IUtilsService utilsService, UserManager<User> userManager, RoleManager<WebsiteRole> roleManager)
+        /// <param name="userManager">User manager</param>
+        /// <param name="roleManager">Role manager</param>
+        /// <param name="notificationService">Notification Service</param>
+        public UserService(ILogger<AuthService> logger, DatabaseContext context, IMapper mapper, IUtilsService utilsService, UserManager<User> userManager, RoleManager<WebsiteRole> roleManager, INotificationService notificationService)
         {
             _context = context;
             _mapper = mapper;
             _utilsService = utilsService;
             _userManager = userManager;
+            _roleManager = roleManager;
+            _notificationService = notificationService;
             _userMessages = new UserMessages();
         }
         
@@ -51,11 +58,17 @@ namespace ManagerAPI.Services.Services
             var user = _utilsService.GetCurrentUser();
 
             var userDto = _mapper.Map<UserDto>(user);
-            userDto.Roles = (await _userManager.GetRolesAsync(user)).ToList();
+            var list = (await _userManager.GetRolesAsync(user)).ToList();
+            userDto.Roles = _context.AppRoles.OrderByDescending(x => x.AccessLevel).Where(x => list.Contains(x.Name)).Select(x => x.Name).ToList();
+
             _utilsService.LogInformation(_userMessages.UserGet, user);
             return userDto;
         }
 
+        /// <summary>
+        /// Get small data object from user object
+        /// </summary>
+        /// <returns>Minimalized user data object</returns>
         public UserShortDto GetShortUser()
         {
             var user = _utilsService.GetCurrentUser();
@@ -80,12 +93,16 @@ namespace ManagerAPI.Services.Services
 
             _mapper.Map(updateDto, user);
 
-            // user.FullName = updateDto.FullName;
             _context.AppUsers.Update(user);
             _context.SaveChanges();
             _utilsService.LogInformation(_userMessages.UserUpdate, user);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.MyProfileUpdated, user);
         }
 
+        /// <summary>
+        /// Get genders
+        /// </summary>
+        /// <returns>List of genders</returns>
         public List<GenderDto> GetGenders()
         {
             var user = _utilsService.GetCurrentUser();
@@ -94,6 +111,10 @@ namespace ManagerAPI.Services.Services
             return genders;
         }
 
+        /// <summary>
+        /// Update profile image
+        /// </summary>
+        /// <param name="image">New image</param>
         public void UpdateProfileImage(byte[] image)
         {
             var user = _utilsService.GetCurrentUser();
@@ -108,8 +129,15 @@ namespace ManagerAPI.Services.Services
             _context.AppUsers.Update(user);
             _context.SaveChanges();
             _utilsService.LogInformation(_userMessages.ProfileImageUpdate, user);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.ProfileImageChanged, user);
         }
 
+        /// <summary>
+        /// Update profile login password
+        /// </summary>
+        /// <param name="oldPassword">Old password for authentication</param>
+        /// <param name="newPassword">Newly choosed password</param>
+        /// <returns>Void</returns>
         public async Task UpdatePassword(string oldPassword, string newPassword)
         {
             var user = _utilsService.GetCurrentUser();
@@ -132,8 +160,14 @@ namespace ManagerAPI.Services.Services
                 throw new Exception(_utilsService.AddUserToMessage(_userMessages.InvalidOldPassword, user));
             }
             _utilsService.LogInformation(_userMessages.PasswordUpdate, user);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.PasswordChanged, user);
         }
 
+        /// <summary>
+        /// Update profile username
+        /// </summary>
+        /// <param name="newUsername">New username</param>
+        /// <returns>Void</returns>
         public async Task UpdateUsername(string newUsername)
         {
             var user = _utilsService.GetCurrentUser();
@@ -150,8 +184,12 @@ namespace ManagerAPI.Services.Services
                 throw new Exception(_utilsService.AddUserToMessage(_userMessages.AlreadyOwnThisUsername, user));
             }
             _utilsService.LogInformation(_userMessages.UsernameUpdate, user);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.UsernameChanged, user);
         }
 
+        /// <summary>
+        /// Disable my user
+        /// </summary>
         public void DisableUser()
         {
             var user = _utilsService.GetCurrentUser();
@@ -160,6 +198,7 @@ namespace ManagerAPI.Services.Services
             _context.AppUsers.Update(user);
             _context.SaveChanges();
             _utilsService.LogInformation(_userMessages.DisableStatus, user);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.ProfileDisabled, user);
         }
     }
 }

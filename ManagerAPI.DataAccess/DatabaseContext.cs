@@ -9,6 +9,13 @@ namespace ManagerAPI.DataAccess
         public DbSet<Gender> Genders { get; set; }
         public DbSet<User> AppUsers { get; set; }
         public DbSet<WebsiteRole> AppRoles { get; set; }
+        public DbSet<NotificationSystem> NotificationSystems { get; set; }
+        public DbSet<NotificationType> NotificationTypes { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<FriendRequest> FriendRequests { get; set; }
+        public DbSet<Friends> Friends { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<News> News { get; set; }
 
         // PM
         public DbSet<PlanType> PlanTypes { get; set; }
@@ -41,11 +48,11 @@ namespace ManagerAPI.DataAccess
 
             // Gender table settings
             builder.Entity<Gender>()
-                .HasData(new Gender { Id = 1, Name = "Male"});
+                .HasData(new Gender {Id = 1, Name = "Male"});
             builder.Entity<Gender>()
-                .HasData(new Gender { Id = 2, Name = "Female"});
+                .HasData(new Gender {Id = 2, Name = "Female"});
             builder.Entity<Gender>()
-                .HasData(new Gender { Id = 3, Name = "Other"});
+                .HasData(new Gender {Id = 3, Name = "Other"});
 
             // User table settings
             builder.Entity<User>()
@@ -134,6 +141,260 @@ namespace ManagerAPI.DataAccess
                 {
                     Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20", AccessLevel = 4, Name = "Root", NormalizedName = "ROOT"
                 });
+
+            // Notification system table settings
+            builder.Entity<NotificationSystem>()
+                .HasData(new NotificationSystem {Id = 1, Name = "System", ShortName = "Sys"});
+            builder.Entity<NotificationSystem>()
+                .HasData(new NotificationSystem {Id = 2, Name = "Event Manager", ShortName = "EM"});
+            builder.Entity<NotificationSystem>()
+                .HasData(new NotificationSystem {Id = 3, Name = "Plan Manager", ShortName = "PM"});
+            builder.Entity<NotificationSystem>()
+                .HasData(new NotificationSystem {Id = 4, Name = "Movie Corner", ShortName = "MC"});
+            builder.Entity<NotificationSystem>()
+                .HasData(new NotificationSystem {Id = 5, Name = "Work Manager", ShortName = "WM"});
+
+            // Notification type table settings
+            builder.Entity<NotificationType>()
+                .HasOne(x => x.System)
+                .WithMany(x => x.Types)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 1, Title = "Login", ImportanceLevel = 2, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 2, Title = "Registration", ImportanceLevel = 3, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 3, Title = "Logout", ImportanceLevel = 1, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 4, Title = "My Profile Updated", ImportanceLevel = 3, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 5, Title = "Message Arrived", ImportanceLevel = 1, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 6, Title = "ToDo Added", ImportanceLevel = 2, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 7, Title = "ToDo Deleted", ImportanceLevel = 2, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 8, Title = "ToDo Updated", ImportanceLevel = 1, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 9, Title = "Event Created", ImportanceLevel = 3, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 10, Title = "Event Disabled", ImportanceLevel = 3, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 11, Title = "Event Published", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 12, Title = "Event Locked", ImportanceLevel = 1, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 13, Title = "Event Updated", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 14, Title = "Event Message Arrived", ImportanceLevel = 1, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 15, Title = "Event Member Invited", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 16, Title = "Invitation Accepted", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 17, Title = "Invitation Declined", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 18, Title = "Invited To An Event", ImportanceLevel = 1, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 19, Title = "Accept Event Invitation", ImportanceLevel = 1, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 20, Title = "Decline Event Invitation", ImportanceLevel = 1, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 21, Title = "Event Member Removed", ImportanceLevel = 3, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 22, Title = "Removed From An Event", ImportanceLevel = 3, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 23, Title = "Event Evolved To Sport Event", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 24, Title = "Event Evolved To GT Event", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 25, Title = "Event Date Changed", ImportanceLevel = 1, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 26, Title = "Event Role Added", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 27, Title = "Event Role Updated", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 28, Title = "Event Role Deleted", ImportanceLevel = 3, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 29, Title = "Event Role Added To A User", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 30, Title = "Role Added In An Event", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 31, Title = "Event Role Removed From A User", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 32, Title = "Role Removed In An Event", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 33, Title = "Event ToDo Added", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 34, Title = "Event ToDo Deleted", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 35, Title = "Event ToDo Updated", ImportanceLevel = 1, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 36, Title = "Event PayOut Added", ImportanceLevel = 3, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 37, Title = "Event PayOut Deleted", ImportanceLevel = 3, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 38, Title = "Event PayOut Updated", ImportanceLevel = 3, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 39, Title = "Password Changed", ImportanceLevel = 3, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 40, Title = "Profile Image Changed", ImportanceLevel = 1, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 41, Title = "Username Changed", ImportanceLevel = 2, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 42, Title = "Profile Disabled", ImportanceLevel = 3, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 43, Title = "Friend Request Received", ImportanceLevel = 2, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 44, Title = "Friend Request Sent", ImportanceLevel = 1, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 45, Title = "Friend Request Accepted", ImportanceLevel = 2, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 46, Title = "Friend Request Declined", ImportanceLevel = 2, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 47, Title = "You Has a new Friend", ImportanceLevel = 2, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 48, Title = "Friend Removed", ImportanceLevel = 3, SystemId = 1 });
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                { Id = 49, Title = "News Added", ImportanceLevel = 2, SystemId = 1 });
+            builder.Entity<NotificationType>()
+               .HasData(new NotificationType
+               { Id = 50, Title = "News Updated", ImportanceLevel = 1, SystemId = 1 });
+            builder.Entity<NotificationType>()
+               .HasData(new NotificationType
+               { Id = 51, Title = "News Deleted", ImportanceLevel = 3, SystemId = 1 });
+
+            // Notification table settings
+            builder.Entity<Notification>()
+                .HasOne(x => x.Type)
+                .WithMany(x => x.Notifications)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Notification>()
+                .HasOne(x => x.Owner)
+                .WithMany(x => x.Notifications)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Notification>()
+                .Property(x => x.Archived)
+                .HasDefaultValue(false);
+            builder.Entity<Notification>()
+                .Property(x => x.IsRead)
+                .HasDefaultValue(false);
+            builder.Entity<Notification>()
+                .Property(x => x.SentDate)
+                .HasDefaultValueSql("getdate()");
+
+            // Friend request table settings
+            builder.Entity<FriendRequest>()
+                .Property(x => x.ResponseDate)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<FriendRequest>()
+                .Property(x => x.SentDate)
+                .HasDefaultValueSql("getdate()");
+
+            builder.Entity<FriendRequest>()
+                .HasOne(x => x.Destination)
+                .WithMany(x => x.ReceivedFriendRequest)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<FriendRequest>()
+                .HasOne(x => x.Sender)
+                .WithMany(x => x.SentFriendRequest)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Friends table settings
+            builder.Entity<Friends>()
+               .HasKey(x => new { x.UserId, x.FriendId });
+            builder.Entity<Friends>()
+                .Property(x => x.ConnectionDate)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<Friends>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.FriendListLeft)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Friends>()
+                .HasOne(x => x.Friend)
+                .WithMany(x => x.FriendListRight)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Friends>()
+                .HasOne(x => x.Request)
+                .WithMany(x => x.FriendCollection)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Message table settings
+            builder.Entity<Message>()
+               .Property(x => x.Date)
+               .HasDefaultValueSql("getdate()");
+            builder.Entity<Message>()
+                .HasOne(x => x.Sender)
+                .WithMany(x => x.SentMessages)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Message>()
+                .HasOne(x => x.Receiver)
+                .WithMany(x => x.ReceivedMessages)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // News table settings
+            builder.Entity<News>()
+              .Property(x => x.Creation)
+              .HasDefaultValueSql("getdate()");
+            builder.Entity<News>()
+              .Property(x => x.LastUpdate)
+              .HasDefaultValueSql("getdate()");
+            builder.Entity<News>()
+                .HasOne(x => x.Creator)
+                .WithMany(x => x.CreatedNews)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<News>()
+                .HasOne(x => x.LastUpdater)
+                .WithMany(x => x.UpdatedNews)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Plan type table settings
             builder.Entity<PlanType>()

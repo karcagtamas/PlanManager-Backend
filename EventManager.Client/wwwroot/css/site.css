@@ -1,4 +1,4 @@
-@import url("../css/open-iconic/font/css/open-iconic-bootstrap.min.css");
+﻿@import url("open-iconic/font/css/open-iconic-bootstrap.min.css");
 /* General body settings */
 html, body {
   font-family: 'Bree Serif', serif;
@@ -35,6 +35,7 @@ body {
 
 .em-panel .panel-title {
   color: #5120a5; }
+
 .em-panel .panel-content {
   padding: 1rem; }
 
@@ -115,6 +116,31 @@ body {
     left: 50%;
     top: 50%;
     -webkit-transform: translateY(-50%) translateX(-50%); }
+
+/* My notification page */
+.em-my-notifications .em-notification {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem; }
+  .em-my-notifications .em-notification .em-notification-footer {
+    font-size: 0.8rem;
+    color: #5120a5;
+    font-style: italic;
+    display: flex; }
+    .em-my-notifications .em-notification .em-notification-footer .spacer {
+      flex-grow: 1; }
+  .em-my-notifications .em-notification .em-notification-content {
+    text-align: justify; }
+  .em-my-notifications .em-notification .em-notification-right {
+    text-align: right; }
+  .em-my-notifications .em-notification.importance-1 {
+    background-color: rgba(235, 109, 109, 0.75); }
+  .em-my-notifications .em-notification.importance-2 {
+    background-color: rgba(235, 159, 109, 0.75); }
+  .em-my-notifications .em-notification.importance-3 {
+    background-color: rgba(235, 223, 109, 0.75); }
 
 /* Image block */
 .em-image-block img {
@@ -270,5 +296,3 @@ app {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #5120a5; }
-
-/*# sourceMappingURL=site.css.map */

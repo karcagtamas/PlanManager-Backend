@@ -1,36 +1,39 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanManager.Services", "PlanManager.Services\PlanManager.Services.csproj", "{BE322A25-9051-4ED3-9C9D-B033BE69E439}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanManager.Services", "PlanManager.Services\PlanManager.Services.csproj", "{BE322A25-9051-4ED3-9C9D-B033BE69E439}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E0D33AD4-24D9-4056-8176-15CDE27770CD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{83D892C3-C369-4C32-9F2D-14DADED37AB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanManager.Tests", "PlanManager.Tests\PlanManager.Tests.csproj", "{A96C3B73-62FD-4DE5-99C6-74A6BE9AFAE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanManager.Tests", "PlanManager.Tests\PlanManager.Tests.csproj", "{A96C3B73-62FD-4DE5-99C6-74A6BE9AFAE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerAPI.Backend", "ManagerAPI.Backend\ManagerAPI.Backend.csproj", "{601E458D-46A7-44C2-86EE-59F9C0DE668B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerAPI.Backend", "ManagerAPI.Backend\ManagerAPI.Backend.csproj", "{601E458D-46A7-44C2-86EE-59F9C0DE668B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerAPI.DataAccess", "ManagerAPI.DataAccess\ManagerAPI.DataAccess.csproj", "{C9F33991-7CCA-4C60-802F-DEE1A8567570}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerAPI.DataAccess", "ManagerAPI.DataAccess\ManagerAPI.DataAccess.csproj", "{C9F33991-7CCA-4C60-802F-DEE1A8567570}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlanManager", "PlanManager", "{91326DD7-A3F8-4128-8C37-F229AD51717A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventManager", "EventManager", "{62B52463-32A3-46D3-9066-5C1EADFEF597}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventManager.Services", "EventManager.Services\EventManager.Services.csproj", "{5BE487CF-8BDE-418F-9142-2F33CFE15E6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventManager.Services", "EventManager.Services\EventManager.Services.csproj", "{5BE487CF-8BDE-418F-9142-2F33CFE15E6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerAPI.Services", "ManagerAPI.Services\ManagerAPI.Services.csproj", "{F04680E1-7718-4A97-A051-0A4E721A3B30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerAPI.Services", "ManagerAPI.Services\ManagerAPI.Services.csproj", "{F04680E1-7718-4A97-A051-0A4E721A3B30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventManager.Client", "EventManager.Client\EventManager.Client.csproj", "{C9751816-887F-4261-8A2A-A5DEA7BF1F30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventManager.Client", "EventManager.Client\EventManager.Client.csproj", "{C9751816-887F-4261-8A2A-A5DEA7BF1F30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerAPI.Models", "ManagerAPI.Models\ManagerAPI.Models.csproj", "{CBDF252A-5134-42EE-9F32-3E6EC74B69EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerAPI.Models", "ManagerAPI.Models\ManagerAPI.Models.csproj", "{CBDF252A-5134-42EE-9F32-3E6EC74B69EC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MovieCorner", "MovieCorner", "{267F7DF1-FA75-4A83-A63D-C9E696373392}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkingManager", "WorkingManager", "{BEAD2B50-8AF4-49ED-B40C-DA5508F1F8DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingManager.Services", "WorkingManager.Services\WorkingManager.Services.csproj", "{11DA1C11-E25E-4550-9BD6-63BFFAA5589E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkingManager.Services", "WorkingManager.Services\WorkingManager.Services.csproj", "{11DA1C11-E25E-4550-9BD6-63BFFAA5589E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieCorner.Services", "MovieCorner.Services\MovieCorner.Services.csproj", "{3E60E00C-942C-43A6-8D45-4F939440F06D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieCorner.Services", "MovieCorner.Services\MovieCorner.Services.csproj", "{3E60E00C-942C-43A6-8D45-4F939440F06D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,12 +82,15 @@ Global
 		{3E60E00C-942C-43A6-8D45-4F939440F06D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E60E00C-942C-43A6-8D45-4F939440F06D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{BE322A25-9051-4ED3-9C9D-B033BE69E439} = {91326DD7-A3F8-4128-8C37-F229AD51717A}
 		{A96C3B73-62FD-4DE5-99C6-74A6BE9AFAE7} = {83D892C3-C369-4C32-9F2D-14DADED37AB6}
 		{601E458D-46A7-44C2-86EE-59F9C0DE668B} = {E0D33AD4-24D9-4056-8176-15CDE27770CD}
 		{C9F33991-7CCA-4C60-802F-DEE1A8567570} = {E0D33AD4-24D9-4056-8176-15CDE27770CD}
 		{91326DD7-A3F8-4128-8C37-F229AD51717A} = {E0D33AD4-24D9-4056-8176-15CDE27770CD}
-		{BE322A25-9051-4ED3-9C9D-B033BE69E439} = {91326DD7-A3F8-4128-8C37-F229AD51717A}
 		{62B52463-32A3-46D3-9066-5C1EADFEF597} = {E0D33AD4-24D9-4056-8176-15CDE27770CD}
 		{5BE487CF-8BDE-418F-9142-2F33CFE15E6B} = {62B52463-32A3-46D3-9066-5C1EADFEF597}
 		{F04680E1-7718-4A97-A051-0A4E721A3B30} = {E0D33AD4-24D9-4056-8176-15CDE27770CD}
@@ -94,5 +100,8 @@ Global
 		{BEAD2B50-8AF4-49ED-B40C-DA5508F1F8DB} = {E0D33AD4-24D9-4056-8176-15CDE27770CD}
 		{11DA1C11-E25E-4550-9BD6-63BFFAA5589E} = {BEAD2B50-8AF4-49ED-B40C-DA5508F1F8DB}
 		{3E60E00C-942C-43A6-8D45-4F939440F06D} = {267F7DF1-FA75-4A83-A63D-C9E696373392}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {42B15A23-20A6-4A56-8C36-4FA287377346}
 	EndGlobalSection
 EndGlobal
