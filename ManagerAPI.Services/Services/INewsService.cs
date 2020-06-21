@@ -8,7 +8,7 @@ namespace ManagerAPI.Services.Services
     {
         List<NewsDto> GetNewsPosts();
         void PostNews(PostModel model);
-        void UpdateNews(PostModel model);
+        void UpdateNews(int postId, PostModel model);
         void DeleteNews(int postId);
     }
 }

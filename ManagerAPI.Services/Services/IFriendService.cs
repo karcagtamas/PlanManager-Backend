@@ -8,7 +8,7 @@ namespace ManagerAPI.Services.Services
     {
         List<FriendListDto> GetMyFriends();
         void RemoveFriend(string friendId);
-        List<FriendRequestListDto> GetMyFriendRequests(bool? type);
+        List<FriendRequestListDto> GetMyFriendRequests(FriendRequestFilterModel model);
         void SendFriendRequestResponse(FriendRequestResponseModel model);
         void SendFriendRequest(FriendRequestModel model);
     }

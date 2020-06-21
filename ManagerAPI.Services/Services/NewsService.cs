@@ -99,11 +99,11 @@ namespace ManagerAPI.Services.Services
         /// Update news
         /// </summary>
         /// <param name="model">Model of news</param>
-        public void UpdateNews(PostModel model)
+        public void UpdateNews(int postId, PostModel model)
         {
             var user = UtilsService.GetCurrentUser();
 
-            var news = Context.News.Find(model.Id);
+            var news = Context.News.Find(postId);
 
             if (news == null)
             {

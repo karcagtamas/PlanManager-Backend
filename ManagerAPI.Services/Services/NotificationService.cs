@@ -18,7 +18,6 @@ namespace ManagerAPI.Services.Services
         private readonly IUtilsService _utilsService;
         private readonly DatabaseContext _context;
         private readonly IMapper _mapper;
-        private readonly NotificationMessages _notificationMessages;
 
         /// <summary>
         /// Injector constructor
@@ -30,7 +29,6 @@ namespace ManagerAPI.Services.Services
             _utilsService = utilsService;
             _context = context;
             _mapper = mapper;
-            _notificationMessages = new NotificationMessages();
         }
 
         /// <summary>
@@ -56,8 +54,17 @@ namespace ManagerAPI.Services.Services
                 SystemNotificationType.ProfileImageChanged => $"Profile image changed",
                 SystemNotificationType.UsernameChanged => $"Username changed",
                 SystemNotificationType.ProfileDisabled => $"Profile disabled",
+                SystemNotificationType.FriendRequestReceived => $"Friend request received",
+                SystemNotificationType.FriendRequestSent => $"Friend request sent",
+                SystemNotificationType.FriendRequestAccepted => $"Friend request accepted",
+                SystemNotificationType.FriendRequestDeclined => $"Friend request declined",
+                SystemNotificationType.YouHasANewFriend => $"You has a new friend",
+                SystemNotificationType.FriendRemoved => $"Friend removed",
+                SystemNotificationType.NewsAdded => $"News added",
+                SystemNotificationType.NewsUpdated => $"News updated",
+                SystemNotificationType.NewsDeleted => $"News deleted",
                 _ =>
-                throw new Exception(_utilsService.AddUserToMessage(_notificationMessages.InvalidSystemNotificationType, user)),
+                throw new Exception(_utilsService.AddUserToMessage(NotificationMessages.InvalidSystemNotificationType, user)),
             };
 
             // Create notification
@@ -71,7 +78,7 @@ namespace ManagerAPI.Services.Services
             // Save notification
             _context.Notifications.Add(notification);
             _context.SaveChanges();
-            _utilsService.LogInformation(_notificationMessages.NotificationAdded, user);
+            _utilsService.LogInformation(NotificationMessages.NotificationAdded, user);
         }
 
         /// <summary>
@@ -84,7 +91,7 @@ namespace ManagerAPI.Services.Services
 
             var count = user.Notifications.Where(x => !x.IsRead).Count();
 
-            _utilsService.LogInformation(_notificationMessages.GetCountOfUnReadNotifications, user);
+            _utilsService.LogInformation(NotificationMessages.GetCountOfUnReadNotifications, user);
 
             return count;
         }
@@ -99,7 +106,7 @@ namespace ManagerAPI.Services.Services
 
             var list = _mapper.Map<List<NotificationDto>>(_context.Notifications.Where(x => x.OwnerId == user.Id).OrderByDescending(x => x.SentDate).ToList());
 
-            _utilsService.LogInformation(_notificationMessages.GetMyNotifications, user);
+            _utilsService.LogInformation(NotificationMessages.GetMyNotifications, user);
 
             return list;
         }
@@ -110,6 +117,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="notifications">Ids of the notifications</param>
         public void SetAsReadNotificationsById(int[] notifications)
         {
+            var user = _utilsService.GetCurrentUser();
             var list = _context.Notifications.Where(x => notifications.ToList().Contains(x.Id)).ToList();
 
             foreach (var i in list)
@@ -118,6 +126,9 @@ namespace ManagerAPI.Services.Services
             }
 
             _context.Notifications.UpdateRange(list);
+            _context.SaveChanges();
+
+            _utilsService.LogInformation(NotificationMessages.SetAsReadMyNotifications, user);
         }
     }
 }

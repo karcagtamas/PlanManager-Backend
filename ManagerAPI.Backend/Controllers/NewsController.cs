@@ -96,12 +96,12 @@ namespace ManagerAPI.Backend.Controllers
         /// </summary>
         /// <param name="model">Model of news</param>
         /// <returns>Server Response</returns>
-        [HttpPut]
-        public IActionResult UpdateNews([FromBody] PostModel model)
+        [HttpPut("{postId}")]
+        public IActionResult UpdateNews(int postId, [FromBody] PostModel model)
         {
             try
             {
-                _newsService.UpdateNews(model);
+                _newsService.UpdateNews(postId, model);
                 return Ok(new ServerResponse<object>(null, true));
             }
             catch (Exception e)

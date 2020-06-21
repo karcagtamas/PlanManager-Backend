@@ -39,11 +39,11 @@ namespace ManagerAPI.Backend.Controllers
         /// <param name="type">Undecided / accepted / declined</param>
         /// <returns>Server Response</returns>
         [HttpGet("request")]
-        public IActionResult GetMyFriendRequests([FromBody] bool? type)
+        public IActionResult GetMyFriendRequests([FromBody] FriendRequestFilterModel model)
         {
             try
             {
-                return Ok(new ServerResponse<List<FriendRequestListDto>>(_friendService.GetMyFriendRequests(type), true));
+                return Ok(new ServerResponse<List<FriendRequestListDto>>(_friendService.GetMyFriendRequests(model), true));
             }
             catch (Exception e)
             {
