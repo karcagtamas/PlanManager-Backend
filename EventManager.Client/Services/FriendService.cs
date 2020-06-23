@@ -33,8 +33,7 @@ namespace EventManager.Client.Services
             {
                 using (var sr = await response.Content.ReadAsStreamAsync()) 
                 {
-
-                    return await System.Text.Json.JsonSerializer.DeserializeAsync<List<FriendRequestListDto>>(sr);
+                    return await System.Text.Json.JsonSerializer.DeserializeAsync<List<FriendRequestListDto>>(sr, _helperService.GetSerializerOptions());
                 }
             }
             else
@@ -52,7 +51,7 @@ namespace EventManager.Client.Services
                 using (var sr = await response.Content.ReadAsStreamAsync())
                 {
 
-                    return await System.Text.Json.JsonSerializer.DeserializeAsync<List<FriendListDto>>(sr);
+                    return await System.Text.Json.JsonSerializer.DeserializeAsync<List<FriendListDto>>(sr, _helperService.GetSerializerOptions());
                 }
             }
             else
@@ -65,6 +64,8 @@ namespace EventManager.Client.Services
         {
             var response = await _httpClient.DeleteAsync($"{_url}/{friendId}");
 
+            await _helperService.AddToaster(response, "Friend removing");
+
             return response.IsSuccessStatusCode;
         }
 
@@ -72,12 +73,16 @@ namespace EventManager.Client.Services
         {
             var response = await _httpClient.PostAsync($"{_url}/request", _helperService.CreateContent(model));
 
+            await _helperService.AddToaster(response, "Friend request sending");
+
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> SendFriendRequestResponse(FriendRequestResponseModel model)
         {
             var response = await _httpClient.PutAsync($"{_url}/request", _helperService.CreateContent(model));
+
+            await _helperService.AddToaster(response, "Friend request answering");
 
             return response.IsSuccessStatusCode;
         }

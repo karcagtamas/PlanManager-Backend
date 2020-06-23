@@ -41,22 +41,9 @@ namespace EventManager.Client.Pages.Auth
 
         protected async Task SignIn()
         {
-            try
+            if (await AuthService.Login(Model) != "")
             {
-                var result = await AuthService.Login(Model);
-                if (result.IsSuccess)
-                {
-                    NavigationManager.NavigateTo("/");
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "Login Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "Login Error");
-                Console.WriteLine(e);
+                NavigationManager.NavigateTo("/");
             }
         }
     }

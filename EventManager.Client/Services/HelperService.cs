@@ -1,6 +1,9 @@
 using System;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
 
@@ -10,10 +13,12 @@ namespace EventManager.Client.Services
     {
         private readonly NavigationManager _navigationManager;
         private readonly string UnreachableMessage = "Connection is unreachable! Please try again later!";
+        private readonly IMatToaster _toaster;
 
-        public HelperService(NavigationManager navigationManager)
+        public HelperService(NavigationManager navigationManager, IMatToaster toaster)
         {
             _navigationManager = navigationManager;
+            _toaster = toaster;
         }
         
         public string ConnectionIsUnreachable()
@@ -49,6 +54,27 @@ namespace EventManager.Client.Services
         public StringContent CreateContent(object obj)
         {
             return new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+        }
+
+        public JsonSerializerOptions GetSerializerOptions()
+        {
+            return new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        }
+
+        public async Task AddToaster(HttpResponseMessage response, string caption)
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                _toaster.Add("Event successfully accomplished", MatToastType.Success, caption);
+            }
+            else
+            {
+                using (var sr = await response.Content.ReadAsStreamAsync())
+                {
+                    var e = await System.Text.Json.JsonSerializer.DeserializeAsync<Exception>(sr, GetSerializerOptions());
+                    _toaster.Add(e.Message, MatToastType.Danger, caption);
+                }
+            }
         }
     }
 }
