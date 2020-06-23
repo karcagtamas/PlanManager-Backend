@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace EventManager.Client.Models.News {
     public class PostModel {
         [Required]

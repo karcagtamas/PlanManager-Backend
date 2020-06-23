@@ -1,3 +1,5 @@
+using System;
+
 namespace EventManager.Client.Models.Friends
 {
     public class FriendRequestListDto

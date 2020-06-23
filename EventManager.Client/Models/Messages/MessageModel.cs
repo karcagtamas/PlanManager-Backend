@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace EventManager.Client.Models.Messages
 {
     public class MessageModel

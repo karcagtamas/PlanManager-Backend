@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 
 namespace EventManager.Client.Services
 {
@@ -10,5 +11,6 @@ namespace EventManager.Client.Services
         string LeaderZero(int number);
         string WriteNullableField(object fieldValue);
         string WriteForint(decimal? fieldValue);
+        StringContent CreateContent(object obj);
     }
 }

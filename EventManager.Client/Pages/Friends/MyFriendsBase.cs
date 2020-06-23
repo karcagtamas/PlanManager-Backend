@@ -1,4 +1,5 @@
-﻿using EventManager.Client.Services;
+﻿using EventManager.Client.Models.Friends;
+using EventManager.Client.Services;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -11,9 +12,28 @@ namespace EventManager.Client.Pages.Friends
     public class MyFriendsBase : ComponentBase
     {
         [Inject]
-        public IFriendService FriendService { get; set; }
+        private IFriendService FriendService { get; set; }
 
         [Inject]
-        public IMatToaster Toaster { get; set; }
+        private IMatToaster Toaster { get; set; }
+
+        protected List<FriendListDto> Friends { get; set; } = null;
+        protected List<FriendRequestListDto> FriendRequests { get; set; } = null;
+
+        protected override async Task OnInitializedAsync()
+        {
+            await GetFriends();
+            await GetFriendRequests();
+        }
+
+        protected async Task GetFriendRequests()
+        {
+            this.FriendRequests = await FriendService.GetMyFriendRequests();
+        }
+
+        protected async Task GetFriends()
+        {
+            this.Friends = await FriendService.GetMyFriends();
+        }
     }
 }

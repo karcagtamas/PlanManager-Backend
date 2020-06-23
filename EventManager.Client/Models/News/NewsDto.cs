@@ -1,3 +1,5 @@
+using System;
+
 namespace EventManager.Client.Models.News
 {
     public class NewsDto

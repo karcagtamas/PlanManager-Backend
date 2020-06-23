@@ -1,3 +1,5 @@
+using System;
+
 namespace EventManager.Client.Models.Messages
 {
     public class MessageDto

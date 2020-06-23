@@ -1,5 +1,8 @@
 using System;
+using System.Net.Http;
+using System.Text;
 using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json;
 
 namespace EventManager.Client.Services
 {
@@ -41,6 +44,11 @@ namespace EventManager.Client.Services
         public string WriteForint(decimal? fieldValue)
         {
             return fieldValue == null? "-" : $"{fieldValue} Ft";
+        }
+
+        public StringContent CreateContent(object obj)
+        {
+            return new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
         }
     }
 }
