@@ -13,31 +13,54 @@ namespace EventManager.Client.Services
     {
         private readonly HttpClient _httpClient;
         private readonly string _url = ApplicationSettings.BaseApiUrl + "/notification";
+        private readonly IHelperService _helperService;
 
-        public NotificationService(HttpClient httpClient)
+        public NotificationService(HttpClient httpClient, IHelperService helperService)
         {
             _httpClient = httpClient;
+            _helperService = helperService;
         }
 
-        public async Task<ApiResponseModel<int>> GetCountOfUnReadNotifications()
+        public async Task<int?> GetCountOfUnReadNotifications()
         {
-            var result = await _httpClient.GetJsonAsync<ApiResponseModel<int>>($"{_url}/unreads/count");
+            var response = await _httpClient.GetAsync($"{_url}/unreads/count");
 
-            return result;
+            if (response.IsSuccessStatusCode) 
+            {
+                int count = -1;
+                int.TryParse(await response.Content.ReadAsStringAsync(), out count);
+                return count == -1 ? null : (int?)count;
+            }
+            else 
+            {
+                return null;
+            }
         }
 
-        public async Task<ApiResponseModel<List<NotificationDto>>> GetMyNotifications()
+        public async Task<List<NotificationDto>> GetMyNotifications()
         {
-            var result = await _httpClient.GetJsonAsync<ApiResponseModel<List<NotificationDto>>>($"{_url}");
+            var response = await _httpClient.GetAsync($"{_url}");
 
-            return result;
+            if (response.IsSuccessStatusCode)
+            {
+                using (var sr = await response.Content.ReadAsStreamAsync()) 
+                {
+                    return await System.Text.Json.JsonSerializer.DeserializeAsync<List<NotificationDto>>(sr, _helperService.GetSerializerOptions());
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public async Task<ApiResponseModel<object>> SetUnReadsToRead(int[] ids)
+        public async Task<bool> SetUnReadsToRead(int[] ids)
         {
-            var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}", ids);
+            var response = await _httpClient.PutAsync($"{_url}", _helperService.CreateContent(ids));
 
-            return result;
+            await _helperService.AddToaster(response, "Notification refreshing");
+
+            return response.IsSuccessStatusCode;
         }
     }
 }
