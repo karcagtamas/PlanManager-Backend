@@ -30,22 +30,10 @@ namespace EventManager.Client.Pages.Notifications
 
         protected async Task GetNotifications()
         {
-            try
-            {
-                var result = await NotificationService.GetMyNotifications();
-                if (result.IsSuccess)
-                {
-                    Notifications = result.Content;
-                    FilterNotifications();
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "My Profile Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+
+            Notifications = await NotificationService.GetMyNotifications();
+            if (Notifications.Count() > 0) {
+                FilterNotifications();
             }
         }
         
