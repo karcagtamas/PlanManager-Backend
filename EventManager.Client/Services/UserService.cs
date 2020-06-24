@@ -12,66 +12,108 @@ namespace EventManager.Client.Services
     {
         private readonly HttpClient _httpClient;
         private readonly string _url = ApplicationSettings.BaseApiUrl + "/user";
+        private readonly IHelperService _helperService;
 
-        public UserService(HttpClient httpClient)
+        public UserService(HttpClient httpClient, IHelperService helperService)
         {
             _httpClient = httpClient;
+            _helperService = helperService;
         }
         
-        public async Task<ApiResponseModel<UserDto>> GetUser()
+        public async Task<UserDto> GetUser()
         {
-            var result = await _httpClient.GetJsonAsync<ApiResponseModel<UserDto>>($"{_url}");
+            var response = await _httpClient.GetAsync($"{_url}");
 
-            return result;
+            if (response.IsSuccessStatusCode)
+            {
+                using (var sr = await response.Content.ReadAsStreamAsync()) 
+                {
+                    return await System.Text.Json.JsonSerializer.DeserializeAsync<UserDto>(sr, _helperService.GetSerializerOptions());
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public async Task<ApiResponseModel<UserShortDto>> GetShortUser()
+        public async Task<UserShortDto> GetShortUser()
         {
-            var result = await _httpClient.GetJsonAsync<ApiResponseModel<UserShortDto>>($"{_url}/shorter");
+            var response = await _httpClient.GetAsync($"{_url}/shorter");
 
-            return result;
+            if (response.IsSuccessStatusCode)
+            {
+                using (var sr = await response.Content.ReadAsStreamAsync()) 
+                {
+                    return await System.Text.Json.JsonSerializer.DeserializeAsync<UserShortDto>(sr, _helperService.GetSerializerOptions());
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public async Task<ApiResponseModel<object>> UpdateUser(UserUpdateDto userUpdate)
+        public async Task<bool> UpdateUser(UserUpdateDto userUpdate)
         {
-            var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}", userUpdate);
+            var response = await _httpClient.PutAsync($"{_url}", _helperService.CreateContent(userUpdate));
 
-            return result;
+            await _helperService.AddToaster(response, "User update");
+
+            return response.IsSuccessStatusCode;
         }
 
-        public async Task<ApiResponseModel<List<GenderDto>>> GetGenders()
+        public async Task<List<GenderDto>> GetGenders()
         {
-            var result = await _httpClient.GetJsonAsync<ApiResponseModel<List<GenderDto>>>($"{_url}/genders");
+            var response = await _httpClient.GetAsync($"{_url}/genders");
 
-            return result;
+            if (response.IsSuccessStatusCode)
+            {
+                using (var sr = await response.Content.ReadAsStreamAsync()) 
+                {
+                    return await System.Text.Json.JsonSerializer.DeserializeAsync<List<GenderDto>>(sr, _helperService.GetSerializerOptions());
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public async Task<ApiResponseModel<object>> UpdatePassword(PasswordUpdateModel model)
+        public async Task<bool> UpdatePassword(PasswordUpdateModel model)
         {
-            var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}/password", model);
+            var response = await _httpClient.PutAsync($"{_url}/password", _helperService.CreateContent(model));
 
-            return result;
+            await _helperService.AddToaster(response, "Password update");
+
+            return response.IsSuccessStatusCode;
         }
 
-        public async Task<ApiResponseModel<object>> UpdateProfileImage(byte[] image)
+        public async Task<bool> UpdateProfileImage(byte[] image)
         {
-            var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}/profile-image", image);
+            var response = await _httpClient.PutAsync($"{_url}/profile-image", _helperService.CreateContent(image));
 
-            return result;
+            await _helperService.AddToaster(response, "Image update");
+
+            return response.IsSuccessStatusCode;
         }
         
-        public async Task<ApiResponseModel<object>> UpdateUsername(UsernameUpdateModel model)
+        public async Task<bool> UpdateUsername(UsernameUpdateModel model)
         {
-            var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}/username", model);
+            var response = await _httpClient.PutAsync($"{_url}/username", _helperService.CreateContent(model));
 
-            return result;
+            await _helperService.AddToaster(response, "UserUame update");
+
+            return response.IsSuccessStatusCode;
         }
         
-        public async Task<ApiResponseModel<object>> DisableUser()
+        public async Task<bool> DisableUser()
         {
-            var result = await _httpClient.PutJsonAsync<ApiResponseModel<object>>($"{_url}/disable", null);
+            var response = await _httpClient.PutAsync($"{_url}/disable", null);
 
-            return result;
+            await _helperService.AddToaster(response, "Disable user");
+
+            return response.IsSuccessStatusCode;
         }
     }
 }

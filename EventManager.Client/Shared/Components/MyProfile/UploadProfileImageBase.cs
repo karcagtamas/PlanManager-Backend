@@ -55,23 +55,8 @@ namespace EventManager.Client.Shared.Components.MyProfile
                 {
                     await using var stream = new MemoryStream();
                     await file.WriteToStreamAsync(stream);
-                    try
-                    {
-                        var result = await UserService.UpdateProfileImage(stream.ToArray());
-                        if (result.IsSuccess)
-                        {
-                            Toaster.Add("Successfully updated User", MatToastType.Success, "My Profile");
-                            await Response.InvokeAsync(true);
-                        }
-                        else
-                        {
-                            Toaster.Add(result.Message, MatToastType.Danger, "My Profile Error");
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "My Profile Error");
-                        Console.WriteLine(e);
+                    if (await UserService.UpdateProfileImage(stream.ToArray())) {
+                        await Response.InvokeAsync(true);
                     }
                 }
                 else

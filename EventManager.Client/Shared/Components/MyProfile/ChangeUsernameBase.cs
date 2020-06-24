@@ -31,23 +31,8 @@ namespace EventManager.Client.Shared.Components.MyProfile
 
         protected async Task Save()
         {
-            try
-            {
-                var result = await UserService.UpdateUsername(this.UsernameUpdate);
-                if (result.IsSuccess)
-                {
-                    Toaster.Add("Successfully updated username", MatToastType.Success, "My Profile");
-                    await Response.InvokeAsync(true);
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "My Profile Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "My Profile Error");
-                Console.WriteLine(e);
+            if (await UserService.UpdateUsername(this.UsernameUpdate)) {
+                await Response.InvokeAsync(true);
             }
         }
 

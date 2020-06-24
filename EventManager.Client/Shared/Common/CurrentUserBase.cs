@@ -32,15 +32,7 @@ namespace EventManager.Client.Shared.Common
 
         protected async Task GetUser()
         {
-            try
-            {
-                var result = await UserService.GetShortUser();
-                User = result.IsSuccess ? result.Content : null;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            User = await UserService.GetShortUser();
         }
 
         protected async Task GetCountOfUnreadNotifications()
