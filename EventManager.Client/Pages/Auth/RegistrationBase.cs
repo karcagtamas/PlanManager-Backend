@@ -44,31 +44,16 @@ namespace EventManager.Client.Pages.Auth
         
         protected async Task SignUp()
         {
-            try
+
+            await AuthService.Register(Model);
+            Model = new RegistrationModel
             {
-                var result = await AuthService.Register(Model);
-                if (result.IsSuccess)
-                {
-                    Toaster.Add(result.Message, MatToastType.Success, "Registration Successful");
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "Registration Error");
-                }
-                Model = new RegistrationModel
-                {
-                    UserName = "",
-                    Email = "",
-                    FullName = "",
-                    Password = "",
-                    PasswordConfirm = ""
-                };
-            }
-            catch (Exception e)
-            {
-                Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "Registration Error");
-                Console.WriteLine(e);
-            }
+                UserName = "",
+                Email = "",
+                FullName = "",
+                Password = "",
+                PasswordConfirm = ""
+            };
         }
     }
 }

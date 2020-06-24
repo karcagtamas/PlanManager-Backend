@@ -5,8 +5,8 @@ namespace EventManager.Client.Services
 {
     public interface IAuthService
     {
-        Task<ApiResponseModel<object>> Register(RegistrationModel model);
-        Task<ApiResponseModel<string>> Login(LoginModel model);
+        Task<bool> Register(RegistrationModel model);
+        Task<string> Login(LoginModel model);
         Task Logout();
     }
 }

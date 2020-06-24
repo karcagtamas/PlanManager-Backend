@@ -32,28 +32,13 @@ namespace EventManager.Client.Shared.Common
 
         protected async Task GetUser()
         {
-            try
-            {
-                var result = await UserService.GetShortUser();
-                User = result.IsSuccess ? result.Content : null;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            User = await UserService.GetShortUser();
         }
 
         protected async Task GetCountOfUnreadNotifications()
         {
-            try
-            {
-                var result = await NotificationService.GetCountOfUnReadNotifications();
-                UnReadNotificationCount = result.IsSuccess ? result.Content : 0;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            int? val = await NotificationService.GetCountOfUnReadNotifications();
+            UnReadNotificationCount = val == null ? 0 : (int)val;
         }
 
         protected async Task Logout()

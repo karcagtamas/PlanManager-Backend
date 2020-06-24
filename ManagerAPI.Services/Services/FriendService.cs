@@ -41,11 +41,11 @@ namespace ManagerAPI.Services.Services
         /// </summary>
         /// <param name="type">Undecided / accepted / declined</param>
         /// <returns>List of friend requests</returns>
-        public List<FriendRequestListDto> GetMyFriendRequests(FriendRequestFilterModel model)
+        public List<FriendRequestListDto> GetMyFriendRequests()
         {
             var user = _utilsService.GetCurrentUser();
 
-            var list = _mapper.Map<List<FriendRequestListDto>>(user.ReceivedFriendRequest.Where(x => x.Response == model.Type).OrderByDescending(x => x.SentDate).ToList());
+            var list = _mapper.Map<List<FriendRequestListDto>>(user.ReceivedFriendRequest.OrderByDescending(x => x.SentDate).ToList());
 
             _utilsService.LogInformation(FriendMessages.MyFriendRequestsGet, user);
 

@@ -38,27 +38,13 @@ namespace EventManager.Client.Shared.Components.MyProfile
 
         protected async Task Save()
         {
-            try
+            if (await UserService.UpdatePassword(new Models.PasswordUpdateModel 
+                {
+                NewPassword = PasswordUpdate.NewPassword, 
+                OldPassword = PasswordUpdate.OldPassword
+                })) 
             {
-                var result = await UserService.UpdatePassword(new Models.PasswordUpdateModel
-                {
-                    NewPassword = PasswordUpdate.NewPassword,
-                    OldPassword = PasswordUpdate.OldPassword
-                });
-                if (result.IsSuccess)
-                {
-                    Toaster.Add("Successfully updated password", MatToastType.Success, "My Profile");
-                    await Response.InvokeAsync(true);
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "My Profile Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "My Profile Error");
-                Console.WriteLine(e);
+                await Response.InvokeAsync(true);
             }
         }
 

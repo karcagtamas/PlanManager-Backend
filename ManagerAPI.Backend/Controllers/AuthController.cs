@@ -24,11 +24,11 @@ namespace ManagerAPI.Backend.Controllers {
         public async Task<IActionResult> Registration ([FromBody] RegistrationModel model) {
             try {
                 await _authService.Registration (model);
-                return Ok (new ServerResponse<object>(null, true));
+                return Ok ();
             } catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok (new ServerResponse<Object>(e));
+                return BadRequest (e);
             }
         }
 
@@ -37,11 +37,11 @@ namespace ManagerAPI.Backend.Controllers {
         public async Task<IActionResult> Login ([FromBody] LoginModel model) {
             try {
                 string token = await _authService.Login (model);
-                return Ok (new ServerResponse<string>(token, true));
+                return Ok(token);
             } catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok (new ServerResponse<Object>(e));
+                return BadRequest(e);
             }
         }
     }

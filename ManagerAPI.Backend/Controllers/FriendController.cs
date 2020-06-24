@@ -36,19 +36,18 @@ namespace ManagerAPI.Backend.Controllers
         /// <summary>
         /// Get current user's got friend requests
         /// </summary>
-        /// <param name="type">Undecided / accepted / declined</param>
         /// <returns>Server Response</returns>
         [HttpGet("request")]
-        public IActionResult GetMyFriendRequests([FromBody] FriendRequestFilterModel model)
+        public IActionResult GetMyFriendRequests()
         {
             try
             {
-                return Ok(new ServerResponse<List<FriendRequestListDto>>(_friendService.GetMyFriendRequests(model), true));
+                return Ok(_friendService.GetMyFriendRequests());
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -61,12 +60,12 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(new ServerResponse<List<FriendListDto>>(_friendService.GetMyFriends(), true));
+                return Ok(_friendService.GetMyFriends());
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -81,12 +80,12 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _friendService.RemoveFriend(friendId);
-                return Ok(new ServerResponse<object>(null, true));
+                return Ok();
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -101,12 +100,12 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _friendService.SendFriendRequest(model);
-                return Ok(new ServerResponse<object>(null, true));
+                return Ok();
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -121,12 +120,12 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _friendService.SendFriendRequestResponse(model);
-                return Ok(new ServerResponse<object>(null, true));
+                return Ok();
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<object>(e));
+                return BadRequest(e);
             }
         }
     }

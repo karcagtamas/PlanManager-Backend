@@ -43,12 +43,12 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(new ServerResponse<List<NotificationDto>>(_notificationService.GetMyNotifications(), true));
+                return Ok(_notificationService.GetMyNotifications());
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -61,12 +61,12 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(new ServerResponse<int>(_notificationService.GetCountOfUnReadNotifications(), true));
+                return Ok(_notificationService.GetCountOfUnReadNotifications());
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -81,12 +81,12 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _notificationService.SetAsReadNotificationsById(notifications);
-                return Ok(new ServerResponse<object>(null, true));
+                return Ok();
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<object>(e));
+                return Ok(e);
             }
         }
     }

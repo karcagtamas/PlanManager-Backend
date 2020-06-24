@@ -15,40 +15,44 @@ namespace EventManager.Client.Services
         private readonly HttpClient _httpClient;
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         private readonly ILocalStorageService _localStorageService;
+        private readonly IHelperService _helperService;
         private readonly string _url = ApplicationSettings.BaseApiUrl + "/auth";
 
-        public AuthService(HttpClient httpClient, AuthenticationStateProvider authenticationStateProvider, ILocalStorageService localStorageService)
+        public AuthService(HttpClient httpClient, AuthenticationStateProvider authenticationStateProvider, ILocalStorageService localStorageService, IHelperService helperService)
         {
             _httpClient = httpClient;
             _authenticationStateProvider = authenticationStateProvider;
             _localStorageService = localStorageService;
+            _helperService = helperService;
         }
         
-        public async Task<ApiResponseModel<object>> Register(RegistrationModel model)
+        public async Task<bool> Register(RegistrationModel model)
         {
-            var result = await _httpClient.PostJsonAsync<ApiResponseModel<object>>(_url + "/registration", model);
+            var response = await _httpClient.PostAsync(_url + "/registration", _helperService.CreateContent(model));
 
-            return result;
+            await _helperService.AddToaster(response, "Registration");
+
+            return response.IsSuccessStatusCode;
         }
 
-        public async Task<ApiResponseModel<string>> Login(LoginModel model)
+        public async Task<string> Login(LoginModel model)
         {
-            var loginAsJson = JsonSerializer.Serialize(model);
-            var response = await _httpClient.PostAsync(_url + "/login", new StringContent(loginAsJson, Encoding.UTF8, "application/json"));
-            var loginResult = JsonSerializer.Deserialize<ApiResponseModel<string>>(
-                await response.Content.ReadAsStringAsync(),
-                new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
+            var response = await _httpClient.PostAsync(_url + "/login", _helperService.CreateContent(model));
 
-            if (!loginResult.IsSuccess)
+            await _helperService.AddToaster(response, "Login");
+
+            if (response.IsSuccessStatusCode)
             {
-                return loginResult;
+                string token = await response.Content.ReadAsStringAsync();
+                await _localStorageService.SetItemAsync("authToken", token);
+                ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(model.UserName);
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+                return token;
             }
-
-            await _localStorageService.SetItemAsync("authToken", loginResult.Content);
-            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(model.UserName);
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.Content);
-
-            return loginResult;
+            else
+            {
+                return "";
+            }
         }
 
         public async Task Logout()

@@ -41,70 +41,25 @@ namespace EventManager.Client.Pages.Profiles
 
         protected async Task GetUser()
         {
-            try
+            User = await UserService.GetUser();
+            UserUpdate = new UserUpdateDto(User);
+            Roles = string.Join(", ", User.Roles);
+            if (User.ProfileImageData.Length != 0)
             {
-                var result = await UserService.GetUser();
-                if (result.IsSuccess)
-                {
-                    User = result.Content;
-                    UserUpdate = new UserUpdateDto(User);
-                    Roles = string.Join(", ", User.Roles);
-                    if (User.ProfileImageData.Length != 0)
-                    {
-                        var base64 = Convert.ToBase64String(User.ProfileImageData);
-                        this.Image = $"data:image/gif;base64,{base64}";
-                    }
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "My Profile Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+                var base64 = Convert.ToBase64String(User.ProfileImageData);
+                this.Image = $"data:image/gif;base64,{base64}";
             }
         }
         
         protected async Task GetGenders()
         {
-            try
-            {
-                var result = await UserService.GetGenders();
-                if (result.IsSuccess)
-                {
-                    Genders = result.Content;
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "My Profile Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            Genders = await UserService.GetGenders();
         }
 
         protected async Task UpdateUser()
         {
-            try
-            {
-                var result = await UserService.UpdateUser(UserUpdate);
-                if (result.IsSuccess)
-                {
-                    await GetUser();
-                    Toaster.Add("Successfully updated User", MatToastType.Success, "My Profile");
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "My Profile Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "My Profile Error");
-                Console.WriteLine(e);
+            if (await UserService.UpdateUser(UserUpdate)) {
+                await GetUser();
             }
         }
 
@@ -116,26 +71,9 @@ namespace EventManager.Client.Pages.Profiles
         protected async Task HandleConfirmResponse(bool response)
         {
             ShowConfirmDialog = false;
-            if (response)
+            if (response && await UserService.DisableUser())
             {
-                try
-                {
-                    var result = await UserService.DisableUser();
-                    if (result.IsSuccess)
-                    {
-                        Toaster.Add("Successfully disabled User", MatToastType.Success, "My Profile");
-                        await AuthService.Logout();
-                    }
-                    else
-                    {
-                        Toaster.Add(result.Message, MatToastType.Danger, "My Profile Error");
-                    }
-                }
-                catch (Exception e)
-                {
-                    Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "My Profile Error");
-                    Console.WriteLine(e);
-                }
+                await AuthService.Logout();   
             }
         }
 

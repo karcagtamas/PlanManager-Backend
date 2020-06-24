@@ -29,12 +29,12 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(new ServerResponse<UserDto>(await _userService.GetUser(), true));
+                return Ok(await _userService.GetUser());
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -43,12 +43,12 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(new ServerResponse<UserShortDto>(_userService.GetShortUser(), true));
+                return Ok(_userService.GetShortUser());
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -58,12 +58,12 @@ namespace ManagerAPI.Backend.Controllers
             try
             {    
                 _userService.UpdateUser(updateDto);
-                return Ok(new ServerResponse<Object>(null, true));
+                return Ok();
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -72,12 +72,12 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(new ServerResponse<List<GenderDto>>(_userService.GetGenders(), true));
+                return Ok(_userService.GetGenders());
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -87,12 +87,12 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _userService.UpdateProfileImage(image);
-                return Ok(new ServerResponse<Object>(null, true));
+                return Ok();
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -102,12 +102,12 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 await _userService.UpdatePassword(model.OldPassword, model.NewPassword);
-                return Ok(new ServerResponse<object>(null, true));
+                return Ok();
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -117,12 +117,12 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 await _userService.UpdateUsername(model.UserName);
-                return Ok(new ServerResponse<object>(null, true));
+                return Ok();
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -132,12 +132,12 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _userService.DisableUser();
-                return Ok(new ServerResponse<object>(null, true));
+                return Ok();
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+                return BadRequest(e);
             }
         }
     }
