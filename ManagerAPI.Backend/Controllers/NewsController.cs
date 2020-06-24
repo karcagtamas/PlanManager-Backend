@@ -44,12 +44,12 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _newsService.DeleteNews(postId);
-                return Ok(new ServerResponse<object>(null, true));
+                return Ok();
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -62,12 +62,12 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(new ServerResponse<List<NewsDto>>(_newsService.GetNewsPosts(), true));
+                return Ok(_newsService.GetNewsPosts());
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -82,12 +82,12 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _newsService.PostNews(model);
-                return Ok(new ServerResponse<object>(null, true));
+                return Ok();
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -102,12 +102,12 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _newsService.UpdateNews(postId, model);
-                return Ok(new ServerResponse<object>(null, true));
+                return Ok();
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<object>(e));
+                return BadRequest(e);
             }
         }
     }

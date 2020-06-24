@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Backend.Controllers
@@ -44,12 +41,12 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(new ServerResponse<List<MessageDto>>(_messageService.GetMessages(friendId), true));
+                return Ok(_messageService.GetMessages(friendId));
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<object>(e));
+                return BadRequest(e);
             }
         }
 
@@ -64,12 +61,12 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _messageService.SendMessage(model);
-                return Ok(new ServerResponse<object>(null, true));
+                return Ok();
             }
             catch (Exception e)
             {
                 _utilsService.LogError(e);
-                return Ok(new ServerResponse<object>(e));
+                return BadRequest(e);
             }
         }
     }

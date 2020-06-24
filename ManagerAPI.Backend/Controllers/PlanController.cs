@@ -14,6 +14,5 @@ namespace ManagerAPI.Backend.Controllers {
         public PlanController (IUtilsService utilsService) {
             _utilsService = utilsService;
         }
-        
     }
 }

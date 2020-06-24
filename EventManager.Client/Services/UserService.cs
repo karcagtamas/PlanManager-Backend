@@ -58,7 +58,7 @@ namespace EventManager.Client.Services
         {
             var response = await _httpClient.PutAsync($"{_url}", _helperService.CreateContent(userUpdate));
 
-            await _helperService.AddToaster(response, "User update");
+            await _helperService.AddToaster(response, "User updating");
 
             return response.IsSuccessStatusCode;
         }
@@ -84,7 +84,7 @@ namespace EventManager.Client.Services
         {
             var response = await _httpClient.PutAsync($"{_url}/password", _helperService.CreateContent(model));
 
-            await _helperService.AddToaster(response, "Password update");
+            await _helperService.AddToaster(response, "Password updating");
 
             return response.IsSuccessStatusCode;
         }
@@ -93,7 +93,7 @@ namespace EventManager.Client.Services
         {
             var response = await _httpClient.PutAsync($"{_url}/profile-image", _helperService.CreateContent(image));
 
-            await _helperService.AddToaster(response, "Image update");
+            await _helperService.AddToaster(response, "Image updating");
 
             return response.IsSuccessStatusCode;
         }
@@ -102,7 +102,7 @@ namespace EventManager.Client.Services
         {
             var response = await _httpClient.PutAsync($"{_url}/username", _helperService.CreateContent(model));
 
-            await _helperService.AddToaster(response, "UserUame update");
+            await _helperService.AddToaster(response, "UserUame updating");
 
             return response.IsSuccessStatusCode;
         }
@@ -111,7 +111,7 @@ namespace EventManager.Client.Services
         {
             var response = await _httpClient.PutAsync($"{_url}/disable", null);
 
-            await _helperService.AddToaster(response, "Disable user");
+            await _helperService.AddToaster(response, "User disabling");
 
             return response.IsSuccessStatusCode;
         }

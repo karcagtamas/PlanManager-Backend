@@ -9,9 +9,9 @@ namespace EventManager.Client.Services
 {
     public interface INewsService
     {
-        Task<ApiResponseModel<List<NewsDto>>> GetNewsPosts();
-        Task<ApiResponseModel<object>> PostNews(PostModel model);
-        Task<ApiResponseModel<object>> UpdateNews(int postId, PostModel model);
-        Task<ApiResponseModel<object>> DeleteNews(int postId);
+        Task<List<NewsDto>> GetNewsPosts();
+        Task<bool> PostNews(PostModel model);
+        Task<bool> UpdateNews(int postId, PostModel model);
+        Task<bool> DeleteNews(int postId);
     }
 }

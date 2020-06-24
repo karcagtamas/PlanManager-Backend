@@ -37,15 +37,8 @@ namespace EventManager.Client.Shared.Common
 
         protected async Task GetCountOfUnreadNotifications()
         {
-            try
-            {
-                var result = await NotificationService.GetCountOfUnReadNotifications();
-                UnReadNotificationCount = result.IsSuccess ? result.Content : 0;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            int? val = await NotificationService.GetCountOfUnReadNotifications();
+            UnReadNotificationCount = val == null ? 0 : (int)val;
         }
 
         protected async Task Logout()
