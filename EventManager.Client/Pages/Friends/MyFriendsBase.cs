@@ -15,6 +15,9 @@ namespace EventManager.Client.Pages.Friends
         private IFriendService FriendService { get; set; }
 
         [Inject]
+        protected IHelperService HelperService { get; set; }
+
+        [Inject]
         private IMatToaster Toaster { get; set; }
 
         protected List<FriendListDto> Friends { get; set; } = null;
@@ -34,6 +37,10 @@ namespace EventManager.Client.Pages.Friends
         protected async Task GetFriends()
         {
             this.Friends = await FriendService.GetMyFriends();
+            for (int i = 0; i < this.Friends.Count; i++)
+            {
+
+            }
         }
     }
 }

@@ -30,7 +30,6 @@ namespace EventManager.Client.Pages.Profiles
         protected bool ShowUploadProfileImageDialog { get; set; } = false;
         protected bool ShowChangeUsernameDialog { get; set; } = false;
         protected string Image { get; set; }
-        
         public string Roles { get; set; }
 
         protected override async Task OnInitializedAsync()
