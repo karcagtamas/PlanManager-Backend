@@ -186,8 +186,8 @@ namespace ManagerAPI.Services.Services {
         /// <param name="friendId">Friend's Id</param>
         /// <returns>User has friend request or not</returns>
         public bool HasOpenFriendRequestAlready (User user, string friendId) {
-            return user.SentFriendRequest.Where (x => x.DestinationId == friendId && x.Response != null).FirstOrDefault () != null ||
-                user.ReceivedFriendRequest.Where (x => x.SenderId == friendId && x.Response != null).FirstOrDefault () != null;
+            return user.SentFriendRequest.Where (x => x.DestinationId == friendId && x.Response == null).FirstOrDefault () != null ||
+                user.ReceivedFriendRequest.Where (x => x.SenderId == friendId && x.Response == null).FirstOrDefault () != null;
         }
     }
 }

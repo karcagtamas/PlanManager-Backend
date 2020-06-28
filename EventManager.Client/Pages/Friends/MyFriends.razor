@@ -6,7 +6,7 @@
     <h1 class="em-page-title">My Friends</h1>
 
     <div class="action-bar">
-        <MatButton>Invite</MatButton>
+        <MatButton @onclick="OpenFriendRequestDialog">Invite</MatButton>
     </div>
     <div class="row col col-12">
         <!-- Friends -->
@@ -70,3 +70,5 @@
         </div>
     </div>
 </div>
+
+<FriendRequest Response="@HandleFriendRequestDialogResponse" DialogIsOpen="@FriendRequestDialogIsOpen"></FriendRequest>

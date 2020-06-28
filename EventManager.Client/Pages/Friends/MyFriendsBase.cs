@@ -18,6 +18,7 @@ namespace EventManager.Client.Pages.Friends {
 
         protected List<FriendListDto> Friends { get; set; } = null;
         protected List<FriendRequestListDto> FriendRequests { get; set; } = null;
+        protected bool FriendRequestDialogIsOpen { get; set; } = false;
 
         protected override async Task OnInitializedAsync () {
             await GetFriends ();
@@ -39,6 +40,14 @@ namespace EventManager.Client.Pages.Friends {
                 })) {
                 await GetFriendRequests ();
             }
+        }
+
+        protected void OpenFriendRequestDialog () {
+            this.FriendRequestDialogIsOpen = true;
+        }
+
+        protected void HandleFriendRequestDialogResponse (bool needRefresh) {
+            this.FriendRequestDialogIsOpen = false;
         }
     }
 }
