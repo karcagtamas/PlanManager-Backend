@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": ".NET Core Launch (web)",
+      "name": "Manager API",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -25,7 +25,7 @@
       }
     },
     {
-      "name": "Launch and Debug Standalone Blazor WebAssembly App",
+      "name": "Event Manager",
       "type": "blazorwasm",
       "request": "launch",
       "cwd": "${workspaceFolder}/EventManager.Client"

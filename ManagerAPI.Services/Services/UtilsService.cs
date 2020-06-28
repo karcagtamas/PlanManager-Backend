@@ -2,18 +2,17 @@ using System;
 using System.Linq;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Models.Entities;
+using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Messages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
-namespace ManagerAPI.Services.Services
-{
+namespace ManagerAPI.Services.Services {
     /// <summary>
     /// Utils Service
     /// </summary>
-    public class UtilsService : IUtilsService
-    {
+    public class UtilsService : IUtilsService {
         private readonly ILogger<UtilsService> _logger;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly UserManager<User> _userManager;
@@ -27,69 +26,67 @@ namespace ManagerAPI.Services.Services
         /// <param name="contextAccessor">Context Accessor</param>
         /// <param name="userManager">User Manager</param>
         /// <param name="context">Context</param>
-        public UtilsService(ILogger<UtilsService> logger, IHttpContextAccessor contextAccessor, UserManager<User> userManager, DatabaseContext context)
-        {
+        public UtilsService (ILogger<UtilsService> logger, IHttpContextAccessor contextAccessor, UserManager<User> userManager, DatabaseContext context) {
             _logger = logger;
             _contextAccessor = contextAccessor;
             _userManager = userManager;
             _context = context;
-            _userMessages = new UserMessages();
+            _userMessages = new UserMessages ();
         }
-        
+
         /// <summary>
         /// Log error to the console
         /// </summary>
         /// <param name="e">Exception for logging</param>
         /// <returns>Error Response from Exception</returns>
-        public void LogError(Exception e)
-        {
-            _logger.LogError(e.Message);
+        public void LogError (Exception e) {
+            _logger.LogError (e.Message);
         }
-        
+
         /// <summary>
         /// Get current user from the HTTP Context
         /// </summary>
         /// <returns>Current user</returns>
-        public User GetCurrentUser()
-        {
-            var userId = GetCurrentUserId();
-            var user = _context.AppUsers.Find(userId);
-            if (user == null)
-            {
-                throw new Exception(_userMessages.InvalidUserId);   
+        public User GetCurrentUser () {
+            var userId = GetCurrentUserId ();
+            var user = _context.AppUsers.Find (userId);
+            if (user == null) {
+                throw new Exception (_userMessages.InvalidUserId);
             }
             return user;
         }
-        
+
         /// <summary>
         /// Get current user's Id from the HTTP Context
         /// </summary>
         /// <returns>Current user's Id</returns>
-        public string GetCurrentUserId()
-        {
-            var userId = _contextAccessor.HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+        public string GetCurrentUserId () {
+            var userId = _contextAccessor.HttpContext.User.Claims.First (c => c.Type == "UserId").Value;
             return userId;
         }
-        
+
         /// <summary>
         /// Join user to the given message
         /// </summary>
         /// <param name="message">Source message</param>
         /// <param name="user">User for join</param>
         /// <returns>Joined message</returns>
-        public string AddUserToMessage(string message, User user)
-        {
+        public string AddUserToMessage (string message, User user) {
             return $"Invalid action for user {user.UserName} ({user.Id}): {message}";
         }
-        
+
         /// <summary>
         /// Log general action with given user
         /// </summary>
         /// <param name="action">Action</param>
         /// <param name="user">User</param>
-        public void LogInformation(string action, User user)
-        {
-            _logger.LogInformation($"Successfully {action} by user {user.UserName} ({user.Id})");
+        public void LogInformation (string action, User user) {
+            _logger.LogInformation ($"Successfully {action} by user {user.UserName} ({user.Id})");
+        }
+
+        public ErrorResponse ExceptionToResponse (Exception e) {
+            this.LogError (e);
+            return new ErrorResponse (e);
         }
     }
 }

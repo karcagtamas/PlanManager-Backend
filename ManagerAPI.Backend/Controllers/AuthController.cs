@@ -25,23 +25,19 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 await _authService.Registration (model);
                 return Ok ();
-            } catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return BadRequest (e);
+            } catch (Exception e) {
+                return BadRequest (_utilsService.ExceptionToResponse (e));
             }
         }
 
-        [HttpPost("login")]
+        [HttpPost ("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login ([FromBody] LoginModel model) {
             try {
                 string token = await _authService.Login (model);
-                return Ok(token);
-            } catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return BadRequest(e);
+                return Ok (token);
+            } catch (Exception e) {
+                return BadRequest (_utilsService.ExceptionToResponse (e));
             }
         }
     }
