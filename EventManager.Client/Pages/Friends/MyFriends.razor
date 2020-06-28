@@ -25,7 +25,7 @@
                                     <img src="@friend.ImageURL("/images/profile-icon.jpg")" alt="@friend.Friend" />
                                 </div>
                                 <div class="card-action-bar">
-                                    <MatButton>View</MatButton>
+                                    <MatIconButton Icon="remove_red_eye"></MatIconButton>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
             }
 
             else {
-                <div>You does not have any friend. It so sad :/</div>
+                <div class="text-center">You does not have any friend. It so sad :/</div>
             }
         </div>
 
@@ -57,15 +57,15 @@
                             @request.Message
                         </div>
                         <div class="request-action-bar">
-                            <MatIconButton Icon="done"></MatIconButton>
-                            <MatIconButton Icon="clear"></MatIconButton>
+                            <MatIconButton Icon="done" @onclick="@(() => SendFriendRequestResponse(request.Id, true))"></MatIconButton>
+                            <MatIconButton Icon="clear" @onclick="@(() => SendFriendRequestResponse(request.Id, false))"></MatIconButton>
                         </div>
                     </div>
                     }
                 </div>
             }
             else {
-                <div>You does not have any friend request. Invite somebody.</div>
+                <div class="text-center">You does not have any friend request. Invite somebody.</div>
             }
         </div>
     </div>
