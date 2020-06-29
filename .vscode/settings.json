@@ -1,5 +1,7 @@
 {
     "cSpell.words": [
         "Blazor"
-    ]
+    ],
+    "editor.fontFamily": "'JetBrains Mono', Consolas, 'Courier New', monospace",
+    "editor.fontLigatures": true
 }
