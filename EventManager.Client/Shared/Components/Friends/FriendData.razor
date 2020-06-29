@@ -1,19 +1,38 @@
-@using Services
+@inject IModalService ModalService
+@inject IFriendService FriendService
+@using EventManager.Client.Services
+@using EventManager.Client.Models
+@using EventManager.Client.Shared.Components
 
-<div></div>
+
+<div>
+    <div>Friend data</div>
+</div>
 
 @code {
-    [Parameter]
-    public string friendId { get;set; }
+    [CascadingParameter]
+    public ModalParameters Parameters { get; set; }
 
-    [Inject]
-    private IFriendService FriendService { get; set; }
+    [CascadingParameter]
+    public BlazoredModal BlazoredModal { get; set; }
 
-    override protected async Task OnInitializedAsync() {
-        await GetFriend();
+    protected bool ShowForm { get; set; } = true;
+    protected int FormId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        FormId = Parameters.Get<int>("FormId");
+        BlazoredModal.SetTitle("Form Title");
+        await GetFriendData();
     }
 
-    protected async Task GetFriend() { 
-        var a = await FriendService.GetMyFriends();
+    protected void Close()
+    {
+        ModalService.Close(ModalResult.Cancel());
+    }
+
+    protected async Task GetFriendData()
+    {
+        var a = await FriendService.GetMyFriendRequests();
     }
 }

@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using EventManager.Client.Models;
 using EventManager.Client.Models.Friends;
 using EventManager.Client.Services;
+using EventManager.Client.Shared.Components.Friends;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 
@@ -16,10 +19,13 @@ namespace EventManager.Client.Pages.Friends {
         [Inject]
         private IMatToaster Toaster { get; set; }
 
+        [Inject]
+        public IModalService Modal { get; set; }
+
         protected List<FriendListDto> Friends { get; set; } = null;
         protected List<FriendRequestListDto> FriendRequests { get; set; } = null;
         protected bool FriendRequestDialogIsOpen { get; set; } = false;
-        protected bool MyFriendsIsLoading { get;set; } = false;
+        protected bool MyFriendsIsLoading { get; set; } = false;
         protected bool MyFriendRequestsIsLoading { get; set; } = false;
 
         protected override async Task OnInitializedAsync () {
@@ -54,6 +60,24 @@ namespace EventManager.Client.Pages.Friends {
 
         protected void HandleFriendRequestDialogResponse (bool needRefresh) {
             this.FriendRequestDialogIsOpen = false;
+        }
+
+        protected void ShowModal () {
+            var parameters = new ModalParameters ();
+            parameters.Add ("FormId", 3);
+
+            Modal.OnClose += ModalClosed;
+            Modal.Show<FriendData> ("Friend data form", parameters);
+        }
+
+        protected void ModalClosed (ModalResult modalResult) {
+            if (modalResult.Cancelled) {
+                Console.WriteLine ("Modal cancaelled");
+            } else {
+                Console.WriteLine (modalResult.Data.ToString ());
+            }
+
+            Modal.OnClose -= ModalClosed;
         }
     }
 }
