@@ -27,6 +27,7 @@ namespace EventManager.Client
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<INotificationService, NotificationService>();
             builder.Services.AddScoped<IFriendService, FriendService>();
+            builder.Services.AddScoped<IModalService, ModalService>();
 
             builder.Services.AddMatToaster(config =>
             {
