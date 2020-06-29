@@ -1,0 +1,19 @@
+@using Services
+
+<div></div>
+
+@code {
+    [Parameter]
+    public string friendId { get;set; }
+
+    [Inject]
+    private IFriendService FriendService { get; set; }
+
+    override protected async Task OnInitializedAsync() {
+        await GetFriend();
+    }
+
+    protected async Task GetFriend() { 
+        var a = await FriendService.GetMyFriends();
+    }
+}

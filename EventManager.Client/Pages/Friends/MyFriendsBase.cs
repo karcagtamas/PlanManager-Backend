@@ -19,6 +19,8 @@ namespace EventManager.Client.Pages.Friends {
         protected List<FriendListDto> Friends { get; set; } = null;
         protected List<FriendRequestListDto> FriendRequests { get; set; } = null;
         protected bool FriendRequestDialogIsOpen { get; set; } = false;
+        protected bool MyFriendsIsLoading { get;set; } = false;
+        protected bool MyFriendRequestsIsLoading { get; set; } = false;
 
         protected override async Task OnInitializedAsync () {
             await GetFriends ();
@@ -26,11 +28,15 @@ namespace EventManager.Client.Pages.Friends {
         }
 
         protected async Task GetFriendRequests () {
+            this.MyFriendRequestsIsLoading = true;
             this.FriendRequests = await FriendService.GetMyFriendRequests ();
+            this.MyFriendRequestsIsLoading = false;
         }
 
         protected async Task GetFriends () {
+            this.MyFriendsIsLoading = true;
             this.Friends = await FriendService.GetMyFriends ();
+            this.MyFriendsIsLoading = false;
         }
 
         protected async Task SendFriendRequestResponse (int id, bool response) {
