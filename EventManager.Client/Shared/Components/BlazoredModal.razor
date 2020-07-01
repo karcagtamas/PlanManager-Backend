@@ -1,19 +1,18 @@
 <div class="blazored-modal-container @ComponentPosition @(IsVisible ? "blazored-modal-active" : string.Empty)">
-    <div class="blazored-modal-overlay" @onclick="HandleBackgroundClick"></div>
-
-    <div class="blazored-modal-wrapper">
-        <div class="@ComponentStyle">
-            @if(!ComponentHideHeader) {
-                <div class="blazored-modal-header">
-                    <h3 class="blazored-modal-title">@Title</h3>
-                    @if(!ComponentHideCloseButton) {
-                        <button type="button" class="blazored-modal-close" @onclick="@(() => ModalService.Cancel())">
-                            <span>&times;</span>
-                        </button>
-                    }
-                </div>
-            }
-            <div class="blazored-modal-content">
+    <MatCard Class="blazored-modal">
+        @if (!ComponentHideHeader)
+        {
+            <div class="blazored-modal-header">
+                <h3 class="blazored-modal-title">@Title</h3>
+               <span class="spacer"></span>
+                @if (!ComponentHideCloseButton)
+                {
+                    <MatIconButton Class="blazored-modal-close" Icon="clear" @onclick="ModalService.Cancel"></MatIconButton>
+                }
+            </div>
+        }
+        <div class="blazored-modal-content">
+            <div class="@ComponentStyle">
                 <CascadingValue Value="this">
                     <CascadingValue Value="@Parameters">
                         @Content
@@ -21,5 +20,10 @@
                 </CascadingValue>
             </div>
         </div>
-    </div>
+        <MatCardActions Class="blazored-modal-footer">
+            <span class="spacer"></span>
+            <MatButton @onclick="ModalService.Cancel">Close</MatButton>
+        </MatCardActions>
+    </MatCard>
+    <div class="blazored-modal-overlay" @onclick="HandleBackgroundClick"></div>
 </div>

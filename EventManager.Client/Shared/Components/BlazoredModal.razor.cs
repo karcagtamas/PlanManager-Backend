@@ -51,7 +51,8 @@ namespace EventManager.Client.Shared.Components {
             this.Title = title;
             this.Content = content;
             this.Parameters = parameters;
-            IsVisible = true;
+            this.IsVisible = true;
+
             await InvokeAsync (StateHasChanged);
         }
 
