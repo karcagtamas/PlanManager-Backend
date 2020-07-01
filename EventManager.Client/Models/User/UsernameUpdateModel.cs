@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace EventManager.Client.Models
+namespace EventManager.Client.Models.User
 {
     public class UsernameUpdateModel
     {

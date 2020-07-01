@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
+using EventManager.Client.Services.Interfaces;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;

@@ -1,5 +1,8 @@
 namespace EventManager.Client.Models
 {
+    /// <summary>
+    /// Toaster settings
+    /// </summary>
     public class ToasterSettings
     {
         public string Caption { get; set; }

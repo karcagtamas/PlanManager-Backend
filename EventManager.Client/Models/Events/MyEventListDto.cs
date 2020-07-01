@@ -1,6 +1,6 @@
 using System;
 
-namespace EventManager.Client.Models
+namespace EventManager.Client.Models.Events
 {
     public class MyEventListDto
     {

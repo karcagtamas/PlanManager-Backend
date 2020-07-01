@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Models.News;
 
-namespace EventManager.Client.Services {
+namespace EventManager.Client.Services.Interfaces {
     public interface INewsService {
         Task<List<NewsDto>> GetNewsPosts ();
         Task<bool> PostNews (PostModel model);

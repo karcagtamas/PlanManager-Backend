@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Models.Events;
 
-namespace EventManager.Client.Services {
+namespace EventManager.Client.Services.Interfaces {
     public interface IEventService {
         Task<ApiResponseModel<List<MyEventListDto>>> GetMyList ();
         Task<ApiResponseModel<EventDto>> Get (int id);

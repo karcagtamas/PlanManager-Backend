@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace EventManager.Client.Models
+namespace EventManager.Client.Models.Auth
 {
     public class RegistrationModel
     {

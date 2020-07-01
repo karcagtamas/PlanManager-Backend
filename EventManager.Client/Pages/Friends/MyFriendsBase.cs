@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Models.Friends;
-using EventManager.Client.Services;
+using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Components.Friends;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using EventManager.Client.Models;
 
-namespace EventManager.Client.Services {
+namespace EventManager.Client.Services.Interfaces {
     public interface IHttpService {
         Task<T> get<T> (HttpSettings settings);
         Task<bool> delete (HttpSettings settings);

@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Models.Events;
+using EventManager.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Services {

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Models.Friends;
+using EventManager.Client.Services.Interfaces;
 
 namespace EventManager.Client.Services {
     public class FriendService : IFriendService {

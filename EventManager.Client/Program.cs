@@ -1,8 +1,8 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
-using EventManager.Client.Models.User;
 using EventManager.Client.Services;
+using EventManager.Client.Services.Interfaces;
 using MatBlazor;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;

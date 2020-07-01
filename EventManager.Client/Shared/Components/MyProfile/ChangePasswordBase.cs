@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using EventManager.Client.Models.User;
-using EventManager.Client.Services;
+using EventManager.Client.Services.Interfaces;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 
@@ -24,11 +24,11 @@ namespace EventManager.Client.Shared.Components.MyProfile
         [Inject]
         private IHelperService HelperService { get; set; }
         
-        protected PasswordUpdateModel PasswordUpdate { get; set; }
+        protected PasswordUpdateModifiyModel PasswordUpdate { get; set; }
 
         protected override void OnInitialized()
         {
-            this.PasswordUpdate = new PasswordUpdateModel
+            this.PasswordUpdate = new PasswordUpdateModifiyModel
             {
                 NewPassword = "",
                 OldPassword = "",
@@ -38,7 +38,7 @@ namespace EventManager.Client.Shared.Components.MyProfile
 
         protected async Task Save()
         {
-            if (await UserService.UpdatePassword(new Models.PasswordUpdateModel 
+            if (await UserService.UpdatePassword(new PasswordUpdateModel 
                 {
                 NewPassword = PasswordUpdate.NewPassword, 
                 OldPassword = PasswordUpdate.OldPassword
@@ -50,7 +50,7 @@ namespace EventManager.Client.Shared.Components.MyProfile
 
         protected async Task Cancel()
         {
-            this.PasswordUpdate = new PasswordUpdateModel
+            this.PasswordUpdate = new PasswordUpdateModifiyModel
             {
                 OldPassword = "",
                 NewPassword = "",

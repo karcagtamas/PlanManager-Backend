@@ -2,7 +2,7 @@ using System;
 using EventManager.Client.Models;
 using Microsoft.AspNetCore.Components;
 
-namespace EventManager.Client.Services {
+namespace EventManager.Client.Services.Interfaces {
     public interface IModalService {
         event Action<ModalResult> OnClose;
         void Show<T> (string title, ModalParameters parameters) where T : ComponentBase;

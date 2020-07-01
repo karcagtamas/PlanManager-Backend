@@ -5,7 +5,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using EventManager.Client.Models;
-using Microsoft.AspNetCore.Components;
+using EventManager.Client.Models.Auth;
+using EventManager.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace EventManager.Client.Services {

@@ -1,5 +1,5 @@
 ﻿using EventManager.Client.Models.Notifications;
-using EventManager.Client.Services;
+using EventManager.Client.Services.Interfaces;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using System;

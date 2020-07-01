@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Models.News;
+using EventManager.Client.Services.Interfaces;
 
 namespace EventManager.Client.Services {
     public class NewsService : INewsService {

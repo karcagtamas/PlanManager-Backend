@@ -3,8 +3,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Models.User;
+using EventManager.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
-using PasswordUpdateModel = EventManager.Client.Models.PasswordUpdateModel;
 
 namespace EventManager.Client.Services {
     public class UserService : IUserService {

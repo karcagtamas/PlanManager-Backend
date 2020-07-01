@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Models.Friends;
 
-namespace EventManager.Client.Services {
+namespace EventManager.Client.Services.Interfaces {
     public interface IFriendService {
         Task<List<FriendRequestListDto>> GetMyFriendRequests ();
         Task<List<FriendListDto>> GetMyFriends ();

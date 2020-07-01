@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using EventManager.Client.Models;
-using EventManager.Client.Services;
+using EventManager.Client.Models.User;
+using EventManager.Client.Services.Interfaces;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 

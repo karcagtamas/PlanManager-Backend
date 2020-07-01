@@ -1,5 +1,6 @@
 using System;
 using EventManager.Client.Models;
+using EventManager.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Services {

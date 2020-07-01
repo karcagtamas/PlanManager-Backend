@@ -1,4 +1,4 @@
-namespace EventManager.Client.Models
+namespace EventManager.Client.Models.Events
 {
     public class GtEventDto
     {
