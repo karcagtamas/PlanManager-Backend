@@ -7,49 +7,47 @@ using EventManager.Client.Services.Interfaces;
 
 namespace EventManager.Client.Services {
     public class NewsService : INewsService {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpService _httpService;
         private readonly string _url = ApplicationSettings.BaseApiUrl + "/news";
         private readonly IHelperService _helperService;
 
-        public NewsService (HttpClient httpClient, IHelperService helperService) {
-            _httpClient = httpClient;
+        public NewsService (IHttpService httpService, IHelperService helperService) {
+            _httpService = httpService;
             _helperService = helperService;
         }
 
         public async Task<bool> DeleteNews (int postId) {
-            var response = await _httpClient.DeleteAsync ($"{_url}/{postId}");
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(postId, -1);
 
-            await _helperService.AddToaster (response, "News deleting");
+            var settings = new HttpSettings($"{this._url}", null, pathParams, "News deleting");
 
-            return response.IsSuccessStatusCode;
+            return await this._httpService.delete(settings);
         }
 
         public async Task<List<NewsDto>> GetNewsPosts () {
-            var response = await _httpClient.GetAsync ($"{_url}");
+            var settings = new HttpSettings($"{this._url}");
 
-            if (response.IsSuccessStatusCode) {
-                using (var sr = await response.Content.ReadAsStreamAsync ()) {
-                    return await System.Text.Json.JsonSerializer.DeserializeAsync<List<NewsDto>> (sr, _helperService.GetSerializerOptions ());
-                }
-            } else {
-                return null;
-            }
+            return await this._httpService.get<List<NewsDto>> (settings);
         }
 
         public async Task<bool> PostNews (PostModel model) {
-            var response = await _httpClient.PostAsync ($"{_url}", _helperService.CreateContent (model));
+            var settings = new HttpSettings ($"{this._url}", null, null, "News creating");
 
-            await _helperService.AddToaster (response, "News creating");
+            var body = new HttpBody<PostModel>(this._helperService, model);
 
-            return response.IsSuccessStatusCode;
+            return await this._httpService.create<PostModel>(settings, body);
         }
 
         public async Task<bool> UpdateNews (int postId, PostModel model) {
-            var response = await _httpClient.PostAsync ($"{_url}/{postId}", _helperService.CreateContent (model));
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(postId, -1);
 
-            await _helperService.AddToaster (response, "News updating");
+            var settings = new HttpSettings ($"{this._url}", null, pathParams, "News updating");
 
-            return response.IsSuccessStatusCode;
+            var body = new HttpBody<PostModel>(this._helperService, model);
+
+            return await this._httpService.update<PostModel>(settings, body);
         }
     }
 }

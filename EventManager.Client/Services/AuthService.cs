@@ -11,25 +11,27 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace EventManager.Client.Services {
     public class AuthService : IAuthService {
+        private readonly IHttpService _httpService;
         private readonly HttpClient _httpClient;
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         private readonly ILocalStorageService _localStorageService;
         private readonly IHelperService _helperService;
         private readonly string _url = ApplicationSettings.BaseApiUrl + "/auth";
 
-        public AuthService (HttpClient httpClient, AuthenticationStateProvider authenticationStateProvider, ILocalStorageService localStorageService, IHelperService helperService) {
-            _httpClient = httpClient;
-            _authenticationStateProvider = authenticationStateProvider;
-            _localStorageService = localStorageService;
-            _helperService = helperService;
+        public AuthService (HttpService httpService, HttpClient httpClient, AuthenticationStateProvider authenticationStateProvider, ILocalStorageService localStorageService, IHelperService helperService) {
+            this._httpService = httpService;
+            this._authenticationStateProvider = authenticationStateProvider;
+            this._localStorageService = localStorageService;
+            this._helperService = helperService;
+            this._httpClient = httpClient;
         }
 
         public async Task<bool> Register (RegistrationModel model) {
-            var response = await _httpClient.PostAsync (_url + "/registration", _helperService.CreateContent (model));
+            var settings = new HttpSettings ($"{this._url}/registration", null, null, "Registration");
 
-            await _helperService.AddToaster (response, "Registration");
+            var body = new HttpBody<RegistrationModel>(this._helperService, model);
 
-            return response.IsSuccessStatusCode;
+            return await this._httpService.create<RegistrationModel>(settings, body);
         }
 
         public async Task<string> Login (LoginModel model) {
