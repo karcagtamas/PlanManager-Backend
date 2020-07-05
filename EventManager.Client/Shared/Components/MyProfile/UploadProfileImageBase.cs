@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using EventManager.Client.Models;
+using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
@@ -11,15 +13,22 @@ namespace EventManager.Client.Shared.Components.MyProfile
 {
     public class UploadProfileImageBase : ComponentBase
     {
-        [Parameter] public bool DialogIsOpen { get; set; }
+        [CascadingParameter]
+        public ModalParameters Parameters { get; set; }
 
-        [Parameter] public EventCallback<bool> Response { get; set; }
+        [CascadingParameter]
+        public BlazoredModal BlazoredModal { get; set; }
 
-        [Inject] private IUserService UserService { get; set; }
+        [Inject] 
+        private IUserService UserService { get; set; }
 
-        [Inject] private IMatToaster Toaster { get; set; }
+        [Inject]
+        private IMatToaster Toaster { get; set; }
 
-        [Inject] private IHelperService HelperService { get; set; }
+        [Inject]
+        IModalService ModalService { get; set; }
+
+        public int FormId { get; set; }
 
         private List<string> ImageExtensions { get; set; } = new List<string>
         {
@@ -29,15 +38,9 @@ namespace EventManager.Client.Shared.Components.MyProfile
             "image/bmp"
         };
 
-
-        protected async Task Save()
+        protected override void OnInitialized()
         {
-            await Response.InvokeAsync(true);
-        }
-
-        protected async Task Cancel()
-        {
-            await Response.InvokeAsync(false);
+            this.FormId = Parameters.Get<int>("FormId");
         }
 
         protected async Task FilesReady(IMatFileUploadEntry[] files)
@@ -55,7 +58,7 @@ namespace EventManager.Client.Shared.Components.MyProfile
                     await using var stream = new MemoryStream();
                     await file.WriteToStreamAsync(stream);
                     if (await UserService.UpdateProfileImage(stream.ToArray())) {
-                        await Response.InvokeAsync(true);
+                        ModalService.Close(ModalResult.Ok<bool>(true));
                     }
                 }
                 else

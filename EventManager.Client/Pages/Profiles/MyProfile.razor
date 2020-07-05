@@ -114,14 +114,10 @@
                         <MatButton @onclick="OpenChangeUsernameDialog">Change Username</MatButton>
                     </div>
                     <div class="text-center">
-                        <MatButton @onclick="DisableUser">Disable User</MatButton>
+                        <MatButton @onclick="OpenUserDisableConfirmDialog">Disable User</MatButton>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <Confirm Response="@HandleConfirmResponse" Name="own user" Type="@ConfirmType.Disable" DialogIsOpen="@ShowConfirmDialog"></Confirm>
-    <ChangePassword Response="@HandleChangePasswordResponse" DialogIsOpen="@ShowChangePasswordDialog"></ChangePassword>
-    <UploadProfileImage Response="@HandleUploadProfileImageResponse" DialogIsOpen="@ShowUploadProfileImageDialog"></UploadProfileImage>
-    <ChangeUsername Response="@HandleChangeUsernameResponse" DialogIsOpen="@ShowChangeUsernameDialog"></ChangeUsername>
 }

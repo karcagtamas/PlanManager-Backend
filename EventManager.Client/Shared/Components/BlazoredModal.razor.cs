@@ -120,10 +120,10 @@ namespace EventManager.Client.Shared.Components {
 
         public void SetButtonSettings (ModalOptions options) 
         {
-            this.ShowCancelButton = options.ShowCancelButton;
-            this.ShowConfirmButton = options.ShowConfirmButton;
-            this.CancelButtonText = this.GetNameOfButtonType(options.CancelButtonType);
-            this.ConfirmButtonText = this.GetNameOfButtonType(options.ConfirmButtonType);
+            this.ShowCancelButton = options.ButtonOptions.ShowCancelButton;
+            this.ShowConfirmButton = options.ButtonOptions.ShowConfirmButton;
+            this.CancelButtonText = this.GetNameOfButtonType(options.ButtonOptions.CancelButtonType);
+            this.ConfirmButtonText = this.GetNameOfButtonType(options.ButtonOptions.ConfirmButtonType);
         }
 
         public string GetNameOfButtonType(ConfirmButton type)

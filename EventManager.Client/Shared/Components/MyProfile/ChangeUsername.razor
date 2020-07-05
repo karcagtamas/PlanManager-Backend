@@ -1,18 +1,11 @@
 @inherits ChangeUsernameBase
 
-<MatDialog @bind-IsOpen="@DialogIsOpen">
-    <EditForm Model="UsernameUpdate" OnValidSubmit="Save">
-        <DataAnnotationsValidator/>
-        <MatDialogTitle>Change Username</MatDialogTitle>
-        <MatDialogContent>
-            <div class="col col-12 p-1">
-                <MatTextField class="w-100" @bind-Value="UsernameUpdate.UserName" Label="New Username" Dense="true" Outlined="true"></MatTextField>
-                <ValidationMessage For="() => UsernameUpdate.UserName"/>
-            </div>
-        </MatDialogContent>
-        <MatDialogActions>
-            <MatButton type="submit">Save</MatButton>
-            <MatButton @onclick="Cancel">Cancel</MatButton>
-        </MatDialogActions>
+<div>
+    <EditForm EditContext="Context">
+        <DataAnnotationsValidator />
+        <div class="col col-12 p-1">
+            <MatTextField class="w-100" @bind-Value="UsernameUpdate.UserName" Label="New Username" Dense="true" Outlined="true"></MatTextField>
+            <ValidationMessage For="() => UsernameUpdate.UserName" />
+        </div>
     </EditForm>
-</MatDialog>
+</div>

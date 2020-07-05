@@ -6,10 +6,17 @@ namespace EventManager.Client.Models {
         public bool? HideButton { get; set; }
         public bool? HideCloseButton { get; set; }
         public bool? HideHeader { get; set; }
-        public bool ShowCancelButton { get; set; } = true;
-        public bool ShowConfirmButton { get; set; } = false;
-        public CancelButton CancelButtonType { get; set; } = CancelButton.Cancel;
-        public ConfirmButton ConfirmButtonType { get; set; } = ConfirmButton.Ok;
+        public ModalButtonOptions ButtonOptions { get; set; }
+
+        public ModalOptions()
+        {
+            this.ButtonOptions = new ModalButtonOptions();
+        }
+
+        public ModalOptions(ModalButtonOptions options) 
+        {
+            this.ButtonOptions = options == null ? new ModalButtonOptions() : options;
+        }
 
     }
 

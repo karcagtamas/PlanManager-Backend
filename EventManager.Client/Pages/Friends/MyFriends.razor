@@ -29,7 +29,7 @@
                                         <img src="@friend.ImageURL("/images/profile-icon.jpg")" alt="@friend.Friend" />
                                     </div>
                                     <div class="card-action-bar">
-                                        <MatIconButton Icon="remove_red_eye" @onclick="ShowModal"></MatIconButton>
+                                        <MatIconButton Icon="remove_red_eye" @onclick="@(() => OpenFriendDataModal(friend.FriendId))"></MatIconButton>
                                     </div>
                                 </div>
                             </div>

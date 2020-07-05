@@ -54,34 +54,31 @@ namespace EventManager.Client.Pages.Friends {
             var parameters = new ModalParameters();
             parameters.Add("FormId", 1);
 
-            var options = new ModalOptions();
-            options.ShowCancelButton = true;
-            options.ShowConfirmButton = true;
-            options.CancelButtonType = CancelButton.Cancel;
-            options.ConfirmButtonType = ConfirmButton.Save;
+            var options = new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Save));
+
+            Modal.OnClose += FriendRequestDialogClosed;
 
             Modal.Show<FriendRequest>("Friend request", parameters, options);
         }
 
-        protected void ShowModal () {
-            var parameters = new ModalParameters ();
-            parameters.Add ("FormId", 2);
-
-            var options = new ModalOptions();
-            options.ShowConfirmButton = true;
-
-            Modal.OnClose += ModalClosed;
-            Modal.Show<FriendData> ("Friend data form", parameters, options);
-        }
-
-        protected void ModalClosed (ModalResult modalResult) {
-            if (modalResult.Cancelled) {
-                Console.WriteLine ("Modal cancelled");
-            } else {
-                Console.WriteLine (modalResult.Data.ToString ());
+        protected async void FriendRequestDialogClosed(ModalResult modalResult) 
+        {
+            if (!modalResult.Cancelled)
+            {
+                await this.GetFriendRequests();
             }
 
-            Modal.OnClose -= ModalClosed;
+            Modal.OnClose -= FriendRequestDialogClosed;
+        }
+
+        protected void OpenFriendDataModal (string friendId) {
+            var parameters = new ModalParameters ();
+            parameters.Add ("FormId", 2);
+            parameters.Add("friend", friendId);
+
+            var options = new ModalOptions();
+
+            Modal.Show<FriendData> ("Friend data form", parameters, options);
         }
     }
 }
