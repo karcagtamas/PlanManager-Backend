@@ -17,14 +17,10 @@ namespace EventManager.Client.Pages.Friends {
         protected IHelperService HelperService { get; set; }
 
         [Inject]
-        private IMatToaster Toaster { get; set; }
-
-        [Inject]
         public IModalService Modal { get; set; }
 
         protected List<FriendListDto> Friends { get; set; } = null;
         protected List<FriendRequestListDto> FriendRequests { get; set; } = null;
-        protected bool FriendRequestDialogIsOpen { get; set; } = false;
         protected bool MyFriendsIsLoading { get; set; } = false;
         protected bool MyFriendRequestsIsLoading { get; set; } = false;
 
@@ -55,16 +51,21 @@ namespace EventManager.Client.Pages.Friends {
         }
 
         protected void OpenFriendRequestDialog () {
-            this.FriendRequestDialogIsOpen = true;
-        }
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
 
-        protected void HandleFriendRequestDialogResponse (bool needRefresh) {
-            this.FriendRequestDialogIsOpen = false;
+            var options = new ModalOptions();
+            options.ShowCancelButton = true;
+            options.ShowConfirmButton = true;
+            options.CancelButtonType = CancelButton.Cancel;
+            options.ConfirmButtonType = ConfirmButton.Save;
+
+            Modal.Show<FriendRequest>("Friend request", parameters, options);
         }
 
         protected void ShowModal () {
             var parameters = new ModalParameters ();
-            parameters.Add ("FormId", 3);
+            parameters.Add ("FormId", 2);
 
             var options = new ModalOptions();
             options.ShowConfirmButton = true;

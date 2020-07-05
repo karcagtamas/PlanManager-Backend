@@ -1,10 +1,8 @@
 @inherits FriendRequestBase
 
-<MatDialog @bind-IsOpen="@DialogIsOpen">
-    <EditForm Model="Model" OnValidSubmit="Save">
+<div>
+    <EditForm EditContext="@Context">
         <DataAnnotationsValidator/>
-        <MatDialogTitle>Friend request</MatDialogTitle>
-        <MatDialogContent>
             <div class="col col-12 p-1">
                 <MatTextField class="w-100" @bind-Value="Model.DestinationUserName" Label="User Name" Dense="true" Outlined="true"></MatTextField>
                 <ValidationMessage For="() => Model.DestinationUserName"/>
@@ -13,10 +11,5 @@
                 <MatTextField class="w-100" @bind-Value="Model.Message" Label="Message" Dense="true" Outlined="true"></MatTextField>
                 <ValidationMessage For="() => Model.Message"/>
             </div>
-        </MatDialogContent>
-        <MatDialogActions>
-            <MatButton type="submit">Save</MatButton>
-            <MatButton @onclick="Cancel">Cancel</MatButton>
-        </MatDialogActions>
     </EditForm>
-</MatDialog>
+</div>
