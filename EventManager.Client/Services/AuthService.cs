@@ -18,7 +18,7 @@ namespace EventManager.Client.Services {
         private readonly IHelperService _helperService;
         private readonly string _url = ApplicationSettings.BaseApiUrl + "/auth";
 
-        public AuthService (HttpService httpService, HttpClient httpClient, AuthenticationStateProvider authenticationStateProvider, ILocalStorageService localStorageService, IHelperService helperService) {
+        public AuthService (IHttpService httpService, HttpClient httpClient, AuthenticationStateProvider authenticationStateProvider, ILocalStorageService localStorageService, IHelperService helperService) {
             this._httpService = httpService;
             this._authenticationStateProvider = authenticationStateProvider;
             this._localStorageService = localStorageService;

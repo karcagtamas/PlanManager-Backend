@@ -22,7 +22,14 @@
         </div>
         <MatCardActions Class="blazored-modal-footer">
             <span class="spacer"></span>
-            <MatButton @onclick="ModalService.Cancel">Close</MatButton>
+            @if(ShowConfirmButton)
+            {
+                <MatButton @onclick="ModalService.Confirm">@ConfirmButtonText</MatButton>
+            }
+            @if(ShowCancelButton)
+            {
+                <MatButton @onclick="ModalService.Cancel">@CancelButtonText</MatButton>
+            }
         </MatCardActions>
     </MatCard>
     <div class="blazored-modal-overlay" @onclick="HandleBackgroundClick"></div>

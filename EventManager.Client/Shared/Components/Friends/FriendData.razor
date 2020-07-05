@@ -3,6 +3,7 @@
 @using EventManager.Client.Services.Interfaces
 @using EventManager.Client.Models
 @using EventManager.Client.Shared.Components
+@using EventManager.Client.Services
 
 
 <div>
@@ -10,11 +11,11 @@
 </div>
 
 @code {
-    [CascadingParameter]
-    public ModalParameters Parameters { get; set; }
+        [CascadingParameter]
+        public ModalParameters Parameters { get; set; }
 
-    [CascadingParameter]
-    public BlazoredModal BlazoredModal { get; set; }
+        [CascadingParameter]
+        public BlazoredModal BlazoredModal { get; set; }
 
     protected bool ShowForm { get; set; } = true;
     protected int FormId { get; set; }
@@ -22,17 +23,23 @@
     protected override async Task OnInitializedAsync()
     {
         FormId = Parameters.Get<int>("FormId");
+
+        ((ModalService)ModalService).OnConfirm += OnConfirm;
+
         // BlazoredModal.SetTitle("Form data");
         await GetFriendData();
-    }
-
-    protected void Close()
-    {
-        ModalService.Close(ModalResult.Cancel());
     }
 
     protected async Task GetFriendData()
     {
         var a = await FriendService.GetMyFriendRequests();
+    }
+
+    protected void OnConfirm()
+    {
+        if (true)
+        {
+            ModalService.Close(ModalResult.Ok<string>("Result :D"));
+        }
     }
 }

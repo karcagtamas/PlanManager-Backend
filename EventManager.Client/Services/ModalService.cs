@@ -8,6 +8,7 @@ namespace EventManager.Client.Services {
         public event Action<ModalResult> OnClose;
         internal event Action CloseModal;
         internal event Action<string, RenderFragment, ModalParameters, ModalOptions> OnShow;
+        internal event Action OnConfirm;
         private Type _modalType;
 
         public void Cancel () {
@@ -38,6 +39,11 @@ namespace EventManager.Client.Services {
             _modalType = contentComponent;
 
             OnShow?.Invoke (title, content, parameters, options);
+        }
+
+        public void Confirm()
+        {
+            OnConfirm?.Invoke();
         }
     }
 }

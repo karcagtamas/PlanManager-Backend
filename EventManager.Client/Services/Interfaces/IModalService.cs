@@ -10,5 +10,6 @@ namespace EventManager.Client.Services.Interfaces {
         void Show (Type contentComponent, string title, ModalParameters parameters, ModalOptions options);
         void Close (ModalResult modalResult);
         void Cancel ();
+        void Confirm();
     }
 }

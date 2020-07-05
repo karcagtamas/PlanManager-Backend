@@ -66,13 +66,16 @@ namespace EventManager.Client.Pages.Friends {
             var parameters = new ModalParameters ();
             parameters.Add ("FormId", 3);
 
+            var options = new ModalOptions();
+            options.ShowConfirmButton = true;
+
             Modal.OnClose += ModalClosed;
-            Modal.Show<FriendData> ("Friend data form", parameters);
+            Modal.Show<FriendData> ("Friend data form", parameters, options);
         }
 
         protected void ModalClosed (ModalResult modalResult) {
             if (modalResult.Cancelled) {
-                Console.WriteLine ("Modal cancaelled");
+                Console.WriteLine ("Modal cancelled");
             } else {
                 Console.WriteLine (modalResult.Data.ToString ());
             }

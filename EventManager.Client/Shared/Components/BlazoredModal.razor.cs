@@ -34,6 +34,10 @@ namespace EventManager.Client.Shared.Components {
         private string ComponentStyle { get; set; }
         private bool IsVisible { get; set; }
         private string Title { get; set; }
+        private bool ShowCancelButton { get; set; }
+        private bool ShowConfirmButton { get; set; }
+        private string CancelButtonText { get; set; }
+        private string ConfirmButtonText { get; set; }
         private RenderFragment Content { get; set; }
         private ModalParameters Parameters { get; set; }
 
@@ -53,6 +57,10 @@ namespace EventManager.Client.Shared.Components {
             this.Parameters = parameters;
             this.IsVisible = true;
 
+            if (options != null)
+            {
+                this.SetButtonSettings(options);
+            }
             await InvokeAsync (StateHasChanged);
         }
 
@@ -108,6 +116,24 @@ namespace EventManager.Client.Shared.Components {
         public void SetTitle (string title) {
             Title = title;
             StateHasChanged ();
+        }
+
+        public void SetButtonSettings (ModalOptions options) 
+        {
+            this.ShowCancelButton = options.ShowCancelButton;
+            this.ShowConfirmButton = options.ShowConfirmButton;
+            this.CancelButtonText = this.GetNameOfButtonType(options.CancelButtonType);
+            this.ConfirmButtonText = this.GetNameOfButtonType(options.ConfirmButtonType);
+        }
+
+        public string GetNameOfButtonType(ConfirmButton type)
+        {
+            return type.ToString();
+        }
+
+        public string GetNameOfButtonType(CancelButton type)
+        {
+            return type.ToString();
         }
     }
 }
