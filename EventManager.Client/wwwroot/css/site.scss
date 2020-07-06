@@ -148,30 +148,65 @@ body {
 /* My profile page */
 
 .em-my-profile {
-  .my-profile-picture {
-    position: relative;
-    margin: 5rem auto;
-    width: 400px;
-    height: 400px;
-    overflow: hidden;
-    border-radius: 50%;
-    transition-duration: 0.5s;
-    box-shadow: 0 0 0.5rem 0 $primary;
-    
-    &:hover {
-      transition-duration: 0.5s;
-      transform: scale(1.4, 1.4);
+    .my-profile-picture {
+        position: relative;
+        margin: 5rem auto;
+        width: 400px;
+        height: 400px;
+        overflow: hidden;
+        border-radius: 50%;
+        transition-duration: 0.5s;
+        box-shadow: 0 0 0.5rem 0 $primary;
+
+        &:hover {
+            transition-duration: 0.5s;
+            transform: scale(1.4, 1.4);
+        }
+
+        img {
+            width: auto;
+            height: 100%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translateY(-50%) translateX(-50%);
+        }
     }
-    
-    img {
-      width: auto;
-      height: 100%;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      -webkit-transform: translateY(-50%) translateX(-50%);    
+
+    .danger-zone {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $red-light-trans;
+
+        .em-sub-title {
+            color: $red;
+        }
+
+        .danger * {
+            color: $red !important;
+        }
     }
-  }
+
+    .settings {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $blue-light-trans;
+    }
+
+    .info {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $blue-light-trans;
+    }
 }
 
 /* My notification page */
