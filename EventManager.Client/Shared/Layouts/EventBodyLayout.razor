@@ -1,5 +1,7 @@
 @inherits LayoutComponentBase
 
+<BlazoredModal />
+
 <div class="row col col-12">
     <div class=" col col-2 em-navbar-outer">
         <EventBodyNavigator Id="@Id"/>
@@ -12,7 +14,6 @@
 </div>
 
 @code {
-
     protected int Id { get; set; }
 
     protected override void OnParametersSet()
@@ -20,7 +21,7 @@
         object id = null;
         if ((this.Body.Target as RouteView)?.RouteData.RouteValues?.TryGetValue("Id", out id) == true)
         {
-            this.Id = (int) id;
+            this.Id = (int)id;
             Console.WriteLine(this.Id);
         }
     }

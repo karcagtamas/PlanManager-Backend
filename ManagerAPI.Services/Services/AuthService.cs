@@ -8,6 +8,7 @@ using ManagerAPI.DataAccess;
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Enums;
 using ManagerAPI.Models.Models;
+using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Services.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;

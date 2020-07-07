@@ -5,20 +5,19 @@ using System.Threading.Tasks;
 using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services;
+using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ManagerAPI.Backend.Controllers
-{
+namespace ManagerAPI.Backend.Controllers {
     /// <summary>
     /// News Controller
     /// </summary>
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class NewsController : ControllerBase
-    {
+    public class NewsController : ControllerBase {
         private readonly INewsService _newsService;
         private readonly IUtilsService _utilsService;
 
@@ -27,8 +26,7 @@ namespace ManagerAPI.Backend.Controllers
         /// </summary>
         /// <param name="newsService">News Service</param>
         /// <param name="utilsService">Utils Service</param>
-        public NewsController(INewsService newsService, IUtilsService utilsService)
-        {
+        public NewsController (INewsService newsService, IUtilsService utilsService) {
             _newsService = newsService;
             _utilsService = utilsService;
         }
@@ -38,18 +36,13 @@ namespace ManagerAPI.Backend.Controllers
         /// </summary>
         /// <param name="postId">News Id</param>
         /// <returns>Server Response</returns>
-        [HttpDelete("{postId}")]
-        public IActionResult DeleteNews(int postId)
-        {
-            try
-            {
-                _newsService.DeleteNews(postId);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return BadRequest(e);
+        [HttpDelete ("{postId}")]
+        public IActionResult DeleteNews (int postId) {
+            try {
+                _newsService.DeleteNews (postId);
+                return Ok ();
+            } catch (Exception e) {
+                return BadRequest (_utilsService.ExceptionToResponse (e));
             }
         }
 
@@ -58,16 +51,11 @@ namespace ManagerAPI.Backend.Controllers
         /// </summary>
         /// <returns>Server Response</returns>
         [HttpGet]
-        public IActionResult GetNewsPosts()
-        {
-            try
-            {
-                return Ok(_newsService.GetNewsPosts());
-            }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return BadRequest(e);
+        public IActionResult GetNewsPosts () {
+            try {
+                return Ok (_newsService.GetNewsPosts ());
+            } catch (Exception e) {
+                return BadRequest (_utilsService.ExceptionToResponse (e));
             }
         }
 
@@ -77,17 +65,12 @@ namespace ManagerAPI.Backend.Controllers
         /// <param name="model">Model of news for creation</param>
         /// <returns>Server Response</returns>
         [HttpPost]
-        public IActionResult PostNews([FromBody] PostModel model)
-        {
-            try
-            {
-                _newsService.PostNews(model);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return BadRequest(e);
+        public IActionResult PostNews ([FromBody] PostModel model) {
+            try {
+                _newsService.PostNews (model);
+                return Ok ();
+            } catch (Exception e) {
+                return BadRequest (_utilsService.ExceptionToResponse (e));
             }
         }
 
@@ -96,18 +79,13 @@ namespace ManagerAPI.Backend.Controllers
         /// </summary>
         /// <param name="model">Model of news</param>
         /// <returns>Server Response</returns>
-        [HttpPut("{postId}")]
-        public IActionResult UpdateNews(int postId, [FromBody] PostModel model)
-        {
-            try
-            {
-                _newsService.UpdateNews(postId, model);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return BadRequest(e);
+        [HttpPut ("{postId}")]
+        public IActionResult UpdateNews (int postId, [FromBody] PostModel model) {
+            try {
+                _newsService.UpdateNews (postId, model);
+                return Ok ();
+            } catch (Exception e) {
+                return BadRequest (_utilsService.ExceptionToResponse (e));
             }
         }
     }

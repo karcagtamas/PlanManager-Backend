@@ -1,66 +1,44 @@
-﻿using EventManager.Client.Models;
-using EventManager.Client.Models.Notifications;
-using Microsoft.AspNetCore.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using EventManager.Client.Models;
+using EventManager.Client.Models.Notifications;
+using EventManager.Client.Services.Interfaces;
+using Microsoft.AspNetCore.Components;
 
-namespace EventManager.Client.Services
-{
-    public class NotificationService : INotificationService
-    {
-        private readonly HttpClient _httpClient;
+namespace EventManager.Client.Services {
+    public class NotificationService : INotificationService {
+        private readonly IHttpService _httpService;
         private readonly string _url = ApplicationSettings.BaseApiUrl + "/notification";
         private readonly IHelperService _helperService;
+        private readonly HttpClient _httpClient;
 
-        public NotificationService(HttpClient httpClient, IHelperService helperService)
-        {
-            _httpClient = httpClient;
-            _helperService = helperService;
+        public NotificationService (IHttpService httpService, IHelperService helperService, HttpClient httpClient) {
+            this._httpService = httpService;
+            this._helperService = helperService;
+            this._httpClient = httpClient;
         }
 
-        public async Task<int?> GetCountOfUnReadNotifications()
-        {
-            var response = await _httpClient.GetAsync($"{_url}/unreads/count");
+        public async Task<int?> GetCountOfUnReadNotifications () {
+            var settings = new HttpSettings($"{this._url}/unreads/count");
 
-            if (response.IsSuccessStatusCode) 
-            {
-                int count = -1;
-                int.TryParse(await response.Content.ReadAsStringAsync(), out count);
-                return count == -1 ? null : (int?)count;
-            }
-            else 
-            {
-                return null;
-            }
+            return await _httpService.getInt(settings);
         }
 
-        public async Task<List<NotificationDto>> GetMyNotifications()
-        {
-            var response = await _httpClient.GetAsync($"{_url}");
+        public async Task<List<NotificationDto>> GetMyNotifications () {
+            var settings = new HttpSettings($"{this._url}");
 
-            if (response.IsSuccessStatusCode)
-            {
-                using (var sr = await response.Content.ReadAsStreamAsync()) 
-                {
-                    return await System.Text.Json.JsonSerializer.DeserializeAsync<List<NotificationDto>>(sr, _helperService.GetSerializerOptions());
-                }
-            }
-            else
-            {
-                return null;
-            }
+            return await this._httpService.get<List<NotificationDto>> (settings);
         }
 
-        public async Task<bool> SetUnReadsToRead(int[] ids)
-        {
-            var response = await _httpClient.PutAsync($"{_url}", _helperService.CreateContent(ids));
+        public async Task<bool> SetUnReadsToRead (int[] ids) {
+            var settings = new HttpSettings ($"{this._url}", null, null, "Notification refreshing");
 
-            await _helperService.AddToaster(response, "Notification refreshing");
+            var body = new HttpBody<int[]>(this._helperService, ids);
 
-            return response.IsSuccessStatusCode;
+            return await this._httpService.update<int[]>(settings, body);
         }
     }
 }

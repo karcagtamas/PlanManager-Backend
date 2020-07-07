@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using ManagerAPI.Models.Entities.PM;
 
 namespace ManagerAPI.Models.Entities
 {

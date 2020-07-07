@@ -1,9 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EventManager.Models.Entities;
+using ManagerAPI.Models.Entities.EM;
+using ManagerAPI.Models.Entities.PM;
 using Microsoft.AspNetCore.Identity;
 
 namespace ManagerAPI.Models.Entities {

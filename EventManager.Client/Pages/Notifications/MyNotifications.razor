@@ -6,33 +6,32 @@
     <h1 class="em-page-title">My Notifications</h1>
 
     <div class="action-bar">
-        <div class="row col col-12">
-            <div class="col col-6">
-                <MatSelect TValue="int?" Label="Importance" Outlined="true" Dense="true" ValueChanged="@ImportanceValueChangedEvent">
-                    <MatOption TValue="int?" Value="null"></MatOption>
-                    <MatOption TValue="int?" Value="1">Level 1</MatOption>
-                    <MatOption TValue="int?" Value="2">Level 2</MatOption>
-                    <MatOption TValue="int?" Value="3">Level 3</MatOption>
-                </MatSelect>
-            </div>
-            <div class="col col-6">
-                <MatCheckbox TValue="bool" Label="Show unread notifications" ValueChanged="@ShowReadValueChangedEvent"></MatCheckbox>
-            </div>
-        </div>
+        <MatSelect TValue="int?" Label="Importance" Outlined="true" Dense="true" ValueChanged="@ImportanceValueChangedEvent">
+            <MatOption TValue="int?" Value="null"></MatOption>
+            <MatOption TValue="int?" Value="1">Level 1</MatOption>
+            <MatOption TValue="int?" Value="2">Level 2</MatOption>
+            <MatOption TValue="int?" Value="3">Level 3</MatOption>
+        </MatSelect>
+        <span class="spacer"></span>
+        <MatCheckbox TValue="bool" Label="Show unread notifications" ValueChanged="@ShowReadValueChangedEvent"></MatCheckbox>
     </div>
-
-    @if (FilteredNotifications != null && FilteredNotifications.Count > 0)
-    {
-        <div class="notification-list p-2">
-            @foreach (var notification in FilteredNotifications)
-            {
-                <MyNotification Notification="notification"></MyNotification>
-            }
-        </div>
-    } else
-    {
-        <div class="text-center m-5 pt-5">
-            <strong>You does not have any notification. That's cool!</strong>
-        </div>
+    @if (IsLoading) {
+        <Loader></Loader>
+    }
+    else {
+        @if (FilteredNotifications != null && FilteredNotifications.Count > 0)
+        {
+            <div class="notification-list p-2">
+                @foreach (var notification in FilteredNotifications)
+                {
+                    <MyNotification Notification="notification"></MyNotification>
+                }
+            </div>
+        } else
+        {
+            <div class="text-center m-5 pt-5">
+                <strong>You does not have any notification. That's cool!</strong>
+            </div>
+        }
     }
 </div>

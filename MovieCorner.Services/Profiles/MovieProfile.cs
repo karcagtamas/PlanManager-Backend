@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ManagerAPI.Models.DTOs;
+using ManagerAPI.Models.DTOs.MC;
 using ManagerAPI.Models.Entities;
 
 namespace MovieCorner.Services.Profiles

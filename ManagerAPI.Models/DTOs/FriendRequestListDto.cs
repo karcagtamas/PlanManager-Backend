@@ -8,6 +8,8 @@ namespace ManagerAPI.Models.DTOs
 
         public string Sender { get; set; }
 
+        public string SenderFullName { get; set; }
+
         public DateTime SentDate { get; set; }
 
         public string Message { get; set; }

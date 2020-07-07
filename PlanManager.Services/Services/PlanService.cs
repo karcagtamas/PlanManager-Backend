@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Models.DTOs;
-using ManagerAPI.Models.Entities;
-using ManagerAPI.Services.Services;
+using ManagerAPI.Models.DTOs.PM;
+using ManagerAPI.Models.Entities.PM;
+using ManagerAPI.Services.Services.Interfaces;
 using PlanManager.Services.Messages;
 
 namespace PlanManager.Services.Services

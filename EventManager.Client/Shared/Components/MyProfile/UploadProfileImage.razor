@@ -1,14 +1,5 @@
 @inherits UploadProfileImageBase
 
-<MatDialog @bind-IsOpen="@DialogIsOpen">
-
-        <MatDialogTitle>Upload Profile Image</MatDialogTitle>
-        <MatDialogContent>
-            <MatFileUpload OnChange="@FilesReady"></MatFileUpload>
-        </MatDialogContent>
-        <MatDialogActions>
-            <MatButton @onclick="Save">Save</MatButton>
-            <MatButton @onclick="Cancel">Cancel</MatButton>
-        </MatDialogActions>
-
-</MatDialog>
+<div>
+    <MatFileUpload OnChange="@FilesReady"></MatFileUpload>
+</div>

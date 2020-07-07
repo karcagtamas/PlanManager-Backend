@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Models.Entities;
+using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 

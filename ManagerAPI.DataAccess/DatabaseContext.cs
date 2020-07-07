@@ -1,4 +1,6 @@
 using ManagerAPI.Models.Entities;
+using ManagerAPI.Models.Entities.EM;
+using ManagerAPI.Models.Entities.PM;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

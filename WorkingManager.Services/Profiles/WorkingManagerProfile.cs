@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ManagerAPI.Models.DTOs;
+using ManagerAPI.Models.DTOs.WM;
 using ManagerAPI.Models.Entities;
 
 namespace WorkingManager.Services.Profiles

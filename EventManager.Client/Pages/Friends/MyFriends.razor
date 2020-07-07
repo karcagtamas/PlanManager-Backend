@@ -4,4 +4,78 @@
 
 <div class="em-my-friends">
     <h1 class="em-page-title">My Friends</h1>
+
+    <div class="action-bar">
+        <MatButton @onclick="OpenFriendRequestDialog">Invite</MatButton>
+    </div>
+    <div class="row col col-12">
+        <!-- Friends -->
+        <div class="col col-8">
+            <div class="em-section-title">Friends</div>
+            @if (MyFriendsIsLoading) {
+                <Loader></Loader>
+            }
+            else {
+                @if (Friends != null && Friends.Count > 0) {
+                    <div class="friend-list row col col-12">
+                        @foreach (var friend in Friends) {
+                            <div class="col col-12 col-xl-6 p-2">
+                                <div class="friend-card">
+                                    <div class="title">
+                                        @friend.Friend
+                                        <i>&lt;@friend.FriendFullName&gt;</i>
+                                    </div>
+                                    <div class="picture">
+                                        <img src="@friend.ImageURL("/images/profile-icon.jpg")" alt="@friend.Friend" />
+                                    </div>
+                                    <div class="card-action-bar">
+                                        <MatIconButton Icon="remove_red_eye" @onclick="@(() => OpenFriendDataModal(friend.FriendId))"></MatIconButton>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else {
+                    <div class="text-center">You does not have any friend. Invite somebody.</div>
+                }
+            }
+        </div>
+
+        <!-- Friend requests -->
+        <div class="col col-4">
+            <div class="em-section-title">Friend requests</div>
+            @if(MyFriendRequestsIsLoading) {
+                <Loader></Loader>
+            }
+            else {
+                @if (FriendRequests != null && FriendRequests.Count > 0) {
+                    <div class="friend-request-list">
+                        @foreach (var request in FriendRequests) {
+                        <div class="friend-request">
+                            <div class="title">
+                                @request.Sender 
+                                @if(!String.IsNullOrEmpty(request.SenderFullName))
+                                {
+                                    <i>&lt;@request.SenderFullName&gt;</i> 
+                                }
+                                - <small>@HelperService.DateToString(request.SentDate)</small>
+                            </div>
+                            <div class="content">
+                                @request.Message
+                            </div>
+                            <div class="request-action-bar">
+                                <MatIconButton Icon="done" @onclick="@(() => SendFriendRequestResponse(request.Id, true))"></MatIconButton>
+                                <MatIconButton Icon="clear" @onclick="@(() => SendFriendRequestResponse(request.Id, false))"></MatIconButton>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                }
+                else {
+                    <div class="text-center">You does not have any friend request. It so sad :/</div>
+                }
+            }
+        </div>
+    </div>
 </div>

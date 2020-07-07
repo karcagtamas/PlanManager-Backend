@@ -1,90 +1,62 @@
-﻿using EventManager.Client.Models;
-using EventManager.Client.Models.Friends;
-using Microsoft.AspNetCore.Components;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using EventManager.Client.Models;
+using EventManager.Client.Models.Friends;
+using EventManager.Client.Services.Interfaces;
 
-namespace EventManager.Client.Services
-{
-    public class FriendService : IFriendService
-    {
-        private readonly HttpClient _httpClient;
+namespace EventManager.Client.Services {
+    public class FriendService : IFriendService {
         private readonly string _url = ApplicationSettings.BaseApiUrl + "/friend";
         private readonly IHelperService _helperService;
+        private readonly IHttpService _httpService;
 
-        public FriendService(HttpClient httpClient, IHelperService helperService)
-        {
-            _httpClient = httpClient;
-            _helperService = helperService;
+        public FriendService (HttpClient httpClient, IHelperService helperService, IHttpService httpService) {
+            this._helperService = helperService;
+            this._httpService = httpService;
         }
 
-        public async Task<List<FriendRequestListDto>> GetMyFriendRequests()
-        {
-            var response = await _httpClient.GetAsync($"{_url}/request");
+        public async Task<List<FriendRequestListDto>> GetMyFriendRequests () {
+            var settings = new HttpSettings ($"{this._url}/request");
 
-            if (response.IsSuccessStatusCode)
-            {
-                using (var sr = await response.Content.ReadAsStreamAsync()) 
-                {
-                    return await System.Text.Json.JsonSerializer.DeserializeAsync<List<FriendRequestListDto>>(sr, _helperService.GetSerializerOptions());
-                }
-            }
-            else
-            {
-                return null;
-            }
+            return await this._httpService.get<List<FriendRequestListDto>> (settings);
         }
 
-        public async Task<List<FriendListDto>> GetMyFriends()
-        {
-            var response = await _httpClient.GetAsync($"{_url}");
+        public async Task<List<FriendListDto>> GetMyFriends () {
+            var settings = new HttpSettings ($"{this._url}");
 
-            if (response.IsSuccessStatusCode)
-            {
-                using (var sr = await response.Content.ReadAsStreamAsync())
-                {
-
-                    return await System.Text.Json.JsonSerializer.DeserializeAsync<List<FriendListDto>>(sr, _helperService.GetSerializerOptions());
-                }
-            }
-            else
-            {
-                return null;
-            }
+            return await this._httpService.get<List<FriendListDto>> (settings);
         }
 
-        public async Task<bool> RemoveFriend(string friendId)
-        {
-            var response = await _httpClient.DeleteAsync($"{_url}/{friendId}");
+        public async Task<bool> RemoveFriend (string friendId) {
+            var pathParams = new HttpPathParameters ();
+            pathParams.Add<string> (friendId, -1);
 
-            await _helperService.AddToaster(response, "Friend removing");
+            var toaster = new ToasterSettings ("Friend removing");
 
-            return response.IsSuccessStatusCode;
+            var settings = new HttpSettings ($"{this._url}", null, pathParams, toaster);
+
+            return await this._httpService.delete (settings);
         }
 
-        public async Task<bool> SendFriendRequest(FriendRequestModel model)
-        {
-            var response = await _httpClient.PostAsync($"{_url}/request", _helperService.CreateContent(model));
+        public async Task<bool> SendFriendRequest (FriendRequestModel model) {
+            var toaster = new ToasterSettings ("Friend request sending");
 
-            await _helperService.AddToaster(response, "Friend request sending");
+            var settings = new HttpSettings ($"{this._url}/request", null, null, toaster);
 
-            return response.IsSuccessStatusCode;
+            var body = new HttpBody<FriendRequestModel> (this._helperService, model);
+
+            return await this._httpService.create<FriendRequestModel> (settings, body);
         }
 
-        public async Task<bool> SendFriendRequestResponse(FriendRequestResponseModel model)
-        {
-            var response = await _httpClient.PutAsync($"{_url}/request", _helperService.CreateContent(model));
+        public async Task<bool> SendFriendRequestResponse (FriendRequestResponseModel model) {
+            var toaster = new ToasterSettings ("Friend request answering");
 
-            await _helperService.AddToaster(response, "Friend request answering");
+            var settings = new HttpSettings ($"{this._url}/request", null, null, toaster);
 
-            return response.IsSuccessStatusCode;
+            var body = new HttpBody<FriendRequestResponseModel> (_helperService, model);
+
+            return await this._httpService.update<FriendRequestResponseModel> (settings, body);
         }
     }
 }

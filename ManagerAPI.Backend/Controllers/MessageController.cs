@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services;
+using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ManagerAPI.Backend.Controllers
-{
+namespace ManagerAPI.Backend.Controllers {
     /// <summary>
     /// Message Controller
     /// </summary>
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class MessageController : ControllerBase
-    {
+    public class MessageController : ControllerBase {
         private readonly IMessageService _messageService;
         private readonly IUtilsService _utilsService;
 
@@ -24,29 +23,22 @@ namespace ManagerAPI.Backend.Controllers
         /// </summary>
         /// <param name="messageService">Message Service</param>
         /// <param name="utilsService">Utils Service</param>
-        public MessageController(IMessageService messageService, IUtilsService utilsService)
-        {
+        public MessageController (IMessageService messageService, IUtilsService utilsService) {
             _messageService = messageService;
             _utilsService = utilsService;
         }
-
 
         /// <summary>
         /// Get current user's messages
         /// </summary>
         /// <param name="friendId">Partner Id</param>
         /// <returns>Server Response</returns>
-        [HttpGet("{friendId}")]
-        public IActionResult GetMessages(int friendId)
-        {
-            try
-            {
-                return Ok(_messageService.GetMessages(friendId));
-            }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return BadRequest(e);
+        [HttpGet ("{friendId}")]
+        public IActionResult GetMessages (int friendId) {
+            try {
+                return Ok (_messageService.GetMessages (friendId));
+            } catch (Exception e) {
+                return BadRequest (_utilsService.ExceptionToResponse (e));
             }
         }
 
@@ -56,17 +48,12 @@ namespace ManagerAPI.Backend.Controllers
         /// <param name="model">Model of message sending</param>
         /// <returns>Server Response</returns>
         [HttpPost]
-        public IActionResult SendMessage([FromBody] MessageModel model)
-        {
-            try
-            {
-                _messageService.SendMessage(model);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return BadRequest(e);
+        public IActionResult SendMessage ([FromBody] MessageModel model) {
+            try {
+                _messageService.SendMessage (model);
+                return Ok ();
+            } catch (Exception e) {
+                return BadRequest (_utilsService.ExceptionToResponse (e));
             }
         }
     }
