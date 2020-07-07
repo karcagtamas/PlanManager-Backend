@@ -39,6 +39,7 @@ namespace EventManager.Client.Pages.Profiles
         protected bool ShowChangeUsernameDialog { get; set; } = false;
         protected string Image { get; set; }
         public string Roles { get; set; }
+        protected bool ProfileIsLoading { get; set; } = true;
 
         protected override async Task OnInitializedAsync()
         {
@@ -48,6 +49,7 @@ namespace EventManager.Client.Pages.Profiles
 
         protected async Task GetUser()
         {
+            this.ProfileIsLoading = true;
             User = await UserService.GetUser();
             UserUpdate = new UserUpdateDto(User);
             Roles = string.Join(", ", User.Roles);
@@ -57,6 +59,7 @@ namespace EventManager.Client.Pages.Profiles
                 this.Image = $"data:image/gif;base64,{base64}";
                 StateHasChanged();
             }
+            this.ProfileIsLoading = false;
         }
         
         protected async Task GetGenders()

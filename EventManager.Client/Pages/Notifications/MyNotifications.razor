@@ -20,19 +20,23 @@
             </div>
         </div>
     </div>
-
-    @if (FilteredNotifications != null && FilteredNotifications.Count > 0)
-    {
-        <div class="notification-list p-2">
-            @foreach (var notification in FilteredNotifications)
-            {
-                <MyNotification Notification="notification"></MyNotification>
-            }
-        </div>
-    } else
-    {
-        <div class="text-center m-5 pt-5">
-            <strong>You does not have any notification. That's cool!</strong>
-        </div>
+    @if (IsLoading) {
+        <Loader></Loader>
+    }
+    else {
+        @if (FilteredNotifications != null && FilteredNotifications.Count > 0)
+        {
+            <div class="notification-list p-2">
+                @foreach (var notification in FilteredNotifications)
+                {
+                    <MyNotification Notification="notification"></MyNotification>
+                }
+            </div>
+        } else
+        {
+            <div class="text-center m-5 pt-5">
+                <strong>You does not have any notification. That's cool!</strong>
+            </div>
+        }
     }
 </div>

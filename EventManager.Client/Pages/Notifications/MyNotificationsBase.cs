@@ -21,6 +21,7 @@ namespace EventManager.Client.Pages.Notifications
         public List<NotificationDto> FilteredNotifications { get; set; }
         protected bool ShowRead { get; set; } = false;
         protected int? Importance { get; set; } = null;
+        protected bool IsLoading { get; set; } = true;
 
         protected override async Task OnInitializedAsync()
         {
@@ -30,11 +31,12 @@ namespace EventManager.Client.Pages.Notifications
 
         protected async Task GetNotifications()
         {
-
+            this.IsLoading = true;
             Notifications = await NotificationService.GetMyNotifications();
             if (Notifications.Count() > 0) {
                 FilterNotifications();
             }
+            this.IsLoading = false;
         }
         
         protected async Task SetUnReadsToRead()
@@ -60,14 +62,20 @@ namespace EventManager.Client.Pages.Notifications
 
         protected void ShowReadValueChangedEvent(bool value)
         {
+            this.IsLoading = true;
             ShowRead = value;            
             FilterNotifications();
+            this.IsLoading = false;
+            StateHasChanged();
         }
 
         protected void ImportanceValueChangedEvent(int? value)
         {
+            this.IsLoading = true;
             Importance = value;
             FilterNotifications();
+            this.IsLoading = false;
+            StateHasChanged();
         }
 
         protected void FilterNotifications()
