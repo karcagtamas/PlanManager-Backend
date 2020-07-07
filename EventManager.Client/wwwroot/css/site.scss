@@ -211,6 +211,20 @@ body {
 
 /* My notification page */
 .em-my-notifications {
+    .action-bar {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $orange-trans;
+        display: flex;
+
+        .spacer {
+            flex-grow: 1;
+        }
+    }
+
     .em-notification {
         margin-bottom: 1rem;
         margin-top: 1rem;
@@ -254,7 +268,12 @@ body {
 /* My friends page */
 .em-my-friends {
     .action-bar {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
         padding: 0.5rem;
+        background-color: $orange-trans;
     }
 
     .friend-list {
@@ -459,6 +478,16 @@ body {
 
 .mdc-notched-outline__notch {
   text-align: center !important;
+}
+
+.mdc-dialog {
+    .mdc-dialog__surface {
+        min-width: 50vw !important;
+        max-width: 90vw !important;
+    }
+    .mdc-dialog__title {
+        color: $primary !important;
+    }
 }
 
 

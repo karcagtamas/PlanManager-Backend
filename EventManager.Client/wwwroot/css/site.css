@@ -1,4 +1,4 @@
-@import url("open-iconic/font/css/open-iconic-bootstrap.min.css");
+﻿@import url("open-iconic/font/css/open-iconic-bootstrap.min.css");
 /* General body settings */
 html, body {
   font-family: 'Bree Serif', serif;
@@ -146,6 +146,17 @@ body {
   background-color: rgba(187, 187, 255, 0.4); }
 
 /* My notification page */
+.em-my-notifications .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+  display: flex; }
+  .em-my-notifications .action-bar .spacer {
+    flex-grow: 1; }
+
 .em-my-notifications .em-notification {
   margin-bottom: 1rem;
   margin-top: 1rem;
@@ -172,7 +183,12 @@ body {
 
 /* My friends page */
 .em-my-friends .action-bar {
-  padding: 0.5rem; }
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4); }
 
 .em-my-friends .friend-list .friend-card {
   margin-bottom: 1rem;
