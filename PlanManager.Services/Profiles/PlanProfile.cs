@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using AutoMapper;
-using ManagerAPI.Models.DTOs;
+using ManagerAPI.Models.DTOs.PM;
 using ManagerAPI.Models.Entities;
 
 namespace PlanManager.Services.Profiles

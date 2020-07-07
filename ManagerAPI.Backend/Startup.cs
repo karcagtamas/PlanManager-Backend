@@ -7,6 +7,7 @@ using ManagerAPI.DataAccess;
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Services.Profiles;
 using ManagerAPI.Services.Services;
+using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Services.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ManagerAPI.Models.DTOs;
+using ManagerAPI.Models.DTOs.WM;
 
 namespace WorkingManager.Services.Services
 {

@@ -9,6 +9,7 @@ using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Enums;
 using ManagerAPI.Services.Messages;
+using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 

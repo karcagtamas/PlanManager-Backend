@@ -4,7 +4,9 @@ using AutoMapper;
 using EventManager.Services.Messages;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Models.DTOs;
+using ManagerAPI.Models.DTOs.EM;
 using ManagerAPI.Services.Services;
+using ManagerAPI.Services.Services.Interfaces;
 
 namespace EventManager.Services.Services
 {

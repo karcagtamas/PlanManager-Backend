@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using AutoMapper;
-using ManagerAPI.Models.DTOs;
+using ManagerAPI.Models.DTOs.EM;
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Enums;
 
