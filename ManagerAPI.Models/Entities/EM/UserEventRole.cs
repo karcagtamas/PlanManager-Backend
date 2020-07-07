@@ -1,31 +1,25 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using ManagerAPI.Models.Entities.PM;
 
-namespace ManagerAPI.Models.Entities
+namespace ManagerAPI.Models.Entities.EM
 {
-    public class UserPlanGroup
+    public class UserEventRole
     {
         [Required]
         public string UserId { get; set; }
         
         [Required]
-        public int GroupId { get; set; }
-        
-        [Required]
         public int RoleId { get; set; }
-        
+
         [Required]
-        public DateTime Connection { get; set; }
+        public DateTime OwnershipDate { get; set; }
         
-        [Required]
+        [Required] 
         public string AddedById { get; set; }
 
         public virtual User User { get; set; }
 
-        public virtual PlanGroup Group { get; set; }
-
-        public virtual GroupRole Role { get; set; }
+        public virtual EventRole Role { get; set; }
 
         public virtual User AddedBy { get; set; }
     }

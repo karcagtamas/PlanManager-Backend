@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using AutoMapper;
 using ManagerAPI.Models.DTOs.EM;
-using ManagerAPI.Models.Entities;
-using ManagerAPI.Models.Enums;
+using ManagerAPI.Models.Entities.EM;
+using ManagerAPI.Models.Enums.EM;
 
 namespace EventManager.Services.Profiles
 {
