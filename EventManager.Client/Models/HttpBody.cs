@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
@@ -18,7 +19,14 @@ namespace EventManager.Client.Models {
         /// <param name="helperService">Helper Service</param>
         /// <param name="body">Content</param>
         public HttpBody (IHelperService helperService, T body) {
+            if (helperService == null) {
+                throw new ArgumentException("Helper service cannot be null.");
+            }
             this._helperService = helperService;
+
+            if (body == null) {
+                throw new ArgumentException("Body cannot be null.");
+            }
             this.Body = body;
         }
 

@@ -35,19 +35,19 @@ namespace EventManager.Client.Services {
         }
 
         public async Task<string> Login (LoginModel model) {
-            var response = await _httpClient.PostAsync (_url + "/login", _helperService.CreateContent (model));
+            var settings = new HttpSettings($"{this._url}/login", null, null, "Login");
 
-            await _helperService.AddToaster (response, "Login");
+            var body = new HttpBody<LoginModel>(this._helperService, model);
 
-            if (response.IsSuccessStatusCode) {
-                string token = await response.Content.ReadAsStringAsync ();
-                await _localStorageService.SetItemAsync ("authToken", token);
+            var result = await this._httpService.createString<LoginModel>(settings, body);
+
+            if (!string.IsNullOrEmpty(result)) {
+                await _localStorageService.SetItemAsync ("authToken", result);
                 ((ApiAuthenticationStateProvider) _authenticationStateProvider).MarkUserAsAuthenticated (model.UserName);
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue ("bearer", token);
-                return token;
-            } else {
-                return "";
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue ("bearer", result);
             }
+
+            return result;
         }
 
         public async Task Logout () {

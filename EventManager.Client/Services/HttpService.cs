@@ -40,6 +40,30 @@ namespace EventManager.Client.Services {
         }
 
         /// <summary>
+        /// POST request where we want string response
+        /// </summary>
+        /// <param name="settings">Http settings</param>
+        /// <param name="body">Body of post request</param>
+        /// <typeparam name="T">Type of the body</typeparam>
+        /// <returns>Response string value</returns>
+        public async Task<string> createString<T>(HttpSettings settings, HttpBody<T> body)
+        {
+            var response = await _httpClient.PostAsync (CreateUrl (settings), body.GetStringContent());
+
+            // Optional toast
+            if (settings.ToasterSettings.IsNeeded) {
+                await _helperService.AddToaster (response, settings.ToasterSettings.Caption);
+            }
+
+            // Deserialize json
+            if (response.IsSuccessStatusCode) {
+                return await response.Content.ReadAsStringAsync ();
+            } else {
+                return "";
+            }
+        }
+
+        /// <summary>
         /// DELETE request
         /// </summary>
         /// <param name="settings">Http settings</param>
@@ -60,7 +84,7 @@ namespace EventManager.Client.Services {
         /// </summary>
         /// <param name="settings">Http settings</param>
         /// <typeparam name="T">Type of the result</typeparam>
-        /// <returns></returns>
+        /// <returns>Response as T type</returns>
         public async Task<T> get<T> (HttpSettings settings) {
             var response = await _httpClient.GetAsync (CreateUrl (settings));
 
@@ -75,12 +99,47 @@ namespace EventManager.Client.Services {
         }
 
         /// <summary>
+        /// Get number
+        /// </summary>
+        /// <param name="settings">Http settings</param>
+        /// <returns>Number response</returns>
+        public async Task<int?> getInt(HttpSettings settings)
+        {
+            var response = await _httpClient.GetAsync (CreateUrl (settings));
+
+            if (response.IsSuccessStatusCode) {
+                int count = -1;
+                int.TryParse (await response.Content.ReadAsStringAsync (), out count);
+                return count == -1 ? null : (int?) count;
+            } else {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get string
+        /// </summary>
+        /// <param name="settings">Http settings</param>
+        /// <returns>String response</returns>
+        public async Task<string> getString(HttpSettings settings)
+        {
+            var response = await _httpClient.GetAsync (CreateUrl (settings));
+
+            // Deserialize json
+            if (response.IsSuccessStatusCode) {
+                return await response.Content.ReadAsStringAsync ();
+            } else {
+                return default;
+            }
+        }
+
+        /// <summary>
         /// PUT request
         /// </summary>
         /// <param name="settings">Http settings</param>
         /// <param name="body">Body of put request</param>
         /// <typeparam name="T">Type of the body</typeparam>
-        /// <returns></returns>
+        /// <returns>The request was success or not</returns>
         public async Task<bool> update<T> (HttpSettings settings, HttpBody<T> body) {
             var response = await _httpClient.PutAsync (CreateUrl (settings), body.GetStringContent ());
 
@@ -96,8 +155,8 @@ namespace EventManager.Client.Services {
         /// Create url from http settings
         /// Concat url, path parameters and query parameters
         /// </summary>
-        /// <param name="settings"></param>
-        /// <returns></returns>
+        /// <param name="settings">Http settings</param>
+        /// <returns>Created url</returns>
         private string CreateUrl (HttpSettings settings) {
             string url = settings.Url;
 

@@ -22,15 +22,9 @@ namespace EventManager.Client.Services {
         }
 
         public async Task<int?> GetCountOfUnReadNotifications () {
-            var response = await _httpClient.GetAsync ($"{_url}/unreads/count");
+            var settings = new HttpSettings($"{this._url}/unreads/count");
 
-            if (response.IsSuccessStatusCode) {
-                int count = -1;
-                int.TryParse (await response.Content.ReadAsStringAsync (), out count);
-                return count == -1 ? null : (int?) count;
-            } else {
-                return null;
-            }
+            return await _httpService.getInt(settings);
         }
 
         public async Task<List<NotificationDto>> GetMyNotifications () {
