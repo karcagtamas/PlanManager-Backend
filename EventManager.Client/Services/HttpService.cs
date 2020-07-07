@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
@@ -28,7 +29,10 @@ namespace EventManager.Client.Services {
         /// <param name="body">Body of post request</param>
         /// <typeparam name="T">Type of the body</typeparam>
         /// <returns>The request was success or not</returns>
-        public async Task<bool> create<T> (HttpSettings settings, HttpBody<T> body) {
+        public async Task<bool> create<T> (HttpSettings settings, HttpBody<T> body) 
+        {
+            this.CheckSettings(settings);
+
             var response = await _httpClient.PostAsync (CreateUrl (settings), body.GetStringContent ());
 
             // Optional toast
@@ -48,6 +52,8 @@ namespace EventManager.Client.Services {
         /// <returns>Response string value</returns>
         public async Task<string> createString<T>(HttpSettings settings, HttpBody<T> body)
         {
+            this.CheckSettings(settings);
+
             var response = await _httpClient.PostAsync (CreateUrl (settings), body.GetStringContent());
 
             // Optional toast
@@ -68,7 +74,10 @@ namespace EventManager.Client.Services {
         /// </summary>
         /// <param name="settings">Http settings</param>
         /// <returns>The request was success or not</returns>
-        public async Task<bool> delete (HttpSettings settings) {
+        public async Task<bool> delete (HttpSettings settings) 
+        {
+            this.CheckSettings(settings);
+
             var response = await _httpClient.DeleteAsync (CreateUrl (settings));
 
             // Optional toast
@@ -85,7 +94,10 @@ namespace EventManager.Client.Services {
         /// <param name="settings">Http settings</param>
         /// <typeparam name="T">Type of the result</typeparam>
         /// <returns>Response as T type</returns>
-        public async Task<T> get<T> (HttpSettings settings) {
+        public async Task<T> get<T> (HttpSettings settings) 
+        {
+            this.CheckSettings(settings);
+            
             var response = await _httpClient.GetAsync (CreateUrl (settings));
 
             // Deserialize json
@@ -105,6 +117,8 @@ namespace EventManager.Client.Services {
         /// <returns>Number response</returns>
         public async Task<int?> getInt(HttpSettings settings)
         {
+            this.CheckSettings(settings);
+
             var response = await _httpClient.GetAsync (CreateUrl (settings));
 
             if (response.IsSuccessStatusCode) {
@@ -123,6 +137,8 @@ namespace EventManager.Client.Services {
         /// <returns>String response</returns>
         public async Task<string> getString(HttpSettings settings)
         {
+            this.CheckSettings(settings);
+
             var response = await _httpClient.GetAsync (CreateUrl (settings));
 
             // Deserialize json
@@ -141,6 +157,8 @@ namespace EventManager.Client.Services {
         /// <typeparam name="T">Type of the body</typeparam>
         /// <returns>The request was success or not</returns>
         public async Task<bool> update<T> (HttpSettings settings, HttpBody<T> body) {
+            this.CheckSettings(settings);
+
             var response = await _httpClient.PutAsync (CreateUrl (settings), body.GetStringContent ());
 
             // Optional toast
@@ -169,6 +187,12 @@ namespace EventManager.Client.Services {
             }
 
             return url;
+        }
+
+        private void CheckSettings(HttpSettings settings) {
+            if (settings == null) {
+                throw new ArgumentException("Settings cannot be null");
+            }
         }
     }
 }
