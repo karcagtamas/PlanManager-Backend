@@ -1,17 +1,12 @@
-<div class="blazored-modal-container @ComponentPosition @(IsVisible ? "blazored-modal-active" : string.Empty)">
-    <MatCard Class="blazored-modal">
-        @if (!ComponentHideHeader)
-        {
-            <div class="blazored-modal-header">
-                <h3 class="blazored-modal-title">@Title</h3>
-               <span class="spacer"></span>
-                @if (!ComponentHideCloseButton)
-                {
-                    <MatIconButton Class="blazored-modal-close" Icon="clear" @onclick="ModalService.Cancel"></MatIconButton>
-                }
-            </div>
-        }
-        <div class="blazored-modal-content">
+<MatDialog @bind-IsOpen="IsVisible" CanBeClosed="@(!ComponentDisableBackgroundCancel)">
+    @if (!ComponentHideHeader)
+    {
+        <MatDialogTitle>
+            @Title
+        </MatDialogTitle>
+    }
+    <MatDialogContent>
+        <div class="p-3">
             <div class="@ComponentStyle">
                 <CascadingValue Value="this">
                     <CascadingValue Value="@Parameters">
@@ -20,17 +15,15 @@
                 </CascadingValue>
             </div>
         </div>
-        <MatCardActions Class="blazored-modal-footer">
-            <span class="spacer"></span>
-            @if(ShowConfirmButton)
-            {
-                <MatButton @onclick="ModalService.Confirm">@ConfirmButtonText</MatButton>
-            }
-            @if(ShowCancelButton)
-            {
-                <MatButton @onclick="ModalService.Cancel">@CancelButtonText</MatButton>
-            }
-        </MatCardActions>
-    </MatCard>
-    <div class="blazored-modal-overlay" @onclick="HandleBackgroundClick"></div>
-</div>
+    </MatDialogContent>
+    <MatDialogActions>
+        @if (ShowConfirmButton)
+        {
+            <MatButton @onclick="ModalService.Confirm">@ConfirmButtonText</MatButton>
+        }
+        @if (ShowCancelButton)
+        {
+            <MatButton @onclick="ModalService.Cancel">@CancelButtonText</MatButton>
+        }
+    </MatDialogActions>
+</MatDialog>

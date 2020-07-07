@@ -1,4 +1,4 @@
-﻿@import url("open-iconic/font/css/open-iconic-bootstrap.min.css");
+@import url("open-iconic/font/css/open-iconic-bootstrap.min.css");
 /* General body settings */
 html, body {
   font-family: 'Bree Serif', serif;
@@ -301,6 +301,13 @@ body {
 
 .mdc-notched-outline__notch {
   text-align: center !important; }
+
+.mdc-dialog .mdc-dialog__surface {
+  min-width: 50vw !important;
+  max-width: 90vw !important; }
+
+.mdc-dialog .mdc-dialog__title {
+  color: #5120a5 !important; }
 
 /* Input settings */
 .input-element {
