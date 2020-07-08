@@ -57,9 +57,9 @@ namespace EventManager.Client.Pages.Profiles
             {
                 var base64 = Convert.ToBase64String(User.ProfileImageData);
                 this.Image = $"data:image/gif;base64,{base64}";
-                StateHasChanged();
             }
             this.ProfileIsLoading = false;
+            StateHasChanged();
         }
         
         protected async Task GetGenders()

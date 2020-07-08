@@ -1,4 +1,4 @@
-<MatDialog @bind-IsOpen="IsVisible" CanBeClosed="@(!ComponentDisableBackgroundCancel)">
+<MatDialog CanBeClosed="@(!ComponentDisableBackgroundCancel)") IsOpenChanged="@HandleBackgroundClick" IsOpen="@IsVisible">
     @if (!ComponentHideHeader)
     {
         <MatDialogTitle>
