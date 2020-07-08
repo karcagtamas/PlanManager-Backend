@@ -18,6 +18,7 @@ namespace ManagerAPI.DataAccess
         public DbSet<Friends> Friends { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<News> News { get; set; }
+        public DbSet<Task> Tasks { get; set; }
 
         // PM
         public DbSet<PlanType> PlanTypes { get; set; }
@@ -297,11 +298,11 @@ namespace ManagerAPI.DataAccess
                 .HasData(new NotificationType
                 { Id = 49, Title = "News Added", ImportanceLevel = 2, SystemId = 1 });
             builder.Entity<NotificationType>()
-               .HasData(new NotificationType
-               { Id = 50, Title = "News Updated", ImportanceLevel = 1, SystemId = 1 });
+                .HasData(new NotificationType
+                { Id = 50, Title = "News Updated", ImportanceLevel = 1, SystemId = 1 });
             builder.Entity<NotificationType>()
-               .HasData(new NotificationType
-               { Id = 51, Title = "News Deleted", ImportanceLevel = 3, SystemId = 1 });
+                .HasData(new NotificationType
+                { Id = 51, Title = "News Deleted", ImportanceLevel = 3, SystemId = 1 });
 
             // Notification table settings
             builder.Entity<Notification>()
@@ -345,7 +346,7 @@ namespace ManagerAPI.DataAccess
 
             // Friends table settings
             builder.Entity<Friends>()
-               .HasKey(x => new { x.UserId, x.FriendId });
+                .HasKey(x => new { x.UserId, x.FriendId });
             builder.Entity<Friends>()
                 .Property(x => x.ConnectionDate)
                 .HasDefaultValueSql("getdate()");
@@ -367,8 +368,8 @@ namespace ManagerAPI.DataAccess
 
             // Message table settings
             builder.Entity<Message>()
-               .Property(x => x.Date)
-               .HasDefaultValueSql("getdate()");
+                .Property(x => x.Date)
+                .HasDefaultValueSql("getdate()");
             builder.Entity<Message>()
                 .HasOne(x => x.Sender)
                 .WithMany(x => x.SentMessages)
@@ -382,11 +383,11 @@ namespace ManagerAPI.DataAccess
 
             // News table settings
             builder.Entity<News>()
-              .Property(x => x.Creation)
-              .HasDefaultValueSql("getdate()");
+                .Property(x => x.Creation)
+                .HasDefaultValueSql("getdate()");
             builder.Entity<News>()
-              .Property(x => x.LastUpdate)
-              .HasDefaultValueSql("getdate()");
+                .Property(x => x.LastUpdate)
+                .HasDefaultValueSql("getdate()");
             builder.Entity<News>()
                 .HasOne(x => x.Creator)
                 .WithMany(x => x.CreatedNews)
@@ -397,6 +398,22 @@ namespace ManagerAPI.DataAccess
                 .WithMany(x => x.UpdatedNews)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Task table settings
+            builder.Entity<Task>()
+                .Property(x => x.Creation)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<Task>()
+                .Property(x => x.LastUpdate)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<Task>()
+                .Property(x => x.IsSolved)
+                .HasDefaultValue(false);
+            builder.Entity<Task>()
+                .HasOne(x => x.Owner)
+                .WithMany(x => x.Tasks)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Plan type table settings
             builder.Entity<PlanType>()

@@ -75,5 +75,6 @@ namespace ManagerAPI.Models.Entities {
         public virtual ICollection<Message> ReceivedMessages { get; set; }
         public virtual ICollection<News> CreatedNews { get; set; }
         public virtual ICollection<News> UpdatedNews { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

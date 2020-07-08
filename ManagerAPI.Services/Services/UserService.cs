@@ -139,7 +139,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="oldPassword">Old password for authentication</param>
         /// <param name="newPassword">Newly choosed password</param>
         /// <returns>Void</returns>
-        public async Task UpdatePassword(string oldPassword, string newPassword)
+        public async System.Threading.Tasks.Task UpdatePassword(string oldPassword, string newPassword)
         {
             var user = _utilsService.GetCurrentUser();
 
@@ -169,7 +169,7 @@ namespace ManagerAPI.Services.Services
         /// </summary>
         /// <param name="newUsername">New username</param>
         /// <returns>Void</returns>
-        public async Task UpdateUsername(string newUsername)
+        public async System.Threading.Tasks.Task UpdateUsername(string newUsername)
         {
             var user = _utilsService.GetCurrentUser();
             if (newUsername != user.UserName)

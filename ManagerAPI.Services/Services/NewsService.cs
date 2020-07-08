@@ -18,10 +18,10 @@ namespace ManagerAPI.Services.Services
     /// </summary>
     public class NewsService : INewsService
     {
-        private DatabaseContext Context { get; }
-        private IUtilsService UtilsService { get; }
-        private INotificationService NotificationService { get; }
-        private IMapper Mapper { get; }
+        private readonly DatabaseContext _context;
+        private readonly IUtilsService _utilsService;
+        private readonly INotificationService _notificationService;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Injector Constructor
@@ -32,10 +32,10 @@ namespace ManagerAPI.Services.Services
         /// <param name="mapper">Mapper</param>
         public NewsService(DatabaseContext context, IUtilsService utilsService, INotificationService notificationService, IMapper mapper)
         {
-            Context = context;
-            UtilsService = utilsService;
-            NotificationService = notificationService;
-            Mapper = mapper;
+            _context = context;
+            _utilsService = utilsService;
+            _notificationService = notificationService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -44,9 +44,9 @@ namespace ManagerAPI.Services.Services
         /// <param name="postId">News Id</param>
         public void DeleteNews(int postId)
         {
-            var user = UtilsService.GetCurrentUser();
+            var user = _utilsService.GetCurrentUser();
 
-            var news = Context.News.Find(postId);
+            var news = _context.News.Find(postId);
             var creator = news.Creator;
 
             if (news == null)
@@ -54,11 +54,11 @@ namespace ManagerAPI.Services.Services
                 throw new Exception(NewsMessages.InvalidNews);
             }
 
-            Context.News.Remove(news);
-            Context.SaveChanges();
+            _context.News.Remove(news);
+            _context.SaveChanges();
 
-            UtilsService.LogInformation(NewsMessages.NewsRemove, user);
-            NotificationService.AddSystemNotificationByType(SystemNotificationType.NewsDeleted, creator);
+            _utilsService.LogInformation(NewsMessages.NewsRemove, user);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.NewsDeleted, creator);
         }
 
         /// <summary>
@@ -67,11 +67,11 @@ namespace ManagerAPI.Services.Services
         /// <returns>List of news</returns>
         public List<NewsDto> GetNewsPosts()
         {
-            var user = UtilsService.GetCurrentUser();
+            var user = _utilsService.GetCurrentUser();
 
-            var list = Mapper.Map<List<NewsDto>>(Context.News.OrderBy(x => x.Creation).ToList());
+            var list = _mapper.Map<List<NewsDto>>(_context.News.OrderBy(x => x.Creation).ToList());
 
-            UtilsService.LogInformation(NewsMessages.NewsGet, user);
+            _utilsService.LogInformation(NewsMessages.NewsGet, user);
 
             return list;
         }
@@ -82,18 +82,18 @@ namespace ManagerAPI.Services.Services
         /// <param name="model">Model of news for creation</param>
         public void PostNews(PostModel model)
         {
-            var user = UtilsService.GetCurrentUser();
+            var user = _utilsService.GetCurrentUser();
 
             var news = new News();
             news.Content = model.Content;
             news.CreatorId = user.Id;
             news.LastUpdaterId = user.Id;
 
-            Context.News.Add(news);
-            Context.SaveChanges();
+            _context.News.Add(news);
+            _context.SaveChanges();
 
-            UtilsService.LogInformation(NewsMessages.NewsAdd, user);
-            NotificationService.AddSystemNotificationByType(SystemNotificationType.NewsAdded, user);
+            _utilsService.LogInformation(NewsMessages.NewsAdd, user);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.NewsAdded, user);
         }
 
         /// <summary>
@@ -102,9 +102,9 @@ namespace ManagerAPI.Services.Services
         /// <param name="model">Model of news</param>
         public void UpdateNews(int postId, PostModel model)
         {
-            var user = UtilsService.GetCurrentUser();
+            var user = _utilsService.GetCurrentUser();
 
-            var news = Context.News.Find(postId);
+            var news = _context.News.Find(postId);
 
             if (news == null)
             {
@@ -115,11 +115,11 @@ namespace ManagerAPI.Services.Services
             news.LastUpdaterId = user.Id;
             news.LastUpdate = DateTime.Now;
 
-            Context.News.Update(news);
-            Context.SaveChanges();
+            _context.News.Update(news);
+            _context.SaveChanges();
 
-            UtilsService.LogInformation(NewsMessages.NewsUpdate, user);
-            NotificationService.AddSystemNotificationByType(SystemNotificationType.NewsUpdated, news.Creator);
+            _utilsService.LogInformation(NewsMessages.NewsUpdate, user);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.NewsUpdated, news.Creator);
         }
     }
 }

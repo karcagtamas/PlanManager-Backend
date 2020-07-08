@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using ManagerAPI.Models.DTOs.MC;
-using ManagerAPI.Models.Entities;
+using ManagerAPI.Models.Entities.MC;
 
 namespace MovieCorner.Services.Profiles
 {

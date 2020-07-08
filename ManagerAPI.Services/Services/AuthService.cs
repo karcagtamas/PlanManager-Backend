@@ -53,7 +53,7 @@ namespace ManagerAPI.Services.Services
         /// </summary>
         /// <param name="model">Model for the registration with main data</param>
         /// <returns>Result of the registration</returns>
-        public async Task Registration(RegistrationModel model)
+        public async System.Threading.Tasks.Task Registration(RegistrationModel model)
         {
             User appUser = new User
             {
