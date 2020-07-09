@@ -1,6 +1,11 @@
 {
   "name": "karcags-frontend",
-  "version": "0.0.1",
+  "version": "0.7.1",
+  "author": {
+    "name": "Karcag Tamas",
+    "email": "karcagtamas@outlook.com",
+    "url": "http://karcags.hu"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

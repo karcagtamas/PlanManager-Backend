@@ -6,6 +6,13 @@
 
 ## Version log
 
+### V0.7.1 - 2020-07-09
+
+- Create Task API
+- Fix ModalService close bug
+- Logger Service implement
+- Refactor services with new Logger Service
+
 ### V0.7.0 - 2020-07-07
 
 - Add Friend page
