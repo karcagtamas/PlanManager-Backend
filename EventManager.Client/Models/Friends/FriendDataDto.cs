@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ManagerAPI.Models.DTOs
+namespace EventManager.Client.Models.Friends
 {
     public class FriendDataDto
     {

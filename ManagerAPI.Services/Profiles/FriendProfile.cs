@@ -23,7 +23,8 @@ namespace ManagerAPI.Services.Profiles
                 .ForMember(dest => dest.SenderFullName, opt => opt.MapFrom(src => src.Sender.FullName));
 
             CreateMap<User, FriendDataDto>()
-                .ForMember(dest => dest.Roles, opt => opt.Ignore());
+                .ForMember(dest => dest.Roles, opt => opt.Ignore())
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.Name));
         }
     }
 }

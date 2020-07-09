@@ -550,6 +550,17 @@ body {
 
 }
 
+/* Friend data */
+.friend-data {
+    .data-row {
+        padding: 0.4rem;
+
+        strong {
+            color: $primary;
+        }
+    }
+}
+
 
 
 /* App */

@@ -131,7 +131,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="entity">Connected entity object</param>
         public void LogInformation(User user, string service, string action, List<string> ids, object entity)
         {
-            this.LogInformation(user, service, action, ids.Join(", "), entity);
+            this.LogInformation(user, service, action, string.Join(", ", ids), entity);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="entity">Connected entity object</param>
         public void LogInformation(User user, string service, string action, List<int> ids, object entity)
         {
-            this.LogInformation(user, service, action, ids.Select(x => x.ToString()).Join(", "), entity);
+            this.LogInformation(user, service, action, string.Join(", ", ids.Select(x => x.ToString())), entity);
         }
 
         /// <summary>

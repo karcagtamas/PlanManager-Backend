@@ -8,8 +8,10 @@ using EventManager.Client.Shared.Components.Friends;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 
-namespace EventManager.Client.Pages.Friends {
-    public class MyFriendsBase : ComponentBase {
+namespace EventManager.Client.Pages.Friends
+{
+    public class MyFriendsBase : ComponentBase
+    {
         [Inject]
         private IFriendService FriendService { get; set; }
 
@@ -24,33 +26,40 @@ namespace EventManager.Client.Pages.Friends {
         protected bool MyFriendsIsLoading { get; set; } = false;
         protected bool MyFriendRequestsIsLoading { get; set; } = false;
 
-        protected override async Task OnInitializedAsync () {
-            await GetFriends ();
-            await GetFriendRequests ();
+        protected override async Task OnInitializedAsync()
+        {
+            await GetFriends();
+            await GetFriendRequests();
         }
 
-        protected async Task GetFriendRequests () {
+        protected async Task GetFriendRequests()
+        {
             this.MyFriendRequestsIsLoading = true;
-            this.FriendRequests = await FriendService.GetMyFriendRequests ();
+            this.FriendRequests = await FriendService.GetMyFriendRequests();
             this.MyFriendRequestsIsLoading = false;
         }
 
-        protected async Task GetFriends () {
+        protected async Task GetFriends()
+        {
             this.MyFriendsIsLoading = true;
-            this.Friends = await FriendService.GetMyFriends ();
+            this.Friends = await FriendService.GetMyFriends();
             this.MyFriendsIsLoading = false;
         }
 
-        protected async Task SendFriendRequestResponse (int id, bool response) {
-            if (await this.FriendService.SendFriendRequestResponse (new FriendRequestResponseModel {
-                    RequestId = id,
-                        Response = response
-                })) {
-                await GetFriendRequests ();
+        protected async Task SendFriendRequestResponse(int id, bool response)
+        {
+            if (await this.FriendService.SendFriendRequestResponse(new FriendRequestResponseModel
+            {
+                RequestId = id,
+                Response = response
+            }))
+            {
+                await GetFriendRequests();
             }
         }
 
-        protected void OpenFriendRequestDialog () {
+        protected void OpenFriendRequestDialog()
+        {
             var parameters = new ModalParameters();
             parameters.Add("FormId", 1);
 
@@ -61,7 +70,7 @@ namespace EventManager.Client.Pages.Friends {
             Modal.Show<FriendRequest>("Friend request", parameters, options);
         }
 
-        protected async void FriendRequestDialogClosed(ModalResult modalResult) 
+        protected async void FriendRequestDialogClosed(ModalResult modalResult)
         {
             if (!modalResult.Cancelled)
             {
@@ -71,14 +80,15 @@ namespace EventManager.Client.Pages.Friends {
             Modal.OnClose -= FriendRequestDialogClosed;
         }
 
-        protected void OpenFriendDataModal (string friendId) {
-            var parameters = new ModalParameters ();
-            parameters.Add ("FormId", 2);
+        protected void OpenFriendDataModal(string friendId)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 2);
             parameters.Add("friend", friendId);
 
             var options = new ModalOptions();
 
-            Modal.Show<FriendData> ("Friend data form", parameters, options);
+            Modal.Show<FriendData>("Friend data form", parameters, options);
         }
     }
 }

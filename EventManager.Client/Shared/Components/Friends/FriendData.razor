@@ -4,35 +4,109 @@
 @using EventManager.Client.Models
 @using EventManager.Client.Shared.Components
 @using EventManager.Client.Services
+@using EventManager.Client.Models.Friends
 
-
-<div>
-    <div>Friend data</div>
-</div>
+@if (IsLoading)
+{
+    <Loader></Loader>
+}
+else
+{
+    @if (Friend != null)
+    {
+        <div class="friend-data">
+            <div class="data-row">
+                <strong>User Name:</strong>
+                @Friend.UserName
+            </div>
+            <div class="data-row">
+                <strong>Email:</strong>
+                @Friend.Email
+            </div>
+            <div class="data-row">
+                <strong>Full Name:</strong>
+                @HelperService.WriteEmptyableField(Friend.FullName)
+            </div>
+            <div class="data-row">
+                <strong>Registration:</strong>
+                @HelperService.DateToString(Friend.RegistrationDate)
+            </div>
+            <div class="data-row">
+                <strong>Phone Number:</strong>
+                @HelperService.WriteEmptyableField(Friend.PhoneNumber)
+            </div>
+            <div class="data-row">
+                <strong>TShirt Size:</strong>
+                @HelperService.WriteEmptyableField(Friend.TShirtSize)
+            </div>
+            <div class="data-row">
+                <strong>Allergy:</strong>
+                @HelperService.WriteEmptyableField(Friend.Allergy)
+            </div>
+            <div class="data-row">
+                <strong>Group:</strong>
+                @HelperService.WriteEmptyableField(Friend.Group)
+            </div>
+            <div class="data-row">
+                <strong>Birthday:</strong>
+                @HelperService.DateToString(Friend.BirthDay)
+            </div>
+            <div class="data-row">
+                <strong>Country:</strong>
+                @HelperService.WriteEmptyableField(Friend.Country)
+            </div>
+            <div class="data-row">
+                <strong>Gender:</strong>
+                @HelperService.WriteEmptyableField(Friend.Gender)
+            </div>
+            <div class="data-row">
+                <strong>City:</strong>
+                @HelperService.WriteEmptyableField(Friend.City)
+            </div>
+            <div class="data-row">
+                <strong>Roles:</strong>
+                @HelperService.WriteList(Friend.Roles)
+            </div>
+        </div>
+    }
+    else
+    {
+        <div>Friend cannot found</div>
+    }
+}
 
 @code {
-        [CascadingParameter]
-        public ModalParameters Parameters { get; set; }
+    [CascadingParameter]
+    public ModalParameters Parameters { get; set; }
 
-        [CascadingParameter]
-        public BlazoredModal BlazoredModal { get; set; }
+    [CascadingParameter]
+    public BlazoredModal BlazoredModal { get; set; }
+
+    [Inject]
+    public IHelperService HelperService { get; set; }
 
     protected bool ShowForm { get; set; } = true;
     protected int FormId { get; set; }
+    protected string FriendId { get; set; }
+    protected FriendDataDto Friend { get; set; }
+    protected bool IsLoading { get; set; } = true;
 
     protected override async Task OnInitializedAsync()
     {
         FormId = Parameters.Get<int>("FormId");
+        this.FriendId = Parameters.Get<string>("friend");
 
         ((ModalService)ModalService).OnConfirm += OnConfirm;
 
-        // BlazoredModal.SetTitle("Form data");
         await GetFriendData();
+        this.BlazoredModal.SetTitle(this.Friend?.FullName);
     }
 
     protected async Task GetFriendData()
     {
-        var a = await FriendService.GetMyFriendRequests();
+        this.IsLoading = true;
+        this.Friend = await FriendService.GetFriendData(this.FriendId);
+        this.IsLoading = false;
     }
 
     protected void OnConfirm()

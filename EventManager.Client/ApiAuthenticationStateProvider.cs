@@ -21,7 +21,7 @@ namespace EventManager.Client
             _httpClient = httpClient;
             _localStorageService = localStorageService;
         }
-
+        
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var savedToken = await _localStorageService.GetItemAsync<string>("authToken");

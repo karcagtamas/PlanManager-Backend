@@ -62,7 +62,7 @@ namespace ManagerAPI.Services.Services
             var user = _utilsService.GetCurrentUser();
 
             var list = _mapper.Map<List<TaskDateDto>>(user.Tasks.GroupBy(x => x.Deadline).OrderBy(x => x.Key).ToList());
-            _loggerService.LogInformation(user, nameof(TaskService), GetTasksAction, list.Select(x => x.TaskList.Select(y => y.Id.ToString()).Join(", ")).ToList());     
+            _loggerService.LogInformation(user, nameof(TaskService), GetTasksAction, list.Select(x => string.Join(", ", x.TaskList.Select(y => y.Id.ToString()))).ToList());     
 
             return list;   
         }

@@ -363,6 +363,12 @@ body {
   .em-navbar .vert-spacer {
     flex-grow: 1; }
 
+/* Friend data */
+.friend-data .data-row {
+  padding: 0.4rem; }
+  .friend-data .data-row strong {
+    color: #5120a5; }
+
 /* App */
 app {
   position: relative;
