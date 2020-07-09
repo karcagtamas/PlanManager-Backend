@@ -7,9 +7,13 @@ using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services.Interfaces;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace ManagerAPI.Services.Services
 {
+    /// <summary>
+    /// Task Service
+    /// </summary>
     public class TaskService : ITaskService
     {
         // Action
@@ -33,6 +37,13 @@ namespace ManagerAPI.Services.Services
         private readonly IUtilsService _utilsService;
         private readonly ILoggerService _loggerService;
 
+        /// <summary>
+        /// Task Service
+        /// </summary>
+        /// <param name="context">Databaes Context</param>
+        /// <param name="mapper">Mapper</param>
+        /// <param name="utilsService">Utils Service</param>
+        /// <param name="loggerService">Logger Service</param>
         public TaskService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService)
         {
             _context = context;
@@ -41,17 +52,26 @@ namespace ManagerAPI.Services.Services
             _loggerService = loggerService;
         }
 
+        /// <summary>
+        /// Get tasks for the current user
+        /// </summary>
+        /// <param name="isSolved">Filter - task is solved or not</param>
+        /// <returns>List of tasks grouped by the deadline</returns>
         public List<TaskDateDto> GetTasks(bool isSolved)
         {
             var user = _utilsService.GetCurrentUser();
 
             var list = _mapper.Map<List<TaskDateDto>>(user.Tasks.GroupBy(x => x.Deadline).OrderBy(x => x.Key).ToList());
-
-            _loggerService.LogInformation(user, nameof(TaskService), GetTasksAction, 0);     
+            _loggerService.LogInformation(user, nameof(TaskService), GetTasksAction, list.Select(x => x.TaskList.Select(y => y.Id.ToString()).Join(", ")).ToList());     
 
             return list;   
         }
 
+        /// <summary>
+        /// Get task by the given Id
+        /// </summary>
+        /// <param name="id">Id of the task</param>
+        /// <returns>Task</returns>
         public TaskDataDto GetTask(int id)
         {
             var user = _utilsService.GetCurrentUser();
@@ -63,6 +83,10 @@ namespace ManagerAPI.Services.Services
             return e;
         }
 
+        /// <summary>
+        /// Delete task by the given Id
+        /// </summary>
+        /// <param name="id">Id of the task</param>
         public void DeleteTask(int id)
         {
             var user = _utilsService.GetCurrentUser();
@@ -81,6 +105,10 @@ namespace ManagerAPI.Services.Services
             _loggerService.LogInformation(user, nameof(TaskService), DeleteTaskAction, id);
         }
 
+        /// <summary>
+        /// Update task
+        /// </summary>
+        /// <param name="task">Update model</param>
         public void UpdateTask(TaskDataDto task)
         {
             var user = _utilsService.GetCurrentUser();
@@ -102,6 +130,11 @@ namespace ManagerAPI.Services.Services
             _loggerService.LogInformation(user, nameof(TaskService), UpdateTaskAction, task.Id); 
         }
 
+        /// <summary>
+        /// Create task
+        /// </summary>
+        /// <param name="model">Create model</param>
+        /// <returns>Id of the newly created task</returns>
         public int CreateTask(TaskModel model)
         {
             var user = _utilsService.GetCurrentUser();

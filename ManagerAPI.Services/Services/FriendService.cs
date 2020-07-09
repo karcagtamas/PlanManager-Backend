@@ -49,6 +49,7 @@ namespace ManagerAPI.Services.Services {
         /// <param name="mapper">Mapper</param>
         /// <param name="context">Database Context</param>
         /// <param name="notificationService">Notification Service</param>
+        /// <param name="loggerService">Logger Service</param>
         public FriendService (IUtilsService utilsService, IMapper mapper, DatabaseContext context, INotificationService notificationService, ILoggerService loggerService) {
             _utilsService = utilsService;
             _mapper = mapper;
@@ -67,7 +68,7 @@ namespace ManagerAPI.Services.Services {
 
             var list = _mapper.Map<List<FriendRequestListDto>> (user.ReceivedFriendRequest.Where (x => x.Response == null).OrderByDescending (x => x.SentDate).ToList ());
 
-            _loggerService.LogInformation (user, nameof(FriendService), GetFriendRequestAction, 0);
+            _loggerService.LogInformation (user, nameof(FriendService), GetFriendRequestAction, list.Select(x => x.Id).ToList());
 
             return list;
         }
@@ -82,7 +83,7 @@ namespace ManagerAPI.Services.Services {
 
             var list = _mapper.Map<List<FriendListDto>> (user.FriendListLeft.OrderBy (x => x.Friend.UserName).ToList ());
 
-            _loggerService.LogInformation (user, nameof(FriendService), GetFriendsAction, 0);
+            _loggerService.LogInformation (user, nameof(FriendService), GetFriendsAction, list.Select(x => x.FriendId).ToList());
 
             return list;
         }

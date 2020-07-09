@@ -25,6 +25,8 @@ namespace ManagerAPI.Services.Services
         /// </summary>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="context">Database context</param>
+        /// <param name="loggerService">Logger Service</param>
+        /// <param name="mapper">Mapper</param>
         public NotificationService(IUtilsService utilsService, DatabaseContext context, IMapper mapper, ILoggerService loggerService)
         {
             _utilsService = utilsService;
@@ -111,7 +113,7 @@ namespace ManagerAPI.Services.Services
 
             var list = _mapper.Map<List<NotificationDto>>(_context.Notifications.Where(x => x.OwnerId == user.Id).OrderByDescending(x => x.SentDate).ToList());
 
-            _loggerService.LogInformation(user, nameof(NotificationService), "get notifications", 0);
+            _loggerService.LogInformation(user, nameof(NotificationService), "get notifications", list.Select(x => x.Id).ToList());
 
             return list;
         }
@@ -133,7 +135,7 @@ namespace ManagerAPI.Services.Services
             _context.Notifications.UpdateRange(list);
             _context.SaveChanges();
 
-            _loggerService.LogInformation(user, nameof(NotificationService), "set notifications as read", 0);
+            _loggerService.LogInformation(user, nameof(NotificationService), "set notifications as read", list.Select(x => x.Id).ToList());
         }
     }
 }

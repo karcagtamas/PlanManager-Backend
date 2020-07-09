@@ -1,16 +1,27 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services.Interfaces;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 
 namespace ManagerAPI.Services.Services
 {
+    /// <summary>
+    /// Logger Service
+    /// </summary>
     public class LoggerService : ILoggerService
     {
         private readonly ILogger<LoggerService> _logger;
         private readonly IUtilsService _utilsService;
 
+        /// <summary>
+        /// Injector Constructor
+        /// </summary>
+        /// <param name="logger">Logger</param>
+        /// <param name="utilsService">Utils Service</param>
         public LoggerService(ILogger<LoggerService> logger, IUtilsService utilsService) {
             this._logger = logger;
             this._utilsService = utilsService;
@@ -78,21 +89,86 @@ namespace ManagerAPI.Services.Services
         public MessageException LogInvalidThings(User user, string service, string thing, string message)
         {
             string end = $"Invalid {thing}";
-            _logger.LogError($"{this._utilsService.UserDisplay(user)}: {service} - {end}");
+            this._logger.LogError($"{this._utilsService.UserDisplay(user)}: {service} - {end}");
             return new MessageException(message);
         }
 
+        /// <summary>
+        /// Log executed events
+        /// </summary>
+        /// <param name="user">User</param>
+        /// <param name="service">Service's name</param>
+        /// <param name="action">Executed action</param>
+        /// <param name="id">Id of element</param>
         public void LogInformation(User user, string service, string action, string id)
         {
             this.LogInformation(user, service, action, id);
         }
 
+        /// <summary>
+        /// Log executed events
+        /// </summary>
+        /// <param name="user">User</param>
+        /// <param name="service">Service's name</param>
+        /// <param name="action">Executed action</param>
+        /// <param name="id">Id of element</param>
+        /// <param name="entity">Connected entity object</param>
         public void LogInformation(User user, string service, string action, string id, object entity)
         {
-            _logger.LogInformation($"{this._utilsService.UserDisplay(user)}: {service} - {action.ToUpper()} - with id: {id}");
+            this._logger.LogInformation($"{this._utilsService.UserDisplay(user)}: {service} - {action.ToUpper()} - with id: {id}");
             if (entity != null) {
-                _logger.LogInformation(entity.ToString());
+                this._logger.LogInformation(entity.ToString());
             }
+        }
+
+        /// <summary>
+        /// Log executed events
+        /// </summary>
+        /// <param name="user">User</param>
+        /// <param name="service">Service's name</param>
+        /// <param name="action">Executed action</param>
+        /// <param name="ids">Ids of elements</param>
+        /// <param name="entity">Connected entity object</param>
+        public void LogInformation(User user, string service, string action, List<string> ids, object entity)
+        {
+            this.LogInformation(user, service, action, ids.Join(", "), entity);
+        }
+
+        /// <summary>
+        /// Log executed events
+        /// </summary>
+        /// <param name="user">User</param>
+        /// <param name="service">Service's name</param>
+        /// <param name="action">Executed action</param>
+        /// <param name="ids">Ids of elements</param>
+        public void LogInformation(User user, string service, string action, List<string> ids)
+        {
+            this.LogInformation(user, service, action, ids, null);
+        }
+
+        /// <summary>
+        /// Log executed events
+        /// </summary>
+        /// <param name="user">User</param>
+        /// <param name="service">Service's name</param>
+        /// <param name="action">Executed action</param>
+        /// <param name="ids">Ids of elements</param>
+        /// <param name="entity">Connected entity object</param>
+        public void LogInformation(User user, string service, string action, List<int> ids, object entity)
+        {
+            this.LogInformation(user, service, action, ids.Select(x => x.ToString()).Join(", "), entity);
+        }
+
+        /// <summary>
+        /// Log executed events
+        /// </summary>
+        /// <param name="user">User</param>
+        /// <param name="service">Service's name</param>
+        /// <param name="action">Executed action</param>
+        /// <param name="ids">Ids of elements</param>
+        public void LogInformation(User user, string service, string action, List<int> ids)
+        {
+            this.LogInformation(user, service, action, ids);
         }
     }
 }

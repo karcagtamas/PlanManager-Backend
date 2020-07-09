@@ -51,13 +51,13 @@ namespace ManagerAPI.Services.Services
         /// <summary>
         /// User Service constructor
         /// </summary>
-        /// <param name="logger">Logger</param>
         /// <param name="context">Database Context</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="userManager">User manager</param>
         /// <param name="roleManager">Role manager</param>
         /// <param name="notificationService">Notification Service</param>
+        /// <param name="loggerService">Logger Service</param>
         public UserService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, UserManager<User> userManager, RoleManager<WebsiteRole> roleManager, INotificationService notificationService, ILoggerService loggerService)
         {
             _context = context;
@@ -128,7 +128,7 @@ namespace ManagerAPI.Services.Services
         {
             var user = _utilsService.GetCurrentUser();
             var genders = _mapper.Map<List<GenderDto>>(_context.Genders.ToList());
-            _loggerService.LogInformation(user, nameof(UserService), GetGendersAction, 0);
+            _loggerService.LogInformation(user, nameof(UserService), GetGendersAction, genders.Select(x => x.Id).ToList());
             return genders;
         }
 

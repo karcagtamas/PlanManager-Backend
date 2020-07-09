@@ -40,6 +40,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="notificationService">Notification Service</param>
         /// <param name="context">Database Context</param>
         /// <param name="mapper">Mapper</param>
+        /// <param name="loggerService">Logger Service</param>
         public MessageService(IUtilsService utilsService, INotificationService notificationService, DatabaseContext context, IMapper mapper, ILoggerService loggerService)
         {
             _utilsService = utilsService;
@@ -60,7 +61,7 @@ namespace ManagerAPI.Services.Services
 
             var list = _mapper.Map<List<MessageDto>>(user.SentMessages.Union(user.ReceivedMessages).OrderBy(x => x.Date).ToList()).Select(x => { x.IsMine = x.Sender == user.UserName; return x; }).ToList();
 
-            _loggerService.LogInformation(user, nameof(MessageService), GetMessagesAction, 0);
+            _loggerService.LogInformation(user, nameof(MessageService), GetMessagesAction, list.Select(x => x.Id).ToList());
 
             return list;
         }

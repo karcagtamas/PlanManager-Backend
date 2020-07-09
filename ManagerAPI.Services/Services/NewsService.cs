@@ -45,6 +45,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="utilsService">Utils Service</param>
         /// <param name="notificationService">Notification Service</param>
         /// <param name="mapper">Mapper</param>
+        /// <param name="loggerService">Logger Service</param>
         public NewsService(DatabaseContext context, IUtilsService utilsService, INotificationService notificationService, IMapper mapper, ILoggerService loggerService)
         {
             _context = context;
@@ -87,7 +88,7 @@ namespace ManagerAPI.Services.Services
 
             var list = _mapper.Map<List<NewsDto>>(_context.News.OrderBy(x => x.Creation).ToList());
 
-            _loggerService.LogInformation(user, nameof(NewsService), GetNewsPostsAction, 0);
+            _loggerService.LogInformation(user, nameof(NewsService), GetNewsPostsAction, list.Select(x => x.Id).ToList());
 
             return list;
         }
