@@ -4,12 +4,10 @@ using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Enums;
 using ManagerAPI.Models.Models;
-using ManagerAPI.Services.Messages;
 using ManagerAPI.Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ManagerAPI.Services.Services
 {
@@ -18,10 +16,27 @@ namespace ManagerAPI.Services.Services
     /// </summary>
     public class NewsService : INewsService
     {
+        // Actions
+        private const string UpdateNewsAction = "update news";
+        private const string CreateNewsAction = "create news";
+        private const string GetNewsPostsAction = "get news posts";
+        private const string DeleteNewsAction = "delete news";
+
+        // Things
+        private const string NewsThing = "news";
+        private const string NewsIdThing = "news id";
+
+        // Messages
+        private const string NewsDoesNotExistMessage = "News does not exist";
+        private const string ModelIsNotCorrectForNewsUpdating = "Model is not correct for news updating";
+        private const string ModelIsNotCorrectForNewsCreating = "Model is not correct for news creating";
+
+        // Injects
         private readonly DatabaseContext _context;
         private readonly IUtilsService _utilsService;
         private readonly INotificationService _notificationService;
         private readonly IMapper _mapper;
+        private readonly ILoggerService _loggerService;
 
         /// <summary>
         /// Injector Constructor
@@ -30,12 +45,13 @@ namespace ManagerAPI.Services.Services
         /// <param name="utilsService">Utils Service</param>
         /// <param name="notificationService">Notification Service</param>
         /// <param name="mapper">Mapper</param>
-        public NewsService(DatabaseContext context, IUtilsService utilsService, INotificationService notificationService, IMapper mapper)
+        public NewsService(DatabaseContext context, IUtilsService utilsService, INotificationService notificationService, IMapper mapper, ILoggerService loggerService)
         {
             _context = context;
             _utilsService = utilsService;
             _notificationService = notificationService;
             _mapper = mapper;
+            _loggerService = loggerService;
         }
 
         /// <summary>
@@ -51,13 +67,13 @@ namespace ManagerAPI.Services.Services
 
             if (news == null)
             {
-                throw new Exception(NewsMessages.InvalidNews);
+                throw _loggerService.LogInvalidThings(user, nameof(NewsService), NewsIdThing, NewsDoesNotExistMessage);
             }
 
             _context.News.Remove(news);
             _context.SaveChanges();
 
-            _utilsService.LogInformation(NewsMessages.NewsRemove, user);
+            _loggerService.LogInformation(user, nameof(NewsService), DeleteNewsAction, news.Id);
             _notificationService.AddSystemNotificationByType(SystemNotificationType.NewsDeleted, creator);
         }
 
@@ -71,7 +87,7 @@ namespace ManagerAPI.Services.Services
 
             var list = _mapper.Map<List<NewsDto>>(_context.News.OrderBy(x => x.Creation).ToList());
 
-            _utilsService.LogInformation(NewsMessages.NewsGet, user);
+            _loggerService.LogInformation(user, nameof(NewsService), GetNewsPostsAction, 0);
 
             return list;
         }
@@ -84,6 +100,10 @@ namespace ManagerAPI.Services.Services
         {
             var user = _utilsService.GetCurrentUser();
 
+            if (model == null) {
+                throw _loggerService.LogInvalidThings(user, nameof(NewsService), NewsThing, ModelIsNotCorrectForNewsCreating);
+            }
+
             var news = new News();
             news.Content = model.Content;
             news.CreatorId = user.Id;
@@ -92,7 +112,7 @@ namespace ManagerAPI.Services.Services
             _context.News.Add(news);
             _context.SaveChanges();
 
-            _utilsService.LogInformation(NewsMessages.NewsAdd, user);
+            _loggerService.LogInformation(user, nameof(NewsService), CreateNewsAction, news.Id);
             _notificationService.AddSystemNotificationByType(SystemNotificationType.NewsAdded, user);
         }
 
@@ -108,7 +128,11 @@ namespace ManagerAPI.Services.Services
 
             if (news == null)
             {
-                throw new Exception(NewsMessages.InvalidNews);
+                throw _loggerService.LogInvalidThings(user, nameof(NewsService), NewsThing, NewsDoesNotExistMessage);
+            }
+
+            if (model == null) {
+                throw _loggerService.LogInvalidThings(user, nameof(NewsService), NewsThing, ModelIsNotCorrectForNewsUpdating);
             }
 
             news.Content = model.Content;
@@ -118,7 +142,7 @@ namespace ManagerAPI.Services.Services
             _context.News.Update(news);
             _context.SaveChanges();
 
-            _utilsService.LogInformation(NewsMessages.NewsUpdate, user);
+            _loggerService.LogInformation(user, nameof(NewsService), UpdateNewsAction, news.Id);
             _notificationService.AddSystemNotificationByType(SystemNotificationType.NewsUpdated, news.Creator);
         }
     }

@@ -12,12 +12,13 @@ namespace ManagerAPI.Backend.Controllers {
     [Authorize]
     [ApiController]
     public class AuthController : ControllerBase {
+        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly IAuthService _authService;
-        private readonly IUtilsService _utilsService;
+        private readonly ILoggerService _loggerService;
 
-        public AuthController (IAuthService authService, IUtilsService utilsService) {
+        public AuthController (IAuthService authService, ILoggerService loggerService) {
             _authService = authService;
-            _utilsService = utilsService;
+            _loggerService = loggerService;
         }
 
         [HttpPost ("registration")]
@@ -26,8 +27,12 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 await _authService.Registration (model);
                 return Ok ();
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            }
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -37,8 +42,11 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 string token = await _authService.Login (model);
                 return Ok (token);
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
     }

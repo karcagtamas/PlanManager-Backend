@@ -6,23 +6,39 @@ using ManagerAPI.DataAccess;
 using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Models;
-using ManagerAPI.Services.Messages;
 using ManagerAPI.Services.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 
 namespace ManagerAPI.Services.Services
 {
     public class TaskService : ITaskService
     {
+        // Action
+        private const string CreateTaskAction = "create task";
+        private const string UpdateTaskAction = "update task";
+        private const string DeleteTaskAction = "delete task";
+        private const string GetTaskAction = "get task";
+        private const string GetTasksAction = "get tasks";
+
+        // Thing
+        private const string TaskThing = "task";
+        private const string TaskIdThing = "task id";
+
+        // Message
+        private const string NotCorrectUpdateObjectMessage = "Not correct update object";
+        private const string TaskDoesNotExistMessage = "Task does not exist";
+
+        // Injects
         private readonly DatabaseContext _context;
         private readonly IMapper _mapper;
         private readonly IUtilsService _utilsService;
-        public TaskService(DatabaseContext context, IMapper mapper, IUtilsService utilsService)
+        private readonly ILoggerService _loggerService;
+
+        public TaskService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService)
         {
             _context = context;
             _mapper = mapper;
             _utilsService = utilsService;
+            _loggerService = loggerService;
         }
 
         public List<TaskDateDto> GetTasks(bool isSolved)
@@ -31,7 +47,7 @@ namespace ManagerAPI.Services.Services
 
             var list = _mapper.Map<List<TaskDateDto>>(user.Tasks.GroupBy(x => x.Deadline).OrderBy(x => x.Key).ToList());
 
-            _utilsService.LogInformation(TaskMessages.TaskListGet, user);     
+            _loggerService.LogInformation(user, nameof(TaskService), GetTasksAction, 0);     
 
             return list;   
         }
@@ -42,7 +58,7 @@ namespace ManagerAPI.Services.Services
 
             var e = _mapper.Map<TaskDataDto>(_context.Tasks.Where(x => x.Id == id).FirstOrDefault());
 
-            _utilsService.LogInformation(TaskMessages.TaskGet, user);     
+            _loggerService.LogInformation(user, nameof(TaskService), GetTaskAction, id);     
 
             return e;
         }
@@ -54,7 +70,7 @@ namespace ManagerAPI.Services.Services
             var task = _context.Tasks.Find(id);
 
             if (task == null) {
-                throw new Exception("");
+                throw _loggerService.LogInvalidThings(user, nameof(TaskService), TaskIdThing, TaskDoesNotExistMessage);
             }
 
             _context.Tasks.Remove(task);
@@ -62,7 +78,7 @@ namespace ManagerAPI.Services.Services
 
             // TODO: Notification
 
-            _utilsService.LogInformation(TaskMessages.TaskRemove, user);
+            _loggerService.LogInformation(user, nameof(TaskService), DeleteTaskAction, id);
         }
 
         public void UpdateTask(TaskDataDto task)
@@ -72,7 +88,7 @@ namespace ManagerAPI.Services.Services
             var taskEntity = _context.Tasks.Find(task.Id);
 
             if (taskEntity == null) {
-                throw new Exception(TaskMessages.InvalidTask);
+                throw _loggerService.LogInvalidThings(user, nameof(TaskService), TaskThing, NotCorrectUpdateObjectMessage);
             }
 
             _mapper.Map(task, taskEntity);
@@ -83,7 +99,7 @@ namespace ManagerAPI.Services.Services
 
             // TODO: Notification
 
-            _utilsService.LogInformation(TaskMessages.TaskUpdate, user); 
+            _loggerService.LogInformation(user, nameof(TaskService), UpdateTaskAction, task.Id); 
         }
 
         public int CreateTask(TaskModel model)
@@ -97,7 +113,7 @@ namespace ManagerAPI.Services.Services
             _context.Tasks.Update(taskEntity);
             _context.SaveChanges();
 
-            _utilsService.LogInformation(TaskMessages.TaskAdd, user); 
+            _loggerService.LogInformation(user, nameof(TaskService), CreateTaskAction, taskEntity.Id); 
 
             // TODO: Notification
 

@@ -10,10 +10,10 @@ namespace ManagerAPI.Backend.Controllers {
     [Authorize]
     [ApiController]
     public class PlanController : ControllerBase {
-        private readonly IUtilsService _utilsService;
+        private readonly ILoggerService _loggerService;
 
-        public PlanController (IUtilsService utilsService) {
-            _utilsService = utilsService;
+        public PlanController (ILoggerService loggerService) {
+            _loggerService = loggerService;
         }
     }
 }

@@ -14,13 +14,14 @@ namespace ManagerAPI.Backend.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
+        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly ITaskService _taskService;
-        private readonly IUtilsService _utilsService;
+        private readonly ILoggerService _loggerService;
 
-        public TaskController(ITaskService taskService, IUtilsService utilsService) 
+        public TaskController(ITaskService taskService, ILoggerService loggerService) 
         {
             this._taskService = taskService;
-            this._utilsService = utilsService;
+            this._loggerService = loggerService;
         }
 
         [HttpGet]
@@ -30,9 +31,11 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return Ok(_taskService.GetTasks(isSolved));
             }
-            catch (Exception e)
-            {
-                return BadRequest(_utilsService.ExceptionToResponse(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -43,9 +46,11 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return Ok(_taskService.GetTask(id));
             }
-            catch (Exception e)
-            {
-                return BadRequest(_utilsService.ExceptionToResponse(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -57,9 +62,11 @@ namespace ManagerAPI.Backend.Controllers
                 _taskService.DeleteTask(id);
                 return Ok();
             }
-            catch (Exception e)
-            {
-                return BadRequest(_utilsService.ExceptionToResponse(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -72,9 +79,11 @@ namespace ManagerAPI.Backend.Controllers
                 _taskService.UpdateTask(task);
                 return Ok();
             }
-            catch (Exception e)
-            {
-                return BadRequest(_utilsService.ExceptionToResponse(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -87,9 +96,11 @@ namespace ManagerAPI.Backend.Controllers
                 _taskService.CreateTask(model);
                 return Ok();
             }
-            catch (Exception e)
-            {
-                return BadRequest(_utilsService.ExceptionToResponse(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
     }

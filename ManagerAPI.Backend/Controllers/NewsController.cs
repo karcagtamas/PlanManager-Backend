@@ -17,18 +17,20 @@ namespace ManagerAPI.Backend.Controllers {
     [Route ("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class NewsController : ControllerBase {
+    public class NewsController : ControllerBase 
+    {
+        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly INewsService _newsService;
-        private readonly IUtilsService _utilsService;
+        private readonly ILoggerService _loggerService;
 
         /// <summary>
         /// Injector Constructor
         /// </summary>
         /// <param name="newsService">News Service</param>
-        /// <param name="utilsService">Utils Service</param>
-        public NewsController (INewsService newsService, IUtilsService utilsService) {
+        /// <param name="loggerService">Utils Service</param>
+        public NewsController (INewsService newsService, ILoggerService loggerService) {
             _newsService = newsService;
-            _utilsService = utilsService;
+            _loggerService = loggerService;
         }
 
         /// <summary>
@@ -41,8 +43,11 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 _newsService.DeleteNews (postId);
                 return Ok ();
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -54,8 +59,11 @@ namespace ManagerAPI.Backend.Controllers {
         public IActionResult GetNewsPosts () {
             try {
                 return Ok (_newsService.GetNewsPosts ());
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -70,7 +78,7 @@ namespace ManagerAPI.Backend.Controllers {
                 _newsService.PostNews (model);
                 return Ok ();
             } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+                return BadRequest (_loggerService.ExceptionToResponse (e));
             }
         }
 
@@ -84,8 +92,11 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 _newsService.UpdateNews (postId, model);
                 return Ok ();
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
     }

@@ -13,21 +13,26 @@ namespace ManagerAPI.Backend.Controllers {
     [Route ("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class UserController : ControllerBase {
+    public class UserController : ControllerBase 
+    {
+        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly IUserService _userService;
-        private readonly IUtilsService _utilsService;
+        private readonly ILoggerService _loggerService;
 
-        public UserController (IUserService userService, IUtilsService utilsService) {
+        public UserController (IUserService userService, ILoggerService loggerService) {
             _userService = userService;
-            _utilsService = utilsService;
+            _loggerService = loggerService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetUser () {
             try {
                 return Ok (await _userService.GetUser ());
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -35,8 +40,11 @@ namespace ManagerAPI.Backend.Controllers {
         public IActionResult GetShortUser () {
             try {
                 return Ok (_userService.GetShortUser ());
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -45,8 +53,11 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 _userService.UpdateUser (updateDto);
                 return Ok ();
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -54,8 +65,11 @@ namespace ManagerAPI.Backend.Controllers {
         public IActionResult GetGenders () {
             try {
                 return Ok (_userService.GetGenders ());
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -64,8 +78,11 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 _userService.UpdateProfileImage (image);
                 return Ok ();
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -74,8 +91,11 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 await _userService.UpdatePassword (model.OldPassword, model.NewPassword);
                 return Ok ();
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -84,8 +104,11 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 await _userService.UpdateUsername (model.UserName);
                 return Ok ();
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -94,8 +117,11 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 _userService.DisableUser ();
                 return Ok ();
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
     }

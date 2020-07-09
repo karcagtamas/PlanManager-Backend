@@ -8,10 +8,8 @@ using ManagerAPI.DataAccess;
 using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Enums;
-using ManagerAPI.Services.Messages;
 using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 
 namespace ManagerAPI.Services.Services
 {
@@ -20,13 +18,35 @@ namespace ManagerAPI.Services.Services
     /// </summary>
     public class UserService : IUserService
     {
+        // Action
+        private const string DisableUserAction = "disable user";
+        private const string UpdateUserNameAction = "update username";
+        private const string UpdatePasswordAction = "update password";
+        private const string UpdateImageAction = "update image";
+        private const string GetGendersAction = "get genders";
+        private const string UpdateUserAction = "update user";
+
+        // Messages
+        private const string NewEqualOldUserNameMessage = "New username is equal with the old username";
+        private const string IncorrectOldPasswordMessage = "Incorrect old password";
+        private const string OldAndNewPasswordCannotBeSameMessage = "Old and new password cannot be same";
+        private const string ImageCannotBeEmptyMessage = "Image cannot be empty";
+        private const string ErrorDuringUserUpdateMessage = "Error during the user update";
+
+        // Things
+        private const string UsernameThing = "username";
+        private const string PasswordThing = "password";
+        private const string ImageThing = "image";
+        private const string UserUpdateObjectThing = "update object";
+
+        // Injects
         private readonly DatabaseContext _context;
         private readonly IMapper _mapper;
         private readonly IUtilsService _utilsService;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<WebsiteRole> _roleManager;
         private readonly INotificationService _notificationService;
-        private readonly UserMessages _userMessages;
+        private readonly ILoggerService _loggerService;
 
         /// <summary>
         /// User Service constructor
@@ -38,7 +58,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="userManager">User manager</param>
         /// <param name="roleManager">Role manager</param>
         /// <param name="notificationService">Notification Service</param>
-        public UserService(ILogger<AuthService> logger, DatabaseContext context, IMapper mapper, IUtilsService utilsService, UserManager<User> userManager, RoleManager<WebsiteRole> roleManager, INotificationService notificationService)
+        public UserService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, UserManager<User> userManager, RoleManager<WebsiteRole> roleManager, INotificationService notificationService, ILoggerService loggerService)
         {
             _context = context;
             _mapper = mapper;
@@ -46,7 +66,7 @@ namespace ManagerAPI.Services.Services
             _userManager = userManager;
             _roleManager = roleManager;
             _notificationService = notificationService;
-            _userMessages = new UserMessages();
+            this._loggerService = loggerService;
         }
         
         /// <summary>
@@ -62,7 +82,7 @@ namespace ManagerAPI.Services.Services
             var list = (await _userManager.GetRolesAsync(user)).ToList();
             userDto.Roles = _context.AppRoles.OrderByDescending(x => x.AccessLevel).Where(x => list.Contains(x.Name)).Select(x => x.Name).ToList();
 
-            _utilsService.LogInformation(_userMessages.UserGet, user);
+            _loggerService.LogInformation(user, nameof(UserService), "get user", user.Id);
             return userDto;
         }
 
@@ -75,7 +95,7 @@ namespace ManagerAPI.Services.Services
             var user = _utilsService.GetCurrentUser();
 
             var userDto = _mapper.Map<UserShortDto>(user);
-            _utilsService.LogInformation(_userMessages.UserShortGet, user);
+            _loggerService.LogInformation(user, nameof(UserService), "get short user", user.Id);
             return userDto;
         }
 
@@ -89,14 +109,14 @@ namespace ManagerAPI.Services.Services
             var user = _utilsService.GetCurrentUser();
             if (updateDto == null)
             {
-                throw new Exception(_utilsService.AddUserToMessage(_userMessages.InvalidUserUpdate, user));
+                throw _loggerService.LogInvalidThings(user, nameof(UserService), UserUpdateObjectThing, ErrorDuringUserUpdateMessage);
             }
 
             _mapper.Map(updateDto, user);
 
             _context.AppUsers.Update(user);
             _context.SaveChanges();
-            _utilsService.LogInformation(_userMessages.UserUpdate, user);
+            _loggerService.LogInformation(user, nameof(UserService), UpdateUserAction, user.Id);
             _notificationService.AddSystemNotificationByType(SystemNotificationType.MyProfileUpdated, user);
         }
 
@@ -108,7 +128,7 @@ namespace ManagerAPI.Services.Services
         {
             var user = _utilsService.GetCurrentUser();
             var genders = _mapper.Map<List<GenderDto>>(_context.Genders.ToList());
-            _utilsService.LogInformation(_userMessages.GendersGet, user);
+            _loggerService.LogInformation(user, nameof(UserService), GetGendersAction, 0);
             return genders;
         }
 
@@ -122,14 +142,14 @@ namespace ManagerAPI.Services.Services
 
             if (image == null || image.Length == 0)
             {
-                throw new Exception(_utilsService.AddUserToMessage(_userMessages.InvalidImage, user));
+                throw _loggerService.LogInvalidThings(user, nameof(UserService), ImageThing, ImageCannotBeEmptyMessage);
             }
 
             user.ProfileImageData = image;
             user.ProfileImageTitle = DateTime.Now.ToString(CultureInfo.InvariantCulture);
             _context.AppUsers.Update(user);
             _context.SaveChanges();
-            _utilsService.LogInformation(_userMessages.ProfileImageUpdate, user);
+            _loggerService.LogInformation(user, nameof(UserService), UpdateImageAction, user.Id);
             _notificationService.AddSystemNotificationByType(SystemNotificationType.ProfileImageChanged, user);
         }
 
@@ -147,20 +167,21 @@ namespace ManagerAPI.Services.Services
             {
                 if (newPassword == oldPassword)
                 {
-                    throw new Exception(_utilsService.AddUserToMessage(_userMessages.OldAndNewPasswordCannotBeSame, user));
+                    throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing, OldAndNewPasswordCannotBeSameMessage);
                 }
 
                 var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
                 if (!result.Succeeded)
                 {
-                    throw new Exception(_utilsService.AddUserToMessage(result.Errors.ToString(), user));
+                    // TODO: fix message
+                    throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing, result.Errors.ToString());
                 }
             }
             else
             {
-                throw new Exception(_utilsService.AddUserToMessage(_userMessages.InvalidOldPassword, user));
+                throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing, IncorrectOldPasswordMessage);
             }
-            _utilsService.LogInformation(_userMessages.PasswordUpdate, user);
+            _loggerService.LogInformation(user, nameof(UserService), UpdatePasswordAction, user.Id);
             _notificationService.AddSystemNotificationByType(SystemNotificationType.PasswordChanged, user);
         }
 
@@ -177,14 +198,14 @@ namespace ManagerAPI.Services.Services
                 var result = await _userManager.SetUserNameAsync(user, newUsername);
                 if (!result.Succeeded)
                 {
-                    throw new Exception(_utilsService.AddUserToMessage(result.Errors.ToString(), user));
+                    throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing, result.Errors.ToString());
                 }
             }
             else
             {
-                throw new Exception(_utilsService.AddUserToMessage(_userMessages.AlreadyOwnThisUsername, user));
+                throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing, NewEqualOldUserNameMessage);
             }
-            _utilsService.LogInformation(_userMessages.UsernameUpdate, user);
+            _loggerService.LogInformation(user, nameof(UserService), UpdateUserNameAction, user.Id);
             _notificationService.AddSystemNotificationByType(SystemNotificationType.UsernameChanged, user);
         }
 
@@ -198,7 +219,7 @@ namespace ManagerAPI.Services.Services
 
             _context.AppUsers.Update(user);
             _context.SaveChanges();
-            _utilsService.LogInformation(_userMessages.DisableStatus, user);
+            _loggerService.LogInformation(user, nameof(UserService), DisableUserAction, user.Id);
             _notificationService.AddSystemNotificationByType(SystemNotificationType.ProfileDisabled, user);
         }
     }

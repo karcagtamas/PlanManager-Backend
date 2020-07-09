@@ -17,18 +17,20 @@ namespace ManagerAPI.Backend.Controllers {
     [Route ("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class NotificationController : ControllerBase {
+    public class NotificationController : ControllerBase 
+    {
+        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly INotificationService _notificationService;
-        private readonly IUtilsService _utilsService;
+        private readonly ILoggerService _loggerService;
 
         /// <summary>
         /// Injector Constructor
         /// </summary>
         /// <param name="notificationService">Notification Service</param>
-        /// <param name="utilsService">Utils Service</param>
-        public NotificationController (INotificationService notificationService, IUtilsService utilsService) {
+        /// <param name="loggerService">Utils Service</param>
+        public NotificationController (INotificationService notificationService, ILoggerService loggerService) {
             _notificationService = notificationService;
-            _utilsService = utilsService;
+            _loggerService = loggerService;
         }
 
         /// <summary>
@@ -39,8 +41,11 @@ namespace ManagerAPI.Backend.Controllers {
         public IActionResult GetMyNotifications () {
             try {
                 return Ok (_notificationService.GetMyNotifications ());
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -52,8 +57,11 @@ namespace ManagerAPI.Backend.Controllers {
         public IActionResult GetCountOfUnReadNotifications () {
             try {
                 return Ok (_notificationService.GetCountOfUnReadNotifications ());
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -67,8 +75,11 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 _notificationService.SetAsReadNotificationsById (notifications);
                 return Ok ();
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
     }

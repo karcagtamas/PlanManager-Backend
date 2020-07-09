@@ -6,11 +6,8 @@ namespace ManagerAPI.Services.Services.Interfaces
 {
     public interface IUtilsService 
     {
-        void LogError (Exception e);
         User GetCurrentUser ();
         string GetCurrentUserId ();
-        string AddUserToMessage (string message, User user);
-        void LogInformation (string action, User user);
-        ErrorResponse ExceptionToResponse (Exception e);
+        string UserDisplay(User user);
     }
 }

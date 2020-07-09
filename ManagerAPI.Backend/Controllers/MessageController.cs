@@ -14,18 +14,20 @@ namespace ManagerAPI.Backend.Controllers {
     [Route ("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class MessageController : ControllerBase {
+    public class MessageController : ControllerBase 
+    {
+        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly IMessageService _messageService;
-        private readonly IUtilsService _utilsService;
+        private readonly ILoggerService _loggerService;
 
         /// <summary>
         /// Injector Constructor
         /// </summary>
         /// <param name="messageService">Message Service</param>
-        /// <param name="utilsService">Utils Service</param>
-        public MessageController (IMessageService messageService, IUtilsService utilsService) {
+        /// <param name="loggerService">Utils Service</param>
+        public MessageController (IMessageService messageService, ILoggerService loggerService) {
             _messageService = messageService;
-            _utilsService = utilsService;
+            _loggerService = loggerService;
         }
 
         /// <summary>
@@ -37,8 +39,11 @@ namespace ManagerAPI.Backend.Controllers {
         public IActionResult GetMessages (int friendId) {
             try {
                 return Ok (_messageService.GetMessages (friendId));
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -52,8 +57,11 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 _messageService.SendMessage (model);
                 return Ok ();
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
     }
