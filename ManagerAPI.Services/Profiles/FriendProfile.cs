@@ -21,6 +21,9 @@ namespace ManagerAPI.Services.Profiles
             CreateMap<FriendRequest, FriendRequestListDto>()
                 .ForMember(dest => dest.Sender, opt => opt.MapFrom(src => src.Sender.UserName))
                 .ForMember(dest => dest.SenderFullName, opt => opt.MapFrom(src => src.Sender.FullName));
+
+            CreateMap<User, FriendDataDto>()
+                .ForMember(dest => dest.Roles, opt => opt.Ignore());
         }
     }
 }

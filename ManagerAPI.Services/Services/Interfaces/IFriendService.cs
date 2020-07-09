@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Models;
 
@@ -11,5 +12,6 @@ namespace ManagerAPI.Services.Services.Interfaces
         List<FriendRequestListDto> GetMyFriendRequests();
         void SendFriendRequestResponse(FriendRequestResponseModel model);
         void SendFriendRequest(FriendRequestModel model);
+        Task<FriendDataDto> GetFriendData(string friendId);
     }
 }
