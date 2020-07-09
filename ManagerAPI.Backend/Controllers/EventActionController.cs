@@ -15,13 +15,14 @@ namespace ManagerAPI.Backend.Controllers
     [ApiController]
     public class EventActionController : ControllerBase
     {
+        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly IEventActionService _eventActionService;
-        private readonly IUtilsService _utilsService;
+        private readonly ILoggerService _loggerService;
 
-        public EventActionController(IEventActionService eventActionService, IUtilsService utilsService)
+        public EventActionController(IEventActionService eventActionService, ILoggerService loggerService)
         {
             _eventActionService = eventActionService;
-            _utilsService = utilsService;
+            _loggerService = loggerService;
         }
 
         [HttpGet("{id}")]
@@ -31,10 +32,11 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return Ok(new ServerResponse<List<EventActionListDto>>(_eventActionService.GetActions(id), true));
             }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
             
         }

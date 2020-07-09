@@ -17,18 +17,20 @@ namespace ManagerAPI.Backend.Controllers {
     [Route ("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class FriendController : ControllerBase {
+    public class FriendController : ControllerBase 
+    {
+        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly IFriendService _friendService;
-        private readonly IUtilsService _utilsService;
+        private readonly ILoggerService _loggerService;
 
         /// <summary>
         /// Injector Constructor
         /// </summary>
         /// <param name="friendService">Friend Service</param>
-        /// <param name="utilsService">Utils Service</param>
-        public FriendController (IFriendService friendService, IUtilsService utilsService) {
+        /// <param name="loggerService">Utils Service</param>
+        public FriendController (IFriendService friendService, ILoggerService loggerService) {
             _friendService = friendService;
-            _utilsService = utilsService;
+            _loggerService = loggerService;
         }
 
         /// <summary>
@@ -39,8 +41,11 @@ namespace ManagerAPI.Backend.Controllers {
         public IActionResult GetMyFriendRequests () {
             try {
                 return Ok (_friendService.GetMyFriendRequests ());
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -52,8 +57,11 @@ namespace ManagerAPI.Backend.Controllers {
         public IActionResult GetMyFriends () {
             try {
                 return Ok (_friendService.GetMyFriends ());
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -67,8 +75,11 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 _friendService.RemoveFriend (friendId);
                 return Ok ();
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -82,8 +93,11 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 _friendService.SendFriendRequest (model);
                 return Ok ();
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -97,8 +111,11 @@ namespace ManagerAPI.Backend.Controllers {
             try {
                 _friendService.SendFriendRequestResponse (model);
                 return Ok ();
-            } catch (Exception e) {
-                return BadRequest (_utilsService.ExceptionToResponse (e));
+            } catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
     }

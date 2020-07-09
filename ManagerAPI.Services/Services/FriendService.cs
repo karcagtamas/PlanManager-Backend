@@ -7,18 +7,40 @@ using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Enums;
 using ManagerAPI.Models.Models;
-using ManagerAPI.Services.Messages;
 using ManagerAPI.Services.Services.Interfaces;
 
 namespace ManagerAPI.Services.Services {
     /// <summary>
     /// Friend Service
     /// </summary>
-    public class FriendService : IFriendService {
-        private IUtilsService _utilsService { get; }
-        private IMapper _mapper { get; }
-        private DatabaseContext _context { get; }
-        private INotificationService _notificationService { get; }
+    public class FriendService : IFriendService 
+    {
+        // Actions
+        private const string SendFriendRequestResponseAction = "send friend request response";
+        private const string RemoveFriendAction = "remove friend";
+        private const string SendFriendRequestAction = "send friend request";
+        private const string GetFriendsAction = "get friends";
+        private const string GetFriendRequestAction = "get friend requests";
+
+        // Things
+        private const string RequestIdThing = "request id";
+        private const string UserNameThing = "username";
+        private const string FriendThing = "friend";
+
+        // Messages
+        private const string YouHasOpenFriendRequestWithThisUserMessage = "You has open friend request with this user";
+        private const string ThisNameIsYoursMesssage = "This name is yours";
+        private const string ThisUserDoesNotExistMessage = "This user does not exist";
+        private const string ThisUserIsYourFriendAlready = "This user is your friend already";
+        private const string ThisUserIsNotYourFriendMessage = "This user is not your friend";
+        private const string RequestDoesNotExistMessage = "Request does not exist";
+
+        // Injects
+        private readonly IUtilsService _utilsService;
+        private readonly IMapper _mapper;
+        private readonly DatabaseContext _context;
+        private readonly INotificationService _notificationService;
+        private readonly ILoggerService _loggerService;
 
         /// <summary>
         /// Injector Constructor
@@ -27,11 +49,13 @@ namespace ManagerAPI.Services.Services {
         /// <param name="mapper">Mapper</param>
         /// <param name="context">Database Context</param>
         /// <param name="notificationService">Notification Service</param>
-        public FriendService (IUtilsService utilsService, IMapper mapper, DatabaseContext context, INotificationService notificationService) {
+        /// <param name="loggerService">Logger Service</param>
+        public FriendService (IUtilsService utilsService, IMapper mapper, DatabaseContext context, INotificationService notificationService, ILoggerService loggerService) {
             _utilsService = utilsService;
             _mapper = mapper;
             _context = context;
             _notificationService = notificationService;
+            _loggerService = loggerService;
         }
 
         /// <summary>
@@ -44,7 +68,7 @@ namespace ManagerAPI.Services.Services {
 
             var list = _mapper.Map<List<FriendRequestListDto>> (user.ReceivedFriendRequest.Where (x => x.Response == null).OrderByDescending (x => x.SentDate).ToList ());
 
-            _utilsService.LogInformation (FriendMessages.MyFriendRequestsGet, user);
+            _loggerService.LogInformation (user, nameof(FriendService), GetFriendRequestAction, list.Select(x => x.Id).ToList());
 
             return list;
         }
@@ -59,7 +83,7 @@ namespace ManagerAPI.Services.Services {
 
             var list = _mapper.Map<List<FriendListDto>> (user.FriendListLeft.OrderBy (x => x.Friend.UserName).ToList ());
 
-            _utilsService.LogInformation (FriendMessages.MyFriendsGet, user);
+            _loggerService.LogInformation (user, nameof(FriendService), GetFriendsAction, list.Select(x => x.FriendId).ToList());
 
             return list;
         }
@@ -76,13 +100,13 @@ namespace ManagerAPI.Services.Services {
             var friends = _context.Friends.Where (x => x.User.Id == user.Id && x.Friend.Id == friendId || x.User.Id == friendId && x.Friend.Id == user.Id).ToList ();
 
             if (friends.Count == 0) {
-                throw new Exception (FriendMessages.ThisFriendIsNotExist);
+                throw _loggerService.LogInvalidThings(user, nameof(FriendService), FriendThing, ThisUserIsNotYourFriendMessage);
             }
 
             _context.Friends.RemoveRange (friends);
             _context.SaveChanges ();
 
-            _utilsService.LogInformation (FriendMessages.FriendRemove, user);
+            _loggerService.LogInformation (user, nameof(FriendService), RemoveFriendAction, friendId);
 
             _notificationService.AddSystemNotificationByType (SystemNotificationType.FriendRemoved, user);
             _notificationService.AddSystemNotificationByType (SystemNotificationType.FriendRemoved, friend);
@@ -97,21 +121,21 @@ namespace ManagerAPI.Services.Services {
             var user = _utilsService.GetCurrentUser ();
 
             if (user.UserName == model.DestinationUserName) {
-                throw new Exception (FriendMessages.ThisUserNameIsYours);
+                throw _loggerService.LogInvalidThings(user, nameof(FriendService), UserNameThing, ThisNameIsYoursMesssage);
             }
 
             var destination = _context.AppUsers.Where (x => x.UserName == model.DestinationUserName).FirstOrDefault ();
 
             if (destination == null) {
-                throw new Exception (FriendMessages.InvalidUserName);
+                throw _loggerService.LogInvalidThings(user, nameof(FriendService), UserNameThing, ThisUserDoesNotExistMessage);
             }
 
             if (HasFriendAlready (user, destination.Id)) {
-                throw new Exception (FriendMessages.AlreadyHasFriend);
+                throw _loggerService.LogInvalidThings(user, nameof(FriendService), UserNameThing, ThisUserIsYourFriendAlready);
             }
 
             if (HasOpenFriendRequestAlready (user, destination.Id)) {
-                throw new Exception (FriendMessages.AlreadyHasOpenFriendRequest);
+                throw _loggerService.LogInvalidThings(user, nameof(FriendService), UserNameThing, YouHasOpenFriendRequestWithThisUserMessage);
             }
 
             var request = new FriendRequest ();
@@ -123,7 +147,7 @@ namespace ManagerAPI.Services.Services {
             _context.FriendRequests.Add (request);
             _context.SaveChanges ();
 
-            _utilsService.LogInformation (FriendMessages.FriendRequestSend, user);
+            _loggerService.LogInformation (user, nameof(FriendService), SendFriendRequestAction, request.Id);
 
             _notificationService.AddSystemNotificationByType (SystemNotificationType.FriendRequestSent, user);
             _notificationService.AddSystemNotificationByType (SystemNotificationType.FriendRequestReceived, destination);
@@ -140,14 +164,14 @@ namespace ManagerAPI.Services.Services {
             var request = _context.FriendRequests.Find (model.RequestId);
 
             if (request == null) {
-                throw new Exception (FriendMessages.InvalidRequestId);
+                throw _loggerService.LogInvalidThings(user, nameof(FriendService), RequestIdThing, RequestDoesNotExistMessage);
             }
 
             request.Response = model.Response;
             request.ResponseDate = DateTime.Now;
             _context.FriendRequests.Update (request);
             _context.SaveChanges ();
-            _utilsService.LogInformation (FriendMessages.FriendRequestResponseSend, user);
+            _loggerService.LogInformation (user, nameof(FriendService), SendFriendRequestResponseAction, request.Id);
             _notificationService.AddSystemNotificationByType (model.Response ? SystemNotificationType.FriendRequestAccepted : SystemNotificationType.FriendRequestDeclined, request.Sender);
 
             if (model.Response) {

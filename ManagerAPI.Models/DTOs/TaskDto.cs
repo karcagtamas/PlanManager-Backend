@@ -1,6 +1,6 @@
 ﻿namespace ManagerAPI.Models.DTOs
 {
-    public class ToDoDto
+    public class TaskDto
     {
         public int Id { get; set; }
 

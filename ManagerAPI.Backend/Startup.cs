@@ -81,6 +81,8 @@ namespace ManagerAPI.Backend
             services.AddScoped<IFriendService, FriendService>();
             services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<INewsService, NewsService>();
+            services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<ILoggerService, LoggerService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             

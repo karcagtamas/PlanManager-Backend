@@ -79,11 +79,14 @@ namespace EventManager.Client.Shared.Components {
             }
         }
 
-        private void HandleBackgroundClick () {
-            if (ComponentDisableBackgroundCancel) {
-                return;
+        private void HandleBackgroundClick (bool value) {
+            if (!value)
+            {
+                if (ComponentDisableBackgroundCancel) {
+                    return;
+                }
+                ModalService.Cancel ();
             }
-            ModalService.Cancel ();
         }
 
         private void SetModalOptions (ModalOptions options) {

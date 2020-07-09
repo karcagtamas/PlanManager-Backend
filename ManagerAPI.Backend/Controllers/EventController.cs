@@ -15,13 +15,14 @@ namespace ManagerAPI.Backend.Controllers
     [ApiController]
     public class EventController : ControllerBase
     {
+        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly IEventService _eventService;
-        private readonly IUtilsService _utilsService;
+        private readonly ILoggerService _loggerService;
 
-        public EventController(IEventService eventService, IUtilsService utilsService)
+        public EventController(IEventService eventService, ILoggerService loggerService)
         {
             _eventService = eventService;
-            _utilsService = utilsService;
+            _loggerService = loggerService;
         }
 
         [HttpGet("my")]
@@ -31,12 +32,12 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return Ok(new ServerResponse<List<MyEventListDto>>(_eventService.GetMyEvents(), true));
             }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
-            
         }
 
         [HttpGet("{eventId}")]
@@ -46,10 +47,11 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return Ok(new ServerResponse<EventDto>(_eventService.GetEvent(eventId), true));
             }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -61,10 +63,11 @@ namespace ManagerAPI.Backend.Controllers
                 _eventService.CreateEvent(model);
                 return Ok(new ServerResponse<Object>(null, true));
             }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -76,10 +79,11 @@ namespace ManagerAPI.Backend.Controllers
                 _eventService.SetEventAsGtEvent(eventId);
                 return Ok(new ServerResponse<Object>(null, true));
             }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
         
@@ -91,10 +95,11 @@ namespace ManagerAPI.Backend.Controllers
                 _eventService.SetEventAsSportEvent(eventId);
                 return Ok(new ServerResponse<Object>(null, true));
             }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -106,10 +111,11 @@ namespace ManagerAPI.Backend.Controllers
                 _eventService.DeleteEvent(eventId);
                 return Ok(new ServerResponse<Object>(null, true));
             }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
 
@@ -121,10 +127,11 @@ namespace ManagerAPI.Backend.Controllers
                 _eventService.UpdateMasterEvent(masterUpdate);
                 return Ok(new ServerResponse<Object>(null, true));
             }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
         
@@ -136,10 +143,11 @@ namespace ManagerAPI.Backend.Controllers
                 _eventService.UpdateSportEvent(sportUpdate);
                 return Ok(new ServerResponse<Object>(null, true));
             }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
         
@@ -151,10 +159,11 @@ namespace ManagerAPI.Backend.Controllers
                 _eventService.UpdateGtEvent(updateGt);
                 return Ok(new ServerResponse<Object>(null, true));
             }
-            catch (Exception e)
-            {
-                _utilsService.LogError(e);
-                return Ok(new ServerResponse<Object>(e));
+            catch (MessageException me) {
+                return BadRequest (_loggerService.ExceptionToResponse (me));
+            } 
+            catch (Exception) {
+                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }
     }
