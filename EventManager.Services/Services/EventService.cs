@@ -14,6 +14,31 @@ namespace EventManager.Services.Services
     /// </summary>
     public class EventService : IEventService
     {
+        // Actions
+        private const string DeleteEventAction = "delete event";
+        private const string UpdateGtEventAction = "update gt event";
+        private const string UpdateSportEventAction = "update sport event";
+        private const string UpdateMessageEventAction = "update master event";
+        private const string ExtendEventToSportAction = "extend event to sport";
+        private const string ExtendEventToGtAction = "extend event to gt";
+        private const string CreateEventAction = "create event";
+        private const string GetEventsAction = "get events";
+        private const string GetEventAction = "get event";
+
+        // Things
+        private const string EventIdThing = "event id";
+        private const string GtEventIdThing = "gt event id";
+        private const string SportEventIdThing = "sport event id";
+        private const string OperationThing = "operation";
+
+        // Messages
+        private const string EventDoesNotExistMessage = "Event does not exist";
+        private const string GtEventDoesNotExistMessage = "Gt event does not exist";
+        private const string SportEventDoesNotExistMessage = "Sport event does not exist";
+        private const string EventAlreadyOwnSportExtensionMessage = "Event already own sport extension";
+        private const string EventAlreadyOwnGtExtensionMessage = "Event already own gt extension";
+
+        // Inejcts
         private readonly DatabaseContext _context;
         private readonly IUtilsService _utilsService;
         private readonly IMapper _mapper;
@@ -65,6 +90,7 @@ namespace EventManager.Services.Services
             _context = context;
             _utilsService = utilsService;
             _mapper = mapper;
+            _loggerService = loggerService;
         }
 
         /// <summary>
@@ -76,7 +102,7 @@ namespace EventManager.Services.Services
             var user = _utilsService.GetCurrentUser();
             var list = _context.UserEventsSwitch.Where(x => x.User.Id == user.Id).Select(x => x.Event).ToList();
             var dtoList = _mapper.Map<List<MyEventListDto>>(list);
-            this._loggerService.LogInformation(user, nameof(EventService), "get events", list.Select(x => x.Id).ToList());
+            this._loggerService.LogInformation(user, nameof(EventService), GetEventsAction, list.Select(x => x.Id).ToList());
             return dtoList;
         }
 
@@ -91,11 +117,11 @@ namespace EventManager.Services.Services
             var eventEl = _context.MasterEvents.Find(eventId);
             if (eventEl == null)
             {
-                throw this._loggerService.LogInvalidThings(user, nameof(EventService), "event id", "Event does not exist");
+                throw this._loggerService.LogInvalidThings(user, nameof(EventService), EventIdThing, EventDoesNotExistMessage);
             }
 
             var eventDto = _mapper.Map<EventDto>(eventEl);
-            this._loggerService.LogInformation(user, nameof(EventService), "get event", eventId);
+            this._loggerService.LogInformation(user, nameof(EventService), GetEventAction, eventId);
             return eventDto;
         }
 
@@ -140,7 +166,7 @@ namespace EventManager.Services.Services
                 _context.UserEventRolesSwitch.Add(roleSwitch);
                 _context.SaveChanges();
             }
-            this._loggerService.LogInformation(user, nameof(EventService), "create event", masterEvent.Id);
+            this._loggerService.LogInformation(user, nameof(EventService), CreateEventAction, masterEvent.Id);
         }
 
         /// <summary>
@@ -153,12 +179,12 @@ namespace EventManager.Services.Services
             var masterEvent = _context.MasterEvents.Find(eventId);
             if (masterEvent == null)
             {
-                throw this._loggerService.LogInvalidThings(user, nameof(EventService), "event id", "Event does not exist");
+                throw this._loggerService.LogInvalidThings(user, nameof(EventService), EventIdThing, EventDoesNotExistMessage);
             }
 
             if (masterEvent.GtEvent != null)
             {
-                throw this._loggerService.LogInvalidThings(user, nameof(EventService), "operation", "Event already own gt extension");
+                throw this._loggerService.LogInvalidThings(user, nameof(EventService), OperationThing, EventAlreadyOwnGtExtensionMessage);
             }
 
             var gtEvent = new DGtEvent {EventId = eventId};
@@ -169,7 +195,7 @@ namespace EventManager.Services.Services
             _context.MasterEvents.Update(masterEvent);
 
             _context.SaveChanges();
-            this._loggerService.LogInformation(user, nameof(EventService), "extend event to gt", $"{masterEvent.Id}-{gtEvent.Id}");
+            this._loggerService.LogInformation(user, nameof(EventService), ExtendEventToGtAction, $"{masterEvent.Id}-{gtEvent.Id}");
         }
 
         /// <summary>
@@ -182,12 +208,12 @@ namespace EventManager.Services.Services
             var masterEvent = _context.MasterEvents.Find(eventId);
             if (masterEvent == null)
             {
-                throw this._loggerService.LogInvalidThings(user, nameof(EventService), "event id", "Event does not exist");
+                throw this._loggerService.LogInvalidThings(user, nameof(EventService), EventIdThing, EventDoesNotExistMessage);
             }
 
             if (masterEvent.SportEvent != null)
             {
-                throw this._loggerService.LogInvalidThings(user, nameof(EventService), "operation", "Event already own sport extension");
+                throw this._loggerService.LogInvalidThings(user, nameof(EventService), OperationThing, EventAlreadyOwnSportExtensionMessage);
             }
 
             var sportEvent = new DSportEvent {EventId = eventId};
@@ -198,7 +224,7 @@ namespace EventManager.Services.Services
             _context.MasterEvents.Update(masterEvent);
 
             _context.SaveChanges();
-            this._loggerService.LogInformation(user, nameof(EventService), "extend event to sport", $"{masterEvent.Id}-{sportEvent.Id}");
+            this._loggerService.LogInformation(user, nameof(EventService), ExtendEventToSportAction, $"{masterEvent.Id}-{sportEvent.Id}");
         }
 
         /// <summary>
@@ -211,7 +237,7 @@ namespace EventManager.Services.Services
             var masterEvent = _context.MasterEvents.Find(model.Id);
             if (masterEvent == null)
             {
-                throw this._loggerService.LogInvalidThings(user, nameof(EventService), "event id", "Event does not exist");
+                throw this._loggerService.LogInvalidThings(user, nameof(EventService), EventIdThing, EventDoesNotExistMessage);
             }
 
             _mapper.Map(model, masterEvent);
@@ -220,7 +246,7 @@ namespace EventManager.Services.Services
 
             _context.MasterEvents.Update(masterEvent);
             _context.SaveChanges();
-            this._loggerService.LogInformation(user, nameof(EventService), "update master event", masterEvent.Id);
+            this._loggerService.LogInformation(user, nameof(EventService), UpdateMessageEventAction, masterEvent.Id);
         }
 
         /// <summary>
@@ -233,7 +259,7 @@ namespace EventManager.Services.Services
             var sportEvent = _context.DSportEvents.Find(model.Id);
             if (sportEvent == null)
             {
-                throw this._loggerService.LogInvalidThings(user, nameof(EventService), "sport event id", "Sport event does not exist");
+                throw this._loggerService.LogInvalidThings(user, nameof(EventService), SportEventIdThing, SportEventDoesNotExistMessage);
             }
 
             _mapper.Map(model, sportEvent);
@@ -241,7 +267,7 @@ namespace EventManager.Services.Services
             sportEvent.Event.LastUpdate = DateTime.Now;
             _context.DSportEvents.Update(sportEvent);
             _context.SaveChanges();
-            this._loggerService.LogInformation(user, nameof(EventService), "update sport event", sportEvent.Id);
+            this._loggerService.LogInformation(user, nameof(EventService), UpdateSportEventAction, sportEvent.Id);
         }
 
         /// <summary>
@@ -254,7 +280,7 @@ namespace EventManager.Services.Services
             var gtEvent = _context.DGtEvents.Find(model.Id);
             if (gtEvent == null)
             {
-                throw this._loggerService.LogInvalidThings(user, nameof(EventService), "gt event id", "Gt event does not exist");
+                throw this._loggerService.LogInvalidThings(user, nameof(EventService), GtEventIdThing, GtEventDoesNotExistMessage);
             }
 
             _mapper.Map(model, gtEvent);
@@ -262,7 +288,7 @@ namespace EventManager.Services.Services
             gtEvent.Event.LastUpdate = DateTime.Now;
             _context.DGtEvents.Update(gtEvent);
             _context.SaveChanges();
-            this._loggerService.LogInformation(user, nameof(EventService), "update gt event", gtEvent.Id);
+            this._loggerService.LogInformation(user, nameof(EventService), UpdateGtEventAction, gtEvent.Id);
         }
 
         /// <summary>
@@ -275,12 +301,12 @@ namespace EventManager.Services.Services
             var masterEvent = _context.MasterEvents.Find(eventId);
             if (masterEvent == null)
             {
-                throw this._loggerService.LogInvalidThings(user, nameof(EventService), "event id", "Event does not exist");
+                throw this._loggerService.LogInvalidThings(user, nameof(EventService), EventIdThing, EventDoesNotExistMessage);
             }
 
             _context.MasterEvents.Remove(masterEvent);
             _context.SaveChanges();
-            this._loggerService.LogInformation(user, nameof(EventService), "delete event", masterEvent.Id);
+            this._loggerService.LogInformation(user, nameof(EventService), DeleteEventAction, masterEvent.Id);
         }
     }
 }
