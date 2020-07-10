@@ -1,4 +1,9 @@
-﻿namespace ManagerAPI.Models.DTOs
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace EventManager.Client.Models.Tasks
 {
     public class TaskDto
     {

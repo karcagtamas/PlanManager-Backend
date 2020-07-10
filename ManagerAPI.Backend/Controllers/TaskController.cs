@@ -25,7 +25,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetTasks([FromQuery] bool isSolved)
+        public IActionResult GetTasks([FromQuery] bool? isSolved)
         {
             try
             {
@@ -34,7 +34,8 @@ namespace ManagerAPI.Backend.Controllers
             catch (MessageException me) {
                 return BadRequest (_loggerService.ExceptionToResponse (me));
             } 
-            catch (Exception) {
+            catch (Exception e) {
+                _loggerService.LogError(e);
                 return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
             }
         }

@@ -13,7 +13,7 @@ namespace EventManager.Client.Services
         private readonly IHelperService _helperService;
         private readonly IHttpService _httpService;
 
-        public FriendService(HttpClient httpClient, IHelperService helperService, IHttpService httpService)
+        public FriendService(IHelperService helperService, IHttpService httpService)
         {
             this._helperService = helperService;
             this._httpService = httpService;

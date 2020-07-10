@@ -1,0 +1,35 @@
+﻿@page "/my-todos"
+@attribute [Microsoft.AspNetCore.Authorization.Authorize]
+@inherits MyTasksBase
+
+
+    <div class="em-my-todos">
+        <h1 class="em-page-title">My Tasks</h1>
+
+        @if (IsLoading)
+        {
+            <Loader></Loader>
+        }
+        else
+        {
+            @if (TaskList != null && TaskList.Count > 0)
+            {
+                @foreach (var group in TaskList)
+                {
+                    <div class="date-groups">
+                        <div>@group.Deadline</div>
+                        @foreach (var task in group.TaskList)
+                        {
+                            <div class="task">
+                                @task.Title
+                            </div>
+                        }
+                    </div>
+                }
+            }
+            else
+            {
+                <div>You does not have any task. Thats cool :)</div>
+            }
+        }
+    </div>
