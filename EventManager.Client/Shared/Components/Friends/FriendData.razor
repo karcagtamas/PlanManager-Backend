@@ -125,6 +125,9 @@ else
                     </div>
                 </div>
             </div>
+            <div>
+                <MatButton @onclick="RemoveFriend">Remove friend</MatButton>
+            </div>
         </div>
     }
     else
@@ -154,8 +157,6 @@ else
         FormId = Parameters.Get<int>("FormId");
         this.FriendId = Parameters.Get<string>("friend");
 
-        ((ModalService)ModalService).OnConfirm += OnConfirm;
-
         await GetFriendData();
         this.BlazoredModal.SetTitle(this.Friend?.FullName);
     }
@@ -167,12 +168,11 @@ else
         this.IsLoading = false;
     }
 
-    protected void OnConfirm()
+    protected async void RemoveFriend()
     {
-        if (true)
+        if (await FriendService.RemoveFriend(this.FriendId))
         {
-            ModalService.Close(ModalResult.Ok<string>("Result :D"));
-            ((ModalService)ModalService).OnConfirm -= OnConfirm;
+            ModalService.Close(ModalResult.Ok<bool>(true));
         }
     }
 }
