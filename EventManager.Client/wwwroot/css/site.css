@@ -96,6 +96,49 @@ body {
     height: 100%;
     background-color: rgba(249, 249, 249, 0.55); }
 
+/* My tasks page */
+.em-my-tasks .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4); }
+
+.em-my-tasks .date-groups {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem; }
+  .em-my-tasks .date-groups.standard {
+    background-color: rgba(187, 187, 255, 0.4); }
+  .em-my-tasks .date-groups.out-of-range {
+    background-color: rgba(255, 187, 187, 0.4); }
+  .em-my-tasks .date-groups.all-solved {
+    background-color: rgba(163, 163, 163, 0.4); }
+  .em-my-tasks .date-groups .date {
+    color: #5120a5;
+    font-weight: bold; }
+  .em-my-tasks .date-groups .task {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+    border-radius: 4px;
+    padding: 0.5rem;
+    background-color: rgba(249, 249, 249, 0.55); }
+    .em-my-tasks .date-groups .task.solved {
+      background-color: rgba(203, 255, 187, 0.4); }
+    .em-my-tasks .date-groups .task .title {
+      display: flex; }
+      .em-my-tasks .date-groups .task .title .text {
+        color: #5120a5;
+        font-style: italic; }
+      .em-my-tasks .date-groups .task .title .spacer {
+        flex-grow: 1; }
+    .em-my-tasks .date-groups .task .description {
+      padding: 0.4rem; }
+
 /* My profile page */
 .em-my-profile .my-profile-picture {
   position: relative;

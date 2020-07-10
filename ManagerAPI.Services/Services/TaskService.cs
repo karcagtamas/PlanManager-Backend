@@ -7,7 +7,6 @@ using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services.Interfaces;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace ManagerAPI.Services.Services
 {

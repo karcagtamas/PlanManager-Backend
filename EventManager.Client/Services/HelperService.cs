@@ -100,5 +100,10 @@ namespace EventManager.Client.Services
             }
             return string.Join(", ", list);
         }
+
+        public string DateToDayString(DateTime date)
+        {
+            return $"{date:yyyy MMMM dd}";
+        }
     }
 }

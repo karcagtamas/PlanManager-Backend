@@ -3,8 +3,12 @@
 @inherits MyTasksBase
 
 
-    <div class="em-my-todos">
+    <div class="em-my-tasks">
         <h1 class="em-page-title">My Tasks</h1>
+
+        <div class="action-bar">
+            <MatButton>Add Task</MatButton>
+        </div>
 
         @if (IsLoading)
         {
@@ -16,12 +20,17 @@
             {
                 @foreach (var group in TaskList)
                 {
-                    <div class="date-groups">
-                        <div>@group.Deadline</div>
+                    <div class="date-groups @(group.OutOfRange ? "out-of-range" : "standard") @(group.AllSolved ? "all-solved" : "")">
+                        <div class="date">@HelperService.DateToDayString(group.Deadline)</div>
                         @foreach (var task in group.TaskList)
                         {
-                            <div class="task">
-                                @task.Title
+                            <div class="task @(task.IsSolved && !group.AllSolved ? "solved" : "")">
+                                <div class="title">
+                                    <span class="text">@task.Title</span>
+                                    <span class="spacer"></span>
+                                    <MatSlideToggle TValue="bool" Value="@task.IsSolved" ValueChanged="@(e => IsSolvedChanged(e, task.Id, group))"></MatSlideToggle>
+                                </div>
+                                <div class="description">@task.Description</div>
                             </div>
                         }
                     </div>

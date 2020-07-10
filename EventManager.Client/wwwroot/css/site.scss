@@ -143,7 +143,72 @@ body {
   }
 }
 
+/* My tasks page */
+.em-my-tasks {
+    .action-bar {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $orange-trans;
+    }
 
+    .date-groups {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+
+        &.standard {
+            background-color: $blue-light-trans;
+        }
+
+        &.out-of-range {
+            background-color: $red-light-trans;
+        }
+
+        &.all-solved {
+            background-color: $gray-trans;
+        }
+
+        .date {
+            color: $primary;
+            font-weight: bold;
+        }
+
+        .task {
+            margin-bottom: 1rem;
+            margin-top: 1rem;
+            border-bottom: $primary-secondary-trans 3px solid;
+            border-radius: $border-radius;
+            padding: 0.5rem;
+            background-color: $white-trans;
+
+            &.solved {
+                background-color: $green-light-trans;
+            }
+
+            .title {
+                display: flex;
+                
+                .text {
+                    color: $primary;
+                    font-style: italic;
+                }
+
+                .spacer {
+                    flex-grow: 1;
+                }
+            }
+
+            .description {
+                padding: 0.4rem;
+            }
+        }
+    }
+}
 
 /* My profile page */
 

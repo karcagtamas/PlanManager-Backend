@@ -13,6 +13,9 @@ namespace EventManager.Client.Pages.MyTasks
         [Inject]
         private ITaskService TaskService { get; set; }
 
+        [Inject]
+        protected IHelperService HelperService { get; set; }
+
         protected List<TaskDateDto> TaskList { get; set; }
         protected bool IsLoading { get; set; } = false;
 
@@ -28,6 +31,22 @@ namespace EventManager.Client.Pages.MyTasks
             this.TaskList = await this.TaskService.GetTasks(null);
             this.IsLoading = false;
             StateHasChanged();
+        }
+
+        protected async void IsSolvedChanged(bool newValue, int taskId, TaskDateDto group) 
+        {
+            var task = this.TaskList.SelectMany(x => x.TaskList).Where(x => x.Id == taskId).FirstOrDefault();
+
+            var taskData = await TaskService.GetTask(taskId);
+            if (taskData != null)
+            {
+                taskData.IsSolved = newValue;
+                task.IsSolved = await TaskService.UpdateTask(taskData) ? newValue : !newValue;
+                group.AllSolved = group.TaskList.Where(x => !x.IsSolved).Count() == 0;
+                group.OutOfRange = group.Deadline < DateTime.Now && !group.AllSolved;
+
+                StateHasChanged();
+            }
         }
     }
 }
