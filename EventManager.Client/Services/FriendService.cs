@@ -21,10 +21,10 @@ namespace EventManager.Client.Services
 
         public async Task<FriendDataDto> GetFriendData(string friendId)
         {
-            var settings = new HttpSettings($"{this._url}/data");
-
             var pathParams = new HttpPathParameters();
             pathParams.Add<string>(friendId, -1);
+
+            var settings = new HttpSettings($"{this._url}/data", null, pathParams);
 
             return await this._httpService.get<FriendDataDto>(settings);
         }

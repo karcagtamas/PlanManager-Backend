@@ -15,63 +15,121 @@ else
     @if (Friend != null)
     {
         <div class="friend-data">
-            <div class="data-row">
-                <strong>User Name:</strong>
-                @Friend.UserName
-            </div>
-            <div class="data-row">
-                <strong>Email:</strong>
-                @Friend.Email
-            </div>
-            <div class="data-row">
-                <strong>Full Name:</strong>
-                @HelperService.WriteEmptyableField(Friend.FullName)
-            </div>
-            <div class="data-row">
-                <strong>Registration:</strong>
-                @HelperService.DateToString(Friend.RegistrationDate)
-            </div>
-            <div class="data-row">
-                <strong>Phone Number:</strong>
-                @HelperService.WriteEmptyableField(Friend.PhoneNumber)
-            </div>
-            <div class="data-row">
-                <strong>TShirt Size:</strong>
-                @HelperService.WriteEmptyableField(Friend.TShirtSize)
-            </div>
-            <div class="data-row">
-                <strong>Allergy:</strong>
-                @HelperService.WriteEmptyableField(Friend.Allergy)
-            </div>
-            <div class="data-row">
-                <strong>Group:</strong>
-                @HelperService.WriteEmptyableField(Friend.Group)
-            </div>
-            <div class="data-row">
-                <strong>Birthday:</strong>
-                @HelperService.DateToString(Friend.BirthDay)
-            </div>
-            <div class="data-row">
-                <strong>Country:</strong>
-                @HelperService.WriteEmptyableField(Friend.Country)
-            </div>
-            <div class="data-row">
-                <strong>Gender:</strong>
-                @HelperService.WriteEmptyableField(Friend.Gender)
-            </div>
-            <div class="data-row">
-                <strong>City:</strong>
-                @HelperService.WriteEmptyableField(Friend.City)
-            </div>
-            <div class="data-row">
-                <strong>Roles:</strong>
-                @HelperService.WriteList(Friend.Roles)
+            <div class="row col col-12">
+                <div class="col col-12 col-md-6">
+                    <div class="data-row">
+                        <div>
+                            <strong>User Name:</strong>
+                        </div>
+                        <div>
+                            @Friend.UserName
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Email:</strong>
+                        </div>
+                        <div>
+                            @Friend.Email
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Full Name:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.FullName)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Registration:</strong>
+                        </div>
+                        <div>
+                            @HelperService.DateToString(Friend.RegistrationDate)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Phone Number:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.PhoneNumber)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Birthday:</strong>
+                        </div>
+                        <div>
+                            @HelperService.DateToString(Friend.BirthDay)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Roles:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteList(Friend.Roles)
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12 col-md-6">
+                    <div class="data-row">
+                        <div>
+                            <strong>TShirt Size:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.TShirtSize)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Allergy:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.Allergy)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Group:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.Group)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Gender:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.Gender)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Country:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.Country)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>City:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.City)
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     }
     else
     {
-        <div>Friend cannot found</div>
+        <div class="text-center">Friend cannot found</div>
     }
 }
 

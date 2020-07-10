@@ -94,6 +94,10 @@ namespace EventManager.Client.Services
 
         public string WriteList(List<string> list)
         {
+            if (list == null || list.Count == 0)
+            {
+                return NA;
+            }
             return string.Join(", ", list);
         }
     }

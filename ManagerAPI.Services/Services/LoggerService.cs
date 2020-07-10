@@ -65,7 +65,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="action">Executed action</param>
         public void LogInformation(User user, string service, string action, int id)
         {
-            this.LogInformation(user, service, action, id);
+            this.LogInformation(user, service, action, id, null);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="id">Id of element</param>
         public void LogInformation(User user, string service, string action, string id)
         {
-            this.LogInformation(user, service, action, id);
+            this.LogInformation(user, service, action, id, null);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="entity">Connected entity object</param>
         public void LogInformation(User user, string service, string action, List<int> ids, object entity)
         {
-            this.LogInformation(user, service, action, string.Join(", ", ids.Select(x => x.ToString())), entity);
+            this.LogInformation(user, service, action, ids.Select(x => x.ToString()).ToList(), entity);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="ids">Ids of elements</param>
         public void LogInformation(User user, string service, string action, List<int> ids)
         {
-            this.LogInformation(user, service, action, ids);
+            this.LogInformation(user, service, action, ids, null);
         }
     }
 }
