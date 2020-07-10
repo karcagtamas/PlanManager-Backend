@@ -23,7 +23,7 @@ namespace EventManager.Client.Services
 
         public async Task<bool> CreateTask(TaskModel model)
         {
-            var settings = new HttpSettings($"{this._url}");
+            var settings = new HttpSettings($"{this._url}", null, null, "Task creating");
 
             var body = new HttpBody<TaskModel>(_helperService, model);
 
@@ -35,7 +35,7 @@ namespace EventManager.Client.Services
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(id, -1);
 
-            var settings = new HttpSettings($"{this._url}", null, pathParams);
+            var settings = new HttpSettings($"{this._url}", null, pathParams, "Task deleting");
 
             return await this._httpService.delete(settings);
         }
@@ -66,7 +66,7 @@ namespace EventManager.Client.Services
 
         public async Task<bool> UpdateTask(TaskDataDto task)
         {
-            var settings = new HttpSettings($"{this._url}");
+            var settings = new HttpSettings($"{this._url}", null, null, "Task updating");
 
             var body = new HttpBody<TaskDataDto>(_helperService, task);
 
