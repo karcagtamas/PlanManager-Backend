@@ -146,8 +146,9 @@ namespace ManagerAPI.Services.Services
             var taskEntity = new Task();
 
             _mapper.Map(model, taskEntity);
+            taskEntity.OwnerId = user.Id;
 
-            _context.Tasks.Update(taskEntity);
+            _context.Tasks.Add(taskEntity);
             _context.SaveChanges();
 
             _loggerService.LogInformation(user, nameof(TaskService), CreateTaskAction, taskEntity.Id); 

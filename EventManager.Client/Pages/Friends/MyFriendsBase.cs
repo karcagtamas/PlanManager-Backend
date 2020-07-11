@@ -102,7 +102,6 @@ namespace EventManager.Client.Pages.Friends
 
         protected async void FriendDataModalClosed(ModalResult modalResult)
         {
-            Console.WriteLine(modalResult.Cancelled);
             if (!modalResult.Cancelled && (bool)modalResult.Data)
             {
                 await GetFriends();

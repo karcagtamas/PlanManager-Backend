@@ -7,7 +7,7 @@
         <h1 class="em-page-title">My Tasks</h1>
 
         <div class="action-bar">
-            <MatButton>Add Task</MatButton>
+            <MatButton @onclick="OpenAddTaskModal">Add Task</MatButton>
         </div>
 
         @if (IsLoading)
@@ -30,7 +30,15 @@
                                     <span class="spacer"></span>
                                     <MatSlideToggle TValue="bool" Value="@task.IsSolved" ValueChanged="@(e => IsSolvedChanged(e, task.Id, group))"></MatSlideToggle>
                                 </div>
-                                <div class="description">@task.Description</div>
+                                <div class="description">
+                                    <div class="description-text">@task.Description</div>
+                                    <div class="description-button">
+                                        <div class="wrapper">
+                                            <span class="spacer"></span>
+                                            <MatIconButton Icon="edit" @onclick="@(() => OpenUpdateTaskModal(task.Id))"></MatIconButton>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         }
                     </div>

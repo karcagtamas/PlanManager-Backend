@@ -1,5 +1,7 @@
-﻿using EventManager.Client.Models.Tasks;
+﻿using EventManager.Client.Models;
+using EventManager.Client.Models.Tasks;
 using EventManager.Client.Services.Interfaces;
+using EventManager.Client.Shared.Components.Tasks;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -15,6 +17,9 @@ namespace EventManager.Client.Pages.MyTasks
 
         [Inject]
         protected IHelperService HelperService { get; set; }
+
+        [Inject]
+        public IModalService Modal { get; set; }
 
         protected List<TaskDateDto> TaskList { get; set; }
         protected bool IsLoading { get; set; } = false;
@@ -47,6 +52,45 @@ namespace EventManager.Client.Pages.MyTasks
 
                 StateHasChanged();
             }
+        }
+
+        protected void OpenAddTaskModal()
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+
+            var options = new ModalOptions();
+            options.ButtonOptions.ConfirmButtonType = ConfirmButton.Save;
+            options.ButtonOptions.ShowConfirmButton = true;
+
+            Modal.OnClose += TaskModalClosed;
+
+            Modal.Show<TaskDialog>("Create Task", parameters, options);
+        }
+
+        protected void OpenUpdateTaskModal(int taskId)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+            parameters.Add("task", taskId);
+
+            var options = new ModalOptions();
+            options.ButtonOptions.ConfirmButtonType = ConfirmButton.Save;
+            options.ButtonOptions.ShowConfirmButton = true;
+
+            Modal.OnClose += TaskModalClosed;
+
+            Modal.Show<TaskDialog>("Update Task", parameters, options);
+        }
+
+        protected async void TaskModalClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetTasks();
+            }
+
+            Modal.OnClose -= TaskModalClosed;
         }
     }
 }

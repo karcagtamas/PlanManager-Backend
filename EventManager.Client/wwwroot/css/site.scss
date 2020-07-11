@@ -192,7 +192,7 @@ body {
 
             .title {
                 display: flex;
-                
+
                 .text {
                     color: $primary;
                     font-style: italic;
@@ -204,7 +204,29 @@ body {
             }
 
             .description {
-                padding: 0.4rem;
+                display: flex;
+                flex-direction: row;
+
+                .description-text {
+                    display: table-cell;
+                    flex-grow: 1;
+                    padding: 0.4rem;
+                }
+
+                .description-button {
+                    display: table-cell;
+                    vertical-align: bottom;
+
+                    .wrapper {
+                        display: flex;
+                        height: 100%;
+                        flex-direction: column;
+
+                        .spacer {
+                            flex-grow: 1;
+                        }
+                    }
+                }
             }
         }
     }

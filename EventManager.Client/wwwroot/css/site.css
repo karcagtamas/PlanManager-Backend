@@ -137,7 +137,21 @@ body {
       .em-my-tasks .date-groups .task .title .spacer {
         flex-grow: 1; }
     .em-my-tasks .date-groups .task .description {
-      padding: 0.4rem; }
+      display: flex;
+      flex-direction: row; }
+      .em-my-tasks .date-groups .task .description .description-text {
+        display: table-cell;
+        flex-grow: 1;
+        padding: 0.4rem; }
+      .em-my-tasks .date-groups .task .description .description-button {
+        display: table-cell;
+        vertical-align: bottom; }
+        .em-my-tasks .date-groups .task .description .description-button .wrapper {
+          display: flex;
+          height: 100%;
+          flex-direction: column; }
+          .em-my-tasks .date-groups .task .description .description-button .wrapper .spacer {
+            flex-grow: 1; }
 
 /* My profile page */
 .em-my-profile .my-profile-picture {
