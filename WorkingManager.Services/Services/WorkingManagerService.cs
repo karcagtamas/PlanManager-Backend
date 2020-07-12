@@ -1,182 +1,203 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Models.DTOs;
+using ManagerAPI.Models.DTOs.WM;
 using ManagerAPI.Models.Entities;
+using ManagerAPI.Models.Entities.WM;
+using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace WorkingManager.Services.Services
 {
-    public class WorkingManagerService
+    /// <summary>
+    /// Working Manager Service
+    /// </summary>
+    public class WorkingManagerService : IWorkingManagerService
     {
-        private readonly DatabaseContext _context;
-        private readonly ILogger<WorkingManagerService> _logger;
-        private readonly IMapper _mapper;
+        // Actions
+        private const string GetWorkingDayTypesAction = "get working day types";
+        private const string UpdateWorkingFieldAction = "update working field";
+        private const string RemoveWorkingFieldAction = "remove working field";
+        private const string AddWorkingFieldAction = "add working field";
+        private const string UpdateWorkingDayAction = "update working day";
+        private const string CreateWorkingDayAction = "create working day";
+        private const string GetWorkingDayAction = "get working day";
 
-        public WorkingManagerService(DatabaseContext context, ILogger<WorkingManagerService> logger, IMapper mapper)
+        // Thing
+        private const string FieldIdThing = "field id";
+        private const string DayIdThing = "day id";
+        private const string DayThing = "day";
+
+        // Message
+        private const string WorkingFieldDoesNotExistMessage = "Working field does not exist";
+        private const string WorkingFieldIdsDoNotMatchMessage = "Working field Ids do not match";
+        private const string WorkingDayDoesNotExistMessage = "Working day does not exist";
+        private const string WorkingDayIdsDoNotMatchMessage = "Working day Ids do not match";
+
+        // Injects
+        private readonly DatabaseContext _context;
+        private readonly IMapper _mapper;
+        private readonly IUtilsService _utilsService;
+        private readonly ILoggerService _loggerService;
+
+        /// <summary>
+        /// Injector Constructor
+        /// </summary>
+        /// <param name="context">Database Context</param>
+        /// <param name="mapper">Mapper</param>
+        /// <param name="utilsService">Utils Service</param>
+        /// <param name="loggerService">Logger Service</param>
+        public WorkingManagerService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService)
         {
             _context = context;
-            _logger = logger;
             _mapper = mapper;
+            _utilsService = utilsService;
+            _loggerService = loggerService;
         }
-        /*
-        public WorkingDayListDTO GetWorkingDay(string userId, DateTime day)
+        
+        /// <summary>
+        /// Get Working day
+        /// </summary>
+        /// <param name="day">Day</param>
+        /// <returns>Working day</returns>
+        public WorkingDayListDto GetWorkingDay(DateTime day)
         {
-            User user = _context.ApplicationUsers.Find(userId);
-            _logger.LogInformation($"Get WorkingDay for user {user.UserName} ({user.Id})");
-            WorkingDay wd = user.WorkingDays.FirstOrDefault(x => x.Day == day);
-            WorkingDayListDTO workDayDto = _mapper.Map<WorkingDayListDTO>(wd);
-            if (workDayDto == null)
-            {
-                return null;
-            }
-
-            if (wd != null)
-                workDayDto.WorkingFields = wd.WorkingFields.Select(x => _mapper.Map<WorkingFieldListDTO>(x)).ToList();
-            return workDayDto;
-        }
-
-        public void CreateWorkingDay(string userId, WorkingDayDTO workingDay)
-        {
-            User user = _context.ApplicationUsers.Find(userId);
+            User user = this._utilsService.GetCurrentUser();
+            var workingDay = user.WorkingDays.FirstOrDefault(x => x.Day == day);
+            
             if (workingDay == null)
             {
-                throw new Exception($"Invalid data for creation by user {user.UserName} ({user.Id})");
+                throw this._loggerService.LogInvalidThings(user, nameof(WorkingManagerService), DayThing, WorkingDayDoesNotExistMessage);
             }
-            try
-            {
-                WorkingDay created = _mapper.Map<WorkingDay>(workingDay);
-                created.UserId = userId;
-                _context.WorkingDays.Add(created);
-                _context.SaveChanges();
-                _logger.LogInformation($"Successfully created WorkingDay for user {user.UserName} ({user.Id})");
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+
+            var dto = _mapper.Map<WorkingDayListDto>(workingDay);
+            this._loggerService.LogInformation(user, nameof(WorkingManagerService), GetWorkingDayAction, dto.Id);
+            return dto;
         }
 
-        public void UpdateWorkingDay(string userId, int workingDayId, WorkingDayDTO workingDay)
+        /// <summary>
+        /// Create working day
+        /// </summary>
+        /// <param name="workingDay">Working day model</param>
+        public void CreateWorkingDay(WorkingDayDto workingDay)
         {
-            User user = _context.ApplicationUsers.Find(userId);
-            if (workingDay == null)
-            {
-                throw new Exception($"Invalid data for update by user {user.UserName} ({user.Id})");
-            }
+            User user = this._utilsService.GetCurrentUser();
+            WorkingDay created = _mapper.Map<WorkingDay>(workingDay);
+            created.UserId = user.Id;
+
+            _context.WorkingDays.Add(created);
+            _context.SaveChanges();
+            this._loggerService.LogInformation(user, nameof(WorkingManagerService), CreateWorkingDayAction, created.Id);
+        }
+
+        /// <summary>
+        /// Update working day
+        /// </summary>
+        /// <param name="workingDayId">Wokring day's Id</param>
+        /// <param name="workingDay">Working day model</param>
+        public void UpdateWorkingDay(int workingDayId, WorkingDayDto workingDay)
+        {
+            User user = this._utilsService.GetCurrentUser();
+
             if (workingDay.Id != workingDayId)
             {
-                throw new Exception($"Invalid Id for update by user {user.UserName} ({user.Id}");
+                throw this._loggerService.LogInvalidThings(user, nameof(WorkingManagerService), DayIdThing, WorkingDayIdsDoNotMatchMessage);
             }
+
             WorkingDay updated = _context.WorkingDays.Find(workingDayId);
             if (updated == null)
             {
-                throw new Exception($"Invalid Id for update by user {user.UserName} ({user.Id}");
+                throw this._loggerService.LogInvalidThings(user, nameof(WorkingManagerService), DayIdThing, WorkingDayDoesNotExistMessage);
             }
-            try
-            {
-                updated.Day = workingDay.Day;
-                updated.StartHour = workingDay.StartHour;
-                updated.StartMin = workingDay.StartMin;
-                updated.EndHour = workingDay.EndHour;
-                updated.EndMin = workingDay.EndMin;
-                updated.TypeId = workingDay.Type;
-                _context.WorkingDays.Update(updated);
-                _context.SaveChanges();
-                _logger.LogInformation($"Successfully updated WorkingDay ({workingDay.Id}) by user {user.UserName} ({user.Id})");
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+
+            _mapper.Map(workingDay, updated);
+
+            _context.WorkingDays.Update(updated);
+            _context.SaveChanges();
+            this._loggerService.LogInformation(user, nameof(WorkingManagerService), UpdateWorkingDayAction, updated.Id);
         }
 
-        public void AddWorkingField(string userId, int workingDayId, WorkingFieldDTO WorkingField)
+        /// <summary>
+        /// Add working field to working day
+        /// </summary>
+        /// <param name="workingDayId">Working day's Id</param>
+        /// <param name="workingFieldModel">Working field model</param>
+        public void AddWorkingField(int workingDayId, WorkingFieldDto workingFieldModel)
         {
-            User user = _context.ApplicationUsers.Find(userId);
+            User user = this._utilsService.GetCurrentUser();
             WorkingDay workingDay = _context.WorkingDays.Find(workingDayId);
+
             if (workingDay == null)
             {
-                throw new Exception("WorkingDay does not exist");
+                throw this._loggerService.LogInvalidThings(user, nameof(WorkingManagerService), DayIdThing, WorkingDayDoesNotExistMessage);
             }
-            if (WorkingField == null)
-            {
-                throw new Exception("Invalid WorkingField");
-            }
-            try
-            {
-                WorkingField workingField = _mapper.Map<WorkingField>(WorkingField);
-                workingDay.WorkingFields.Add(workingField);
-                _context.SaveChanges();
-                _logger.LogInformation($"Successfully created WorkingField by user {user.UserName} ({user.Id})");
-            }
-            catch (Exception e)
-            {
 
-                throw e;
-            }
+            WorkingField workingField = _mapper.Map<WorkingField>(workingFieldModel);
+            workingDay.WorkingFields.Add(workingField);
+            _context.SaveChanges();
+
+            this._loggerService.LogInformation(user, nameof(WorkingManagerService), AddWorkingFieldAction, workingField.Id);
         }
 
-        public void DeleteWorkingField(string userId, int workingFieldId)
+        /// <summary>
+        /// Remove working field
+        /// </summary>
+        /// <param name="workingFieldId">Working field's Id</param>
+        public void DeleteWorkingField(int workingFieldId)
         {
-            User user = _context.ApplicationUsers.Find(userId);
+            User user = this._utilsService.GetCurrentUser();
             WorkingField workingField = _context.WorkingFields.Find(workingFieldId);
+
             if (workingField == null)
             {
-                throw new Exception("WorkingField does not exist");
+                throw this._loggerService.LogInvalidThings(user, nameof(WorkingManagerService), FieldIdThing, WorkingFieldDoesNotExistMessage);
             }
-            try
-            {
-                _context.WorkingFields.Remove(workingField);
-                _context.SaveChanges();
-                _logger.LogInformation($"Successfully deleted WorkingField by user {user.UserName} ({user.Id})");
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+
+            _context.WorkingFields.Remove(workingField);
+            _context.SaveChanges();
+
+            this._loggerService.LogInformation(user, nameof(WorkingManagerService), RemoveWorkingFieldAction, workingField.Id);
         }
 
-        public void UpdateWorkingField(string userId, int workingFieldId, WorkingFieldDTO workingField)
+        /// <summary>
+        /// Update working field
+        /// </summary>
+        /// <param name="workingFieldId">Working field's Id</param>
+        /// <param name="workingField">Working field</param>
+        public void UpdateWorkingField(int workingFieldId, WorkingFieldDto workingField)
         {
-            User user = _context.ApplicationUsers.Find(userId);
-            if (workingField == null)
-            {
-                throw new Exception("Invalid update form");
-            }
+            User user = this._utilsService.GetCurrentUser();
+
             if (workingFieldId != workingField.Id)
             {
-                throw new Exception("Invalid input Ids");
+                throw this._loggerService.LogInvalidThings(user, nameof(WorkingManagerService), FieldIdThing, WorkingFieldIdsDoNotMatchMessage);
             }
-            try
+            WorkingField updated = _context.WorkingFields.Find(workingFieldId);
+            if (updated == null)
             {
-                WorkingField updated = _context.WorkingFields.Find(workingFieldId);
-                updated.Length = workingField.Length;
-                updated.Title = workingField.Title;
-                updated.Description = workingField.Description;
-                _context.WorkingFields.Update(updated);
-                _context.SaveChanges();
-                _logger.LogInformation($"Successfully updated WorkingField ({updated.Id}) by user {user.UserName} ({user.Id})");
+                throw this._loggerService.LogInvalidThings(user, nameof(WorkingManagerService), FieldIdThing, WorkingFieldDoesNotExistMessage);
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
+
+            _mapper.Map(workingField, updated);
+            _context.WorkingFields.Update(updated);
+            _context.SaveChanges();
+            this._loggerService.LogInformation(user, nameof(WorkingManagerService), UpdateWorkingFieldAction, updated.Id);
         }
 
-        public List<WorkingDayTypeDTO> GetWorkingDayTypes()
+        /// <summary>
+        /// Get working day types
+        /// </summary>
+        /// <returns>List of working day types</returns>
+        public List<WorkingDayTypeDto> GetWorkingDayTypes()
         {
-            try
-            {
-                return _context.WorkingDayTypes.Select(x => _mapper.Map<WorkingDayTypeDTO>(x)).ToList();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            User user = this._utilsService.GetCurrentUser();
+            var list = _mapper.Map<List<WorkingDayTypeDto>>(_context.WorkingDayTypes.ToList());
+
+            this._loggerService.LogInformation(user, nameof(WorkingManagerService), GetWorkingDayTypesAction, list.Select(x => x.Id).ToList());
+
+            return list;
         }
-        
-        */
     }
 }

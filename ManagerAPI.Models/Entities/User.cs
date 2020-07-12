@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ManagerAPI.Models.Entities.EM;
 using ManagerAPI.Models.Entities.PM;
+using ManagerAPI.Models.Entities.WM;
 using Microsoft.AspNetCore.Identity;
 
 namespace ManagerAPI.Models.Entities {
@@ -76,5 +77,6 @@ namespace ManagerAPI.Models.Entities {
         public virtual ICollection<News> CreatedNews { get; set; }
         public virtual ICollection<News> UpdatedNews { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
+        public virtual ICollection<WorkingDay> WorkingDays { get; set; }
     }
 }

@@ -21,6 +21,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using PlanManager.Services.Profiles;
 using PlanManager.Services.Services;
+using WorkingManager.Services.Profiles;
+using WorkingManager.Services.Services;
 
 namespace ManagerAPI.Backend
 {
@@ -61,6 +63,7 @@ namespace ManagerAPI.Backend
                 x.AddProfile(new MessageProfile());
                 x.AddProfile(new NewsProfile());
                 x.AddProfile(new TaskProfile());
+                x.AddProfile(new WorkingManagerProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -84,6 +87,7 @@ namespace ManagerAPI.Backend
             services.AddScoped<INewsService, NewsService>();
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ILoggerService, LoggerService>();
+            services.AddScoped<IWorkingManagerService, WorkingManagerService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             

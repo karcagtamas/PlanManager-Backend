@@ -8,13 +8,14 @@ namespace WorkingManager.Services.Profiles
     {
         public WorkingManagerProfile()
         {
-            CreateMap<WorkingDay, WorkingDayListDto>()
-                .ForMember(dest => dest.WorkingFields, opt => opt.Ignore());
+            CreateMap<WorkingDay, WorkingDayListDto>();
             CreateMap<WorkingField, WorkingFieldListDto>();
             CreateMap<WorkingDayDto, WorkingDay>()
                 .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.Type))
                 .ForMember(dest => dest.Type, opt => opt.Ignore());
-            CreateMap<WorkingFieldDto, WorkingField>();
+            CreateMap<WorkingFieldDto, WorkingField>()
+                .ForMember(dest => dest.WorkingDayId, opt => opt.Ignore())
+                .ForMember(dest => dest.WorkingDay, opt => opt.Ignore());
             CreateMap<WorkingDayType, WorkingDayTypeDto>();
         }
     }

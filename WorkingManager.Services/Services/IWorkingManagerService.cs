@@ -6,18 +6,18 @@ namespace WorkingManager.Services.Services
 {
     public interface IWorkingManagerService
     {
-        WorkingDayListDto GetWorkingDay(string userId, DateTime day);
+        WorkingDayListDto GetWorkingDay(DateTime day);
 
-        void CreateWorkingDay(string userId, WorkingDayDto workingDay);
+        void CreateWorkingDay(WorkingDayDto workingDay);
 
-        void UpdateWorkingDay(string userId, int workingDayId, WorkingDayDto workingDay);
+        void UpdateWorkingDay(int workingDayId, WorkingDayDto workingDay);
 
-        void AddWorkingField(string userId, int workingDayId, WorkingFieldDto workingField);
+        void AddWorkingField(int workingDayId, WorkingFieldDto workingField);
 
-        void DeleteWorkingField(string userId, int workingFieldId);
+        void DeleteWorkingField(int workingFieldId);
         
 
-        void UpdateWorkingField(string userId, int workingFieldId, WorkingFieldDto workingField);
+        void UpdateWorkingField(int workingFieldId, WorkingFieldDto workingField);
 
         List<WorkingDayTypeDto> GetWorkingDayTypes();
     }

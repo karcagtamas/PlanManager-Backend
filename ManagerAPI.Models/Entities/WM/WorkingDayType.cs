@@ -5,10 +5,11 @@ namespace ManagerAPI.Models.Entities.WM
 {
     public class WorkingDayType
     {
-        [Key]
+        [Required]
         public int Id { get; set; }
 
         [Required]
+        [MaxLength(100)]
         public string Title { get; set; }
 
         [Required]

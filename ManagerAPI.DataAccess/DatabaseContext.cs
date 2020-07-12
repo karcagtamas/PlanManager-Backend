@@ -1,6 +1,7 @@
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Entities.EM;
 using ManagerAPI.Models.Entities.PM;
+using ManagerAPI.Models.Entities.WM;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +41,11 @@ namespace ManagerAPI.DataAccess
         public DbSet<EventRole> EventRoles { get; set; }
         public DbSet<UserEventRole> UserEventRolesSwitch { get; set; }
         public DbSet<EventAction> EventActions { get; set; }
+
+        // WM
+        public DbSet<WorkingDayType> WorkingDayTypes { get; set; }
+        public DbSet<WorkingDay> WorkingDays { get; set; }
+        public DbSet<WorkingField> WorkingFields { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
@@ -710,6 +716,31 @@ namespace ManagerAPI.DataAccess
                 .WithMany(x => x.CausedEventActions)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Working Day types table settings
+            builder.Entity<WorkingDayType>()
+                .Property(x => x.DayIsActive)
+                .HasDefaultValue(false);
+
+            // Working Day table settings
+            builder.Entity<WorkingDay>()
+                .HasOne(x => x.Type)
+                .WithMany(x => x.WorkingDays)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<WorkingDay>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.WorkingDays)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Working Field table settings
+            builder.Entity<WorkingField>()
+                .HasOne(x => x.WorkingDay)
+                .WithMany(x => x.WorkingFields)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
