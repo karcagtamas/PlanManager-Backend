@@ -1,6 +1,8 @@
-﻿using EventManager.Client.Models;
+﻿using EventManager.Client.Enums;
+using EventManager.Client.Models;
 using EventManager.Client.Models.Tasks;
 using EventManager.Client.Services.Interfaces;
+using EventManager.Client.Shared.Common;
 using EventManager.Client.Shared.Components.Tasks;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -23,6 +25,7 @@ namespace EventManager.Client.Pages.MyTasks
 
         protected List<TaskDateDto> TaskList { get; set; }
         protected bool IsLoading { get; set; } = false;
+        private int SelectedTask { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -91,6 +94,29 @@ namespace EventManager.Client.Pages.MyTasks
             }
 
             Modal.OnClose -= TaskModalClosed;
+        }
+
+        protected void OpenDeleteModal(TaskDto task)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+            parameters.Add("type", ConfirmType.Delete);
+            parameters.Add("name", task.Title);
+            this.SelectedTask = task.Id;
+
+            var options = new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
+
+            Modal.OnClose += DeleteDialogClosed;
+            Modal.Show<Confirm>("Task Delete", parameters, options);
+        }
+
+        protected async void DeleteDialogClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool)modalResult.Data && await TaskService.DeleteTask(this.SelectedTask))
+            {
+                await this.GetTasks();
+            }
+            Modal.OnClose -= DeleteDialogClosed;
         }
     }
 }
