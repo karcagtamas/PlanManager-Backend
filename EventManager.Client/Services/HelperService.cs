@@ -105,5 +105,10 @@ namespace EventManager.Client.Services
         {
             return $"{date:yyyy MMMM dd}";
         }
+
+        public string DateToNumberDayString(DateTime date)
+        {
+            return $"{date:yyyy-MM-dd}";
+        }
     }
 }

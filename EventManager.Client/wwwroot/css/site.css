@@ -96,6 +96,26 @@ body {
     height: 100%;
     background-color: rgba(249, 249, 249, 0.55); }
 
+/* Working Manager */
+.wm .title-bar {
+  display: flex; }
+  .wm .title-bar .spacer {
+    flex-grow: 1; }
+  .wm .title-bar .date {
+    color: #5120a5;
+    font-style: italic; }
+
+.wm .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+  display: flex; }
+  .wm .action-bar .spacer {
+    flex-grow: 1; }
+
 /* My tasks page */
 .em-my-tasks .action-bar {
   margin-bottom: 1rem;

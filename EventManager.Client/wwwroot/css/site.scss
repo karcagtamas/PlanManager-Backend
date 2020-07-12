@@ -143,6 +143,36 @@ body {
   }
 }
 
+/* Working Manager */
+.wm {
+    .title-bar {
+        display: flex;
+
+        .spacer {
+            flex-grow: 1;
+        }
+
+        .date {
+            color: $primary;
+            font-style: italic;
+        }
+    }
+
+    .action-bar {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $orange-trans;
+        display: flex;
+
+        .spacer {
+            flex-grow: 1;
+        }
+    }
+}
+
 /* My tasks page */
 .em-my-tasks {
     .action-bar {

@@ -8,7 +8,7 @@ using WorkingManager.Services.Services;
 
 namespace KarcagS.Backend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/working-manager")]
     [Authorize]
     [ApiController]
     public class WorkingManagerController : ControllerBase

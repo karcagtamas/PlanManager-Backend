@@ -1,0 +1,34 @@
+﻿@page "/wm/{date:datetime}"
+@inherits WorkingManagerBase
+@attribute [Microsoft.AspNetCore.Authorization.Authorize]
+
+<div class="wm">
+    <div class="title-bar">
+        <div class="em-page-title">Working Manager</div>
+        <span class="spacer"></span>
+        <div class="date">@HelperService.DateToDayString(Date)</div>
+    </div>
+    <div class="action-bar">
+        @if (WorkingDay == null)
+        {
+            <MatButton>Initalize</MatButton>
+        }
+        else
+        {
+
+        }
+        <span class="spacer"></span>
+        <MatIconButton Icon="chevron_left"></MatIconButton>
+        <MatIconButton Icon="chevron_right"></MatIconButton>
+    </div>
+    <div>
+        @if (WorkingDay == null)
+        {
+            <div class="text-center">You do not have working day settings on this day. Please create one.</div>
+        }
+        else
+        {
+
+        }
+    </div>
+</div>

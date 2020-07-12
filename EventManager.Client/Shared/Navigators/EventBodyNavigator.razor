@@ -1,7 +1,9 @@
+@inject EventManager.Client.Services.Interfaces.IHelperService HelperService
+
 <div class="em-navbar h-100">
     <div class="em-navbar-brand-outer">
         <div class="em-navbar-brand">
-            Event Manager
+            Manager
         </div>
     </div>
     <MatNavMenu>
@@ -14,6 +16,7 @@
                 <MatNavItem Href="/my-messages">My Messages</MatNavItem>
                 <MatNavItem Href="/my-tasks">My Tasks</MatNavItem>
                 <MatNavItem Href="/my-friends">My Friends</MatNavItem>
+                <MatNavItem Href="@(GetWorkingManagerUri())">Working Manager</MatNavItem>
                 <MatNavSubMenu>
                     <MatNavSubMenuHeader>
                         <MatNavItem AllowSelection="false">Events</MatNavItem>
@@ -30,7 +33,7 @@
             </NotAuthorized>
         </AuthorizeView>
     </MatNavMenu>
-    <hr/>
+    <hr />
     <MatNavMenu>
         <AuthorizeView>
             <Authorized>
@@ -56,6 +59,13 @@
     protected string GetPath(string page)
     {
         return $"/events/{Id}/{page}";
+    }
+
+    @code {
+        protected string GetWorkingManagerUri()
+        {
+            return $"/wm/{HelperService.DateToNumberDayString(DateTime.Now)}";
+        }
     }
 
 }

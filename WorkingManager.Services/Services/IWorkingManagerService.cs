@@ -7,18 +7,11 @@ namespace WorkingManager.Services.Services
     public interface IWorkingManagerService
     {
         WorkingDayListDto GetWorkingDay(DateTime day);
-
         void CreateWorkingDay(WorkingDayDto workingDay);
-
         void UpdateWorkingDay(int workingDayId, WorkingDayDto workingDay);
-
         void AddWorkingField(int workingDayId, WorkingFieldDto workingField);
-
         void DeleteWorkingField(int workingFieldId);
-        
-
         void UpdateWorkingField(int workingFieldId, WorkingFieldDto workingField);
-
         List<WorkingDayTypeDto> GetWorkingDayTypes();
     }
 }
