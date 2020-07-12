@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Models.DTOs 
+namespace ManagerAPI.Models.DTOs
 {
     /// <summary>
     /// User DTO
     /// </summary>
-    public class UserDto 
+    public class UserDto
     {
         public string Id { get; set; }
         public string UserName { get; set; }
@@ -36,7 +36,7 @@ namespace ManagerAPI.Models.DTOs
         public string Email { get; set; }
         public DateTime LastLogin { get; set; }
     }
-    
+
     /// <summary>
     /// User Update DTO
     /// Model for user Update
@@ -45,35 +45,35 @@ namespace ManagerAPI.Models.DTOs
     {
         [Required]
         public string Id { get; set; }
-        
+
         [MaxLength(100)]
         public string FullName { get; set; }
-        
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-        
+
         [EmailAddress]
         public string SecondaryEmail { get; set; }
-        
+
         [Phone]
         public string PhoneNumber { get; set; }
-        
+
         [MaxLength(6)]
         public string TShirtSize { get; set; }
-        
+
         public string Allergy { get; set; }
-        
+
         [MaxLength(40)]
         public string Group { get; set; }
-        
+
         public DateTime? BirthDay { get; set; }
-        
+
         [MaxLength(120)]
         public string Country { get; set; }
-        
+
         public int? GenderId { get; set; }
-        
+
         [MaxLength(120)]
         public string City { get; set; }
     }

@@ -68,7 +68,7 @@ namespace ManagerAPI.Services.Services
             _notificationService = notificationService;
             this._loggerService = loggerService;
         }
-        
+
         /// <summary>
         /// Gets current user's data object
         /// </summary>

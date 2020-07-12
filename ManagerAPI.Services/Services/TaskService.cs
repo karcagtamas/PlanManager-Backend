@@ -7,7 +7,6 @@ using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services.Interfaces;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace ManagerAPI.Services.Services
 {
@@ -57,12 +56,17 @@ namespace ManagerAPI.Services.Services
         /// </summary>
         /// <param name="isSolved">Filter - task is solved or not</param>
         /// <returns>List of tasks grouped by the deadline</returns>
-        public List<TaskDateDto> GetTasks(bool isSolved)
+        public List<TaskDateDto> GetTasks(bool? isSolved)
         {
             var user = _utilsService.GetCurrentUser();
+            var list = _mapper.Map<List<TaskDateDto>>(user.Tasks.GroupBy(x => this.ToDay(x.Deadline)).OrderBy(x => x.Key).ToList());
+            
+            if (isSolved != null)
+            {
+                list = list.Select(x => { x.TaskList = x.TaskList.Where(y => y.IsSolved == isSolved).ToList(); return x; }).Where(x => x.TaskList.Count > 0).ToList();
+            }
 
-            var list = _mapper.Map<List<TaskDateDto>>(user.Tasks.GroupBy(x => x.Deadline).OrderBy(x => x.Key).ToList());
-            _loggerService.LogInformation(user, nameof(TaskService), GetTasksAction, list.Select(x => x.TaskList.Select(y => y.Id.ToString()).Join(", ")).ToList());     
+            _loggerService.LogInformation(user, nameof(TaskService), GetTasksAction, list.Select(x => string.Join(", ", x.TaskList.Select(y => y.Id.ToString()))).ToList());     
 
             return list;   
         }
@@ -142,8 +146,9 @@ namespace ManagerAPI.Services.Services
             var taskEntity = new Task();
 
             _mapper.Map(model, taskEntity);
+            taskEntity.OwnerId = user.Id;
 
-            _context.Tasks.Update(taskEntity);
+            _context.Tasks.Add(taskEntity);
             _context.SaveChanges();
 
             _loggerService.LogInformation(user, nameof(TaskService), CreateTaskAction, taskEntity.Id); 
@@ -151,6 +156,11 @@ namespace ManagerAPI.Services.Services
             // TODO: Notification
 
             return taskEntity.Id;
+        }
+
+        private DateTime ToDay(DateTime date)
+        {
+            return new DateTime(date.Year, date.Month, date.Day);
         }
     }
 }

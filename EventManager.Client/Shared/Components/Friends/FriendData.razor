@@ -4,43 +4,175 @@
 @using EventManager.Client.Models
 @using EventManager.Client.Shared.Components
 @using EventManager.Client.Services
+@using EventManager.Client.Models.Friends
 
-
-<div>
-    <div>Friend data</div>
-</div>
+@if (IsLoading)
+{
+    <Loader></Loader>
+}
+else
+{
+    @if (Friend != null)
+    {
+        <div class="friend-data">
+            <div class="row col col-12">
+                <div class="col col-12 col-md-6">
+                    <div class="data-row">
+                        <div>
+                            <strong>User Name:</strong>
+                        </div>
+                        <div>
+                            @Friend.UserName
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Email:</strong>
+                        </div>
+                        <div>
+                            @Friend.Email
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Full Name:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.FullName)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Registration:</strong>
+                        </div>
+                        <div>
+                            @HelperService.DateToString(Friend.RegistrationDate)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Phone Number:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.PhoneNumber)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Birthday:</strong>
+                        </div>
+                        <div>
+                            @HelperService.DateToString(Friend.BirthDay)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Roles:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteList(Friend.Roles)
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12 col-md-6">
+                    <div class="data-row">
+                        <div>
+                            <strong>TShirt Size:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.TShirtSize)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Allergy:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.Allergy)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Group:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.Group)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Gender:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.Gender)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>Country:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.Country)
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div>
+                            <strong>City:</strong>
+                        </div>
+                        <div>
+                            @HelperService.WriteEmptyableField(Friend.City)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <MatButton @onclick="RemoveFriend">Remove friend</MatButton>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">Friend cannot found</div>
+    }
+}
 
 @code {
-        [CascadingParameter]
-        public ModalParameters Parameters { get; set; }
+    [CascadingParameter]
+    public ModalParameters Parameters { get; set; }
 
-        [CascadingParameter]
-        public BlazoredModal BlazoredModal { get; set; }
+    [CascadingParameter]
+    public BlazoredModal BlazoredModal { get; set; }
+
+    [Inject]
+    public IHelperService HelperService { get; set; }
 
     protected bool ShowForm { get; set; } = true;
     protected int FormId { get; set; }
+    protected string FriendId { get; set; }
+    protected FriendDataDto Friend { get; set; }
+    protected bool IsLoading { get; set; } = true;
 
     protected override async Task OnInitializedAsync()
     {
         FormId = Parameters.Get<int>("FormId");
+        this.FriendId = Parameters.Get<string>("friend");
 
-        ((ModalService)ModalService).OnConfirm += OnConfirm;
-
-        // BlazoredModal.SetTitle("Form data");
         await GetFriendData();
+        this.BlazoredModal.SetTitle(this.Friend?.FullName);
     }
 
     protected async Task GetFriendData()
     {
-        var a = await FriendService.GetMyFriendRequests();
+        this.IsLoading = true;
+        this.Friend = await FriendService.GetFriendData(this.FriendId);
+        this.IsLoading = false;
     }
 
-    protected void OnConfirm()
+    protected async void RemoveFriend()
     {
-        if (true)
+        if (await FriendService.RemoveFriend(this.FriendId))
         {
-            ModalService.Close(ModalResult.Ok<string>("Result :D"));
-            ((ModalService)ModalService).OnConfirm -= OnConfirm;
+            ModalService.Close(ModalResult.Ok<bool>(true));
         }
     }
 }

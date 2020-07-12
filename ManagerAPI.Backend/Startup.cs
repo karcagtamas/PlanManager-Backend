@@ -60,6 +60,7 @@ namespace ManagerAPI.Backend
                 x.AddProfile(new FriendProfile());
                 x.AddProfile(new MessageProfile());
                 x.AddProfile(new NewsProfile());
+                x.AddProfile(new TaskProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
