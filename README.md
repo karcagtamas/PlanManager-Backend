@@ -6,6 +6,17 @@
 
 ## Version log
 
+### V0.7.2 - 2020-07-12
+
+- Upgrade angular to version 10
+- Upgrade .NET Core to 5 on Event Manager project
+- Add My Task page
+- My Tasks grouping by deadline
+- My Task create, update, delete
+- My Task list filtering
+- Friend Data dialog
+- Friend removing
+
 ### V0.7.1 - 2020-07-09
 
 - Create Task API
