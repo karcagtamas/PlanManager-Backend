@@ -30,7 +30,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(new ServerResponse<List<EventActionListDto>>(_eventActionService.GetActions(id), true));
+                return Ok(_eventActionService.GetActions(id));
             }
             catch (MessageException me) {
                 return BadRequest (_loggerService.ExceptionToResponse (me));

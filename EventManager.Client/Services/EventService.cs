@@ -11,65 +11,99 @@ namespace EventManager.Client.Services
 {
     public class EventService : IEventService
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpService _httpService;
+        private readonly IHelperService _helperService;
         private readonly string _url = ApplicationSettings.BaseApiUrl + "/event";
 
-        public EventService(HttpClient httpClient)
+        public EventService(IHttpService httpService, IHelperService helperService)
         {
-            _httpClient = httpClient;
+            _httpService = httpService;
+            _helperService = helperService;
         }
-        public async Task<ApiResponseModel<List<MyEventListDto>>> GetMyList()
+        public async Task<List<MyEventListDto>> GetMyList()
         {
-            var result = await _httpClient.GetJsonAsync<ApiResponseModel<List<MyEventListDto>>>($"{_url}/my");
+            var settings = new HttpSettings($"{this._url}/my");
 
-            return result;
-        }
-
-        public async Task<ApiResponseModel<EventDto>> Get(int id)
-        {
-            var result = await _httpClient.GetJsonAsync<ApiResponseModel<EventDto>>($"{_url}/{id}");
-
-            return result;
+            return await this._httpService.get<List<MyEventListDto>>(settings);
         }
 
-        public async Task<ApiResponseModel<Object>> CreateEvent(EventModel model)
+        public async Task<EventDto> Get(int id)
         {
-            var result = await _httpClient.PostJsonAsync<ApiResponseModel<Object>>($"{_url}", model);
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
 
-            return result;
+            var settings = new HttpSettings($"{this._url}", null, pathParams);
+
+            return await this._httpService.get<EventDto>(settings);
         }
 
-        public async Task<ApiResponseModel<object>> SetEventAsGt(int id)
+        public async Task<bool> CreateEvent(EventModel model)
         {
-            var result = await _httpClient.PostJsonAsync<ApiResponseModel<Object>>($"{_url}/gt/{id}", null);
-            return result;
+            var settings = new HttpSettings($"{this._url}", null, null, "Event creating");
+
+            var body = new HttpBody<EventModel>(this._helperService, model);
+
+            return await this._httpService.create<EventModel>(settings, body);
         }
 
-        public async Task<ApiResponseModel<object>> SetEventAsSport(int id)
+        public async Task<bool> SetEventAsGt(int id)
         {
-            var result = await _httpClient.PostJsonAsync<ApiResponseModel<Object>>($"{_url}/sport/{id}", null);
-            return result;
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+
+            var settings = new HttpSettings($"{this._url}/gt", null, pathParams, "Master event extending to Gt event");
+
+            var body = new HttpBody<object>(this._helperService, null);
+
+            return await this._httpService.create<object>(settings, body);
         }
 
-        public async Task<ApiResponseModel<object>> UpdateMasterEvent(MasterEventUpdateDto masterUpdate)
+        public async Task<bool> SetEventAsSport(int id)
         {
-            var result =
-                await _httpClient.PutJsonAsync<ApiResponseModel<Object>>($"{_url}/{masterUpdate.Id}", masterUpdate);
-            return result;
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+
+            var settings = new HttpSettings($"{this._url}/sport", null, pathParams, "Master event extending to Sport event");
+
+            var body = new HttpBody<object>(this._helperService, null);
+
+            return await this._httpService.create<object>(settings, body);
         }
 
-        public async Task<ApiResponseModel<object>> UpdateSportEvent(SportEventUpdateDto sportUpdate)
+        public async Task<bool> UpdateMasterEvent(MasterEventUpdateDto masterUpdate)
         {
-            var result =
-                await _httpClient.PutJsonAsync<ApiResponseModel<Object>>($"{_url}/sport/{sportUpdate.Id}", sportUpdate);
-            return result;
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(masterUpdate.Id, -1);
+
+            var settings = new HttpSettings($"{this._url}", null, pathParams, "Master event updating");
+
+            var body = new HttpBody<MasterEventUpdateDto>(this._helperService, masterUpdate);
+
+            return await this._httpService.update<MasterEventUpdateDto>(settings, body);
         }
 
-        public async Task<ApiResponseModel<object>> UpdateGtEvent(GtEventUpdateDto gtUpdate)
+        public async Task<bool> UpdateSportEvent(SportEventUpdateDto sportUpdate)
         {
-            var result =
-                await _httpClient.PutJsonAsync<ApiResponseModel<Object>>($"{_url}/gt/{gtUpdate.Id}", gtUpdate);
-            return result;
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(sportUpdate.Id, -1);
+
+            var settings = new HttpSettings($"{this._url}/sport", null, pathParams, "Sport event updating");
+
+            var body = new HttpBody<SportEventUpdateDto>(this._helperService, sportUpdate);
+
+            return await this._httpService.update<SportEventUpdateDto>(settings, body);
+        }
+
+        public async Task<bool> UpdateGtEvent(GtEventUpdateDto gtUpdate)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(gtUpdate.Id, -1);
+
+            var settings = new HttpSettings($"{this._url}/gt", null, pathParams, "Gt event updating");
+
+            var body = new HttpBody<GtEventUpdateDto>(this._helperService, gtUpdate);
+
+            return await this._httpService.update<GtEventUpdateDto>(settings, body);
         }
     }
 }

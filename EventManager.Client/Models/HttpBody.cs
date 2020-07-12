@@ -24,9 +24,6 @@ namespace EventManager.Client.Models {
             }
             this._helperService = helperService;
 
-            if (body == null) {
-                throw new ArgumentException("Body cannot be null.");
-            }
             this.Body = body;
         }
 
@@ -35,6 +32,10 @@ namespace EventManager.Client.Models {
         /// </summary>
         /// <returns>String content</returns>
         public StringContent GetStringContent () {
+            if (this.Body == null)
+            {
+                new StringContent("");
+            }
             return this._helperService.CreateContent (this.Body);
         }
     }

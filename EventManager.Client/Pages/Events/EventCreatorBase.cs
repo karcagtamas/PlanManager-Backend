@@ -31,27 +31,13 @@ namespace EventManager.Client.Pages.Events
 
         protected async Task Create()
         {
-            try
+            if (await this.EventService.CreateEvent(Model))
             {
-                var result = await EventService.CreateEvent(Model);
-                if (result.IsSuccess)
+                this.Model = new EventModel
                 {
-                    Toaster.Add("Creation was successful", MatToastType.Success, "Event Create Successful");
-                    this.Model = new EventModel
-                    {
-                        Title = "",
-                        Description = ""
-                    };
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "Event Create Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "Event Create Error");
-                Console.WriteLine(e);
+                    Title = "",
+                    Description = ""
+                };
             }
         }
     }

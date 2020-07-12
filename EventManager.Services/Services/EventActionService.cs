@@ -7,6 +7,9 @@ using ManagerAPI.Services.Services.Interfaces;
 
 namespace EventManager.Services.Services
 {
+    /// <summary>
+    /// Event Action Service
+    /// </summary>
     public class EventActionService : IEventActionService
     {
         // Actions
@@ -24,6 +27,13 @@ namespace EventManager.Services.Services
         private readonly IMapper _mapper;
         private readonly ILoggerService _loggerService;
 
+        /// <summary>
+        /// Injector Constructor
+        /// </summary>
+        /// <param name="utilsService">Utils Service</param>
+        /// <param name="context">Database Context</param>
+        /// <param name="mapper">Mapper</param>
+        /// <param name="loggerService">Logger Service</param>
         public EventActionService(IUtilsService utilsService, DatabaseContext context, IMapper mapper, ILoggerService loggerService)
         {
             _utilsService = utilsService;
@@ -32,6 +42,11 @@ namespace EventManager.Services.Services
             _loggerService = loggerService;
         }
         
+        /// <summary>
+        /// Get event actions
+        /// </summary>
+        /// <param name="eventId">Event's Id</param>
+        /// <returns>List of actions</returns>
         public List<EventActionListDto> GetActions(int eventId)
         {
             var user = _utilsService.GetCurrentUser();

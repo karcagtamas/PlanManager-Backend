@@ -12,7 +12,7 @@ namespace EventManager.Client.Pages.Events
     {
         [Inject]
         public IEventService EventService { get; set; }
-        
+
         [Inject]
         private IMatToaster Toaster { get; set; }
 
@@ -23,7 +23,7 @@ namespace EventManager.Client.Pages.Events
         public NavigationManager NavigationManager { get; set; }
 
         public List<MyEventListDto> MyEvents { get; set; }
-        
+
         protected override async Task OnInitializedAsync()
         {
             await GetMyListEventList();
@@ -32,22 +32,7 @@ namespace EventManager.Client.Pages.Events
 
         private async Task GetMyListEventList()
         {
-            try
-            {
-                var result = await EventService.GetMyList();
-                if (result.IsSuccess)
-                {
-                    this.MyEvents = result.Content;
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "My Event Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            this.MyEvents = await EventService.GetMyList();
         }
 
         protected void RedirectTo(int id)
