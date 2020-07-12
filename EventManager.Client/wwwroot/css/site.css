@@ -103,7 +103,10 @@ body {
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
   border-radius: 4px;
   padding: 0.5rem;
-  background-color: rgba(240, 174, 73, 0.4); }
+  background-color: rgba(240, 174, 73, 0.4);
+  display: flex; }
+  .em-my-tasks .action-bar .spacer {
+    flex-grow: 1; }
 
 .em-my-tasks .date-groups {
   margin-bottom: 1rem;

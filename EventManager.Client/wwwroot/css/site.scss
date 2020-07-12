@@ -152,6 +152,11 @@ body {
         border-radius: $border-radius;
         padding: 0.5rem;
         background-color: $orange-trans;
+        display: flex;
+
+        .spacer {
+            flex-grow: 1;
+        }
     }
 
     .date-groups {

@@ -26,6 +26,7 @@ namespace EventManager.Client.Pages.MyTasks
         protected List<TaskDateDto> TaskList { get; set; }
         protected bool IsLoading { get; set; } = false;
         private int SelectedTask { get; set; }
+        private bool? IsSolvedSelectorValue { get; set; } = false;
 
         protected override async Task OnInitializedAsync()
         {
@@ -36,7 +37,7 @@ namespace EventManager.Client.Pages.MyTasks
         {
             this.IsLoading = true;
             StateHasChanged();
-            this.TaskList = await this.TaskService.GetTasks(null);
+            this.TaskList = await this.TaskService.GetTasks(this.IsSolvedSelectorValue);
             this.IsLoading = false;
             StateHasChanged();
         }
@@ -117,6 +118,12 @@ namespace EventManager.Client.Pages.MyTasks
                 await this.GetTasks();
             }
             Modal.OnClose -= DeleteDialogClosed;
+        }
+
+        protected async void IsSolvedSelectorValueChanged(bool? value)
+        {
+            this.IsSolvedSelectorValue = value;
+            await this.GetTasks();
         }
     }
 }
