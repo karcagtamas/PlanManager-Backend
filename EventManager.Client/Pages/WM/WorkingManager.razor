@@ -8,27 +8,53 @@
         <span class="spacer"></span>
         <div class="date">@HelperService.DateToDayString(Date)</div>
     </div>
-    <div class="action-bar">
-        @if (WorkingDay == null)
-        {
-            <MatButton>Initalize</MatButton>
-        }
-        else
-        {
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        <div class="action-bar">
 
-        }
-        <span class="spacer"></span>
-        <MatIconButton Icon="chevron_left"></MatIconButton>
-        <MatIconButton Icon="chevron_right"></MatIconButton>
-    </div>
-    <div>
-        @if (WorkingDay == null)
-        {
-            <div class="text-center">You do not have working day settings on this day. Please create one.</div>
-        }
-        else
-        {
-
-        }
-    </div>
+            @if (WorkingDay == null)
+            {
+                <MatButton @onclick="InitWorkingDay">Initalize</MatButton>
+            }
+            else
+            {
+                <MatButton>Edit</MatButton>
+            }
+            <span class="spacer"></span>
+            <MatIconButton Icon="chevron_left" @onclick="@(() => Redirect(false))"></MatIconButton>
+            <MatIconButton Icon="chevron_right" @onclick="@(() => Redirect(true))"></MatIconButton>
+        </div>
+        <div>
+            @if (WorkingDay == null)
+            {
+                <div class="text-center">You do not have working day settings on this day. Please create one.</div>
+            }
+            else
+            {
+                <div class="working-day-settings">
+                    <div class="em-sub-title">Settings</div>
+                    <EditForm Model="WorkingDay">
+                        <div class="row col col-12">
+                            <div class="col col-6 p-1">
+                                <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" Maximum="23" @bind-Value="WorkingDay.StartHour" Dense="true" Label="Start Hour" Outlined="true"></MatNumericUpDownField>
+                            </div>
+                            <div class="col col-6 p-1">
+                                <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" Maximum="59" @bind-Value="WorkingDay.EndHour" Dense="true" Label="End Hour" Outlined="true"></MatNumericUpDownField>
+                            </div>
+                            <div class="col col-6 p-1">
+                                <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" Maximum="23" @bind-Value="WorkingDay.StartMin" Dense="true" Label="Start Min" Outlined="true"></MatNumericUpDownField>
+                            </div>
+                            <div class="col col-6 p-1">
+                                <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" Maximum="59" @bind-Value="WorkingDay.EndMin" Dense="true" Label="End Min" Outlined="true"></MatNumericUpDownField>
+                            </div>
+                        </div>
+                    </EditForm>
+                </div>
+            }
+        </div>
+    }
 </div>

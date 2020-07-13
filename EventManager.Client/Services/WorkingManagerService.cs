@@ -26,9 +26,13 @@ namespace EventManager.Client.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> CreateWorkingDay(WorkingDayDto workingDay)
+        public async Task<bool> CreateWorkingDay(WorkingDayDto workingDay)
         {
-            throw new NotImplementedException();
+            var settings = new HttpSettings($"{this._url}", null, null, "Working day adding");
+
+            var body = new HttpBody<WorkingDayDto>(this._helperService, workingDay);
+
+            return await this._httpService.create<WorkingDayDto>(settings, body);
         }
 
         public Task<bool> DeleteWorkingField(int workingFieldId)

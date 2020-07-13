@@ -171,6 +171,15 @@ body {
             flex-grow: 1;
         }
     }
+
+    .working-day-settings {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $blue-light-trans;
+    }
 }
 
 /* My tasks page */

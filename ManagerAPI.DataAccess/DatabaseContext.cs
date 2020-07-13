@@ -722,6 +722,16 @@ namespace ManagerAPI.DataAccess
                 .Property(x => x.DayIsActive)
                 .HasDefaultValue(false);
 
+            builder.Entity<WorkingDayType>()
+                .HasData(new WorkingDayType { Id = 1, Title = "Work Day", DayIsActive = true });
+            builder.Entity<WorkingDayType>()
+                .HasData(new WorkingDayType { Id = 2, Title = "University", DayIsActive = false });
+            builder.Entity<WorkingDayType>()
+                .HasData(new WorkingDayType { Id = 3, Title = "Empty Day", DayIsActive = false });
+            builder.Entity<WorkingDayType>()
+                .HasData(new WorkingDayType { Id = 4, Title = "Holiday", DayIsActive = false });
+
+
             // Working Day table settings
             builder.Entity<WorkingDay>()
                 .HasOne(x => x.Type)
