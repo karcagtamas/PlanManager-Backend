@@ -7,7 +7,7 @@ namespace ManagerAPI.Services.Services.Interfaces
 {
     public interface INotificationService
     {
-        void AddSystemNotificationByType(SystemNotificationType type, User user);
+        void AddSystemNotificationByType(SystemNotificationType type, User user, params string[] args);
         List<NotificationDto> GetMyNotifications();
         int GetCountOfUnReadNotifications();
         void SetAsReadNotificationsById(int[] notifications);

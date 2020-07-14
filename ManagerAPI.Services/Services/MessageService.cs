@@ -90,7 +90,7 @@ namespace ManagerAPI.Services.Services
             _context.SaveChanges();
 
             _loggerService.LogInformation(user, nameof(MessageService), SendMessageAction, $"{user.Id}-{partner.Id}");
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.MessageArrived, partner);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.MessageArrived, partner, user.UserName);
         }
     }
 }

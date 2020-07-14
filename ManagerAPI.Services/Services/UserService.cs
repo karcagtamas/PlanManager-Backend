@@ -206,7 +206,7 @@ namespace ManagerAPI.Services.Services
                 throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing, NewEqualOldUserNameMessage);
             }
             _loggerService.LogInformation(user, nameof(UserService), UpdateUserNameAction, user.Id);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.UsernameChanged, user);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.UsernameChanged, user, user.UserName, newUsername);
         }
 
         /// <summary>

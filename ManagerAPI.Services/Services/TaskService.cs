@@ -5,6 +5,7 @@ using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Models.DTOs;
 using ManagerAPI.Models.Entities;
+using ManagerAPI.Models.Enums;
 using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services.Interfaces;
 
@@ -35,6 +36,7 @@ namespace ManagerAPI.Services.Services
         private readonly IMapper _mapper;
         private readonly IUtilsService _utilsService;
         private readonly ILoggerService _loggerService;
+        private readonly INotificationService _notificationService;
 
         /// <summary>
         /// Task Service
@@ -43,12 +45,14 @@ namespace ManagerAPI.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public TaskService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService)
+        /// <param name="notificationService">Notification Service</param>
+        public TaskService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService)
         {
             _context = context;
             _mapper = mapper;
             _utilsService = utilsService;
             _loggerService = loggerService;
+            _notificationService = notificationService;
         }
 
         /// <summary>
@@ -101,10 +105,12 @@ namespace ManagerAPI.Services.Services
                 throw _loggerService.LogInvalidThings(user, nameof(TaskService), TaskIdThing, TaskDoesNotExistMessage);
             }
 
+            string taskTitle = task.Title;
+
             _context.Tasks.Remove(task);
             _context.SaveChanges();
 
-            // TODO: Notification
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.TaskDeleted, user, taskTitle);
 
             _loggerService.LogInformation(user, nameof(TaskService), DeleteTaskAction, id);
         }
@@ -129,7 +135,7 @@ namespace ManagerAPI.Services.Services
             _context.Tasks.Update(taskEntity);
             _context.SaveChanges();
 
-            // TODO: Notification
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.TaskUpdated, user, taskEntity.Title);
 
             _loggerService.LogInformation(user, nameof(TaskService), UpdateTaskAction, task.Id); 
         }
@@ -153,7 +159,7 @@ namespace ManagerAPI.Services.Services
 
             _loggerService.LogInformation(user, nameof(TaskService), CreateTaskAction, taskEntity.Id); 
 
-            // TODO: Notification
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.TaskAdded, user, taskEntity.Title);
 
             return taskEntity.Id;
         }

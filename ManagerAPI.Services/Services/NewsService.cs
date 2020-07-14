@@ -75,7 +75,7 @@ namespace ManagerAPI.Services.Services
             _context.SaveChanges();
 
             _loggerService.LogInformation(user, nameof(NewsService), DeleteNewsAction, news.Id);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.NewsDeleted, creator);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.NewsDeleted, creator, user.UserName);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace ManagerAPI.Services.Services
             _context.SaveChanges();
 
             _loggerService.LogInformation(user, nameof(NewsService), UpdateNewsAction, news.Id);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.NewsUpdated, news.Creator);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.NewsUpdated, news.Creator, user.UserName);
         }
     }
 }

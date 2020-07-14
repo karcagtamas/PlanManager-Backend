@@ -9,5 +9,6 @@ namespace ManagerAPI.Services.Services.Interfaces
         User GetCurrentUser ();
         string GetCurrentUserId ();
         string UserDisplay(User user);
+        string InjectString(string baseText, params string[] args);
     }
 }

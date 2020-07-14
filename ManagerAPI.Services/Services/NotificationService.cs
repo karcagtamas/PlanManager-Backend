@@ -40,7 +40,7 @@ namespace ManagerAPI.Services.Services
         /// </summary>
         /// <param name="type">Type of notification</param>
         /// <param name="user">Destination user</param>
-        public void AddSystemNotificationByType(SystemNotificationType type, User user)
+        public void AddSystemNotificationByType(SystemNotificationType type, User user, params string[] args)
         {
             if (user == null) {
                 throw new ArgumentException("User cannot be null");
@@ -49,27 +49,27 @@ namespace ManagerAPI.Services.Services
             string val = type
             switch
             {
-                SystemNotificationType.Login => $"Successfully logged in. Welcome.",
-                SystemNotificationType.Logout => $"Successfully logged out.",
-                SystemNotificationType.Registration => $"Successfully registered. Have fun.",
-                SystemNotificationType.MessageArrived => $"You have a new unread message.",
-                SystemNotificationType.MyProfileUpdated => $"You profile data successfully updated",
-                SystemNotificationType.ToDoAdded => $"ToDo successfully added. Do not forget it.",
-                SystemNotificationType.ToDoDeleted => $"ToDo successfully deleted.",
-                SystemNotificationType.ToDoUpdated => $"ToDo successfully updated.",
-                SystemNotificationType.PasswordChanged => $"Password changed",
-                SystemNotificationType.ProfileImageChanged => $"Profile image changed",
-                SystemNotificationType.UsernameChanged => $"Username changed",
-                SystemNotificationType.ProfileDisabled => $"Profile disabled",
-                SystemNotificationType.FriendRequestReceived => $"Friend request received",
-                SystemNotificationType.FriendRequestSent => $"Friend request sent",
-                SystemNotificationType.FriendRequestAccepted => $"Friend request accepted",
-                SystemNotificationType.FriendRequestDeclined => $"Friend request declined",
-                SystemNotificationType.YouHasANewFriend => $"You has a new friend",
-                SystemNotificationType.FriendRemoved => $"Friend removed",
-                SystemNotificationType.NewsAdded => $"News added",
-                SystemNotificationType.NewsUpdated => $"News updated",
-                SystemNotificationType.NewsDeleted => $"News deleted",
+                SystemNotificationType.Login => "Successfully logged in. Welcome.",
+                SystemNotificationType.Logout => "Successfully logged out.",
+                SystemNotificationType.Registration => "Successfully registered. Have fun.",
+                SystemNotificationType.MessageArrived => "You have a new unread message from {0}.",
+                SystemNotificationType.MyProfileUpdated => "You profile data successfully updated",
+                SystemNotificationType.TaskAdded => "{0} task successfully added. Do not forget it.",
+                SystemNotificationType.TaskDeleted => "{0} task successfully deleted.",
+                SystemNotificationType.TaskUpdated => "{0} task successfully updated.",
+                SystemNotificationType.PasswordChanged => "Password changed",
+                SystemNotificationType.ProfileImageChanged => "Profile image changed",
+                SystemNotificationType.UsernameChanged => "Username changed from {0} to {1}",
+                SystemNotificationType.ProfileDisabled => "Profile disabled",
+                SystemNotificationType.FriendRequestReceived => "Friend request received from {0}",
+                SystemNotificationType.FriendRequestSent => "Friend request sent to {0}",
+                SystemNotificationType.FriendRequestAccepted => "Your friend request accepted by {0}",
+                SystemNotificationType.FriendRequestDeclined => "Your friend request declined by {0}",
+                SystemNotificationType.YouHasANewFriend => "{0} is your friend now",
+                SystemNotificationType.FriendRemoved => "{0} removed from your friend list",
+                SystemNotificationType.NewsAdded => "News added",
+                SystemNotificationType.NewsUpdated => "News updated by {0}",
+                SystemNotificationType.NewsDeleted => "News deleted by {0}",
                 _ =>
                 throw new Exception("System Notification is not implemented"),
             };
@@ -77,7 +77,7 @@ namespace ManagerAPI.Services.Services
             // Create notification
             var notification = new Notification
             {
-                Content = val,
+                Content = this._utilsService.InjectString(val, args),
                 OwnerId = user.Id,
                 TypeId = (int)type
             };
