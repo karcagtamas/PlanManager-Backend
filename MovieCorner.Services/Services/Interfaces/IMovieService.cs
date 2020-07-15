@@ -9,16 +9,16 @@ namespace MovieCorner.Services.Services.Interfaces
 
         MovieListDto GetMovie(int id);
 
-        List<MovieDto> GetOwnMovies(string userId);
+        List<MovieDto> GetOwnMovies();
 
-        MovieListDto CreateMovie(MovieCreateDto model, string userId);
+        void CreateMovie(MovieCreateDto model);
 
         void UpdateMovie(MovieUpdateDto model, int id);
 
         void DeleteMovie(int id);
 
-        void UpdateSeenStatus(int id, string userId, bool seen);
+        void UpdateSeenStatus(int id, bool seen);
 
-        void UpdateMovieMappings(string userId, List<MovieListDto> mappings);
+        void UpdateMovieMappings(List<int> mappings);
     }
 }
