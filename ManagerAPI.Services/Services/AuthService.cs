@@ -28,6 +28,7 @@ namespace ManagerAPI.Services.Services
         private readonly ILogger<AuthService> _logger;
         private readonly DatabaseContext _context;
         private readonly INotificationService _notificationService;
+        private readonly IUtilsService _utilsService;
 
         /// <summary>
         /// Auth Service constructor
@@ -38,7 +39,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="logger">Logger</param>
         /// <param name="context">Database Context</param>
         /// <param name="notificationService">Notification Service</param>
-        public AuthService(UserManager<User> userManager, IOptions<ApplicationSettings> appSettings, RoleManager<WebsiteRole> roleManager, ILogger<AuthService> logger, DatabaseContext context, INotificationService notificationService)
+        public AuthService(UserManager<User> userManager, IOptions<ApplicationSettings> appSettings, RoleManager<WebsiteRole> roleManager, ILogger<AuthService> logger, DatabaseContext context, INotificationService notificationService, IUtilsService utilsService)
         {
             _userManager = userManager;
             _appSettings = appSettings.Value;
@@ -46,6 +47,7 @@ namespace ManagerAPI.Services.Services
             _logger = logger;
             _context = context;
             _notificationService = notificationService;
+            _utilsService = utilsService;
         }
         
         /// <summary>
@@ -71,7 +73,7 @@ namespace ManagerAPI.Services.Services
             }
             else
             {
-                throw new Exception(result.Errors.ToString());
+                throw new Exception(this._utilsService.ErrorsToString(result.Errors));
             }
         }
         

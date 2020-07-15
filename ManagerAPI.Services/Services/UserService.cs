@@ -174,7 +174,7 @@ namespace ManagerAPI.Services.Services
                 if (!result.Succeeded)
                 {
                     // TODO: fix message
-                    throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing, result.Errors.ToString());
+                    throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing, this._utilsService.ErrorsToString(result.Errors));
                 }
             }
             else
@@ -198,7 +198,7 @@ namespace ManagerAPI.Services.Services
                 var result = await _userManager.SetUserNameAsync(user, newUsername);
                 if (!result.Succeeded)
                 {
-                    throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing, result.Errors.ToString());
+                    throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing, this._utilsService.ErrorsToString(result.Errors)));
                 }
             }
             else

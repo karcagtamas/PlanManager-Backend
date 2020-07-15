@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Models.Entities;
@@ -70,6 +71,11 @@ namespace ManagerAPI.Services.Services {
         public string UserDisplay(User user)
         {
             return $"{user.UserName} ({user.Id})";
+        }
+
+        public string ErrorsToString(IEnumerable<IdentityError> errors) {
+            var list = errors.ToList();
+            return list.FirstOrDefault().Description;
         }
     }
 }
