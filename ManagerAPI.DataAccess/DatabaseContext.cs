@@ -859,6 +859,9 @@ namespace ManagerAPI.DataAccess
 
             // User Episode table settings
             builder.Entity<UserEpisode>()
+                .HasKey(x => new { x.UserId, x.EpisodeId });
+
+            builder.Entity<UserEpisode>()
                 .Property(x => x.Seen)
                 .HasDefaultValue(false);
 
