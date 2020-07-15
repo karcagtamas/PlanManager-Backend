@@ -84,9 +84,9 @@ namespace MovieCorner.Services.Services
         {
             var user = this._utilsService.GetCurrentUser();
 
-            var list = user.MyMovies.Select(x => x.Movie).ToList();
+            var list = user.MyMovies.ToList();
 
-            this._loggerService.LogInformation(user, nameof(MovieService), GetMyMoviesAction, list.Select(x => x.Id).ToList());
+            this._loggerService.LogInformation(user, nameof(MovieService), GetMyMoviesAction, list.Select(x => x.Movie.Id).ToList());
 
             return _mapper.Map<List<MovieDto>>(list);
         }

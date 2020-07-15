@@ -19,6 +19,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using MovieCorner.Services.Profiles;
+using MovieCorner.Services.Services;
+using MovieCorner.Services.Services.Interfaces;
 using PlanManager.Services.Profiles;
 using PlanManager.Services.Services;
 using PlanManager.Services.Services.Interfaces;
@@ -66,6 +69,7 @@ namespace ManagerAPI.Backend
                 x.AddProfile(new NewsProfile());
                 x.AddProfile(new TaskProfile());
                 x.AddProfile(new WorkingManagerProfile());
+                x.AddProfile(new MovieProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -90,6 +94,7 @@ namespace ManagerAPI.Backend
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ILoggerService, LoggerService>();
             services.AddScoped<IWorkingManagerService, WorkingManagerService>();
+            services.AddScoped<IMovieService, MovieService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
