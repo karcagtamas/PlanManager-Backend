@@ -198,7 +198,7 @@ namespace ManagerAPI.Services.Services
                 var result = await _userManager.SetUserNameAsync(user, newUsername);
                 if (!result.Succeeded)
                 {
-                    throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing, this._utilsService.ErrorsToString(result.Errors)));
+                    throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing, this._utilsService.ErrorsToString(result.Errors));
                 }
             }
             else
