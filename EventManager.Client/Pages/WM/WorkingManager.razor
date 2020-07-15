@@ -22,7 +22,7 @@
             }
             else
             {
-                <MatButton>Edit</MatButton>
+                <MatButton>Add Field</MatButton>
             }
             <span class="spacer"></span>
             <MatIconButton Icon="chevron_left" @onclick="@(() => Redirect(false))"></MatIconButton>
@@ -52,7 +52,15 @@
                                 <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" Maximum="59" @bind-Value="WorkingDay.EndMin" Dense="true" Label="End Min" Outlined="true"></MatNumericUpDownField>
                             </div>
                         </div>
+                        <div class="text-right">
+                            <MatButton Raised="true" type="submit">Save Settings</MatButton>
+                        </div>
                     </EditForm>
+                </div>
+                <div class="field-list">
+                    @foreach (var field in WorkingDay.WorkingFields) {
+                        <div class="field">@field.Title</div>
+                    }
                 </div>
             }
         </div>

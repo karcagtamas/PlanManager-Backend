@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ManagerAPI.Models.Entities.EM;
+using ManagerAPI.Models.Entities.MC;
 using ManagerAPI.Models.Entities.PM;
 using ManagerAPI.Models.Entities.WM;
 using Microsoft.AspNetCore.Identity;
@@ -78,5 +79,15 @@ namespace ManagerAPI.Models.Entities {
         public virtual ICollection<News> UpdatedNews { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
         public virtual ICollection<WorkingDay> WorkingDays { get; set; }
+        public virtual ICollection<Movie> CreatedMovies { get; set; }
+        public virtual ICollection<Movie> LastUpdatedMovies { get; set; }
+        public virtual ICollection<UserMovie> MyMovies { get; set; }
+        public virtual ICollection<Series> CreatedSeries { get; set; }
+        public virtual ICollection<Series> LastUpdatedSeries { get; set; }
+        public virtual ICollection<UserSeries> MySeries { get; set; }
+        public virtual ICollection<UserEpisode> MyEpisodes { get; set; }
+        public virtual ICollection<Book> CreatedBooks { get; set; }
+        public virtual ICollection<Book> LastUpdatedBooks { get; set; }
+        public virtual ICollection<UserBook> MyBooks { get; set; }
     }
 }

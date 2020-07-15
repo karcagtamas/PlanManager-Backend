@@ -1,23 +1,26 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Models.Entities.MC
 {
-    public class Movie {
-
+    public class Book
+    {
         [Required]
         public int Id { get; set; }
 
         [Required]
         [MaxLength (150)]
-        public string Title { get; set; }
-
-        [MaxLength (999)]
-        public string Description { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        public int Year { get; set; }
+        [MaxLength (150)]
+        public string Author { get; set; }
+
+        public string Description { get; set; }
+        
+        [Required]
+        public DateTime Publish { get; set; }
 
         [Required]
         public string CreatorId { get; set; }
@@ -30,8 +33,13 @@ namespace ManagerAPI.Models.Entities.MC
 
         [Required]
         public DateTime LastUpdate { get; set; }
+
+        [Required]
         public virtual User Creator { get; set; }
+
+        [Required]
         public virtual User LastUpdater { get; set; }
-        public virtual ICollection<UserMovie> ConnectedUsers { get; set; }
+
+        public virtual ICollection<UserBook> ConnectedUsers { get; set; }
     }
 }

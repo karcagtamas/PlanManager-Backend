@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ManagerAPI.Models.DTOs.MC;
 
-namespace MovieCorner.Services.Services
+namespace MovieCorner.Services.Services.Interfaces
 {
     public interface ISeriesService
     {

@@ -5,6 +5,7 @@ namespace ManagerAPI.Models.Entities.MC
 {
     public class Episode
     {
+        [Required]
         public int Id { get; set; }
 
         [Required]
@@ -17,6 +18,6 @@ namespace ManagerAPI.Models.Entities.MC
 
         public virtual Season Season { get; set; }
 
-        public virtual ICollection<UserEpisode> UserEpisodes { get; set; }
+        public virtual ICollection<UserEpisode> ConnectedUsers { get; set; }
     }
 }

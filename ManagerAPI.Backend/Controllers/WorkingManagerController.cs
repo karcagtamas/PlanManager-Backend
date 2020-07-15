@@ -4,7 +4,7 @@ using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WorkingManager.Services.Services;
+using WorkingManager.Services.Services.Interfaces;
 
 namespace KarcagS.Backend.Controllers
 {

@@ -6,6 +6,7 @@ using ManagerAPI.DataAccess;
 using ManagerAPI.Models.DTOs.PM;
 using ManagerAPI.Models.Entities.PM;
 using ManagerAPI.Services.Services.Interfaces;
+using PlanManager.Services.Services.Interfaces;
 
 namespace PlanManager.Services.Services
 {

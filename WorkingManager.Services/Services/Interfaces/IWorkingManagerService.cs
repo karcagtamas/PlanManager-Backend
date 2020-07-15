@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ManagerAPI.Models.DTOs.WM;
 
-namespace WorkingManager.Services.Services
+namespace WorkingManager.Services.Services.Interfaces
 {
     public interface IWorkingManagerService
     {

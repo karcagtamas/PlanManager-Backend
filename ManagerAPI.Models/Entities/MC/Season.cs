@@ -5,6 +5,7 @@ namespace ManagerAPI.Models.Entities.MC
 {
     public class Season
     {
+        [Required]
         public int Id { get; set; }
 
         [Required]

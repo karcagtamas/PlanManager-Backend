@@ -7,7 +7,7 @@ using ManagerAPI.Models.DTOs.WM;
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Entities.WM;
 using ManagerAPI.Services.Services.Interfaces;
-using Microsoft.Extensions.Logging;
+using WorkingManager.Services.Services.Interfaces;
 
 namespace WorkingManager.Services.Services
 {

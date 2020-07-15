@@ -1,25 +1,20 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Models.Entities.MC
 {
-    public class UserMovie
+    public class UserSeries
     {
         [Required]
-        public int MovieId { get; set; }
+        public int SeriesId { get; set; }
 
         [Required]
         public string UserId { get; set; }
 
         [Required]
-        public bool Seen { get; set; }
-
-        public DateTime? SeenOn { get; set; }
-
-        [Required]
         public DateTime AddOn { get; set; }
 
-        public virtual Movie Movie { get; set; }
+        public virtual Series Series { get; set; }
         public virtual User User { get; set; }
     }
 }

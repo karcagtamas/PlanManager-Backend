@@ -1,5 +1,6 @@
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Entities.EM;
+using ManagerAPI.Models.Entities.MC;
 using ManagerAPI.Models.Entities.PM;
 using ManagerAPI.Models.Entities.WM;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -46,6 +47,17 @@ namespace ManagerAPI.DataAccess
         public DbSet<WorkingDayType> WorkingDayTypes { get; set; }
         public DbSet<WorkingDay> WorkingDays { get; set; }
         public DbSet<WorkingField> WorkingFields { get; set; }
+
+        // MC
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<UserMovie> UserMovieSwitch { get; set; }
+        public DbSet<Series> Series { get; set; }
+        public DbSet<UserSeries> UserSeriesSwitch { get; set; }
+        public DbSet<Season> Seasons { get; set; }
+        public DbSet<Episode> Episodes { get; set; }
+        public DbSet<UserEpisode> UserEpisodeSwitch { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<UserBook> UserBookSwitch { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
@@ -749,6 +761,156 @@ namespace ManagerAPI.DataAccess
             builder.Entity<WorkingField>()
                 .HasOne(x => x.WorkingDay)
                 .WithMany(x => x.WorkingFields)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Movies table settings
+            builder.Entity<Movie>()
+                .Property(x => x.Creation)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<Movie>()
+                .Property(x => x.LastUpdate)
+                .HasDefaultValueSql("getdate()");
+
+            builder.Entity<Movie>()
+                .HasOne(x => x.Creator)
+                .WithMany(x => x.CreatedMovies)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Movie>()
+                .HasOne(x => x.LastUpdater)
+                .WithMany(x => x.LastUpdatedMovies)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // User movie settings
+            builder.Entity<UserMovie>()
+                .HasKey(x => new {x.UserId, x.MovieId});
+
+            builder.Entity<UserMovie>()
+                .Property(x => x.Seen)
+                .HasDefaultValue(false);
+            builder.Entity<UserMovie>()
+                .Property(x => x.AddOn)
+                .HasDefaultValueSql("getdate()");
+
+            builder.Entity<UserMovie>()
+                .HasOne(x => x.Movie)
+                .WithMany(x => x.ConnectedUsers)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<UserMovie>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.MyMovies)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Series table settings
+            builder.Entity<Series>()
+                .Property(x => x.Creation)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<Series>()
+                .Property(x => x.LastUpdate)
+                .HasDefaultValueSql("getdate()");
+
+            builder.Entity<Series>()
+                .HasOne(x => x.Creator)
+                .WithMany(x => x.CreatedSeries)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Series>()
+                .HasOne(x => x.LastUpdater)
+                .WithMany(x => x.LastUpdatedSeries)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // User Series table settings
+            builder.Entity<UserSeries>()
+                .HasKey(x => new {x.UserId, x.SeriesId});
+
+            builder.Entity<UserSeries>()
+                .Property(x => x.AddOn)
+                .HasDefaultValueSql("getdate()");
+
+            builder.Entity<UserSeries>()
+                .HasOne(x => x.Series)
+                .WithMany(x => x.ConnectedUsers)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<UserSeries>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.MySeries)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Season table settings
+            builder.Entity<Season>()
+                .HasOne(x => x.Series)
+                .WithMany(x => x.Seasons)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Episode table settings
+            builder.Entity<Episode>()
+                .HasOne(x => x.Season)
+                .WithMany(x => x.Episodes)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // User Episode table settings
+            builder.Entity<UserEpisode>()
+                .Property(x => x.Seen)
+                .HasDefaultValue(false);
+
+            builder.Entity<UserEpisode>()
+                .HasOne(x => x.Episode)
+                .WithMany(x => x.ConnectedUsers)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<UserEpisode>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.MyEpisodes)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Book table settings
+            builder.Entity<Book>()
+                .Property(x => x.Creation)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<Book>()
+                .Property(x => x.LastUpdate)
+                .HasDefaultValueSql("getdate()");
+
+            builder.Entity<Book>()
+                .HasOne(x => x.Creator)
+                .WithMany(x => x.CreatedBooks)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Book>()
+                .HasOne(x => x.LastUpdater)
+                .WithMany(x => x.LastUpdatedBooks)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // User Book table settings
+            builder.Entity<UserBook>()
+                .HasKey(x => new {x.UserId, x.BookId});
+
+            builder.Entity<UserBook>()
+                .Property(x => x.Read)
+                .HasDefaultValue(false);
+            builder.Entity<UserBook>()
+                .Property(x => x.AddOn)
+                .HasDefaultValueSql("getdate()");
+
+            builder.Entity<UserBook>()
+                .HasOne(x => x.Book)
+                .WithMany(x => x.ConnectedUsers)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<UserBook>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.MyBooks)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
         }
