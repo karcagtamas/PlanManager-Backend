@@ -1,19 +1,22 @@
 ﻿using System.Collections.Generic;
 using ManagerAPI.Models.DTOs.MC;
+using ManagerAPI.Models.Models.MC;
 
 namespace MovieCorner.Services.Services.Interfaces
 {
     public interface ISeriesService
     {
-        List<SeriesListDto> GetMySeries(string userId);
-        List<SeriesListDto> GetAllSeries(string userId);
-        void CreateSeries(SeriesDto series, string userId);
-        void DeleteSeries(int seriesId, string userId);
-        void UpdateSeries(int seriesId, SeriesDto series, string userId);
-        void AddSeasonsToSeries(int[] nums, int seriesId, string userId);
-        void DeleteSeasonsFromSeries(int[] seasonIds, string userId);
-        void AddEpisodesToSeason(int[] nums, int seasonId, string userId);
-        void DeleteEpisodesFromSeason(int[] episodeIds, string userId);
-        void UpdateEpisode(int episodeId, EpisodeDto episode, string userId);
+        List<MySeriesDto> GetMySeries();
+        List<SeriesListDto> GetAllSeries();
+        SeriesDto GetSeries(int id);
+        void CreateSeries(SeriesModel series);
+        void DeleteSeries(int id);
+        void UpdateSeries(int id, SeriesModel series);
+        void AddSeason(int seriesId, SeasonModel model);
+        void DeleteSeason(int id);
+        void UpdateSeason(int id, SeasonModel model);
+        void AddEpisode(int seasonId, EpisodeModel model);
+        void DeleteEpisode(int id);
+        void UpdateEpisode(int id, EpisodeModel model);
     }
 }

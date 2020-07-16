@@ -1,10 +1,14 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using ManagerAPI.DataAccess;
+using ManagerAPI.Models.DTOs.MC;
+using ManagerAPI.Models.Models.MC;
 using Microsoft.Extensions.Logging;
+using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
-    public class SeriesService
+    public class SeriesService : ISeriesService
     {
         private readonly DatabaseContext _context;
         private readonly ILogger<SeriesService> _logger;
@@ -15,7 +19,67 @@ namespace MovieCorner.Services.Services
             _mapper = mapper;
             _logger = logger;
         }
-        
+
+        public void AddEpisode(int seasonId, EpisodeModel model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void AddSeason(int seriesId, SeasonModel model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void CreateSeries(SeriesModel series)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void DeleteEpisode(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void DeleteSeason(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void DeleteSeries(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<SeriesListDto> GetAllSeries()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<MySeriesDto> GetMySeries()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public SeriesDto GetSeries(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UpdateEpisode(int id, EpisodeModel model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UpdateSeason(int id, SeasonModel model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UpdateSeries(int id, SeriesModel series)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /*
         public void AddEpisodesToSeason(int[] nums, int seasonId, string userId)
         {
