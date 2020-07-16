@@ -1,12 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Models.DTOs.MC
+namespace ManagerAPI.Models.Models.MC
 {
-    public class MovieUpdateDto
+    public class MovieModel
     {
-        [Required]
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(150)]
         public string Title { get; set; }

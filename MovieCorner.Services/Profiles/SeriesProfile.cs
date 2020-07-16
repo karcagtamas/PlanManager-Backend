@@ -10,7 +10,7 @@ namespace MovieCorner.Services.Profiles
         public SeriesProfile()
         {
             CreateMap<Series, SeriesListDto>()
-                .ForMember(dest => dest.Creater, opt => opt.MapFrom(src => src.Creater.FullName));
+                .ForMember(dest => dest.Creater, opt => opt.MapFrom(src => src.Creator.FullName));
             CreateMap<SeriesDto, Series>();
             CreateMap<Season, SeasonListDto>();
             CreateMap<Episode, EpisodeListDto>();

@@ -19,8 +19,7 @@ namespace ManagerAPI.Models.Entities.MC
 
         public string Description { get; set; }
         
-        [Required]
-        public DateTime Publish { get; set; }
+        public DateTime? Publish { get; set; }
 
         [Required]
         public string CreatorId { get; set; }

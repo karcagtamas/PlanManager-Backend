@@ -2,6 +2,7 @@
 using ManagerAPI.DataAccess;
 using ManagerAPI.Models.DTOs.MC;
 using ManagerAPI.Models.Entities.MC;
+using ManagerAPI.Models.Models.MC;
 using ManagerAPI.Services.Services.Interfaces;
 using MovieCorner.Services.Services.Interfaces;
 using System;
@@ -64,7 +65,7 @@ namespace MovieCorner.Services.Services
             return this._mapper.Map<List<MovieListDto>>(list);
         }
 
-        public MovieListDto GetMovie(int id)
+        public MovieDto GetMovie(int id)
         {
             var user = this._utilsService.GetCurrentUser();
 
@@ -77,10 +78,10 @@ namespace MovieCorner.Services.Services
 
             this._loggerService.LogInformation(user, nameof(MovieService), GetMovieAction, id);
 
-            return _mapper.Map<MovieListDto>(movie);
+            return _mapper.Map<MovieDto>(movie);
         }
 
-        public List<MovieDto> GetOwnMovies()
+        public List<MyMovieDto> GetMyMovies()
         {
             var user = this._utilsService.GetCurrentUser();
 
@@ -88,10 +89,10 @@ namespace MovieCorner.Services.Services
 
             this._loggerService.LogInformation(user, nameof(MovieService), GetMyMoviesAction, list.Select(x => x.Movie.Id).ToList());
 
-            return _mapper.Map<List<MovieDto>>(list);
+            return _mapper.Map<List<MyMovieDto>>(list);
         }
 
-        public void CreateMovie(MovieCreateDto model)
+        public void CreateMovie(MovieModel model)
         {
             var user = this._utilsService.GetCurrentUser();
 
@@ -105,16 +106,11 @@ namespace MovieCorner.Services.Services
             this._loggerService.LogInformation(user, nameof(MovieService), CreateMovieAction, movie.Id);
         }
 
-        public void UpdateMovie(MovieUpdateDto model, int id)
+        public void UpdateMovie(int id, MovieModel model)
         {
             var user = this._utilsService.GetCurrentUser();
 
-            if (id != model.Id)
-            {
-                throw this._loggerService.LogInvalidThings(user, nameof(MovieService), MovieIdThing, MovieIdsDoNotMatchMessage);
-            }
-
-            var movie = _context.Movies.Find(model.Id);
+            var movie = _context.Movies.Find(id);
             if (movie == null)
             {
                 throw this._loggerService.LogInvalidThings(user, nameof(MovieService), MovieThing, MovieDoesNotExistMessage);
@@ -157,6 +153,7 @@ namespace MovieCorner.Services.Services
             }
 
             userMovie.Seen = seen;
+            userMovie.SeenOn = seen ? (DateTime?)DateTime.Now : null;
             _context.UserMovieSwitch.Update(userMovie);
             _context.SaveChanges();
 
@@ -164,20 +161,20 @@ namespace MovieCorner.Services.Services
         }
 
 
-        public void UpdateMovieMappings(List<int> mappings)
+        public void UpdateMyMovies(List<int> ids)
         {
             var user = this._utilsService.GetCurrentUser();
 
             var currentMappings = _context.UserMovieSwitch.Where(x => x.UserId == user.Id).ToList();
             foreach (var i in currentMappings)
             {
-                if (mappings.FindIndex(x => x == i.MovieId) == -1)
+                if (ids.FindIndex(x => x == i.MovieId) == -1)
                 {
                     _context.UserMovieSwitch.Remove(i);
                 }
             }
 
-            foreach (var i in mappings)
+            foreach (var i in ids)
             {
                 if (currentMappings.FirstOrDefault(x => x.MovieId == i) == null)
                 {
@@ -186,7 +183,7 @@ namespace MovieCorner.Services.Services
                 }
             }
 
-            this._loggerService.LogInformation(user, nameof(MovieService), UpdateMyMoviesAction, mappings);
+            this._loggerService.LogInformation(user, nameof(MovieService), UpdateMyMoviesAction, ids);
             _context.SaveChanges();
         }
     }
