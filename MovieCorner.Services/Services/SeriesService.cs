@@ -3,6 +3,7 @@ using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Models.DTOs.MC;
 using ManagerAPI.Models.Models.MC;
+using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using MovieCorner.Services.Services.Interfaces;
 
@@ -10,14 +11,25 @@ namespace MovieCorner.Services.Services
 {
     public class SeriesService : ISeriesService
     {
+        // Injects
         private readonly DatabaseContext _context;
-        private readonly ILogger<SeriesService> _logger;
         private readonly IMapper _mapper;
-        public SeriesService(DatabaseContext context, IMapper mapper, ILogger<SeriesService> logger)
+        private readonly IUtilsService _utilsService;
+        private readonly ILoggerService _loggerService;
+
+        /// <summary>
+        /// Injector Constructor
+        /// </summary>
+        /// <param name="context">Database Context</param>
+        /// <param name="mapper">Mapper</param>
+        /// <param name="utilsService">Utils Service</param>
+        /// <param name="loggerService">Logger Service</param>
+        public SeriesService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService)
         {
             _context = context;
             _mapper = mapper;
-            _logger = logger;
+            _utilsService = utilsService;
+            _loggerService = loggerService;
         }
 
         public void AddEpisode(int seasonId, EpisodeModel model)
@@ -37,7 +49,18 @@ namespace MovieCorner.Services.Services
 
         public void DeleteEpisode(int id)
         {
-            throw new System.NotImplementedException();
+            var user = this._utilsService.GetCurrentUser();
+
+            var series = _context.Series.Find(id);
+            if (series == null)
+            {
+                throw this._loggerService.LogInvalidThings(user, nameof(SeriesService), "series", "Series does not exist");
+            }
+
+            this._context.Series.Remove(series);
+            this._context.SaveChanges();
+
+            this._loggerService.LogInformation(user, nameof(SeriesService), "delete series", id);
         }
 
         public void DeleteSeason(int id)

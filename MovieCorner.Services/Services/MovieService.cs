@@ -139,7 +139,7 @@ namespace MovieCorner.Services.Services
             this._context.Movies.Remove(movie);
             this._context.SaveChanges();
 
-            this._loggerService.LogInformation(user, nameof(MovieService), DeleteMovieAction, movie.Id);
+            this._loggerService.LogInformation(user, nameof(MovieService), DeleteMovieAction, id);
         }
 
         public void UpdateSeenStatus(int id, bool seen)

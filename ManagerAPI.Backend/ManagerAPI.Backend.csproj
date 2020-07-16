@@ -29,6 +29,7 @@
     <ItemGroup>
       <ProjectReference Include="..\EventManager.Services\EventManager.Services.csproj" />
       <ProjectReference Include="..\ManagerAPI.DataAccess\ManagerAPI.DataAccess.csproj" />
+      <ProjectReference Include="..\MovieCorner.Services\MovieCorner.Services.csproj" />
       <ProjectReference Include="..\PlanManager.Services\PlanManager.Services.csproj" />
       <ProjectReference Include="..\WorkingManager.Services\WorkingManager.Services.csproj" />
     </ItemGroup>

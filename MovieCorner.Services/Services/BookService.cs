@@ -82,7 +82,7 @@ namespace MovieCorner.Services.Services
             this._context.Books.Remove(book);
             this._context.SaveChanges();
 
-            this._loggerService.LogInformation(user, nameof(BookService), DeleteBookAction, book.Id);
+            this._loggerService.LogInformation(user, nameof(BookService), DeleteBookAction, id);
         }
 
         public BookDto GetBook(int id)
