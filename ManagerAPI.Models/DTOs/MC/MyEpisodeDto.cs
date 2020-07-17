@@ -1,13 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
 namespace ManagerAPI.Models.DTOs.MC
 {
-    public class EpisodeDto
+    public class MyEpisodeDto
     {
         public int Id { get; set; }
-
         public int Number { get; set; }
-
         public string Description { get; set; }
+        public bool Seen { get; set; }
     }
 }

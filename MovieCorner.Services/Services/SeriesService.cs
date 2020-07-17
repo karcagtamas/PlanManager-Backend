@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Models.DTOs.MC;
+using ManagerAPI.Models.Entities.MC;
 using ManagerAPI.Models.Models.MC;
 using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -11,6 +14,31 @@ namespace MovieCorner.Services.Services
 {
     public class SeriesService : ISeriesService
     {
+        // Actions
+        private const string SetEpisodeStatusAction = "set episode status";
+        private const string UpdateMySeriesAction = "update my series";
+        private const string UpdateSeriesAction = "update series";
+        private const string UpdateSeasonAction = "update season";
+        private const string UpdateEpisodeAction = "update episode";
+        private const string GetSeriesAction = "get series";
+        private const string GetMySeriesAction = "get my series";
+        private const string DeleteSeriesAction = "delete series";
+        private const string DeleteSeasonAction = "delete season";
+        private const string DeleteEpisodeAction = "delete episode";
+        private const string CreateSeriesAction = "create series";
+        private const string AddSeasonAction = "add season";
+        private const string AddEpisodeAction = "add episode";
+
+        // Things
+        private const string SeriesThing = "series";
+        private const string SeasonThing = "season";
+        private const string EpisodeThing = "episode";
+
+        // Messages
+        private const string SeriesDoesNotExistMessage = "Series does not exist";
+        private const string SeasonDoesNotExistMessage = "Season does not exist";
+        private const string EpisodeDoesNotExistMessage = "Episode does not exist";
+
         // Injects
         private readonly DatabaseContext _context;
         private readonly IMapper _mapper;
@@ -34,386 +62,239 @@ namespace MovieCorner.Services.Services
 
         public void AddEpisode(int seasonId, EpisodeModel model)
         {
-            throw new System.NotImplementedException();
+            var user = this._utilsService.GetCurrentUser();
+            var season = this._context.Seasons.Find(seasonId);
+
+            if (season == null) {
+                throw this._loggerService.LogInvalidThings(user, nameof(SeriesService), SeasonThing, SeasonDoesNotExistMessage);
+            }
+
+            var episode = this._mapper.Map<Episode>(model);
+
+            season.Episodes.Add(episode);
+            _context.Seasons.Update(season);
+            _context.SaveChanges();
+
+            this._loggerService.LogInformation(user, nameof(SeriesService), AddEpisodeAction, episode.Id);
         }
 
         public void AddSeason(int seriesId, SeasonModel model)
         {
-            throw new System.NotImplementedException();
+            var user = this._utilsService.GetCurrentUser();
+
+            var series = this._context.Series.Find(seriesId);
+
+            if (series == null) {
+                throw this._loggerService.LogInvalidThings(user, nameof(SeriesService), SeriesThing, SeriesDoesNotExistMessage);
+            }
+
+            var season = this._mapper.Map<Season>(model);
+
+            series.Seasons.Add(season);
+            _context.Series.Update(series);
+            _context.SaveChanges();
+
+            this._loggerService.LogInformation(user, nameof(SeriesService), AddSeasonAction, season.Id);
         }
 
-        public void CreateSeries(SeriesModel series)
+        public void CreateSeries(SeriesModel model)
         {
-            throw new System.NotImplementedException();
+            var user = this._utilsService.GetCurrentUser();
+
+            var series = this._mapper.Map<Series>(model);
+            series.CreatorId = user.Id;
+            series.LastUpdaterId = user.Id;
+
+            _context.Series.Add(series);
+            _context.SaveChanges();
+
+            this._loggerService.LogInformation(user, nameof(SeriesService), CreateSeriesAction, series.Id);
         }
 
         public void DeleteEpisode(int id)
         {
             var user = this._utilsService.GetCurrentUser();
 
+            var episode = _context.Episodes.Find(id);
+            if (episode == null)
+            {
+                throw this._loggerService.LogInvalidThings(user, nameof(SeriesService), EpisodeThing, EpisodeDoesNotExistMessage);
+            }
+
+            this._context.Episodes.Remove(episode);
+            this._context.SaveChanges();
+
+            this._loggerService.LogInformation(user, nameof(SeriesService), DeleteEpisodeAction, id);
+        }
+
+        public void DeleteSeason(int id)
+        {
+            var user = this._utilsService.GetCurrentUser();
+
+            var season = _context.Seasons.Find(id);
+            if (season == null)
+            {
+                throw this._loggerService.LogInvalidThings(user, nameof(SeriesService), SeasonThing, SeasonDoesNotExistMessage);
+            }
+
+            this._context.Seasons.Remove(season);
+            this._context.SaveChanges();
+
+            this._loggerService.LogInformation(user, nameof(SeriesService), DeleteSeasonAction, id);
+        }
+
+        public void DeleteSeries(int id)
+        {
+            var user = this._utilsService.GetCurrentUser();
+
             var series = _context.Series.Find(id);
             if (series == null)
             {
-                throw this._loggerService.LogInvalidThings(user, nameof(SeriesService), "series", "Series does not exist");
+                throw this._loggerService.LogInvalidThings(user, nameof(SeriesService), SeriesThing, SeriesDoesNotExistMessage);
             }
 
             this._context.Series.Remove(series);
             this._context.SaveChanges();
 
-            this._loggerService.LogInformation(user, nameof(SeriesService), "delete series", id);
-        }
-
-        public void DeleteSeason(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void DeleteSeries(int id)
-        {
-            throw new System.NotImplementedException();
+            this._loggerService.LogInformation(user, nameof(SeriesService), DeleteSeriesAction, id);
         }
 
         public List<SeriesListDto> GetAllSeries()
         {
-            throw new System.NotImplementedException();
+            var user = this._utilsService.GetCurrentUser();
+
+            var list = this._context.Series.ToList();
+
+            this._loggerService.LogInformation(user, nameof(SeriesService), GetSeriesAction, list.Select(x => x.Id).ToList());
+
+            return this._mapper.Map<List<SeriesListDto>>(list);
         }
 
         public List<MySeriesDto> GetMySeries()
         {
-            throw new System.NotImplementedException();
+            var user = this._utilsService.GetCurrentUser();
+
+            var list = user.MySeries.ToList();
+
+            this._loggerService.LogInformation(user, nameof(SeriesService), GetMySeriesAction, list.Select(x => x.Series.Id).ToList());
+
+            return _mapper.Map<List<MySeriesDto>>(list);
         }
 
         public SeriesDto GetSeries(int id)
         {
-            throw new System.NotImplementedException();
+            var user = this._utilsService.GetCurrentUser();
+
+            var series = _context.Series.Find(id);
+            
+            if (series == null)
+            {
+                throw this._loggerService.LogInvalidThings(user, nameof(SeriesService), SeriesThing, SeriesDoesNotExistMessage);
+            }
+
+            this._loggerService.LogInformation(user, nameof(SeriesService), GetSeriesAction, id);
+
+            return _mapper.Map<SeriesDto>(series);
         }
 
         public void UpdateEpisode(int id, EpisodeModel model)
         {
-            throw new System.NotImplementedException();
+            var user = this._utilsService.GetCurrentUser();
+
+            var episode = _context.Episodes.Find(id);
+            if (episode == null)
+            {
+                throw this._loggerService.LogInvalidThings(user, nameof(SeriesService), EpisodeThing, EpisodeDoesNotExistMessage);
+            }
+
+            this._mapper.Map(model, episode);
+
+            _context.Episodes.Update(episode);
+            _context.SaveChanges();
+
+            this._loggerService.LogInformation(user, nameof(SeriesService), UpdateEpisodeAction, episode.Id);
         }
 
         public void UpdateSeason(int id, SeasonModel model)
         {
-            throw new System.NotImplementedException();
-        }
+            var user = this._utilsService.GetCurrentUser();
 
-        public void UpdateSeries(int id, SeriesModel series)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        /*
-        public void AddEpisodesToSeason(int[] nums, int seasonId, string userId)
-        {
-            // Check user
-            if (userId == null)
-            {
-                throw new Exception($"Invalid user access");
-            }
-            User user = _context.ApplicationUsers.Find(userId);
-            if (user == null)
-            {
-                throw new Exception($"Invalid user access with id: {userId}");
-            }
-
-            // Check seasons
-            Season season = _context.Seasons.Find(seasonId);
+            var season = _context.Seasons.Find(id);
             if (season == null)
             {
-                throw new Exception($"Invalid season with id: {seasonId}");
+                throw this._loggerService.LogInvalidThings(user, nameof(SeriesService), SeasonThing, SeasonDoesNotExistMessage);
             }
 
-            // Check nums
-            if (nums == null)
+            this._mapper.Map(model, season);
+
+            _context.Seasons.Update(season);
+            _context.SaveChanges();
+
+            this._loggerService.LogInformation(user, nameof(SeriesService), UpdateSeasonAction, season.Id);
+        }
+
+        public void UpdateSeries(int id, SeriesModel model)
+        {
+            var user = this._utilsService.GetCurrentUser();
+
+            var series = _context.Series.Find(id);
+            if (series == null)
             {
-                throw new Exception($"Invalid episode nums");
+                throw this._loggerService.LogInvalidThings(user, nameof(SeriesService), SeriesThing, SeriesDoesNotExistMessage);
             }
 
-            // Add episodes
-            foreach (var t in nums)
+            this._mapper.Map(model, series);
+            series.LastUpdaterId = user.Id;
+            series.LastUpdate = DateTime.Now;
+
+            _context.Series.Update(series);
+            _context.SaveChanges();
+
+            this._loggerService.LogInformation(user, nameof(SeriesService), UpdateSeriesAction, series.Id);
+        }
+
+        public void UpdateMySeries(List<int> ids) {
+            var user = this._utilsService.GetCurrentUser();
+
+            var currentMappings = _context.UserSeriesSwitch.Where(x => x.UserId == user.Id).ToList();
+            foreach (var i in currentMappings)
             {
-                Episode created = new Episode()
+                if (ids.FindIndex(x => x == i.SeriesId) == -1)
                 {
-                    Number = t,
-                    Description = null,
-                    SeasonId = seasonId
-                };
-                _context.Episodes.Add(created);
-            }
-            _context.SaveChanges();
-            foreach (var t in nums)
-            {
-                _logger.LogInformation($"User {user.UserName} ({user.Id}) creates episode {t} for season {season.Number} ({season.Id}) for series {season.Series.Title} ({season.Series.Id})");
-            }
-        }
-
-        public void AddSeasonsToSeries(int[] nums, int seriesId, string userId)
-        {
-            // Check user
-            if (userId == null)
-            {
-                throw new Exception($"Invalid user access");
-            }
-            User user = _context.ApplicationUsers.Find(userId);
-            if (user == null)
-            {
-                throw new Exception($"Invalid user access with id: {userId}");
+                    _context.UserSeriesSwitch.Remove(i);
+                }
             }
 
-            // Check series
-            Series series = _context.Serieses.Find(seriesId);
-            if (series == null)
+            foreach (var i in ids)
             {
-                throw new Exception($"Invalid season with id: {seriesId}");
-            }
-
-            // Check nums
-            if (nums == null)
-            {
-                throw new Exception($"Invalid episode nums");
-            }
-
-            // Add season
-            foreach (var t in nums)
-            {
-                Season created = new Season()
+                if (currentMappings.FirstOrDefault(x => x.SeriesId == i) == null)
                 {
-                    Number = t,
-                    SeriesId = seriesId
+                    var map = new UserSeries() { SeriesId = i, UserId = user.Id };
+                    _context.UserSeriesSwitch.Add(map);
+                }
+            }
+
+            this._loggerService.LogInformation(user, nameof(SeriesService), UpdateMySeriesAction, ids);
+            _context.SaveChanges();
+        }
+        public void UpdateSeenStatus(int id, bool seen) {
+            var user = this._utilsService.GetCurrentUser();
+
+            var userEpisode = _context.UserEpisodeSwitch.Find(user.Id, id);
+            if (userEpisode == null)
+            {
+                userEpisode = new UserEpisode {
+                    UserId = user.Id,
+                    EpisodeId = id
                 };
-                _context.Seasons.Add(created);
             }
+
+            userEpisode.Seen = seen;
+            userEpisode.SeenOn = seen ? (DateTime?)DateTime.Now : null;
+            _context.UserEpisodeSwitch.Update(userEpisode);
             _context.SaveChanges();
-            foreach (var t in nums)
-            {
-                _logger.LogInformation($"User {user.UserName} ({user.Id}) creates season {t} for series {series.Title} ({series.Id})");
-            }
+
+            this._loggerService.LogInformation(user, nameof(SeriesService), SetEpisodeStatusAction, userEpisode.Episode.Id);
         }
-
-        public void CreateSeries(SeriesDTO series, string userId)
-        {
-            // Check series
-            if (series == null)
-            {
-                throw new Exception($"Invalid model data for series creation");
-            }
-
-            // Check user
-            if (userId == null)
-            {
-                throw new Exception($"Invalid user access");
-            }
-            User user = _context.ApplicationUsers.Find(userId);
-            if (user == null)
-            {
-                throw new Exception($"Invalid user access with id: {userId}");
-            }
-
-            // Create series
-            Series created = _mapper.Map<Series>(series);
-            created.CreaterId = userId;
-            created.CreationTime = DateTime.Now;
-
-            _context.Serieses.Add(created);
-            _context.SaveChanges();
-            _logger.LogInformation($"User {user.UserName} ({user.Id}) creates a series");
-        }
-
-        public void DeleteEpisodesFromSeason(int[] episodeIds, string userId)
-        {
-            // Check user
-            if (userId == null)
-            {
-                throw new Exception($"Invalid user access");
-            }
-            User user = _context.ApplicationUsers.Find(userId);
-            if (user == null)
-            {
-                throw new Exception($"Invalid user access with id: {userId}");
-            }
-
-            // Check episode ids
-            if (episodeIds == null)
-            {
-                throw new Exception("Invalid episode list");
-            }
-
-            // Remove episodes
-            _context.Episodes.RemoveRange(_context.Episodes.Where(x => episodeIds.Count(y => y == x.Id) == 1));
-            _context.SaveChanges();
-            _logger.LogInformation($"User {user.UserName} ({user.Id}) deletes some episode");
-        }
-
-        public void DeleteSeasonsFromSeries(int[] seasonIds, string userId)
-        {
-            // Check user
-            if (userId == null)
-            {
-                throw new Exception($"Invalid user access");
-            }
-            User user = _context.ApplicationUsers.Find(userId);
-            if (user == null)
-            {
-                throw new Exception($"Invalid user access with id: {userId}");
-            }
-
-            // Check season ids
-            if (seasonIds == null)
-            {
-                throw new Exception("Invalid season list");
-            }
-
-            // Remove seasons
-            _context.Seasons.RemoveRange(_context.Seasons.Where(x => seasonIds.Count(y => y == x.Id) == 1));
-            _context.SaveChanges();
-            _logger.LogInformation($"User {user.UserName} ({user.Id}) deletes some season");
-        }
-
-        public void DeleteSeries(int seriesId, string userId)
-        {
-            // Check user
-            if (userId == null)
-            {
-                throw new Exception($"Invalid user access");
-            }
-            User user = _context.ApplicationUsers.Find(userId);
-            if (user == null)
-            {
-                throw new Exception($"Invalid user access with id: {userId}");
-            }
-
-            // Check series
-            Series series = _context.Serieses.Find(seriesId);
-            if (series == null)
-            {
-                throw new Exception($"Invalid series with id: {seriesId}");
-            }
-
-            // Remove series
-            _context.Serieses.Remove(series);
-            _logger.LogInformation($"User {user.UserName} ({user.Id}) deletes series {series.Title} ({series.Id})");
-            _context.SaveChanges();
-        }
-
-        public List<SeriesListDTO> GetAllSeries(string userId)
-        {
-            // Check user
-            if (userId == null)
-            {
-                throw new Exception($"Invalid user access");
-            }
-            User user = _context.ApplicationUsers.Find(userId);
-            if (user == null)
-            {
-                throw new Exception($"Invalid user access with id: {userId}");
-            }
-
-            // Get series
-            _logger.LogInformation($"User {user.UserName} ({user.Id}) gets all series");
-            return _context.Serieses.Select(x => _mapper.Map<SeriesListDTO>(x)).ToList();
-        }
-
-        public List<SeriesListDTO> GetMySeries(string userId)
-        {
-            // Check user
-            if (userId == null)
-            {
-                throw new Exception($"Invalid user access");
-            }
-            User user = _context.ApplicationUsers.Find(userId);
-            if (user == null)
-            {
-                throw new Exception($"Invalid user access with id: {userId}");
-            }
-
-            // Get my series
-            var list = _context.Serieses
-                .Where(x =>
-                    x.Seasons
-                        .Count(y => y.Episodes
-                            .Count(z => z.UserEpisodes
-                                .Count(ue => ue.UserId == userId) > 0) > 0) > 0)
-                .Select(x => _mapper.Map<SeriesListDTO>(x))
-                .ToList();
-            _logger.LogInformation($"User {user.UserName} ({user.Id}) gets own series");
-            return list;
-        }
-
-        public void UpdateEpisode(int episodeId, EpisodeDTO episode, string userId)
-        {
-            // Check user
-            if (userId == null)
-            {
-                throw new Exception($"Invalid user access");
-            }
-            User user = _context.ApplicationUsers.Find(userId);
-            if (user == null)
-            {
-                throw new Exception($"Invalid user access with id: {userId}");
-            }
-
-            // Check episode
-            if (episode == null)
-            {
-                throw new Exception($"Invalid episode model");
-            }
-            if (episode.Id != episodeId)
-            {
-                throw new Exception($"Invalid update operation");
-            }
-            Episode stateEpisode = _context.Episodes.Find(episodeId);
-            if (stateEpisode == null)
-            {
-                throw new Exception($"Invalid episode with id: {episodeId}");
-            }
-
-            // Update episode
-            stateEpisode.Description = episode.Description;
-            stateEpisode.Number = episode.Number;
-            _context.Episodes.Update(stateEpisode);
-            _context.SaveChanges();
-            _logger.LogInformation($"User {user.UserName} ({user.Id}) update episode {stateEpisode.Number} ({stateEpisode.Id}) from season {stateEpisode.Season.Number} ({stateEpisode.Season.Id}) from series {stateEpisode.Season.Series.Title} ({stateEpisode.Season.Series.Id})");
-        }
-
-        public void UpdateSeries(int seriesId, SeriesDTO series, string userId)
-        {
-            // Check user
-            if (userId == null)
-            {
-                throw new Exception($"Invalid user access");
-            }
-            User user = _context.ApplicationUsers.Find(userId);
-            if (user == null)
-            {
-                throw new Exception($"Invalid user access with id: {userId}");
-            }
-
-            // Check series
-            if (series == null)
-            {
-                throw new Exception($"Invalid episode model");
-            }
-            if (series.Id != seriesId)
-            {
-                throw new Exception($"Invalid update operation");
-            }
-            Series stateSeries = _context.Serieses.Find(seriesId);
-            if (stateSeries == null)
-            {
-                throw new Exception($"Invalid episode with id: {seriesId}");
-            }
-
-            // Update series
-            stateSeries.Description = series.Description;
-            stateSeries.Title = series.Title;
-            stateSeries.StartYear = series.StartYear;
-            stateSeries.EndYear = series.EndYear;
-            _context.Serieses.Update(stateSeries);
-            _context.SaveChanges();
-            _logger.LogInformation($"User {user.UserName} ({user.Id}) update series {stateSeries.Title} ({stateSeries.Id})");
-        }
-        
-        */
     }
 }
