@@ -71,6 +71,7 @@ namespace ManagerAPI.Backend
                 x.AddProfile(new WorkingManagerProfile());
                 x.AddProfile(new MovieProfile());
                 x.AddProfile(new BookProfile());
+                x.AddProfile(new SeriesProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -97,6 +98,7 @@ namespace ManagerAPI.Backend
             services.AddScoped<IWorkingManagerService, WorkingManagerService>();
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IBookService, BookService>();
+            services.AddScoped<ISeriesService, SeriesService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
