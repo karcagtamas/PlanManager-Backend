@@ -26,7 +26,7 @@ namespace EventManager.Client.Pages.MyTasks
         protected List<TaskDateDto> TaskList { get; set; }
         protected bool IsLoading { get; set; } = false;
         private int SelectedTask { get; set; }
-        private bool? IsSolvedSelectorValue { get; set; } = false;
+        protected bool? IsSolvedSelectorValue { get; set; } = false;
 
         protected override async Task OnInitializedAsync()
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using ManagerAPI.Models.DTOs.WM;
 using ManagerAPI.Models.Models;
+using ManagerAPI.Models.Models.WM;
 using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,7 @@ namespace KarcagS.Backend.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateWorkingDay([FromBody] WorkingDayDto workingDay)
+        public IActionResult CreateWorkingDay([FromBody] WorkingDayInitModel workingDay)
         {
             try
             {
@@ -59,7 +60,7 @@ namespace KarcagS.Backend.Controllers
         }
 
         [HttpPut("{workingDayId}")]
-        public IActionResult UpdateWorkingDay(int workingDayId, [FromBody] WorkingDayDto workingDay)
+        public IActionResult UpdateWorkingDay(int workingDayId, [FromBody] WorkingDayModel workingDay)
         {
             try
             {
@@ -77,7 +78,7 @@ namespace KarcagS.Backend.Controllers
         }
 
         [HttpPost("{workingDayId}/field")]
-        public IActionResult AddWorkingField(int workingDayId, [FromBody] WorkingFieldDto workingField)
+        public IActionResult AddWorkingField(int workingDayId, [FromBody] WokringFieldModel workingField)
         {
             try
             {
@@ -113,7 +114,7 @@ namespace KarcagS.Backend.Controllers
         }
 
         [HttpPut("field/{workingFieldId}")]
-        public IActionResult UpdateWorkingField(int workingFieldId, [FromBody] WorkingFieldDto workingField)
+        public IActionResult UpdateWorkingField(int workingFieldId, [FromBody] WokringFieldModel workingField)
         {
             try
             {

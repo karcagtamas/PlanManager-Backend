@@ -1,15 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Models.DTOs.WM
+namespace ManagerAPI.Models.Models.WM
 {
-    public class WorkingDayDto
+    public class WorkingDayModel
     {
-        public int? Id { get; set; }
-
-        [Required]
-        public DateTime Day { get; set; }
-
         [Required]
         public int StartHour { get; set; }
 

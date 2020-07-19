@@ -6,26 +6,21 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Models.WM
 {
-    public class WorkingDayDto
+    public class WorkingDayModel
     {
-        public int? Id { get; set; }
-
-        [Required]
-        public DateTime Day { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = "Field is required")]
         public int StartHour { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Field is required")]
         public int StartMin { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Field is required")]
         public int EndHour { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Field is required")]
         public int EndMin { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Field is required")]
         public int Type { get; set; }
     }
 }

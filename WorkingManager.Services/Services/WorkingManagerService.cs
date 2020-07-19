@@ -6,6 +6,7 @@ using ManagerAPI.DataAccess;
 using ManagerAPI.Models.DTOs.WM;
 using ManagerAPI.Models.Entities;
 using ManagerAPI.Models.Entities.WM;
+using ManagerAPI.Models.Models.WM;
 using ManagerAPI.Services.Services.Interfaces;
 using WorkingManager.Services.Services.Interfaces;
 
@@ -80,12 +81,20 @@ namespace WorkingManager.Services.Services
         /// <summary>
         /// Create working day
         /// </summary>
-        /// <param name="workingDay">Working day model</param>
-        public void CreateWorkingDay(WorkingDayDto workingDay)
+        /// <param name="model">Working day init model</param>
+        public void CreateWorkingDay(WorkingDayInitModel model)
         {
             User user = this._utilsService.GetCurrentUser();
-            WorkingDay created = _mapper.Map<WorkingDay>(workingDay);
-            created.UserId = user.Id;
+            WorkingDay created = new WorkingDay
+            {
+                Day = model.Date,
+                StartHour = 8,
+                EndHour = 16,
+                StartMin = 0,
+                EndMin = 0,
+                TypeId = 1,
+                UserId = user.Id
+            };
 
             _context.WorkingDays.Add(created);
             _context.SaveChanges();
@@ -96,15 +105,10 @@ namespace WorkingManager.Services.Services
         /// Update working day
         /// </summary>
         /// <param name="workingDayId">Wokring day's Id</param>
-        /// <param name="workingDay">Working day model</param>
-        public void UpdateWorkingDay(int workingDayId, WorkingDayDto workingDay)
+        /// <param name="model">Working day model</param>
+        public void UpdateWorkingDay(int workingDayId, WorkingDayModel model)
         {
             User user = this._utilsService.GetCurrentUser();
-
-            if (workingDay.Id != workingDayId)
-            {
-                throw this._loggerService.LogInvalidThings(user, nameof(WorkingManagerService), DayIdThing, WorkingDayIdsDoNotMatchMessage);
-            }
 
             WorkingDay updated = _context.WorkingDays.Find(workingDayId);
             if (updated == null)
@@ -112,7 +116,7 @@ namespace WorkingManager.Services.Services
                 throw this._loggerService.LogInvalidThings(user, nameof(WorkingManagerService), DayIdThing, WorkingDayDoesNotExistMessage);
             }
 
-            _mapper.Map(workingDay, updated);
+            _mapper.Map(model, updated);
 
             _context.WorkingDays.Update(updated);
             _context.SaveChanges();
@@ -123,8 +127,8 @@ namespace WorkingManager.Services.Services
         /// Add working field to working day
         /// </summary>
         /// <param name="workingDayId">Working day's Id</param>
-        /// <param name="workingFieldModel">Working field model</param>
-        public void AddWorkingField(int workingDayId, WorkingFieldDto workingFieldModel)
+        /// <param name="model">Working field model</param>
+        public void AddWorkingField(int workingDayId, WokringFieldModel model)
         {
             User user = this._utilsService.GetCurrentUser();
             WorkingDay workingDay = _context.WorkingDays.Find(workingDayId);
@@ -134,7 +138,7 @@ namespace WorkingManager.Services.Services
                 throw this._loggerService.LogInvalidThings(user, nameof(WorkingManagerService), DayIdThing, WorkingDayDoesNotExistMessage);
             }
 
-            WorkingField workingField = _mapper.Map<WorkingField>(workingFieldModel);
+            WorkingField workingField = _mapper.Map<WorkingField>(model);
             workingDay.WorkingFields.Add(workingField);
             _context.SaveChanges();
 
@@ -165,22 +169,18 @@ namespace WorkingManager.Services.Services
         /// Update working field
         /// </summary>
         /// <param name="workingFieldId">Working field's Id</param>
-        /// <param name="workingField">Working field</param>
-        public void UpdateWorkingField(int workingFieldId, WorkingFieldDto workingField)
+        /// <param name="model">Working field</param>
+        public void UpdateWorkingField(int workingFieldId, WokringFieldModel model)
         {
             User user = this._utilsService.GetCurrentUser();
 
-            if (workingFieldId != workingField.Id)
-            {
-                throw this._loggerService.LogInvalidThings(user, nameof(WorkingManagerService), FieldIdThing, WorkingFieldIdsDoNotMatchMessage);
-            }
             WorkingField updated = _context.WorkingFields.Find(workingFieldId);
             if (updated == null)
             {
                 throw this._loggerService.LogInvalidThings(user, nameof(WorkingManagerService), FieldIdThing, WorkingFieldDoesNotExistMessage);
             }
 
-            _mapper.Map(workingField, updated);
+            _mapper.Map(model, updated);
             _context.WorkingFields.Update(updated);
             _context.SaveChanges();
             this._loggerService.LogInformation(user, nameof(WorkingManagerService), UpdateWorkingFieldAction, updated.Id);

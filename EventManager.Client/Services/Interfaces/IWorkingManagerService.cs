@@ -9,11 +9,11 @@ namespace EventManager.Client.Services.Interfaces
     public interface IWorkingManagerService
     {
         Task<WorkingDayListDto> GetWorkingDay(DateTime day);
-        Task<bool> CreateWorkingDay(WorkingDayDto workingDay);
-        Task<bool> UpdateWorkingDay(int workingDayId, WorkingDayDto workingDay);
-        Task<bool> AddWorkingField(int workingDayId, WorkingFieldDto workingField);
+        Task<bool> CreateWorkingDay(WorkingDayInitModel model);
+        Task<bool> UpdateWorkingDay(int workingDayId, WorkingDayModel model);
+        Task<bool> AddWorkingField(int workingDayId, WorkingFieldModel model);
         Task<bool> DeleteWorkingField(int workingFieldId);
-        Task<bool> UpdateWorkingField(int workingFieldId, WorkingFieldDto workingField);
+        Task<bool> UpdateWorkingField(int workingFieldId, WorkingFieldModel model);
         Task<List<WorkingDayTypeDto>> GetWorkingDayTypes();
     }
 }

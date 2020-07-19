@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KarcagS.Backend.Models;
-using KarcagS.DataAccess.DTOs;
-using KarcagS.Service.Interfaces;
 using ManagerAPI.Models.Models;
 using ManagerAPI.Models.Models.MC;
 using ManagerAPI.Services.Services.Interfaces;

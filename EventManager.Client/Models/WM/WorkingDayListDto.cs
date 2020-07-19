@@ -13,7 +13,7 @@ namespace EventManager.Client.Models.WM
         public int StartMin { get; set; }
         public int EndHour { get; set; }
         public int EndMin { get; set; }
-        public WorkingDayTypeDto Type { get; set; }
+        public int Type { get; set; }
         public List<WorkingFieldListDto> WorkingFields { get; set; }
     }
 }

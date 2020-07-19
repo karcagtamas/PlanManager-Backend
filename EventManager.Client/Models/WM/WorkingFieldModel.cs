@@ -1,6 +1,11 @@
-﻿namespace ManagerAPI.Models.DTOs.WM
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace EventManager.Client.Models.WM
 {
-    public class WorkingFieldDto
+    public class WorkingFieldModel
     {
         public int? Id { get; set; }
         public string Title { get; set; }

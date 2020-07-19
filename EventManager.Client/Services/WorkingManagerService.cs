@@ -21,7 +21,7 @@ namespace EventManager.Client.Services
             this._helperService = helperService;
         }
 
-        public async Task<bool> AddWorkingField(int workingDayId, WorkingFieldDto workingField)
+        public async Task<bool> AddWorkingField(int workingDayId, WorkingFieldModel model)
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(workingDayId, -1);
@@ -29,18 +29,18 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}", null, pathParams, "Wokring field adding");
 
-            var body = new HttpBody<WorkingFieldDto>(this._helperService, workingField);
+            var body = new HttpBody<WorkingFieldModel>(this._helperService, model);
 
-            return await this._httpService.create<WorkingFieldDto>(settings, body);
+            return await this._httpService.create<WorkingFieldModel>(settings, body);
         }
 
-        public async Task<bool> CreateWorkingDay(WorkingDayDto workingDay)
+        public async Task<bool> CreateWorkingDay(WorkingDayInitModel model)
         {
             var settings = new HttpSettings($"{this._url}", null, null, "Working day adding");
 
-            var body = new HttpBody<WorkingDayDto>(this._helperService, workingDay);
+            var body = new HttpBody<WorkingDayInitModel>(this._helperService, model);
 
-            return await this._httpService.create<WorkingDayDto>(settings, body);
+            return await this._httpService.create<WorkingDayInitModel>(settings, body);
         }
 
         public async Task<bool> DeleteWorkingField(int workingFieldId)
@@ -70,28 +70,28 @@ namespace EventManager.Client.Services
             return await this._httpService.get<List<WorkingDayTypeDto>>(settings);
         }
 
-        public async Task<bool> UpdateWorkingDay(int workingDayId, WorkingDayDto workingDay)
+        public async Task<bool> UpdateWorkingDay(int workingDayId, WorkingDayModel model)
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(workingDayId, -1);
 
             var settings = new HttpSettings($"{this._url}", null, pathParams, "Wokring day updating");
 
-            var body = new HttpBody<WorkingDayDto>(this._helperService, workingDay);
+            var body = new HttpBody<WorkingDayModel>(this._helperService, model);
 
-            return await this._httpService.update<WorkingDayDto>(settings, body);
+            return await this._httpService.update<WorkingDayModel>(settings, body);
         }
 
-        public async Task<bool> UpdateWorkingField(int workingFieldId, WorkingFieldDto workingField)
+        public async Task<bool> UpdateWorkingField(int workingFieldId, WorkingFieldModel model)
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(workingFieldId, -1);
 
             var settings = new HttpSettings($"{this._url}", null, pathParams, "Wokring field updating");
 
-            var body = new HttpBody<WorkingFieldDto>(this._helperService, workingField);
+            var body = new HttpBody<WorkingFieldModel>(this._helperService, model);
 
-            return await this._httpService.update<WorkingFieldDto>(settings, body);
+            return await this._httpService.update<WorkingFieldModel>(settings, body);
         }
     }
 }

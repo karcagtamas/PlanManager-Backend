@@ -9,7 +9,7 @@
         <div class="action-bar">
             <MatButton @onclick="OpenAddTaskModal">Add Task</MatButton>
             <span class="spacer"></span>
-            <MatSelect TValue="bool?" Value="false" Label="Is Solved" Outlined="true" Dense="true" ValueChanged="@IsSolvedSelectorValueChanged">
+            <MatSelect TValue="bool?" Value="IsSolvedSelectorValue" Label="Is Solved" Outlined="true" Dense="true" ValueChanged="@IsSolvedSelectorValueChanged">
                 <MatOption TValue="bool?" Value="null"></MatOption>
                 <MatOption TValue="bool?" Value="true">Only Solved</MatOption>
                 <MatOption TValue="bool?" Value="false">Only Not Solved</MatOption>

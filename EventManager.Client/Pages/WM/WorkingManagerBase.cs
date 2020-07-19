@@ -22,12 +22,16 @@ namespace EventManager.Client.Pages.WM
         [Inject]
         protected NavigationManager NavigationManager { get; set; }
 
-        protected WorkingDayListDto WorkingDay { get; set; }
-        protected bool IsLoading { get; set; } 
+        protected WorkingDayModel WorkingDay { get; set; }
+        protected int? WorkingDayId { get; set; }
+        protected bool IsLoading { get; set; }
+        protected List<WorkingDayTypeDto> WorkingDayTypes { get; set; }
+        protected List<WorkingFieldListDto> WorkingFields { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             await this.GetWorkingDay();
+            await this.GetWorkingDayTypes();
         }
 
         protected override async Task OnParametersSetAsync()
@@ -39,9 +43,24 @@ namespace EventManager.Client.Pages.WM
         {
             this.IsLoading = true;
             StateHasChanged();
-            this.WorkingDay = await this.WorkingManagerService.GetWorkingDay(this.Date);
+            var workingDay = await this.WorkingManagerService.GetWorkingDay(this.Date);
+            this.WorkingDay = workingDay != null ? new WorkingDayModel
+            {
+                StartHour = workingDay.StartHour,
+                EndHour = workingDay.EndHour,
+                StartMin = workingDay.StartMin,
+                EndMin = workingDay.EndMin,
+                Type = workingDay.Type
+            } : null;
+            this.WorkingDayId = workingDay != null ? workingDay.Id : (int?)null;
+            this.WorkingFields = workingDay != null ? workingDay.WorkingFields : null;
             this.IsLoading = false;
             StateHasChanged();
+        }
+
+        protected async Task GetWorkingDayTypes()
+        {
+            this.WorkingDayTypes = await this.WorkingManagerService.GetWorkingDayTypes();
         }
 
         protected void Redirect(bool direction)
@@ -51,17 +70,20 @@ namespace EventManager.Client.Pages.WM
 
         protected async Task InitWorkingDay()
         {
-            var workingDay = new WorkingDayDto
+            var workingDay = new WorkingDayInitModel
             {
-                Day = Date,
-                StartHour = 8,
-                StartMin = 0,
-                EndHour = 16,
-                EndMin = 0,
-                Type = 1
+                Date = Date
             };
 
             if (await this.WorkingManagerService.CreateWorkingDay(workingDay))
+            {
+                await this.GetWorkingDay();
+            }
+        }
+
+        protected async Task Save()
+        {
+            if (this.WorkingDay != null && await this.WorkingManagerService.UpdateWorkingDay((int)this.WorkingDayId, this.WorkingDay))
             {
                 await this.GetWorkingDay();
             }
