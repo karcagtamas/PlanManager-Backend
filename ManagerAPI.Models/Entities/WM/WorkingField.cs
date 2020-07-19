@@ -13,6 +13,7 @@ namespace ManagerAPI.Models.Entities.WM
 
         public string Description { get; set; }
 
+        [Required]
         public int Length { get; set; }
 
         [Required]
