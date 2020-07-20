@@ -82,5 +82,11 @@ namespace EventManager.Client.Shared.Components.WM
                 }
             }
         }
+
+        protected async void DeleteField() {
+            if (await this.WorkingManagerService.DeleteWorkingField(this.Id)) {
+                ModalService.Close(ModalResult.Ok<bool>(true));
+            }
+        }
     }
 }

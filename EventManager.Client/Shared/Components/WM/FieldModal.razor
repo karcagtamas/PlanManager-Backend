@@ -16,4 +16,9 @@
             <ValidationMessage For="() => Model.Length" />
         </div>
     </EditForm>
+    @if (Id != 0) {
+        <div>
+            <MatButton @onclick="DeleteField">Delete</MatButton>
+        </div>
+    }
 </div>
