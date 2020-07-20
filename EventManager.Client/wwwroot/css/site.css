@@ -6,7 +6,11 @@ html, body {
 
 body {
   margin: 0;
-  background: linear-gradient(60deg, #ffb2b6 0%, #e2c2ff 50%, #ad99ff 100%) fixed; }
+  background: linear-gradient(60deg, #ffb2b6 0%, #e2c2ff 50%, #ad99ff 100%) fixed;
+  display: flex; }
+
+app {
+  width: 100%; }
 
 * {
   font-family: 'Bree Serif', serif !important; }
@@ -89,6 +93,7 @@ body {
   width: auto; }
 
 .main-box {
+  flex-grow: 1;
   max-height: 100vh;
   padding: 1rem; }
   .main-box .main-content {
@@ -426,11 +431,24 @@ body {
   text-overflow: ellipsis; }
 
 /* Navbar */
-.em-navbar-outer {
+.em-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
   height: 100vh; }
 
+.em-navbar-box {
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(249, 249, 249, 0.55); }
+  .em-navbar-box .em-navbar-outer {
+    flex-grow: 1;
+    display: flex;
+    overflow: auto; }
+
 .em-navbar {
-  background-color: rgba(249, 249, 249, 0.55);
+  flex-grow: 1;
   display: flex;
   flex-direction: column; }
   .em-navbar .em-navbar-brand-outer {
@@ -448,8 +466,9 @@ body {
         background-color: rgba(92, 0, 255, 0.1);
         color: #5120a5;
         transition-duration: 0.5s; }
-  .em-navbar .vert-spacer {
-    flex-grow: 1; }
+  .em-navbar .em-navbar-menu {
+    flex-grow: 1;
+    overflow: auto; }
 
 /* Friend data */
 .friend-data .data-row {
