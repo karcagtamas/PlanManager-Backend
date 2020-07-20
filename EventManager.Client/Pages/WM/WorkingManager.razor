@@ -72,7 +72,14 @@
                     @foreach (var field in WorkingFields)
                     {
                         <div @onclick="@(() => OpenUpdateFieldModal(field.Id))" class="field">
-                            @field.Title
+                            <div class="title-row">
+                                @field.Title
+                                <span class="spacer"></span>
+                                @field.Length h
+                            </div>
+                            <div class="description">
+                                @field.Description
+                            </div>
                         </div>
                     }
                 </div>
