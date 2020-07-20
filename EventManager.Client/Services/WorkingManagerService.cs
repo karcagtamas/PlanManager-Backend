@@ -75,7 +75,7 @@ namespace EventManager.Client.Services
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(id, -1);
 
-            var settings = new HttpSettings($"{this._url}/field");
+            var settings = new HttpSettings($"{this._url}/field", null, pathParams);
 
             return await this._httpService.get<WorkingFieldDto>(settings);
         }
@@ -97,7 +97,7 @@ namespace EventManager.Client.Services
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(workingFieldId, -1);
 
-            var settings = new HttpSettings($"{this._url}", null, pathParams, "Wokring field updating");
+            var settings = new HttpSettings($"{this._url}/field", null, pathParams, "Wokring field updating");
 
             var body = new HttpBody<WorkingFieldModel>(this._helperService, model);
 

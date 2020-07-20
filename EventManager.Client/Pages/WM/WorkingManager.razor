@@ -68,21 +68,28 @@
                         </div>
                     </EditForm>
                 </div>
-                <div class="field-list">
-                    @foreach (var field in WorkingFields)
-                    {
-                        <div @onclick="@(() => OpenUpdateFieldModal(field.Id))" class="field">
-                            <div class="title-row">
-                                @field.Title
-                                <span class="spacer"></span>
-                                @field.Length h
+                @if (WorkingFields != null && WorkingFields.Count > 0)
+                {
+                    <div class="stats">
+                        <div class="em-sub-title">Statistics</div>
+                    </div>
+                    <div class="field-list">
+                        <div class="em-sub-title">Working Fields</div>
+                        @foreach (var field in WorkingFields)
+                        {
+                            <div @onclick="@(() => OpenUpdateFieldModal(field.Id))" class="field">
+                                <div class="title-row">
+                                    @field.Title
+                                    <span class="spacer"></span>
+                                    @field.Length h
+                                </div>
+                                <div class="description">
+                                    @field.Description
+                                </div>
                             </div>
-                            <div class="description">
-                                @field.Description
-                            </div>
-                        </div>
-                    }
-                </div>
+                        }
+                    </div>
+                }
             }
         </div>
     }
