@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
-using ManagerAPI.Models.Models;
-using Microsoft.AspNetCore.Identity;
+using ManagerAPI.Shared.Models;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {

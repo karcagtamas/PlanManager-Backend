@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Models.Entities.PM
+namespace ManagerAPI.Domain.Entities.PM
 {
     public class PlanGroupPlan
     {

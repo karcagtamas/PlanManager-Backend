@@ -1,6 +1,6 @@
-using ManagerAPI.Models.DTOs;
-using ManagerAPI.Models.Entities;
-using ManagerAPI.Models.Enums;
+using ManagerAPI.Domain.Entities;
+using ManagerAPI.Domain.Enums;
+using ManagerAPI.Shared.DTOs;
 using System.Collections.Generic;
 
 namespace ManagerAPI.Services.Services.Interfaces

@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using EventManager.Services.Services;
-using ManagerAPI.Models.DTOs.EM;
-using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

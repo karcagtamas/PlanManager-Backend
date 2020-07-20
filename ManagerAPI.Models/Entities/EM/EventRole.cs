@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Models.Entities.EM
+namespace ManagerAPI.Domain.Entities.EM
 {
     public class EventRole
     {

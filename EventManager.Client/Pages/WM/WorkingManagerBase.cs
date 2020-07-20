@@ -1,7 +1,8 @@
 ﻿using EventManager.Client.Models;
-using EventManager.Client.Models.WM;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Components.WM;
+using ManagerAPI.Shared.DTOs.WM;
+using ManagerAPI.Shared.Models.WM;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -51,10 +52,6 @@ namespace EventManager.Client.Pages.WM
             var workingDay = await this.WorkingManagerService.GetWorkingDay(this.Date);
             this.WorkingDay = workingDay != null ? new WorkingDayModel
             {
-                StartHour = workingDay.StartHour,
-                EndHour = workingDay.EndHour,
-                StartMin = workingDay.StartMin,
-                EndMin = workingDay.EndMin,
                 Type = workingDay.Type
             } : null;
             this.WorkingDayId = workingDay != null ? workingDay.Id : (int?)null;

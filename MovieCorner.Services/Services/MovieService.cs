@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Models.DTOs.MC;
-using ManagerAPI.Models.Entities.MC;
-using ManagerAPI.Models.Models.MC;
+using ManagerAPI.Domain.Entities.MC;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.MC;
+using ManagerAPI.Shared.Models.MC;
 using MovieCorner.Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;

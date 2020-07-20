@@ -209,9 +209,18 @@ app {
 
             .title-row {
                 display: flex;
+                color: $primary;
+
+                .title {
+                    font-style: italic;
+                }
 
                 .spacer {
                     flex-grow: 1;
+                }
+
+                .hours {
+                    font-weight: bold;
                 }
             }
         }

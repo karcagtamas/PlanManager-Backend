@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Models.DTOs;
-using ManagerAPI.Models.Entities;
-using ManagerAPI.Models.Enums;
-using ManagerAPI.Models.Models;
+using ManagerAPI.Domain.Entities;
+using ManagerAPI.Domain.Enums;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace ManagerAPI.Services.Services

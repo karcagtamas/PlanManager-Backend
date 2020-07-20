@@ -1,10 +1,8 @@
 ﻿using EventManager.Client.Models;
-using EventManager.Client.Models.Tasks;
 using EventManager.Client.Services.Interfaces;
-using System;
+using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Services

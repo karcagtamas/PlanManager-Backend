@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ManagerAPI.Models.Entities;
-using ManagerAPI.Models.Models;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Services.Interfaces;
-using Microsoft.EntityFrameworkCore.Internal;
+using ManagerAPI.Shared.Models;
 using Microsoft.Extensions.Logging;
 
 namespace ManagerAPI.Services.Services

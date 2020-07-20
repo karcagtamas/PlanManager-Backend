@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Models.DTOs.EM;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.EM;
 
 namespace EventManager.Services.Services
 {

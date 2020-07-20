@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Models.DTOs.EM;
-using ManagerAPI.Models.Entities.EM;
+using ManagerAPI.Domain.Entities.EM;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.EM;
+using ManagerAPI.Shared.Models.EM;
 
 namespace EventManager.Services.Services
 {
@@ -131,7 +132,7 @@ namespace EventManager.Services.Services
         /// Create roles for the event.
         /// </summary>
         /// <param name="model">Event model</param>
-        public void CreateEvent(EventCreateDto model)
+        public void CreateEvent(EventModel model)
         {
             var user = _utilsService.GetCurrentUser();
             var masterEvent = _mapper.Map<MasterEvent>(model);

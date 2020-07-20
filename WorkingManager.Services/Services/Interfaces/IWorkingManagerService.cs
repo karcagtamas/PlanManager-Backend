@@ -15,5 +15,6 @@ namespace WorkingManager.Services.Services.Interfaces
         void UpdateWorkingField(int workingFieldId, WokringFieldModel model);
         List<WorkingDayTypeDto> GetWorkingDayTypes();
         WorkingFieldDto GetWorkingField(int id);
+
     }
 }

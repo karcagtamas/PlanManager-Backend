@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventManager.Client.Enums;
 using EventManager.Client.Models;
-using EventManager.Client.Models.User;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Common;
 using EventManager.Client.Shared.Components.MyProfile;
-using MatBlazor;
+using ManagerAPI.Shared.DTOs;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Pages.Profiles
@@ -19,9 +18,6 @@ namespace EventManager.Client.Pages.Profiles
         
         [Inject]
         private IAuthService AuthService { get; set; }
-
-        [Inject]
-        private IMatToaster Toaster { get; set; }
         
         [Inject]
         public IHelperService HelperService { get; set; }

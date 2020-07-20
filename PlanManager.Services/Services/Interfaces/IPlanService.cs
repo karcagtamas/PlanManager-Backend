@@ -1,5 +1,5 @@
+using ManagerAPI.Shared.DTOs.PM;
 using System.Collections.Generic;
-using ManagerAPI.Models.DTOs.PM;
 
 namespace PlanManager.Services.Services.Interfaces
 {

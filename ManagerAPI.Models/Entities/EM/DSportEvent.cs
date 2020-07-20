@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ManagerAPI.Models.Entities.EM
+namespace ManagerAPI.Domain.Entities.EM
 {
     public class DSportEvent
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EventManager.Client.Models;
-using EventManager.Client.Models.Events;
+using ManagerAPI.Shared.DTOs.EM;
+using ManagerAPI.Shared.Models.EM;
 
 namespace EventManager.Client.Services.Interfaces {
     public interface IEventService {

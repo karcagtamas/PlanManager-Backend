@@ -1,9 +1,9 @@
 using System;
-using System.Collections.Generic;
 using EventManager.Services.Services;
-using ManagerAPI.Models.DTOs.EM;
-using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.EM;
+using ManagerAPI.Shared.Models;
+using ManagerAPI.Shared.Models.EM;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,7 +56,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateEvent([FromBody] EventCreateDto model)
+        public IActionResult CreateEvent([FromBody] EventModel model)
         {
             try
             {

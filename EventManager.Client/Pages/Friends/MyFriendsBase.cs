@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
-using EventManager.Client.Models.Friends;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Components.Friends;
-using MatBlazor;
+using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Pages.Friends

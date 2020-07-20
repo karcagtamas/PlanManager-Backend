@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ManagerAPI.Models.Entities.WM
+namespace ManagerAPI.Domain.Entities.WM
 {
     public class WorkingDay {
 
@@ -13,18 +13,6 @@ namespace ManagerAPI.Models.Entities.WM
         [Required]
         [Column(TypeName = "datetime2")]
         public DateTime Day { get; set; }
-
-        [Required]
-        public int StartHour { get; set; }
-
-        [Required]
-        public int StartMin { get; set; }
-
-        [Required]
-        public int EndHour { get; set; }
-
-        [Required]
-        public int EndMin { get; set; }
 
         [Required]
         public string UserId { get; set; }

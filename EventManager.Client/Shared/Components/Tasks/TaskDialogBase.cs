@@ -1,7 +1,8 @@
 ﻿using EventManager.Client.Models;
-using EventManager.Client.Models.Tasks;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System;

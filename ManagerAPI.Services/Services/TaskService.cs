@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Models.DTOs;
-using ManagerAPI.Models.Entities;
-using ManagerAPI.Models.Enums;
-using ManagerAPI.Models.Models;
+using ManagerAPI.Domain.Entities;
+using ManagerAPI.Domain.Enums;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 
 namespace ManagerAPI.Services.Services
 {

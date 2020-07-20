@@ -1,8 +1,9 @@
 using System.Threading.Tasks;
 using EventManager.Client.Models;
-using EventManager.Client.Models.WM;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.WM;
+using ManagerAPI.Shared.Models.WM;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 

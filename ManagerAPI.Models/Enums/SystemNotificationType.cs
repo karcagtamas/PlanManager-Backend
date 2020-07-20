@@ -1,4 +1,4 @@
-namespace ManagerAPI.Models.Enums
+namespace ManagerAPI.Domain.Enums
 {
     public enum SystemNotificationType
     {

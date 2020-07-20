@@ -1,9 +1,9 @@
 ﻿using EventManager.Client.Enums;
 using EventManager.Client.Models;
-using EventManager.Client.Models.Tasks;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Common;
 using EventManager.Client.Shared.Components.Tasks;
+using ManagerAPI.Shared.DTOs;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;

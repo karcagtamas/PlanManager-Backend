@@ -4,7 +4,7 @@ using AutoMapper;
 using EventManager.Services.Profiles;
 using EventManager.Services.Services;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Models.Entities;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Profiles;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
@@ -25,9 +25,6 @@ using MovieCorner.Services.Services.Interfaces;
 using PlanManager.Services.Profiles;
 using PlanManager.Services.Services;
 using PlanManager.Services.Services.Interfaces;
-using WorkingManager.Services.Profiles;
-using WorkingManager.Services.Services;
-using WorkingManager.Services.Services.Interfaces;
 
 namespace ManagerAPI.Backend
 {

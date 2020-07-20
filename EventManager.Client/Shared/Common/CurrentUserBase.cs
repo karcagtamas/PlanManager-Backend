@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using EventManager.Client.Models.User;
 using EventManager.Client.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Shared.Common

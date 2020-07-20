@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Models.Entities
+namespace ManagerAPI.Domain.Entities
 {
     public class News
     {

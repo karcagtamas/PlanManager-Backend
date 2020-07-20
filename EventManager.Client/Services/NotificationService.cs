@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
-using EventManager.Client.Models.Notifications;
 using EventManager.Client.Services.Interfaces;
-using Microsoft.AspNetCore.Components;
+using ManagerAPI.Shared.DTOs;
 
 namespace EventManager.Client.Services
 {

@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Models.Entities.MC
+namespace ManagerAPI.Domain.Entities.MC
 {
     public class UserBook
     {

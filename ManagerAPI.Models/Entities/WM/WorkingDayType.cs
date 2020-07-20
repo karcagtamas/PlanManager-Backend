@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Models.Entities.WM
+namespace ManagerAPI.Domain.Entities.WM
 {
     public class WorkingDayType
     {

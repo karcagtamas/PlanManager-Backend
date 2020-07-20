@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using ManagerAPI.Models.DTOs.MC;
-using ManagerAPI.Models.Models.MC;
+﻿using ManagerAPI.Shared.DTOs.MC;
+using ManagerAPI.Shared.Models.MC;
+using System.Collections.Generic;
 
 namespace MovieCorner.Services.Services.Interfaces
 {

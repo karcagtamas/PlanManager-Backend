@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Models.Entities
+namespace ManagerAPI.Domain.Entities
 {
     public class NotificationSystem
     {

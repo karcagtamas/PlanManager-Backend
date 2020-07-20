@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Models.Entities.WM
+namespace ManagerAPI.Domain.Entities.WM
 {
     public class WorkingField 
     {
@@ -14,7 +14,7 @@ namespace ManagerAPI.Models.Entities.WM
         public string Description { get; set; }
 
         [Required]
-        public int Length { get; set; }
+        public decimal Length { get; set; }
 
         [Required]
         public int WorkingDayId { get; set; }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EventManager.Client.Models.SL;
+using ManagerAPI.Shared.DTOs.MC;
+using ManagerAPI.Shared.Models.MC;
 
 namespace EventManager.Client.Services.Interfaces
 {

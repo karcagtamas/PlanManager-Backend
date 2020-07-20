@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ManagerAPI.Models.Entities.EM;
-using ManagerAPI.Models.Entities.MC;
-using ManagerAPI.Models.Entities.PM;
-using ManagerAPI.Models.Entities.WM;
+using ManagerAPI.Domain.Entities.EM;
+using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Entities.PM;
+using ManagerAPI.Domain.Entities.WM;
 using Microsoft.AspNetCore.Identity;
 
-namespace ManagerAPI.Models.Entities {
+namespace ManagerAPI.Domain.Entities {
     public class User : IdentityUser {
         [MaxLength (100)]
         public string FullName { get; set; }

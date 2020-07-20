@@ -1,8 +1,7 @@
-﻿using ManagerAPI.Models.Entities;
-using ManagerAPI.Models.Models;
+﻿using ManagerAPI.Domain.Entities;
+using ManagerAPI.Shared.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {

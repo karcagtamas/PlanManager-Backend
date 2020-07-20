@@ -1,10 +1,7 @@
-using System;
-using System.Threading.Tasks;
 using EventManager.Client.Models;
-using EventManager.Client.Models.User;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
-using MatBlazor;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -26,7 +23,7 @@ namespace EventManager.Client.Shared.Components.MyProfile
 
         public int FormId { get; set; }
 
-        protected PasswordUpdateModifiyModel PasswordUpdate { get; set; }
+        protected PasswordUpdateModifyModel PasswordUpdate { get; set; }
 
         public EditContext Context { get; set; }
 
@@ -36,7 +33,7 @@ namespace EventManager.Client.Shared.Components.MyProfile
 
             ((ModalService)ModalService).OnConfirm += OnConfirm;
 
-            this.PasswordUpdate = new PasswordUpdateModifiyModel
+            this.PasswordUpdate = new PasswordUpdateModifyModel
             {
                 NewPassword = "",
                 OldPassword = "",

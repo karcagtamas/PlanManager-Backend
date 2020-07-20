@@ -1,8 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using ManagerAPI.Models.Entities.PM;
+using ManagerAPI.Domain.Entities.PM;
 
-namespace ManagerAPI.Models.Entities
+namespace ManagerAPI.Domain.Entities
 {
     public class UserPlanGroup
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EventManager.Client.Models;
-using EventManager.Client.Models.User;
+using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 
 namespace EventManager.Client.Services.Interfaces {
     public interface IUserService {

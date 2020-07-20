@@ -39,22 +39,10 @@
                     <div class="em-sub-title">Settings</div>
                     <EditForm Model="WorkingDay" OnValidSubmit="Save">
                         <div class="row col col-12">
-                            <div class="col col-6 col-sm-6 p-1">
-                                <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" Maximum="23" @bind-Value="WorkingDay.StartHour" Dense="true" Label="Start Hour" Outlined="true"></MatNumericUpDownField>
-                            </div>
-                            <div class="col col-12 col-sm-6 p-1">
-                                <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" Maximum="59" @bind-Value="WorkingDay.EndHour" Dense="true" Label="End Hour" Outlined="true"></MatNumericUpDownField>
-                            </div>
-                            <div class="col col-12 col-sm-6 p-1">
-                                <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" Maximum="23" @bind-Value="WorkingDay.StartMin" Dense="true" Label="Start Min" Outlined="true"></MatNumericUpDownField>
-                            </div>
-                            <div class="col col-12 col-sm-6 p-1">
-                                <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" Maximum="59" @bind-Value="WorkingDay.EndMin" Dense="true" Label="End Min" Outlined="true"></MatNumericUpDownField>
-                            </div>
                             @if (WorkingDayTypes != null)
                             {
                                 <div class="col col-12 col-sm-6 p1">
-                                    <MatSelect Class="w-100" @bind-Value="WorkingDay.Type" Label="Gender" Dense="true" Outlined="true">
+                                    <MatSelect Class="w-100" @bind-Value="WorkingDay.Type" Label="Type" Dense="true" Outlined="true">
                                         @foreach (var type in WorkingDayTypes)
                                                     {
                                             <MatOption TValue="int" Value="type.Id">@type.Title</MatOption>
@@ -79,9 +67,9 @@
                         {
                             <div @onclick="@(() => OpenUpdateFieldModal(field.Id))" class="field">
                                 <div class="title-row">
-                                    @field.Title
+                                    <span class="title">@field.Title</span>
                                     <span class="spacer"></span>
-                                    @field.Length h
+                                    <span class="hours">@field.Length h</span>
                                 </div>
                                 <div class="description">
                                     @field.Description

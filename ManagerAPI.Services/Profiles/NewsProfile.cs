@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using ManagerAPI.Models.DTOs;
-using ManagerAPI.Models.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using ManagerAPI.Domain.Entities;
+using ManagerAPI.Shared.DTOs;
 
 namespace ManagerAPI.Services.Profiles
 {

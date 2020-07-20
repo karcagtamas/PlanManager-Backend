@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace ManagerAPI.Models.Entities
+namespace ManagerAPI.Domain.Entities
 {
     public class FriendRequest
     {

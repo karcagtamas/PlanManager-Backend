@@ -1,8 +1,8 @@
-using ManagerAPI.Models.Entities;
-using ManagerAPI.Models.Entities.EM;
-using ManagerAPI.Models.Entities.MC;
-using ManagerAPI.Models.Entities.PM;
-using ManagerAPI.Models.Entities.WM;
+using ManagerAPI.Domain.Entities;
+using ManagerAPI.Domain.Entities.EM;
+using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Entities.PM;
+using ManagerAPI.Domain.Entities.WM;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

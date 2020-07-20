@@ -1,4 +1,4 @@
-namespace ManagerAPI.Models.Enums.EM
+namespace ManagerAPI.Domain.Enums.EM
 {
     public enum EventType
     {

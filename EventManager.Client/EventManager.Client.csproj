@@ -35,9 +35,6 @@
       <Content Update="Shared\Layouts\AuthLayout.razor">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </Content>
-      <Content Update="Shared\Layouts\EventsLayout.razor">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      </Content>
       <Content Update="Shared\General\LoginDisplay.razor">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </Content>
@@ -110,5 +107,9 @@
 
     <ItemGroup>
       <None Include="compilerconfig.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ManagerAPI.Shared\ManagerAPI.Shared.csproj" />
     </ItemGroup>
 </Project>
