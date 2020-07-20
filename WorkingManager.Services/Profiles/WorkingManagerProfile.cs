@@ -19,6 +19,7 @@ namespace WorkingManager.Services.Profiles
                 .ForMember(dest => dest.WorkingDayId, opt => opt.Ignore())
                 .ForMember(dest => dest.WorkingDay, opt => opt.Ignore());
             CreateMap<WorkingDayType, WorkingDayTypeDto>();
+            CreateMap<WorkingField, WorkingFieldDto>();
         }
     }
 }

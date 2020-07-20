@@ -1,5 +1,7 @@
-﻿using EventManager.Client.Models.WM;
+﻿using EventManager.Client.Models;
+using EventManager.Client.Models.WM;
 using EventManager.Client.Services.Interfaces;
+using EventManager.Client.Shared.Components.WM;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,9 @@ namespace EventManager.Client.Pages.WM
 
         [Inject]
         protected NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        public IModalService Modal { get; set; }
 
         protected WorkingDayModel WorkingDay { get; set; }
         protected int? WorkingDayId { get; set; }
@@ -87,6 +92,50 @@ namespace EventManager.Client.Pages.WM
             {
                 await this.GetWorkingDay();
             }
+        }
+
+        protected void OpenAddFieldModal()
+        {
+            if (this.WorkingDayId != null) {
+
+                var parameters = new ModalParameters();
+                parameters.Add("FormId", 1);
+                parameters.Add("working-day", (int)this.WorkingDayId);
+
+                var options = new ModalOptions();
+                options.ButtonOptions.ConfirmButtonType = ConfirmButton.Save;
+                options.ButtonOptions.ShowConfirmButton = true;
+
+                Modal.OnClose += FieldModalClosed;
+
+                Modal.Show<FieldModal>("Create Working Field", parameters, options);
+            }
+        }
+
+        protected void OpenUpdateFieldModal(int fieldId)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+            parameters.Add("working-day", (int)this.WorkingDayId);
+            parameters.Add("field", fieldId);
+
+            var options = new ModalOptions();
+            options.ButtonOptions.ConfirmButtonType = ConfirmButton.Save;
+            options.ButtonOptions.ShowConfirmButton = true;
+
+            Modal.OnClose += FieldModalClosed;
+
+            Modal.Show<FieldModal>("Update Working Field", parameters, options);
+        }
+
+        protected async void FieldModalClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetWorkingDay();
+            }
+
+            Modal.OnClose -= FieldModalClosed;
         }
     }
 }

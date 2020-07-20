@@ -70,6 +70,16 @@ namespace EventManager.Client.Services
             return await this._httpService.get<List<WorkingDayTypeDto>>(settings);
         }
 
+        public async Task<WorkingFieldDto> GetWorkingField(int id)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+
+            var settings = new HttpSettings($"{this._url}/field");
+
+            return await this._httpService.get<WorkingFieldDto>(settings);
+        }
+
         public async Task<bool> UpdateWorkingDay(int workingDayId, WorkingDayModel model)
         {
             var pathParams = new HttpPathParameters();

@@ -147,5 +147,21 @@ namespace KarcagS.Backend.Controllers
                 return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
             }
         }
+
+        [HttpGet("field/{id}")]
+        public IActionResult GetWorkingField(int id) {
+            try
+            {
+                return Ok(_workingManagerService.GetWorkingField(id));
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(me));
+            }
+            catch (Exception)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
+            }
+        }
     }
 }

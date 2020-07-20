@@ -25,6 +25,7 @@ namespace WorkingManager.Services.Services
         private const string UpdateWorkingDayAction = "update working day";
         private const string CreateWorkingDayAction = "create working day";
         private const string GetWorkingDayAction = "get working day";
+        private const string GetWorkingFieldAction = "get working field";
 
         // Thing
         private const string FieldIdThing = "field id";
@@ -198,6 +199,25 @@ namespace WorkingManager.Services.Services
             this._loggerService.LogInformation(user, nameof(WorkingManagerService), GetWorkingDayTypesAction, list.Select(x => x.Id).ToList());
 
             return list;
+        }
+
+        /// <summary>
+        /// Get working field by the given Id
+        /// </summary>
+        /// <param name="id">Id of the field</param>
+        /// <returns>Data object of the field</returns>
+        public WorkingFieldDto GetWorkingField(int id)
+        {
+            var user = this._utilsService.GetCurrentUser();
+            var field = _context.WorkingFields.Find(id);
+
+            if (field == null) {
+                throw this._loggerService.LogInvalidThings(user, nameof(WorkingManagerService), FieldIdThing, WorkingFieldDoesNotExistMessage);
+            }
+
+            this._loggerService.LogInformation(user, nameof(WorkingManagerService), GetWorkingFieldAction, field.Id);
+
+            return this._mapper.Map<WorkingFieldDto>(field);
         }
     }
 }

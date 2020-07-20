@@ -22,7 +22,7 @@
             }
             else
             {
-                <MatButton>Add Field</MatButton>
+                <MatButton @onclick="OpenAddFieldModal">Add Field</MatButton>
             }
             <span class="spacer"></span>
             <MatIconButton Icon="chevron_left" @onclick="@(() => Redirect(false))"></MatIconButton>
@@ -71,7 +71,7 @@
                 <div class="field-list">
                     @foreach (var field in WorkingFields)
                     {
-                        <div class="field">@field.Title</div>
+                        <div @onclick="@(() => OpenUpdateFieldModal(field.Id))" class="field">@field.Title</div>
                     }
                 </div>
             }

@@ -15,5 +15,6 @@ namespace EventManager.Client.Services.Interfaces
         Task<bool> DeleteWorkingField(int workingFieldId);
         Task<bool> UpdateWorkingField(int workingFieldId, WorkingFieldModel model);
         Task<List<WorkingDayTypeDto>> GetWorkingDayTypes();
+        Task<WorkingFieldDto> GetWorkingField(int id);
     }
 }
