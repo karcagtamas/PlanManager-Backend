@@ -1,5 +1,6 @@
 ﻿using System;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.MC;
 using ManagerAPI.Shared.Models;
 using ManagerAPI.Shared.Models.MC;
 using Microsoft.AspNetCore.Authorization;
@@ -27,7 +28,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(_bookService.GetBooks());
+                return Ok(_bookService.GetAll());
             }
             catch (MessageException me)
             {
@@ -44,7 +45,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(_bookService.GetBook(id));
+                return Ok(_bookService.Get<BookListDto>(id));
             }
             catch (MessageException me)
             {
@@ -61,7 +62,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(_bookService.GetMyBooks());
+                return Ok(_bookService.GetMyList());
             }
             catch (MessageException me)
             {
@@ -78,7 +79,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                _bookService.CreateBook(model);
+                _bookService.Add<BookModel>(model);
                 return Ok();
             }
             catch (MessageException me)
@@ -96,7 +97,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                _bookService.UpdateBook(id, model);
+                _bookService.Update<BookModel>(id, model);
                 return Ok();
             }
             catch (MessageException me)
@@ -114,7 +115,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                _bookService.DeleteBook(id);
+                _bookService.Remove(id);
                 return Ok();
             }
             catch (MessageException me)

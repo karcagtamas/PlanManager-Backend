@@ -16,6 +16,14 @@ namespace ManagerAPI.Services.Services.Interfaces
         void LogInformation(User user, string service, string action, List<string> ids, object entity);
         void LogInformation(User user, string service, string action, List<int> ids);
         void LogInformation(User user, string service, string action, List<int> ids, object entity);
+        void LogAnonimInformation(string service, string action, int id);
+        void LogAnonimInformation(string service, string action, int id, object entity);
+        void LogAnonimInformation(string service, string action, string id);
+        void LogAnonimInformation(string service, string action, string id, object entity);
+        void LogAnonimInformation(string service, string action, List<string> ids);
+        void LogAnonimInformation(string service, string action, List<string> ids, object entity);
+        void LogAnonimInformation(string service, string action, List<int> ids);
+        void LogAnonimInformation(string service, string action, List<int> ids, object entity);
         MessageException LogInvalidThings(User user, string service, string thing, string message);
         string AddUserToMessage(string message, User user);
         ErrorResponse ExceptionToResponse (Exception e);

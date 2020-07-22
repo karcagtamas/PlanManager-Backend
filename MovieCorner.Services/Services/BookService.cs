@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
 using ManagerAPI.Shared.Models.MC;
@@ -11,7 +12,7 @@ using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
-    public class BookService : IBookService
+    public class BookService : Repository<Book>, IBookService
     {
         // Actions
         private const string UpdateMyBooksAction = "update my books";
@@ -46,7 +47,7 @@ namespace MovieCorner.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public BookService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService)
+        public BookService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -54,64 +55,7 @@ namespace MovieCorner.Services.Services
             _loggerService = loggerService;
         }
 
-        public void CreateBook(BookModel model)
-        {
-            var user = this._utilsService.GetCurrentUser();
-
-            var book = this._mapper.Map<Book>(model);
-            book.CreatorId = user.Id;
-            book.LastUpdaterId = user.Id;
-
-            _context.Books.Add(book);
-            _context.SaveChanges();
-
-            this._loggerService.LogInformation(user, nameof(BookService), CreateBookAction, book.Id);
-        }
-
-        public void DeleteBook(int id)
-        {
-            var user = this._utilsService.GetCurrentUser();
-
-            var book = _context.Books.Find(id);
-            if (book == null)
-            {
-                throw this._loggerService.LogInvalidThings(user, nameof(BookService), BookThing, BookDoesNotExistMessage);
-            }
-
-            this._context.Books.Remove(book);
-            this._context.SaveChanges();
-
-            this._loggerService.LogInformation(user, nameof(BookService), DeleteBookAction, id);
-        }
-
-        public BookDto GetBook(int id)
-        {
-            var user = this._utilsService.GetCurrentUser();
-
-            var book = _context.Books.Find(id);
-            
-            if (book == null)
-            {
-                throw this._loggerService.LogInvalidThings(user, nameof(BookService), BookThing, BookDoesNotExistMessage);
-            }
-
-            this._loggerService.LogInformation(user, nameof(BookService), GetBookAction, id);
-
-            return _mapper.Map<BookDto>(book);
-        }
-
-        public List<BookListDto> GetBooks()
-        {
-            var user = this._utilsService.GetCurrentUser();
-
-            var list = this._context.Books.ToList();
-
-            this._loggerService.LogInformation(user, nameof(BookService), GetBooksAction, list.Select(x => x.Id).ToList());
-
-            return this._mapper.Map<List<BookListDto>>(list);
-        }
-
-        public List<MyBookDto> GetMyBooks()
+        public List<MyBookDto> GetMyList()
         {
             var user = this._utilsService.GetCurrentUser();
 
@@ -120,26 +64,6 @@ namespace MovieCorner.Services.Services
             this._loggerService.LogInformation(user, nameof(BookService), GetMyBooksAction, list.Select(x => x.Book.Id).ToList());
 
             return _mapper.Map<List<MyBookDto>>(list);
-        }
-
-        public void UpdateBook(int id, BookModel model)
-        {
-            var user = this._utilsService.GetCurrentUser();
-
-            var book = _context.Books.Find(id);
-            if (book == null)
-            {
-                throw this._loggerService.LogInvalidThings(user, nameof(BookService), BookThing, BookDoesNotExistMessage);
-            }
-
-            this._mapper.Map(model, book);
-            book.LastUpdaterId = user.Id;
-            book.LastUpdate = DateTime.Now;
-
-            _context.Books.Update(book);
-            _context.SaveChanges();
-
-            this._loggerService.LogInformation(user, nameof(BookService), UpdateBookAction, book.Id);
         }
 
         public void UpdateMyBooks(List<int> ids)

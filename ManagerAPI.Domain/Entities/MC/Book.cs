@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities.MC
 {
-    public class Book
+    public class Book : IEntity
     {
         [Required]
         public int Id { get; set; }
@@ -40,5 +40,15 @@ namespace ManagerAPI.Domain.Entities.MC
         public virtual User LastUpdater { get; set; }
 
         public virtual ICollection<UserBook> ConnectedUsers { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj != null && this.Id == ((Book)obj).Id;
+        }
+
+        public override string ToString()
+        {
+            return $"{this.Id} - {this.Name}";
+        }
     }
 }
