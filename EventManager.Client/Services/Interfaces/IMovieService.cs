@@ -13,7 +13,7 @@ namespace EventManager.Client.Services.Interfaces
         Task<bool> CreateMovie(MovieModel model);
         Task<bool> UpdateMovie(int id, MovieModel model);
         Task<bool> DeleteMovie(int id);
-        Task<bool> UpdateSeenStatus(int id, bool seen);
-        Task<bool> UpdateMyMovies(List<int> ids);
+        Task<bool> UpdateSeenStatus(int id, MovieSeenUpdateModel model);
+        Task<bool> UpdateMyMovies(MyMovieModel model);
     }
 }

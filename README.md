@@ -6,6 +6,10 @@
 
 ## Version log
 
+### V0.8.0 - 2020-07-
+- Add Status Library
+- Add Working Manager
+
 ### V0.7.2 - 2020-07-12
 
 - Upgrade angular to version 10

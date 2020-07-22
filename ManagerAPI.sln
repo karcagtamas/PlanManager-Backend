@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerAPI.Services", "Mana
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventManager.Client", "EventManager.Client\EventManager.Client.csproj", "{C9751816-887F-4261-8A2A-A5DEA7BF1F30}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerAPI.Domain", "ManagerAPI.Models\ManagerAPI.Domain.csproj", "{CBDF252A-5134-42EE-9F32-3E6EC74B69EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerAPI.Domain", "ManagerAPI.Domain\ManagerAPI.Domain.csproj", "{CBDF252A-5134-42EE-9F32-3E6EC74B69EC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MovieCorner", "MovieCorner", "{267F7DF1-FA75-4A83-A63D-C9E696373392}"
 EndProject

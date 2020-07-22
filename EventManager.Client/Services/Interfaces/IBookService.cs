@@ -13,7 +13,7 @@ namespace EventManager.Client.Services.Interfaces
         Task<bool> CreateBook(BookModel model);
         Task<bool> UpdateBook(int id, BookModel model);
         Task<bool> DeleteBook(int id);
-        Task<bool> UpdateReadStatus(int id, bool status);
-        Task<bool> UpdateMyBooks(List<int> ids);
+        Task<bool> UpdateReadStatus(int id, BookReadStatusModel model);
+        Task<bool> UpdateMyBooks(MyBookModel model);
     }
 }

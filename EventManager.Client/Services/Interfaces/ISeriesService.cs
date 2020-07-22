@@ -19,7 +19,7 @@ namespace EventManager.Client.Services.Interfaces
         Task<bool> AddEpisode(int seasonId, EpisodeModel model);
         Task<bool> DeleteEpisode(int id);
         Task<bool> UpdateEpisode(int id, EpisodeModel model);
-        Task<bool> UpdateMySeries(List<int> ids);
-        Task<bool> UpdateSeenStatus(int id, bool seen);
+        Task<bool> UpdateMySeries(MySeriesModel model);
+        Task<bool> UpdateSeenStatus(int id, EpisodeSeenStatusModel model);
     }
 }
