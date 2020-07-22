@@ -26,6 +26,21 @@ namespace ManagerAPI.Services.Services
 
         public void Add(TEntity entity)
         {
+            var type = entity.GetType();
+            var creator = type.GetProperty("CreatorId");
+            if (creator != null)
+            {
+                var user = this.Utils.GetCurrentUser();
+                creator.SetValue(entity, user.Id, null);
+            }
+
+            var lastUpdater = type.GetProperty("LastUpdaterId");
+            if (lastUpdater != null)
+            {
+                var user = this.Utils.GetCurrentUser();
+                lastUpdater.SetValue(entity, user.Id, null);
+            }
+
             this.Context.Set<TEntity>().Add(entity);
 
             this.Complete();
@@ -49,6 +64,25 @@ namespace ManagerAPI.Services.Services
 
         public void AddRange(IEnumerable<TEntity> entities)
         {
+            entities = entities.Select(x => {
+                var type = x.GetType();
+                var creator = type.GetProperty("CreatorId");
+                if (creator != null)
+                {
+                    var user = this.Utils.GetCurrentUser();
+                    creator.SetValue(x, user.Id, null);
+                }
+
+                var lastUpdater = type.GetProperty("LastUpdaterId");
+                if (lastUpdater != null)
+                {
+                    var user = this.Utils.GetCurrentUser();
+                    lastUpdater.SetValue(x, user.Id, null);
+                }
+
+                return x;
+            });
+
             this.Context.Set<TEntity>().AddRange(entities);
 
             this.Complete();
