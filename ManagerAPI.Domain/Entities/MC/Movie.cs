@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities.MC
 {
-    public class Movie {
+    public class Movie : IEntity {
 
         [Required]
         public int Id { get; set; }
@@ -33,5 +33,15 @@ namespace ManagerAPI.Domain.Entities.MC
         public virtual User Creator { get; set; }
         public virtual User LastUpdater { get; set; }
         public virtual ICollection<UserMovie> ConnectedUsers { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj != null && this.Id == ((Movie)obj).Id;
+        }
+
+        public override string ToString()
+        {
+            return $"{this.Id} - {this.Title}";
+        }
     }
 }

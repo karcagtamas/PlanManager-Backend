@@ -17,22 +17,13 @@ namespace MovieCorner.Services.Services
         // Actions
         private const string UpdateMyBooksAction = "update my books";
         private const string SetBookStatusAction = "set book status";
-        private const string DeleteBookAction = "delete book";
-        private const string UpdateBookAction = "update book";
-        private const string CreateBookAction = "create book";
         private const string GetMyBooksAction = "get my books";
-        private const string GetBookAction = "get book";
-        private const string GetBooksAction = "get books";
 
         // Things
-        private const string BookThing = "book";
         private const string UserBookThing = "user-book";
-        private const string BookIdThing = "book id";
 
         // Messages
         private const string UserBookConnectionDoesNotExistMessage = "User Book connection does not exist";
-        private const string BookDoesNotExistMessage = "Book does not exist";
-        private const string BookIdsDoNotMatchMessage = "Book ids do not match";
 
         // Injects
         private readonly DatabaseContext _context;

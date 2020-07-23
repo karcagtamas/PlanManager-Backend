@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities.MC
 {
-    public class Episode
+    public class Episode : IEntity
     {
         [Required]
         public int Id { get; set; }
@@ -19,5 +19,13 @@ namespace ManagerAPI.Domain.Entities.MC
         public virtual Season Season { get; set; }
 
         public virtual ICollection<UserEpisode> ConnectedUsers { get; set; }
+
+        override public bool Equals(object obj) {
+            return obj != null && ((Episode)obj).Id == this.Id;
+        }
+
+        override public string ToString() {
+            return $"{this.Id} - {this.Number}";
+        }
     }
 }
