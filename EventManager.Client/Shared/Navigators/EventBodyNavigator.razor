@@ -23,12 +23,4 @@
     {
         return $"/events/{Id}/{page}";
     }
-
-    @code {
-        protected string GetWorkingManagerUri()
-        {
-            return $"/wm/{HelperService.DateToNumberDayString(DateTime.Now)}";
-        }
-    }
-
 }
