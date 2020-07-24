@@ -17,21 +17,24 @@ namespace EventManager.Client.Pages.WM
         public DateTime Date { get; set; }
 
         [Inject]
-        private IWorkingManagerService WorkingManagerService { get; set; }
+        private IWorkingDayService WorkingDayService { get; set; }
+        
+        [Inject]
+        private IWorkingDayTypeService WorkingDayTypeService { get; set; }
 
         [Inject]
         protected IHelperService HelperService { get; set; }
 
-        [Inject]
-        protected NavigationManager NavigationManager { get; set; }
+        [Inject] 
+        private NavigationManager NavigationManager { get; set; }
 
-        [Inject]
-        public IModalService Modal { get; set; }
+        [Inject] 
+        private IModalService Modal { get; set; }
 
         protected WorkingDayModel WorkingDay { get; set; }
-        protected int? WorkingDayId { get; set; }
+        private int? WorkingDayId { get; set; }
         protected bool IsLoading { get; set; }
-        protected List<WorkingDayTypeDto> WorkingDayTypes { get; set; }
+        protected List<WorkingDayTypeListDto> WorkingDayTypes { get; set; }
         protected List<WorkingFieldListDto> WorkingFields { get; set; }
 
         protected override async Task OnInitializedAsync()
@@ -45,24 +48,25 @@ namespace EventManager.Client.Pages.WM
             await this.GetWorkingDay();
         }
 
-        protected async Task GetWorkingDay()
+        private async Task GetWorkingDay()
         {
             this.IsLoading = true;
             StateHasChanged();
-            var workingDay = await this.WorkingManagerService.GetWorkingDay(this.Date);
+            var workingDay = await this.WorkingDayService.GetWorkingDay(this.Date);
             this.WorkingDay = workingDay != null ? new WorkingDayModel
             {
-                Type = workingDay.Type
+                Type = workingDay.Type,
+                Date = workingDay.Day
             } : null;
-            this.WorkingDayId = workingDay != null ? workingDay.Id : (int?)null;
-            this.WorkingFields = workingDay != null ? workingDay.WorkingFields : null;
+            this.WorkingDayId = workingDay?.Id;
+            this.WorkingFields = workingDay?.WorkingFields;
             this.IsLoading = false;
             StateHasChanged();
         }
 
-        protected async Task GetWorkingDayTypes()
+        private async Task GetWorkingDayTypes()
         {
-            this.WorkingDayTypes = await this.WorkingManagerService.GetWorkingDayTypes();
+            this.WorkingDayTypes = await this.WorkingDayTypeService.GetWorkingDayTypes();
         }
 
         protected void Redirect(bool direction)
@@ -72,12 +76,13 @@ namespace EventManager.Client.Pages.WM
 
         protected async Task InitWorkingDay()
         {
-            var workingDay = new WorkingDayInitModel
+            var workingDay = new WorkingDayModel
             {
-                Date = Date
+                Date = this.Date,
+                Type = 1
             };
 
-            if (await this.WorkingManagerService.CreateWorkingDay(workingDay))
+            if (await this.WorkingDayService.CreateWorkingDay(workingDay))
             {
                 await this.GetWorkingDay();
             }
@@ -85,7 +90,7 @@ namespace EventManager.Client.Pages.WM
 
         protected async Task Save()
         {
-            if (this.WorkingDay != null && await this.WorkingManagerService.UpdateWorkingDay((int)this.WorkingDayId, this.WorkingDay))
+            if (this.WorkingDay != null && this.WorkingDayId != null && await this.WorkingDayService.UpdateWorkingDay((int)this.WorkingDayId, this.WorkingDay))
             {
                 await this.GetWorkingDay();
             }
@@ -113,19 +118,23 @@ namespace EventManager.Client.Pages.WM
         {
             var parameters = new ModalParameters();
             parameters.Add("FormId", 1);
-            parameters.Add("working-day", (int)this.WorkingDayId);
+            if (this.WorkingDayId != null)
+            {
+                parameters.Add("working-day", (int)this.WorkingDayId);
+            }
             parameters.Add("field", fieldId);
 
-            var options = new ModalOptions();
-            options.ButtonOptions.ConfirmButtonType = ConfirmButton.Save;
-            options.ButtonOptions.ShowConfirmButton = true;
+            var options = new ModalOptions
+            {
+                ButtonOptions = {ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true}
+            };
 
             Modal.OnClose += FieldModalClosed;
 
             Modal.Show<FieldModal>("Update Working Field", parameters, options);
         }
 
-        protected async void FieldModalClosed(ModalResult modalResult)
+        private async void FieldModalClosed(ModalResult modalResult)
         {
             if (!modalResult.Cancelled && (bool)modalResult.Data)
             {

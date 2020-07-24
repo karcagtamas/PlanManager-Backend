@@ -13,14 +13,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Backend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/working-day")]
     [ApiController]
     public class WorkingDayController : MyController<WorkingDay, WorkingDayModel, WorkingDayListDto, WorkingDayDto>
     {
-        protected readonly IWorkingDayService WorkingDayService;
+        private readonly IWorkingDayService _workingDayService;
         public WorkingDayController(IWorkingDayService workingDayService, ILoggerService loggerService) : base(loggerService, workingDayService)
         {
-            this.WorkingDayService = workingDayService;
+            this._workingDayService = workingDayService;
         }
 
         [HttpGet("day/{day}")]
@@ -28,7 +28,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(this.WorkingDayService.Get(day));
+                return Ok(this._workingDayService.Get(day));
             }
             catch (MessageException me)
             {
@@ -45,7 +45,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(this.WorkingDayService.Stat(id));
+                return Ok(this._workingDayService.Stat(id));
             }
             catch (MessageException me)
             {

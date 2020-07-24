@@ -11,25 +11,25 @@ namespace EventManager.Client.Shared.Components.WM
 {
     public class FieldModalBase : ComponentBase
     {
-        [CascadingParameter]
-        public ModalParameters Parameters { get; set; }
+        [CascadingParameter] 
+        private ModalParameters Parameters { get; set; }
 
         [CascadingParameter]
         public BlazoredModal BlazoredModal { get; set; }
 
         [Inject]
-        IWorkingManagerService WorkingManagerService { get; set; }
+        IWorkingFieldService WorkingFieldService { get; set; }
 
         [Inject]
         IModalService ModalService { get; set; }
 
-        public int FormId { get; set; }
-        public WorkingFieldModel Model { get; set; }
-        public EditContext Context { get; set; }
-        public bool IsEdit { get; set; } = false;
-        public int Id { get; set; }
-        public int WorkingDayId { get; set; }
-        public WorkingFieldDto Field { get; set; }
+        private int FormId { get; set; }
+        protected WorkingFieldModel Model { get; set; }
+        protected EditContext Context { get; set; }
+        private bool IsEdit { get; set; } = false;
+        protected int Id { get; set; }
+        private int WorkingDayId { get; set; }
+        private WorkingFieldDto Field { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -51,7 +51,7 @@ namespace EventManager.Client.Shared.Components.WM
 
             if (this.Id != 0)
             {
-                this.Field = await WorkingManagerService.GetWorkingField(this.Id);
+                this.Field = await WorkingFieldService.GetWorkingField(this.Id);
                 this.Model = new WorkingFieldModel
                 {
                     Title = this.Field.Title,
@@ -63,12 +63,13 @@ namespace EventManager.Client.Shared.Components.WM
             }
         }
 
-        protected async void OnConfirm()
+        private async void OnConfirm()
         {
             var isValid = this.Context.Validate();
+            this.Model.WorkingDayId = this.WorkingDayId;
             if (this.IsEdit)
             {
-                if (isValid && await WorkingManagerService.UpdateWorkingField(this.Id, this.Model))
+                if (isValid && await WorkingFieldService.UpdateWorkingField(this.Id, this.Model))
                 {
                     ModalService.Close(ModalResult.Ok<bool>(true));
                     ((ModalService)ModalService).OnConfirm -= OnConfirm;
@@ -76,7 +77,7 @@ namespace EventManager.Client.Shared.Components.WM
             }
             else
             {
-                if (isValid && await WorkingManagerService.AddWorkingField(this.WorkingDayId, this.Model))
+                if (isValid && await WorkingFieldService.AddWorkingField(this.Model))
                 {
                     ModalService.Close(ModalResult.Ok<bool>(true));
                     ((ModalService)ModalService).OnConfirm -= OnConfirm;
@@ -85,7 +86,7 @@ namespace EventManager.Client.Shared.Components.WM
         }
 
         protected async void DeleteField() {
-            if (await this.WorkingManagerService.DeleteWorkingField(this.Id)) {
+            if (await this.WorkingFieldService.DeleteWorkingField(this.Id)) {
                 ModalService.Close(ModalResult.Ok<bool>(true));
             }
         }

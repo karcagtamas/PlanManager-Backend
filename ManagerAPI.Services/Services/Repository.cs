@@ -12,11 +12,12 @@ namespace ManagerAPI.Services.Services
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
-        protected readonly DbContext Context;
+        private readonly DbContext Context;
         protected readonly ILoggerService Logger;
         protected readonly IUtilsService Utils;
         protected readonly IMapper Mapper;
-        public Repository(DbContext context, ILoggerService logger, IUtilsService utils, IMapper mapper)
+
+        protected Repository(DbContext context, ILoggerService logger, IUtilsService utils, IMapper mapper)
         {
             this.Context = context;
             this.Logger = logger;
@@ -39,6 +40,20 @@ namespace ManagerAPI.Services.Services
             {
                 var user = this.Utils.GetCurrentUser();
                 lastUpdater.SetValue(entity, user.Id, null);
+            }
+            
+            var userField = type.GetProperty("UserId");
+            if (userField != null)
+            {
+                var user = this.Utils.GetCurrentUser();
+                userField.SetValue(entity, user.Id, null);
+            }
+            
+            var owner = type.GetProperty("OwnerId");
+            if (owner != null)
+            {
+                var user = this.Utils.GetCurrentUser();
+                owner.SetValue(entity, user.Id, null);
             }
 
             this.Context.Set<TEntity>().Add(entity);

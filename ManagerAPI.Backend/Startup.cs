@@ -65,7 +65,9 @@ namespace ManagerAPI.Backend
                 x.AddProfile(new MessageProfile());
                 x.AddProfile(new NewsProfile());
                 x.AddProfile(new TaskProfile());
-                x.AddProfile(new WorkingManagerProfile());
+                x.AddProfile(new WorkingDayProfile());
+                x.AddProfile(new WorkingFieldProfile());
+                x.AddProfile(new WorkingDayTypeProfile());
                 x.AddProfile(new MovieProfile());
                 x.AddProfile(new BookProfile());
                 x.AddProfile(new SeriesProfile());

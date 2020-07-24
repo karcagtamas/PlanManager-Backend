@@ -27,7 +27,9 @@ namespace EventManager.Client {
             builder.Services.AddScoped<IModalService, ModalService> ();
             builder.Services.AddScoped<IHttpService, HttpService> ();
             builder.Services.AddScoped<ITaskService, TaskService> ();
-            builder.Services.AddScoped<IWorkingManagerService, WorkingManagerService> ();
+            builder.Services.AddScoped<IWorkingDayService, WorkingDayService> ();
+            builder.Services.AddScoped<IWorkingFieldService, WorkingFieldService>();
+            builder.Services.AddScoped<IWorkingDayTypeService, WorkingDayTypeService>();
 
             builder.Services.AddMatToaster (config => {
                 config.Position = MatToastPosition.BottomRight;

@@ -12,14 +12,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Backend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/working-field")]
     [ApiController]
     public class WorkingFieldController : MyController<WorkingField, WorkingFieldModel, WorkingFieldListDto, WorkingFieldDto>
     {
-        protected readonly IWorkingFieldService WorkingFieldService;
+        private readonly IWorkingFieldService _workingFieldService;
         public WorkingFieldController(IWorkingFieldService workingFieldService, ILoggerService loggerService) : base(loggerService, workingFieldService)
         {
-            this.WorkingFieldService = workingFieldService;
+            this._workingFieldService = workingFieldService;
         }
     }
 }

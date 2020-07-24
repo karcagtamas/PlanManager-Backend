@@ -11,14 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Backend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/working-day-type")]
     [ApiController]
     public class WorkingDayTypeController : MyController<WorkingDayType, WorkingDayTypeModel, WorkingDayTypeListDto, WorkingDayTypeDto>
     {
-        protected readonly IWorkingDayTypeService WorkingDayTypeService;
+        private readonly IWorkingDayTypeService _workingDayTypeService;
         public WorkingDayTypeController(IWorkingDayTypeService workingDayTypeService, ILoggerService loggerService) : base(loggerService, workingDayTypeService)
         {
-            this.WorkingDayTypeService = workingDayTypeService;
+            this._workingDayTypeService = workingDayTypeService;
         }
     }
 }
