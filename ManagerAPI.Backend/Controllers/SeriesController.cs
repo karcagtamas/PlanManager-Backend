@@ -1,5 +1,8 @@
 ﻿using System;
+using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.MC;
 using ManagerAPI.Shared.Models;
 using ManagerAPI.Shared.Models.MC;
 using Microsoft.AspNetCore.Authorization;
@@ -11,15 +14,13 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class SeriesController : ControllerBase
+    public class SeriesController : MyController<Series, SeriesModel, SeriesListDto, SeriesDto>
     {
-        private const string FATAL_ERROR = "Something bad happened. Try again later";
-        private readonly ILoggerService _loggerService;
-        private readonly ISeriesService _seriesService;
-        public SeriesController(ISeriesService seriesService, ILoggerService loggerService)
+        protected readonly ISeriesService SeriesService;
+
+        public SeriesController(ISeriesService seriesService, ILoggerService loggerService): base(loggerService, seriesService)
         {
-            _seriesService = seriesService;
-            _loggerService = loggerService;
+            this.SeriesService = seriesService;
         }
 
         [HttpGet("my")]
@@ -27,103 +28,15 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(this._seriesService.GetMySeries());
+                return Ok(this.SeriesService.GetMySeries());
             }
             catch (MessageException me)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
+                return BadRequest(this.Logger.ExceptionToResponse(me));
             }
             catch (Exception)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
-            }
-        }
-
-        [HttpGet]
-        public IActionResult GetAllSeries()
-        {
-            try
-            {
-                return Ok(this._seriesService.GetAllSeries());
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
-            }
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetMySeries(int id)
-        {
-            try
-            {
-                return Ok(this._seriesService.GetSeries(id));
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
-            }
-        }
-
-        [HttpPost]
-        public IActionResult CreateSeries([FromBody] SeriesModel model)
-        {
-            try
-            {
-                this._seriesService.CreateSeries(model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
-            }
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult DeleteSeries(int id)
-        {
-            try
-            {
-                this._seriesService.DeleteSeries(id);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
-            }
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult UpdateSeries(int id, [FromBody] SeriesModel model)
-        {
-            try
-            {
-                this._seriesService.UpdateSeries(id, model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
             }
         }
 
@@ -132,52 +45,16 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                this._seriesService.AddSeason(seriesId, model);
+                this.SeriesService.AddSeason(seriesId, model);
                 return Ok();
             }
             catch (MessageException me)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
+                return BadRequest(this.Logger.ExceptionToResponse(me));
             }
             catch (Exception)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
-            }
-        }
-
-        [HttpDelete("season/{id}")]
-        public IActionResult DeleteSeason(int id)
-        {
-            try
-            {
-                this._seriesService.DeleteSeason(id);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
-            }
-        }
-
-        [HttpPut("season/{id}")]
-        public IActionResult UpdateSeason(int id, [FromBody] SeasonModel model)
-        {
-            try
-            {
-                this._seriesService.UpdateSeason(id, model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
             }
         }
 
@@ -186,34 +63,16 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                this._seriesService.AddEpisode(seasonId, model);
+                this.SeriesService.AddEpisode(seasonId, model);
                 return Ok();
             }
             catch (MessageException me)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
+                return BadRequest(this.Logger.ExceptionToResponse(me));
             }
             catch (Exception)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
-            }
-        }
-
-        [HttpDelete("episode/{id}")]
-        public IActionResult DeleteEpisode(int id)
-        {
-            try
-            {
-                this._seriesService.DeleteEpisode(id);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
             }
         }
 
@@ -222,16 +81,16 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                this._seriesService.UpdateMySeries(model.Ids);
+                this.SeriesService.UpdateMySeries(model.Ids);
                 return Ok();
             }
             catch (MessageException me)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
+                return BadRequest(this.Logger.ExceptionToResponse(me));
             }
             catch (Exception)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
             }
         }
 
@@ -240,16 +99,16 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                this._seriesService.UpdateSeenStatus(id, model.Seen);
+                this.SeriesService.UpdateSeenStatus(id, model.Seen);
                 return Ok();
             }
             catch (MessageException me)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
+                return BadRequest(this.Logger.ExceptionToResponse(me));
             }
             catch (Exception)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
             }
         }
     }

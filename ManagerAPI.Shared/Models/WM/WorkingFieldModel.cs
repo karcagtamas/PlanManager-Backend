@@ -11,5 +11,6 @@ namespace ManagerAPI.Shared.Models.WM
 
         [Required(ErrorMessage = "Field is required")]
         public decimal Length { get; set; }
+        public int WorkingDayId { get; set; }
     }
 }

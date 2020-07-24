@@ -5,7 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ManagerAPI.Domain.Entities.WM
 {
-    public class WorkingDay {
+    public class WorkingDay : IEntity
+    {
 
         [Key]
         public int Id { get; set; }
@@ -25,5 +26,20 @@ namespace ManagerAPI.Domain.Entities.WM
         public virtual User User { get; set; }
 
         public virtual ICollection<WorkingField> WorkingFields { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj != null && this.Id == ((WorkingDay)obj).Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Day, UserId, TypeId);
+        }
+
+        public override string ToString()
+        {
+            return $"{this.Id} - {this.Day}";
+        }
     }
 }

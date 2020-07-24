@@ -92,10 +92,14 @@ namespace ManagerAPI.Backend
             services.AddScoped<INewsService, NewsService>();
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ILoggerService, LoggerService>();
-            services.AddScoped<IWorkingManagerService, WorkingManagerService>();
+            services.AddScoped<IWorkingDayService, WorkingDayService>();
+            services.AddScoped<IWorkingDayTypeService, WorkingDayTypeService>();
+            services.AddScoped<IWorkingFieldService, WorkingFieldService>();
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<ISeriesService, SeriesService>();
+            services.AddScoped<ISeasonService, SeasonService>();
+            services.AddScoped<IEpisodeService, EpisodeService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             

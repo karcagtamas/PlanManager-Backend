@@ -26,10 +26,7 @@ namespace MovieCorner.Services.Services
         private const string UserBookConnectionDoesNotExistMessage = "User Book connection does not exist";
 
         // Injects
-        private readonly DatabaseContext _context;
-        private readonly IMapper _mapper;
-        private readonly IUtilsService _utilsService;
-        private readonly ILoggerService _loggerService;
+        private readonly DatabaseContext DatabaseContext;
 
         /// <summary>
         /// Injector Constructor
@@ -40,33 +37,30 @@ namespace MovieCorner.Services.Services
         /// <param name="loggerService">Logger Service</param>
         public BookService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper)
         {
-            _context = context;
-            _mapper = mapper;
-            _utilsService = utilsService;
-            _loggerService = loggerService;
+            this.DatabaseContext = context;
         }
 
         public List<MyBookDto> GetMyList()
         {
-            var user = this._utilsService.GetCurrentUser();
+            var user = this.Utils.GetCurrentUser();
 
             var list = user.MyBooks.ToList();
 
-            this._loggerService.LogInformation(user, nameof(BookService), GetMyBooksAction, list.Select(x => x.Book.Id).ToList());
+            this.Logger.LogInformation(user, nameof(BookService), GetMyBooksAction, list.Select(x => x.Book.Id).ToList());
 
-            return _mapper.Map<List<MyBookDto>>(list);
+            return this.Mapper.Map<List<MyBookDto>>(list);
         }
 
         public void UpdateMyBooks(List<int> ids)
         {
-            var user = this._utilsService.GetCurrentUser();
+            var user = this.Utils.GetCurrentUser();
 
-            var currentMappings = _context.UserBookSwitch.Where(x => x.UserId == user.Id).ToList();
+            var currentMappings = DatabaseContext.UserBookSwitch.Where(x => x.UserId == user.Id).ToList();
             foreach (var i in currentMappings)
             {
                 if (ids.FindIndex(x => x == i.BookId) == -1)
                 {
-                    _context.UserBookSwitch.Remove(i);
+                    DatabaseContext.UserBookSwitch.Remove(i);
                 }
             }
 
@@ -75,30 +69,30 @@ namespace MovieCorner.Services.Services
                 if (currentMappings.FirstOrDefault(x => x.BookId == i) == null)
                 {
                     var map = new UserBook() { BookId = i, UserId = user.Id, Read = false };
-                    _context.UserBookSwitch.Add(map);
+                    DatabaseContext.UserBookSwitch.Add(map);
                 }
             }
 
-            this._loggerService.LogInformation(user, nameof(BookService), UpdateMyBooksAction, ids);
-            _context.SaveChanges();
+            this.Logger.LogInformation(user, nameof(BookService), UpdateMyBooksAction, ids);
+            DatabaseContext.SaveChanges();
         }
 
         public void UpdateReadStatus(int id, bool status)
         {
-            var user = this._utilsService.GetCurrentUser();
+            var user = this.Utils.GetCurrentUser();
 
-            var userBook = _context.UserBookSwitch.Find(user.Id, id);
+            var userBook = DatabaseContext.UserBookSwitch.Find(user.Id, id);
             if (userBook == null)
             {
-                throw this._loggerService.LogInvalidThings(user, nameof(BookService), UserBookThing, UserBookConnectionDoesNotExistMessage);
+                throw this.Logger.LogInvalidThings(user, nameof(BookService), UserBookThing, UserBookConnectionDoesNotExistMessage);
             }
 
             userBook.Read = status;
             userBook.ReadOn = status ? (DateTime?)DateTime.Now : null;
-            _context.UserBookSwitch.Update(userBook);
-            _context.SaveChanges();
+            DatabaseContext.UserBookSwitch.Update(userBook);
+            DatabaseContext.SaveChanges();
 
-            this._loggerService.LogInformation(user, nameof(BookService), SetBookStatusAction, userBook.Book.Id);
+            this.Logger.LogInformation(user, nameof(BookService), SetBookStatusAction, userBook.Book.Id);
         }
     }
 }
