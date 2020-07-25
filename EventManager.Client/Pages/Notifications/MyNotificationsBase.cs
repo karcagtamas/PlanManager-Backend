@@ -1,5 +1,5 @@
-﻿using EventManager.Client.Models.Notifications;
-using EventManager.Client.Services.Interfaces;
+﻿using EventManager.Client.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -11,16 +11,16 @@ namespace EventManager.Client.Pages.Notifications
 {
     public class MyNotificationsBase : ComponentBase
     {
-        [Inject]
-        public INotificationService NotificationService { get; set; }
+        [Inject] 
+        private INotificationService NotificationService { get; set; }
 
         [Inject]
         public IMatToaster Toaster { get; set; }
 
-        public List<NotificationDto> Notifications { get; set; }
-        public List<NotificationDto> FilteredNotifications { get; set; }
-        protected bool ShowRead { get; set; } = false;
-        protected int? Importance { get; set; } = null;
+        private List<NotificationDto> Notifications { get; set; }
+        protected List<NotificationDto> FilteredNotifications { get; set; }
+        private bool ShowRead { get; set; } = false;
+        private int? Importance { get; set; } = null;
         protected bool IsLoading { get; set; } = true;
 
         protected override async Task OnInitializedAsync()
@@ -29,30 +29,21 @@ namespace EventManager.Client.Pages.Notifications
             await SetUnReadsToRead();
         }
 
-        protected async Task GetNotifications()
+        private async Task GetNotifications()
         {
             this.IsLoading = true;
             Notifications = await NotificationService.GetMyNotifications();
-            if (Notifications.Count() > 0) {
+            if (Notifications.Any()) {
                 FilterNotifications();
             }
             this.IsLoading = false;
         }
-        
-        protected async Task SetUnReadsToRead()
-        {
-            List<int> ids = new List<int>();
-            foreach (var i in Notifications)
-            {
-                if (!i.IsRead)
-                {
-                    ids.Add(i.Id);
-                }
-            }
 
+        private async Task SetUnReadsToRead()
+        {
             try
             {
-                var result = await NotificationService.SetUnReadsToRead(ids.ToArray());
+                var result = await NotificationService.SetUnReadsToRead((from i in Notifications where !i.IsRead select i.Id).ToArray());
             }
             catch (Exception e)
             {
@@ -78,7 +69,7 @@ namespace EventManager.Client.Pages.Notifications
             StateHasChanged();
         }
 
-        protected void FilterNotifications()
+        private void FilterNotifications()
         {
             var query = Notifications.AsQueryable();
             if (!ShowRead)

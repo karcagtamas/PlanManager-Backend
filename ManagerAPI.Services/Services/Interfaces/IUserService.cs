@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ManagerAPI.Models.DTOs;
-using Microsoft.AspNetCore.Identity;
+using ManagerAPI.Shared.DTOs;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {

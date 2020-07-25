@@ -5,10 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Models.DTOs;
-using ManagerAPI.Models.Entities;
-using ManagerAPI.Models.Enums;
+using ManagerAPI.Domain.Entities;
+using ManagerAPI.Domain.Enums;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
 using Microsoft.AspNetCore.Identity;
 
 namespace ManagerAPI.Services.Services
@@ -174,7 +174,7 @@ namespace ManagerAPI.Services.Services
                 if (!result.Succeeded)
                 {
                     // TODO: fix message
-                    throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing, result.Errors.ToString());
+                    throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing, this._utilsService.ErrorsToString(result.Errors));
                 }
             }
             else
@@ -198,7 +198,7 @@ namespace ManagerAPI.Services.Services
                 var result = await _userManager.SetUserNameAsync(user, newUsername);
                 if (!result.Succeeded)
                 {
-                    throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing, result.Errors.ToString());
+                    throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing, this._utilsService.ErrorsToString(result.Errors));
                 }
             }
             else
@@ -206,7 +206,7 @@ namespace ManagerAPI.Services.Services
                 throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing, NewEqualOldUserNameMessage);
             }
             _loggerService.LogInformation(user, nameof(UserService), UpdateUserNameAction, user.Id);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.UsernameChanged, user);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.UsernameChanged, user, user.UserName, newUsername);
         }
 
         /// <summary>

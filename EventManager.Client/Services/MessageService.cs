@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
-using EventManager.Client.Models.Messages;
 using EventManager.Client.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 
 namespace EventManager.Client.Services
 {

@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using EventManager.Services.Services;
-using ManagerAPI.Models.DTOs.EM;
-using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,7 +28,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(new ServerResponse<List<EventActionListDto>>(_eventActionService.GetActions(id), true));
+                return Ok(_eventActionService.GetActions(id));
             }
             catch (MessageException me) {
                 return BadRequest (_loggerService.ExceptionToResponse (me));

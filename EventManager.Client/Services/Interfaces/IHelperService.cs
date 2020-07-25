@@ -13,6 +13,7 @@ namespace EventManager.Client.Services.Interfaces
         string DateToString(DateTime date);
         string DateToString(DateTime? date);
         string DateToDayString(DateTime date);
+        string DateToNumberDayString(DateTime date);
         string LeaderZero(int number);
         string WriteNullableField(object fieldValue);
         string WriteEmptyableField(string val);

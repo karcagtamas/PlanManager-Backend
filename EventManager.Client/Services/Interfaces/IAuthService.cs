@@ -1,5 +1,5 @@
+using ManagerAPI.Shared.Models;
 using System.Threading.Tasks;
-using EventManager.Client.Models.Auth;
 
 namespace EventManager.Client.Services.Interfaces {
     public interface IAuthService {

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Models.DTOs;
-using ManagerAPI.Models.Entities;
-using ManagerAPI.Models.Enums;
-using ManagerAPI.Models.Models;
+using ManagerAPI.Domain.Entities;
+using ManagerAPI.Domain.Enums;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace ManagerAPI.Services.Services
@@ -120,8 +120,8 @@ namespace ManagerAPI.Services.Services
 
             _loggerService.LogInformation(user, nameof(FriendService), RemoveFriendAction, friendId);
 
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRemoved, user);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRemoved, friend);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRemoved, user, friend.UserName);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRemoved, friend, user.UserName);
         }
 
         /// <summary>
@@ -166,8 +166,8 @@ namespace ManagerAPI.Services.Services
 
             _loggerService.LogInformation(user, nameof(FriendService), SendFriendRequestAction, request.Id);
 
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRequestSent, user);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRequestReceived, destination);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRequestSent, user, destination.UserName);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRequestReceived, destination, user.UserName);
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace ManagerAPI.Services.Services
             _context.FriendRequests.Update(request);
             _context.SaveChanges();
             _loggerService.LogInformation(user, nameof(FriendService), SendFriendRequestResponseAction, request.Id);
-            _notificationService.AddSystemNotificationByType(model.Response ? SystemNotificationType.FriendRequestAccepted : SystemNotificationType.FriendRequestDeclined, request.Sender);
+            _notificationService.AddSystemNotificationByType(model.Response ? SystemNotificationType.FriendRequestAccepted : SystemNotificationType.FriendRequestDeclined, request.Sender, user.UserName);
 
             if (model.Response)
             {
@@ -209,8 +209,8 @@ namespace ManagerAPI.Services.Services
 
                 _context.SaveChanges();
 
-                _notificationService.AddSystemNotificationByType(SystemNotificationType.YouHasANewFriend, user);
-                _notificationService.AddSystemNotificationByType(SystemNotificationType.YouHasANewFriend, request.Sender);
+                _notificationService.AddSystemNotificationByType(SystemNotificationType.YouHasANewFriend, user, request.Sender.UserName);
+                _notificationService.AddSystemNotificationByType(SystemNotificationType.YouHasANewFriend, request.Sender, user.UserName);
             }
         }
 

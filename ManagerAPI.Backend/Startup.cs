@@ -4,7 +4,7 @@ using AutoMapper;
 using EventManager.Services.Profiles;
 using EventManager.Services.Services;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Models.Entities;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Profiles;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
@@ -19,8 +19,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using MovieCorner.Services.Profiles;
+using MovieCorner.Services.Services;
+using MovieCorner.Services.Services.Interfaces;
 using PlanManager.Services.Profiles;
 using PlanManager.Services.Services;
+using PlanManager.Services.Services.Interfaces;
 
 namespace ManagerAPI.Backend
 {
@@ -61,6 +65,12 @@ namespace ManagerAPI.Backend
                 x.AddProfile(new MessageProfile());
                 x.AddProfile(new NewsProfile());
                 x.AddProfile(new TaskProfile());
+                x.AddProfile(new WorkingDayProfile());
+                x.AddProfile(new WorkingFieldProfile());
+                x.AddProfile(new WorkingDayTypeProfile());
+                x.AddProfile(new MovieProfile());
+                x.AddProfile(new BookProfile());
+                x.AddProfile(new SeriesProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -84,6 +94,14 @@ namespace ManagerAPI.Backend
             services.AddScoped<INewsService, NewsService>();
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ILoggerService, LoggerService>();
+            services.AddScoped<IWorkingDayService, WorkingDayService>();
+            services.AddScoped<IWorkingDayTypeService, WorkingDayTypeService>();
+            services.AddScoped<IWorkingFieldService, WorkingFieldService>();
+            services.AddScoped<IMovieService, MovieService>();
+            services.AddScoped<IBookService, BookService>();
+            services.AddScoped<ISeriesService, SeriesService>();
+            services.AddScoped<ISeasonService, SeasonService>();
+            services.AddScoped<IEpisodeService, EpisodeService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             

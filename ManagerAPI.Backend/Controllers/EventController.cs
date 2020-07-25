@@ -1,9 +1,9 @@
 using System;
-using System.Collections.Generic;
 using EventManager.Services.Services;
-using ManagerAPI.Models.DTOs.EM;
-using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.EM;
+using ManagerAPI.Shared.Models;
+using ManagerAPI.Shared.Models.EM;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,7 +30,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(new ServerResponse<List<MyEventListDto>>(_eventService.GetMyEvents(), true));
+                return Ok(_eventService.GetMyEvents());
             }
             catch (MessageException me) {
                 return BadRequest (_loggerService.ExceptionToResponse (me));
@@ -45,7 +45,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(new ServerResponse<EventDto>(_eventService.GetEvent(eventId), true));
+                return Ok(_eventService.GetEvent(eventId));
             }
             catch (MessageException me) {
                 return BadRequest (_loggerService.ExceptionToResponse (me));
@@ -56,12 +56,12 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateEvent([FromBody] EventCreateDto model)
+        public IActionResult CreateEvent([FromBody] EventModel model)
         {
             try
             {
                 _eventService.CreateEvent(model);
-                return Ok(new ServerResponse<Object>(null, true));
+                return Ok();
             }
             catch (MessageException me) {
                 return BadRequest (_loggerService.ExceptionToResponse (me));
@@ -77,7 +77,7 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _eventService.SetEventAsGtEvent(eventId);
-                return Ok(new ServerResponse<Object>(null, true));
+                return Ok();
             }
             catch (MessageException me) {
                 return BadRequest (_loggerService.ExceptionToResponse (me));
@@ -93,7 +93,7 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _eventService.SetEventAsSportEvent(eventId);
-                return Ok(new ServerResponse<Object>(null, true));
+                return Ok();
             }
             catch (MessageException me) {
                 return BadRequest (_loggerService.ExceptionToResponse (me));
@@ -109,7 +109,7 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _eventService.DeleteEvent(eventId);
-                return Ok(new ServerResponse<Object>(null, true));
+                return Ok();
             }
             catch (MessageException me) {
                 return BadRequest (_loggerService.ExceptionToResponse (me));
@@ -125,7 +125,7 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _eventService.UpdateMasterEvent(masterUpdate);
-                return Ok(new ServerResponse<Object>(null, true));
+                return Ok();
             }
             catch (MessageException me) {
                 return BadRequest (_loggerService.ExceptionToResponse (me));
@@ -141,7 +141,7 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _eventService.UpdateSportEvent(sportUpdate);
-                return Ok(new ServerResponse<Object>(null, true));
+                return Ok();
             }
             catch (MessageException me) {
                 return BadRequest (_loggerService.ExceptionToResponse (me));
@@ -157,7 +157,7 @@ namespace ManagerAPI.Backend.Controllers
             try
             {
                 _eventService.UpdateGtEvent(updateGt);
-                return Ok(new ServerResponse<Object>(null, true));
+                return Ok();
             }
             catch (MessageException me) {
                 return BadRequest (_loggerService.ExceptionToResponse (me));

@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ManagerAPI.Models\ManagerAPI.Models.csproj" />
+      <ProjectReference Include="..\ManagerAPI.Domain\ManagerAPI.Domain.csproj" />
     </ItemGroup>
 
 </Project>

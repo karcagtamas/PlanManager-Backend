@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
-using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;

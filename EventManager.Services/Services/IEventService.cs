@@ -1,5 +1,6 @@
+using ManagerAPI.Shared.DTOs.EM;
+using ManagerAPI.Shared.Models.EM;
 using System.Collections.Generic;
-using ManagerAPI.Models.DTOs.EM;
 
 namespace EventManager.Services.Services
 {
@@ -7,7 +8,7 @@ namespace EventManager.Services.Services
     {
         List<MyEventListDto> GetMyEvents();
         EventDto GetEvent(int eventId);
-        void CreateEvent(EventCreateDto model);
+        void CreateEvent(EventModel model);
         void SetEventAsGtEvent(int eventId);
         void SetEventAsSportEvent(int eventId);
         void UpdateMasterEvent(MasterEventUpdateDto model);

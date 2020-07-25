@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EventManager.Client.Models;
-using EventManager.Client.Models.Events;
+using ManagerAPI.Shared.DTOs.EM;
+using ManagerAPI.Shared.Models.EM;
 
 namespace EventManager.Client.Services.Interfaces {
     public interface IEventService {
-        Task<ApiResponseModel<List<MyEventListDto>>> GetMyList ();
-        Task<ApiResponseModel<EventDto>> Get (int id);
-        Task<ApiResponseModel<Object>> CreateEvent (EventModel model);
-        Task<ApiResponseModel<Object>> SetEventAsGt (int id);
-        Task<ApiResponseModel<Object>> SetEventAsSport (int id);
-        Task<ApiResponseModel<Object>> UpdateMasterEvent (MasterEventUpdateDto masterUpdate);
-        Task<ApiResponseModel<Object>> UpdateSportEvent (SportEventUpdateDto sportUpdate);
-        Task<ApiResponseModel<Object>> UpdateGtEvent (GtEventUpdateDto gtUpdate);
+        Task<List<MyEventListDto>> GetMyList ();
+        Task<EventDto> Get (int id);
+        Task<bool> CreateEvent (EventModel model);
+        Task<bool> SetEventAsGt (int id);
+        Task<bool> SetEventAsSport (int id);
+        Task<bool> UpdateMasterEvent (MasterEventUpdateDto masterUpdate);
+        Task<bool> UpdateSportEvent (SportEventUpdateDto sportUpdate);
+        Task<bool> UpdateGtEvent (GtEventUpdateDto gtUpdate);
     }
 }

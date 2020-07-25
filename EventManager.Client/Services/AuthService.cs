@@ -1,12 +1,10 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using EventManager.Client.Models;
-using EventManager.Client.Models.Auth;
 using EventManager.Client.Services.Interfaces;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace EventManager.Client.Services

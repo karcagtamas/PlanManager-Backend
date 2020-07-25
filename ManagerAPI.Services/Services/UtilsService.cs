@@ -1,7 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Models.Entities;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -53,9 +54,28 @@ namespace ManagerAPI.Services.Services {
             return userId;
         }
 
+        public string InjectString(string baseText, params string[] args)
+        {
+            string res = baseText;
+
+            for (int i = 0; i < args.Length; i++) {
+                string placeholder = "{i}".Replace('i', i.ToString()[0]);
+                if (!res.Contains(placeholder)) {
+                    throw new ArgumentException("");
+                }
+                res = res.Replace(placeholder, $"{args[i]}");
+            }
+            return res;
+        }
+
         public string UserDisplay(User user)
         {
             return $"{user.UserName} ({user.Id})";
+        }
+
+        public string ErrorsToString(IEnumerable<IdentityError> errors) {
+            var list = errors.ToList();
+            return list.FirstOrDefault().Description;
         }
     }
 }

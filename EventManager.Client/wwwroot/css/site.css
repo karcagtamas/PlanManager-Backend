@@ -6,7 +6,11 @@ html, body {
 
 body {
   margin: 0;
-  background: linear-gradient(60deg, #ffb2b6 0%, #e2c2ff 50%, #ad99ff 100%) fixed; }
+  background: linear-gradient(60deg, #ffb2b6 0%, #e2c2ff 50%, #ad99ff 100%) fixed;
+  display: flex; }
+
+app {
+  width: 100%; }
 
 * {
   font-family: 'Bree Serif', serif !important; }
@@ -89,12 +93,73 @@ body {
   width: auto; }
 
 .main-box {
+  flex-grow: 1;
   max-height: 100vh;
   padding: 1rem; }
   .main-box .main-content {
     overflow: auto;
     height: 100%;
     background-color: rgba(249, 249, 249, 0.55); }
+
+/* Working Manager */
+.wm .title-bar {
+  display: flex; }
+  .wm .title-bar .spacer {
+    flex-grow: 1; }
+  .wm .title-bar .date {
+    color: #5120a5;
+    font-style: italic; }
+
+.wm .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+  display: flex; }
+  .wm .action-bar .spacer {
+    flex-grow: 1; }
+
+.wm .working-day-settings {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4); }
+
+.wm .stats {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(203, 255, 187, 0.4); }
+
+.wm .field-list {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(249, 249, 249, 0.55); }
+  .wm .field-list .field {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+    border-radius: 4px;
+    padding: 0.5rem;
+    background-color: rgba(240, 174, 73, 0.4); }
+    .wm .field-list .field .title-row {
+      display: flex;
+      color: #5120a5; }
+      .wm .field-list .field .title-row .title {
+        font-style: italic; }
+      .wm .field-list .field .title-row .spacer {
+        flex-grow: 1; }
+      .wm .field-list .field .title-row .hours {
+        font-weight: bold; }
 
 /* My tasks page */
 .em-my-tasks .action-bar {
@@ -398,11 +463,24 @@ body {
   text-overflow: ellipsis; }
 
 /* Navbar */
-.em-navbar-outer {
+.em-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
   height: 100vh; }
 
+.em-navbar-box {
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(249, 249, 249, 0.55); }
+  .em-navbar-box .em-navbar-outer {
+    flex-grow: 1;
+    display: flex;
+    overflow: auto; }
+
 .em-navbar {
-  background-color: rgba(249, 249, 249, 0.55);
+  flex-grow: 1;
   display: flex;
   flex-direction: column; }
   .em-navbar .em-navbar-brand-outer {
@@ -420,8 +498,9 @@ body {
         background-color: rgba(92, 0, 255, 0.1);
         color: #5120a5;
         transition-duration: 0.5s; }
-  .em-navbar .vert-spacer {
-    flex-grow: 1; }
+  .em-navbar .em-navbar-menu {
+    flex-grow: 1;
+    overflow: auto; }
 
 /* Friend data */
 .friend-data .data-row {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using ManagerAPI.Models.DTOs;
-using ManagerAPI.Models.Models;
+using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {

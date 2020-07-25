@@ -10,12 +10,14 @@
     <ItemGroup>
       <PackageReference Include="AutoMapper" Version="10.0.0" />
       <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.7.1" />
+      <PackageReference Include="System.Collections" Version="4.3.0" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\ManagerAPI.DataAccess\ManagerAPI.DataAccess.csproj" />
-      <ProjectReference Include="..\ManagerAPI.Models\ManagerAPI.Models.csproj" />
+      <ProjectReference Include="..\ManagerAPI.Domain\ManagerAPI.Domain.csproj" />
+      <ProjectReference Include="..\ManagerAPI.Shared\ManagerAPI.Shared.csproj" />
     </ItemGroup>
 
 </Project>

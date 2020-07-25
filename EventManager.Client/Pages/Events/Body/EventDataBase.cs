@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using EventManager.Client.Models.Events;
 using EventManager.Client.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.EM;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 
@@ -9,161 +9,81 @@ namespace EventManager.Client.Pages.Events.Body
 {
     public class EventDataBase : ComponentBase
     {
-        [Parameter] public int Id { get; set; }
+        [Parameter]
+        public int Id { get; set; }
 
-        [Inject] public IEventService EventService { get; set; }
+        [Inject]
+        public IEventService EventService { get; set; }
 
-        [Inject] public IHelperService HelperService { get; set; }
+        [Inject]
+        public IHelperService HelperService { get; set; }
 
-        [Inject] public IMatToaster Toaster { get; set; }
+        [Inject]
+        public IMatToaster Toaster { get; set; }
 
         public EventDto Event { get; set; }
-
         public MasterEventUpdateDto MasterUpdate { get; set; }
         public SportEventUpdateDto SportUpdate { get; set; }
         public GtEventUpdateDto GtUpdate { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            MasterUpdate = new MasterEventUpdateDto();
-            SportUpdate = new SportEventUpdateDto();
-            GtUpdate = new GtEventUpdateDto();
-            await GetEvent();
+            this.MasterUpdate = new MasterEventUpdateDto();
+            this.SportUpdate = new SportEventUpdateDto();
+            this.GtUpdate = new GtEventUpdateDto();
+            await this.GetEvent();
             await base.OnInitializedAsync();
         }
 
         private async Task GetEvent()
         {
-            try
-            {
-                var result = await EventService.Get(Id);
-                if (result.IsSuccess)
-                {
-                    Event = result.Content;
-                    MasterUpdate = new MasterEventUpdateDto(Event.MasterEvent);
-                    SportUpdate = Event.SportEvent != null
-                        ? new SportEventUpdateDto(Event.SportEvent)
-                        : new SportEventUpdateDto();
-                    GtUpdate = Event.GtEvent != null ? new GtEventUpdateDto(Event.GtEvent) : new GtEventUpdateDto();
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "Event Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            this.Event = await this.EventService.Get(Id);
+            this.MasterUpdate = new MasterEventUpdateDto(Event.MasterEvent);
+            this.SportUpdate = this.Event.SportEvent != null
+                ? new SportEventUpdateDto(this.Event.SportEvent)
+                : new SportEventUpdateDto();
+            this.GtUpdate = this.Event.GtEvent != null
+                ? new GtEventUpdateDto(this.Event.GtEvent)
+                : new GtEventUpdateDto();
         }
 
         protected async Task SetEventAsGt()
         {
-            try
+            if (await this.EventService.SetEventAsGt(this.Id))
             {
-                var result = await EventService.SetEventAsGt(Id);
-                if (result.IsSuccess)
-                {
-                    await GetEvent();
-                    Toaster.Add("Successfully set event as GT", MatToastType.Success, "GT Event");
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "GT Event Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "GT Event Error");
-                Console.WriteLine(e);
+                await this.GetEvent();
             }
         }
 
         protected async Task SetEventAsSport()
         {
-            try
+            if (await this.EventService.SetEventAsSport(this.Id))
             {
-                var result = await EventService.SetEventAsSport(Id);
-                if (result.IsSuccess)
-                {
-                    await GetEvent();
-                    Toaster.Add("Successfully set event as Sport", MatToastType.Success, "Sport Event");
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "Sport Event Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "Sport Event Error");
-                Console.WriteLine(e);
+                await this.GetEvent();
             }
         }
 
         protected async Task UpdateMaster()
         {
-            try
+            if (await this.EventService.UpdateMasterEvent(this.MasterUpdate))
             {
-                var result = await EventService.UpdateMasterEvent(MasterUpdate);
-                if (result.IsSuccess)
-                {
-                    await GetEvent();
-                    Toaster.Add("Successfully updated Master Event", MatToastType.Success, "Master Event");
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "Master Event Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "Master Event Error");
-                Console.WriteLine(e);
+                await this.GetEvent();
             }
         }
 
         protected async Task UpdateSport()
         {
-            try
+            if (await this.EventService.UpdateSportEvent(this.SportUpdate))
             {
-                var result = await EventService.UpdateSportEvent(SportUpdate);
-                if (result.IsSuccess)
-                {
-                    await GetEvent();
-                    Toaster.Add("Successfully updated Sport Event", MatToastType.Success, "Sport Event");
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "Sport Event Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "Sport Event Error");
-                Console.WriteLine(e);
+                await this.GetEvent();
             }
         }
 
         protected async Task UpdateGt()
         {
-            try
+            if (await this.EventService.UpdateGtEvent(this.GtUpdate))
             {
-                var result = await EventService.UpdateGtEvent(GtUpdate);
-                if (result.IsSuccess)
-                {
-                    Toaster.Add("Successfully updated GT Event", MatToastType.Success, "GT Event");
-                    await GetEvent();
-                }
-                else
-                {
-                    Toaster.Add(result.Message, MatToastType.Danger, "GT Event Error");
-                }
-            }
-            catch (Exception e)
-            {
-                Toaster.Add(HelperService.ConnectionIsUnreachable(), MatToastType.Danger, "GT Event Error");
-                Console.WriteLine(e);
+                await this.GetEvent();
             }
         }
     }

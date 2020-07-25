@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using EventManager.Client.Models;
-using EventManager.Client.Models.Notifications;
+using ManagerAPI.Shared.DTOs;
 
 namespace EventManager.Client.Services.Interfaces {
     public interface INotificationService {

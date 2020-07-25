@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using ManagerAPI.Models.DTOs.EM;
+using ManagerAPI.Shared.DTOs.EM;
 
 namespace EventManager.Services.Services
 {

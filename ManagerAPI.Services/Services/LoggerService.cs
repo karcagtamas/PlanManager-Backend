@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ManagerAPI.Models.Entities;
-using ManagerAPI.Models.Models;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Services.Interfaces;
-using Microsoft.EntityFrameworkCore.Internal;
+using ManagerAPI.Shared.Models;
 using Microsoft.Extensions.Logging;
 
 namespace ManagerAPI.Services.Services
@@ -169,6 +168,50 @@ namespace ManagerAPI.Services.Services
         public void LogInformation(User user, string service, string action, List<int> ids)
         {
             this.LogInformation(user, service, action, ids, null);
+        }
+
+        public void LogAnonimInformation(string service, string action, int id)
+        {
+            this.LogAnonimInformation(service, action, id, null);
+        }
+
+        public void LogAnonimInformation(string service, string action, int id, object entity)
+        {
+            this.LogAnonimInformation(service, action, id.ToString(), entity);
+        }
+
+        public void LogAnonimInformation(string service, string action, string id)
+        {
+            this.LogAnonimInformation(service, action, id, null);
+        }
+
+        public void LogAnonimInformation(string service, string action, string id, object entity)
+        {
+            this._logger.LogInformation($"Anonim: {service} - {action.ToUpper()} - with id: {id}");
+            if (entity != null)
+            {
+                this._logger.LogInformation(entity.ToString());
+            }
+        }
+
+        public void LogAnonimInformation(string service, string action, List<string> ids)
+        {
+            this.LogAnonimInformation(service, action, ids, null);
+        }
+
+        public void LogAnonimInformation(string service, string action, List<string> ids, object entity)
+        {
+            this.LogAnonimInformation(service, action, string.Join(", ", ids), entity);
+        }
+
+        public void LogAnonimInformation(string service, string action, List<int> ids)
+        {
+            this.LogAnonimInformation(service, action, ids, null);
+        }
+
+        public void LogAnonimInformation(string service, string action, List<int> ids, object entity)
+        {
+            this.LogAnonimInformation(service, action, ids.Select(x => x.ToString()).ToList(), entity);
         }
     }
 }

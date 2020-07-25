@@ -1,10 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using ManagerAPI.Models.Models;
-using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Backend.Controllers {

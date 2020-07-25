@@ -1,6 +1,7 @@
 using System;
-using ManagerAPI.Models.Entities;
-using ManagerAPI.Models.Models;
+using System.Collections.Generic;
+using ManagerAPI.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace ManagerAPI.Services.Services.Interfaces 
 {
@@ -9,5 +10,7 @@ namespace ManagerAPI.Services.Services.Interfaces
         User GetCurrentUser ();
         string GetCurrentUserId ();
         string UserDisplay(User user);
+        string InjectString(string baseText, params string[] args);
+        string ErrorsToString(IEnumerable<IdentityError> errors);
     }
 }

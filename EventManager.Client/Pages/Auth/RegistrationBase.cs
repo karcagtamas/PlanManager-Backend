@@ -1,7 +1,6 @@
-using System;
 using System.Threading.Tasks;
-using EventManager.Client.Models.Auth;
 using EventManager.Client.Services.Interfaces;
+using ManagerAPI.Shared.Models;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 

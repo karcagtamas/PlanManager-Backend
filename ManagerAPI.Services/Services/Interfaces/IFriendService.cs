@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ManagerAPI.Models.DTOs;
-using ManagerAPI.Models.Models;
+using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {

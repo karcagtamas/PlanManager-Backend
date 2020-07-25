@@ -379,6 +379,292 @@ namespace ManagerAPI.DataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Book", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)")
+                        .HasMaxLength(150);
+
+                    b.Property<DateTime>("Creation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("LastUpdaterId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)")
+                        .HasMaxLength(150);
+
+                    b.Property<DateTime?>("Publish")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("LastUpdaterId");
+
+                    b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Episode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeasonId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SeasonId");
+
+                    b.ToTable("Episodes");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Movie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Creation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(999)")
+                        .HasMaxLength(999);
+
+                    b.Property<DateTime>("LastUpdate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("LastUpdaterId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)")
+                        .HasMaxLength(150);
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("LastUpdaterId");
+
+                    b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Season", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SeriesId");
+
+                    b.ToTable("Seasons");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Series", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Creation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EndYear")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("LastUpdaterId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("StartYear")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)")
+                        .HasMaxLength(150);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("LastUpdaterId");
+
+                    b.ToTable("Series");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserBook", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("AddOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<bool>("Read")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("ReadOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UserId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("UserBookSwitch");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserEpisode", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("EpisodeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Seen")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("SeenOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UserId", "EpisodeId");
+
+                    b.HasIndex("EpisodeId");
+
+                    b.ToTable("UserEpisodeSwitch");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserMovie", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("AddOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<bool>("Seen")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("SeenOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UserId", "MovieId");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("UserMovieSwitch");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserSeries", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("AddOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.HasKey("UserId", "SeriesId");
+
+                    b.HasIndex("SeriesId");
+
+                    b.ToTable("UserSeriesSwitch");
+                });
+
             modelBuilder.Entity("ManagerAPI.Models.Entities.Message", b =>
                 {
                     b.Property<int>("Id")
@@ -1425,6 +1711,108 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("UserPlanGroupsSwitch");
                 });
 
+            modelBuilder.Entity("ManagerAPI.Models.Entities.WM.WorkingDay", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Day")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WorkingDays");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.WM.WorkingDayType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("DayIsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WorkingDayTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DayIsActive = true,
+                            Title = "Work Day"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DayIsActive = false,
+                            Title = "University"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DayIsActive = false,
+                            Title = "Empty Day"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DayIsActive = false,
+                            Title = "Holiday"
+                        });
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.WM.WorkingField", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Length")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<int>("WorkingDayId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkingDayId");
+
+                    b.ToTable("WorkingFields");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -1646,7 +2034,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9",
-                            ConcurrencyStamp = "46a72fd8-4a32-4ef1-84d4-ce298f77beac",
+                            ConcurrencyStamp = "0bd23f08-6141-49f6-b9b6-8a630c38e7ac",
                             Name = "Visitor",
                             NormalizedName = "VISITOR",
                             AccessLevel = 0
@@ -1654,7 +2042,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "776474d7-8d01-4809-963e-c721f39dbb45",
-                            ConcurrencyStamp = "f53100ad-954b-40df-b885-9c994661f4ba",
+                            ConcurrencyStamp = "517271d4-0fc1-4e91-83fe-7e1ba2e2883d",
                             Name = "Normal",
                             NormalizedName = "NORMAL",
                             AccessLevel = 1
@@ -1662,7 +2050,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "5e0a9192-793f-4c85-a0b1-3198295bf409",
-                            ConcurrencyStamp = "0f24f651-b2aa-4dc3-8da5-c59ff3012662",
+                            ConcurrencyStamp = "168e567c-d7b5-4122-b7d2-ec351f8fc8ce",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR",
                             AccessLevel = 2
@@ -1670,7 +2058,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "936e42dc-5d3f-4355-bc3a-304a4fe4f518",
-                            ConcurrencyStamp = "02a63185-2bde-4dbf-914d-fd2ad501900e",
+                            ConcurrencyStamp = "68b5ce87-e347-48b3-b04e-922df4ca43bc",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR",
                             AccessLevel = 3
@@ -1678,7 +2066,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20",
-                            ConcurrencyStamp = "7138aae8-959a-4a4b-95eb-3b898a5407a4",
+                            ConcurrencyStamp = "6cc146f2-3ed7-49ca-9876-7756d9a074bd",
                             Name = "Root",
                             NormalizedName = "ROOT",
                             AccessLevel = 4
@@ -1751,7 +2139,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "44045506-66fd-4af8-9d59-133c47d1787c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a73ff6c6-d5fc-4f52-be7f-3cd175efe18a",
+                            ConcurrencyStamp = "177b1725-a393-46e5-a2a7-a186ea022bdc",
                             Email = "karcagtamas@outlook.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1759,7 +2147,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "KARCAGTAMAS",
                             PasswordHash = "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f2774adc-88ab-483a-9b3c-010a4a04b985",
+                            SecurityStamp = "09fd1c1d-6548-4541-92d4-a88ed0c1a0e8",
                             TwoFactorEnabled = false,
                             UserName = "karcagtamas",
                             FullName = "Karcag Tamas",
@@ -1771,7 +2159,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "f8237fac-c6dc-47b0-8f71-b72f93368b02",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2735fde0-1cce-428a-914a-27b9ceae6430",
+                            ConcurrencyStamp = "6b6839d9-7385-41e0-8bd2-ceb65b835b09",
                             Email = "aron.klenovszky@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1779,7 +2167,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "AARONKAA",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6513fc17-376a-482d-a6d8-1bae9415ca9d",
+                            SecurityStamp = "185ec711-4d7d-440b-9f08-e2e799f71ba8",
                             TwoFactorEnabled = false,
                             UserName = "aaronkaa",
                             FullName = "Klenovszky Áron",
@@ -1791,7 +2179,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "cd5e5069-59c8-4163-95c5-776fab95e51a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "02c38273-e8d9-45a9-894d-10c5fd37a1c0",
+                            ConcurrencyStamp = "78a6e6b0-62e8-4300-8cff-3ef128750411",
                             Email = "root@karcags.hu",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1799,7 +2187,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "ROOT",
                             PasswordHash = "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "01b1a46d-463b-48bc-8beb-611ed19dce25",
+                            SecurityStamp = "f7b6094a-9973-47c5-aa0b-d4192a3c86c4",
                             TwoFactorEnabled = false,
                             UserName = "root",
                             FullName = "Root",
@@ -1811,7 +2199,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "fa2edf69-5fc8-a163-9fc5-726f3b94e51b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "31e78376-3d7a-47b0-a947-949ccd2c3438",
+                            ConcurrencyStamp = "e2b156ae-e1dd-4647-a2a2-875b70e120e2",
                             Email = "barni.pbs@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1819,7 +2207,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "BARNI363HUN",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8a96f63a-0617-44fc-849e-42d2d5ad3a7a",
+                            SecurityStamp = "4dd07869-d4d3-4bbd-9cc5-f91b4cb916d7",
                             TwoFactorEnabled = false,
                             UserName = "barni363hun",
                             FullName = "Root",
@@ -1959,6 +2347,129 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.HasOne("ManagerAPI.Models.Entities.User", "User")
                         .WithMany("FriendListLeft")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Book", b =>
+                {
+                    b.HasOne("ManagerAPI.Models.Entities.User", "Creator")
+                        .WithMany("CreatedBooks")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ManagerAPI.Models.Entities.User", "LastUpdater")
+                        .WithMany("LastUpdatedBooks")
+                        .HasForeignKey("LastUpdaterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Episode", b =>
+                {
+                    b.HasOne("ManagerAPI.Models.Entities.MC.Season", "Season")
+                        .WithMany("Episodes")
+                        .HasForeignKey("SeasonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Movie", b =>
+                {
+                    b.HasOne("ManagerAPI.Models.Entities.User", "Creator")
+                        .WithMany("CreatedMovies")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ManagerAPI.Models.Entities.User", "LastUpdater")
+                        .WithMany("LastUpdatedMovies")
+                        .HasForeignKey("LastUpdaterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Season", b =>
+                {
+                    b.HasOne("ManagerAPI.Models.Entities.MC.Series", "Series")
+                        .WithMany("Seasons")
+                        .HasForeignKey("SeriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Series", b =>
+                {
+                    b.HasOne("ManagerAPI.Models.Entities.User", "Creator")
+                        .WithMany("CreatedSeries")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ManagerAPI.Models.Entities.User", "LastUpdater")
+                        .WithMany("LastUpdatedSeries")
+                        .HasForeignKey("LastUpdaterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserBook", b =>
+                {
+                    b.HasOne("ManagerAPI.Models.Entities.MC.Book", "Book")
+                        .WithMany("ConnectedUsers")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                        .WithMany("MyBooks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserEpisode", b =>
+                {
+                    b.HasOne("ManagerAPI.Models.Entities.MC.Episode", "Episode")
+                        .WithMany("ConnectedUsers")
+                        .HasForeignKey("EpisodeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                        .WithMany("MyEpisodes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserMovie", b =>
+                {
+                    b.HasOne("ManagerAPI.Models.Entities.MC.Movie", "Movie")
+                        .WithMany("ConnectedUsers")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                        .WithMany("MyMovies")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserSeries", b =>
+                {
+                    b.HasOne("ManagerAPI.Models.Entities.MC.Series", "Series")
+                        .WithMany("ConnectedUsers")
+                        .HasForeignKey("SeriesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                        .WithMany("MySeries")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2160,6 +2671,30 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.HasOne("ManagerAPI.Models.Entities.User", "User")
                         .WithMany("Groups")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.WM.WorkingDay", b =>
+                {
+                    b.HasOne("ManagerAPI.Models.Entities.WM.WorkingDayType", "Type")
+                        .WithMany("WorkingDays")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                        .WithMany("WorkingDays")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Models.Entities.WM.WorkingField", b =>
+                {
+                    b.HasOne("ManagerAPI.Models.Entities.WM.WorkingDay", "WorkingDay")
+                        .WithMany("WorkingFields")
+                        .HasForeignKey("WorkingDayId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

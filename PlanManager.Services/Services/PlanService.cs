@@ -1,11 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Models.DTOs.PM;
-using ManagerAPI.Models.Entities.PM;
+using ManagerAPI.Domain.Entities.PM;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.PM;
+using PlanManager.Services.Services.Interfaces;
 
 namespace PlanManager.Services.Services
 {

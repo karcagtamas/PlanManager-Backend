@@ -1,6 +1,6 @@
 using AutoMapper;
-using ManagerAPI.Models.DTOs;
-using ManagerAPI.Models.Entities;
+using ManagerAPI.Domain.Entities;
+using ManagerAPI.Shared.DTOs;
 
 namespace ManagerAPI.Services.Profiles {
     public class UserProfile : Profile {

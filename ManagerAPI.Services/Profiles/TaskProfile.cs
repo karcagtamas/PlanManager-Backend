@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
-using ManagerAPI.Models.DTOs;
-using ManagerAPI.Models.Entities;
-using ManagerAPI.Models.Models;
+using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
+using ManagerAPI.Domain.Entities;
 
 namespace ManagerAPI.Services.Profiles
 {

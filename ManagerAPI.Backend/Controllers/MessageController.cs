@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using ManagerAPI.Models.DTOs;
-using ManagerAPI.Models.Models;
-using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

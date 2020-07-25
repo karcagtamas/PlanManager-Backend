@@ -29,7 +29,16 @@
     <ItemGroup>
       <ProjectReference Include="..\EventManager.Services\EventManager.Services.csproj" />
       <ProjectReference Include="..\ManagerAPI.DataAccess\ManagerAPI.DataAccess.csproj" />
+      <ProjectReference Include="..\MovieCorner.Services\MovieCorner.Services.csproj" />
       <ProjectReference Include="..\PlanManager.Services\PlanManager.Services.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="web.config">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
     </ItemGroup>
 
 

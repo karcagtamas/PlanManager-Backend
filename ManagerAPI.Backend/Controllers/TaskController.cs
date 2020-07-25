@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ManagerAPI.Models.DTOs;
-using ManagerAPI.Models.Models;
 using ManagerAPI.Services.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
+using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Backend.Controllers
