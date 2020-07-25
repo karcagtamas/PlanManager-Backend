@@ -8,11 +8,11 @@
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "PlanManagerDb": "Server=(local)\\sqlexpress;Database=PlanManagerDb;Trusted_Connection=True;MultipleActiveResultSets=True"
-    "PlanManagerDb": "Server=localhost;Database=PlanManagerDb;User Id=SA;password=<Jelszó>;Trusted_Connection=False;MultipleActiveResultSets=true;"
+    "ManagerDb": "Server=(local)\\sqlexpress;Database=ManagerDb;Trusted_Connection=True;MultipleActiveResultSets=True",
+    "ManagerDb": "Server=localhost;Database=PlanManagerDb;User Id=SA;password=<Jelszó>;Trusted_Connection=False;MultipleActiveResultSets=true;"
   },
   "ApplicationSettings": {
-    "JwtSecret": "0123456789012345KPlanManager",
+    "JwtSecret": "0123456789012345678901Manager",
     "ClientURL": "http://localhost:4200"
   }
 }

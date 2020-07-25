@@ -15,7 +15,7 @@ namespace ManagerAPI.DataAccess
                 .Build();
             
             var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>(); 
-            optionsBuilder.UseSqlServer(config.GetConnectionString("PlanManagerDb"));
+            optionsBuilder.UseSqlServer(config.GetConnectionString("ManagerDb"));
             return new DatabaseContext(optionsBuilder.Options);
         }
     }

@@ -107,7 +107,7 @@ namespace ManagerAPI.Backend
             
             services.AddDbContextPool<DatabaseContext>(options =>
             {
-                options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("PlanManagerDb"));
+                options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("ManagerDb"));
             });
 
             services.AddIdentity<User, WebsiteRole>(o => o.Stores.MaxLengthForKeys = 128)
