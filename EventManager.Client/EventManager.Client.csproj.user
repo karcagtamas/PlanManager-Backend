@@ -6,4 +6,7 @@
   <PropertyGroup>
     <ActiveDebugProfile>EventManager</ActiveDebugProfile>
   </PropertyGroup>
+  <PropertyGroup>
+    <NameOfLastUsedPublishProfile>FolderProfile</NameOfLastUsedPublishProfile>
+  </PropertyGroup>
 </Project>
