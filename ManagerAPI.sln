@@ -16,6 +16,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerAPI.DataAccess", "ManagerAPI.DataAccess\ManagerAPI.DataAccess.csproj", "{C9F33991-7CCA-4C60-802F-DEE1A8567570}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlanManager", "PlanManager", "{91326DD7-A3F8-4128-8C37-F229AD51717A}"
+	ProjectSection(SolutionItems) = preProject
+		PlanManager.Services\PlanManager.Services.csproj = PlanManager.Services\PlanManager.Services.csproj
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventManager", "EventManager", "{62B52463-32A3-46D3-9066-5C1EADFEF597}"
 EndProject
@@ -31,7 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MovieCorner", "MovieCorner"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieCorner.Services", "MovieCorner.Services\MovieCorner.Services.csproj", "{3E60E00C-942C-43A6-8D45-4F939440F06D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerAPI.Shared", "ManagerAPI.Shared\ManagerAPI.Shared.csproj", "{A6369695-89DE-4CD3-A34B-90177C23FCE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerAPI.Shared", "ManagerAPI.Shared\ManagerAPI.Shared.csproj", "{A6369695-89DE-4CD3-A34B-90177C23FCE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
