@@ -13,6 +13,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="web.configg" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Blazored.LocalStorage" Version="2.1.6" />
         <PackageReference Include="MatBlazor" Version="2.6.2" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.0-preview.6.20312.15" />
@@ -26,6 +30,10 @@
     <ItemGroup>
       <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
       <_ContentIncludedByDefault Remove="wwwroot\scss\site.css" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="web.configg" />
     </ItemGroup>
 
     <ItemGroup>
