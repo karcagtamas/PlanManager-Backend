@@ -25,7 +25,8 @@ namespace EventManager.Client
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
-            builder.Services.AddSingleton<HttpClient>();
+            // builder.Services.AddSingleton<HttpClient>();
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IHelperService, HelperService>();
@@ -39,6 +40,12 @@ namespace EventManager.Client
             builder.Services.AddScoped<IWorkingDayService, WorkingDayService>();
             builder.Services.AddScoped<IWorkingFieldService, WorkingFieldService>();
             builder.Services.AddScoped<IWorkingDayTypeService, WorkingDayTypeService>();
+
+            if (builder.HostEnvironment.IsDevelopment())
+            {
+                ApplicationSettings.BaseUrl = "https://localhost:8000";
+                ApplicationSettings.BaseApiUrl = ApplicationSettings.BaseUrl + "/api";
+            }
 
             builder.Services.AddMatToaster(config =>
             {

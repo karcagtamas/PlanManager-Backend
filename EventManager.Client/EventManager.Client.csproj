@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Blazored.LocalStorage" Version="2.1.6" />
+        <PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
         <PackageReference Include="MatBlazor" Version="2.6.2" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.0-preview.6.20312.15" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Build" Version="5.0.0-preview.6.20312.15" PrivateAssets="all" />
@@ -25,6 +25,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.2.0-preview3.20168.3" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="5.0.0-preview.6.20312.15" />
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+        <PackageReference Include="System.Net.Http" Version="4.3.4" />
     </ItemGroup>
 
     <ItemGroup>
