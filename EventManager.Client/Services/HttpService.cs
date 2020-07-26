@@ -32,7 +32,7 @@ namespace EventManager.Client.Services
         /// <param name="body">Body of post request</param>
         /// <typeparam name="T">Type of the body</typeparam>
         /// <returns>The request was success or not</returns>
-        public async Task<bool> create<T>(HttpSettings settings, HttpBody<T> body)
+        public async Task<bool> Create<T>(HttpSettings settings, HttpBody<T> body)
         {
             this.CheckSettings(settings);
 
@@ -54,7 +54,7 @@ namespace EventManager.Client.Services
         /// <param name="body">Body of post request</param>
         /// <typeparam name="T">Type of the body</typeparam>
         /// <returns>Response string value</returns>
-        public async Task<string> createString<T>(HttpSettings settings, HttpBody<T> body)
+        public async Task<string> CreateString<T>(HttpSettings settings, HttpBody<T> body)
         {
             this.CheckSettings(settings);
 
@@ -82,7 +82,7 @@ namespace EventManager.Client.Services
         /// </summary>
         /// <param name="settings">Http settings</param>
         /// <returns>The request was success or not</returns>
-        public async Task<bool> delete(HttpSettings settings)
+        public async Task<bool> Delete(HttpSettings settings)
         {
             this.CheckSettings(settings);
 
@@ -103,7 +103,7 @@ namespace EventManager.Client.Services
         /// <param name="settings">Http settings</param>
         /// <typeparam name="T">Type of the result</typeparam>
         /// <returns>Response as T type</returns>
-        public async Task<T> get<T>(HttpSettings settings)
+        public async Task<T> Get<T>(HttpSettings settings)
         {
             this.CheckSettings(settings);
 
@@ -128,7 +128,7 @@ namespace EventManager.Client.Services
         /// </summary>
         /// <param name="settings">Http settings</param>
         /// <returns>Number response</returns>
-        public async Task<int?> getInt(HttpSettings settings)
+        public async Task<int?> GetInt(HttpSettings settings)
         {
             this.CheckSettings(settings);
 
@@ -151,7 +151,7 @@ namespace EventManager.Client.Services
         /// </summary>
         /// <param name="settings">Http settings</param>
         /// <returns>String response</returns>
-        public async Task<string> getString(HttpSettings settings)
+        public async Task<string> GetString(HttpSettings settings)
         {
             this.CheckSettings(settings);
 
@@ -175,7 +175,7 @@ namespace EventManager.Client.Services
         /// <param name="body">Body of put request</param>
         /// <typeparam name="T">Type of the body</typeparam>
         /// <returns>The request was success or not</returns>
-        public async Task<bool> update<T>(HttpSettings settings, HttpBody<T> body)
+        public async Task<bool> Update<T>(HttpSettings settings, HttpBody<T> body)
         {
             this.CheckSettings(settings);
 

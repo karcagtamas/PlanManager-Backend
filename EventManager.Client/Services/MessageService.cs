@@ -28,16 +28,16 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}", null, pathParams);
 
-            return await this._httpService.get<List<MessageDto>>(settings);
+            return await this._httpService.Get<List<MessageDto>>(settings);
         }
 
         public async Task<bool> SendMessage(MessageModel model)
         {
             var settings = new HttpSettings($"{this._url}", null, null, "Message sending");
 
-            var body = new HttpBody<MessageModel>(this._helperService, model);
+            var body = new HttpBody<MessageModel>(model);
 
-            return await this._httpService.create<MessageModel>(settings, body);
+            return await this._httpService.Create<MessageModel>(settings, body);
         }
     }
 }

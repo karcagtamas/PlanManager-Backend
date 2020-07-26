@@ -73,7 +73,8 @@ namespace ManagerAPI.Services.Services
             }
             else
             {
-                throw new Exception(this._utilsService.ErrorsToString(result.Errors));
+                
+                throw new MessageException(this._utilsService.ErrorsToString(result.Errors));
             }
         }
         
@@ -109,15 +110,13 @@ namespace ManagerAPI.Services.Services
                 string token = tokenHandler.WriteToken(securityToken);
                 user.LastLogin = DateTime.Now;
                 _context.AppUsers.Update(user);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 _logger.LogInformation($"User {user.UserName} successfully logged in.");
                 _notificationService.AddSystemNotificationByType(SystemNotificationType.Login, user);
                 return token;
             }
-            else
-            {
-                throw new Exception($"Username or password is incorrect.");
-            }
+
+            throw new MessageException($"Username or password is incorrect.");
         }
 
         public void Logout(string userId)

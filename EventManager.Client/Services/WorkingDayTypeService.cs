@@ -6,23 +6,11 @@ using ManagerAPI.Shared.DTOs.WM;
 
 namespace EventManager.Client.Services
 {
-    public class WorkingDayTypeService : IWorkingDayTypeService
+    public class WorkingDayTypeService : HttpCall<WorkingDayTypeListDto, WorkingDayTypeDto, WorkingDayTypeModel>, IWorkingDayTypeService
     {
-        private readonly IHttpService _httpService;
-        private readonly string _url = ApplicationSettings.BaseApiUrl + "/working-day-type";
-        private readonly IHelperService _helperService;
 
-        public WorkingDayTypeService(IHttpService httpService, IHelperService helperService)
+        public WorkingDayTypeService(IHttpService httpService) : base (httpService, $"{ApplicationSettings.BaseApiUrl}/working-day-type", "Working day type")
         {
-            this._httpService = httpService;
-            this._helperService = helperService;
-        }
-
-        public async Task<List<WorkingDayTypeListDto>> GetWorkingDayTypes()
-        {
-            var settings = new HttpSettings($"{this._url}");
-
-            return await this._httpService.get<List<WorkingDayTypeListDto>>(settings);
         }
     }
 }

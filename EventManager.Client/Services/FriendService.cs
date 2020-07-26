@@ -26,21 +26,21 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}/data", null, pathParams);
 
-            return await this._httpService.get<FriendDataDto>(settings);
+            return await this._httpService.Get<FriendDataDto>(settings);
         }
 
         public async Task<List<FriendRequestListDto>> GetMyFriendRequests()
         {
             var settings = new HttpSettings($"{this._url}/request");
 
-            return await this._httpService.get<List<FriendRequestListDto>>(settings);
+            return await this._httpService.Get<List<FriendRequestListDto>>(settings);
         }
 
         public async Task<List<FriendListDto>> GetMyFriends()
         {
             var settings = new HttpSettings($"{this._url}");
 
-            return await this._httpService.get<List<FriendListDto>>(settings);
+            return await this._httpService.Get<List<FriendListDto>>(settings);
         }
 
         public async Task<bool> RemoveFriend(string friendId)
@@ -52,7 +52,7 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}", null, pathParams, toaster);
 
-            return await this._httpService.delete(settings);
+            return await this._httpService.Delete(settings);
         }
 
         public async Task<bool> SendFriendRequest(FriendRequestModel model)
@@ -61,9 +61,9 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}/request", null, null, toaster);
 
-            var body = new HttpBody<FriendRequestModel>(this._helperService, model);
+            var body = new HttpBody<FriendRequestModel>(model);
 
-            return await this._httpService.create<FriendRequestModel>(settings, body);
+            return await this._httpService.Create<FriendRequestModel>(settings, body);
         }
 
         public async Task<bool> SendFriendRequestResponse(FriendRequestResponseModel model)
@@ -72,9 +72,9 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}/request", null, null, toaster);
 
-            var body = new HttpBody<FriendRequestResponseModel>(_helperService, model);
+            var body = new HttpBody<FriendRequestResponseModel>(model);
 
-            return await this._httpService.update<FriendRequestResponseModel>(settings, body);
+            return await this._httpService.Update<FriendRequestResponseModel>(settings, body);
         }
     }
 }

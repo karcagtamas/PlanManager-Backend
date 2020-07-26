@@ -1,7 +1,9 @@
 using System;
 using System.Net.Http;
+using System.Text;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
+using Newtonsoft.Json;
 
 namespace EventManager.Client.Models {
 
@@ -10,20 +12,13 @@ namespace EventManager.Client.Models {
     /// </summary>
     /// <typeparam name="T">Type of the content</typeparam>
     public class HttpBody<T> {
-        private IHelperService _helperService { get; }
         private T Body { get; set; }
 
         /// <summary>
         /// Create body
         /// </summary>
-        /// <param name="helperService">Helper Service</param>
         /// <param name="body">Content</param>
-        public HttpBody (IHelperService helperService, T body) {
-            if (helperService == null) {
-                throw new ArgumentException("Helper service cannot be null.");
-            }
-            this._helperService = helperService;
-
+        public HttpBody (T body) {
             this.Body = body;
         }
 
@@ -31,12 +26,19 @@ namespace EventManager.Client.Models {
         /// Create string content from the body
         /// </summary>
         /// <returns>String content</returns>
-        public StringContent GetStringContent () {
-            if (this.Body == null)
-            {
-                new StringContent("");
-            }
-            return this._helperService.CreateContent (this.Body);
+        public StringContent GetStringContent ()
+        {
+            return this.Body == null ? new StringContent("") : this.CreateContent (this.Body);
+        }
+        
+        /// <summary>
+        /// Create String Content
+        /// </summary>
+        /// <param name="obj">Object for creation</param>
+        /// <returns>String content</returns>
+        private StringContent CreateContent(object obj)
+        {
+            return new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
         }
     }
 }

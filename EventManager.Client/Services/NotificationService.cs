@@ -22,23 +22,23 @@ namespace EventManager.Client.Services
         {
             var settings = new HttpSettings($"{this._url}/unreads/count");
 
-            return await _httpService.getInt(settings);
+            return await _httpService.GetInt(settings);
         }
 
         public async Task<List<NotificationDto>> GetMyNotifications()
         {
             var settings = new HttpSettings($"{this._url}");
 
-            return await this._httpService.get<List<NotificationDto>>(settings);
+            return await this._httpService.Get<List<NotificationDto>>(settings);
         }
 
         public async Task<bool> SetUnReadsToRead(int[] ids)
         {
             var settings = new HttpSettings($"{this._url}", null, null, "Notification refreshing");
 
-            var body = new HttpBody<int[]>(this._helperService, ids);
+            var body = new HttpBody<int[]>(ids);
 
-            return await this._httpService.update<int[]>(settings, body);
+            return await this._httpService.Update<int[]>(settings, body);
         }
     }
 }

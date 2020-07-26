@@ -23,9 +23,9 @@ namespace EventManager.Client.Services
         {
             var settings = new HttpSettings($"{this._url}", null, null, "Task creating");
 
-            var body = new HttpBody<TaskModel>(_helperService, model);
+            var body = new HttpBody<TaskModel>(model);
 
-            return await this._httpService.create<TaskModel>(settings, body);
+            return await this._httpService.Create<TaskModel>(settings, body);
         }
 
         public async Task<bool> DeleteTask(int id)
@@ -35,7 +35,7 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}", null, pathParams, "Task deleting");
 
-            return await this._httpService.delete(settings);
+            return await this._httpService.Delete(settings);
         }
 
         public async Task<TaskDataDto> GetTask(int id)
@@ -45,7 +45,7 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}", null, pathParams);
 
-            return await this._httpService.get<TaskDataDto>(settings);
+            return await this._httpService.Get<TaskDataDto>(settings);
         }
 
         public async Task<List<TaskDateDto>> GetTasks(bool? isSolved)
@@ -59,16 +59,16 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}", queryParams, null);
 
-            return await this._httpService.get<List<TaskDateDto>>(settings);
+            return await this._httpService.Get<List<TaskDateDto>>(settings);
         }
 
         public async Task<bool> UpdateTask(TaskDataDto task)
         {
             var settings = new HttpSettings($"{this._url}", null, null, "Task updating");
 
-            var body = new HttpBody<TaskDataDto>(_helperService, task);
+            var body = new HttpBody<TaskDataDto>(task);
 
-            return await this._httpService.update<TaskDataDto>(settings, body);
+            return await this._httpService.Update<TaskDataDto>(settings, body);
         }
     }
 }

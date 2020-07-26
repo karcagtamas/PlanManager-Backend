@@ -3,12 +3,12 @@ using EventManager.Client.Models;
 
 namespace EventManager.Client.Services.Interfaces {
     public interface IHttpService {
-        Task<T> get<T> (HttpSettings settings);
-        Task<string> getString (HttpSettings settings);
-        Task<int?> getInt(HttpSettings settings);
-        Task<bool> delete (HttpSettings settings);
-        Task<bool> update<T> (HttpSettings settings, HttpBody<T> body);
-        Task<bool> create<T> (HttpSettings settings, HttpBody<T> body);
-        Task<string> createString<T> (HttpSettings settings, HttpBody<T> body);
+        Task<T> Get<T> (HttpSettings settings);
+        Task<string> GetString (HttpSettings settings);
+        Task<int?> GetInt(HttpSettings settings);
+        Task<bool> Delete (HttpSettings settings);
+        Task<bool> Update<T> (HttpSettings settings, HttpBody<T> body);
+        Task<bool> Create<T> (HttpSettings settings, HttpBody<T> body);
+        Task<string> CreateString<T> (HttpSettings settings, HttpBody<T> body);
     }
 }

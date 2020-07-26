@@ -51,7 +51,7 @@ namespace EventManager.Client.Shared.Components.WM
 
             if (this.Id != 0)
             {
-                this.Field = await WorkingFieldService.GetWorkingField(this.Id);
+                this.Field = await WorkingFieldService.Get(this.Id);
                 this.Model = new WorkingFieldModel
                 {
                     Title = this.Field.Title,
@@ -69,7 +69,7 @@ namespace EventManager.Client.Shared.Components.WM
             this.Model.WorkingDayId = this.WorkingDayId;
             if (this.IsEdit)
             {
-                if (isValid && await WorkingFieldService.UpdateWorkingField(this.Id, this.Model))
+                if (isValid && await WorkingFieldService.Update(this.Id, this.Model))
                 {
                     ModalService.Close(ModalResult.Ok<bool>(true));
                     ((ModalService)ModalService).OnConfirm -= OnConfirm;
@@ -77,7 +77,7 @@ namespace EventManager.Client.Shared.Components.WM
             }
             else
             {
-                if (isValid && await WorkingFieldService.AddWorkingField(this.Model))
+                if (isValid && await WorkingFieldService.Create(this.Model))
                 {
                     ModalService.Close(ModalResult.Ok<bool>(true));
                     ((ModalService)ModalService).OnConfirm -= OnConfirm;
@@ -86,7 +86,7 @@ namespace EventManager.Client.Shared.Components.WM
         }
 
         protected async void DeleteField() {
-            if (await this.WorkingFieldService.DeleteWorkingField(this.Id)) {
+            if (await this.WorkingFieldService.Delete(this.Id)) {
                 ModalService.Close(ModalResult.Ok<bool>(true));
             }
         }

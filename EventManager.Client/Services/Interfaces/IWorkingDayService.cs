@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EventManager.Client.Models.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
 using ManagerAPI.Shared.Models.WM;
 
 namespace EventManager.Client.Services.Interfaces
 {
-    public interface IWorkingDayService
+    public interface IWorkingDayService : IHttpCall<WorkingDayListDto, WorkingDayDto, WorkingDayModel>
     {
-        Task<WorkingDayListDto> GetWorkingDay(DateTime day);
-        Task<bool> CreateWorkingDay(WorkingDayModel model);
-        Task<bool> UpdateWorkingDay(int workingDayId, WorkingDayModel model);
+        Task<WorkingDayListDto> Get(DateTime day);
     }
 }

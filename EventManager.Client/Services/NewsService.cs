@@ -27,23 +27,23 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}", null, pathParams, "News deleting");
 
-            return await this._httpService.delete(settings);
+            return await this._httpService.Delete(settings);
         }
 
         public async Task<List<NewsDto>> GetNewsPosts()
         {
             var settings = new HttpSettings($"{this._url}");
 
-            return await this._httpService.get<List<NewsDto>>(settings);
+            return await this._httpService.Get<List<NewsDto>>(settings);
         }
 
         public async Task<bool> PostNews(PostModel model)
         {
             var settings = new HttpSettings($"{this._url}", null, null, "News creating");
 
-            var body = new HttpBody<PostModel>(this._helperService, model);
+            var body = new HttpBody<PostModel>(model);
 
-            return await this._httpService.create<PostModel>(settings, body);
+            return await this._httpService.Create<PostModel>(settings, body);
         }
 
         public async Task<bool> UpdateNews(int postId, PostModel model)
@@ -53,9 +53,9 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}", null, pathParams, "News updating");
 
-            var body = new HttpBody<PostModel>(this._helperService, model);
+            var body = new HttpBody<PostModel>(model);
 
-            return await this._httpService.update<PostModel>(settings, body);
+            return await this._httpService.Update<PostModel>(settings, body);
         }
     }
 }

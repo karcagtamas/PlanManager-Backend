@@ -13,7 +13,7 @@ namespace EventManager.Client.Pages.WM
 {
     public class WorkingManagerBase : ComponentBase
     {
-        [Parameter]
+        [Parameter] 
         public DateTime Date { get; set; }
 
         [Inject]
@@ -52,7 +52,7 @@ namespace EventManager.Client.Pages.WM
         {
             this.IsLoading = true;
             StateHasChanged();
-            var workingDay = await this.WorkingDayService.GetWorkingDay(this.Date);
+            var workingDay = await this.WorkingDayService.Get(this.Date);
             this.WorkingDay = workingDay != null ? new WorkingDayModel
             {
                 Type = workingDay.Type,
@@ -66,7 +66,7 @@ namespace EventManager.Client.Pages.WM
 
         private async Task GetWorkingDayTypes()
         {
-            this.WorkingDayTypes = await this.WorkingDayTypeService.GetWorkingDayTypes();
+            this.WorkingDayTypes = await this.WorkingDayTypeService.GetAll();
         }
 
         protected void Redirect(bool direction)
@@ -82,7 +82,7 @@ namespace EventManager.Client.Pages.WM
                 Type = 1
             };
 
-            if (await this.WorkingDayService.CreateWorkingDay(workingDay))
+            if (await this.WorkingDayService.Create(workingDay))
             {
                 await this.GetWorkingDay();
             }
@@ -90,7 +90,7 @@ namespace EventManager.Client.Pages.WM
 
         protected async Task Save()
         {
-            if (this.WorkingDay != null && this.WorkingDayId != null && await this.WorkingDayService.UpdateWorkingDay((int)this.WorkingDayId, this.WorkingDay))
+            if (this.WorkingDay != null && this.WorkingDayId != null && await this.WorkingDayService.Update((int)this.WorkingDayId, this.WorkingDay))
             {
                 await this.GetWorkingDay();
             }
