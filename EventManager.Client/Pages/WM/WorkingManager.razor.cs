@@ -7,11 +7,12 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.WM
 {
-    public class WorkingManagerBase : ComponentBase
+    public partial class WorkingManager
     {
         [Parameter] 
         public DateTime Date { get; set; }
@@ -22,8 +23,8 @@ namespace EventManager.Client.Pages.WM
         [Inject]
         private IWorkingDayTypeService WorkingDayTypeService { get; set; }
 
-        [Inject]
-        protected IHelperService HelperService { get; set; }
+        [Inject] 
+        private IHelperService HelperService { get; set; }
 
         [Inject] 
         private NavigationManager NavigationManager { get; set; }
@@ -31,11 +32,12 @@ namespace EventManager.Client.Pages.WM
         [Inject] 
         private IModalService Modal { get; set; }
 
-        protected WorkingDayModel WorkingDay { get; set; }
+        private WorkingDayModel WorkingDay { get; set; }
         private int? WorkingDayId { get; set; }
-        protected bool IsLoading { get; set; }
-        protected List<WorkingDayTypeListDto> WorkingDayTypes { get; set; }
-        protected List<WorkingFieldListDto> WorkingFields { get; set; }
+        private bool IsLoading { get; set; }
+        private List<WorkingDayTypeListDto> WorkingDayTypes { get; set; }
+        private List<WorkingFieldListDto> WorkingFields { get; set; }
+        private WorkingDayStatDto WorkingDayStat { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -60,6 +62,8 @@ namespace EventManager.Client.Pages.WM
             } : null;
             this.WorkingDayId = workingDay?.Id;
             this.WorkingFields = workingDay?.WorkingFields;
+            this.WorkingDayStat =
+                this.WorkingDayId == null ? null : await this.WorkingDayService.Stat((int)this.WorkingDayId);
             this.IsLoading = false;
             StateHasChanged();
         }
@@ -69,12 +73,12 @@ namespace EventManager.Client.Pages.WM
             this.WorkingDayTypes = await this.WorkingDayTypeService.GetAll();
         }
 
-        protected void Redirect(bool direction)
+        private void Redirect(bool direction)
         {
             this.NavigationManager.NavigateTo($"/wm/{this.HelperService.DateToNumberDayString(this.Date.AddDays(direction ? 1 : -1))}");
         }
 
-        protected async Task InitWorkingDay()
+        private async Task InitWorkingDay()
         {
             var workingDay = new WorkingDayModel
             {
@@ -88,7 +92,7 @@ namespace EventManager.Client.Pages.WM
             }
         }
 
-        protected async Task Save()
+        private async Task Save()
         {
             if (this.WorkingDay != null && this.WorkingDayId != null && await this.WorkingDayService.Update((int)this.WorkingDayId, this.WorkingDay))
             {
@@ -96,7 +100,7 @@ namespace EventManager.Client.Pages.WM
             }
         }
 
-        protected void OpenAddFieldModal()
+        private void OpenAddFieldModal()
         {
             if (this.WorkingDayId != null) {
 
@@ -114,7 +118,7 @@ namespace EventManager.Client.Pages.WM
             }
         }
 
-        protected void OpenUpdateFieldModal(int fieldId)
+        private void OpenUpdateFieldModal(int fieldId)
         {
             var parameters = new ModalParameters();
             parameters.Add("FormId", 1);

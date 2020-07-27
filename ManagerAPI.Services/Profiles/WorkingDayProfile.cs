@@ -26,9 +26,9 @@ namespace ManagerAPI.Services.Profiles
             CreateMap<WorkingDay, WorkingDayStatDto>()
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.Type.DayIsActive))
                 .ForMember(dest => dest.SumMinutes, opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList())))
-                .ForMember(dest => dest.IsALot, opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) > LotHour * HourToMin))
-                .ForMember(dest => dest.IsOptimal, opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) > OptimalHour * HourToMin))
-                .ForMember(dest => dest.IsEnough, opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) > EnoughHour * HourToMin));
+                .ForMember(dest => dest.IsALot, opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) >= LotHour * HourToMin))
+                .ForMember(dest => dest.IsOptimal, opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) >= OptimalHour * HourToMin))
+                .ForMember(dest => dest.IsEnough, opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) >= EnoughHour * HourToMin));
         }
         
         private int GetSumMinutes(List<WorkingField> fields) 

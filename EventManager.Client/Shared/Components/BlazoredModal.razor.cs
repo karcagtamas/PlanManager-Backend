@@ -4,28 +4,24 @@ using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 
-namespace EventManager.Client.Shared.Components {
-    public partial class BlazoredModal : IDisposable {
-        const string defaultStyle = "blazored-modal";
-        const string defaultPosition = "blazored-modal-center";
+namespace EventManager.Client.Shared.Components
+{
+    public partial class BlazoredModal : IDisposable
+    {
+        const string DefaultStyle = "blazored-modal";
+        const string DefaultPosition = "blazored-modal-center";
 
-        [Inject]
-        private IModalService ModalService { get; set; }
+        [Inject] private IModalService ModalService { get; set; }
 
-        [Parameter]
-        public bool HideHeader { get; set; }
+        [Parameter] public bool HideHeader { get; set; }
 
-        [Parameter]
-        public bool HideCloseButton { get; set; }
+        [Parameter] public bool HideCloseButton { get; set; }
 
-        [Parameter]
-        public bool DisableBackgroundCancel { get; set; }
+        [Parameter] public bool DisableBackgroundCancel { get; set; }
 
-        [Parameter]
-        public string Position { get; set; }
+        [Parameter] public string Position { get; set; }
 
-        [Parameter]
-        public string Style { get; set; }
+        [Parameter] public string Style { get; set; }
 
         private bool ComponentDisableBackgroundCancel { get; set; }
         private bool ComponentHideHeader { get; set; }
@@ -41,17 +37,21 @@ namespace EventManager.Client.Shared.Components {
         private RenderFragment Content { get; set; }
         private ModalParameters Parameters { get; set; }
 
-        protected override void OnInitialized () {
+        protected override void OnInitialized()
+        {
             ((ModalService) ModalService).OnShow += ShowModal;
             ((ModalService) ModalService).CloseModal += CloseModal;
         }
 
-        public void Dispose () {
-            Dispose (true);
-            GC.SuppressFinalize (this);
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        private async void ShowModal (string title, RenderFragment content, ModalParameters parameters, ModalOptions options) {
+        private async void ShowModal(string title, RenderFragment content, ModalParameters parameters,
+            ModalOptions options)
+        {
             this.Title = title;
             this.Content = content;
             this.Parameters = parameters;
@@ -61,67 +61,81 @@ namespace EventManager.Client.Shared.Components {
             {
                 this.SetButtonSettings(options);
             }
-            await InvokeAsync (StateHasChanged);
+
+            await InvokeAsync(StateHasChanged);
         }
 
-        private async void CloseModal () {
+        private async void CloseModal()
+        {
             this.Title = "";
             this.Content = null;
             this.ComponentStyle = "";
             IsVisible = false;
-            await InvokeAsync (StateHasChanged);
+            await InvokeAsync(StateHasChanged);
         }
 
-        protected virtual void Dispose (bool disposing) {
-            if (disposing) {
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
                 ((ModalService) ModalService).OnShow -= ShowModal;
                 ((ModalService) ModalService).CloseModal -= CloseModal;
             }
         }
 
-        private void HandleBackgroundClick (bool value) {
+        private void HandleBackgroundClick(bool value)
+        {
             if (!value)
             {
-                if (ComponentDisableBackgroundCancel) {
+                if (ComponentDisableBackgroundCancel)
+                {
                     return;
                 }
-                ModalService.Cancel ();
+
+                ModalService.Cancel();
             }
         }
 
-        private void SetModalOptions (ModalOptions options) {
+        private void SetModalOptions(ModalOptions options)
+        {
             ComponentHideHeader = HideHeader;
-            if (options.HideHeader.HasValue) {
+            if (options.HideHeader.HasValue)
+            {
                 ComponentHideHeader = options.HideHeader.Value;
             }
 
             ComponentHideCloseButton = HideCloseButton;
-            if (options.HideCloseButton.HasValue) {
+            if (options.HideCloseButton.HasValue)
+            {
                 ComponentHideCloseButton = options.HideCloseButton.Value;
             }
 
             ComponentDisableBackgroundCancel = DisableBackgroundCancel;
-            if (options.DisableBackgroundCancel.HasValue) {
+            if (options.DisableBackgroundCancel.HasValue)
+            {
                 ComponentDisableBackgroundCancel = options.DisableBackgroundCancel.Value;
             }
 
-            ComponentPosition = string.IsNullOrWhiteSpace (options.Position) ? Position : options.Position;
-            if (string.IsNullOrWhiteSpace (ComponentPosition)) {
-                ComponentPosition = defaultPosition;
+            ComponentPosition = string.IsNullOrWhiteSpace(options.Position) ? Position : options.Position;
+            if (string.IsNullOrWhiteSpace(ComponentPosition))
+            {
+                ComponentPosition = DefaultPosition;
             }
 
-            ComponentStyle = string.IsNullOrWhiteSpace (options.Style) ? Style : options.Style;
-            if (string.IsNullOrWhiteSpace (ComponentStyle)) {
-                ComponentStyle = defaultStyle;
+            ComponentStyle = string.IsNullOrWhiteSpace(options.Style) ? Style : options.Style;
+            if (string.IsNullOrWhiteSpace(ComponentStyle))
+            {
+                ComponentStyle = DefaultStyle;
             }
         }
 
-        public void SetTitle (string title) {
+        public void SetTitle(string title)
+        {
             Title = title;
-            StateHasChanged ();
+            StateHasChanged();
         }
 
-        public void SetButtonSettings (ModalOptions options) 
+        public void SetButtonSettings(ModalOptions options)
         {
             this.ShowCancelButton = options.ButtonOptions.ShowCancelButton;
             this.ShowConfirmButton = options.ButtonOptions.ShowConfirmButton;

@@ -25,5 +25,16 @@ namespace EventManager.Client.Services
 
             return await this.Http.Get<WorkingDayListDto>(settings);
         }
+
+        public async Task<WorkingDayStatDto> Stat(int id)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            pathParams.Add<string>("stat", -1);
+
+            var settings = new HttpSettings($"{this.Url}", null, pathParams);
+
+            return await this.Http.Get<WorkingDayStatDto>(settings);
+        }
     }
 }

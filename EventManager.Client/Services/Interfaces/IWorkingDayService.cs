@@ -9,5 +9,6 @@ namespace EventManager.Client.Services.Interfaces
     public interface IWorkingDayService : IHttpCall<WorkingDayListDto, WorkingDayDto, WorkingDayModel>
     {
         Task<WorkingDayListDto> Get(DateTime day);
+        Task<WorkingDayStatDto> Stat(int id);
     }
 }

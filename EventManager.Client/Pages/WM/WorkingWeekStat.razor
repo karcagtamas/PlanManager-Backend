@@ -1,0 +1,11 @@
+﻿@page "/wm/week/{week:datetime}"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+<div class="wm-week">
+    <div class="title-bar">
+        <div class="em-page-title">Working Week Statistics</div>
+        <span class="spacer"></span>
+        <div class="date">@HelperService.DateToWeekString(Week)</div>
+    </div>
+</div>
