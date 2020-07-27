@@ -16,21 +16,23 @@ namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/working-field")]
     [ApiController]
-    public class WorkingFieldController : MyController<WorkingField, WorkingFieldModel, WorkingFieldListDto, WorkingFieldDto>
+    public class
+        WorkingFieldController : MyController<WorkingField, WorkingFieldModel, WorkingFieldListDto, WorkingFieldDto>
     {
         private readonly IWorkingFieldService _workingFieldService;
-        public WorkingFieldController(IWorkingFieldService workingFieldService, ILoggerService loggerService) : base(loggerService, workingFieldService)
+
+        public WorkingFieldController(IWorkingFieldService workingFieldService, ILoggerService loggerService) : base(
+            loggerService, workingFieldService)
         {
             this._workingFieldService = workingFieldService;
         }
-        
+
         [HttpGet("week-stat/{week}")]
         public IActionResult GetWeekStat(DateTime week)
         {
             try
             {
-                this._workingFieldService.GetWeekStat(week);
-                return Ok();
+                return Ok(this._workingFieldService.GetWeekStat(week));
             }
             catch (MessageException me)
             {
@@ -41,14 +43,13 @@ namespace ManagerAPI.Backend.Controllers
                 return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError)));
             }
         }
-        
+
         [HttpGet("month-stat/{year}/{month}")]
         public IActionResult GetMonthStat(int year, int month)
         {
             try
             {
-                this._workingFieldService.GetMonthStat(year, month);
-                return Ok();
+                return Ok(this._workingFieldService.GetMonthStat(year, month));
             }
             catch (MessageException me)
             {

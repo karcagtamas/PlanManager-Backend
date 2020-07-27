@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieCorner.Services.Services.Interfaces;
 
-namespace KarcagS.Backend.Controllers
+namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]

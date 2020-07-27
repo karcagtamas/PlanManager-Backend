@@ -8,4 +8,22 @@
         <span class="spacer"></span>
         <div class="date">@HelperService.DateToWeekString(Week)</div>
     </div>
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        <div class="action-bar">
+            <span class="spacer"></span>
+            <MatIconButton Icon="chevron_left" @onclick="@(() => Redirect(false))"></MatIconButton>
+            <MatIconButton Icon="chevron_right" @onclick="@(() => Redirect(true))"></MatIconButton>
+        </div>
+        @if (WeekStat != null)
+        {
+            <div class="stat-box">
+                @WeekStat.HourSum h
+            </div>
+        }
+    }
 </div>

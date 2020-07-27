@@ -28,12 +28,12 @@ namespace ManagerAPI.Services.Profiles
 
         private decimal CalcSumHour(List<WorkingField> fields)
         {
-            return fields.Where(x => x.WorkingDay.Type.DayIsActive).Sum(x => x.Length);
+            return fields == null || !fields.Any() ? 0 : fields.Where(x => x.WorkingDay.Type.DayIsActive).Sum(x => x.Length);
         }
 
         private double CalcAvgHour(List<WorkingField> fields)
         {
-            return (double)CalcSumHour(fields) / fields.GroupBy(x => x.WorkingDay).Select(x => x.Key).Count(x => x.Type.DayIsActive);
+            return fields == null || !fields.Any() ? 0 : (double)CalcSumHour(fields) / fields.GroupBy(x => x.WorkingDay).Select(x => x.Key).Count(x => x.Type.DayIsActive);
         }
     }
 }

@@ -6,4 +6,22 @@
         <span class="spacer"></span>
         <div class="date">@HelperService.DateToMonthString(new DateTime(Year, Month, 1))</div>
     </div>
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        <div class="action-bar">
+            <span class="spacer"></span>
+            <MatIconButton Icon="chevron_left" @onclick="@(() => Redirect(false))"></MatIconButton>
+            <MatIconButton Icon="chevron_right" @onclick="@(() => Redirect(true))"></MatIconButton>
+        </div>
+        @if (MonthStat != null)
+        {
+            <div class="stat-box">
+                @MonthStat.HourSum h
+            </div>
+        }
+    }
 </div>

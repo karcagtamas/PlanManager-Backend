@@ -1,9 +1,11 @@
-﻿namespace ManagerAPI.Shared.DTOs.WM
+﻿using System.Collections.Generic;
+
+namespace ManagerAPI.Shared.DTOs.WM
 {
     public class WorkingMonthStatDto
     {
         public decimal HourSum { get; set; }
         public double HourAvg { get; set; }
-        public WorkingFieldListDto Fields { get; set; }
+        public List<WorkingFieldListDto> Fields { get; set; }
     }
 }
