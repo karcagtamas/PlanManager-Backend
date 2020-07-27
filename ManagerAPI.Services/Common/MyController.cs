@@ -1,23 +1,21 @@
-﻿using ManagerAPI.Domain.Entities;
+﻿using System;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ManagerAPI.Services.Services
+namespace ManagerAPI.Services.Common
 {
     public class MyController<TEntity, TModel, TList, TSimple> : ControllerBase, IController<TEntity, TModel> where TEntity : class, IEntity
     {
-        protected const string FATAL_ERROR = "Something bad happened. Try again later";
+        protected const string FatalError = "Something bad happened. Try again later";
         protected readonly ILoggerService Logger;
-        protected readonly IRepository<TEntity> Service;
+        private readonly IRepository<TEntity> _service;
 
         public MyController(ILoggerService logger, IRepository<TEntity> service) 
         {
             this.Logger = logger;
-            this.Service = service;
+            this._service = service;
         }
 
         [HttpPost]
@@ -25,7 +23,7 @@ namespace ManagerAPI.Services.Services
         {
             try
             {
-                this.Service.Add<TModel>(model);
+                this._service.Add<TModel>(model);
                 return Ok();
             }
             catch (MessageException me)
@@ -34,7 +32,7 @@ namespace ManagerAPI.Services.Services
             }
             catch (Exception)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError)));
             }
         }
 
@@ -43,7 +41,7 @@ namespace ManagerAPI.Services.Services
         {
             try
             {
-                this.Service.Remove(id);
+                this._service.Remove(id);
                 return Ok();
             }
             catch (MessageException me)
@@ -52,7 +50,7 @@ namespace ManagerAPI.Services.Services
             }
             catch (Exception)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError)));
             }
         }
 
@@ -61,7 +59,7 @@ namespace ManagerAPI.Services.Services
         {
             try
             {
-                return Ok(this.Service.Get<TSimple>(id));
+                return Ok(this._service.Get<TSimple>(id));
             }
             catch (MessageException me)
             {
@@ -69,7 +67,7 @@ namespace ManagerAPI.Services.Services
             }
             catch (Exception)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError)));
             }
         }
 
@@ -78,7 +76,7 @@ namespace ManagerAPI.Services.Services
         {
             try
             {
-                return Ok(this.Service.GetAll<TList>());
+                return Ok(this._service.GetAll<TList>());
             }
             catch (MessageException me)
             {
@@ -86,7 +84,7 @@ namespace ManagerAPI.Services.Services
             }
             catch (Exception)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError)));
             }
         }
 
@@ -95,7 +93,7 @@ namespace ManagerAPI.Services.Services
         {
             try
             {
-                this.Service.Update<TModel>(id, model);
+                this._service.Update<TModel>(id, model);
                 return Ok();
             }
             catch (MessageException me)
@@ -104,7 +102,7 @@ namespace ManagerAPI.Services.Services
             }
             catch (Exception)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError)));
             }
         }
     }

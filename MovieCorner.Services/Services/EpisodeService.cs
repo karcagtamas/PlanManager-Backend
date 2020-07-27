@@ -7,6 +7,7 @@ using MovieCorner.Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ManagerAPI.Services.Common;
 
 namespace MovieCorner.Services.Services
 {

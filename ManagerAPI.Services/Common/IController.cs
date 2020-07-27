@@ -1,10 +1,7 @@
 ﻿using ManagerAPI.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ManagerAPI.Services.Services.Interfaces
+namespace ManagerAPI.Services.Common
 {
     public interface IController<TEntity, TModel> where TEntity : class, IEntity
     {

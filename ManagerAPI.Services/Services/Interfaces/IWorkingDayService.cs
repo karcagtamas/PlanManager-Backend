@@ -3,6 +3,7 @@ using ManagerAPI.Shared.DTOs.WM;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ManagerAPI.Services.Common;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {

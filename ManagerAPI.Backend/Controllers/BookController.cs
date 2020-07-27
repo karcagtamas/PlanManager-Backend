@@ -1,5 +1,6 @@
 ﻿using System;
 using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
@@ -35,7 +36,7 @@ namespace ManagerAPI.Backend.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError)));
             }
         }
 
@@ -53,7 +54,7 @@ namespace ManagerAPI.Backend.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError)));
             }
         }
 
@@ -71,7 +72,7 @@ namespace ManagerAPI.Backend.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError)));
             }
         }
     }

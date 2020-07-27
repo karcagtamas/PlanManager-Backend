@@ -3,6 +3,7 @@ using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
 using ManagerAPI.Shared.Models.MC;
 using System.Collections.Generic;
+using ManagerAPI.Services.Common;
 
 namespace MovieCorner.Services.Services.Interfaces
 {

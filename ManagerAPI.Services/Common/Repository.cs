@@ -1,25 +1,24 @@
-﻿using AutoMapper;
-using ManagerAPI.Domain.Entities;
-using ManagerAPI.Services.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
+using AutoMapper;
+using ManagerAPI.Domain.Entities;
+using ManagerAPI.Services.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace ManagerAPI.Services.Services
+namespace ManagerAPI.Services.Common
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
-        private readonly DbContext Context;
+        private readonly DbContext _context;
         protected readonly ILoggerService Logger;
         protected readonly IUtilsService Utils;
         protected readonly IMapper Mapper;
 
         protected Repository(DbContext context, ILoggerService logger, IUtilsService utils, IMapper mapper)
         {
-            this.Context = context;
+            this._context = context;
             this.Logger = logger;
             this.Utils = utils;
             this.Mapper = mapper;
@@ -56,7 +55,7 @@ namespace ManagerAPI.Services.Services
                 owner.SetValue(entity, user.Id, null);
             }
 
-            this.Context.Set<TEntity>().Add(entity);
+            this._context.Set<TEntity>().Add(entity);
 
             this.Complete();
 
@@ -98,7 +97,7 @@ namespace ManagerAPI.Services.Services
                 return x;
             });
 
-            this.Context.Set<TEntity>().AddRange(entities);
+            this._context.Set<TEntity>().AddRange(entities);
 
             this.Complete();
 
@@ -121,12 +120,12 @@ namespace ManagerAPI.Services.Services
 
         public void Complete()
         {
-            this.Context.SaveChanges();
+            this._context.SaveChanges();
         }
 
         public TEntity Get(params object[] keys)
         {
-            return this.Context.Set<TEntity>().Find(keys);
+            return this._context.Set<TEntity>().Find(keys);
         }
         
         public T Get<T>(params object[] keys)
@@ -136,7 +135,7 @@ namespace ManagerAPI.Services.Services
 
         public List<TEntity> GetAll()
         {
-            return this.Context.Set<TEntity>().ToList();
+            return this._context.Set<TEntity>().ToList();
         }
 
         public List<T> GetAll<T>()
@@ -156,7 +155,7 @@ namespace ManagerAPI.Services.Services
 
         public List<TEntity> GetList(Expression<Func<TEntity, bool>> predicate, int? count, int? skip)
         {
-            var query = this.Context.Set<TEntity>().Where(predicate);
+            var query = this._context.Set<TEntity>().Where(predicate);
 
             if (count != null)
             {
@@ -189,7 +188,7 @@ namespace ManagerAPI.Services.Services
 
         public void Remove(TEntity entity)
         {
-            this.Context.Set<TEntity>().Remove(entity);
+            this._context.Set<TEntity>().Remove(entity);
 
             this.Complete();
 
@@ -220,7 +219,7 @@ namespace ManagerAPI.Services.Services
 
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
-            this.Context.Set<TEntity>().RemoveRange(entities);
+            this._context.Set<TEntity>().RemoveRange(entities);
 
             this.Complete();
 
@@ -260,7 +259,7 @@ namespace ManagerAPI.Services.Services
                 lastUpdater.SetValue(entity, user.Id, null);
             }
 
-            this.Context.Set<TEntity>().Update(entity);
+            this._context.Set<TEntity>().Update(entity);
 
             this.Complete();
 
@@ -293,7 +292,7 @@ namespace ManagerAPI.Services.Services
 
         public void UpdateRange(IEnumerable<TEntity> entities)
         {
-            this.Context.Set<TEntity>().UpdateRange(entities);
+            this._context.Set<TEntity>().UpdateRange(entities);
 
             this.Complete();
 
