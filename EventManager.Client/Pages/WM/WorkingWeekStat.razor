@@ -22,7 +22,28 @@
         @if (WeekStat != null)
         {
             <div class="stat-box">
-                @WeekStat.HourSum h
+                <div class="data-row">
+                    <strong>Summary hours: </strong> @WeekStat.HourSum
+                </div>
+                <div class="data-row">
+                    <strong>Avgerate hours: </strong> @WeekStat.HourAvg
+                </div>
+                <div class="data-row">
+                    <strong>Active / Inactive days: </strong> @WeekStat.ActiveDays / @WeekStat.InactiveDays
+                </div>
+                @foreach (var type in @WeekStat.Counts) 
+                {
+                    <div>
+                        <strong>@type.Type:</strong> @type.Count
+                    </div>
+                }
+            </div>
+            <div class="field-list">
+                <div class="em-sub-title">Working Fields</div>
+                @foreach (var field in @WeekStat.Fields)
+                {
+                    <Field WorkingField="field" IsModifiable="false"></Field>
+                }
             </div>
         }
     }

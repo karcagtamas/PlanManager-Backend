@@ -20,7 +20,28 @@
         @if (MonthStat != null)
         {
             <div class="stat-box">
-                @MonthStat.HourSum h
+                <div class="data-row">
+                    <strong>Summary hours: </strong> @MonthStat.HourSum
+                </div>
+                <div class="data-row">
+                    <strong>Avgerate hours: </strong> @MonthStat.HourAvg
+                </div>
+                <div class="data-row">
+                    <strong>Active / Inactive days: </strong> @MonthStat.ActiveDays / @MonthStat.InactiveDays
+                </div>
+                @foreach (var type in @MonthStat.Counts) 
+                {
+                    <div>
+                        <strong>@type.Type:</strong> @type.Count
+                    </div>
+                }
+            </div>
+            <div class="field-list">
+                <div class="em-sub-title">Working Fields</div>
+                @foreach (var field in @MonthStat.Fields)
+                {
+                    <Field WorkingField="field" IsModifiable="false"></Field>
+                }
             </div>
         }
     }

@@ -6,8 +6,6 @@ using ManagerAPI.Shared.Models.WM;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.WM
@@ -116,26 +114,6 @@ namespace EventManager.Client.Pages.WM
 
                 Modal.Show<FieldModal>("Create Working Field", parameters, options);
             }
-        }
-
-        private void OpenUpdateFieldModal(int fieldId)
-        {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            if (this.WorkingDayId != null)
-            {
-                parameters.Add("working-day", (int)this.WorkingDayId);
-            }
-            parameters.Add("field", fieldId);
-
-            var options = new ModalOptions
-            {
-                ButtonOptions = {ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true}
-            };
-
-            Modal.OnClose += FieldModalClosed;
-
-            Modal.Show<FieldModal>("Update Working Field", parameters, options);
         }
 
         private async void FieldModalClosed(ModalResult modalResult)

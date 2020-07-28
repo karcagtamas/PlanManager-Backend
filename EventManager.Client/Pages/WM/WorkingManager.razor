@@ -94,16 +94,7 @@
                         <div class="em-sub-title">Working Fields</div>
                         @foreach (var field in WorkingFields)
                         {
-                            <div @onclick="@(() => OpenUpdateFieldModal(field.Id))" class="field">
-                                <div class="title-row">
-                                    <span class="title">@field.Title</span>
-                                    <span class="spacer"></span>
-                                    <span class="hours">@field.Length h</span>
-                                </div>
-                                <div class="description">
-                                    @field.Description
-                                </div>
-                            </div>
+                            <Field WorkingField="field" WorkingDayId="(int)WorkingDayId" IsModifiable="true" Close="GetWorkingDay"></Field>
                         }
                     </div>
                 }
