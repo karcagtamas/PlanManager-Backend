@@ -2,20 +2,21 @@ using System;
 using System.Collections.Generic;
 using EventManager.Client.Models.Interfaces;
 
-namespace EventManager.Client.Models
+namespace EventManager.Client.Http
 {
     /// <summary>
     /// HTTP path parameters
     /// </summary>
     public class HttpPathParameters : IListState
     {
-        
+
         private List<object> _pathParams;
 
         /// <summary>
         /// HTTP path parameters
         /// </summary>
-        public HttpPathParameters() {
+        public HttpPathParameters()
+        {
             this._pathParams = new List<object>();
         }
 
@@ -28,20 +29,23 @@ namespace EventManager.Client.Models
         /// <param name="index">Destination index</param>
         /// <typeparam name="T">Type of the value</typeparam>
         public void Add<T>(T value, int index)
-        {   
+        {
             // Add to end of the list
-            if (index == -1) {
+            if (index == -1)
+            {
                 this._pathParams.Add(value);
                 return;
             }
 
             // Negative index
-            if (index < -1) {
+            if (index < -1)
+            {
                 throw new ArgumentException("Index cannot be negative");
             }
 
             // Out of range
-            if (index > this._pathParams.Count) {
+            if (index > this._pathParams.Count)
+            {
                 throw new ArgumentException("Index cannot be bigger than the list");
             }
 
@@ -67,12 +71,14 @@ namespace EventManager.Client.Models
         public T Get<T>(int index)
         {
             // Negative
-            if (index < 0) {
+            if (index < 0)
+            {
                 throw new ArgumentException("Index cannot be negative");
             }
 
             // Out of range
-            if (index >= this._pathParams.Count) {
+            if (index >= this._pathParams.Count)
+            {
                 throw new ArgumentException("Index cannot be larger than the list size");
             }
 
@@ -90,18 +96,21 @@ namespace EventManager.Client.Models
         public void TryAdd<T>(T value, int index)
         {
             // Add element end of the row
-            if (index == -1) {
+            if (index == -1)
+            {
                 this._pathParams.Add(value);
                 return;
             }
 
             // Negative
-            if (index < -1) {
+            if (index < -1)
+            {
                 return;
             }
 
             // Out of range
-            if (index > this._pathParams.Count) {
+            if (index > this._pathParams.Count)
+            {
                 return;
             }
 
@@ -118,26 +127,30 @@ namespace EventManager.Client.Models
         public T TryGet<T>(int index)
         {
             // Negative
-            if (index < 0) {
+            if (index < 0)
+            {
                 return default;
             }
 
             // Out of range
-            if (index >= this._pathParams.Count) {
+            if (index >= this._pathParams.Count)
+            {
                 return default;
             }
 
             return (T)this._pathParams[index];
         }
-        
+
         /// <summary>
         /// List to string.
         /// </summary>
         /// <returns>String in path format</returns>
-        override public string ToString() {
+        override public string ToString()
+        {
             string val = "";
-            
-            foreach (var param in this._pathParams) {
+
+            foreach (var param in this._pathParams)
+            {
                 val += $"/{param.ToString()}";
             }
 

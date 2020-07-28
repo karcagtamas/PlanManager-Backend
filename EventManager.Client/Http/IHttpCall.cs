@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace EventManager.Client.Models.Interfaces
+namespace EventManager.Client.Http
 {
     public interface IHttpCall<TList, TSimple, TModel>
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EventManager.Client.Models.Interfaces;
+using EventManager.Client.Http;
 using ManagerAPI.Shared.DTOs.WM;
 using ManagerAPI.Shared.Models.WM;
 

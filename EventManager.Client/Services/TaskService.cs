@@ -1,4 +1,5 @@
-﻿using EventManager.Client.Models;
+﻿using EventManager.Client.Http;
+using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;

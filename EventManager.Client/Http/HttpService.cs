@@ -7,7 +7,7 @@ using EventManager.Client.Services.Interfaces;
 /// <summary>
 /// HTTP Service
 /// </summary>
-namespace EventManager.Client.Services
+namespace EventManager.Client.Http
 {
     public class HttpService : IHttpService
     {
@@ -36,7 +36,20 @@ namespace EventManager.Client.Services
         {
             this.CheckSettings(settings);
 
-            var response = await _httpClient.PostAsync(CreateUrl(settings), body.GetStringContent());
+            var url = this.CreateUrl(settings);
+
+            HttpResponseMessage response;
+
+            try
+            {
+
+                response = await _httpClient.PostAsync(url, body.GetStringContent());
+            }
+            catch (Exception e)
+            {
+                this.ConsoleCallError(e, url);
+                return false;
+            }
 
             // Optional toast
             if (settings.ToasterSettings.IsNeeded)
@@ -58,7 +71,20 @@ namespace EventManager.Client.Services
         {
             this.CheckSettings(settings);
 
-            var response = await _httpClient.PostAsync(CreateUrl(settings), body.GetStringContent());
+            var url = this.CreateUrl(settings);
+
+            HttpResponseMessage response;
+
+            try
+            {
+                response = await _httpClient.PostAsync(url, body.GetStringContent());
+            }
+            catch (Exception e)
+            {
+                this.ConsoleCallError(e, url);
+                return default;
+            }
+
 
             // Optional toast
             if (settings.ToasterSettings.IsNeeded)
@@ -69,11 +95,19 @@ namespace EventManager.Client.Services
             // Deserialize json
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadAsStringAsync();
+                try
+                {
+                    return await response.Content.ReadAsStringAsync();
+                }
+                catch (Exception e)
+                {
+                    this.ConsoleSerializationError(e);
+                    return default;
+                }
             }
             else
             {
-                return "";
+                return default;
             }
         }
 
@@ -86,7 +120,19 @@ namespace EventManager.Client.Services
         {
             this.CheckSettings(settings);
 
-            var response = await _httpClient.DeleteAsync(CreateUrl(settings));
+            var url = this.CreateUrl(settings);
+
+            HttpResponseMessage response;
+
+            try
+            {
+                response = await _httpClient.DeleteAsync(url);
+            }
+            catch (Exception e)
+            {
+                this.ConsoleCallError(e, url);
+                return false;
+            }
 
             // Optional toast
             if (settings.ToasterSettings.IsNeeded)
@@ -107,14 +153,34 @@ namespace EventManager.Client.Services
         {
             this.CheckSettings(settings);
 
-            var response = await _httpClient.GetAsync(CreateUrl(settings));
+            var url = this.CreateUrl(settings);
+
+            HttpResponseMessage response;
+
+            try
+            {
+                response = await _httpClient.GetAsync(url);
+            }
+            catch (Exception e)
+            {
+                this.ConsoleCallError(e, url);
+                return default;
+            }
 
             // Deserialize json
             if (response.IsSuccessStatusCode)
             {
-                using (var sr = await response.Content.ReadAsStreamAsync())
+                try
                 {
-                    return await System.Text.Json.JsonSerializer.DeserializeAsync<T>(sr, _helperService.GetSerializerOptions());
+                    using (var sr = await response.Content.ReadAsStreamAsync())
+                    {
+                        return await System.Text.Json.JsonSerializer.DeserializeAsync<T>(sr, _helperService.GetSerializerOptions());
+                    }
+                }
+                catch (Exception e)
+                {
+                    this.ConsoleSerializationError(e);
+                    return default;
                 }
             }
             else
@@ -132,13 +198,33 @@ namespace EventManager.Client.Services
         {
             this.CheckSettings(settings);
 
-            var response = await _httpClient.GetAsync(CreateUrl(settings));
+            var url = this.CreateUrl(settings);
+
+            HttpResponseMessage response;
+
+            try
+            {
+                response = await _httpClient.GetAsync(url);
+            }
+            catch (Exception e)
+            {
+                this.ConsoleCallError(e, url);
+                return default;
+            }
 
             if (response.IsSuccessStatusCode)
             {
-                int count = -1;
-                int.TryParse(await response.Content.ReadAsStringAsync(), out count);
-                return count == -1 ? null : (int?)count;
+                try
+                {
+                    int count = -1;
+                    int.TryParse(await response.Content.ReadAsStringAsync(), out count);
+                    return count == -1 ? null : (int?)count;
+                }
+                catch (Exception e)
+                {
+                    this.ConsoleSerializationError(e);
+                    return default;
+                }
             }
             else
             {
@@ -155,12 +241,33 @@ namespace EventManager.Client.Services
         {
             this.CheckSettings(settings);
 
-            var response = await _httpClient.GetAsync(CreateUrl(settings));
+            var url = this.CreateUrl(settings);
+
+            HttpResponseMessage response;
+
+            try
+            {
+                response = await _httpClient.GetAsync(url);
+            }
+            catch (Exception e)
+            {
+                this.ConsoleCallError(e, url);
+                return default;
+            }
+
 
             // Deserialize json
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadAsStringAsync();
+                try
+                {
+                    return await response.Content.ReadAsStringAsync();
+                }
+                catch (Exception e)
+                {
+                    this.ConsoleSerializationError(e);
+                    return default;
+                }
             }
             else
             {
@@ -179,7 +286,19 @@ namespace EventManager.Client.Services
         {
             this.CheckSettings(settings);
 
-            var response = await _httpClient.PutAsync(CreateUrl(settings), body.GetStringContent());
+            var url = this.CreateUrl(settings);
+
+            HttpResponseMessage response;
+
+            try
+            {
+                response = await _httpClient.PutAsync(url, body.GetStringContent());
+            }
+            catch (Exception e)
+            {
+                this.ConsoleCallError(e, url);
+                return false;
+            }
 
             // Optional toast
             if (settings.ToasterSettings.IsNeeded)
@@ -219,6 +338,18 @@ namespace EventManager.Client.Services
             {
                 throw new ArgumentException("Settings cannot be null");
             }
+        }
+
+        private void ConsoleSerializationError(Exception e)
+        {
+            Console.WriteLine("Serialization Error: ");
+            Console.WriteLine(e);
+        }
+
+        private void ConsoleCallError(Exception e, string url)
+        {
+            Console.WriteLine($"Http Call Error from {url}: ");
+            Console.WriteLine(e);
         }
     }
 }

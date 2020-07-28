@@ -5,20 +5,23 @@ using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
 using Newtonsoft.Json;
 
-namespace EventManager.Client.Models {
+namespace EventManager.Client.Http
+{
 
     /// <summary>
     /// HTTP body
     /// </summary>
     /// <typeparam name="T">Type of the content</typeparam>
-    public class HttpBody<T> {
+    public class HttpBody<T>
+    {
         private T Body { get; set; }
 
         /// <summary>
         /// Create body
         /// </summary>
         /// <param name="body">Content</param>
-        public HttpBody (T body) {
+        public HttpBody(T body)
+        {
             this.Body = body;
         }
 
@@ -26,11 +29,11 @@ namespace EventManager.Client.Models {
         /// Create string content from the body
         /// </summary>
         /// <returns>String content</returns>
-        public StringContent GetStringContent ()
+        public StringContent GetStringContent()
         {
-            return this.Body == null ? new StringContent("") : this.CreateContent (this.Body);
+            return this.Body == null ? new StringContent("") : this.CreateContent(this.Body);
         }
-        
+
         /// <summary>
         /// Create String Content
         /// </summary>

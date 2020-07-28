@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using EventManager.Client.Models.Interfaces;
 using EventManager.Client.Services.Interfaces;
 
-namespace EventManager.Client.Models
+namespace EventManager.Client.Http
 {
     public class HttpCall<TList, TSimple, TModel> : IHttpCall<TList, TSimple, TModel>
     {
@@ -17,7 +17,7 @@ namespace EventManager.Client.Models
             this.Url = url;
             this._caption = caption;
         }
-        
+
         public async Task<List<TList>> GetAll()
         {
             var settings = new HttpSettings($"{this.Url}");
