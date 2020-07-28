@@ -127,7 +127,20 @@ namespace ManagerAPI.Services.Common
 
         public TEntity Get(params object[] keys)
         {
-            return this._context.Set<TEntity>().Find(keys);
+            var entity = this._context.Set<TEntity>().Find(keys);
+
+            try
+            {
+                var user = this.Utils.GetCurrentUser();
+                
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get"), entity.Id);
+            }
+            catch (Exception)
+            {
+                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("get"), entity.Id);
+            }
+
+            return entity;
         }
         
         public T Get<T>(params object[] keys)
@@ -137,7 +150,20 @@ namespace ManagerAPI.Services.Common
 
         public List<TEntity> GetAll()
         {
-            return this._context.Set<TEntity>().ToList();
+            var list = this._context.Set<TEntity>().ToList();
+
+            try
+            {
+                var user = this.Utils.GetCurrentUser();
+                
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get"), list.Select(x => x.Id).ToList());
+            }
+            catch (Exception)
+            {
+                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("get"), list.Select(x => x.Id).ToList());
+            }
+
+            return list;
         }
 
         public List<T> GetAll<T>()
@@ -169,7 +195,20 @@ namespace ManagerAPI.Services.Common
                 query = query.Skip((int)skip);
             }
 
-            return query.ToList();
+            var list = query.ToList();
+
+            try
+            {
+                var user = this.Utils.GetCurrentUser();
+                
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get"), list.Select(x => x.Id).ToList());
+            }
+            catch (Exception)
+            {
+                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("get"), list.Select(x => x.Id).ToList());
+            }
+
+            return list;
         }
 
         public List<T> GetList<T>(Expression<Func<TEntity, bool>> predicate)
@@ -239,7 +278,7 @@ namespace ManagerAPI.Services.Common
 
         public void RemoveRange(IEnumerable<int> ids)
         {
-            if (ids.Count() > 0)
+            if (ids.Any())
             {
                 this.RemoveRange(this.GetList(x => ids.Contains(x.Id)));
             }
