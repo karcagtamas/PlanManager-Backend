@@ -35,9 +35,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(this.Logger.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
 
@@ -53,9 +53,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(this.Logger.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
 
@@ -71,9 +71,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(this.Logger.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
 
@@ -89,9 +89,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(this.Logger.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
 
@@ -107,9 +107,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(this.Logger.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
     }

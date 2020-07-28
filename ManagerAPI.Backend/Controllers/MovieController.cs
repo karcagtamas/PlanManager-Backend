@@ -33,9 +33,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(_loggerService.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
 
@@ -50,9 +50,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(_loggerService.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
 
@@ -67,9 +67,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(_loggerService.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
 
@@ -85,9 +85,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(_loggerService.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
 
@@ -103,9 +103,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(_loggerService.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
 
@@ -121,9 +121,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(_loggerService.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
 
@@ -139,9 +139,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(_loggerService.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
 
@@ -157,9 +157,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(_loggerService.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
     }

@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Backend.Controllers
 {
-    
-    [Route ("api/[controller]")]
+
+    [Route("api/[controller]")]
     [Authorize]
     [ApiController]
     public class EventController : ControllerBase
@@ -32,11 +32,13 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return Ok(_eventService.GetMyEvents());
             }
-            catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
+            catch (MessageException me)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
 
@@ -47,11 +49,13 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return Ok(_eventService.GetEvent(eventId));
             }
-            catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
+            catch (MessageException me)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
 
@@ -63,11 +67,13 @@ namespace ManagerAPI.Backend.Controllers
                 _eventService.CreateEvent(model);
                 return Ok();
             }
-            catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
+            catch (MessageException me)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
 
@@ -79,14 +85,16 @@ namespace ManagerAPI.Backend.Controllers
                 _eventService.SetEventAsGtEvent(eventId);
                 return Ok();
             }
-            catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
+            catch (MessageException me)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
-        
+
         [HttpPost("sport/{eventId}")]
         public IActionResult SetEventAsSportEvent(int eventId)
         {
@@ -95,11 +103,13 @@ namespace ManagerAPI.Backend.Controllers
                 _eventService.SetEventAsSportEvent(eventId);
                 return Ok();
             }
-            catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
+            catch (MessageException me)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
 
@@ -111,11 +121,13 @@ namespace ManagerAPI.Backend.Controllers
                 _eventService.DeleteEvent(eventId);
                 return Ok();
             }
-            catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
+            catch (MessageException me)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
 
@@ -127,14 +139,16 @@ namespace ManagerAPI.Backend.Controllers
                 _eventService.UpdateMasterEvent(masterUpdate);
                 return Ok();
             }
-            catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
+            catch (MessageException me)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
-        
+
         [HttpPut("sport/{sportEventId}")]
         public IActionResult UpdateSportEvent(int sportEventId, [FromBody] SportEventUpdateDto sportUpdate)
         {
@@ -143,14 +157,16 @@ namespace ManagerAPI.Backend.Controllers
                 _eventService.UpdateSportEvent(sportUpdate);
                 return Ok();
             }
-            catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
+            catch (MessageException me)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
-        
+
         [HttpPut("gt/{gtEventId}")]
         public IActionResult UpdateGtEvent(int gtEventId, [FromBody] GtEventUpdateDto updateGt)
         {
@@ -159,11 +175,13 @@ namespace ManagerAPI.Backend.Controllers
                 _eventService.UpdateGtEvent(updateGt);
                 return Ok();
             }
-            catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
+            catch (MessageException me)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
             }
         }
     }

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace EventManager.Client.Shared.Components.WM
 {
-    public class FieldModalBase : ComponentBase
+    public partial class FieldModal
     {
         [CascadingParameter] 
         private ModalParameters Parameters { get; set; }
