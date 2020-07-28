@@ -21,7 +21,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public WorkingDayTypeService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper)
+        public WorkingDayTypeService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper, "Working day type")
         {
             this.DatabaseContext = context;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.MC;
 using ManagerAPI.Shared.Models;
 using ManagerAPI.Shared.Models.MC;
 using Microsoft.AspNetCore.Authorization;
@@ -27,7 +28,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(_movieService.GetMovies());
+                return Ok(_movieService.GetAll<MovieListDto>());
             }
             catch (MessageException me)
             {
@@ -44,7 +45,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(_movieService.GetMovie(id));
+                return Ok(_movieService.Get<MovieDto>(id));
             }
             catch (MessageException me)
             {
@@ -78,7 +79,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                _movieService.CreateMovie(model);
+                _movieService.Add<MovieModel>(model);
                 return Ok();
             }
             catch (MessageException me)
@@ -96,7 +97,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                _movieService.UpdateMovie(id, model);
+                _movieService.Update<MovieModel>(id, model);
                 return Ok();
             }
             catch (MessageException me)
@@ -114,7 +115,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                _movieService.DeleteMovie(id);
+                _movieService.Remove(id);
                 return Ok();
             }
             catch (MessageException me)

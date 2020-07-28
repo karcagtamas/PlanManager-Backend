@@ -14,16 +14,6 @@ namespace ManagerAPI.Services.Services
 {
     public class WorkingDayService : Repository<WorkingDay>, IWorkingDayService
     {
-        // Actions
-        private const string GetWorkingDayAction = "get working day";
-        private const string GetWorkingDayStatAction = "get working day stat";
-
-        // Thing
-        private const string DayThing = "day";
-
-        // Message
-        private const string WorkingDayDoesNotExistMessage = "Working day does not exist";
-
         // Injects
         private readonly DatabaseContext DatabaseContext;
 
@@ -34,7 +24,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public WorkingDayService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper)
+        public WorkingDayService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper, "Working day")
         {
             this.DatabaseContext = context;
         }
@@ -46,11 +36,11 @@ namespace ManagerAPI.Services.Services
 
             if (workingDay == null)
             {
-                throw this.Logger.LogInvalidThings(user, nameof(WorkingDayService), DayThing, WorkingDayDoesNotExistMessage);
+                throw this.Logger.LogInvalidThings(user,this.GetService(), this.Entity, this.GetEntityErrorMessage());
             }
 
             var dto = this.Mapper.Map<WorkingDayListDto>(workingDay);
-            this.Logger.LogInformation(user, nameof(WorkingDayService), GetWorkingDayAction, dto.Id);
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get"), dto.Id);
             return dto;
         }
 
@@ -61,10 +51,10 @@ namespace ManagerAPI.Services.Services
 
             if (workingDay == null)
             {
-                throw this.Logger.LogInvalidThings(user, nameof(WorkingDayService), DayThing, WorkingDayDoesNotExistMessage);
+                throw this.Logger.LogInvalidThings(user, this.GetService(), this.Entity, this.GetEntityErrorMessage());
             }
 
-            this.Logger.LogInformation(user, nameof(WorkingDayService), GetWorkingDayStatAction, workingDay.Id);
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get stat for"), workingDay.Id);
 
             return this.Mapper.Map<WorkingDayStatDto>(workingDay);
         }

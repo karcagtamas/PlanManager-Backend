@@ -16,7 +16,7 @@ namespace MovieCorner.Services.Services
         // Injects
         private readonly DatabaseContext DatabaseContext;
 
-        public EpisodeService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper)
+        public EpisodeService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper, "Episode")
         {
             this.DatabaseContext = context;
         }

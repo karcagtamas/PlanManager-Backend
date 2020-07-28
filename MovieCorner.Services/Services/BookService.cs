@@ -15,11 +15,6 @@ namespace MovieCorner.Services.Services
 {
     public class BookService : Repository<Book>, IBookService
     {
-        // Actions
-        private const string UpdateMyBooksAction = "update my books";
-        private const string SetBookStatusAction = "set book status";
-        private const string GetMyBooksAction = "get my books";
-
         // Things
         private const string UserBookThing = "user-book";
 
@@ -36,7 +31,7 @@ namespace MovieCorner.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public BookService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper)
+        public BookService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper, "Book")
         {
             this.DatabaseContext = context;
         }
@@ -47,7 +42,7 @@ namespace MovieCorner.Services.Services
 
             var list = user.MyBooks.ToList();
 
-            this.Logger.LogInformation(user, nameof(BookService), GetMyBooksAction, list.Select(x => x.Book.Id).ToList());
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), list.Select(x => x.Book.Id).ToList());
 
             return this.Mapper.Map<List<MyBookDto>>(list);
         }
@@ -74,7 +69,7 @@ namespace MovieCorner.Services.Services
                 }
             }
 
-            this.Logger.LogInformation(user, nameof(BookService), UpdateMyBooksAction, ids);
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
             DatabaseContext.SaveChanges();
         }
 
@@ -85,7 +80,7 @@ namespace MovieCorner.Services.Services
             var userBook = DatabaseContext.UserBookSwitch.Find(user.Id, id);
             if (userBook == null)
             {
-                throw this.Logger.LogInvalidThings(user, nameof(BookService), UserBookThing, UserBookConnectionDoesNotExistMessage);
+                throw this.Logger.LogInvalidThings(user, this.GetService(), UserBookThing, UserBookConnectionDoesNotExistMessage);
             }
 
             userBook.Read = status;
@@ -93,7 +88,7 @@ namespace MovieCorner.Services.Services
             DatabaseContext.UserBookSwitch.Update(userBook);
             DatabaseContext.SaveChanges();
 
-            this.Logger.LogInformation(user, nameof(BookService), SetBookStatusAction, userBook.Book.Id);
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set read status for"), userBook.Book.Id);
         }
     }
 }

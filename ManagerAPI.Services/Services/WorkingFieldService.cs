@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Shared.DTOs.WM;
+using System.Linq;
 
 namespace ManagerAPI.Services.Services
 {
@@ -22,20 +23,32 @@ namespace ManagerAPI.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public WorkingFieldService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper)
+        public WorkingFieldService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper, "Working field")
         {
             this._databaseContext = context;
         }
 
         public WorkingWeekStatDto GetWeekStat(DateTime week)
         {
-            return this.Mapper.Map<WorkingWeekStatDto>(this.GetList(x => x.WorkingDay.Day >= week && x.WorkingDay.Day <= week.AddDays(7)));
+            var user = this.Utils.GetCurrentUser();
+
+            var list = this.Mapper.Map<WorkingWeekStatDto>(this.GetList(x => x.WorkingDay.Day >= week && x.WorkingDay.Day <= week.AddDays(7) && x.WorkingDay.User.Id == user.Id));
+
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get week stat for"), list.Fields.Select(x => x.Id).ToList());
+
+            return list;
         }
 
         public WorkingMonthStatDto GetMonthStat(int year, int month)
         {
-            return this.Mapper.Map<WorkingMonthStatDto>(this.GetList(x =>
-                x.WorkingDay.Day.Year == year && x.WorkingDay.Day.Month == month));
+            var user = this.Utils.GetCurrentUser();
+
+            var list = this.Mapper.Map<WorkingMonthStatDto>(GetList(x =>
+                x.WorkingDay.Day.Year == year && x.WorkingDay.Day.Month == month && x.WorkingDay.User.Id == user.Id));
+
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get month stat for"), list.Fields.Select(x => x.Id).ToList());
+
+            return list;
         }
     }
 }

@@ -15,13 +15,15 @@ namespace ManagerAPI.Services.Common
         protected readonly ILoggerService Logger;
         protected readonly IUtilsService Utils;
         protected readonly IMapper Mapper;
+        protected readonly string Entity;
 
-        protected Repository(DbContext context, ILoggerService logger, IUtilsService utils, IMapper mapper)
+        protected Repository(DbContext context, ILoggerService logger, IUtilsService utils, IMapper mapper, string entity)
         {
             this._context = context;
             this.Logger = logger;
             this.Utils = utils;
             this.Mapper = mapper;
+            this.Entity = entity;
         }
 
         public void Add(TEntity entity)
@@ -316,19 +318,19 @@ namespace ManagerAPI.Services.Common
             }
         }
 
-        private string GetService()
+        protected string GetService()
         {
-            return $"{nameof(TEntity)} Service";
+            return $"{this.Entity} Service";
         }
 
-        private string GetEvent(string action)
+        protected string GetEvent(string action)
         {
-            return $"{action} {nameof(TEntity)}";
+            return $"{action} {this.Entity}";
         }
 
-        private string GetEntityErrorMessage()
+        protected string GetEntityErrorMessage()
         {
-            return $"{nameof(TEntity)} does not exist";
+            return $"{this.Entity} does not exist";
         }
     }
 }
