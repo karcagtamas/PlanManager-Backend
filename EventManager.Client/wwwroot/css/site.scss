@@ -228,31 +228,32 @@ app {
         border-radius: $border-radius;
         padding: 0.5rem;
         background-color: $white-trans;
+    }
+}
 
-        .field {
-            margin-bottom: 1rem;
-            margin-top: 1rem;
-            border-bottom: $primary-secondary-trans 3px solid;
-            border-radius: $border-radius;
-            padding: 0.5rem;
-            background-color: $orange-trans;
+/* WM Field */
+.wm-field {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: $primary-secondary-trans 3px solid;
+    border-radius: $border-radius;
+    padding: 0.5rem;
+    background-color: $orange-trans;
 
-            .title-row {
-                display: flex;
-                color: $primary;
+    .title-row {
+        display: flex;
+        color: $primary;
 
-                .title {
-                    font-style: italic;
-                }
+        .title {
+            font-style: italic;
+        }
 
-                .spacer {
-                    flex-grow: 1;
-                }
+        .spacer {
+            flex-grow: 1;
+        }
 
-                .hours {
-                    font-weight: bold;
-                }
-            }
+        .hours {
+            font-weight: bold;
         }
     }
 }
@@ -285,6 +286,47 @@ app {
             flex-grow: 1;
         }
     }
+
+    .field-list {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $white-trans;
+    }
+    
+    .stat-box {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $green-light-trans;
+
+        .data-row {
+            strong {
+                color: $primary;
+                font-style: italic;
+            }
+        }
+    }
+    
+    .type-stat {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $green-light-trans;
+
+        .data-row {
+            strong {
+                color: $primary;
+                font-style: italic;
+            }
+        }
+    }
 }
 
 /* WM Week stat */
@@ -313,6 +355,47 @@ app {
 
         .spacer {
             flex-grow: 1;
+        }
+    }
+
+    .field-list {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $white-trans;
+    }
+
+    .stat-box {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $green-light-trans;
+        
+        .data-row {
+            strong {
+                color: $primary;
+                font-style: italic;
+            }
+        }
+    }
+
+    .type-stat {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $green-light-trans;
+
+        .data-row {
+            strong {
+                color: $primary;
+                font-style: italic;
+            }
         }
     }
 }

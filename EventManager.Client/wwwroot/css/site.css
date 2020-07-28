@@ -194,7 +194,9 @@ app {
   padding: 0.5rem;
   background-color: rgba(249, 249, 249, 0.55);
 }
-.wm .field-list .field {
+
+/* WM Field */
+.wm-field {
   margin-bottom: 1rem;
   margin-top: 1rem;
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
@@ -202,17 +204,17 @@ app {
   padding: 0.5rem;
   background-color: rgba(240, 174, 73, 0.4);
 }
-.wm .field-list .field .title-row {
+.wm-field .title-row {
   display: flex;
   color: #5120a5;
 }
-.wm .field-list .field .title-row .title {
+.wm-field .title-row .title {
   font-style: italic;
 }
-.wm .field-list .field .title-row .spacer {
+.wm-field .title-row .spacer {
   flex-grow: 1;
 }
-.wm .field-list .field .title-row .hours {
+.wm-field .title-row .hours {
   font-weight: bold;
 }
 
@@ -239,6 +241,38 @@ app {
 .wm-month .action-bar .spacer {
   flex-grow: 1;
 }
+.wm-month .field-list {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(249, 249, 249, 0.55);
+}
+.wm-month .stat-box {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(203, 255, 187, 0.4);
+}
+.wm-month .stat-box .data-row strong {
+  color: #5120a5;
+  font-style: italic;
+}
+.wm-month .type-stat {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(203, 255, 187, 0.4);
+}
+.wm-month .type-stat .data-row strong {
+  color: #5120a5;
+  font-style: italic;
+}
 
 /* WM Week stat */
 .wm-week .title-bar {
@@ -262,6 +296,38 @@ app {
 }
 .wm-week .action-bar .spacer {
   flex-grow: 1;
+}
+.wm-week .field-list {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(249, 249, 249, 0.55);
+}
+.wm-week .stat-box {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(203, 255, 187, 0.4);
+}
+.wm-week .stat-box .data-row strong {
+  color: #5120a5;
+  font-style: italic;
+}
+.wm-week .type-stat {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(203, 255, 187, 0.4);
+}
+.wm-week .type-stat .data-row strong {
+  color: #5120a5;
+  font-style: italic;
 }
 
 /* My tasks page */

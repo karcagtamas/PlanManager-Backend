@@ -20,18 +20,22 @@
         @if (MonthStat != null)
         {
             <div class="stat-box">
+                <div class="em-sub-title">Statistics</div>
                 <div class="data-row">
-                    <strong>Summary hours: </strong> @MonthStat.HourSum
+                    <strong>Summary hours: </strong> @MonthStat.HourSum h
                 </div>
                 <div class="data-row">
-                    <strong>Avgerate hours: </strong> @MonthStat.HourAvg
+                    <strong>Avgerate hours: </strong> @MonthStat.HourAvg h
                 </div>
                 <div class="data-row">
                     <strong>Active / Inactive days: </strong> @MonthStat.ActiveDays / @MonthStat.InactiveDays
                 </div>
-                @foreach (var type in @MonthStat.Counts) 
+            </div>
+            <div class="type-stat">
+                <div class="em-sub-title">Type statistics</div>
+                @foreach (var type in @MonthStat.Counts)
                 {
-                    <div>
+                    <div class="data-row">
                         <strong>@type.Type:</strong> @type.Count
                     </div>
                 }

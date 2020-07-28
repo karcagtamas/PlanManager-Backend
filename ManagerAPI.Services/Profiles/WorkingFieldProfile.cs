@@ -49,7 +49,7 @@ namespace ManagerAPI.Services.Profiles
 
         private List<WorkingDayTypeCountDto> CalcCounts(List<WorkingField> fields) 
         {
-            return fields.GroupBy(x => x.WorkingDay.Type).Select(x => new WorkingDayTypeCountDto { Type = x.Key.Title, Count = x.Count() }).ToList();
+            return fields.GroupBy(x => x.WorkingDay.Type).Select(x => new WorkingDayTypeCountDto { Type = x.Key.Title, Count = x.GroupBy(y => y.WorkingDay).Count() }).ToList();
         }
     }
 }
