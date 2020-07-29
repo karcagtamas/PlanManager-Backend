@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ManagerAPI.Domain.Entities.WM;
+using ManagerAPI.Domain.Enums.WM;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
@@ -16,7 +17,7 @@ namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/working-day")]
     [ApiController]
-    public class WorkingDayController : MyController<WorkingDay, WorkingDayModel, WorkingDayListDto, WorkingDayDto>
+    public class WorkingDayController : MyController<WorkingDay, WorkingDayModel, WorkingDayListDto, WorkingDayDto, WorkingManagerNotificationType>
     {
         private readonly IWorkingDayService _workingDayService;
         public WorkingDayController(IWorkingDayService workingDayService, ILoggerService loggerService) : base(loggerService, workingDayService)

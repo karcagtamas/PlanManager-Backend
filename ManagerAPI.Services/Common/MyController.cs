@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Services.Common
 {
-    public class MyController<TEntity, TModel, TList, TSimple> : ControllerBase, IController<TEntity, TModel> where TEntity : class, IEntity
+    public class MyController<TEntity, TModel, TList, TSimple, TNotificationType> : ControllerBase, IController<TEntity, TModel> where TEntity : class, IEntity where TNotificationType : Enum
     {
         protected const string FatalError = "Something bad happened. Try again later";
         protected readonly ILoggerService Logger;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
@@ -16,7 +17,7 @@ namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SeasonController : MyController<Season, SeasonModel, SeasonListDto, SeasonDto>
+    public class SeasonController : MyController<Season, SeasonModel, SeasonListDto, SeasonDto, MovieCornerNotificationType>
     {
         protected readonly ISeasonService SeasonService;
         public SeasonController(ISeasonService seasonService, ILoggerService loggerService) : base(loggerService, seasonService)

@@ -8,10 +8,11 @@ using System.Text;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Shared.DTOs.WM;
 using System.Linq;
+using ManagerAPI.Domain.Enums.WM;
 
 namespace ManagerAPI.Services.Services
 {
-    public class WorkingFieldService : Repository<WorkingField>, IWorkingFieldService
+    public class WorkingFieldService : Repository<WorkingField, WorkingManagerNotificationType>, IWorkingFieldService
     {
         // Injects
         private readonly DatabaseContext _databaseContext;
@@ -23,7 +24,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public WorkingFieldService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper, "Working field")
+        public WorkingFieldService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, INotificationService notificationService, ILoggerService loggerService) : base(context, loggerService, utilsService, notificationService, mapper, "Working field", new NotificationArguments { })
         {
             this._databaseContext = context;
         }

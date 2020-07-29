@@ -1,5 +1,6 @@
 ﻿using System;
 using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
@@ -15,7 +16,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class SeriesController : MyController<Series, SeriesModel, SeriesListDto, SeriesDto>
+    public class SeriesController : MyController<Series, SeriesModel, SeriesListDto, SeriesDto, MovieCornerNotificationType>
     {
         protected readonly ISeriesService SeriesService;
 

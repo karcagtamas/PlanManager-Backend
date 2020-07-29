@@ -1,7 +1,7 @@
 ﻿using System;
 using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common;
-using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
 using ManagerAPI.Shared.Models;
@@ -15,7 +15,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class BookController : MyController<Book, BookModel, BookListDto, BookDto>
+    public class BookController : MyController<Book, BookModel, BookListDto, BookDto, MovieCornerNotificationType>
     {
         protected readonly IBookService BookService;
         public BookController(IBookService bookService, ILoggerService loggerService) : base(loggerService, bookService)

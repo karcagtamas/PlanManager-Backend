@@ -9,10 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ManagerAPI.Services.Common;
+using ManagerAPI.Domain.Enums.WM;
 
 namespace ManagerAPI.Services.Services
 {
-    public class WorkingDayService : Repository<WorkingDay>, IWorkingDayService
+    public class WorkingDayService : Repository<WorkingDay, WorkingManagerNotificationType>, IWorkingDayService
     {
         // Injects
         private readonly DatabaseContext DatabaseContext;
@@ -24,7 +25,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public WorkingDayService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper, "Working day")
+        public WorkingDayService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Working day", new NotificationArguments { })
         {
             this.DatabaseContext = context;
         }
@@ -36,7 +37,7 @@ namespace ManagerAPI.Services.Services
 
             if (workingDay == null)
             {
-                throw this.Logger.LogInvalidThings(user,this.GetService(), this.Entity, this.GetEntityErrorMessage());
+                throw this.Logger.LogInvalidThings(user, this.GetService(), this.Entity, this.GetEntityErrorMessage());
             }
 
             var dto = this.Mapper.Map<WorkingDayListDto>(workingDay);

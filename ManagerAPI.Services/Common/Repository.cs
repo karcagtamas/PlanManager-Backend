@@ -9,21 +9,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ManagerAPI.Services.Common
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
+    public class Repository<TEntity, TNotificationType> : IRepository<TEntity> where TEntity : class, IEntity where TNotificationType : Enum
     {
         private readonly DbContext _context;
+        private readonly NotificationArguments _arguments;
         protected readonly ILoggerService Logger;
         protected readonly IUtilsService Utils;
+        protected readonly INotificationService Notification;
         protected readonly IMapper Mapper;
         protected readonly string Entity;
 
-        protected Repository(DbContext context, ILoggerService logger, IUtilsService utils, IMapper mapper, string entity)
+        protected Repository(DbContext context, ILoggerService logger, IUtilsService utils, INotificationService notification, IMapper mapper, string entity, NotificationArguments arguments)
         {
             this._context = context;
             this.Logger = logger;
             this.Utils = utils;
+            this.Notification = notification;
             this.Mapper = mapper;
             this.Entity = entity;
+            this._arguments = arguments;
         }
 
         public void Add(TEntity entity)
@@ -42,14 +46,14 @@ namespace ManagerAPI.Services.Common
                 var user = this.Utils.GetCurrentUser();
                 lastUpdater.SetValue(entity, user.Id, null);
             }
-            
+
             var userField = type.GetProperty("UserId");
             if (userField != null)
             {
                 var user = this.Utils.GetCurrentUser();
                 userField.SetValue(entity, user.Id, null);
             }
-            
+
             var owner = type.GetProperty("OwnerId");
             if (owner != null)
             {
@@ -65,11 +69,15 @@ namespace ManagerAPI.Services.Common
             {
                 var user = this.Utils.GetCurrentUser();
 
-                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get"), entity.Id);
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add"), entity.Id);
+
+                List<string> args = this.DetermineArguments(this._arguments.CreateArguments, type, entity);
+
+                this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user, args.ToArray());
             }
             catch (Exception)
             {
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("get"), entity.Id);
+                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("add"), entity.Id);
             }
         }
 
@@ -80,7 +88,8 @@ namespace ManagerAPI.Services.Common
 
         public void AddRange(IEnumerable<TEntity> entities)
         {
-            entities = entities.Select(x => {
+            entities = entities.Select(x =>
+            {
                 var type = x.GetType();
                 var creator = type.GetProperty("CreatorId");
                 if (creator != null)
@@ -107,11 +116,11 @@ namespace ManagerAPI.Services.Common
             {
                 var user = this.Utils.GetCurrentUser();
 
-                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get"), entities.Select(x => x.Id).ToList());
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add"), entities.Select(x => x.Id).ToList());
             }
             catch (Exception)
             {
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("get"), entities.Select(x => x.Id).ToList());
+                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("add"), entities.Select(x => x.Id).ToList());
             }
         }
 
@@ -132,7 +141,7 @@ namespace ManagerAPI.Services.Common
             try
             {
                 var user = this.Utils.GetCurrentUser();
-                
+
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get"), entity.Id);
             }
             catch (Exception)
@@ -142,7 +151,7 @@ namespace ManagerAPI.Services.Common
 
             return entity;
         }
-        
+
         public T Get<T>(params object[] keys)
         {
             return this.Mapper.Map<T>(this.Get(keys));
@@ -155,7 +164,7 @@ namespace ManagerAPI.Services.Common
             try
             {
                 var user = this.Utils.GetCurrentUser();
-                
+
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get"), list.Select(x => x.Id).ToList());
             }
             catch (Exception)
@@ -200,7 +209,7 @@ namespace ManagerAPI.Services.Common
             try
             {
                 var user = this.Utils.GetCurrentUser();
-                
+
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get"), list.Select(x => x.Id).ToList());
             }
             catch (Exception)
@@ -238,6 +247,12 @@ namespace ManagerAPI.Services.Common
                 var user = this.Utils.GetCurrentUser();
 
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete"), entity.Id);
+
+                var type = entity.GetType();
+
+                List<string> args = this.DetermineArguments(this._arguments.DeleteArguments, type, entity);
+
+                this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user, args.ToArray());
             }
             catch (Exception)
             {
@@ -309,6 +324,10 @@ namespace ManagerAPI.Services.Common
                 var user = this.Utils.GetCurrentUser();
 
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update"), entity.Id);
+
+                List<string> args = this.DetermineArguments(this._arguments.UpdateArguments, type, entity);
+
+                this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user, args.ToArray());
             }
             catch (Exception)
             {
@@ -370,6 +389,40 @@ namespace ManagerAPI.Services.Common
         protected string GetEntityErrorMessage()
         {
             return $"{this.Entity} does not exist";
+        }
+
+        private string GetNotificationAction(string action)
+        {
+            return string.Join("", this.GetEvent(action).Split(" ").Select(x => char.ToUpper(x[0]) + x.Substring(1).ToLower()));
+        }
+
+        private List<string> DetermineArguments(List<string> nameList, Type firstType, TEntity entity)
+        {
+            List<string> args = new List<string>();
+
+            foreach (var i in nameList)
+            {
+                var propList = i.Split(".");
+                var lastType = firstType;
+                object lastEntity = entity;
+
+                for (int j = 0; j < propList.Count(); j++)
+                {
+                    var prop = lastType.GetProperty(propList[j]);
+                    if (prop != null)
+                    {
+                        lastEntity = prop.GetValue(lastEntity);
+                        lastType = prop.GetType();
+                    }
+                }
+
+                if (lastType == typeof(string))
+                {
+                    args.Add((string)lastEntity);
+                }
+            }
+
+            return args;
         }
     }
 }

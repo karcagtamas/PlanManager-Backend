@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Shared.DTOs.WM;
+using ManagerAPI.Domain.Enums.WM;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {

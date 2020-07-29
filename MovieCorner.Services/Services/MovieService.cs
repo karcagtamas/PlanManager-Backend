@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
@@ -12,7 +13,7 @@ using System.Linq;
 
 namespace MovieCorner.Services.Services
 {
-    public class MovieService : Repository<Movie>, IMovieService
+    public class MovieService : Repository<Movie, MovieCornerNotificationType>, IMovieService
     {
         // Things
         private const string UserMovieThing = "user-movie";
@@ -31,7 +32,7 @@ namespace MovieCorner.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public MovieService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper, "Movie")
+        public MovieService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Movie", new NotificationArguments { })
         {
             this.DatabaseContext = context;
         }

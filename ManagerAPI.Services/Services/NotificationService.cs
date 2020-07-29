@@ -5,6 +5,8 @@ using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
+using ManagerAPI.Domain.Enums.CM;
+using ManagerAPI.Domain.Enums.WM;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 
@@ -33,6 +35,22 @@ namespace ManagerAPI.Services.Services
             _context = context;
             _mapper = mapper;
             _loggerService = loggerService;
+        }
+
+        public void AddNotification(User user, int type, string val, params string[] args)
+        {
+            // Create notification
+            var notification = new Notification
+            {
+                Content = this._utilsService.InjectString(val, args),
+                OwnerId = user.Id,
+                TypeId = (int)type
+            };
+
+            // Save notification
+            _context.Notifications.Add(notification);
+            _context.SaveChanges();
+            _loggerService.LogInformation(user, nameof(NotificationService), "add notification", notification.Id);
         }
 
         /// <summary>
@@ -74,18 +92,41 @@ namespace ManagerAPI.Services.Services
                 throw new Exception("System Notification is not implemented"),
             };
 
-            // Create notification
-            var notification = new Notification
+            this.AddNotification(user, (int)type, val, args);
+        }
+
+        public void AddWorkingManagerNotificationByType(WorkingManagerNotificationType type, User user, params string[] args)
+        {
+            if (user == null) {
+                throw new ArgumentException("User cannot be null");
+            }
+            // Determine message by type
+            string val = type
+            switch
             {
-                Content = this._utilsService.InjectString(val, args),
-                OwnerId = user.Id,
-                TypeId = (int)type
+                WorkingManagerNotificationType.AddWorkingDay => "Successfully logged in. Welcome.",
+                _ =>
+                throw new Exception("System Notification is not implemented"),
             };
 
-            // Save notification
-            _context.Notifications.Add(notification);
-            _context.SaveChanges();
-            _loggerService.LogInformation(user, nameof(NotificationService), "add notification", notification.Id);
+            this.AddNotification(user, (int)type, val, args);
+        }
+
+        public void AddMovieCornerNotificationByType(MovieCornerNotificationType type, User user, params string[] args)
+        {
+            if (user == null) {
+                throw new ArgumentException("User cannot be null");
+            }
+            // Determine message by type
+            string val = type
+            switch
+            {
+                MovieCornerNotificationType.AddWorkingDay => "Successfully logged in. Welcome.",
+                _ =>
+                throw new Exception("System Notification is not implemented"),
+            };
+
+            this.AddNotification(user, (int)type, val, args);
         }
 
         /// <summary>
@@ -136,6 +177,17 @@ namespace ManagerAPI.Services.Services
             _context.SaveChanges();
 
             _loggerService.LogInformation(user, nameof(NotificationService), "set notifications as read", list.Select(x => x.Id).ToList());
+        }
+
+        void INotificationService.AddNotificationByType(Type type, object typeVal, User user, params string[] args)
+        {
+            if (type.Equals(typeof(SystemNotificationType))) {
+                this.AddSystemNotificationByType((SystemNotificationType)typeVal, user, args);
+            } else if(type.Equals(typeof(WorkingManagerNotificationType))) {
+                this.AddWorkingManagerNotificationByType((WorkingManagerNotificationType)typeVal, user, args);
+            } else if (type.Equals(typeof(MovieCornerNotificationType))) {
+                this.AddMovieCornerNotificationByType((MovieCornerNotificationType)typeVal, user, args);
+            }
         }
     }
 }
