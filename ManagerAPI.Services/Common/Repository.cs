@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ManagerAPI.Services.Common
 {
@@ -252,7 +254,7 @@ namespace ManagerAPI.Services.Common
 
                 List<string> args = this.DetermineArguments(this._arguments.DeleteArguments, type, entity);
 
-                this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user, args.ToArray());
+                this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("delete"), true), user, args.ToArray());
             }
             catch (Exception)
             {
@@ -327,7 +329,7 @@ namespace ManagerAPI.Services.Common
 
                 List<string> args = this.DetermineArguments(this._arguments.UpdateArguments, type, entity);
 
-                this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user, args.ToArray());
+                this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("update"), true), user, args.ToArray());
             }
             catch (Exception)
             {
@@ -412,13 +414,39 @@ namespace ManagerAPI.Services.Common
                     if (prop != null)
                     {
                         lastEntity = prop.GetValue(lastEntity);
-                        lastType = prop.GetType();
+                        if (lastEntity != null)
+                        {
+                            lastType = lastEntity.GetType();
+                        }
                     }
                 }
 
-                if (lastType == typeof(string))
+                if (lastEntity != null && lastType != null)
                 {
-                    args.Add((string)lastEntity);
+                    if (lastType == typeof(string))
+                    {
+                        args.Add((string)lastEntity);
+                    } else if (lastType == typeof(DateTime))
+                    {
+                        args.Add(((DateTime)lastEntity).ToLongDateString());
+                    } else if (lastType == typeof(int))
+                    {
+                        args.Add(((int)lastEntity).ToString());
+                    } else if (lastType == typeof(decimal))
+                    {
+                        args.Add(((decimal)lastEntity).ToString(CultureInfo.CurrentCulture));
+                    } else if (lastType == typeof(double))
+                    {
+                        args.Add(((double)lastEntity).ToString(CultureInfo.CurrentCulture));
+                    }
+                    else
+                    {
+                        args.Add("");
+                    }
+                }
+                else
+                {
+                    args.Add("");
                 }
             }
 

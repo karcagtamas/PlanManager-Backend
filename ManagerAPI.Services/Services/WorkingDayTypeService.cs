@@ -10,10 +10,11 @@ using ManagerAPI.Domain.Enums.WM;
 
 namespace ManagerAPI.Services.Services
 {
-    public class WorkingDayTypeService : Repository<WorkingDayType, WorkingManagerNotificationType>, IWorkingDayTypeService
+    public class WorkingDayTypeService : Repository<WorkingDayType, WorkingManagerNotificationType>,
+        IWorkingDayTypeService
     {
         // Injects
-        private readonly DatabaseContext DatabaseContext;
+        private readonly DatabaseContext _databaseContext;
 
         /// <summary>
         /// Injector Constructor
@@ -21,10 +22,18 @@ namespace ManagerAPI.Services.Services
         /// <param name="context">Database Context</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
+        /// <param name="notificationService">Notification Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public WorkingDayTypeService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, INotificationService notificationService, ILoggerService loggerService) : base(context, loggerService, utilsService, notificationService, mapper, "Working day type", new NotificationArguments { })
+        public WorkingDayTypeService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
+            INotificationService notificationService, ILoggerService loggerService) : base(context, loggerService,
+            utilsService, notificationService, mapper, "Working day type",
+            new NotificationArguments
+            {
+                CreateArguments = new List<string> {"Title"}, DeleteArguments = new List<string> {"Title"},
+                UpdateArguments = new List<string> {"Title"}
+            })
         {
-            this.DatabaseContext = context;
+            this._databaseContext = context;
         }
     }
 }

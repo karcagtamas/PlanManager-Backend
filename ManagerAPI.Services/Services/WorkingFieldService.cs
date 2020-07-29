@@ -23,8 +23,16 @@ namespace ManagerAPI.Services.Services
         /// <param name="context">Database Context</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
+        /// <param name="notificationService">Notification Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public WorkingFieldService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, INotificationService notificationService, ILoggerService loggerService) : base(context, loggerService, utilsService, notificationService, mapper, "Working field", new NotificationArguments { })
+        public WorkingFieldService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
+            INotificationService notificationService, ILoggerService loggerService) : base(context, loggerService,
+            utilsService, notificationService, mapper, "Working field", new NotificationArguments
+            {
+                CreateArguments = new List<string> {"Length"},
+                DeleteArguments = new List<string> {"WorkingDay.Day"},
+                UpdateArguments = new List<string> {"WorkingDay.Day"}
+            })
         {
             this._databaseContext = context;
         }
@@ -33,9 +41,11 @@ namespace ManagerAPI.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var list = this.Mapper.Map<WorkingWeekStatDto>(this.GetList(x => x.WorkingDay.Day >= week && x.WorkingDay.Day <= week.AddDays(7) && x.WorkingDay.User.Id == user.Id));
+            var list = this.Mapper.Map<WorkingWeekStatDto>(this.GetList(x =>
+                x.WorkingDay.Day >= week && x.WorkingDay.Day <= week.AddDays(7) && x.WorkingDay.User.Id == user.Id));
 
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get week stat for"), list.Fields.Select(x => x.Id).ToList());
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get week stat for"),
+                list.Fields.Select(x => x.Id).ToList());
 
             return list;
         }
@@ -47,7 +57,8 @@ namespace ManagerAPI.Services.Services
             var list = this.Mapper.Map<WorkingMonthStatDto>(GetList(x =>
                 x.WorkingDay.Day.Year == year && x.WorkingDay.Day.Month == month && x.WorkingDay.User.Id == user.Id));
 
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get month stat for"), list.Fields.Select(x => x.Id).ToList());
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get month stat for"),
+                list.Fields.Select(x => x.Id).ToList());
 
             return list;
         }

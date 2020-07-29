@@ -69,11 +69,11 @@ namespace ManagerAPI.DataAccess
 
             // Gender table settings
             builder.Entity<Gender>()
-                .HasData(new Gender { Id = 1, Name = "Male" });
+                .HasData(new Gender {Id = 1, Name = "Male"});
             builder.Entity<Gender>()
-                .HasData(new Gender { Id = 2, Name = "Female" });
+                .HasData(new Gender {Id = 2, Name = "Female"});
             builder.Entity<Gender>()
-                .HasData(new Gender { Id = 3, Name = "Other" });
+                .HasData(new Gender {Id = 3, Name = "Other"});
 
             // User table settings
             builder.Entity<User>()
@@ -192,15 +192,15 @@ namespace ManagerAPI.DataAccess
 
             // Notification system table settings
             builder.Entity<NotificationSystem>()
-                .HasData(new NotificationSystem { Id = 1, Name = "System", ShortName = "Sys" });
+                .HasData(new NotificationSystem {Id = 1, Name = "System", ShortName = "Sys"});
             builder.Entity<NotificationSystem>()
-                .HasData(new NotificationSystem { Id = 2, Name = "Event Manager", ShortName = "EM" });
+                .HasData(new NotificationSystem {Id = 2, Name = "Event Manager", ShortName = "EM"});
             builder.Entity<NotificationSystem>()
-                .HasData(new NotificationSystem { Id = 3, Name = "Plan Manager", ShortName = "PM" });
+                .HasData(new NotificationSystem {Id = 3, Name = "Plan Manager", ShortName = "PM"});
             builder.Entity<NotificationSystem>()
-                .HasData(new NotificationSystem { Id = 4, Name = "Movie Corner", ShortName = "MC" });
+                .HasData(new NotificationSystem {Id = 4, Name = "Movie Corner", ShortName = "MC"});
             builder.Entity<NotificationSystem>()
-                .HasData(new NotificationSystem { Id = 5, Name = "Work Manager", ShortName = "WM" });
+                .HasData(new NotificationSystem {Id = 5, Name = "Work Manager", ShortName = "WM"});
 
             // Notification type table settings
             builder.Entity<NotificationType>()
@@ -210,144 +210,171 @@ namespace ManagerAPI.DataAccess
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<NotificationType>()
-                .HasData(new NotificationType { Id = 1, Title = "Login", ImportanceLevel = 2, SystemId = 1 });
+                .HasData(new NotificationType {Id = 1, Title = "Login", ImportanceLevel = 2, SystemId = 1});
             builder.Entity<NotificationType>()
-                .HasData(new NotificationType { Id = 2, Title = "Registration", ImportanceLevel = 3, SystemId = 1 });
+                .HasData(new NotificationType {Id = 2, Title = "Registration", ImportanceLevel = 3, SystemId = 1});
             builder.Entity<NotificationType>()
-                .HasData(new NotificationType { Id = 3, Title = "Logout", ImportanceLevel = 1, SystemId = 1 });
-            builder.Entity<NotificationType>()
-                .HasData(new NotificationType
-                { Id = 4, Title = "My Profile Updated", ImportanceLevel = 3, SystemId = 1 });
-            builder.Entity<NotificationType>()
-                .HasData(new NotificationType { Id = 5, Title = "Message Arrived", ImportanceLevel = 1, SystemId = 1 });
-            builder.Entity<NotificationType>()
-                .HasData(new NotificationType { Id = 6, Title = "ToDo Added", ImportanceLevel = 2, SystemId = 1 });
-            builder.Entity<NotificationType>()
-                .HasData(new NotificationType { Id = 7, Title = "ToDo Deleted", ImportanceLevel = 2, SystemId = 1 });
-            builder.Entity<NotificationType>()
-                .HasData(new NotificationType { Id = 8, Title = "ToDo Updated", ImportanceLevel = 1, SystemId = 1 });
-            builder.Entity<NotificationType>()
-                .HasData(new NotificationType { Id = 9, Title = "Event Created", ImportanceLevel = 3, SystemId = 2 });
-            builder.Entity<NotificationType>()
-                .HasData(new NotificationType { Id = 10, Title = "Event Disabled", ImportanceLevel = 3, SystemId = 2 });
-            builder.Entity<NotificationType>()
-                .HasData(new NotificationType { Id = 11, Title = "Event Published", ImportanceLevel = 2, SystemId = 2 });
-            builder.Entity<NotificationType>()
-                .HasData(new NotificationType { Id = 12, Title = "Event Locked", ImportanceLevel = 1, SystemId = 2 });
-            builder.Entity<NotificationType>()
-                .HasData(new NotificationType { Id = 13, Title = "Event Updated", ImportanceLevel = 2, SystemId = 2 });
+                .HasData(new NotificationType {Id = 3, Title = "Logout", ImportanceLevel = 1, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 14, Title = "Event Message Arrived", ImportanceLevel = 1, SystemId = 2 });
+                    {Id = 4, Title = "My Profile Updated", ImportanceLevel = 3, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 5, Title = "Message Arrived", ImportanceLevel = 1, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 6, Title = "ToDo Added", ImportanceLevel = 2, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 7, Title = "ToDo Deleted", ImportanceLevel = 2, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 8, Title = "ToDo Updated", ImportanceLevel = 1, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 9, Title = "Event Created", ImportanceLevel = 3, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 10, Title = "Event Disabled", ImportanceLevel = 3, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 11, Title = "Event Published", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 12, Title = "Event Locked", ImportanceLevel = 1, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 13, Title = "Event Updated", ImportanceLevel = 2, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 15, Title = "Event Member Invited", ImportanceLevel = 2, SystemId = 2 });
+                    {Id = 14, Title = "Event Message Arrived", ImportanceLevel = 1, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 16, Title = "Invitation Accepted", ImportanceLevel = 2, SystemId = 2 });
+                    {Id = 15, Title = "Event Member Invited", ImportanceLevel = 2, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 17, Title = "Invitation Declined", ImportanceLevel = 2, SystemId = 2 });
+                    {Id = 16, Title = "Invitation Accepted", ImportanceLevel = 2, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 18, Title = "Invited To An Event", ImportanceLevel = 1, SystemId = 2 });
+                    {Id = 17, Title = "Invitation Declined", ImportanceLevel = 2, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 19, Title = "Accept Event Invitation", ImportanceLevel = 1, SystemId = 2 });
+                    {Id = 18, Title = "Invited To An Event", ImportanceLevel = 1, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 20, Title = "Decline Event Invitation", ImportanceLevel = 1, SystemId = 2 });
+                    {Id = 19, Title = "Accept Event Invitation", ImportanceLevel = 1, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 21, Title = "Event Member Removed", ImportanceLevel = 3, SystemId = 2 });
+                    {Id = 20, Title = "Decline Event Invitation", ImportanceLevel = 1, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 22, Title = "Removed From An Event", ImportanceLevel = 3, SystemId = 2 });
+                    {Id = 21, Title = "Event Member Removed", ImportanceLevel = 3, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 23, Title = "Event Evolved To Sport Event", ImportanceLevel = 2, SystemId = 2 });
+                    {Id = 22, Title = "Removed From An Event", ImportanceLevel = 3, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 24, Title = "Event Evolved To GT Event", ImportanceLevel = 2, SystemId = 2 });
+                    {Id = 23, Title = "Event Evolved To Sport Event", ImportanceLevel = 2, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 25, Title = "Event Date Changed", ImportanceLevel = 1, SystemId = 2 });
-            builder.Entity<NotificationType>()
-                .HasData(new NotificationType { Id = 26, Title = "Event Role Added", ImportanceLevel = 2, SystemId = 2 });
+                    {Id = 24, Title = "Event Evolved To GT Event", ImportanceLevel = 2, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 27, Title = "Event Role Updated", ImportanceLevel = 2, SystemId = 2 });
+                    {Id = 25, Title = "Event Date Changed", ImportanceLevel = 1, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 26, Title = "Event Role Added", ImportanceLevel = 2, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 28, Title = "Event Role Deleted", ImportanceLevel = 3, SystemId = 2 });
+                    {Id = 27, Title = "Event Role Updated", ImportanceLevel = 2, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 29, Title = "Event Role Added To A User", ImportanceLevel = 2, SystemId = 2 });
+                    {Id = 28, Title = "Event Role Deleted", ImportanceLevel = 3, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 30, Title = "Role Added In An Event", ImportanceLevel = 2, SystemId = 2 });
+                    {Id = 29, Title = "Event Role Added To A User", ImportanceLevel = 2, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 31, Title = "Event Role Removed From A User", ImportanceLevel = 2, SystemId = 2 });
+                    {Id = 30, Title = "Role Added In An Event", ImportanceLevel = 2, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 32, Title = "Role Removed In An Event", ImportanceLevel = 2, SystemId = 2 });
-            builder.Entity<NotificationType>()
-                .HasData(new NotificationType { Id = 33, Title = "Event ToDo Added", ImportanceLevel = 2, SystemId = 2 });
+                    {Id = 31, Title = "Event Role Removed From A User", ImportanceLevel = 2, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 34, Title = "Event ToDo Deleted", ImportanceLevel = 2, SystemId = 2 });
+                    {Id = 32, Title = "Role Removed In An Event", ImportanceLevel = 2, SystemId = 2});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType {Id = 33, Title = "Event ToDo Added", ImportanceLevel = 2, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 35, Title = "Event ToDo Updated", ImportanceLevel = 1, SystemId = 2 });
+                    {Id = 34, Title = "Event ToDo Deleted", ImportanceLevel = 2, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 36, Title = "Event PayOut Added", ImportanceLevel = 3, SystemId = 2 });
+                    {Id = 35, Title = "Event ToDo Updated", ImportanceLevel = 1, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 37, Title = "Event PayOut Deleted", ImportanceLevel = 3, SystemId = 2 });
+                    {Id = 36, Title = "Event PayOut Added", ImportanceLevel = 3, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 38, Title = "Event PayOut Updated", ImportanceLevel = 3, SystemId = 2 });
+                    {Id = 37, Title = "Event PayOut Deleted", ImportanceLevel = 3, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 39, Title = "Password Changed", ImportanceLevel = 3, SystemId = 1 });
+                    {Id = 38, Title = "Event PayOut Updated", ImportanceLevel = 3, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 40, Title = "Profile Image Changed", ImportanceLevel = 1, SystemId = 1 });
+                    {Id = 39, Title = "Password Changed", ImportanceLevel = 3, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 41, Title = "Username Changed", ImportanceLevel = 2, SystemId = 1 });
+                    {Id = 40, Title = "Profile Image Changed", ImportanceLevel = 1, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 42, Title = "Profile Disabled", ImportanceLevel = 3, SystemId = 1 });
+                    {Id = 41, Title = "Username Changed", ImportanceLevel = 2, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 43, Title = "Friend Request Received", ImportanceLevel = 2, SystemId = 1 });
+                    {Id = 42, Title = "Profile Disabled", ImportanceLevel = 3, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 44, Title = "Friend Request Sent", ImportanceLevel = 1, SystemId = 1 });
+                    {Id = 43, Title = "Friend Request Received", ImportanceLevel = 2, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 45, Title = "Friend Request Accepted", ImportanceLevel = 2, SystemId = 1 });
+                    {Id = 44, Title = "Friend Request Sent", ImportanceLevel = 1, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 46, Title = "Friend Request Declined", ImportanceLevel = 2, SystemId = 1 });
+                    {Id = 45, Title = "Friend Request Accepted", ImportanceLevel = 2, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 47, Title = "You Has a new Friend", ImportanceLevel = 2, SystemId = 1 });
+                    {Id = 46, Title = "Friend Request Declined", ImportanceLevel = 2, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 48, Title = "Friend Removed", ImportanceLevel = 3, SystemId = 1 });
+                    {Id = 47, Title = "You Has a new Friend", ImportanceLevel = 2, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 49, Title = "News Added", ImportanceLevel = 2, SystemId = 1 });
+                    {Id = 48, Title = "Friend Removed", ImportanceLevel = 3, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 50, Title = "News Updated", ImportanceLevel = 1, SystemId = 1 });
+                    {Id = 49, Title = "News Added", ImportanceLevel = 2, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 51, Title = "News Deleted", ImportanceLevel = 3, SystemId = 1 });
+                    {Id = 50, Title = "News Updated", ImportanceLevel = 1, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 51, Title = "News Deleted", ImportanceLevel = 3, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 52, Title = "Working Field Added", ImportanceLevel = 1, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 53, Title = "Working Field Deleted", ImportanceLevel = 1, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 54, Title = "Working Field Updated", ImportanceLevel = 1, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 55, Title = "Working Day Added", ImportanceLevel = 1, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 56, Title = "Working Day Deleted", ImportanceLevel = 1, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 57, Title = "Working Day Updated", ImportanceLevel = 1, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 58, Title = "Working Day Type Added", ImportanceLevel = 2, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 59, Title = "Working Day Type Deleted", ImportanceLevel = 3, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 60, Title = "Working Day Type Updated", ImportanceLevel = 2, SystemId = 5});
 
             // Notification table settings
             builder.Entity<Notification>()
@@ -391,7 +418,7 @@ namespace ManagerAPI.DataAccess
 
             // Friends table settings
             builder.Entity<Friends>()
-                .HasKey(x => new { x.UserId, x.FriendId });
+                .HasKey(x => new {x.UserId, x.FriendId});
             builder.Entity<Friends>()
                 .Property(x => x.ConnectionDate)
                 .HasDefaultValueSql("getdate()");
@@ -462,17 +489,17 @@ namespace ManagerAPI.DataAccess
 
             // Plan type table settings
             builder.Entity<PlanType>()
-                .HasData(new PlanType { Id = 1, Name = "Plan" });
+                .HasData(new PlanType {Id = 1, Name = "Plan"});
             builder.Entity<PlanType>()
-                .HasData(new PlanType { Id = 2, Name = "Future Idea" });
+                .HasData(new PlanType {Id = 2, Name = "Future Idea"});
             builder.Entity<PlanType>()
-                .HasData(new PlanType { Id = 3, Name = "Nice To Have" });
+                .HasData(new PlanType {Id = 3, Name = "Nice To Have"});
             builder.Entity<PlanType>()
-                .HasData(new PlanType { Id = 4, Name = "Learning" });
+                .HasData(new PlanType {Id = 4, Name = "Learning"});
             builder.Entity<PlanType>()
-                .HasData(new PlanType { Id = 5, Name = "Decision" });
+                .HasData(new PlanType {Id = 5, Name = "Decision"});
             builder.Entity<PlanType>()
-                .HasData(new PlanType { Id = 6, Name = "Event" });
+                .HasData(new PlanType {Id = 6, Name = "Event"});
 
             // Plan table settings
             builder.Entity<Plan>()
@@ -549,13 +576,13 @@ namespace ManagerAPI.DataAccess
 
             // Mark type table settings
             builder.Entity<MarkType>()
-                .HasData(new MarkType { Id = 1, Title = "Responsible" });
+                .HasData(new MarkType {Id = 1, Title = "Responsible"});
             builder.Entity<MarkType>()
-                .HasData(new MarkType { Id = 2, Title = "Owner" });
+                .HasData(new MarkType {Id = 2, Title = "Owner"});
             builder.Entity<MarkType>()
-                .HasData(new MarkType { Id = 3, Title = "Modifier" });
+                .HasData(new MarkType {Id = 3, Title = "Modifier"});
             builder.Entity<MarkType>()
-                .HasData(new MarkType { Id = 4, Title = "Leader" });
+                .HasData(new MarkType {Id = 4, Title = "Leader"});
 
             // Plan group plan table settings
             builder.Entity<PlanGroupPlan>()
@@ -613,21 +640,21 @@ namespace ManagerAPI.DataAccess
 
             // Group role table settings
             builder.Entity<GroupRole>()
-                .HasData(new GroupRole { Id = 1, Title = "Visitor", AccessLevel = 0 });
+                .HasData(new GroupRole {Id = 1, Title = "Visitor", AccessLevel = 0});
             builder.Entity<GroupRole>()
-                .HasData(new GroupRole { Id = 2, Title = "Normal", AccessLevel = 1 });
+                .HasData(new GroupRole {Id = 2, Title = "Normal", AccessLevel = 1});
             builder.Entity<GroupRole>()
-                .HasData(new GroupRole { Id = 3, Title = "Editor", AccessLevel = 2 });
+                .HasData(new GroupRole {Id = 3, Title = "Editor", AccessLevel = 2});
             builder.Entity<GroupRole>()
-                .HasData(new GroupRole { Id = 4, Title = "Moderator", AccessLevel = 3 });
+                .HasData(new GroupRole {Id = 4, Title = "Moderator", AccessLevel = 3});
             builder.Entity<GroupRole>()
-                .HasData(new GroupRole { Id = 5, Title = "Administrator", AccessLevel = 4 });
+                .HasData(new GroupRole {Id = 5, Title = "Administrator", AccessLevel = 4});
             builder.Entity<GroupRole>()
-                .HasData(new GroupRole { Id = 6, Title = "Owner", AccessLevel = 5 });
+                .HasData(new GroupRole {Id = 6, Title = "Owner", AccessLevel = 5});
 
             // User - Plan group switch table settings
             builder.Entity<UserPlanGroup>()
-                .HasKey(x => new { x.UserId, x.GroupId });
+                .HasKey(x => new {x.UserId, x.GroupId});
             builder.Entity<UserPlanGroup>()
                 .Property(x => x.Connection)
                 .HasDefaultValueSql("getdate()");
@@ -695,7 +722,7 @@ namespace ManagerAPI.DataAccess
 
             // User - Event Switch
             builder.Entity<UserEvent>()
-                .HasKey(x => new { x.UserId, x.EventId });
+                .HasKey(x => new {x.UserId, x.EventId});
             builder.Entity<UserEvent>()
                 .Property(x => x.ConnectionDate)
                 .HasDefaultValueSql("getdate()");
@@ -724,7 +751,7 @@ namespace ManagerAPI.DataAccess
 
             // User - Event Roles Switch table settings
             builder.Entity<UserEventRole>()
-                .HasKey(x => new { x.UserId, x.RoleId });
+                .HasKey(x => new {x.UserId, x.RoleId});
             builder.Entity<UserEventRole>()
                 .Property(x => x.OwnershipDate)
                 .HasDefaultValueSql("getdate()");
@@ -762,13 +789,13 @@ namespace ManagerAPI.DataAccess
                 .HasDefaultValue(false);
 
             builder.Entity<WorkingDayType>()
-                .HasData(new WorkingDayType { Id = 1, Title = "Work Day", DayIsActive = true });
+                .HasData(new WorkingDayType {Id = 1, Title = "Work Day", DayIsActive = true});
             builder.Entity<WorkingDayType>()
-                .HasData(new WorkingDayType { Id = 2, Title = "University", DayIsActive = false });
+                .HasData(new WorkingDayType {Id = 2, Title = "University", DayIsActive = false});
             builder.Entity<WorkingDayType>()
-                .HasData(new WorkingDayType { Id = 3, Title = "Empty Day", DayIsActive = false });
+                .HasData(new WorkingDayType {Id = 3, Title = "Empty Day", DayIsActive = false});
             builder.Entity<WorkingDayType>()
-                .HasData(new WorkingDayType { Id = 4, Title = "Holiday", DayIsActive = false });
+                .HasData(new WorkingDayType {Id = 4, Title = "Holiday", DayIsActive = false});
 
 
             // Working Day table settings
@@ -812,7 +839,7 @@ namespace ManagerAPI.DataAccess
 
             // User movie settings
             builder.Entity<UserMovie>()
-                .HasKey(x => new { x.UserId, x.MovieId });
+                .HasKey(x => new {x.UserId, x.MovieId});
 
             builder.Entity<UserMovie>()
                 .Property(x => x.Seen)
@@ -853,7 +880,7 @@ namespace ManagerAPI.DataAccess
 
             // User Series table settings
             builder.Entity<UserSeries>()
-                .HasKey(x => new { x.UserId, x.SeriesId });
+                .HasKey(x => new {x.UserId, x.SeriesId});
 
             builder.Entity<UserSeries>()
                 .Property(x => x.AddOn)
@@ -886,7 +913,7 @@ namespace ManagerAPI.DataAccess
 
             // User Episode table settings
             builder.Entity<UserEpisode>()
-                .HasKey(x => new { x.UserId, x.EpisodeId });
+                .HasKey(x => new {x.UserId, x.EpisodeId});
 
             builder.Entity<UserEpisode>()
                 .Property(x => x.Seen)
@@ -924,7 +951,7 @@ namespace ManagerAPI.DataAccess
 
             // User Book table settings
             builder.Entity<UserBook>()
-                .HasKey(x => new { x.UserId, x.BookId });
+                .HasKey(x => new {x.UserId, x.BookId});
 
             builder.Entity<UserBook>()
                 .Property(x => x.Read)

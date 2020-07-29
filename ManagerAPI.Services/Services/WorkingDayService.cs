@@ -16,7 +16,7 @@ namespace ManagerAPI.Services.Services
     public class WorkingDayService : Repository<WorkingDay, WorkingManagerNotificationType>, IWorkingDayService
     {
         // Injects
-        private readonly DatabaseContext DatabaseContext;
+        private readonly DatabaseContext _databaseContext;
 
         /// <summary>
         /// Injector Constructor
@@ -25,9 +25,17 @@ namespace ManagerAPI.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public WorkingDayService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Working day", new NotificationArguments { })
+        /// <param name="notificationService">Notification Service</param>
+        public WorkingDayService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
+            ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService,
+            utilsService, notificationService, mapper, "Working day",
+            new NotificationArguments
+            {
+                CreateArguments = new List<string> {"Day"}, DeleteArguments = new List<string> {"Day"},
+                UpdateArguments = new List<string> {"Day"}
+            })
         {
-            this.DatabaseContext = context;
+            this._databaseContext = context;
         }
 
         public WorkingDayListDto Get(DateTime day)
@@ -48,7 +56,7 @@ namespace ManagerAPI.Services.Services
         public WorkingDayStatDto Stat(int id)
         {
             var user = this.Utils.GetCurrentUser();
-            var workingDay = this.DatabaseContext.WorkingDays.Find(id);
+            var workingDay = this._databaseContext.WorkingDays.Find(id);
 
             if (workingDay == null)
             {
