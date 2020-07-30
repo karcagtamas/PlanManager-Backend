@@ -119,6 +119,15 @@ namespace ManagerAPI.Services.Common
                 var user = this.Utils.GetCurrentUser();
 
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add"), entities.Select(x => x.Id).ToList());
+
+                foreach (var entity in entities)
+                {
+                    var type = entity.GetType();
+                    
+                    List<string> args = this.DetermineArguments(this._arguments.CreateArguments, type, entity);
+
+                    this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user, args.ToArray());
+                }
             }
             catch (Exception)
             {
@@ -276,6 +285,13 @@ namespace ManagerAPI.Services.Common
 
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
+            var type = entities.ToList()[0].GetType();
+            Dictionary<TEntity, List<string>> args = new Dictionary<TEntity, List<string>>();
+            foreach (var entity in entities)
+            {
+                args.Add(entity, this.DetermineArguments(this._arguments.DeleteArguments, type, entity));
+            }
+            
             this._context.Set<TEntity>().RemoveRange(entities);
 
             this.Complete();
@@ -285,6 +301,11 @@ namespace ManagerAPI.Services.Common
                 var user = this.Utils.GetCurrentUser();
 
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete"), entities.Select(x => x.Id).ToList());
+
+                foreach (var entity in args)
+                {
+                    this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("delete"), true), user, entity.Value.ToArray());
+                }
             }
             catch (Exception)
             {
@@ -362,6 +383,15 @@ namespace ManagerAPI.Services.Common
                 var user = this.Utils.GetCurrentUser();
 
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update"), entities.Select(x => x.Id).ToList());
+                
+                foreach (var entity in entities)
+                {
+                    var type = entity.GetType();
+                    
+                    List<string> args = this.DetermineArguments(this._arguments.UpdateArguments, type, entity);
+
+                    this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user, args.ToArray());
+                }
             }
             catch (Exception)
             {
