@@ -8,15 +8,17 @@ using MovieCorner.Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ManagerAPI.Services.Common;
+using ManagerAPI.Domain.Enums.CM;
 
 namespace MovieCorner.Services.Services
 {
-    public class SeasonService : Repository<Season>, ISeasonService
+    public class SeasonService : Repository<Season, MovieCornerNotificationType>, ISeasonService
     {
         // Injects
         private readonly DatabaseContext DatabaseContext;
 
-        public SeasonService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper)
+        public SeasonService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Season", new NotificationArguments { })
         {
             this.DatabaseContext = context;
         }

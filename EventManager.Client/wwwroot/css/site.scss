@@ -189,6 +189,36 @@ app {
         border-radius: $border-radius;
         padding: 0.5rem;
         background-color: $green-light-trans;
+        
+        .hour-sum {
+            strong {
+                color: $primary;
+            }
+        }
+        
+        .state {
+            * {
+                font-style: italic;
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+            
+            .is-lot {
+                color: $blue;
+            }
+            
+            .optimal {
+                color: $green;
+            }
+            
+            .enough {
+                color: $orange;
+            }
+            
+            .not-enough {
+                color: $red;
+            }
+        }
     }
 
     .field-list {
@@ -198,30 +228,173 @@ app {
         border-radius: $border-radius;
         padding: 0.5rem;
         background-color: $white-trans;
+    }
+}
 
-        .field {
-            margin-bottom: 1rem;
-            margin-top: 1rem;
-            border-bottom: $primary-secondary-trans 3px solid;
-            border-radius: $border-radius;
-            padding: 0.5rem;
-            background-color: $orange-trans;
+/* WM Field */
+.wm-field {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: $primary-secondary-trans 3px solid;
+    border-radius: $border-radius;
+    padding: 0.5rem;
+    background-color: $orange-trans;
 
-            .title-row {
-                display: flex;
+    .title-row {
+        display: flex;
+        color: $primary;
+
+        .title {
+            font-style: italic;
+        }
+
+        .spacer {
+            flex-grow: 1;
+        }
+
+        .hours {
+            font-weight: bold;
+        }
+    }
+}
+
+/* WM Month stat */
+.wm-month {
+    .title-bar {
+        display: flex;
+
+        .spacer {
+            flex-grow: 1;
+        }
+
+        .date {
+            color: $primary;
+            font-style: italic;
+        }
+    }
+
+    .action-bar {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $orange-trans;
+        display: flex;
+
+        .spacer {
+            flex-grow: 1;
+        }
+    }
+
+    .field-list {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $white-trans;
+    }
+    
+    .stat-box {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $green-light-trans;
+
+        .data-row {
+            strong {
                 color: $primary;
+                font-style: italic;
+            }
+        }
+    }
+    
+    .type-stat {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $green-light-trans;
 
-                .title {
-                    font-style: italic;
-                }
+        .data-row {
+            strong {
+                color: $primary;
+                font-style: italic;
+            }
+        }
+    }
+}
 
-                .spacer {
-                    flex-grow: 1;
-                }
+/* WM Week stat */
+.wm-week {
+    .title-bar {
+        display: flex;
 
-                .hours {
-                    font-weight: bold;
-                }
+        .spacer {
+            flex-grow: 1;
+        }
+
+        .date {
+            color: $primary;
+            font-style: italic;
+        }
+    }
+
+    .action-bar {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $orange-trans;
+        display: flex;
+
+        .spacer {
+            flex-grow: 1;
+        }
+    }
+
+    .field-list {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $white-trans;
+    }
+
+    .stat-box {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $green-light-trans;
+        
+        .data-row {
+            strong {
+                color: $primary;
+                font-style: italic;
+            }
+        }
+    }
+
+    .type-stat {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $green-light-trans;
+
+        .data-row {
+            strong {
+                color: $primary;
+                font-style: italic;
             }
         }
     }
@@ -629,6 +802,10 @@ app {
 
 .mdc-floating-label.mat-floating-label--float-above-outlined.mdc-floating-label--float-above {
     background-color: transparent !important;
+}
+
+.mdc-floating-label.mdc-floating-label--float-above {
+    transform: translateY(-190%) scale(0.75) !important;
 }
 
 .mdc-sub-menu-icon {

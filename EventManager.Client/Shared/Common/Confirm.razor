@@ -28,7 +28,6 @@
         this.FormId = Parameters.Get<int>("FormId");
         this.Type = Parameters.Get<ConfirmType>("type");
         this.Name = Parameters.Get<string>("name");
-
         ((ModalService)ModalService).OnConfirm += OnConfirm;
     }
 

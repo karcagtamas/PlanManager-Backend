@@ -1,10 +1,9 @@
-﻿using ManagerAPI.Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
+using ManagerAPI.Domain.Entities;
 
-namespace ManagerAPI.Services.Services.Interfaces
+namespace ManagerAPI.Services.Common
 {
     public interface IRepository<TEntity> where TEntity : class, IEntity
     {

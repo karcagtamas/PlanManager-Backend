@@ -2,6 +2,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
+using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.Models;
@@ -31,18 +32,18 @@ namespace EventManager.Client.Services
         {
             var settings = new HttpSettings($"{this._url}/registration", null, null, "Registration");
 
-            var body = new HttpBody<RegistrationModel>(this._helperService, model);
+            var body = new HttpBody<RegistrationModel>(model);
 
-            return await this._httpService.create<RegistrationModel>(settings, body);
+            return await this._httpService.Create<RegistrationModel>(settings, body);
         }
 
         public async Task<string> Login(LoginModel model)
         {
             var settings = new HttpSettings($"{this._url}/login", null, null, "Login");
 
-            var body = new HttpBody<LoginModel>(this._helperService, model);
+            var body = new HttpBody<LoginModel>(model);
 
-            var result = await this._httpService.createString<LoginModel>(settings, body);
+            var result = await this._httpService.CreateString<LoginModel>(settings, body);
 
             if (!string.IsNullOrEmpty(result))
             {

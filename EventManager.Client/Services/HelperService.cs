@@ -101,6 +101,42 @@ namespace EventManager.Client.Services
             return string.Join(", ", list);
         }
 
+        public decimal MinToHour(int min)
+        {
+            return min / (decimal)60;
+        }
+
+        public int CurrentYear()
+        {
+            return DateTime.Today.Year;
+        }
+
+        public int CurrentMonth()
+        {
+            return DateTime.Today.Month;
+        }
+
+        public DateTime CurrentWeek()
+        {
+            var date = DateTime.Today;
+            while (date.DayOfWeek != DayOfWeek.Monday)
+            {
+                date = date.AddDays(-1);
+            }
+
+            return date;
+        }
+
+        public string DateToMonthString(DateTime date)
+        {
+            return $"{date:yyyy MMMM}";
+        }
+
+        public string DateToWeekString(DateTime date)
+        {
+            return $"{this.DateToDayString(date)} - {this.DateToDayString(date.AddDays(6))}";
+        }
+
         public string DateToDayString(DateTime date)
         {
             return $"{date:yyyy MMMM dd}";

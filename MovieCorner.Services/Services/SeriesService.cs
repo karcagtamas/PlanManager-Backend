@@ -4,6 +4,8 @@ using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Enums.CM;
+using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
@@ -13,21 +15,12 @@ using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
-    public class SeriesService : Repository<Series>, ISeriesService
+    public class SeriesService : Repository<Series, MovieCornerNotificationType>, ISeriesService
     {
-        // Actions
-        private const string SetEpisodeStatusAction = "set episode status";
-        private const string UpdateMySeriesAction = "update my series";
-        private const string GetMySeriesAction = "get my series";
-        private const string AddSeasonAction = "add season";
-        private const string AddEpisodeAction = "add episode";
-
         // Things
-        private const string SeriesThing = "series";
         private const string SeasonThing = "season";
 
         // Messages
-        private const string SeriesDoesNotExistMessage = "Series does not exist";
         private const string SeasonDoesNotExistMessage = "Season does not exist";
 
         // Injects
@@ -40,7 +33,7 @@ namespace MovieCorner.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public SeriesService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService): base(context, loggerService, utilsService, mapper)
+        public SeriesService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Series", new NotificationArguments { })
         {
             _context = context;
         }
@@ -51,7 +44,7 @@ namespace MovieCorner.Services.Services
             var season = this._context.Seasons.Find(seasonId);
 
             if (season == null) {
-                throw this.Logger.LogInvalidThings(user, nameof(SeriesService), SeasonThing, SeasonDoesNotExistMessage);
+                throw this.Logger.LogInvalidThings(user, this.GetService(), SeasonThing, SeasonDoesNotExistMessage);
             }
 
             var episode = this.Mapper.Map<Episode>(model);
@@ -60,7 +53,7 @@ namespace MovieCorner.Services.Services
             _context.Seasons.Update(season);
             _context.SaveChanges();
 
-            this.Logger.LogInformation(user, nameof(SeriesService), AddEpisodeAction, episode.Id);
+            this.Logger.LogInformation(user, this.GetService(), "add episode to", episode.Id);
         }
 
         public void AddSeason(int seriesId, SeasonModel model)
@@ -70,7 +63,7 @@ namespace MovieCorner.Services.Services
             var series = this._context.Series.Find(seriesId);
 
             if (series == null) {
-                throw this.Logger.LogInvalidThings(user, nameof(SeriesService), SeriesThing, SeriesDoesNotExistMessage);
+                throw this.Logger.LogInvalidThings(user, this.GetService(), this.Entity, this.GetEntityErrorMessage());
             }
 
             var season = this.Mapper.Map<Season>(model);
@@ -79,7 +72,7 @@ namespace MovieCorner.Services.Services
             _context.Series.Update(series);
             _context.SaveChanges();
 
-            this.Logger.LogInformation(user, nameof(SeriesService), AddSeasonAction, season.Id);
+            this.Logger.LogInformation(user, this.GetService(), "add season to", season.Id);
         }
 
         public List<MySeriesDto> GetMySeries()
@@ -88,7 +81,7 @@ namespace MovieCorner.Services.Services
 
             var list = user.MySeries.ToList();
 
-            this.Logger.LogInformation(user, nameof(SeriesService), GetMySeriesAction, list.Select(x => x.Series.Id).ToList());
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), list.Select(x => x.Series.Id).ToList());
 
             return this.Mapper.Map<List<MySeriesDto>>(list);
         }
@@ -114,7 +107,7 @@ namespace MovieCorner.Services.Services
                 }
             }
 
-            this.Logger.LogInformation(user, nameof(SeriesService), UpdateMySeriesAction, ids);
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
             _context.SaveChanges();
         }
         public void UpdateSeenStatus(int id, bool seen) {
@@ -134,7 +127,7 @@ namespace MovieCorner.Services.Services
             _context.UserEpisodeSwitch.Update(userEpisode);
             _context.SaveChanges();
 
-            this.Logger.LogInformation(user, nameof(SeriesService), SetEpisodeStatusAction, userEpisode.Episode.Id);
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set episode seen status for"), userEpisode.Episode.Id);
         }
     }
 }

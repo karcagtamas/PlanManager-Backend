@@ -20,6 +20,15 @@
                     <MatNavItem Href="@(GetWorkingManagerUri())">Working Manager</MatNavItem>
                     <MatNavSubMenu>
                         <MatNavSubMenuHeader>
+                            <MatNavItem AllowSelection="false">Working Statistics</MatNavItem>
+                        </MatNavSubMenuHeader>
+                        <MatNavSubMenuList>
+                            <MatNavItem Href="@GetWorkingMonthStatUri()">Working Month</MatNavItem>
+                            <MatNavItem Href="@GetWorkingWeekStatUri()">Working Week</MatNavItem>
+                        </MatNavSubMenuList>
+                    </MatNavSubMenu>
+                    <MatNavSubMenu>
+                        <MatNavSubMenuHeader>
                             <MatNavItem AllowSelection="false">Status Library</MatNavItem>
                         </MatNavSubMenuHeader>
                         <MatNavSubMenuList>
@@ -64,11 +73,23 @@
 </div>
 
 @code {
+
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
-    protected string GetWorkingManagerUri()
+    private string GetWorkingManagerUri()
     {
         return $"/wm/{HelperService.DateToNumberDayString(DateTime.Now)}";
     }
+
+    private string GetWorkingMonthStatUri()
+    {
+        return $"/wm/month/{HelperService.CurrentYear()}/{HelperService.CurrentMonth()}";
+    }
+
+    private string GetWorkingWeekStatUri()
+    {
+        return $"/wm/week/{HelperService.DateToNumberDayString(HelperService.CurrentWeek())}";
+    }
+
 }

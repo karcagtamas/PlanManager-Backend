@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
+using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;

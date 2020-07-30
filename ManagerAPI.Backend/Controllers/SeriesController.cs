@@ -1,5 +1,7 @@
 ﻿using System;
 using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Enums.CM;
+using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
@@ -14,7 +16,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class SeriesController : MyController<Series, SeriesModel, SeriesListDto, SeriesDto>
+    public class SeriesController : MyController<Series, SeriesModel, SeriesListDto, SeriesDto, MovieCornerNotificationType>
     {
         protected readonly ISeriesService SeriesService;
 
@@ -34,9 +36,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(this.Logger.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
 
@@ -52,9 +54,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(this.Logger.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
 
@@ -70,9 +72,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(this.Logger.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
 
@@ -88,9 +90,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(this.Logger.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
 
@@ -106,9 +108,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(this.Logger.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
     }

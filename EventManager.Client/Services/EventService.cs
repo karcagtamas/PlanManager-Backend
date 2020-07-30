@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.EM;
@@ -22,7 +23,7 @@ namespace EventManager.Client.Services
         {
             var settings = new HttpSettings($"{this._url}/my");
 
-            return await this._httpService.get<List<MyEventListDto>>(settings);
+            return await this._httpService.Get<List<MyEventListDto>>(settings);
         }
 
         public async Task<EventDto> Get(int id)
@@ -32,16 +33,16 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}", null, pathParams);
 
-            return await this._httpService.get<EventDto>(settings);
+            return await this._httpService.Get<EventDto>(settings);
         }
 
         public async Task<bool> CreateEvent(EventModel model)
         {
             var settings = new HttpSettings($"{this._url}", null, null, "Event creating");
 
-            var body = new HttpBody<EventModel>(this._helperService, model);
+            var body = new HttpBody<EventModel>(model);
 
-            return await this._httpService.create<EventModel>(settings, body);
+            return await this._httpService.Create<EventModel>(settings, body);
         }
 
         public async Task<bool> SetEventAsGt(int id)
@@ -51,9 +52,9 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}/gt", null, pathParams, "Master event extending to Gt event");
 
-            var body = new HttpBody<object>(this._helperService, null);
+            var body = new HttpBody<object>(null);
 
-            return await this._httpService.create<object>(settings, body);
+            return await this._httpService.Create<object>(settings, body);
         }
 
         public async Task<bool> SetEventAsSport(int id)
@@ -63,9 +64,9 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}/sport", null, pathParams, "Master event extending to Sport event");
 
-            var body = new HttpBody<object>(this._helperService, null);
+            var body = new HttpBody<object>(null);
 
-            return await this._httpService.create<object>(settings, body);
+            return await this._httpService.Create<object>(settings, body);
         }
 
         public async Task<bool> UpdateMasterEvent(MasterEventUpdateDto masterUpdate)
@@ -75,9 +76,9 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}", null, pathParams, "Master event updating");
 
-            var body = new HttpBody<MasterEventUpdateDto>(this._helperService, masterUpdate);
+            var body = new HttpBody<MasterEventUpdateDto>(masterUpdate);
 
-            return await this._httpService.update<MasterEventUpdateDto>(settings, body);
+            return await this._httpService.Update<MasterEventUpdateDto>(settings, body);
         }
 
         public async Task<bool> UpdateSportEvent(SportEventUpdateDto sportUpdate)
@@ -87,9 +88,9 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}/sport", null, pathParams, "Sport event updating");
 
-            var body = new HttpBody<SportEventUpdateDto>(this._helperService, sportUpdate);
+            var body = new HttpBody<SportEventUpdateDto>(sportUpdate);
 
-            return await this._httpService.update<SportEventUpdateDto>(settings, body);
+            return await this._httpService.Update<SportEventUpdateDto>(settings, body);
         }
 
         public async Task<bool> UpdateGtEvent(GtEventUpdateDto gtUpdate)
@@ -99,9 +100,9 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}/gt", null, pathParams, "Gt event updating");
 
-            var body = new HttpBody<GtEventUpdateDto>(this._helperService, gtUpdate);
+            var body = new HttpBody<GtEventUpdateDto>(gtUpdate);
 
-            return await this._httpService.update<GtEventUpdateDto>(settings, body);
+            return await this._httpService.Update<GtEventUpdateDto>(settings, body);
         }
     }
 }

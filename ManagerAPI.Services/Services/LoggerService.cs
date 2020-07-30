@@ -73,7 +73,11 @@ namespace ManagerAPI.Services.Services
         /// </summary>
         /// <param name="e">Error</param>
         /// <returns>API Error response</returns>
-        public ErrorResponse ExceptionToResponse (Exception e) {
+        public ErrorResponse ExceptionToResponse (Exception e, params Exception[] list) {
+            foreach (var error in list) {
+                this.LogError(error);
+            }
+
             this.LogError (e);
             return new ErrorResponse (e);
         }

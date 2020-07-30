@@ -1,4 +1,4 @@
-namespace EventManager.Client.Models
+namespace EventManager.Client.Http
 {
     /// <summary>
     /// Toaster settings
@@ -9,12 +9,14 @@ namespace EventManager.Client.Models
 
         public bool IsNeeded { get; set; }
 
-        
-        public ToasterSettings() {
+
+        public ToasterSettings()
+        {
             this.IsNeeded = false;
         }
 
-        public ToasterSettings(string caption) {
+        public ToasterSettings(string caption)
+        {
             this.Caption = caption;
             this.IsNeeded = true;
         }

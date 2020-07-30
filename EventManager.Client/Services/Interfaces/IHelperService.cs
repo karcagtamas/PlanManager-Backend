@@ -22,5 +22,11 @@ namespace EventManager.Client.Services.Interfaces
         JsonSerializerOptions GetSerializerOptions();
         Task AddToaster(HttpResponseMessage response, string caption);
         string WriteList(List<string> list);
+        decimal MinToHour(int min);
+        int CurrentYear();
+        int CurrentMonth();
+        DateTime CurrentWeek();
+        string DateToMonthString(DateTime date);
+        string DateToWeekString(DateTime date);
     }
 }

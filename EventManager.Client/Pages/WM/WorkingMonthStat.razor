@@ -1,0 +1,52 @@
+﻿@page "/wm/month/{year:int}/{month:int}"
+
+<div class="wm-month">
+    <div class="title-bar">
+        <div class="em-page-title">Working Month Statistics</div>
+        <span class="spacer"></span>
+        <div class="date">@HelperService.DateToMonthString(new DateTime(Year, Month, 1))</div>
+    </div>
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        <div class="action-bar">
+            <span class="spacer"></span>
+            <MatIconButton Icon="chevron_left" @onclick="@(() => Redirect(false))"></MatIconButton>
+            <MatIconButton Icon="chevron_right" @onclick="@(() => Redirect(true))"></MatIconButton>
+        </div>
+        @if (MonthStat != null)
+        {
+            <div class="stat-box">
+                <div class="em-sub-title">Statistics</div>
+                <div class="data-row">
+                    <strong>Summary hours: </strong> @MonthStat.HourSum h
+                </div>
+                <div class="data-row">
+                    <strong>Avgerate hours: </strong> @Math.Round(MonthStat.HourAvg, 2) h
+                </div>
+                <div class="data-row">
+                    <strong>Active / Work days: </strong> @MonthStat.ActiveDays / @MonthStat.WorkDays
+                </div>
+            </div>
+            <div class="type-stat">
+                <div class="em-sub-title">Type statistics</div>
+                @foreach (var type in @MonthStat.Counts)
+                {
+                    <div class="data-row">
+                        <strong>@type.Type:</strong> @type.Count
+                    </div>
+                }
+            </div>
+            <div class="field-list">
+                <div class="em-sub-title">Working Fields</div>
+                @foreach (var field in @MonthStat.Fields)
+                {
+                    <Field WorkingField="field" IsModifiable="false"></Field>
+                }
+            </div>
+        }
+    }
+</div>

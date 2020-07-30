@@ -1,6 +1,6 @@
 using System;
 
-namespace EventManager.Client.Models
+namespace EventManager.Client.Http
 {
     /// <summary>
     /// HTTP Settings
@@ -16,7 +16,8 @@ namespace EventManager.Client.Models
         /// Settins only with url.
         /// </summary>
         /// <param name="url">Url</param>
-        public HttpSettings(string url) {
+        public HttpSettings(string url)
+        {
             this.SetUrl(url);
             this.QueryParameters = new HttpQueryParameters();
             this.PathParameters = new HttpPathParameters();
@@ -29,7 +30,8 @@ namespace EventManager.Client.Models
         /// <param name="url">Url</param>
         /// <param name="queryParameters">Query parameters</param>
         /// <param name="pathParameters">Path parameters</param>
-        public HttpSettings(string url, HttpQueryParameters queryParameters, HttpPathParameters pathParameters) {
+        public HttpSettings(string url, HttpQueryParameters queryParameters, HttpPathParameters pathParameters)
+        {
             this.SetUrl(url);
             this.QueryParameters = queryParameters == null ? new HttpQueryParameters() : queryParameters;
             this.PathParameters = pathParameters == null ? new HttpPathParameters() : pathParameters;
@@ -43,7 +45,8 @@ namespace EventManager.Client.Models
         /// <param name="queryParameters"></param>
         /// <param name="pathParameters"></param>
         /// <param name="toasterSettings"></param>
-        public HttpSettings(string url, HttpQueryParameters queryParameters, HttpPathParameters pathParameters, ToasterSettings toasterSettings) {
+        public HttpSettings(string url, HttpQueryParameters queryParameters, HttpPathParameters pathParameters, ToasterSettings toasterSettings)
+        {
             this.SetUrl(url);
             this.QueryParameters = queryParameters == null ? new HttpQueryParameters() : queryParameters;
             this.PathParameters = pathParameters == null ? new HttpPathParameters() : pathParameters;
@@ -57,7 +60,8 @@ namespace EventManager.Client.Models
         /// <param name="queryParameters"></param>
         /// <param name="pathParameters"></param>
         /// <param name="toasterCaption"></param>
-        public HttpSettings(string url, HttpQueryParameters queryParameters, HttpPathParameters pathParameters, string toasterCaption) {
+        public HttpSettings(string url, HttpQueryParameters queryParameters, HttpPathParameters pathParameters, string toasterCaption)
+        {
             this.SetUrl(url);
             this.QueryParameters = queryParameters == null ? new HttpQueryParameters() : queryParameters;
             this.PathParameters = pathParameters == null ? new HttpPathParameters() : pathParameters;
@@ -69,8 +73,10 @@ namespace EventManager.Client.Models
         /// If it is invalid, throw an exception.
         /// </summary>
         /// <param name="url">New url</param>
-        private void SetUrl(string url) {
-            if (String.IsNullOrEmpty(url)) {
+        private void SetUrl(string url)
+        {
+            if (String.IsNullOrEmpty(url))
+            {
                 throw new ArgumentException("Invalid url");
             }
             this.Url = url;

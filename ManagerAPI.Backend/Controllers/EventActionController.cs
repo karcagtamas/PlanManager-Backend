@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Backend.Controllers
 {
-    
-    [Route ("api/event/action")]
+
+    [Route("api/event/action")]
     [Authorize]
     [ApiController]
     public class EventActionController : ControllerBase
@@ -30,13 +30,14 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return Ok(_eventActionService.GetActions(id));
             }
-            catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR)));
+            catch (MessageException me)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(me));
             }
-            
+            catch (Exception e)
+            {
+                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
+            }
         }
     }
 }

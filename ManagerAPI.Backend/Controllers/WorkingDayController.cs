@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ManagerAPI.Domain.Entities.WM;
+using ManagerAPI.Domain.Enums.WM;
+using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
@@ -15,7 +17,7 @@ namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/working-day")]
     [ApiController]
-    public class WorkingDayController : MyController<WorkingDay, WorkingDayModel, WorkingDayListDto, WorkingDayDto>
+    public class WorkingDayController : MyController<WorkingDay, WorkingDayModel, WorkingDayListDto, WorkingDayDto, WorkingManagerNotificationType>
     {
         private readonly IWorkingDayService _workingDayService;
         public WorkingDayController(IWorkingDayService workingDayService, ILoggerService loggerService) : base(loggerService, workingDayService)
@@ -34,9 +36,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(this.Logger.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
 
@@ -51,9 +53,9 @@ namespace ManagerAPI.Backend.Controllers
             {
                 return BadRequest(this.Logger.ExceptionToResponse(me));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FATAL_ERROR)));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
     }

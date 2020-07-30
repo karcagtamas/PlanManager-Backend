@@ -94,9 +94,13 @@ namespace ManagerAPI.DataAccess
             builder.Entity<User>()
                 .HasData(new User
                 {
-                    UserName = "karcagtamas", Email = "karcagtamas@outlook.com",
-                    Id = "44045506-66fd-4af8-9d59-133c47d1787c", EmailConfirmed = true,
-                    IsActive = true, FullName = "Karcag Tamas", NormalizedEmail = "KARCAGTAMAS@OUTLOOK.COM",
+                    UserName = "karcagtamas",
+                    Email = "karcagtamas@outlook.com",
+                    Id = "44045506-66fd-4af8-9d59-133c47d1787c",
+                    EmailConfirmed = true,
+                    IsActive = true,
+                    FullName = "Karcag Tamas",
+                    NormalizedEmail = "KARCAGTAMAS@OUTLOOK.COM",
                     PasswordHash =
                         "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==",
                     NormalizedUserName = "KARCAGTAMAS"
@@ -104,9 +108,13 @@ namespace ManagerAPI.DataAccess
             builder.Entity<User>()
                 .HasData(new User
                 {
-                    UserName = "aaronkaa", Email = "aron.klenovszky@gmail.com",
-                    Id = "f8237fac-c6dc-47b0-8f71-b72f93368b02", EmailConfirmed = true,
-                    IsActive = true, FullName = "Klenovszky Áron", NormalizedEmail = "ARON.KLENOVSZKY@GMAIL.COM",
+                    UserName = "aaronkaa",
+                    Email = "aron.klenovszky@gmail.com",
+                    Id = "f8237fac-c6dc-47b0-8f71-b72f93368b02",
+                    EmailConfirmed = true,
+                    IsActive = true,
+                    FullName = "Klenovszky Áron",
+                    NormalizedEmail = "ARON.KLENOVSZKY@GMAIL.COM",
                     PasswordHash =
                         "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                     NormalizedUserName = "AARONKAA"
@@ -114,9 +122,13 @@ namespace ManagerAPI.DataAccess
             builder.Entity<User>()
                 .HasData(new User
                 {
-                    UserName = "root", Email = "root@karcags.hu", Id = "cd5e5069-59c8-4163-95c5-776fab95e51a",
+                    UserName = "root",
+                    Email = "root@karcags.hu",
+                    Id = "cd5e5069-59c8-4163-95c5-776fab95e51a",
                     EmailConfirmed = true,
-                    IsActive = true, FullName = "Root", NormalizedEmail = "ROOT@KARCAGS.HU",
+                    IsActive = true,
+                    FullName = "Root",
+                    NormalizedEmail = "ROOT@KARCAGS.HU",
                     PasswordHash =
                         "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==",
                     NormalizedUserName = "ROOT"
@@ -124,9 +136,13 @@ namespace ManagerAPI.DataAccess
             builder.Entity<User>()
                 .HasData(new User
                 {
-                    UserName = "barni363hun", Email = "barni.pbs@gmail.com",
-                    Id = "fa2edf69-5fc8-a163-9fc5-726f3b94e51b", EmailConfirmed = true,
-                    IsActive = true, FullName = "Root", NormalizedEmail = "BARNI.PBS@GMAIL.COM",
+                    UserName = "barni363hun",
+                    Email = "barni.pbs@gmail.com",
+                    Id = "fa2edf69-5fc8-a163-9fc5-726f3b94e51b",
+                    EmailConfirmed = true,
+                    IsActive = true,
+                    FullName = "Root",
+                    NormalizedEmail = "BARNI.PBS@GMAIL.COM",
                     PasswordHash =
                         "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                     NormalizedUserName = "BARNI363HUN"
@@ -136,31 +152,42 @@ namespace ManagerAPI.DataAccess
             builder.Entity<WebsiteRole>()
                 .HasData(new WebsiteRole
                 {
-                    Id = "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9", AccessLevel = 0, Name = "Visitor",
+                    Id = "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9",
+                    AccessLevel = 0,
+                    Name = "Visitor",
                     NormalizedName = "VISITOR"
                 });
             builder.Entity<WebsiteRole>()
                 .HasData(new WebsiteRole
                 {
-                    Id = "776474d7-8d01-4809-963e-c721f39dbb45", AccessLevel = 1, Name = "Normal",
+                    Id = "776474d7-8d01-4809-963e-c721f39dbb45",
+                    AccessLevel = 1,
+                    Name = "Normal",
                     NormalizedName = "NORMAL"
                 });
             builder.Entity<WebsiteRole>()
                 .HasData(new WebsiteRole
                 {
-                    Id = "5e0a9192-793f-4c85-a0b1-3198295bf409", AccessLevel = 2, Name = "Moderator",
+                    Id = "5e0a9192-793f-4c85-a0b1-3198295bf409",
+                    AccessLevel = 2,
+                    Name = "Moderator",
                     NormalizedName = "MODERATOR"
                 });
             builder.Entity<WebsiteRole>()
                 .HasData(new WebsiteRole
                 {
-                    Id = "936e42dc-5d3f-4355-bc3a-304a4fe4f518", AccessLevel = 3, Name = "Administrator",
+                    Id = "936e42dc-5d3f-4355-bc3a-304a4fe4f518",
+                    AccessLevel = 3,
+                    Name = "Administrator",
                     NormalizedName = "ADMINISTRATOR"
                 });
             builder.Entity<WebsiteRole>()
                 .HasData(new WebsiteRole
                 {
-                    Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20", AccessLevel = 4, Name = "Root", NormalizedName = "ROOT"
+                    Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20",
+                    AccessLevel = 4,
+                    Name = "Root",
+                    NormalizedName = "ROOT"
                 });
 
             // Notification system table settings
@@ -181,7 +208,7 @@ namespace ManagerAPI.DataAccess
                 .WithMany(x => x.Types)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType {Id = 1, Title = "Login", ImportanceLevel = 2, SystemId = 1});
             builder.Entity<NotificationType>()
@@ -284,43 +311,70 @@ namespace ManagerAPI.DataAccess
                     {Id = 38, Title = "Event PayOut Updated", ImportanceLevel = 3, SystemId = 2});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 39, Title = "Password Changed", ImportanceLevel = 3, SystemId = 1 });
+                    {Id = 39, Title = "Password Changed", ImportanceLevel = 3, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 40, Title = "Profile Image Changed", ImportanceLevel = 1, SystemId = 1 });
+                    {Id = 40, Title = "Profile Image Changed", ImportanceLevel = 1, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 41, Title = "Username Changed", ImportanceLevel = 2, SystemId = 1 });
+                    {Id = 41, Title = "Username Changed", ImportanceLevel = 2, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 42, Title = "Profile Disabled", ImportanceLevel = 3, SystemId = 1 });
+                    {Id = 42, Title = "Profile Disabled", ImportanceLevel = 3, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 43, Title = "Friend Request Received", ImportanceLevel = 2, SystemId = 1 });
+                    {Id = 43, Title = "Friend Request Received", ImportanceLevel = 2, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 44, Title = "Friend Request Sent", ImportanceLevel = 1, SystemId = 1 });
+                    {Id = 44, Title = "Friend Request Sent", ImportanceLevel = 1, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 45, Title = "Friend Request Accepted", ImportanceLevel = 2, SystemId = 1 });
+                    {Id = 45, Title = "Friend Request Accepted", ImportanceLevel = 2, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 46, Title = "Friend Request Declined", ImportanceLevel = 2, SystemId = 1 });
+                    {Id = 46, Title = "Friend Request Declined", ImportanceLevel = 2, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 47, Title = "You Has a new Friend", ImportanceLevel = 2, SystemId = 1 });
+                    {Id = 47, Title = "You Has a new Friend", ImportanceLevel = 2, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 48, Title = "Friend Removed", ImportanceLevel = 3, SystemId = 1 });
+                    {Id = 48, Title = "Friend Removed", ImportanceLevel = 3, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 49, Title = "News Added", ImportanceLevel = 2, SystemId = 1 });
+                    {Id = 49, Title = "News Added", ImportanceLevel = 2, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 50, Title = "News Updated", ImportanceLevel = 1, SystemId = 1 });
+                    {Id = 50, Title = "News Updated", ImportanceLevel = 1, SystemId = 1});
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
-                { Id = 51, Title = "News Deleted", ImportanceLevel = 3, SystemId = 1 });
+                    {Id = 51, Title = "News Deleted", ImportanceLevel = 3, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 52, Title = "Working Field Added", ImportanceLevel = 1, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 53, Title = "Working Field Deleted", ImportanceLevel = 1, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 54, Title = "Working Field Updated", ImportanceLevel = 1, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 55, Title = "Working Day Added", ImportanceLevel = 1, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 56, Title = "Working Day Deleted", ImportanceLevel = 1, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 57, Title = "Working Day Updated", ImportanceLevel = 1, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 58, Title = "Working Day Type Added", ImportanceLevel = 2, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 59, Title = "Working Day Type Deleted", ImportanceLevel = 3, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 60, Title = "Working Day Type Updated", ImportanceLevel = 2, SystemId = 5});
 
             // Notification table settings
             builder.Entity<Notification>()
@@ -364,7 +418,7 @@ namespace ManagerAPI.DataAccess
 
             // Friends table settings
             builder.Entity<Friends>()
-                .HasKey(x => new { x.UserId, x.FriendId });
+                .HasKey(x => new {x.UserId, x.FriendId});
             builder.Entity<Friends>()
                 .Property(x => x.ConnectionDate)
                 .HasDefaultValueSql("getdate()");
@@ -735,13 +789,13 @@ namespace ManagerAPI.DataAccess
                 .HasDefaultValue(false);
 
             builder.Entity<WorkingDayType>()
-                .HasData(new WorkingDayType { Id = 1, Title = "Work Day", DayIsActive = true });
+                .HasData(new WorkingDayType {Id = 1, Title = "Work Day", DayIsActive = true});
             builder.Entity<WorkingDayType>()
-                .HasData(new WorkingDayType { Id = 2, Title = "University", DayIsActive = false });
+                .HasData(new WorkingDayType {Id = 2, Title = "University", DayIsActive = false});
             builder.Entity<WorkingDayType>()
-                .HasData(new WorkingDayType { Id = 3, Title = "Empty Day", DayIsActive = false });
+                .HasData(new WorkingDayType {Id = 3, Title = "Empty Day", DayIsActive = false});
             builder.Entity<WorkingDayType>()
-                .HasData(new WorkingDayType { Id = 4, Title = "Holiday", DayIsActive = false });
+                .HasData(new WorkingDayType {Id = 4, Title = "Holiday", DayIsActive = false});
 
 
             // Working Day table settings
@@ -859,7 +913,7 @@ namespace ManagerAPI.DataAccess
 
             // User Episode table settings
             builder.Entity<UserEpisode>()
-                .HasKey(x => new { x.UserId, x.EpisodeId });
+                .HasKey(x => new {x.UserId, x.EpisodeId});
 
             builder.Entity<UserEpisode>()
                 .Property(x => x.Seen)

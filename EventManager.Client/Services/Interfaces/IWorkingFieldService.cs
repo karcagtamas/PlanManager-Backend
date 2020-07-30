@@ -1,14 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using EventManager.Client.Http;
 using ManagerAPI.Shared.DTOs.WM;
 using ManagerAPI.Shared.Models.WM;
 
 namespace EventManager.Client.Services.Interfaces
 {
-    public interface IWorkingFieldService
+    public interface IWorkingFieldService : IHttpCall<WorkingFieldListDto, WorkingFieldDto, WorkingFieldModel>
     {
-        Task<bool> AddWorkingField(WorkingFieldModel model);
-        Task<bool> DeleteWorkingField(int workingFieldId);
-        Task<bool> UpdateWorkingField(int workingFieldId, WorkingFieldModel model);
-        Task<WorkingFieldDto> GetWorkingField(int id);
+        Task<WorkingWeekStatDto> GetWeekStat(DateTime week);
+        Task<WorkingMonthStatDto> GetMonthStat(int year, int month);
     }
 }

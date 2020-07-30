@@ -19,7 +19,7 @@ namespace ManagerAPI.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.EM.DGtEvent", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.DGtEvent", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,7 +46,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("DGtEvents");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.EM.DSportEvent", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.DSportEvent", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,7 +109,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("DSportEvents");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.EM.EventAction", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.EventAction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -139,7 +139,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("EventActions");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.EM.EventRole", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.EventRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -164,7 +164,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("EventRoles");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.EM.MasterEvent", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.MasterEvent", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -227,7 +227,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("MasterEvents");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.EM.UserEvent", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.UserEvent", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -253,7 +253,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("UserEventsSwitch");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.EM.UserEventRole", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.UserEventRole", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -279,7 +279,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("UserEventRolesSwitch");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.FriendRequest", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.FriendRequest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -321,7 +321,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("FriendRequests");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.Friends", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.Friends", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -346,7 +346,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("Friends");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.Gender", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.Gender", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -379,7 +379,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Book", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.Book", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -429,7 +429,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Episode", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.Episode", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -452,7 +452,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("Episodes");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Movie", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.Movie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -498,7 +498,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Season", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.Season", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -518,7 +518,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("Seasons");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Series", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.Series", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -566,7 +566,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("Series");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserBook", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.UserBook", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -594,7 +594,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("UserBookSwitch");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserEpisode", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.UserEpisode", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -617,7 +617,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("UserEpisodeSwitch");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserMovie", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.UserMovie", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -645,7 +645,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("UserMovieSwitch");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserSeries", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.UserSeries", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -665,7 +665,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("UserSeriesSwitch");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.Message", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.Message", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -698,7 +698,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.News", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.News", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -737,7 +737,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("News");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.Notification", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.Notification", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -780,7 +780,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("Notifications");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.NotificationSystem", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.NotificationSystem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -832,7 +832,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.NotificationType", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.NotificationType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1212,10 +1212,73 @@ namespace ManagerAPI.DataAccess.Migrations
                             ImportanceLevel = 3,
                             SystemId = 1,
                             Title = "News Deleted"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            ImportanceLevel = 1,
+                            SystemId = 5,
+                            Title = "Working Field Added"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            ImportanceLevel = 1,
+                            SystemId = 5,
+                            Title = "Working Field Deleted"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            ImportanceLevel = 1,
+                            SystemId = 5,
+                            Title = "Working Field Updated"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            ImportanceLevel = 1,
+                            SystemId = 5,
+                            Title = "Working Day Added"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            ImportanceLevel = 1,
+                            SystemId = 5,
+                            Title = "Working Day Deleted"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            ImportanceLevel = 1,
+                            SystemId = 5,
+                            Title = "Working Day Updated"
+                        },
+                        new
+                        {
+                            Id = 58,
+                            ImportanceLevel = 2,
+                            SystemId = 5,
+                            Title = "Working Day Type Added"
+                        },
+                        new
+                        {
+                            Id = 59,
+                            ImportanceLevel = 3,
+                            SystemId = 5,
+                            Title = "Working Day Type Deleted"
+                        },
+                        new
+                        {
+                            Id = 60,
+                            ImportanceLevel = 2,
+                            SystemId = 5,
+                            Title = "Working Day Type Updated"
                         });
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.GroupRole", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.GroupRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1272,7 +1335,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.MarkType", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.MarkType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1311,7 +1374,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.Plan", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.Plan", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1371,7 +1434,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("Plans");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.PlanGroup", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroup", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1411,7 +1474,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("PlanGroups");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.PlanGroupChatMessage", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupChatMessage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1443,7 +1506,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("PlanGroupChatMessages");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.PlanGroupIdea", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupIdea", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1476,7 +1539,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("PlanGroupIdeas");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.PlanGroupPlan", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupPlan", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1554,7 +1617,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("PlanGroupPlans");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.PlanGroupPlanComment", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupPlanComment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1587,7 +1650,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("PlanGroupPlanComments");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.PlanType", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1635,7 +1698,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.Task", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.Task", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1680,7 +1743,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.UserPlanGroup", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.UserPlanGroup", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -1711,7 +1774,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("UserPlanGroupsSwitch");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.WM.WorkingDay", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.WM.WorkingDay", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1737,7 +1800,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("WorkingDays");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.WM.WorkingDayType", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.WM.WorkingDayType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1785,7 +1848,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.WM.WorkingField", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.WM.WorkingField", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -2021,7 +2084,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.WebsiteRole", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.WebsiteRole", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
 
@@ -2034,7 +2097,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9",
-                            ConcurrencyStamp = "0bd23f08-6141-49f6-b9b6-8a630c38e7ac",
+                            ConcurrencyStamp = "02877641-181e-4b1a-b2bf-239ba5c02381",
                             Name = "Visitor",
                             NormalizedName = "VISITOR",
                             AccessLevel = 0
@@ -2042,7 +2105,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "776474d7-8d01-4809-963e-c721f39dbb45",
-                            ConcurrencyStamp = "517271d4-0fc1-4e91-83fe-7e1ba2e2883d",
+                            ConcurrencyStamp = "2b2db8e0-bcfe-4ed6-969e-ca2db15f6f7d",
                             Name = "Normal",
                             NormalizedName = "NORMAL",
                             AccessLevel = 1
@@ -2050,7 +2113,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "5e0a9192-793f-4c85-a0b1-3198295bf409",
-                            ConcurrencyStamp = "168e567c-d7b5-4122-b7d2-ec351f8fc8ce",
+                            ConcurrencyStamp = "07c3dee9-f9c5-4413-a100-35bd74f1c15c",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR",
                             AccessLevel = 2
@@ -2058,7 +2121,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "936e42dc-5d3f-4355-bc3a-304a4fe4f518",
-                            ConcurrencyStamp = "68b5ce87-e347-48b3-b04e-922df4ca43bc",
+                            ConcurrencyStamp = "81280e8f-55f4-4f5f-a18b-cff1ea562ec9",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR",
                             AccessLevel = 3
@@ -2066,14 +2129,14 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20",
-                            ConcurrencyStamp = "6cc146f2-3ed7-49ca-9876-7756d9a074bd",
+                            ConcurrencyStamp = "d15b145e-b7cd-4b3a-af94-1110c0aa1979",
                             Name = "Root",
                             NormalizedName = "ROOT",
                             AccessLevel = 4
                         });
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.User", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.User", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
@@ -2139,7 +2202,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "44045506-66fd-4af8-9d59-133c47d1787c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "177b1725-a393-46e5-a2a7-a186ea022bdc",
+                            ConcurrencyStamp = "fb55648b-5e51-41f9-8b30-a4cfcd50b395",
                             Email = "karcagtamas@outlook.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2147,7 +2210,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "KARCAGTAMAS",
                             PasswordHash = "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "09fd1c1d-6548-4541-92d4-a88ed0c1a0e8",
+                            SecurityStamp = "57e15b96-bd7c-4d8a-a992-52bf08a50518",
                             TwoFactorEnabled = false,
                             UserName = "karcagtamas",
                             FullName = "Karcag Tamas",
@@ -2159,7 +2222,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "f8237fac-c6dc-47b0-8f71-b72f93368b02",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6b6839d9-7385-41e0-8bd2-ceb65b835b09",
+                            ConcurrencyStamp = "89ed293b-901a-4eb6-8989-0fa85ad94b41",
                             Email = "aron.klenovszky@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2167,7 +2230,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "AARONKAA",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "185ec711-4d7d-440b-9f08-e2e799f71ba8",
+                            SecurityStamp = "0c240021-42a4-41b5-a4a0-82c9aae6a58f",
                             TwoFactorEnabled = false,
                             UserName = "aaronkaa",
                             FullName = "Klenovszky Áron",
@@ -2179,7 +2242,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "cd5e5069-59c8-4163-95c5-776fab95e51a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "78a6e6b0-62e8-4300-8cff-3ef128750411",
+                            ConcurrencyStamp = "24c0aca2-1722-422f-98f3-9d5f5f0c04e4",
                             Email = "root@karcags.hu",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2187,7 +2250,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "ROOT",
                             PasswordHash = "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f7b6094a-9973-47c5-aa0b-d4192a3c86c4",
+                            SecurityStamp = "879d40a0-4ed9-49c5-bf3d-f4d03e6f648e",
                             TwoFactorEnabled = false,
                             UserName = "root",
                             FullName = "Root",
@@ -2199,7 +2262,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "fa2edf69-5fc8-a163-9fc5-726f3b94e51b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e2b156ae-e1dd-4647-a2a2-875b70e120e2",
+                            ConcurrencyStamp = "8b25a0af-73af-4bad-bb92-27dfc112e963",
                             Email = "barni.pbs@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2207,7 +2270,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "BARNI363HUN",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4dd07869-d4d3-4bbd-9cc5-f91b4cb916d7",
+                            SecurityStamp = "dab83b25-d96b-4273-b864-9e07ba98a610",
                             TwoFactorEnabled = false,
                             UserName = "barni363hun",
                             FullName = "Root",
@@ -2217,482 +2280,482 @@ namespace ManagerAPI.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.EM.DGtEvent", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.DGtEvent", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.EM.MasterEvent", "Event")
+                    b.HasOne("ManagerAPI.Domain.Entities.EM.MasterEvent", "Event")
                         .WithOne("GtEvent")
-                        .HasForeignKey("ManagerAPI.Models.Entities.EM.DGtEvent", "EventId")
+                        .HasForeignKey("ManagerAPI.Domain.Entities.EM.DGtEvent", "EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.EM.DSportEvent", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.DSportEvent", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.EM.MasterEvent", "Event")
+                    b.HasOne("ManagerAPI.Domain.Entities.EM.MasterEvent", "Event")
                         .WithOne("SportEvent")
-                        .HasForeignKey("ManagerAPI.Models.Entities.EM.DSportEvent", "EventId")
+                        .HasForeignKey("ManagerAPI.Domain.Entities.EM.DSportEvent", "EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.EM.EventAction", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.EventAction", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.EM.MasterEvent", "Event")
+                    b.HasOne("ManagerAPI.Domain.Entities.EM.MasterEvent", "Event")
                         .WithMany("Actions")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "User")
                         .WithMany("CausedEventActions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.EM.EventRole", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.EventRole", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.EM.MasterEvent", "Event")
+                    b.HasOne("ManagerAPI.Domain.Entities.EM.MasterEvent", "Event")
                         .WithMany("Roles")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.EM.MasterEvent", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.MasterEvent", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Creator")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Creator")
                         .WithMany("CreatedMasterEvents")
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "LastUpdater")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "LastUpdater")
                         .WithMany("UpdatedMasterEvents")
                         .HasForeignKey("LastUpdaterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.EM.UserEvent", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.UserEvent", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "AddedBy")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "AddedBy")
                         .WithMany("AddedUsersToEvents")
                         .HasForeignKey("AddedById")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.EM.MasterEvent", "Event")
+                    b.HasOne("ManagerAPI.Domain.Entities.EM.MasterEvent", "Event")
                         .WithMany("Users")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "User")
                         .WithMany("Events")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.EM.UserEventRole", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.UserEventRole", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "AddedBy")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "AddedBy")
                         .WithMany("AddedRolesToEvent")
                         .HasForeignKey("AddedById")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.EM.EventRole", "Role")
+                    b.HasOne("ManagerAPI.Domain.Entities.EM.EventRole", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "User")
                         .WithMany("EventRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.FriendRequest", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.FriendRequest", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Destination")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Destination")
                         .WithMany("ReceivedFriendRequest")
                         .HasForeignKey("DestinationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Sender")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Sender")
                         .WithMany("SentFriendRequest")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.Friends", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.Friends", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Friend")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Friend")
                         .WithMany("FriendListRight")
                         .HasForeignKey("FriendId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.FriendRequest", "Request")
+                    b.HasOne("ManagerAPI.Domain.Entities.FriendRequest", "Request")
                         .WithMany("FriendCollection")
                         .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "User")
                         .WithMany("FriendListLeft")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Book", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.Book", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Creator")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Creator")
                         .WithMany("CreatedBooks")
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "LastUpdater")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "LastUpdater")
                         .WithMany("LastUpdatedBooks")
                         .HasForeignKey("LastUpdaterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Episode", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.Episode", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.MC.Season", "Season")
+                    b.HasOne("ManagerAPI.Domain.Entities.MC.Season", "Season")
                         .WithMany("Episodes")
                         .HasForeignKey("SeasonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Movie", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.Movie", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Creator")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Creator")
                         .WithMany("CreatedMovies")
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "LastUpdater")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "LastUpdater")
                         .WithMany("LastUpdatedMovies")
                         .HasForeignKey("LastUpdaterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Season", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.Season", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.MC.Series", "Series")
+                    b.HasOne("ManagerAPI.Domain.Entities.MC.Series", "Series")
                         .WithMany("Seasons")
                         .HasForeignKey("SeriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.Series", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.Series", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Creator")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Creator")
                         .WithMany("CreatedSeries")
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "LastUpdater")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "LastUpdater")
                         .WithMany("LastUpdatedSeries")
                         .HasForeignKey("LastUpdaterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserBook", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.UserBook", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.MC.Book", "Book")
+                    b.HasOne("ManagerAPI.Domain.Entities.MC.Book", "Book")
                         .WithMany("ConnectedUsers")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "User")
                         .WithMany("MyBooks")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserEpisode", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.UserEpisode", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.MC.Episode", "Episode")
+                    b.HasOne("ManagerAPI.Domain.Entities.MC.Episode", "Episode")
                         .WithMany("ConnectedUsers")
                         .HasForeignKey("EpisodeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "User")
                         .WithMany("MyEpisodes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserMovie", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.UserMovie", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.MC.Movie", "Movie")
+                    b.HasOne("ManagerAPI.Domain.Entities.MC.Movie", "Movie")
                         .WithMany("ConnectedUsers")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "User")
                         .WithMany("MyMovies")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.MC.UserSeries", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.MC.UserSeries", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.MC.Series", "Series")
+                    b.HasOne("ManagerAPI.Domain.Entities.MC.Series", "Series")
                         .WithMany("ConnectedUsers")
                         .HasForeignKey("SeriesId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "User")
                         .WithMany("MySeries")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.Message", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.Message", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Receiver")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Receiver")
                         .WithMany("ReceivedMessages")
                         .HasForeignKey("ReceiverId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Sender")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Sender")
                         .WithMany("SentMessages")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.News", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.News", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Creator")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Creator")
                         .WithMany("CreatedNews")
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "LastUpdater")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "LastUpdater")
                         .WithMany("UpdatedNews")
                         .HasForeignKey("LastUpdaterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.Notification", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.Notification", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Owner")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Owner")
                         .WithMany("Notifications")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.NotificationType", "Type")
+                    b.HasOne("ManagerAPI.Domain.Entities.NotificationType", "Type")
                         .WithMany("Notifications")
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.NotificationType", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.NotificationType", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.NotificationSystem", "System")
+                    b.HasOne("ManagerAPI.Domain.Entities.NotificationSystem", "System")
                         .WithMany("Types")
                         .HasForeignKey("SystemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.Plan", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.Plan", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Owner")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Owner")
                         .WithMany("Plans")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.PM.PlanType", "PlanType")
+                    b.HasOne("ManagerAPI.Domain.Entities.PM.PlanType", "PlanType")
                         .WithMany("Plans")
                         .HasForeignKey("PlanTypeId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.PlanGroup", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroup", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Creator")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Creator")
                         .WithMany("CreatedPlanGroups")
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "LastUpdater")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "LastUpdater")
                         .WithMany("LastUpdatedPlanGroups")
                         .HasForeignKey("LastUpdaterId")
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.PlanGroupChatMessage", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupChatMessage", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.PM.PlanGroup", "Group")
+                    b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroup", "Group")
                         .WithMany("Messages")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Sender")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Sender")
                         .WithMany("SentPlanGroupChatMessages")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.PlanGroupIdea", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupIdea", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Creator")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Creator")
                         .WithMany("CreatedPlanGroupIdeas")
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.PM.PlanGroup", "Group")
+                    b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroup", "Group")
                         .WithMany("Ideas")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.PlanGroupPlan", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupPlan", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.PM.PlanGroup", "Group")
+                    b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroup", "Group")
                         .WithMany("Plans")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "LastUpdater")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "LastUpdater")
                         .WithMany("LastUpdatedPlanGroupPlans")
                         .HasForeignKey("LastUpdaterId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("ManagerAPI.Models.Entities.PM.MarkType", "MarkType")
+                    b.HasOne("ManagerAPI.Domain.Entities.PM.MarkType", "MarkType")
                         .WithMany("MarkedPlans")
                         .HasForeignKey("MarkTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "MarkedUser")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "MarkedUser")
                         .WithMany("MarkedOnGroupPlans")
                         .HasForeignKey("MarkedUserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Owner")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Owner")
                         .WithMany("CreatedPlanGroupPlans")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.PM.PlanType", "PlanType")
+                    b.HasOne("ManagerAPI.Domain.Entities.PM.PlanType", "PlanType")
                         .WithMany("GroupPlans")
                         .HasForeignKey("PlanTypeId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.PM.PlanGroupPlanComment", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupPlanComment", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.PM.PlanGroupPlan", "Plan")
+                    b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroupPlan", "Plan")
                         .WithMany("Comments")
                         .HasForeignKey("PlanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Sender")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Sender")
                         .WithMany("CreatedPlanGroupPlanComment")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.Task", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.Task", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "Owner")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Owner")
                         .WithMany("Tasks")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.UserPlanGroup", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.UserPlanGroup", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.User", "AddedBy")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "AddedBy")
                         .WithMany("AddedUsersToGroups")
                         .HasForeignKey("AddedById")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.PM.PlanGroup", "Group")
+                    b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroup", "Group")
                         .WithMany("Users")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.PM.GroupRole", "Role")
+                    b.HasOne("ManagerAPI.Domain.Entities.PM.GroupRole", "Role")
                         .WithMany("GroupMembers")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "User")
                         .WithMany("Groups")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.WM.WorkingDay", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.WM.WorkingDay", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.WM.WorkingDayType", "Type")
+                    b.HasOne("ManagerAPI.Domain.Entities.WM.WorkingDayType", "Type")
                         .WithMany("WorkingDays")
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Models.Entities.User", "User")
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "User")
                         .WithMany("WorkingDays")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.WM.WorkingField", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.WM.WorkingField", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.WM.WorkingDay", "WorkingDay")
+                    b.HasOne("ManagerAPI.Domain.Entities.WM.WorkingDay", "WorkingDay")
                         .WithMany("WorkingFields")
                         .HasForeignKey("WorkingDayId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2750,9 +2813,9 @@ namespace ManagerAPI.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Models.Entities.User", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.User", b =>
                 {
-                    b.HasOne("ManagerAPI.Models.Entities.Gender", "Gender")
+                    b.HasOne("ManagerAPI.Domain.Entities.Gender", "Gender")
                         .WithMany("Users")
                         .HasForeignKey("GenderId")
                         .OnDelete(DeleteBehavior.Restrict);

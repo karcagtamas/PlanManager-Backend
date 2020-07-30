@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using EventManager.Client.Models.Interfaces;
 
-namespace EventManager.Client.Models
+namespace EventManager.Client.Http
 {
     /// <summary>
     /// HTTP query paramters
@@ -14,10 +14,11 @@ namespace EventManager.Client.Models
         /// <summary>
         /// Query paramters
         /// </summary>
-        public HttpQueryParameters() {
+        public HttpQueryParameters()
+        {
             this._queryParams = new Dictionary<string, object>();
         }
-
+/// 
         /// <summary>
         /// Add key with the given value.
         /// If the given key already exists it will throw an error
@@ -25,8 +26,10 @@ namespace EventManager.Client.Models
         /// <param name="key">Key value</param>
         /// <param name="value">Value</param>
         /// <typeparam name="T">Type of the value</typeparam>
-        public void Add<T>(string key, T value) {
-            if (this._queryParams.ContainsKey(key)) {
+        public void Add<T>(string key, T value)
+        {
+            if (this._queryParams.ContainsKey(key))
+            {
                 throw new ArgumentException("Key already exists");
             }
             _queryParams[key] = value;
@@ -39,8 +42,10 @@ namespace EventManager.Client.Models
         /// <param name="key">Key value</param>
         /// <typeparam name="T">Type of object</typeparam>
         /// <returns>Value for the given key</returns>
-        public T Get<T>(string key) {
-            if (!this._queryParams.ContainsKey(key)) {
+        public T Get<T>(string key)
+        {
+            if (!this._queryParams.ContainsKey(key))
+            {
                 throw new ArgumentException("Key does not exist");
             }
             return (T)_queryParams[key];
@@ -53,8 +58,10 @@ namespace EventManager.Client.Models
         /// <param name="key">Key value</param>
         /// <param name="value">Value</param>
         /// <typeparam name="T">Type of the value</typeparam>
-        public void TryAdd<T>(string key, T value) {
-            if (this._queryParams.ContainsKey(key)) {
+        public void TryAdd<T>(string key, T value)
+        {
+            if (this._queryParams.ContainsKey(key))
+            {
                 return;
             }
             _queryParams[key] = value;
@@ -67,8 +74,10 @@ namespace EventManager.Client.Models
         /// <param name="key">Key value</param>
         /// <typeparam name="T">Type of the object</typeparam>
         /// <returns>Value for the given key</returns>
-        public T TryGet<T>(string key) {
-            if (!this._queryParams.ContainsKey(key)) {
+        public T TryGet<T>(string key)
+        {
+            if (!this._queryParams.ContainsKey(key))
+            {
                 return default;
             }
             return (T)_queryParams[key];
@@ -78,7 +87,8 @@ namespace EventManager.Client.Models
         /// Get length of the dictionary.
         /// </summary>
         /// <returns>Count number</returns>
-        public int Count() {
+        public int Count()
+        {
             return this._queryParams.Keys.Count;
         }
 
@@ -87,11 +97,13 @@ namespace EventManager.Client.Models
         /// Key - value pairs concated into string
         /// </summary>
         /// <returns></returns>
-        override public string ToString() {
+        override public string ToString()
+        {
             string val = "";
 
             // TODO: manage arrays
-            foreach (var key in this._queryParams.Keys) {
+            foreach (var key in this._queryParams.Keys)
+            {
                 val += $"{key}={this._queryParams[key].ToString()}";
             }
 

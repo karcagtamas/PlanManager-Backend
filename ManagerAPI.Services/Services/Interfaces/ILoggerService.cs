@@ -26,6 +26,6 @@ namespace ManagerAPI.Services.Services.Interfaces
         void LogAnonimInformation(string service, string action, List<int> ids, object entity);
         MessageException LogInvalidThings(User user, string service, string thing, string message);
         string AddUserToMessage(string message, User user);
-        ErrorResponse ExceptionToResponse (Exception e);
+        ErrorResponse ExceptionToResponse (Exception e, params Exception[] list);
     }
 }
