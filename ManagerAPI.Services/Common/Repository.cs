@@ -240,6 +240,9 @@ namespace ManagerAPI.Services.Common
 
         public void Remove(TEntity entity)
         {
+            var type = entity.GetType();
+            List<string> args = this.DetermineArguments(this._arguments.DeleteArguments, type, entity);
+            
             this._context.Set<TEntity>().Remove(entity);
 
             this.Complete();
@@ -249,11 +252,7 @@ namespace ManagerAPI.Services.Common
                 var user = this.Utils.GetCurrentUser();
 
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete"), entity.Id);
-
-                var type = entity.GetType();
-
-                List<string> args = this.DetermineArguments(this._arguments.DeleteArguments, type, entity);
-
+                
                 this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("delete"), true), user, args.ToArray());
             }
             catch (Exception)
