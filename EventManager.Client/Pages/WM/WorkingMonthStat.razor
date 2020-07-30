@@ -25,7 +25,7 @@
                     <strong>Summary hours: </strong> @MonthStat.HourSum h
                 </div>
                 <div class="data-row">
-                    <strong>Avgerate hours: </strong> @MonthStat.HourAvg h
+                    <strong>Avgerate hours: </strong> @Math.Round(MonthStat.HourAvg, 2) h
                 </div>
                 <div class="data-row">
                     <strong>Active / Work days: </strong> @MonthStat.ActiveDays / @MonthStat.WorkDays
