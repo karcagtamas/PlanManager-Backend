@@ -647,6 +647,10 @@ app {
   background-color: transparent !important;
 }
 
+.mdc-floating-label.mdc-floating-label--float-above {
+  transform: translateY(-190%) scale(0.75) !important;
+}
+
 .mdc-sub-menu-icon {
   top: 15% !important;
 }
