@@ -1,0 +1,19 @@
+@page "/books/{id}"
+@attribute [Microsoft.AspNetCore.Authorization.Authorize]
+
+<div class="sl-book-data">
+    @if (Book != null) {
+        <h1 class="em-page-title">@Book.Name</h1>
+    }
+    @if (IsLoading) {
+        <Loader></Loader>
+    } else {
+        <div class="action-bar">
+            <MatButton>Edit</MatButton>
+            <MatButton>Delete</MatButton>
+        </div>
+        @if (Book != null) {
+            @Book.Author
+        }
+    }
+</div>

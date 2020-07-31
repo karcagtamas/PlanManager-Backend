@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Shared.Components.SL
 {
-    public partial class Book
+    public partial class BookElement
     {
         [Parameter]
-        public BookListDto BookElement { get; set; }
+        public BookListDto Book { get; set; }
 
         [Inject]
         private IBookService BookService { get; set; }

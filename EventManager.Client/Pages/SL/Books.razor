@@ -8,10 +8,13 @@
         <Loader></Loader>
     }
     else {
+        <div class="action-bar">
+            <MatButton>Add</MatButton>
+        </div>
         @if (BookList != null && BookList.Count > 0) {
             <div class="book-list">
                 @foreach (var book in BookList) {
-                    <Book BookElement="book"></Book>
+                    <BookElement Book="book"></BookElement>
                 }
             </div>
         }
