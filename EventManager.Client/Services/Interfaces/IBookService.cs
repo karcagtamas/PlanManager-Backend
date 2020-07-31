@@ -1,18 +1,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EventManager.Client.Http;
 using ManagerAPI.Shared.DTOs.MC;
 using ManagerAPI.Shared.Models.MC;
 
 namespace EventManager.Client.Services.Interfaces
 {
-    public interface IBookService
+    public interface IBookService : IHttpCall<BookListDto, BookDto, BookModel>
     {
-        Task<List<BookListDto>> GetBooks();
-        Task<BookDto> GetBook(int id);
         Task<List<MyBookDto>> GetMyBooks();
-        Task<bool> CreateBook(BookModel model);
-        Task<bool> UpdateBook(int id, BookModel model);
-        Task<bool> DeleteBook(int id);
         Task<bool> UpdateReadStatus(int id, BookReadStatusModel model);
         Task<bool> UpdateMyBooks(MyBookModel model);
     }

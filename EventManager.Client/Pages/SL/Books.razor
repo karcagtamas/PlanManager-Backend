@@ -1,7 +1,22 @@
 @page "/books"
 @attribute [Microsoft.AspNetCore.Authorization.Authorize]
-@inherits BooksBase
 
 <div class="sl-books">
     <h1 class="em-page-title">Books</h1>
+    
+    @if (IsLoading) {
+        <Loader></Loader>
+    }
+    else {
+        @if (BookList != null && BookList.Count > 0) {
+            <div class="book-list">
+                @foreach (var book in BookList) {
+                    <Book BookElement="book"></Book>
+                }
+            </div>
+        }
+        else {
+            <div class="text-center">Book list is empty</div>
+        }
+    }
 </div>
