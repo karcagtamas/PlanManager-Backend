@@ -6,9 +6,13 @@
 
 ## Version log
 
-### V0.8.0 - 2020-07-
+### V0.8.0 - 2020-07-30
 - Add Status Library
 - Add Working Manager
+- Add Working Month statistics
+- Add Working Week statistics
+- Working Manager notifications
+- Minor refactors and fixes
 
 ### V0.7.2 - 2020-07-12
 
