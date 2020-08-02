@@ -3,22 +3,56 @@
 
 <div class="sl-books">
     <h1 class="em-page-title">Books</h1>
-    
-    @if (IsLoading) {
+
+    @if (IsLoading)
+    {
         <Loader></Loader>
     }
-    else {
+    else
+    {
         <div class="action-bar">
             <MatButton>Add</MatButton>
         </div>
-        @if (BookList != null && BookList.Count > 0) {
+        @if (BookList != null && BookList.Count > 0)
+        {
             <div class="book-list">
-                @foreach (var book in BookList) {
-                    <BookElement Book="book"></BookElement>
-                }
+                <ListTable Header="Header" Footer="Footer" Body="BookList" ></ListTable>
             </div>
+            <!--<div class="book-list list">
+                <table> 
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Publish</th>
+                        <th>Author</th>
+                        <th>Creator</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var book in BookList)
+                    {
+                        <tr>
+                            <td>@book.Name</td>
+                            <td>@HelperService.DateToString(book.Publish)</td>
+                            <td>@book.Author</td>
+                            <td>@book.Creator</td>
+                        </tr>
+                    }
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>@BookList.Count</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </tfoot>
+                </table>
+
+            </div>-->
         }
-        else {
+        else
+        {
             <div class="text-center">Book list is empty</div>
         }
     }

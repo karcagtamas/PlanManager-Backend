@@ -1,0 +1,21 @@
+﻿@typeparam TList
+
+@if (Header != null && IndexList != null)
+{
+    <div class="list-table">
+        @foreach (var index in IndexList)
+        {
+            <div class="column">
+                <div class="head">
+                     <div class="head-data">@Header[index].DisplayName</div>
+                </div>
+               
+                <div class="body"></div>
+                
+                <div class="foot">
+                    <div class="foot-data">@Footer[index]</div>
+                </div>
+            </div>
+        }
+    </div>
+}

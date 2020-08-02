@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using EventManager.Client.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.MC;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Pages.SL
@@ -9,6 +10,8 @@ namespace EventManager.Client.Pages.SL
         [Parameter]
         public int Id { get; set; }
 
+        private BookDto Book { get; set; }
+
         [Inject]
         private IBookService BookService { get; set; }
         private bool IsLoading { get; set; } = false;
@@ -17,11 +20,11 @@ namespace EventManager.Client.Pages.SL
             await this.GetBook();
         }
 
-        protected async Task GetBook() 
+        private async Task GetBook() 
         {
             this.IsLoading = true;
             StateHasChanged();
-            await this.BookService.Get(this.Id);
+            this.Book = await this.BookService.Get(this.Id);
             this.IsLoading = false;
             StateHasChanged();
         }
