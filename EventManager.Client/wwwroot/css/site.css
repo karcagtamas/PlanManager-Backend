@@ -641,6 +641,7 @@ app {
   color: #5120a5;
   background-color: rgba(249, 249, 249, 0.55);
   padding: 0.4rem;
+  min-height: 37px;
 }
 .list-table .column .head .head-data.right {
   text-align: right;
@@ -656,6 +657,20 @@ app {
   flex-grow: 1;
   flex-direction: column;
 }
+.list-table .column .body .body-row .body-data {
+  color: #5120a5;
+  padding: 0.4rem;
+  min-height: 37px;
+}
+.list-table .column .body .body-row:nth-child(even) {
+  background-color: rgba(92, 0, 255, 0.1);
+}
+.list-table .column .body .body-row.hovered {
+  background-color: rgba(80, 0, 255, 0.3) !important;
+  color: #5120a5;
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
 .list-table .column .foot {
   display: flex;
   flex-direction: row;
@@ -665,6 +680,7 @@ app {
   color: #5120a5;
   background-color: rgba(249, 249, 249, 0.55);
   padding: 0.4rem;
+  min-height: 37px;
 }
 .list-table .column .foot .foot-data.right {
   text-align: right;

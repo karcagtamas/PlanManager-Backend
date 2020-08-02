@@ -771,6 +771,7 @@ app {
                 color: $primary;
                 background-color: $white-trans;
                 padding: 0.4rem;
+                min-height: 37px;
 
                 &.right {
                     text-align: right;
@@ -792,8 +793,22 @@ app {
             flex-direction: column;
             
             .body-row {
+                
                 .body-data {
-                    
+                    color: $primary;
+                    padding: 0.4rem;
+                    min-height: 37px;
+                }
+
+                &:nth-child(even) {
+                    background-color: $primary-hover;
+                }
+                
+                &.hovered {
+                    background-color: $primary-secondary-trans !important;
+                    color: $primary;
+                    transition-duration: 0.5s;
+                    cursor: pointer;
                 }
             }
         }
@@ -807,6 +822,7 @@ app {
                 color: $primary;
                 background-color: $white-trans;
                 padding: 0.4rem;
+                min-height: 37px;
 
                 &.right {
                     text-align: right;

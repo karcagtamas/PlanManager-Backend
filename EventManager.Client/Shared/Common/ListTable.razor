@@ -10,7 +10,16 @@
                      <div class="head-data">@Header[index].DisplayName</div>
                 </div>
                
-                <div class="body"></div>
+                <div class="body">
+                    @foreach (var bodyIndex in BodyIndexList)
+                    {
+                        <div class="body-row @(HoveredIndex != null && HoveredIndex == bodyIndex ? "hovered" : "")" @onmouseover="@(() => MouseEnter(bodyIndex))" @onclick="@(() => RowClick(Body[bodyIndex]))">
+                            <div class="body-data">
+                                @GetProperty(Body[bodyIndex], Header[index].PropertyName)
+                            </div>
+                        </div>
+                    }
+                </div>
                 
                 <div class="foot">
                     <div class="foot-data">@Footer[index]</div>
