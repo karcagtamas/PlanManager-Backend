@@ -16,8 +16,8 @@
         <div class="action-bar">
             <MatButton>Edit</MatButton>
             <MatButton>Delete</MatButton>
-            <MatButton @onclick="@() => Navigation.NavigateTo("/books")">Book List</MatButton>
-            <MatButton @onclick="@() => Navigation.NavigateTo("/my-books")">My Book List</MatButton>
+            <MatButton @onclick="@(() => Navigation.NavigateTo("/books"))">Book List</MatButton>
+            <MatButton @onclick="@(() => Navigation.NavigateTo("/my-books"))">My Book List</MatButton>
         </div>
         @if (Book != null)
         {
