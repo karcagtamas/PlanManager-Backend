@@ -43,13 +43,6 @@ namespace EventManager.Client.Services
             return await this._httpService.Update<UserUpdateDto>(settings, body);
         }
 
-        public async Task<List<GenderDto>> GetGenders()
-        {
-            var settings = new HttpSettings($"{this._url}/genders");
-
-            return await this._httpService.Get<List<GenderDto>>(settings);
-        }
-
         public async Task<bool> UpdatePassword(PasswordUpdateModel model)
         {
             var settings = new HttpSettings($"{this._url}/password", null, null, "Password updating");

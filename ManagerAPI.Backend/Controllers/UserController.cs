@@ -58,18 +58,6 @@ namespace ManagerAPI.Backend.Controllers {
             }
         }
 
-        [HttpGet ("genders")]
-        public IActionResult GetGenders () {
-            try {
-                return Ok (_userService.GetGenders ());
-            } catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception e) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR), e));
-            }
-        }
-
         [HttpPut ("profile-image")]
         public IActionResult UpdateProfileImage ([FromBody] byte[] image) {
             try {

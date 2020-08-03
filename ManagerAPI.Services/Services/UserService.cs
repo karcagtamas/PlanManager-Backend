@@ -23,7 +23,6 @@ namespace ManagerAPI.Services.Services
         private const string UpdateUserNameAction = "update username";
         private const string UpdatePasswordAction = "update password";
         private const string UpdateImageAction = "update image";
-        private const string GetGendersAction = "get genders";
         private const string UpdateUserAction = "update user";
 
         // Messages
@@ -118,18 +117,6 @@ namespace ManagerAPI.Services.Services
             _context.SaveChanges();
             _loggerService.LogInformation(user, nameof(UserService), UpdateUserAction, user.Id);
             _notificationService.AddSystemNotificationByType(SystemNotificationType.MyProfileUpdated, user);
-        }
-
-        /// <summary>
-        /// Get genders
-        /// </summary>
-        /// <returns>List of genders</returns>
-        public List<GenderDto> GetGenders()
-        {
-            var user = _utilsService.GetCurrentUser();
-            var genders = _mapper.Map<List<GenderDto>>(_context.Genders.ToList());
-            _loggerService.LogInformation(user, nameof(UserService), GetGendersAction, genders.Select(x => x.Id).ToList());
-            return genders;
         }
 
         /// <summary>

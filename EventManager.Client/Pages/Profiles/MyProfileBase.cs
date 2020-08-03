@@ -21,13 +21,16 @@ namespace EventManager.Client.Pages.Profiles
         
         [Inject]
         public IHelperService HelperService { get; set; }
+        
+        [Inject]
+        public IGenderService GenderService { get; set; }
 
         [Inject]
         public IModalService Modal { get; set; }
 
         public UserDto User { get; set; }
         public UserUpdateDto UserUpdate { get; set; }
-        protected List<GenderDto> Genders { get; set; }
+        protected List<GenderListDto> Genders { get; set; }
 
         protected bool ShowConfirmDialog { get; set; } = false;
         protected bool ShowChangePasswordDialog { get; set; } = false;
@@ -60,7 +63,7 @@ namespace EventManager.Client.Pages.Profiles
         
         protected async Task GetGenders()
         {
-            Genders = await UserService.GetGenders();
+            Genders = await this.GenderService.GetAll();
         }
 
         protected async Task UpdateUser()

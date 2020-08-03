@@ -71,6 +71,7 @@ namespace ManagerAPI.Backend
                 x.AddProfile(new MovieProfile());
                 x.AddProfile(new BookProfile());
                 x.AddProfile(new SeriesProfile());
+                x.AddProfile(new GenderProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

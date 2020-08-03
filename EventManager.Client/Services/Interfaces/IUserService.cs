@@ -8,7 +8,6 @@ namespace EventManager.Client.Services.Interfaces {
         Task<UserDto> GetUser ();
         Task<UserShortDto> GetShortUser ();
         Task<bool> UpdateUser (UserUpdateDto userUpdate);
-        Task<List<GenderDto>> GetGenders ();
         Task<bool> UpdatePassword (PasswordUpdateModel model);
         Task<bool> UpdateProfileImage (byte[] image);
         Task<bool> UpdateUsername (UsernameUpdateModel model);

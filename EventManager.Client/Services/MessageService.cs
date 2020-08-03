@@ -10,14 +10,10 @@ namespace EventManager.Client.Services
 {
     public class MessageService : HttpCall<MessageListDto, MessageDto, MessageModel>, IMessageService
     {
-
-        private readonly IHttpService _httpService;
-        private readonly string _url = ApplicationSettings.BaseApiUrl + "/message";
         private readonly IHelperService _helperService;
 
         public MessageService(IHttpService httpService, IHelperService helperService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/message", "Message")
         {
-            _httpService = httpService;
             _helperService = helperService;
         }
 
@@ -26,18 +22,18 @@ namespace EventManager.Client.Services
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(friendId, -1);
 
-            var settings = new HttpSettings($"{this._url}/friend", null, pathParams);
+            var settings = new HttpSettings($"{this.Url}/friend", null, pathParams);
 
-            return await this._httpService.Get<List<MessageDto>>(settings);
+            return await this.Http.Get<List<MessageDto>>(settings);
         }
 
         public async Task<bool> SendMessage(MessageModel model)
         {
-            var settings = new HttpSettings($"{this._url}/send", null, null, "Message sending");
+            var settings = new HttpSettings($"{this.Url}/send", null, null, "Message sending");
 
             var body = new HttpBody<MessageModel>(model);
 
-            return await this._httpService.Create<MessageModel>(settings, body);
+            return await this.Http.Create<MessageModel>(settings, body);
         }
     }
 }
