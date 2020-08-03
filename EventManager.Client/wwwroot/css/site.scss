@@ -846,76 +846,76 @@ app {
     display: flex;
     table {
         flex-grow: 1;
-        display: flex;
-        flex-direction: column;
+        position: relative;
         width: 100%;
         border-collapse: collapse;
         border-radius: $border-radius;
-        overflow: hidden;
-        
+
         thead {
-            display: flex;
-            flex-direction: row;
-            
             tr {
-                flex-grow: 1;
-                display: flex;
-                flex-direction: row;
-                
+
                 th {
-                    flex-grow: 1;
+                    position: sticky;
+                    top: 0;
+
                     color: $primary;
-                    background-color: $white-trans;
+                    background-color: $white;
+                    opacity: 90%;
                     padding: 0.4rem;
-                    
+
                     &.right {
                         text-align: right;
                     }
-                    
+
                     &.center {
                         text-align: center;
                     }
-                    
+
                     &.left {
                         text-align: left;
+                    }
+
+                    &:first-child {
+                        border-left: 5px solid $white-trans;
+                    }
+
+                    &:last-child {
+                        border-right: 5px solid $white-trans;
                     }
                 }
             }
         }
         
         tfoot {
-            display: flex;
-            flex-direction: row;
             
             tr {
-                flex-grow: 1;
-                display: flex;
-                flex-direction: row;
                 
                 th {
-                    flex-grow: 1;
+                    position: sticky;
+                    bottom: 0;
+
                     color: $primary;
-                    background-color: $white-trans;
+                    background-color: $white;
+                    opacity: 90%;
                     padding: 0.4rem;
+
+                    &:first-child {
+                        border-left: 5px solid $white-trans;
+                    }
+
+                    &:last-child {
+                        border-right: 5px solid $white-trans;
+                    }
                 }
             }
         }
         
         tbody {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            overflow: auto;
-            
             tr {
                 transition-duration: 0.5s;
-                flex-grow: 1;
-                display: flex;
-                flex-direction: row;
                 
                 td {
                     padding: 0.4rem;
-                    flex-grow: 1;
                     
                     &:first-child {
                         border-left: 5px solid $white-trans;

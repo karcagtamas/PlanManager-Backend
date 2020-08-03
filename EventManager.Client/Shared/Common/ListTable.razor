@@ -2,29 +2,35 @@
 
 @if (Header != null && IndexList != null)
 {
-    <div class="list-table">
-        @foreach (var index in IndexList)
-        {
-            <div class="column">
-                <div class="head">
-                     <div class="head-data">@Header[index].DisplayName</div>
-                </div>
-               
-                <div class="body">
-                    @foreach (var bodyIndex in BodyIndexList)
+    <div class="list">
+        <table>
+            <thead>
+            <tr>
+                @foreach (var head in Header)
+                {
+                    <th>@head.DisplayName</th>
+                }
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var body in Body)
+            {
+                <tr>
+                    @foreach (var head in Header)
                     {
-                        <div class="body-row @(HoveredIndex != null && HoveredIndex == bodyIndex ? "hovered" : "")" @onmouseover="@(() => MouseEnter(bodyIndex))" @onclick="@(() => RowClick(Body[bodyIndex]))">
-                            <div class="body-data">
-                                @GetProperty(Body[bodyIndex], Header[index].PropertyName)
-                            </div>
-                        </div>
+                        <td>@GetProperty(body, head.PropertyName)</td>
                     }
-                </div>
-                
-                <div class="foot">
-                    <div class="foot-data">@Footer[index]</div>
-                </div>
-            </div>
-        }
+                </tr>
+            }
+            </tbody>
+            <tfoot>
+            <tr>
+                @foreach (var foot in Footer)
+                {
+                    <th>@foot</th>
+                }
+            </tr>
+            </tfoot>
+        </table>
     </div>
 }
