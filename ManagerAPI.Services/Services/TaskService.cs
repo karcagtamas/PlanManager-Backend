@@ -18,19 +18,7 @@ namespace ManagerAPI.Services.Services
     public class TaskService : Repository<Task, SystemNotificationType>, ITaskService
     {
         // Action
-        private const string CreateTaskAction = "create task";
-        private const string UpdateTaskAction = "update task";
-        private const string DeleteTaskAction = "delete task";
-        private const string GetTaskAction = "get task";
         private const string GetTasksAction = "get tasks";
-
-        // Thing
-        private const string TaskThing = "task";
-        private const string TaskIdThing = "task id";
-
-        // Message
-        private const string NotCorrectUpdateObjectMessage = "Not correct update object";
-        private const string TaskDoesNotExistMessage = "Task does not exist";
 
         // Injects
         private readonly DatabaseContext _databaseContext;

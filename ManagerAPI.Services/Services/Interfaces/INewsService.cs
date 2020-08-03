@@ -1,14 +1,12 @@
 using System.Collections.Generic;
+using ManagerAPI.Domain.Entities;
+using ManagerAPI.Services.Common;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {
-    public interface INewsService
+    public interface INewsService : IRepository<News>
     {
-        List<NewsDto> GetNewsPosts();
-        void PostNews(PostModel model);
-        void UpdateNews(int postId, PostModel model);
-        void DeleteNews(int postId);
     }
 }

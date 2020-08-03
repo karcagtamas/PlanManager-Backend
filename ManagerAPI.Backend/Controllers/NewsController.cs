@@ -1,5 +1,9 @@
 ﻿using System;
+using ManagerAPI.Domain.Entities;
+using ManagerAPI.Domain.Enums;
+using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +16,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class NewsController : ControllerBase
+    public class NewsController : MyController<News, PostModel, NewsListDto, NewsDto, SystemNotificationType>
     {
         private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly INewsService _newsService;
@@ -23,100 +27,10 @@ namespace ManagerAPI.Backend.Controllers
         /// </summary>
         /// <param name="newsService">News Service</param>
         /// <param name="loggerService">Utils Service</param>
-        public NewsController(INewsService newsService, ILoggerService loggerService)
+        public NewsController(INewsService newsService, ILoggerService loggerService):base(loggerService, newsService)
         {
             _newsService = newsService;
             _loggerService = loggerService;
-        }
-
-        /// <summary>
-        /// Delete news by Id
-        /// </summary>
-        /// <param name="postId">News Id</param>
-        /// <returns>Server Response</returns>
-        [HttpDelete("{postId}")]
-        public IActionResult DeleteNews(int postId)
-        {
-            try
-            {
-                _newsService.DeleteNews(postId);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
-        }
-
-        /// <summary>
-        /// Get all news
-        /// </summary>
-        /// <returns>Server Response</returns>
-        [HttpGet]
-        public IActionResult GetNewsPosts()
-        {
-            try
-            {
-                return Ok(_newsService.GetNewsPosts());
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
-        }
-
-        /// <summary>
-        /// Create new news
-        /// </summary>
-        /// <param name="model">Model of news for creation</param>
-        /// <returns>Server Response</returns>
-        [HttpPost]
-        public IActionResult PostNews([FromBody] PostModel model)
-        {
-            try
-            {
-                _newsService.PostNews(model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
-        }
-
-        /// <summary>
-        /// Update news
-        /// </summary>
-        /// <param name="model">Model of news</param>
-        /// <returns>Server Response</returns>
-        [HttpPut("{postId}")]
-        public IActionResult UpdateNews(int postId, [FromBody] PostModel model)
-        {
-            try
-            {
-                _newsService.UpdateNews(postId, model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
         }
     }
 }
