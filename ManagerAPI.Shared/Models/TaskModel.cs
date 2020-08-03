@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using ManagerAPI.Shared.DTOs;
 
 namespace ManagerAPI.Shared.Models
 {
@@ -14,5 +15,17 @@ namespace ManagerAPI.Shared.Models
 
         [Required(ErrorMessage = "Field is required")]
         public string Description { get; set; }
+
+        [Required]
+        public bool IsSolved { get; set; } = false;
+
+        public TaskModel() {}
+
+        public TaskModel(TaskDto task) {
+            this.Title = task.Title;
+            this.Deadline = task.Deadline;
+            this.Description = task.Description;
+            this.IsSolved = task.IsSolved;
+        }
     }
 }

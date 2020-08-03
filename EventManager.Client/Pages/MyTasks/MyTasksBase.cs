@@ -4,6 +4,7 @@ using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Common;
 using EventManager.Client.Shared.Components.Tasks;
 using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace EventManager.Client.Pages.MyTasks
         {
             this.IsLoading = true;
             StateHasChanged();
-            this.TaskList = await this.TaskService.GetTasks(this.IsSolvedSelectorValue);
+            this.TaskList = await this.TaskService.GetDate(this.IsSolvedSelectorValue);
             this.IsLoading = false;
             StateHasChanged();
         }
@@ -46,11 +47,11 @@ namespace EventManager.Client.Pages.MyTasks
         {
             var task = this.TaskList.SelectMany(x => x.TaskList).Where(x => x.Id == taskId).FirstOrDefault();
 
-            var taskData = await TaskService.GetTask(taskId);
+            var taskData = await TaskService.Get(taskId);
             if (taskData != null)
             {
                 taskData.IsSolved = newValue;
-                task.IsSolved = await TaskService.UpdateTask(taskData) ? newValue : !newValue;
+                task.IsSolved = await TaskService.Update(taskId, new TaskModel(taskData)) ? newValue : !newValue;
                 group.AllSolved = group.TaskList.Where(x => !x.IsSolved).Count() == 0;
                 group.OutOfRange = group.Deadline < DateTime.Now && !group.AllSolved;
 
@@ -113,7 +114,7 @@ namespace EventManager.Client.Pages.MyTasks
 
         protected async void DeleteDialogClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data && await TaskService.DeleteTask(this.SelectedTask))
+            if (!modalResult.Cancelled && (bool)modalResult.Data && await TaskService.Delete(this.SelectedTask))
             {
                 await this.GetTasks();
             }

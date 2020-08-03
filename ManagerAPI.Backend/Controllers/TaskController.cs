@@ -1,4 +1,7 @@
 ﻿using System;
+using ManagerAPI.Domain.Entities;
+using ManagerAPI.Domain.Enums;
+using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
@@ -8,95 +11,28 @@ namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TaskController : ControllerBase
+    public class TaskController : MyController<Task, TaskModel, TaskListDto, TaskDto, SystemNotificationType>
     {
         private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly ITaskService _taskService;
-        private readonly ILoggerService _loggerService;
 
-        public TaskController(ITaskService taskService, ILoggerService loggerService) 
+        public TaskController(ITaskService taskService, ILoggerService loggerService) : base(loggerService, taskService)
         {
             this._taskService = taskService;
-            this._loggerService = loggerService;
         }
 
         [HttpGet]
-        public IActionResult GetTasks([FromQuery] bool? isSolved)
+        public IActionResult GetDate([FromQuery] bool? isSolved)
         {
             try
             {
-                return Ok(_taskService.GetTasks(isSolved));
+                return Ok(this._taskService.GetDate(isSolved));
             }
             catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
+                return BadRequest (this.Logger.ExceptionToResponse (me));
             } 
             catch (Exception e) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR), e));
-            }
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetTasks(int id)
-        {
-            try
-            {
-                return Ok(_taskService.GetTask(id));
-            }
-            catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception e) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR), e));
-            }
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult DeleteTask(int id)
-        {
-            try
-            {
-                _taskService.DeleteTask(id);
-                return Ok();
-            }
-            catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception e) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR), e));
-            }
-        }
-
-        [HttpPut]
-        public IActionResult UpdateTask([FromBody] TaskDataDto task)
-
-        {
-            try
-            {
-                _taskService.UpdateTask(task);
-                return Ok();
-            }
-            catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception e) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR), e));
-            }
-        }
-
-        [HttpPost]
-        public IActionResult CreateTask([FromBody] TaskModel model)
-
-        {
-            try
-            {
-                _taskService.CreateTask(model);
-                return Ok();
-            }
-            catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception e) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR), e));
+                return BadRequest (this.Logger.ExceptionToResponse (new Exception(FATAL_ERROR), e));
             }
         }
     }

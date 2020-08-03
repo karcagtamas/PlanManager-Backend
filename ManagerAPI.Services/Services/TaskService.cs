@@ -5,6 +5,7 @@ using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
+using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
@@ -14,7 +15,7 @@ namespace ManagerAPI.Services.Services
     /// <summary>
     /// Task Service
     /// </summary>
-    public class TaskService : ITaskService
+    public class TaskService : Repository<Task, SystemNotificationType>, ITaskService
     {
         // Action
         private const string CreateTaskAction = "create task";
@@ -32,11 +33,7 @@ namespace ManagerAPI.Services.Services
         private const string TaskDoesNotExistMessage = "Task does not exist";
 
         // Injects
-        private readonly DatabaseContext _context;
-        private readonly IMapper _mapper;
-        private readonly IUtilsService _utilsService;
-        private readonly ILoggerService _loggerService;
-        private readonly INotificationService _notificationService;
+        private readonly DatabaseContext _databaseContext;
 
         /// <summary>
         /// Task Service
@@ -47,12 +44,9 @@ namespace ManagerAPI.Services.Services
         /// <param name="loggerService">Logger Service</param>
         /// <param name="notificationService">Notification Service</param>
         public TaskService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService)
+        :base(context, loggerService, utilsService, notificationService, mapper, "Task", new NotificationArguments { })
         {
-            _context = context;
-            _mapper = mapper;
-            _utilsService = utilsService;
-            _loggerService = loggerService;
-            _notificationService = notificationService;
+            this._databaseContext = context;
         }
 
         /// <summary>
@@ -60,108 +54,19 @@ namespace ManagerAPI.Services.Services
         /// </summary>
         /// <param name="isSolved">Filter - task is solved or not</param>
         /// <returns>List of tasks grouped by the deadline</returns>
-        public List<TaskDateDto> GetTasks(bool? isSolved)
+        public List<TaskDateDto> GetDate(bool? isSolved)
         {
-            var user = _utilsService.GetCurrentUser();
-            var list = _mapper.Map<List<TaskDateDto>>(user.Tasks.GroupBy(x => this.ToDay(x.Deadline)).OrderBy(x => x.Key).ToList());
+            var user = this.Utils.GetCurrentUser();
+            var list = this.Mapper.Map<List<TaskDateDto>>(user.Tasks.GroupBy(x => this.ToDay(x.Deadline)).OrderBy(x => x.Key).ToList());
             
             if (isSolved != null)
             {
                 list = list.Select(x => { x.TaskList = x.TaskList.Where(y => y.IsSolved == isSolved).ToList(); return x; }).Where(x => x.TaskList.Count > 0).ToList();
             }
 
-            _loggerService.LogInformation(user, nameof(TaskService), GetTasksAction, list.Select(x => string.Join(", ", x.TaskList.Select(y => y.Id.ToString()))).ToList());     
+            this.Logger.LogInformation(user, nameof(TaskService), GetTasksAction, list.Select(x => string.Join(", ", x.TaskList.Select(y => y.Id.ToString()))).ToList());     
 
             return list;   
-        }
-
-        /// <summary>
-        /// Get task by the given Id
-        /// </summary>
-        /// <param name="id">Id of the task</param>
-        /// <returns>Task</returns>
-        public TaskDataDto GetTask(int id)
-        {
-            var user = _utilsService.GetCurrentUser();
-
-            var e = _mapper.Map<TaskDataDto>(_context.Tasks.Where(x => x.Id == id).FirstOrDefault());
-
-            _loggerService.LogInformation(user, nameof(TaskService), GetTaskAction, id);     
-
-            return e;
-        }
-
-        /// <summary>
-        /// Delete task by the given Id
-        /// </summary>
-        /// <param name="id">Id of the task</param>
-        public void DeleteTask(int id)
-        {
-            var user = _utilsService.GetCurrentUser();
-
-            var task = _context.Tasks.Find(id);
-
-            if (task == null) {
-                throw _loggerService.LogInvalidThings(user, nameof(TaskService), TaskIdThing, TaskDoesNotExistMessage);
-            }
-
-            string taskTitle = task.Title;
-
-            _context.Tasks.Remove(task);
-            _context.SaveChanges();
-
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.TaskDeleted, user, taskTitle);
-
-            _loggerService.LogInformation(user, nameof(TaskService), DeleteTaskAction, id);
-        }
-
-        /// <summary>
-        /// Update task
-        /// </summary>
-        /// <param name="task">Update model</param>
-        public void UpdateTask(TaskDataDto task)
-        {
-            var user = _utilsService.GetCurrentUser();
-
-            var taskEntity = _context.Tasks.Find(task.Id);
-
-            if (taskEntity == null) {
-                throw _loggerService.LogInvalidThings(user, nameof(TaskService), TaskThing, NotCorrectUpdateObjectMessage);
-            }
-
-            _mapper.Map(task, taskEntity);
-            taskEntity.LastUpdate = DateTime.Now;
-
-            _context.Tasks.Update(taskEntity);
-            _context.SaveChanges();
-
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.TaskUpdated, user, taskEntity.Title);
-
-            _loggerService.LogInformation(user, nameof(TaskService), UpdateTaskAction, task.Id); 
-        }
-
-        /// <summary>
-        /// Create task
-        /// </summary>
-        /// <param name="model">Create model</param>
-        /// <returns>Id of the newly created task</returns>
-        public int CreateTask(TaskModel model)
-        {
-            var user = _utilsService.GetCurrentUser();
-
-            var taskEntity = new Task();
-
-            _mapper.Map(model, taskEntity);
-            taskEntity.OwnerId = user.Id;
-
-            _context.Tasks.Add(taskEntity);
-            _context.SaveChanges();
-
-            _loggerService.LogInformation(user, nameof(TaskService), CreateTaskAction, taskEntity.Id); 
-
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.TaskAdded, user, taskEntity.Title);
-
-            return taskEntity.Id;
         }
 
         private DateTime ToDay(DateTime date)

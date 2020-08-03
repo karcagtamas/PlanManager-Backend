@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ManagerAPI.Domain.Entities
 {
-    public class Message
+    public class Message : IEntity
     {
         [Key]
         public int Id { get; set; }

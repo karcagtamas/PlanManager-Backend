@@ -41,6 +41,25 @@ namespace ManagerAPI.Domain.Entities.MC
             return obj != null && this.Id == ((Book)obj).Id;
         }
 
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+            hash.Add(Id);
+            hash.Add(Title);
+            hash.Add(Description);
+            hash.Add(StartYear);
+            hash.Add(EndYear);
+            hash.Add(Creation);
+            hash.Add(LastUpdate);
+            hash.Add(CreatorId);
+            hash.Add(LastUpdaterId);
+            hash.Add(Seasons);
+            hash.Add(Creator);
+            hash.Add(LastUpdater);
+            hash.Add(ConnectedUsers);
+            return hash.ToHashCode();
+        }
+
         public override string ToString()
         {
             return $"{this.Id} - {this.Title}";

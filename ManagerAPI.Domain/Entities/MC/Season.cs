@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities.MC
@@ -21,6 +22,11 @@ namespace ManagerAPI.Domain.Entities.MC
         public override bool Equals(object obj)
         {
             return obj != null && this.Id == ((Season)obj).Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Number, SeriesId, Series, Episodes);
         }
 
         public override string ToString()
