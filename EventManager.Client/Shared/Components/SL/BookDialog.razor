@@ -1,0 +1,21 @@
+﻿<div>
+    <EditForm EditContext="@Context">
+        <DataAnnotationsValidator/>
+        <div class="col col-12 p-1">
+            <MatTextField class="w-100" @bind-Value="Model.Name" Label="Name" Dense="true" Outlined="true"></MatTextField>
+            <ValidationMessage For="() => Model.Name"/>
+        </div>
+        <div class="col col-12 p-1">
+            <MatTextField class="w-100" @bind-Value="Model.Author" Label="Author" Dense="true" Outlined="true"></MatTextField>
+            <ValidationMessage For="() => Model.Author"/>
+        </div>
+        <div class="col col-12 p-1">
+            <MatTextField class="w-100" @bind-Value="Model.Description" Label="Description" Dense="true" Outlined="true" TextArea="true"></MatTextField>
+            <ValidationMessage For="() => Model.Description"/>
+        </div>
+        <div class="col col-12 p-1">
+            <MatDatePicker class="w-100" @bind-Value="Model.Publish" Dense="true" Label="Publish" Format="yyyy-MM-dd" Outlined="true" AllowInput="false"></MatDatePicker>
+            <ValidationMessage For="() => Model.Publish"/>
+        </div>
+    </EditForm>
+</div>

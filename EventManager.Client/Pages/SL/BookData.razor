@@ -1,18 +1,26 @@
-@page "/books/{id}"
-@attribute [Microsoft.AspNetCore.Authorization.Authorize]
+@page "/books/{Id:int}"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <div class="sl-book-data">
-    @if (Book != null) {
+    @if (Book != null)
+    {
         <h1 class="em-page-title">@Book.Name</h1>
     }
-    @if (IsLoading) {
+    @if (IsLoading)
+    {
         <Loader></Loader>
-    } else {
+    }
+    else
+    {
         <div class="action-bar">
             <MatButton>Edit</MatButton>
             <MatButton>Delete</MatButton>
+            <MatButton @onclick="@() => Navigation.NavigateTo("/books")">Book List</MatButton>
+            <MatButton @onclick="@() => Navigation.NavigateTo("/my-books")">My Book List</MatButton>
         </div>
-        @if (Book != null) {
+        @if (Book != null)
+        {
             @Book.Author
         }
     }

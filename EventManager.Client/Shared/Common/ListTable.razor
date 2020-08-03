@@ -15,7 +15,7 @@
             <tbody>
             @foreach (var body in Body)
             {
-                <tr>
+                <tr @onclick="@() => RowClick(body)">
                     @foreach (var head in Header)
                     {
                         <td>@GetProperty(body, head.PropertyName)</td>

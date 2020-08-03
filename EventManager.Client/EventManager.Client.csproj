@@ -10,11 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="compilerconfig.json" />
+    <Content Remove="compilerconfig.json"/>
     <Content Update="Pages\WM\WorkingWeekStat.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="Shared\Common\ListTable.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Shared\Components\SL\BookDialog.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
   </ItemGroup>
@@ -126,7 +129,6 @@
 
   <ItemGroup>
     <Folder Include="Shared\Components\Events" />
-    <Folder Include="Shared\Components\SL" />
     <Folder Include="wwwroot\scss\" />
   </ItemGroup>
 

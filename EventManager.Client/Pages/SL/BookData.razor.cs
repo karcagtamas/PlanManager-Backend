@@ -7,25 +7,27 @@ namespace EventManager.Client.Pages.SL
 {
     public partial class BookData
     {
-        [Parameter]
-        public int Id { get; set; }
+        [Parameter] public int Id { get; set; }
 
         private BookDto Book { get; set; }
 
-        [Inject]
-        private IBookService BookService { get; set; }
-        private bool IsLoading { get; set; } = false;
+        [Inject] private IBookService BookService { get; set; }
 
-        protected override async Task OnInitializedAsync() {
-            await this.GetBook();
+        [Inject] private NavigationManager Navigation { get; set; }
+
+        private bool IsLoading { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await GetBook();
         }
 
-        private async Task GetBook() 
+        private async Task GetBook()
         {
-            this.IsLoading = true;
+            IsLoading = true;
             StateHasChanged();
-            this.Book = await this.BookService.Get(this.Id);
-            this.IsLoading = false;
+            Book = await BookService.Get(Id);
+            IsLoading = false;
             StateHasChanged();
         }
     }

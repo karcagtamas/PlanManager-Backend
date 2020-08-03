@@ -12,12 +12,12 @@
     else
     {
         <div class="action-bar">
-            <MatButton>Add</MatButton>
+            <MatButton @onclick="OpenAddBookDialog">Add</MatButton>
         </div>
         @if (BookList != null && BookList.Count > 0)
         {
             <div class="book-list">
-                <ListTable Header="Header" Footer="Footer" Body="BookList"></ListTable>
+                <ListTable Header="Header" Footer="Footer" Body="BookList" TList="BookListDto" OnRowClick="@(e => RedirectToData(e))"></ListTable>
             </div>
         }
         else
