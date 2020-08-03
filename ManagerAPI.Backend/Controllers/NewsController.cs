@@ -18,9 +18,7 @@ namespace ManagerAPI.Backend.Controllers
     [Authorize]
     public class NewsController : MyController<News, PostModel, NewsListDto, NewsDto, SystemNotificationType>
     {
-        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly INewsService _newsService;
-        private readonly ILoggerService _loggerService;
 
         /// <summary>
         /// Injector Constructor
@@ -30,7 +28,6 @@ namespace ManagerAPI.Backend.Controllers
         public NewsController(INewsService newsService, ILoggerService loggerService):base(loggerService, newsService)
         {
             _newsService = newsService;
-            _loggerService = loggerService;
         }
     }
 }

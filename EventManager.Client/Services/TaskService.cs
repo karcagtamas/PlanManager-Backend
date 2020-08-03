@@ -26,7 +26,7 @@ namespace EventManager.Client.Services
                 queryParams.Add<bool>("isSolved", (bool)isSolved);
             }
 
-            var settings = new HttpSettings($"{this.Url}", queryParams, null);
+            var settings = new HttpSettings($"{this.Url}/date", queryParams, null);
 
             return await this.Http.Get<List<TaskDateDto>>(settings);
         }

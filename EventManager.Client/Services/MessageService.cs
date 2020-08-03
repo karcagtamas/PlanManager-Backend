@@ -8,14 +8,14 @@ using ManagerAPI.Shared.Models;
 
 namespace EventManager.Client.Services
 {
-    public class MessageService : IMessageService
+    public class MessageService : HttpCall<MessageListDto, MessageDto, MessageModel>, IMessageService
     {
 
         private readonly IHttpService _httpService;
-        private readonly string _url = ApplicationSettings.BaseApiUrl + "/user";
+        private readonly string _url = ApplicationSettings.BaseApiUrl + "/message";
         private readonly IHelperService _helperService;
 
-        public MessageService(IHttpService httpService, IHelperService helperService)
+        public MessageService(IHttpService httpService, IHelperService helperService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/message", "Message")
         {
             _httpService = httpService;
             _helperService = helperService;
@@ -26,14 +26,14 @@ namespace EventManager.Client.Services
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(friendId, -1);
 
-            var settings = new HttpSettings($"{this._url}", null, pathParams);
+            var settings = new HttpSettings($"{this._url}/friend", null, pathParams);
 
             return await this._httpService.Get<List<MessageDto>>(settings);
         }
 
         public async Task<bool> SendMessage(MessageModel model)
         {
-            var settings = new HttpSettings($"{this._url}", null, null, "Message sending");
+            var settings = new HttpSettings($"{this._url}/send", null, null, "Message sending");
 
             var body = new HttpBody<MessageModel>(model);
 

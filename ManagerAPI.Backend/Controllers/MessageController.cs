@@ -1,5 +1,9 @@
 ﻿using System;
+using ManagerAPI.Domain.Entities;
+using ManagerAPI.Domain.Enums;
+using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,21 +16,18 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class MessageController : ControllerBase
+    public class MessageController : MyController<Message, MessageListDto, MessageDto, MessageModel, SystemNotificationType>
     {
-        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly IMessageService _messageService;
-        private readonly ILoggerService _loggerService;
 
         /// <summary>
         /// Injector Constructor
         /// </summary>
         /// <param name="messageService">Message Service</param>
         /// <param name="loggerService">Utils Service</param>
-        public MessageController(IMessageService messageService, ILoggerService loggerService)
+        public MessageController(IMessageService messageService, ILoggerService loggerService) : base (loggerService, messageService)
         {
             _messageService = messageService;
-            _loggerService = loggerService;
         }
 
         /// <summary>
@@ -34,20 +35,20 @@ namespace ManagerAPI.Backend.Controllers
         /// </summary>
         /// <param name="friendId">Partner Id</param>
         /// <returns>Server Response</returns>
-        [HttpGet("{friendId}")]
+        [HttpGet("friend/{friendId}")]
         public IActionResult GetMessages(int friendId)
         {
             try
             {
-                return Ok(_messageService.GetMessages(friendId));
+                return Ok(this._messageService.GetMessages(friendId));
             }
             catch (MessageException me)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
+                return BadRequest(this.Logger.ExceptionToResponse(me));
             }
             catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
 
@@ -56,21 +57,21 @@ namespace ManagerAPI.Backend.Controllers
         /// </summary>
         /// <param name="model">Model of message sending</param>
         /// <returns>Server Response</returns>
-        [HttpPost]
+        [HttpPost("send")]
         public IActionResult SendMessage([FromBody] MessageModel model)
         {
             try
             {
-                _messageService.SendMessage(model);
+                this._messageService.SendMessage(model);
                 return Ok();
             }
             catch (MessageException me)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
+                return BadRequest(this.Logger.ExceptionToResponse(me));
             }
             catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
     }

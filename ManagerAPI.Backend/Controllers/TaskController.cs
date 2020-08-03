@@ -13,7 +13,6 @@ namespace ManagerAPI.Backend.Controllers
     [ApiController]
     public class TaskController : MyController<Task, TaskModel, TaskListDto, TaskDto, SystemNotificationType>
     {
-        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly ITaskService _taskService;
 
         public TaskController(ITaskService taskService, ILoggerService loggerService) : base(loggerService, taskService)
@@ -21,7 +20,7 @@ namespace ManagerAPI.Backend.Controllers
             this._taskService = taskService;
         }
 
-        [HttpGet]
+        [HttpGet("date")]
         public IActionResult GetDate([FromQuery] bool? isSolved)
         {
             try
@@ -32,7 +31,7 @@ namespace ManagerAPI.Backend.Controllers
                 return BadRequest (this.Logger.ExceptionToResponse (me));
             } 
             catch (Exception e) {
-                return BadRequest (this.Logger.ExceptionToResponse (new Exception(FATAL_ERROR), e));
+                return BadRequest (this.Logger.ExceptionToResponse (new Exception(FatalError), e));
             }
         }
     }
