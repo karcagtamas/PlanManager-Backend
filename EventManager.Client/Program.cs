@@ -42,6 +42,7 @@ namespace EventManager.Client
             builder.Services.AddScoped<IWorkingFieldService, WorkingFieldService>();
             builder.Services.AddScoped<IWorkingDayTypeService, WorkingDayTypeService>();
             builder.Services.AddScoped<IBookService, BookService>();
+            builder.Services.AddScoped<IMovieService, MovieService>();
 
             if (builder.HostEnvironment.IsDevelopment())
             {

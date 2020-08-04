@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.Domain.Entities.MC;
 using ManagerAPI.Shared.DTOs.MC;
 using ManagerAPI.Shared.Models.MC;
@@ -18,6 +18,9 @@ namespace MovieCorner.Services.Profiles
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Movie.Title))
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Movie.Creator.UserName))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Movie.Id));
+            CreateMap<Movie, MyMovieDto>()
+                .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
+                .ForMember(dest => dest.IsMine, opt => opt.Ignore());
             CreateMap<MovieModel, Movie>();
             CreateMap<Movie, MovieDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))

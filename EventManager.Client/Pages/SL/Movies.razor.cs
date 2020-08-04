@@ -3,12 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.MC;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Pages.SL
 {
-    public partial class MoviesBase
+    public partial class Movies
     {
         [Inject] private IMovieService MovieService { get; set; }
 

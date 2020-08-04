@@ -24,11 +24,28 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpGet("my")]
-        public IActionResult GetOwnMovies()
+        public IActionResult GetMyList()
         {
             try
             {
-                return Ok(this._movieService.GetMyMovies());
+                return Ok(this._movieService.GetMyList());
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
+        
+        [HttpGet("my/{id}")]
+        public IActionResult GetMy(int id)
+        {
+            try
+            {
+                return Ok(this._movieService.GetMy(id));
             }
             catch (MessageException me)
             {
