@@ -8,7 +8,8 @@ namespace EventManager.Client.Services.Interfaces
 {
     public interface IMovieService : IHttpCall<MovieListDto, MovieDto, MovieModel>
     {
-        Task<List<MyMovieDto>> GetMyMovies();
+        Task<List<MyMovieListDto>> GetMyList();
+        Task<MyMovieDto> GetMy(int id);
         Task<bool> UpdateSeenStatus(int id, MovieSeenUpdateModel model);
         Task<bool> UpdateMyMovies(MyMovieModel model);
         Task<bool> AddMovieToMyMovies(int id);

@@ -1,15 +1,14 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.MC;
 using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
-using ManagerAPI.Shared.Models.MC;
 using MovieCorner.Services.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MovieCorner.Services.Services
 {
@@ -37,7 +36,7 @@ namespace MovieCorner.Services.Services
             this.DatabaseContext = context;
         }
 
-        public List<MyMovieDto> GetMyMovies()
+        public List<MyMovieListDto> GetMyList()
         {
             var user = this.Utils.GetCurrentUser();
 
@@ -45,7 +44,19 @@ namespace MovieCorner.Services.Services
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), list.Select(x => x.Movie.Id).ToList());
 
-            return Mapper.Map<List<MyMovieDto>>(list);
+            return Mapper.Map<List<MyMovieListDto>>(list);
+        }
+
+        public MyMovieDto GetMy(int id)
+        {
+            var user = this.Utils.GetCurrentUser();
+            
+            var movie = this.Get<MyMovieDto>(id);
+            movie.IsMine = user.MyMovies.Select(x => x.Movie).Any(x => x.Id == movie.Id);
+            
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), movie.Id);
+            
+            return movie;
         }
 
         public void UpdateSeenStatus(int id, bool seen)

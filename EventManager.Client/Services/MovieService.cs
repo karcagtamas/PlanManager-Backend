@@ -28,11 +28,21 @@ namespace EventManager.Client.Services
             return await this.Http.Create<object>(settings, body);
         }
 
-        public async Task<List<MyMovieDto>> GetMyMovies()
+        public async Task<List<MyMovieListDto>> GetMyList()
         {
             var settings = new HttpSettings($"{this.Url}");
 
-            return await this.Http.Get<List<MyMovieDto>>(settings);
+            return await this.Http.Get<List<MyMovieListDto>>(settings);
+        }
+        
+        public async Task<MyMovieDto> GetMy(int id)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/my", null, pathParams);
+
+            return await this.Http.Get<MyMovieDto>(settings);
         }
 
         public async Task<bool> RemoveMovieFromMyMovies(int id)
