@@ -603,13 +603,145 @@ app {
   padding: 0.5rem;
   background-color: rgba(187, 187, 255, 0.4);
 }
-.sl-books .book-list .book {
+
+/* SL Books data page */
+.sl-book-data {
+  max-height: 100%;
+}
+.sl-book-data .action-bar {
   margin-bottom: 1rem;
   margin-top: 1rem;
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
   border-radius: 4px;
   padding: 0.5rem;
-  background-color: rgba(249, 249, 249, 0.55);
+  background-color: rgba(240, 174, 73, 0.4);
+  display: flex;
+}
+.sl-book-data .action-bar .spacer {
+  flex-grow: 1;
+}
+.sl-book-data .data {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+.sl-book-data .data .data-row strong {
+  color: #5120a5;
+}
+
+/* SL My Books page */
+.sl-my-books {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  flex-direction: column;
+}
+.sl-my-books .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+}
+.sl-my-books .book-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Movies page */
+.sl-movies {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  flex-direction: column;
+}
+.sl-movies .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+}
+.sl-movies .movie-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Movies data page */
+.sl-movie-data {
+  max-height: 100%;
+}
+.sl-movie-data .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+  display: flex;
+}
+.sl-movie-data .action-bar .spacer {
+  flex-grow: 1;
+}
+.sl-movie-data .data {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+.sl-movie-data .data .data-row strong {
+  color: #5120a5;
+}
+
+/* SL My Movies page */
+.sl-my-movies {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  flex-direction: column;
+}
+.sl-my-movies .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+}
+.sl-my-movies .movie-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
 }
 
 /* Image block */
@@ -696,6 +828,7 @@ app {
 .list {
   flex-grow: 1;
   display: flex;
+  overflow: auto;
 }
 .list table {
   flex-grow: 1;

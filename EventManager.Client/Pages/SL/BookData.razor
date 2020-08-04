@@ -14,16 +14,48 @@
     else
     {
         <div class="action-bar">
-            <MatButton @onclick="OpenEditBookModal">Edit</MatButton>
+            <MatButton @onclick="OpenEditBookDialog">Edit</MatButton>
             <MatButton @onclick="DeleteBook">Delete</MatButton>
-            <MatButton @onclick="AddToMyBooks">Add to My Books</MatButton>
-            <MatButton @onclick="RemoveFromMyBooks">Remove FROM My Books</MatButton>
+            @if (Book != null)
+            {
+                @if (Book.IsMine)
+                {
+                    <MatButton @onclick="RemoveFromMyBooks">Remove From My Books</MatButton>
+                }
+                else
+                {
+                    <MatButton @onclick="AddToMyBooks">Add to My Books</MatButton>
+                }
+            }
+            <span class="spacer"></span>
             <MatButton @onclick="@(() => Navigation.NavigateTo("/books"))">Book List</MatButton>
             <MatButton @onclick="@(() => Navigation.NavigateTo("/my-books"))">My Book List</MatButton>
         </div>
         @if (Book != null)
         {
-            @Book.Author
+            <div class="data">
+                <div class="data-row">
+                    <strong>Author: </strong> @Book.Author
+                </div>
+                <div class="data-row">
+                    <strong>Description: </strong> @HelperService.WriteEmptyableField(Book.Description)
+                </div>
+                <div class="data-row">
+                    <strong>Publish: </strong> @HelperService.DateToString(Book.Publish)
+                </div>
+                <div class="data-row">
+                    <strong>Creation: </strong> @HelperService.DateToString(Book.Creation)
+                </div>
+                <div class="data-row">
+                    <strong>Last Update: </strong> @HelperService.DateToString(Book.LastUpdate)
+                </div>
+                <div class="data-row">
+                    <strong>Creator: </strong> @Book.Creator
+                </div>
+                <div class="data-row">
+                    <strong>Last Updater: </strong> @Book.LastUpdater
+                </div>
+            </div>
         }
     }
 </div>

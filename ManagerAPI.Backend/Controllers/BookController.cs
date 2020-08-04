@@ -24,11 +24,28 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpGet("my")]
-        public IActionResult GetMyBooks()
+        public IActionResult GetMyList()
         {
             try
             {
                 return Ok(this.BookService.GetMyList());
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
+        
+        [HttpGet("my/{id}")]
+        public IActionResult GetMy(int id)
+        {
+            try
+            {
+                return Ok(this.BookService.GetMy(id));
             }
             catch (MessageException me)
             {

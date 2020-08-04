@@ -10,12 +10,11 @@ namespace EventManager.Client.Pages.SL
     public partial class BookData
     {
         [Parameter] public int Id { get; set; }
-
-        private BookDto Book { get; set; }
-
+        private MyBookDto Book { get; set; }
         [Inject] private IBookService BookService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private IModalService Modal { get; set; }
+        [Inject] private IHelperService HelperService { get; set; }
 
         private bool IsLoading { get; set; }
 
@@ -28,7 +27,7 @@ namespace EventManager.Client.Pages.SL
         {
             IsLoading = true;
             StateHasChanged();
-            Book = await BookService.Get(Id);
+            Book = await BookService.GetMy(this.Id);
             IsLoading = false;
             StateHasChanged();
         }
@@ -46,7 +45,7 @@ namespace EventManager.Client.Pages.SL
 
             Modal.OnClose += BookModalClosed;
 
-            Modal.Show<BookDialog>("Update Book", parameters, options);
+            Modal.Show<BookDialog>("Edit Book", parameters, options);
         }
 
         private async void BookModalClosed(ModalResult modalResult)
