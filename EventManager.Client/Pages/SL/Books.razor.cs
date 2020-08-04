@@ -13,8 +13,6 @@ namespace EventManager.Client.Pages.SL
     {
         [Inject] private IBookService BookService { get; set; }
 
-        [Inject] private IHelperService HelperService { get; set; }
-
         [Inject] private NavigationManager Navigation { get; set; }
 
         [Inject] private IModalService Modal { get; set; }
@@ -29,7 +27,6 @@ namespace EventManager.Client.Pages.SL
             new TableHeaderData {PropertyName = "Author", DisplayName = "Author", IsSortable = false},
             new TableHeaderData {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false}
         };
-
         private List<string> Footer { get; } = new List<string> {" ", " ", " ", " "};
 
         protected override async Task OnInitializedAsync()

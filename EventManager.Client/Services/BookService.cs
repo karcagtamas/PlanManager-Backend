@@ -10,11 +10,8 @@ namespace EventManager.Client.Services
 {
     public class BookService : HttpCall<BookListDto, BookDto, BookModel>, IBookService
     {
-        private readonly IHelperService _helperService;
-
-        public BookService(IHelperService helperService, IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/book", "Book")
+        public BookService(IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/book", "Book")
         {
-            this._helperService = helperService;
         }
 
         public async Task<bool> AddBookToMyBooks(int id)
@@ -28,11 +25,21 @@ namespace EventManager.Client.Services
             return await this.Http.Create<object>(settings, body);
         }
 
-        public async Task<List<MyBookDto>> GetMyBooks()
+        public async Task<List<MyBookListDto>> GetMyList()
         {
-            var settings = new HttpSettings($"{this.Url}");
+            var settings = new HttpSettings($"{this.Url}/my");
 
-            return await this.Http.Get<List<MyBookDto>>(settings);
+            return await this.Http.Get<List<MyBookListDto>>(settings);
+        }
+
+        public async Task<MyBookDto> GetMy(int id)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/my", null, pathParams);
+
+            return await this.Http.Get<MyBookDto>(settings);
         }
 
         public async Task<bool> RemoveBookFromMyBooks(int id)

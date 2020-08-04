@@ -8,7 +8,8 @@ namespace EventManager.Client.Services.Interfaces
 {
     public interface IBookService : IHttpCall<BookListDto, BookDto, BookModel>
     {
-        Task<List<MyBookDto>> GetMyBooks();
+        Task<List<MyBookListDto>> GetMyList();
+        Task<MyBookDto> GetMy(int id);
         Task<bool> UpdateReadStatus(int id, BookReadStatusModel model);
         Task<bool> UpdateMyBooks(MyBookModel model);
         Task<bool> AddBookToMyBooks(int id);
