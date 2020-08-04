@@ -14,16 +14,6 @@ namespace EventManager.Client.Shared.Common
 
         [Parameter] public EventCallback<TList> OnRowClick { get; set; }
 
-        private List<int> IndexList { get; } = new List<int>();
-        private List<int> BodyIndexList { get; } = new List<int>();
-
-        protected override void OnInitialized()
-        {
-            for (var i = 0; i < Header.Count; i++) IndexList.Add(i);
-
-            for (var i = 0; i < Body.Count; i++) BodyIndexList.Add(i);
-        }
-
         private object GetProperty(TList entity, string property)
         {
             var type = typeof(TList);

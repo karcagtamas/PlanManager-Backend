@@ -11,5 +11,7 @@ namespace EventManager.Client.Services.Interfaces
         Task<List<MyBookDto>> GetMyBooks();
         Task<bool> UpdateReadStatus(int id, BookReadStatusModel model);
         Task<bool> UpdateMyBooks(MyBookModel model);
+        Task<bool> AddBookToMyBooks(int id);
+        Task<bool> RemoveBookFromMyBooks(int id);
     }
 }

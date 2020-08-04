@@ -14,8 +14,10 @@
     else
     {
         <div class="action-bar">
-            <MatButton>Edit</MatButton>
-            <MatButton>Delete</MatButton>
+            <MatButton @onclick="OpenEditBookModal">Edit</MatButton>
+            <MatButton @onclick="DeleteBook">Delete</MatButton>
+            <MatButton @onclick="AddToMyBooks">Add to My Books</MatButton>
+            <MatButton @onclick="RemoveFromMyBooks">Remove FROM My Books</MatButton>
             <MatButton @onclick="@(() => Navigation.NavigateTo("/books"))">Book List</MatButton>
             <MatButton @onclick="@(() => Navigation.NavigateTo("/my-books"))">My Book List</MatButton>
         </div>

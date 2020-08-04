@@ -14,5 +14,7 @@ namespace MovieCorner.Services.Services.Interfaces
         List<MyBookDto> GetMyList();
         void UpdateReadStatus(int id, bool status);
         void UpdateMyBooks(List<int> ids);
+        void AddBookToMyBooks(int id);
+        void RemoveBookFromMyBooks(int id);
     }
 }

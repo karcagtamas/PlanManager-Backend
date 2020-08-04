@@ -75,5 +75,39 @@ namespace ManagerAPI.Backend.Controllers
                 return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
+
+        [HttpPost("map/{id}")]
+        public IActionResult AddBookToMyBooks(int id) {
+            try
+            {
+                this.BookService.AddBookToMyBooks(id);
+                return Ok();
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
+
+        [HttpDelete("map/{id}")]
+        public IActionResult RemoveBookFromMyBooks(int id) {
+            try
+            {
+                this.BookService.RemoveBookFromMyBooks(id);
+                return Ok();
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
     }
 }

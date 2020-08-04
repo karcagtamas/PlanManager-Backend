@@ -37,6 +37,20 @@ namespace MovieCorner.Services.Services
             this.DatabaseContext = context;
         }
 
+        public void AddBookToMyBooks(int id)
+        {
+            var user = this.Utils.GetCurrentUser();
+
+            var mapping = this.DatabaseContext.UserBookSwitch.Where(x => x.UserId == user.Id && x.BookId == id).FirstOrDefault();
+
+            if (mapping == null)
+            {
+                mapping = new UserBook { BookId = id, UserId = user.Id, Read = false };
+                this.DatabaseContext.UserBookSwitch.Add(mapping);
+                this.DatabaseContext.SaveChanges();
+            }
+        }
+
         public List<MyBookDto> GetMyList()
         {
             var user = this.Utils.GetCurrentUser();
@@ -46,6 +60,19 @@ namespace MovieCorner.Services.Services
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), list.Select(x => x.Book.Id).ToList());
 
             return this.Mapper.Map<List<MyBookDto>>(list);
+        }
+
+        public void RemoveBookFromMyBooks(int id)
+        {
+            var user = this.Utils.GetCurrentUser();
+
+            var mapping = this.DatabaseContext.UserBookSwitch.Where(x => x.UserId == user.Id && x.BookId == id).FirstOrDefault();
+
+            if (mapping != null)
+            {
+                this.DatabaseContext.UserBookSwitch.Remove(mapping);
+                this.DatabaseContext.SaveChanges();
+            }
         }
 
         public void UpdateMyBooks(List<int> ids)
