@@ -11,5 +11,7 @@ namespace MovieCorner.Services.Services.Interfaces
         List<MyMovieDto> GetMyMovies();
         void UpdateSeenStatus(int id, bool seen);
         void UpdateMyMovies(List<int> ids);
+        void AddMovieToMyMovies(int id);
+        void RemoveMovieFromMyMovies(int id);
     }
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ManagerAPI.Shared.DTOs.MC;
 
 namespace ManagerAPI.Shared.Models.MC
 {
@@ -13,5 +14,13 @@ namespace ManagerAPI.Shared.Models.MC
 
         [Required]
         public int Year { get; set; }
+
+        public MovieModel() {}
+
+        public MovieModel(MovieDto movie) {
+            this.Title = movie.Title;
+            this.Description = movie.Description;
+            this.Year = movie.Year;
+        }
     }
 }

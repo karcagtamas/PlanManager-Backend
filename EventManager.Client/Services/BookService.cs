@@ -21,7 +21,7 @@ namespace EventManager.Client.Services
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(id, -1);
-            var settings = new HttpSettings($"{this.Url}/map", null, pathParams, "Add book to My Books");
+            var settings = new HttpSettings($"{this.Url}/map", null, pathParams, "Adding book to My Books");
 
             var body = new HttpBody<object>(null);
 
@@ -39,7 +39,7 @@ namespace EventManager.Client.Services
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(id, -1);
-            var settings = new HttpSettings($"{this.Url}/map", null, pathParams, "Remove book from My Books");
+            var settings = new HttpSettings($"{this.Url}/map", null, pathParams, "Removing book from My Books");
 
             return await this.Http.Delete(settings);
         }

@@ -92,5 +92,34 @@ namespace MovieCorner.Services.Services
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
             DatabaseContext.SaveChanges();
         }
+
+        public void AddMovieToMyMovies(int id)
+        {
+            var user = this.Utils.GetCurrentUser();
+
+            var mapping = this.DatabaseContext.UserMovieSwitch.Where(x => x.UserId == user.Id && x.MovieId == id).FirstOrDefault();
+
+            if (mapping == null)
+            {
+                mapping = new UserMovie { MovieId = id, UserId = user.Id, Seen = false };
+                this.DatabaseContext.UserMovieSwitch.Add(mapping);
+                this.DatabaseContext.SaveChanges();
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
+            }
+        }
+
+        public void RemoveMovieFromMyMovies(int id)
+        {
+            var user = this.Utils.GetCurrentUser();
+
+            var mapping = this.DatabaseContext.UserMovieSwitch.Where(x => x.UserId == user.Id && x.MovieId == id).FirstOrDefault();
+
+            if (mapping != null)
+            {
+                this.DatabaseContext.UserMovieSwitch.Remove(mapping);
+                this.DatabaseContext.SaveChanges();
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete my"), id);
+            }
+        }
     }
 }

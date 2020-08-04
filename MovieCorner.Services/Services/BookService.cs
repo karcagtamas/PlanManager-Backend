@@ -48,6 +48,7 @@ namespace MovieCorner.Services.Services
                 mapping = new UserBook { BookId = id, UserId = user.Id, Read = false };
                 this.DatabaseContext.UserBookSwitch.Add(mapping);
                 this.DatabaseContext.SaveChanges();
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
             }
         }
 
@@ -72,6 +73,7 @@ namespace MovieCorner.Services.Services
             {
                 this.DatabaseContext.UserBookSwitch.Remove(mapping);
                 this.DatabaseContext.SaveChanges();
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete my"), id);
             }
         }
 
