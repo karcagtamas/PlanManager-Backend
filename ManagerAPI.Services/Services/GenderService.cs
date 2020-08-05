@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
@@ -20,7 +21,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="context">Database Context</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="loggerService">Logger Service</param>
-        public GenderService(IUtilsService utilsService, INotificationService notificationService, DatabaseContext context, IMapper mapper, ILoggerService loggerService) : base(context, loggerService, utilsService, notificationService, mapper, "Gender", new NotificationArguments { })
+        public GenderService(IUtilsService utilsService, INotificationService notificationService, DatabaseContext context, IMapper mapper, ILoggerService loggerService) : base(context, loggerService, utilsService, notificationService, mapper, "Gender", new NotificationArguments { DeleteArguments = new List<string> { "Name" }, CreateArguments = new List<string> { "Name" }, UpdateArguments = new List<string> { "Name" } })
         {
             this._databaseContext = context;
         }

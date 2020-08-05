@@ -20,13 +20,13 @@ namespace ManagerAPI.Services.Services
         // Actions
         private const string SendMessageAction = "send message";
         private const string GetMessagesAction = "get messages";
-        
+
         // Things
         private const string MessageThing = "message";
-        
+
         // Messages
         private const string ParnterIsNeededForSendingMessage = "Partner is needed for the message sending";
-        
+
         // Injects
         private readonly DatabaseContext _databaseContext;
 
@@ -38,7 +38,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="context">Database Context</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="loggerService">Logger Service</param>
-        public MessageService(IUtilsService utilsService, INotificationService notificationService, DatabaseContext context, IMapper mapper, ILoggerService loggerService) : base(context, loggerService, utilsService, notificationService, mapper, "Message", new NotificationArguments { })
+        public MessageService(IUtilsService utilsService, INotificationService notificationService, DatabaseContext context, IMapper mapper, ILoggerService loggerService) : base(context, loggerService, utilsService, notificationService, mapper, "Message", new NotificationArguments { DeleteArguments = new List<string>(), UpdateArguments = new List<string>(), CreateArguments = new List<string>() })
         {
             this._databaseContext = context;
         }

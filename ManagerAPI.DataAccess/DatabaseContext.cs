@@ -375,6 +375,24 @@ namespace ManagerAPI.DataAccess
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
                     {Id = 60, Title = "Working Day Type Updated", ImportanceLevel = 2, SystemId = 5});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 61, Title = "Message Added", ImportanceLevel = 1, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 62, Title = "Message Deleted", ImportanceLevel = 1, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 63, Title = "Message Updated", ImportanceLevel = 1, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 64, Title = "Gender Added", ImportanceLevel = 2, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 65, Title = "Gender Deleted", ImportanceLevel = 3, SystemId = 1});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 66, Title = "Gender Updated", ImportanceLevel = 2, SystemId = 1});
 
             // Notification table settings
             builder.Entity<Notification>()

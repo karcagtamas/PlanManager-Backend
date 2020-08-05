@@ -28,7 +28,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="notificationService">Notification Service</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="loggerService">Logger Service</param>
-        public NewsService(DatabaseContext context, IUtilsService utilsService, INotificationService notificationService, IMapper mapper, ILoggerService loggerService) : base(context, loggerService, utilsService, notificationService, mapper, "News", new NotificationArguments { })
+        public NewsService(DatabaseContext context, IUtilsService utilsService, INotificationService notificationService, IMapper mapper, ILoggerService loggerService) : base(context, loggerService, utilsService, notificationService, mapper, "News", new NotificationArguments { DeleteArguments = new List<string> { "CurrentUser.UserName" }, UpdateArguments = new List<string> { "CurrentUser.UserName" }, CreateArguments = new List<string> { "CurrentUser.UserName" } })
         {
             this._databaseContext = context;
         }

@@ -32,7 +32,7 @@ namespace ManagerAPI.Services.Services
         /// <param name="loggerService">Logger Service</param>
         /// <param name="notificationService">Notification Service</param>
         public TaskService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService)
-        :base(context, loggerService, utilsService, notificationService, mapper, "Task", new NotificationArguments { })
+        : base(context, loggerService, utilsService, notificationService, mapper, "Task", new NotificationArguments { DeleteArguments = new List<string> { "Title" }, CreateArguments = new List<string> { "Title" }, UpdateArguments = new List<string> { "Title" } })
         {
             this._databaseContext = context;
         }
@@ -46,15 +46,15 @@ namespace ManagerAPI.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
             var list = this.Mapper.Map<List<TaskDateDto>>(user.Tasks.GroupBy(x => this.ToDay(x.Deadline)).OrderBy(x => x.Key).ToList());
-            
+
             if (isSolved != null)
             {
                 list = list.Select(x => { x.TaskList = x.TaskList.Where(y => y.IsSolved == isSolved).ToList(); return x; }).Where(x => x.TaskList.Count > 0).ToList();
             }
 
-            this.Logger.LogInformation(user, nameof(TaskService), GetTasksAction, list.Select(x => string.Join(", ", x.TaskList.Select(y => y.Id.ToString()))).ToList());     
+            this.Logger.LogInformation(user, nameof(TaskService), GetTasksAction, list.Select(x => string.Join(", ", x.TaskList.Select(y => y.Id.ToString()))).ToList());
 
-            return list;   
+            return list;
         }
 
         private DateTime ToDay(DateTime date)

@@ -7,9 +7,9 @@ namespace ManagerAPI.Domain.Enums
         Logout = 3,
         MyProfileUpdated = 4,
         MessageArrived = 5,
-        TaskAdded = 6,
-        TaskDeleted = 7,
-        TaskUpdated = 8,
+        AddTask = 6,
+        DeleteTask = 7,
+        UpdateTask = 8,
         PasswordChanged = 39,
         ProfileImageChanged = 40,
         UsernameChanged = 41,
@@ -20,8 +20,14 @@ namespace ManagerAPI.Domain.Enums
         FriendRequestDeclined = 46,
         YouHasANewFriend = 47,
         FriendRemoved = 48,
-        NewsAdded = 49,
-        NewsUpdated = 50,
-        NewsDeleted = 51
+        AddNews = 49,
+        UpdateNews = 50,
+        DeleteNews = 51, 
+        AddMessage = 61, 
+        DeleteMessage = 62,
+        UpdateMessage = 63, 
+        AddGender = 64, 
+        DeleteGender = 65,
+        UpdateGender = 66
     }
 }
