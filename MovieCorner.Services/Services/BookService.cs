@@ -31,7 +31,7 @@ namespace MovieCorner.Services.Services
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
         /// <param name="notificationService"></param>
-        public BookService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Book", new NotificationArguments { })
+        public BookService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Book", new NotificationArguments { DeleteArguments = new List<string> { "Name" }, CreateArguments = new List<string> { "Name" }, UpdateArguments = new List<string> { "Name" } })
         {
             this._databaseContext = context;
         }
@@ -48,6 +48,7 @@ namespace MovieCorner.Services.Services
                 this._databaseContext.UserBookSwitch.Add(mapping);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
+                this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyBookListUpdated, user);
             }
         }
 
@@ -65,12 +66,12 @@ namespace MovieCorner.Services.Services
         public MyBookDto GetMy(int id)
         {
             var user = this.Utils.GetCurrentUser();
-            
+
             var book = this.Get<MyBookDto>(id);
             book.IsMine = user.MyBooks.Select(x => x.Book).Any(x => x.Id == book.Id);
-            
+
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), book.Id);
-            
+
             return book;
         }
 
@@ -85,6 +86,7 @@ namespace MovieCorner.Services.Services
                 this._databaseContext.UserBookSwitch.Remove(mapping);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete my"), id);
+                this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyBookListUpdated, user);
             }
         }
 
@@ -110,8 +112,9 @@ namespace MovieCorner.Services.Services
                 }
             }
 
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
             _databaseContext.SaveChanges();
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
+            this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyBookListUpdated, user);
         }
 
         public void UpdateReadStatus(int id, bool status)
@@ -130,6 +133,7 @@ namespace MovieCorner.Services.Services
             _databaseContext.SaveChanges();
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set read status for"), userBook.Book.Id);
+            this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.BookReadStatusUpdated, user, userBook.Book.Name, status ? "Read" : "Unread");
         }
     }
 }

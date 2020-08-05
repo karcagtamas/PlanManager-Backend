@@ -144,7 +144,16 @@ namespace ManagerAPI.Services.Services
             string val = type
                 switch
                 {
-                    MovieCornerNotificationType.AddWorkingDay => "Successfully logged in. Welcome.",
+                    MovieCornerNotificationType.AddBook => "Book added with name: {0}",
+                    MovieCornerNotificationType.AddMovie => "Movie added with title: {0}",
+                    MovieCornerNotificationType.UpdateBook => "Book updated with name: {0}",
+                    MovieCornerNotificationType.UpdateMovie => "Movie updated with title: {0}",
+                    MovieCornerNotificationType.DeleteBook => "Book deleted with name: {0}",
+                    MovieCornerNotificationType.DeleteMovie => "Movie deleted with title: {0}",
+                    MovieCornerNotificationType.MyBookListUpdated => "My Book List updated",
+                    MovieCornerNotificationType.MyMovieListUpdated => "My Movie List updated",
+                    MovieCornerNotificationType.BookReadStatusUpdated => "{0} book read status has been changed to {1}",
+                    MovieCornerNotificationType.MovieSeenStatusUpdated => "{0} movie seen status has been changed to {1}",
                     _ =>
                     throw new Exception("System Notification is not implemented"),
                 };

@@ -31,7 +31,7 @@ namespace MovieCorner.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public MovieService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Movie", new NotificationArguments { })
+        public MovieService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Movie", new NotificationArguments { DeleteArguments = new List<string> { "Title" }, UpdateArguments = new List<string> { "Title" }, CreateArguments = new List<string> { "Title" } })
         {
             this.DatabaseContext = context;
         }
@@ -50,12 +50,12 @@ namespace MovieCorner.Services.Services
         public MyMovieDto GetMy(int id)
         {
             var user = this.Utils.GetCurrentUser();
-            
+
             var movie = this.Get<MyMovieDto>(id);
             movie.IsMine = user.MyMovies.Select(x => x.Movie).Any(x => x.Id == movie.Id);
-            
+
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), movie.Id);
-            
+
             return movie;
         }
 
@@ -75,6 +75,7 @@ namespace MovieCorner.Services.Services
             DatabaseContext.SaveChanges();
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set seen status for"), userMovie.Movie.Id);
+            this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MovieSeenStatusUpdated, user, userMovie.Movie.Title, seen ? "Seen" : "Unseen");
         }
 
 
@@ -100,8 +101,9 @@ namespace MovieCorner.Services.Services
                 }
             }
 
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
             DatabaseContext.SaveChanges();
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
+            this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyMovieListUpdated, user);
         }
 
         public void AddMovieToMyMovies(int id)
@@ -116,6 +118,7 @@ namespace MovieCorner.Services.Services
                 this.DatabaseContext.UserMovieSwitch.Add(mapping);
                 this.DatabaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
+                this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyMovieListUpdated, user);
             }
         }
 
@@ -130,6 +133,7 @@ namespace MovieCorner.Services.Services
                 this.DatabaseContext.UserMovieSwitch.Remove(mapping);
                 this.DatabaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete my"), id);
+                this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyMovieListUpdated, user);
             }
         }
     }
