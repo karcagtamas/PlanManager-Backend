@@ -46,7 +46,7 @@ namespace EventManager.Client.Pages.SL
 
             Modal.OnClose += MovieDialogClosed;
 
-            Modal.Show<BookDialog>("Edit Movie", parameters, options);
+            Modal.Show<MovieDialog>("Edit Movie", parameters, options);
         }
 
         private async void MovieDialogClosed(ModalResult modalResult)
