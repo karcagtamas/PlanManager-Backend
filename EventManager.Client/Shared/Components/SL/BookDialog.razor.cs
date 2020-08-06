@@ -12,20 +12,15 @@ namespace EventManager.Client.Shared.Components.SL
     public partial class BookDialog
     {
         [CascadingParameter] public ModalParameters Parameters { get; set; }
-
         [CascadingParameter] public BlazoredModal BlazoredModal { get; set; }
-
         [Inject] private IBookService BookService { get; set; }
-
         [Inject] private IModalService ModalService { get; set; }
-
-        public int FormId { get; set; }
-
-        public BookModel Model { get; set; }
-        public EditContext Context { get; set; }
-        public bool IsEdit { get; set; }
-        public int Id { get; set; }
-        public BookDto Book { get; set; }
+        private int FormId { get; set; }
+        private BookModel Model { get; set; }
+        private EditContext Context { get; set; }
+        private bool IsEdit { get; set; }
+        private int Id { get; set; }
+        private BookDto Book { get; set; }
 
         protected override async Task OnInitializedAsync()
         {

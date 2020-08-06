@@ -56,6 +56,23 @@ namespace ManagerAPI.Backend.Controllers
                 return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
+        
+        [HttpGet("selector")]
+        public IActionResult GetMySelectorList()
+        {
+            try
+            {
+                return Ok(this._movieService.GetMySelectorList());
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
 
         [HttpPut("map")]
         public IActionResult UpdateMyMovies([FromBody] MyMovieModel model)

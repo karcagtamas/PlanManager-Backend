@@ -14,5 +14,6 @@ namespace EventManager.Client.Services.Interfaces
         Task<bool> UpdateMyMovies(MyMovieModel model);
         Task<bool> AddMovieToMyMovies(int id);
         Task<bool> RemoveMovieFromMyMovies(int id);
+        Task<List<MyMovieSelectorListDto>> GetMySelectorList();
     }
 }

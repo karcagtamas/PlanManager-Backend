@@ -11,7 +11,7 @@
     else
     {
         <div class="action-bar">
-            <MatButton>Edit My Movies</MatButton>
+            <MatButton @onclick="OpenEditMyMoviesDialog">Edit My Movies</MatButton>
         </div>
         @if (MovieList != null && MovieList.Count > 0)
         {

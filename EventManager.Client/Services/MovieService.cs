@@ -30,7 +30,7 @@ namespace EventManager.Client.Services
 
         public async Task<List<MyMovieListDto>> GetMyList()
         {
-            var settings = new HttpSettings($"{this.Url}");
+            var settings = new HttpSettings($"{this.Url}/my");
 
             return await this.Http.Get<List<MyMovieListDto>>(settings);
         }
@@ -54,9 +54,16 @@ namespace EventManager.Client.Services
             return await this.Http.Delete(settings);
         }
 
+        public async Task<List<MyMovieSelectorListDto>> GetMySelectorList()
+        {
+            var settings = new HttpSettings($"{this.Url}/selector", null, null);
+            
+            return await this.Http.Get<List<MyMovieSelectorListDto>>(settings);
+        }
+
         public async Task<bool> UpdateMyMovies(MyMovieModel model)
         {
-            var settings = new HttpSettings($"{this.Url}", null, null, "My Movies updating");
+            var settings = new HttpSettings($"{this.Url}/map", null, null, "My Movies updating");
 
             var body = new HttpBody<MyMovieModel>(model);
 

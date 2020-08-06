@@ -90,6 +90,21 @@ namespace MovieCorner.Services.Services
             }
         }
 
+        public List<MyBookSelectorListDto> GetMySelectorList()
+        {
+            var user = this.Utils.GetCurrentUser();
+
+            var list = this.GetAll<MyBookSelectorListDto>();
+            foreach (var t in list)
+            {
+                t.IsMine = user.MyBooks.Select(x => x.Book).Any(x => x.Id == t.Id);
+            }
+            
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my selector"), list.Select(x => x.Id).ToList());
+
+            return list;
+        }
+
         public void UpdateMyBooks(List<int> ids)
         {
             var user = this.Utils.GetCurrentUser();

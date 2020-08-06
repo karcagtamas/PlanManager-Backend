@@ -57,6 +57,23 @@ namespace ManagerAPI.Backend.Controllers
             }
         }
 
+        [HttpGet("selector")]
+        public IActionResult GetMySelectorList()
+        {
+            try
+            {
+                return Ok(this.BookService.GetMySelectorList());
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
+
         [HttpPut("map")]
         public IActionResult UpdateMyBooks([FromBody] MyBookModel model)
         {

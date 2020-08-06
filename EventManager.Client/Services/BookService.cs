@@ -51,9 +51,16 @@ namespace EventManager.Client.Services
             return await this.Http.Delete(settings);
         }
 
+        public async Task<List<MyBookSelectorListDto>> GetMySelectorList()
+        {
+            var settings = new HttpSettings($"{this.Url}/selector", null, null);
+            
+            return await this.Http.Get<List<MyBookSelectorListDto>>(settings);
+        }
+
         public async Task<bool> UpdateMyBooks(MyBookModel model)
         {
-            var settings = new HttpSettings($"{this.Url}", null, null, "My Books updating");
+            var settings = new HttpSettings($"{this.Url}/map", null, null, "My Books updating");
 
             var body = new HttpBody<MyBookModel>(model);
 

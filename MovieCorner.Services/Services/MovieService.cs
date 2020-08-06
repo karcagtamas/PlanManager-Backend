@@ -21,8 +21,7 @@ namespace MovieCorner.Services.Services
         private const string UserMovieConnectionDoesNotExistMessage = "User Movie connection does not exist";
 
         // Injects
-        // Injects
-        private readonly DatabaseContext DatabaseContext;
+        private readonly DatabaseContext _databaseContext;
 
         /// <summary>
         /// Injector Constructor
@@ -31,9 +30,10 @@ namespace MovieCorner.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
+        /// <param name="notificationService"></param>
         public MovieService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Movie", new NotificationArguments { DeleteArguments = new List<string> { "Title" }, UpdateArguments = new List<string> { "Title" }, CreateArguments = new List<string> { "Title" } })
         {
-            this.DatabaseContext = context;
+            this._databaseContext = context;
         }
 
         public List<MyMovieListDto> GetMyList()
@@ -63,7 +63,7 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var userMovie = DatabaseContext.UserMovieSwitch.Find(user.Id, id);
+            var userMovie = _databaseContext.UserMovieSwitch.Find(user.Id, id);
             if (userMovie == null)
             {
                 throw this.Logger.LogInvalidThings(user, this.GetService(), UserMovieThing, UserMovieConnectionDoesNotExistMessage);
@@ -71,8 +71,8 @@ namespace MovieCorner.Services.Services
 
             userMovie.Seen = seen;
             userMovie.SeenOn = seen ? (DateTime?)DateTime.Now : null;
-            DatabaseContext.UserMovieSwitch.Update(userMovie);
-            DatabaseContext.SaveChanges();
+            _databaseContext.UserMovieSwitch.Update(userMovie);
+            _databaseContext.SaveChanges();
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set seen status for"), userMovie.Movie.Id);
             this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MovieSeenStatusUpdated, user, userMovie.Movie.Title, seen ? "Seen" : "Unseen");
@@ -83,12 +83,12 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var currentMappings = DatabaseContext.UserMovieSwitch.Where(x => x.UserId == user.Id).ToList();
+            var currentMappings = _databaseContext.UserMovieSwitch.Where(x => x.UserId == user.Id).ToList();
             foreach (var i in currentMappings)
             {
                 if (ids.FindIndex(x => x == i.MovieId) == -1)
                 {
-                    DatabaseContext.UserMovieSwitch.Remove(i);
+                    _databaseContext.UserMovieSwitch.Remove(i);
                 }
             }
 
@@ -97,11 +97,11 @@ namespace MovieCorner.Services.Services
                 if (currentMappings.FirstOrDefault(x => x.MovieId == i) == null)
                 {
                     var map = new UserMovie() { MovieId = i, UserId = user.Id, Seen = false };
-                    DatabaseContext.UserMovieSwitch.Add(map);
+                    _databaseContext.UserMovieSwitch.Add(map);
                 }
             }
 
-            DatabaseContext.SaveChanges();
+            _databaseContext.SaveChanges();
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
             this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyMovieListUpdated, user);
         }
@@ -110,13 +110,13 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var mapping = this.DatabaseContext.UserMovieSwitch.Where(x => x.UserId == user.Id && x.MovieId == id).FirstOrDefault();
+            var mapping = this._databaseContext.UserMovieSwitch.FirstOrDefault(x => x.UserId == user.Id && x.MovieId == id);
 
             if (mapping == null)
             {
                 mapping = new UserMovie { MovieId = id, UserId = user.Id, Seen = false };
-                this.DatabaseContext.UserMovieSwitch.Add(mapping);
-                this.DatabaseContext.SaveChanges();
+                this._databaseContext.UserMovieSwitch.Add(mapping);
+                this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
                 this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyMovieListUpdated, user);
             }
@@ -126,15 +126,30 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var mapping = this.DatabaseContext.UserMovieSwitch.Where(x => x.UserId == user.Id && x.MovieId == id).FirstOrDefault();
+            var mapping = this._databaseContext.UserMovieSwitch.FirstOrDefault(x => x.UserId == user.Id && x.MovieId == id);
 
             if (mapping != null)
             {
-                this.DatabaseContext.UserMovieSwitch.Remove(mapping);
-                this.DatabaseContext.SaveChanges();
+                this._databaseContext.UserMovieSwitch.Remove(mapping);
+                this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete my"), id);
                 this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyMovieListUpdated, user);
             }
+        }
+
+        public List<MyMovieSelectorListDto> GetMySelectorList()
+        {
+            var user = this.Utils.GetCurrentUser();
+
+            var list = this.GetAll<MyMovieSelectorListDto>();
+            foreach (var t in list)
+            {
+                t.IsMine = user.MyMovies.Select(x => x.Movie).Any(x => x.Id == t.Id);
+            }
+            
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my selector"), list.Select(x => x.Id).ToList());
+
+            return list;
         }
     }
 }

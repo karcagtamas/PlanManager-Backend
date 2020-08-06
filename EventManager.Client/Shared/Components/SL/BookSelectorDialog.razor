@@ -1,0 +1,15 @@
+﻿<div class="sl-book-selector-dialog">
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        @if (List != null && List.Count > 0)
+        {
+            <div class="book-list">
+                <ListTable Header="Header" Footer="Footer" Body="List" TList="ManagerAPI.Shared.DTOs.MC.MyBookSelectorListDto" OnRowClick="@(e => SwitchMineFlag(e))"></ListTable>
+            </div>
+        }
+    }
+</div>
