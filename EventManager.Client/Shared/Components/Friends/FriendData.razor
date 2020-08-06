@@ -1,5 +1,6 @@
 @using EventManager.Client.Services.Interfaces
 @using ManagerAPI.Shared.DTOs
+@using ManagerAPI.Shared.Helpers
 @inject IModalService ModalService
 @inject IFriendService FriendService
 
@@ -35,7 +36,7 @@ else
                             <strong>Full Name:</strong>
                         </div>
                         <div>
-                            @HelperService.WriteEmptyableField(Friend.FullName)
+                            @WriteHelper.WriteEmptyableField(Friend.FullName)
                         </div>
                     </div>
                     <div class="data-row">
@@ -43,7 +44,7 @@ else
                             <strong>Registration:</strong>
                         </div>
                         <div>
-                            @HelperService.DateToString(Friend.RegistrationDate)
+                            @DateHelper.DateToString(Friend.RegistrationDate)
                         </div>
                     </div>
                     <div class="data-row">
@@ -51,7 +52,7 @@ else
                             <strong>Phone Number:</strong>
                         </div>
                         <div>
-                            @HelperService.WriteEmptyableField(Friend.PhoneNumber)
+                            @WriteHelper.WriteEmptyableField(Friend.PhoneNumber)
                         </div>
                     </div>
                     <div class="data-row">
@@ -59,7 +60,7 @@ else
                             <strong>Birthday:</strong>
                         </div>
                         <div>
-                            @HelperService.DateToString(Friend.BirthDay)
+                            @DateHelper.DateToString(Friend.BirthDay)
                         </div>
                     </div>
                     <div class="data-row">
@@ -67,7 +68,7 @@ else
                             <strong>Roles:</strong>
                         </div>
                         <div>
-                            @HelperService.WriteList(Friend.Roles)
+                            @WriteHelper.WriteList(Friend.Roles)
                         </div>
                     </div>
                 </div>
@@ -77,7 +78,7 @@ else
                             <strong>TShirt Size:</strong>
                         </div>
                         <div>
-                            @HelperService.WriteEmptyableField(Friend.TShirtSize)
+                            @WriteHelper.WriteEmptyableField(Friend.TShirtSize)
                         </div>
                     </div>
                     <div class="data-row">
@@ -85,7 +86,7 @@ else
                             <strong>Allergy:</strong>
                         </div>
                         <div>
-                            @HelperService.WriteEmptyableField(Friend.Allergy)
+                            @WriteHelper.WriteEmptyableField(Friend.Allergy)
                         </div>
                     </div>
                     <div class="data-row">
@@ -93,7 +94,7 @@ else
                             <strong>Group:</strong>
                         </div>
                         <div>
-                            @HelperService.WriteEmptyableField(Friend.Group)
+                            @WriteHelper.WriteEmptyableField(Friend.Group)
                         </div>
                     </div>
                     <div class="data-row">
@@ -101,7 +102,7 @@ else
                             <strong>Gender:</strong>
                         </div>
                         <div>
-                            @HelperService.WriteEmptyableField(Friend.Gender)
+                            @WriteHelper.WriteEmptyableField(Friend.Gender)
                         </div>
                     </div>
                     <div class="data-row">
@@ -109,7 +110,7 @@ else
                             <strong>Country:</strong>
                         </div>
                         <div>
-                            @HelperService.WriteEmptyableField(Friend.Country)
+                            @WriteHelper.WriteEmptyableField(Friend.Country)
                         </div>
                     </div>
                     <div class="data-row">
@@ -117,7 +118,7 @@ else
                             <strong>City:</strong>
                         </div>
                         <div>
-                            @HelperService.WriteEmptyableField(Friend.City)
+                            @WriteHelper.WriteEmptyableField(Friend.City)
                         </div>
                     </div>
                 </div>
@@ -139,9 +140,6 @@ else
 
     [CascadingParameter]
     public BlazoredModal BlazoredModal { get; set; }
-
-    [Inject]
-    public IHelperService HelperService { get; set; }
 
     protected bool ShowForm { get; set; } = true;
     protected int FormId { get; set; }

@@ -18,7 +18,7 @@
                 <tr @onclick="@(() => RowClick(body))" class="@(IsSelectionEnabled && SelectedIndexes.Contains(body.Id) ? "selected" : "")">
                     @foreach (var head in Header)
                     {
-                        <td>@GetProperty(body, head.PropertyName)</td>
+                        <td>@head.Displaying(GetProperty(body, head.PropertyName))</td>
                     }
                 </tr>
             }

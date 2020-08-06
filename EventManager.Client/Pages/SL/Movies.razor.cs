@@ -13,8 +13,6 @@ namespace EventManager.Client.Pages.SL
     {
         [Inject] private IMovieService MovieService { get; set; }
 
-        [Inject] private IHelperService HelperService { get; set; }
-
         [Inject] private NavigationManager Navigation { get; set; }
 
         [Inject] private IModalService Modal { get; set; }
@@ -24,9 +22,15 @@ namespace EventManager.Client.Pages.SL
 
         private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
         {
-            new TableHeaderData {PropertyName = "Title", DisplayName = "Title", IsSortable = false},
-            new TableHeaderData {PropertyName = "Year", DisplayName = "Year", IsSortable = false},
-            new TableHeaderData {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false}
+            new TableHeaderData
+                {PropertyName = "Title", DisplayName = "Title", IsSortable = false, Displaying = (e) => (string) e},
+            new TableHeaderData
+            {
+                PropertyName = "Year", DisplayName = "Year", IsSortable = false,
+                Displaying = (e) => ((int) e).ToString()
+            },
+            new TableHeaderData
+                {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false, Displaying = (e) => (string) e}
         };
 
         private List<string> Footer { get; } = new List<string> {" ", " ", " "};

@@ -1,7 +1,5 @@
 ﻿@using ManagerAPI.Shared.DTOs
-@inject EventManager.Client.Services.Interfaces.IHelperService HelperService
-
-
+@using ManagerAPI.Shared.Helpers
 @if (Notification != null)
 {
     <div class="em-notification col col-12 row importance-@Notification.ImportanceLevel">
@@ -29,7 +27,7 @@
         <div class="col col-12 em-notification-footer">
             <span>@Notification.SystemName - @Notification.SystemShortName</span>
             <span class="spacer"></span>
-            <span>@HelperService.DateToString(Notification.SentDate)</span>
+            <span>@DateHelper.DateToString(Notification.SentDate)</span>
         </div>
     </div>
 }

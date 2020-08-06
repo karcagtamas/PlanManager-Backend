@@ -14,7 +14,6 @@ namespace EventManager.Client.Pages.SL
         [Inject] private IBookService BookService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private IModalService Modal { get; set; }
-        [Inject] private IHelperService HelperService { get; set; }
 
         private bool IsLoading { get; set; }
 

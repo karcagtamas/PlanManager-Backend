@@ -1,5 +1,6 @@
 ﻿@page "/my-tasks"
 @attribute [Microsoft.AspNetCore.Authorization.Authorize]
+@using ManagerAPI.Shared.Helpers
 @inherits MyTasksBase
 
 
@@ -26,7 +27,7 @@
                 @foreach (var group in TaskList)
                 {
                     <div class="date-groups @(group.OutOfRange ? "out-of-range" : "standard") @(group.AllSolved ? "all-solved" : "")">
-                        <div class="date">@HelperService.DateToDayString(group.Deadline)</div>
+                        <div class="date">@DateHelper.DateToDayString(group.Deadline)</div>
                         @foreach (var task in group.TaskList)
                         {
                             <div class="task @(task.IsSolved && !group.AllSolved ? "solved" : "")">

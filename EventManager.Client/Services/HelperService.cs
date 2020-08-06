@@ -1,15 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
-using Newtonsoft.Json;
 
 namespace EventManager.Client.Services
 {
@@ -26,49 +22,9 @@ namespace EventManager.Client.Services
             _toaster = toaster;
         }
 
-        public string ConnectionIsUnreachable()
-        {
-            return this.UnreachableMessage;
-        }
-
         public void Navigate(string path)
         {
             _navigationManager.NavigateTo(path);
-        }
-
-        public string DateToString(DateTime date)
-        {
-            return $"{date.Year}-{LeaderZero(date.Month)}-{LeaderZero(date.Day)} {LeaderZero(date.Hour)}:{LeaderZero(date.Minute)}:{LeaderZero(date.Second)}";
-        }
-
-        public string DateToString(DateTime? date)
-        {
-            return date == null ? NA : this.DateToString((DateTime)date);
-        }
-
-        public string LeaderZero(int number)
-        {
-            return number.ToString().PadLeft(2, '0');
-        }
-
-        public string WriteNullableField(object fieldValue)
-        {
-            return fieldValue == null ? NA : fieldValue.ToString();
-        }
-
-        public string WriteEmptyableField(string val)
-        {
-            return string.IsNullOrEmpty(val) ? NA : val;
-        }
-
-        public string WriteForint(decimal? fieldValue)
-        {
-            return fieldValue == null ? "-" : $"{fieldValue} Ft";
-        }
-
-        public StringContent CreateContent(object obj)
-        {
-            return new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
         }
 
         public JsonSerializerOptions GetSerializerOptions()
@@ -92,14 +48,7 @@ namespace EventManager.Client.Services
             }
         }
 
-        public string WriteList(List<string> list)
-        {
-            if (list == null || list.Count == 0)
-            {
-                return NA;
-            }
-            return string.Join(", ", list);
-        }
+
 
         public decimal MinToHour(int min)
         {
@@ -125,26 +74,6 @@ namespace EventManager.Client.Services
             }
 
             return date;
-        }
-
-        public string DateToMonthString(DateTime date)
-        {
-            return $"{date:yyyy MMMM}";
-        }
-
-        public string DateToWeekString(DateTime date)
-        {
-            return $"{this.DateToDayString(date)} - {this.DateToDayString(date.AddDays(6))}";
-        }
-
-        public string DateToDayString(DateTime date)
-        {
-            return $"{date:yyyy MMMM dd}";
-        }
-
-        public string DateToNumberDayString(DateTime date)
-        {
-            return $"{date:yyyy-MM-dd}";
         }
     }
 }

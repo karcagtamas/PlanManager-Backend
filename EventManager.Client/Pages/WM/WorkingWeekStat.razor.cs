@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
+using ManagerAPI.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Pages.WM
@@ -9,11 +10,7 @@ namespace EventManager.Client.Pages.WM
     public partial class WorkingWeekStat
     {
         [Parameter] public DateTime Week { get; set; }
-
-        [Inject] private IHelperService HelperService { get; set; }
-
         [Inject] private NavigationManager NavigationManager { get; set; }
-
         [Inject] private IWorkingFieldService FieldService { get; set; }
         private WorkingWeekStatDto WeekStat { get; set; }
         private bool IsLoading { get; set; } = false;
@@ -40,7 +37,7 @@ namespace EventManager.Client.Pages.WM
         private void Redirect(bool direction)
         {
             this.NavigationManager.NavigateTo(
-                $"/wm/week/{HelperService.DateToNumberDayString(this.Week.AddDays(direction ? 7 : -7))}");
+                $"/wm/week/{DateHelper.DateToNumberDayString(this.Week.AddDays(direction ? 7 : -7))}");
         }
     }
 }

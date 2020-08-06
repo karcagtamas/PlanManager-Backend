@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -5,6 +6,7 @@ using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.MC;
+using ManagerAPI.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Pages.SL
@@ -12,9 +14,7 @@ namespace EventManager.Client.Pages.SL
     public partial class Books
     {
         [Inject] private IBookService BookService { get; set; }
-
         [Inject] private NavigationManager Navigation { get; set; }
-
         [Inject] private IModalService Modal { get; set; }
 
         private List<BookListDto> BookList { get; set; }
@@ -22,11 +22,19 @@ namespace EventManager.Client.Pages.SL
 
         private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
         {
-            new TableHeaderData {PropertyName = "Name", DisplayName = "Name", IsSortable = false},
-            new TableHeaderData {PropertyName = "Publish", DisplayName = "Publish", IsSortable = false},
-            new TableHeaderData {PropertyName = "Author", DisplayName = "Author", IsSortable = false},
-            new TableHeaderData {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false}
+            new TableHeaderData
+                {PropertyName = "Name", DisplayName = "Name", IsSortable = false, Displaying = (e) => (string) e},
+            new TableHeaderData
+            {
+                PropertyName = "Publish", DisplayName = "Publish", IsSortable = false,
+                Displaying = (e) => DateHelper.DateToString((DateTime) e)
+            },
+            new TableHeaderData
+                {PropertyName = "Author", DisplayName = "Author", IsSortable = false, Displaying = (e) => (string) e},
+            new TableHeaderData
+                {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false, Displaying = (e) => (string) e}
         };
+
         private List<string> Footer { get; } = new List<string> {" ", " ", " ", " "};
 
         protected override async Task OnInitializedAsync()

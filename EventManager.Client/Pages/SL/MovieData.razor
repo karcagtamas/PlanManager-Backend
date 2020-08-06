@@ -1,5 +1,6 @@
 ﻿@page "/movies/{Id:int}"
 @using Microsoft.AspNetCore.Authorization
+@using ManagerAPI.Shared.Helpers
 @attribute [Authorize]
 
 <div class="sl-movie-data">
@@ -35,16 +36,16 @@
         {
             <div class="data">
                 <div class="data-row">
-                    <strong>Description: </strong> @HelperService.WriteEmptyableField(Movie.Description)
+                    <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Movie.Description)
                 </div>
                 <div class="data-row">
-                    <strong>Year: </strong> @HelperService.WriteNullableField(Movie.Year)
+                    <strong>Year: </strong> @WriteHelper.WriteNullableField(Movie.Year)
                 </div>
                 <div class="data-row">
-                    <strong>Creation: </strong> @HelperService.DateToString(Movie.Creation)
+                    <strong>Creation: </strong> @DateHelper.DateToString(Movie.Creation)
                 </div>
                 <div class="data-row">
-                    <strong>Last Update: </strong> @HelperService.DateToString(Movie.LastUpdate)
+                    <strong>Last Update: </strong> @DateHelper.DateToString(Movie.LastUpdate)
                 </div>
                 <div class="data-row">
                     <strong>Creator: </strong> @Movie.Creator

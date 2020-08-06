@@ -23,9 +23,15 @@ namespace EventManager.Client.Shared.Components.SL
 
         private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
         {
-            new TableHeaderData {PropertyName = "Title", DisplayName = "Title", IsSortable = false},
-            new TableHeaderData {PropertyName = "Year", DisplayName = "Year", IsSortable = false},
-            new TableHeaderData {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false}
+            new TableHeaderData
+                {PropertyName = "Title", DisplayName = "Title", IsSortable = false, Displaying = (e) => (string) e},
+            new TableHeaderData
+            {
+                PropertyName = "Year", DisplayName = "Year", IsSortable = false,
+                Displaying = (e) => ((int) e).ToString()
+            },
+            new TableHeaderData
+                {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false, Displaying = (e) => (string) e}
         };
 
         protected override async Task OnInitializedAsync()

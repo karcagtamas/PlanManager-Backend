@@ -1,12 +1,13 @@
-﻿using EventManager.Client.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Components.WM;
 using ManagerAPI.Shared.DTOs.WM;
+using ManagerAPI.Shared.Helpers;
 using ManagerAPI.Shared.Models.WM;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.WM
 {
@@ -73,7 +74,7 @@ namespace EventManager.Client.Pages.WM
 
         private void Redirect(bool direction)
         {
-            this.NavigationManager.NavigateTo($"/wm/{this.HelperService.DateToNumberDayString(this.Date.AddDays(direction ? 1 : -1))}");
+            this.NavigationManager.NavigateTo($"/wm/{DateHelper.DateToNumberDayString(this.Date.AddDays(direction ? 1 : -1))}");
         }
 
         private async Task InitWorkingDay()

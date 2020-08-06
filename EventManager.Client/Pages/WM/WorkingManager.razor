@@ -1,11 +1,12 @@
 ﻿@page "/wm/{date:datetime}"
+@using ManagerAPI.Shared.Helpers
 @attribute [Microsoft.AspNetCore.Authorization.Authorize]
 
 <div class="wm">
     <div class="title-bar">
         <div class="em-page-title">Working Manager</div>
         <span class="spacer"></span>
-        <div class="date">@HelperService.DateToDayString(Date)</div>
+        <div class="date">@DateHelper.DateToDayString(Date)</div>
     </div>
     @if (IsLoading)
     {

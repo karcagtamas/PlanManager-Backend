@@ -1,10 +1,11 @@
 ﻿@page "/wm/month/{year:int}/{month:int}"
+@using ManagerAPI.Shared.Helpers
 
 <div class="wm-month">
     <div class="title-bar">
         <div class="em-page-title">Working Month Statistics</div>
         <span class="spacer"></span>
-        <div class="date">@HelperService.DateToMonthString(new DateTime(Year, Month, 1))</div>
+        <div class="date">@DateHelper.DateToMonthString(new DateTime(Year, Month, 1))</div>
     </div>
     @if (IsLoading)
     {

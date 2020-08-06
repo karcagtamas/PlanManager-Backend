@@ -1,5 +1,6 @@
 @page "/books/{Id:int}"
 @using Microsoft.AspNetCore.Authorization
+@using ManagerAPI.Shared.Helpers
 @attribute [Authorize]
 
 <div class="sl-book-data">
@@ -38,16 +39,16 @@
                     <strong>Author: </strong> @Book.Author
                 </div>
                 <div class="data-row">
-                    <strong>Description: </strong> @HelperService.WriteEmptyableField(Book.Description)
+                    <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Book.Description)
                 </div>
                 <div class="data-row">
-                    <strong>Publish: </strong> @HelperService.DateToString(Book.Publish)
+                    <strong>Publish: </strong> @DateHelper.DateToString(Book.Publish)
                 </div>
                 <div class="data-row">
-                    <strong>Creation: </strong> @HelperService.DateToString(Book.Creation)
+                    <strong>Creation: </strong> @DateHelper.DateToString(Book.Creation)
                 </div>
                 <div class="data-row">
-                    <strong>Last Update: </strong> @HelperService.DateToString(Book.LastUpdate)
+                    <strong>Last Update: </strong> @DateHelper.DateToString(Book.LastUpdate)
                 </div>
                 <div class="data-row">
                     <strong>Creator: </strong> @Book.Creator
