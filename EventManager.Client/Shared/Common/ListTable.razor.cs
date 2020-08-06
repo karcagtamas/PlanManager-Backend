@@ -8,11 +8,12 @@ namespace EventManager.Client.Shared.Common
     public partial class ListTable<TList> where TList : IIdentified
     {
         [Parameter] public List<TableHeaderData> Header { get; set; }
-        [Parameter] public List<string> Footer { get; set; }
+        [Parameter] public List<string> Footer { get; set; } = new List<string>();
         [Parameter] public List<TList> Body { get; set; }
         [Parameter] public EventCallback<TList> OnRowClick { get; set; }
         [Parameter] public List<int> SelectedIndexes { get; set; } = new List<int>();
-        [Parameter] public bool IsSelectionEnabled { get; set; }
+        [Parameter] public bool IsSelectionEnabled { get; set; } = false;
+        [Parameter] public bool FooterDisplay { get; set; } = true;
         
 
         private object GetProperty(TList entity, string property)

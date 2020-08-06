@@ -23,14 +23,17 @@
                 </tr>
             }
             </tbody>
-            <tfoot>
-            <tr>
-                @foreach (var foot in Footer)
-                {
-                    <th>@foot</th>
-                }
-            </tr>
-            </tfoot>
+            @if (FooterDisplay)
+            {
+                <tfoot>
+                <tr>
+                    @foreach (var foot in Footer)
+                    {
+                        <th>@foot</th>
+                    }
+                </tr>
+                </tfoot> 
+            }
         </table>
     </div>
 }

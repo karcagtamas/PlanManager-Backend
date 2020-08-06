@@ -28,8 +28,6 @@ namespace EventManager.Client.Shared.Components.SL
             new TableHeaderData {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false}
         };
 
-        private List<string> Footer { get; } = new List<string> {" ", " ", " "};
-
         protected override async Task OnInitializedAsync()
         {
             this.FormId = Parameters.Get<int>("FormId");
