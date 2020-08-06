@@ -2,7 +2,7 @@ using System;
 
 namespace ManagerAPI.Shared.DTOs.MC
 {
-    public class BookListDto
+    public class BookListDto : IIdentified
     {
         public int Id { get; set; }
 

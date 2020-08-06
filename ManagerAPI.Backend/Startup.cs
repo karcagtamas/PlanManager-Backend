@@ -103,6 +103,7 @@ namespace ManagerAPI.Backend
             services.AddScoped<ISeriesService, SeriesService>();
             services.AddScoped<ISeasonService, SeasonService>();
             services.AddScoped<IEpisodeService, EpisodeService>();
+            services.AddScoped<IGenderService, GenderService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             

@@ -18,6 +18,7 @@ namespace EventManager.Client.Shared.Components.SL
         [Inject] private IModalService ModalService { get; set; }
         private int FormId { get; set; }
         private List<MyBookSelectorListDto> List { get; set; }
+        private List<int> SelectedIndexList { get; set; } = new List<int>();
         private bool IsLoading { get; set; } = false;
 
         private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
@@ -35,6 +36,7 @@ namespace EventManager.Client.Shared.Components.SL
             this.FormId = Parameters.Get<int>("FormId");
 
             await this.GetSelectorList();
+            this.SelectedIndexList = this.List.Where(x => x.IsMine).Select(x => x.Id).ToList();
 
             ((ModalService) ModalService).OnConfirm += OnConfirm;
         }
@@ -62,6 +64,14 @@ namespace EventManager.Client.Shared.Components.SL
         private void SwitchMineFlag(MyBookSelectorListDto book)
         {
             book.IsMine = !book.IsMine;
+            if (book.IsMine)
+            {
+                this.SelectedIndexList.Add(book.Id);
+            }
+            else
+            {
+                this.SelectedIndexList.Remove(book.Id);
+            }
         }
     }
 }

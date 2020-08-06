@@ -108,6 +108,11 @@ app {
   border-bottom-color: #5120a5 !important;
 }
 
+.flex-parent {
+  display: flex;
+  flex-grow: 1;
+}
+
 /* Main page */
 .main-page div img {
   box-shadow: 0 0 0.5rem 0 #5120a5;
@@ -745,6 +750,10 @@ app {
 }
 
 /* SL Book selector dialog */
+.sl-book-selector-dialog {
+  display: flex;
+  flex-grow: 1;
+}
 .sl-book-selector-dialog .book-list {
   flex-grow: 1;
   display: flex;
@@ -758,7 +767,17 @@ app {
   background-color: rgba(187, 187, 255, 0.4);
 }
 
+.dialog-content {
+  display: flex;
+  flex-grow: 1;
+  overflow: auto;
+}
+
 /* SL Movie selector dialog */
+.sl-movie-selector-dialog {
+  display: flex;
+  flex-grow: 1;
+}
 .sl-movie-selector-dialog .movie-list {
   flex-grow: 1;
   display: flex;
@@ -922,6 +941,10 @@ app {
   color: #5120a5;
   transition-duration: 0.5s;
   cursor: pointer;
+}
+.list table tbody tr.selected {
+  background-color: #5120a5;
+  color: #f9f9f9;
 }
 
 /* Table settings */
