@@ -13,7 +13,6 @@ namespace EventManager.Client.Services
     {
         private const string NA = "N/A";
         private readonly NavigationManager _navigationManager;
-        private readonly string UnreachableMessage = "Connection is unreachable! Please try again later!";
         private readonly IMatToaster _toaster;
 
         public HelperService(NavigationManager navigationManager, IMatToaster toaster)
@@ -47,9 +46,7 @@ namespace EventManager.Client.Services
                 }
             }
         }
-
-
-
+        
         public decimal MinToHour(int min)
         {
             return min / (decimal)60;

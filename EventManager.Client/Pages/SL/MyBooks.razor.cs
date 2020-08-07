@@ -83,5 +83,27 @@ namespace EventManager.Client.Pages.SL
 
             Modal.OnClose -= EditMyBooksModalClosed;
         }
+        
+        private void OpenEditReadBooksDialog()
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+
+            var options = new ModalOptions
+            {
+                ButtonOptions = {ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true}
+            };
+
+            Modal.OnClose += EditReadBooksModalClosed;
+
+            Modal.Show<BookReadSelectorDialog>("Edit Read Books", parameters, options);
+        }
+
+        private async void EditReadBooksModalClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool) modalResult.Data) await GetBooks();
+
+            Modal.OnClose -= EditReadBooksModalClosed;
+        }
     }
 }

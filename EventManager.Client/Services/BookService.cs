@@ -51,9 +51,12 @@ namespace EventManager.Client.Services
             return await this.Http.Delete(settings);
         }
 
-        public async Task<List<MyBookSelectorListDto>> GetMySelectorList()
+        public async Task<List<MyBookSelectorListDto>> GetMySelectorList(bool onlyMine)
         {
-            var settings = new HttpSettings($"{this.Url}/selector", null, null);
+            var queryParams = new HttpQueryParameters();
+            queryParams.Add("onlyMine", onlyMine);
+            
+            var settings = new HttpSettings($"{this.Url}/selector", queryParams, null);
             
             return await this.Http.Get<List<MyBookSelectorListDto>>(settings);
         }
@@ -67,13 +70,13 @@ namespace EventManager.Client.Services
             return await this.Http.Update<MyBookModel>(settings, body);
         }
 
-        public async Task<bool> UpdateReadStatus(int id, BookReadStatusModel model)
+        public async Task<bool> UpdateReadStatuses(List<BookReadStatusModel> models)
         {
-            var settings = new HttpSettings($"{this.Url}", null, null, "My Book read status updating");
+            var settings = new HttpSettings($"{this.Url}/map/status", null, null, "My Book read status updating");
 
-            var body = new HttpBody<BookReadStatusModel>(model);
+            var body = new HttpBody<List<BookReadStatusModel>>(models);
 
-            return await this.Http.Update<BookReadStatusModel>(settings, body);
+            return await this.Http.Update<List<BookReadStatusModel>>(settings, body);
         }
     }
 }

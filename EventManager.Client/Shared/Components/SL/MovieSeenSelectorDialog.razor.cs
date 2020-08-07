@@ -1,39 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
-using ManagerAPI.Shared.Helpers;
 using ManagerAPI.Shared.Models.MC;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Shared.Components.SL
 {
-    public partial class BookSelectorDialog
+    public partial class MovieSeenSelectorDialog
     {
         [CascadingParameter] public ModalParameters Parameters { get; set; }
         [CascadingParameter] public BlazoredModal BlazoredModal { get; set; }
-        [Inject] private IBookService BookService { get; set; }
+        [Inject] private IMovieService MovieService { get; set; }
         [Inject] private IModalService ModalService { get; set; }
         private int FormId { get; set; }
-        private List<MyBookSelectorListDto> List { get; set; }
+        private List<MyMovieSelectorListDto> List { get; set; }
         private List<int> SelectedIndexList { get; set; } = new List<int>();
         private bool IsLoading { get; set; } = false;
+        private List<MovieSeenUpdateModel> SaveList = new List<MovieSeenUpdateModel>();
 
         private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
         {
             new TableHeaderData
-                {PropertyName = "Name", DisplayName = "Name", IsSortable = false, Displaying = (e) => (string) e},
+                {PropertyName = "Title", DisplayName = "Title", IsSortable = false, Displaying = (e) => (string) e},
             new TableHeaderData
             {
-                PropertyName = "Publish", DisplayName = "Publish", IsSortable = false,
-                Displaying = (e) => DateHelper.DateToString((DateTime?) e)
+                PropertyName = "Year", DisplayName = "Year", IsSortable = false,
+                Displaying = (e) => ((int) e).ToString()
             },
-            new TableHeaderData
-                {PropertyName = "Author", DisplayName = "Author", IsSortable = false, Displaying = (e) => (string) e},
             new TableHeaderData
                 {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false, Displaying = (e) => (string) e}
         };
@@ -43,7 +40,7 @@ namespace EventManager.Client.Shared.Components.SL
             this.FormId = Parameters.Get<int>("FormId");
 
             await this.GetSelectorList();
-            this.SelectedIndexList = this.List.Where(x => x.IsMine).Select(x => x.Id).ToList();
+            this.SelectedIndexList = this.List.Where(x => x.IsSeen).Select(x => x.Id).ToList();
 
             ((ModalService) ModalService).OnConfirm += OnConfirm;
         }
@@ -52,32 +49,31 @@ namespace EventManager.Client.Shared.Components.SL
         {
             this.IsLoading = true;
             StateHasChanged();
-            this.List = await this.BookService.GetMySelectorList(false);
+            this.List = await this.MovieService.GetMySelectorList(true);
             this.IsLoading = false;
             StateHasChanged();
         }
 
         private async void OnConfirm()
         {
-            var indexList = this.List.Where(x => x.IsMine).Select(x => x.Id).ToList();
-
-            if (await this.BookService.UpdateMyBooks(new MyBookModel {Ids = indexList}))
+            if (await this.MovieService.UpdateSeenStatuses(this.SaveList))
             {
                 ModalService.Close(ModalResult.Ok(true));
                 ((ModalService) ModalService).OnConfirm -= OnConfirm;
             }
         }
 
-        private void SwitchMineFlag(MyBookSelectorListDto book)
+        private void SwitchSeenFlag(MyMovieSelectorListDto movie)
         {
-            book.IsMine = !book.IsMine;
-            if (book.IsMine)
+            movie.IsSeen = !movie.IsSeen;
+            this.SaveList.Add(new MovieSeenUpdateModel {Id = movie.Id, Seen = movie.IsSeen});
+            if (movie.IsSeen)
             {
-                this.SelectedIndexList.Add(book.Id);
+                this.SelectedIndexList.Add(movie.Id);
             }
             else
             {
-                this.SelectedIndexList.Remove(book.Id);
+                this.SelectedIndexList.Remove(movie.Id);
             }
         }
     }

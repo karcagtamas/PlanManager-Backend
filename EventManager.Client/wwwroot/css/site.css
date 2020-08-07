@@ -767,6 +767,24 @@ app {
   background-color: rgba(187, 187, 255, 0.4);
 }
 
+/* SL Book read selector dialog */
+.sl-book-read-selector-dialog {
+  display: flex;
+  flex-grow: 1;
+}
+.sl-book-read-selector-dialog .book-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
 .dialog-content {
   display: flex;
   flex-grow: 1;
@@ -779,6 +797,24 @@ app {
   flex-grow: 1;
 }
 .sl-movie-selector-dialog .movie-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Movie seen selector dialog */
+.sl-movie-seen-selector-dialog {
+  display: flex;
+  flex-grow: 1;
+}
+.sl-movie-seen-selector-dialog .movie-list {
   flex-grow: 1;
   display: flex;
   max-height: 100%;

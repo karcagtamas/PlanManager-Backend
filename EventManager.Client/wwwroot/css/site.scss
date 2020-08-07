@@ -913,6 +913,25 @@ app {
     }
 }
 
+/* SL Book read selector dialog */
+.sl-book-read-selector-dialog {
+    display: flex;
+    flex-grow: 1;
+
+    .book-list {
+        flex-grow: 1;
+        display: flex;
+        max-height: 100%;
+        overflow: auto;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $blue-light-trans;
+    }
+}
+
 .dialog-content {
     display: flex;
     flex-grow: 1;
@@ -924,6 +943,25 @@ app {
     display: flex;
     flex-grow: 1;
     
+    .movie-list {
+        flex-grow: 1;
+        display: flex;
+        max-height: 100%;
+        overflow: auto;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $blue-light-trans;
+    }
+}
+
+/* SL Movie seen selector dialog */
+.sl-movie-seen-selector-dialog {
+    display: flex;
+    flex-grow: 1;
+
     .movie-list {
         flex-grow: 1;
         display: flex;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ManagerAPI.Domain.Entities.MC;
 using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common;
@@ -58,11 +59,11 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpGet("selector")]
-        public IActionResult GetMySelectorList()
+        public IActionResult GetMySelectorList([FromQuery] bool onlyMine)
         {
             try
             {
-                return Ok(this.BookService.GetMySelectorList());
+                return Ok(this.BookService.GetMySelectorList(onlyMine));
             }
             catch (MessageException me)
             {
@@ -92,12 +93,15 @@ namespace ManagerAPI.Backend.Controllers
             }
         }
 
-        [HttpPut("map/status/{id}")]
-        public IActionResult UpdateReadStatus(int id, [FromBody] BookReadStatusModel model)
+        [HttpPut("map/status")]
+        public IActionResult UpdateReadStatus([FromBody] List<BookReadStatusModel> models)
         {
             try
             {
-                this.BookService.UpdateReadStatus(id, model.Read);
+                foreach (var model in models)
+                {
+                    this.BookService.UpdateReadStatus(model.Id, model.Read);
+                }
                 return Ok();
             }
             catch (MessageException me)

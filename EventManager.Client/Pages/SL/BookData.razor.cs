@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.MC;
+using ManagerAPI.Shared.Models.MC;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Pages.SL
@@ -54,23 +56,35 @@ namespace EventManager.Client.Pages.SL
             Modal.OnClose -= BookModalClosed;
         }
 
-        private async void DeleteBook() 
+        private async void DeleteBook()
         {
-            if (await this.BookService.Delete(this.Id)) {
+            if (await this.BookService.Delete(this.Id))
+            {
                 this.Navigation.NavigateTo("books");
             }
         }
 
-        private async void AddToMyBooks() 
+        private async void AddToMyBooks()
         {
-            if (await this.BookService.AddBookToMyBooks(this.Id)) {
+            if (await this.BookService.AddBookToMyBooks(this.Id))
+            {
                 await this.GetBook();
             }
         }
 
-        private async void RemoveFromMyBooks() 
+        private async void RemoveFromMyBooks()
         {
-            if (await this.BookService.RemoveBookFromMyBooks(this.Id)) {
+            if (await this.BookService.RemoveBookFromMyBooks(this.Id))
+            {
+                await this.GetBook();
+            }
+        }
+
+        private async void SetReadStatus(bool status)
+        {
+            if (await this.BookService.UpdateReadStatuses(new List<BookReadStatusModel>
+                {new BookReadStatusModel {Id = this.Book.Id, Read = status}}))
+            {
                 await this.GetBook();
             }
         }

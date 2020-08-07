@@ -48,7 +48,7 @@ namespace EventManager.Client.Shared.Components.SL
         {
             this.IsLoading = true;
             StateHasChanged();
-            this.List = await this.MovieService.GetMySelectorList();
+            this.List = await this.MovieService.GetMySelectorList(false);
             this.IsLoading = false;
             StateHasChanged();
         }

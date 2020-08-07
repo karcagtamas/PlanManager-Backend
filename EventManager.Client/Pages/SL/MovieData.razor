@@ -27,6 +27,15 @@
                 {
                     <MatButton @onclick="AddToMyBooks">Add to My Books</MatButton>
                 }
+                
+                @if (Movie.IsSeen)
+                {
+                    <MatButton @onclick="@(() => SetSeenStatus(false))">Set as Unseen</MatButton>
+                }
+                else
+                {
+                    <MatButton @onclick="@(() => SetSeenStatus(true))">Set as Seen</MatButton>
+                }
             }
             <span class="spacer"></span>
             <MatButton @onclick="@(() => Navigation.NavigateTo("/movies"))">Movie List</MatButton>

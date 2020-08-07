@@ -79,5 +79,27 @@ namespace EventManager.Client.Pages.SL
 
             Modal.OnClose -= EditMyMoviesModalClosed;
         }
+        
+        private void OpenEditSeenMoviesDialog()
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+
+            var options = new ModalOptions
+            {
+                ButtonOptions = {ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true}
+            };
+
+            Modal.OnClose += EditSeenMoviesModalClosed;    
+
+            Modal.Show<MovieSeenSelectorDialog>("Edit Seen Books", parameters, options);
+        }
+
+        private async void EditSeenMoviesModalClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool) modalResult.Data) await GetMovies();
+
+            Modal.OnClose -= EditSeenMoviesModalClosed;
+        }
     }
 }

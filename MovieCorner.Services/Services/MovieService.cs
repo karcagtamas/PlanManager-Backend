@@ -52,7 +52,9 @@ namespace MovieCorner.Services.Services
             var user = this.Utils.GetCurrentUser();
 
             var movie = this.Get<MyMovieDto>(id);
-            movie.IsMine = user.MyMovies.Select(x => x.Movie).Any(x => x.Id == movie.Id);
+            var myMovie = user.MyMovies.FirstOrDefault(x => x.Movie.Id == movie.Id);
+            movie.IsMine = myMovie != null;
+            movie.IsSeen = myMovie != null && myMovie.Seen;
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), movie.Id);
 
@@ -137,14 +139,21 @@ namespace MovieCorner.Services.Services
             }
         }
 
-        public List<MyMovieSelectorListDto> GetMySelectorList()
+        public List<MyMovieSelectorListDto> GetMySelectorList(bool onlyMine)
         {
             var user = this.Utils.GetCurrentUser();
 
             var list = this.GetAll<MyMovieSelectorListDto>();
             foreach (var t in list)
             {
-                t.IsMine = user.MyMovies.Select(x => x.Movie).Any(x => x.Id == t.Id);
+                var myMovie = user.MyMovies.FirstOrDefault(x => x.Movie.Id == t.Id);
+                t.IsMine = myMovie != null;
+                t.IsSeen = myMovie != null && myMovie.Seen;
+            }
+
+            if (onlyMine)
+            {
+                list = list.Where(x => x.IsMine).ToList();
             }
             
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my selector"), list.Select(x => x.Id).ToList());

@@ -54,9 +54,12 @@ namespace EventManager.Client.Services
             return await this.Http.Delete(settings);
         }
 
-        public async Task<List<MyMovieSelectorListDto>> GetMySelectorList()
+        public async Task<List<MyMovieSelectorListDto>> GetMySelectorList(bool onlyMine)
         {
-            var settings = new HttpSettings($"{this.Url}/selector", null, null);
+            var queryParams = new HttpQueryParameters();
+            queryParams.Add("onlyMine", onlyMine);
+            
+            var settings = new HttpSettings($"{this.Url}/selector", queryParams, null);
             
             return await this.Http.Get<List<MyMovieSelectorListDto>>(settings);
         }
@@ -70,13 +73,13 @@ namespace EventManager.Client.Services
             return await this.Http.Update<MyMovieModel>(settings, body);
         }
 
-        public async Task<bool> UpdateSeenStatus(int id, MovieSeenUpdateModel model)
+        public async Task<bool> UpdateSeenStatuses(List<MovieSeenUpdateModel> models)
         {
-            var settings = new HttpSettings($"{this.Url}", null, null, "My Movie seen status updating");
+            var settings = new HttpSettings($"{this.Url}/map/status", null, null, "My Movie seen status updating");
 
-            var body = new HttpBody<MovieSeenUpdateModel>(model);
+            var body = new HttpBody<List<MovieSeenUpdateModel>>(models);
 
-            return await this.Http.Update<MovieSeenUpdateModel>(settings, body);
+            return await this.Http.Update<List<MovieSeenUpdateModel>>(settings, body);
         }
     }
 }

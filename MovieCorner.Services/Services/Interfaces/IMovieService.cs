@@ -13,6 +13,6 @@ namespace MovieCorner.Services.Services.Interfaces
         void UpdateMyMovies(List<int> ids);
         void AddMovieToMyMovies(int id);
         void RemoveMovieFromMyMovies(int id);
-        List<MyMovieSelectorListDto> GetMySelectorList();
+        List<MyMovieSelectorListDto> GetMySelectorList(bool onlyMine);
     }
 }

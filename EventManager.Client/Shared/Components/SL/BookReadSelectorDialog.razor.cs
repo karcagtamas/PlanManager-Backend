@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Shared.Components.SL
 {
-    public partial class BookSelectorDialog
+    public partial class BookReadSelectorDialog
     {
         [CascadingParameter] public ModalParameters Parameters { get; set; }
         [CascadingParameter] public BlazoredModal BlazoredModal { get; set; }
@@ -22,6 +22,7 @@ namespace EventManager.Client.Shared.Components.SL
         private List<MyBookSelectorListDto> List { get; set; }
         private List<int> SelectedIndexList { get; set; } = new List<int>();
         private bool IsLoading { get; set; } = false;
+        private List<BookReadStatusModel> SaveList = new List<BookReadStatusModel>();
 
         private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
         {
@@ -43,7 +44,7 @@ namespace EventManager.Client.Shared.Components.SL
             this.FormId = Parameters.Get<int>("FormId");
 
             await this.GetSelectorList();
-            this.SelectedIndexList = this.List.Where(x => x.IsMine).Select(x => x.Id).ToList();
+            this.SelectedIndexList = this.List.Where(x => x.IsRead).Select(x => x.Id).ToList();
 
             ((ModalService) ModalService).OnConfirm += OnConfirm;
         }
@@ -52,26 +53,25 @@ namespace EventManager.Client.Shared.Components.SL
         {
             this.IsLoading = true;
             StateHasChanged();
-            this.List = await this.BookService.GetMySelectorList(false);
+            this.List = await this.BookService.GetMySelectorList(true);
             this.IsLoading = false;
             StateHasChanged();
         }
 
         private async void OnConfirm()
         {
-            var indexList = this.List.Where(x => x.IsMine).Select(x => x.Id).ToList();
-
-            if (await this.BookService.UpdateMyBooks(new MyBookModel {Ids = indexList}))
+            if (await this.BookService.UpdateReadStatuses(this.SaveList))
             {
                 ModalService.Close(ModalResult.Ok(true));
                 ((ModalService) ModalService).OnConfirm -= OnConfirm;
             }
         }
 
-        private void SwitchMineFlag(MyBookSelectorListDto book)
+        private void SwitchReadFlag(MyBookSelectorListDto book)
         {
-            book.IsMine = !book.IsMine;
-            if (book.IsMine)
+            book.IsRead = !book.IsRead;
+            this.SaveList.Add(new BookReadStatusModel {Id = book.Id, Read = book.IsRead});
+            if (book.IsRead)
             {
                 this.SelectedIndexList.Add(book.Id);
             }

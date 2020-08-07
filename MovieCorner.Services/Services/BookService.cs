@@ -68,7 +68,9 @@ namespace MovieCorner.Services.Services
             var user = this.Utils.GetCurrentUser();
 
             var book = this.Get<MyBookDto>(id);
-            book.IsMine = user.MyBooks.Select(x => x.Book).Any(x => x.Id == book.Id);
+            var myBook = user.MyBooks.FirstOrDefault(x => x.Book.Id == book.Id);
+            book.IsMine = myBook != null;
+            book.IsRead = myBook != null && myBook.Read;
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), book.Id);
 
@@ -90,14 +92,21 @@ namespace MovieCorner.Services.Services
             }
         }
 
-        public List<MyBookSelectorListDto> GetMySelectorList()
+        public List<MyBookSelectorListDto> GetMySelectorList(bool onlyMine)
         {
             var user = this.Utils.GetCurrentUser();
 
             var list = this.GetAll<MyBookSelectorListDto>();
             foreach (var t in list)
             {
-                t.IsMine = user.MyBooks.Select(x => x.Book).Any(x => x.Id == t.Id);
+                var myBook = user.MyBooks.FirstOrDefault(x => x.Book.Id == t.Id);
+                t.IsMine = myBook != null;
+                t.IsRead = myBook != null && myBook.Read;
+            }
+
+            if (onlyMine)
+            {
+                list = list.Where(x => x.IsMine).ToList();
             }
             
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my selector"), list.Select(x => x.Id).ToList());
