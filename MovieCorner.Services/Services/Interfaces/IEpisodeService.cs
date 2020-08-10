@@ -6,6 +6,6 @@ namespace MovieCorner.Services.Services.Interfaces
 {
     public interface IEpisodeService : IRepository<Episode>
     {
-        
+        void UpdateSeenStatus(int id, bool seen);
     }
 }

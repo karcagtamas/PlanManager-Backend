@@ -6,6 +6,6 @@ namespace MovieCorner.Services.Services.Interfaces
 {
     public interface ISeasonService : IRepository<Season>
     {
-        
+        void UpdateSeenStatus(int id, bool seen);
     }
 }

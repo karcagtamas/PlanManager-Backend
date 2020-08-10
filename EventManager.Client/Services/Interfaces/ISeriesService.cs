@@ -7,7 +7,7 @@ namespace EventManager.Client.Services.Interfaces
 {
     public interface ISeriesService
     {
-        Task<List<MySeriesDto>> GetMySeries();
+        Task<List<MySeriesListDto>> GetMySeries();
         Task<List<SeriesListDto>> GetAllSeries();
         Task<SeriesDto> GetSeries(int id);
         Task<bool> CreateSeries(SeriesModel model);

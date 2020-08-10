@@ -6,5 +6,8 @@ namespace ManagerAPI.Shared.Models.MC
     {
         [Required]
         public int Number { get; set; }
+
+        [Required]
+        public int SeriesId { get; set; }
     }
 }
