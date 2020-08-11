@@ -1,7 +1,27 @@
 @page "/series"
 @attribute [Microsoft.AspNetCore.Authorization.Authorize]
-@inherits SeriesBase
 
 <div class="sl-series">
     <h1 class="em-page-title">Series</h1>
+
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        <div class="action-bar">
+            <MatButton @onclick="OpenAddSeriesDialog">Add</MatButton>
+        </div>
+        @if (SeriesList != null && SeriesList.Count > 0)
+        {
+            <div class="movie-list">
+                <ListTable Header="Header" Footer="Footer" Body="SeriesList" TList="ManagerAPI.Shared.DTOs.MC.SeriesListDto" OnRowClick="@(e => RedirectToData(e))"></ListTable>
+            </div>
+        }
+        else
+        {
+            <div class="text-center">Series list is empty</div>
+        }
+    }
 </div>

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ManagerAPI.Shared.DTOs.MC;
 
 namespace ManagerAPI.Shared.Models.MC
 {
@@ -13,6 +14,15 @@ namespace ManagerAPI.Shared.Models.MC
         public int? StartYear { get; set; }
 
         public int? EndYear { get; set; }
+
+        public SeriesModel() {}
+
+        public SeriesModel(SeriesDto series) {
+            this.Title = series.Title;
+            this.Description = series.Description;
+            this.StartYear = series.StartYear;
+            this.EndYear = series.EndYear;
+        }
 
     }
 }

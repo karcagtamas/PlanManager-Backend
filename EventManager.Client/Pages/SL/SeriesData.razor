@@ -1,12 +1,12 @@
-﻿@page "/movies/{Id:int}"
+@page "/series/{Id:int}"
 @using Microsoft.AspNetCore.Authorization
 @using ManagerAPI.Shared.Helpers
 @attribute [Authorize]
 
-<div class="sl-movie-data">
-    @if (Movie != null)
+<div class="sl-series-data">
+    @if (Series != null)
     {
-        <h1 class="em-page-title">@Movie.Title</h1>
+        <h1 class="em-page-title">@Series.Title</h1>
     }
     @if (IsLoading)
     {
@@ -15,20 +15,20 @@
     else
     {
         <div class="action-bar">
-            <MatButton @onclick="OpenEditMovieDialog">Edit</MatButton>
-            <MatButton @onclick="DeleteMovie">Delete</MatButton>
-            @if (Movie != null)
+            <MatButton @onclick="OpenEditSeriesDialog">Edit</MatButton>
+            <MatButton @onclick="DeleteSeries">Delete</MatButton>
+            @if (Series != null)
             {
-                @if (Movie.IsMine)
+                @if (Series.IsMine)
                 {
-                    <MatButton @onclick="RemoveFromMyMovies">Remove From My Books</MatButton>
+                    <MatButton @onclick="RemoveFromMySeriesList">Remove From My Books</MatButton>
                 }
                 else
                 {
-                    <MatButton @onclick="AddToMyMovies">Add to My Books</MatButton>
+                    <MatButton @onclick="AddToMySeriesList">Add to My Books</MatButton>
                 }
                 
-                @if (Movie.IsSeen)
+                @if (Series.IsSeen)
                 {
                     <MatButton @onclick="@(() => SetSeenStatus(false))">Set as Unseen</MatButton>
                 }
@@ -41,26 +41,29 @@
             <MatButton @onclick="@(() => Navigation.NavigateTo("/movies"))">Movie List</MatButton>
             <MatButton @onclick="@(() => Navigation.NavigateTo("/my-movies"))">My Movie List</MatButton>
         </div>
-        @if (Movie != null)
+        @if (Series != null)
         {
             <div class="data">
                 <div class="data-row">
-                    <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Movie.Description)
+                    <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Series.Description)
                 </div>
                 <div class="data-row">
-                    <strong>Year: </strong> @WriteHelper.WriteNullableField(Movie.Year)
+                    <strong>Start Year: </strong> @WriteHelper.WriteNullableField(Series.StartYear)
                 </div>
                 <div class="data-row">
-                    <strong>Creation: </strong> @DateHelper.DateToString(Movie.Creation)
+                    <strong>End Year: </strong> @WriteHelper.WriteNullableField(Series.EndYear)
                 </div>
                 <div class="data-row">
-                    <strong>Last Update: </strong> @DateHelper.DateToString(Movie.LastUpdate)
+                    <strong>Creation: </strong> @DateHelper.DateToString(Series.Creation)
                 </div>
                 <div class="data-row">
-                    <strong>Creator: </strong> @Movie.Creator
+                    <strong>Last Update: </strong> @DateHelper.DateToString(Series.LastUpdate)
                 </div>
                 <div class="data-row">
-                    <strong>Last Updater: </strong> @Movie.LastUpdater
+                    <strong>Creator: </strong> @Series.Creator
+                </div>
+                <div class="data-row">
+                    <strong>Last Updater: </strong> @Series.LastUpdater
                 </div>
             </div>
         }

@@ -57,7 +57,7 @@ namespace EventManager.Client.Pages.SL
             Modal.OnClose -= MovieDialogClosed;
         }
 
-        private async void DeleteBook()
+        private async void DeleteMovie()
         {
             if (await this.MovieService.Delete(this.Id))
             {
@@ -65,7 +65,7 @@ namespace EventManager.Client.Pages.SL
             }
         }
 
-        private async void AddToMyBooks()
+        private async void AddToMyMovies()
         {
             if (await this.MovieService.AddMovieToMyMovies(this.Id))
             {
@@ -73,7 +73,7 @@ namespace EventManager.Client.Pages.SL
             }
         }
 
-        private async void RemoveFromMyBooks()
+        private async void RemoveFromMyMovies()
         {
             if (await this.MovieService.RemoveMovieFromMyMovies(this.Id))
             {
