@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
@@ -15,6 +14,8 @@ namespace EventManager.Client.Pages.SL
 
         private MySeriesDto Series { get; set; }
         [Inject] private ISeriesService SeriesService { get; set; }
+        [Inject] private ISeasonService SeasonService { get; set; }
+        [Inject] private IEpisodeService EpisodeService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private IModalService Modal { get; set; }
 
@@ -85,6 +86,38 @@ namespace EventManager.Client.Pages.SL
         {
             if (await this.SeriesService.UpdateSeenStatus(
                 new SeriesSeenStatusModel { Id = this.Series.Id, Seen = status }))
+            {
+                await this.GetSeries();
+            }
+        }
+
+        private async void AddIncrementedSeason()
+        {
+            if (await this.SeasonService.AddIncremented(this.Series.Id))
+            {
+                await this.GetSeries();
+            }
+        }
+
+        private async void DeleteDecrementedSeason(int seasonId)
+        {
+            if (await this.SeasonService.DeleteDecremented(seasonId))
+            {
+                await this.GetSeries();
+            }
+        }
+
+        private async void AddIncrementedEpisode(int season)
+        {
+            if (await this.EpisodeService.AddIncremented(season))
+            {
+                await this.GetSeries();
+            }
+        }
+
+        private async void DeleteDecrementedEpisode(int episodeId)
+        {
+            if (await this.EpisodeService.DeleteDecremented(episodeId))
             {
                 await this.GetSeries();
             }

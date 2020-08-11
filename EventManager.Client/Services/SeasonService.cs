@@ -22,5 +22,27 @@ namespace EventManager.Client.Services
 
             return await this.Http.Update<List<SeasonSeenStatusModel>>(settings, body);
         }
+        
+        public async Task<bool> AddIncremented(int seriesId)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(seriesId, -1);
+            
+            var settings = new HttpSettings($"{this.Url}", null, pathParams, "Season adding");
+            
+            var body = new HttpBody<object>(null);
+
+            return await this.Http.Create<object>(settings, body);
+        }
+
+        public async Task<bool> DeleteDecremented(int seasonId)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(seasonId, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/decremented", null, pathParams, "Season deleting");
+
+            return await this.Http.Delete(settings);
+        }
     }
 }

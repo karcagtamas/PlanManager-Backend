@@ -95,7 +95,7 @@
 
                                 <div class="episode-action">
                                     <span class="spacer"></span>
-                                    <MatButton>Add Episode</MatButton>
+                                    <MatButton @onclick="@(() => AddIncrementedEpisode(season.Id))">Add Episode</MatButton>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
 
                 <div class="season-action">
                     <span class="spacer"></span>
-                    <MatButton>Add Season</MatButton>
+                    <MatButton @onclick="AddIncrementedSeason">Add Season</MatButton>
                 </div>
             </div>
         }

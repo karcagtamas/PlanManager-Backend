@@ -1,15 +1,12 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Linq;
+using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.MC;
-using ManagerAPI.Services.Services;
+using ManagerAPI.Domain.Enums.CM;
+using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using MovieCorner.Services.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using ManagerAPI.Services.Common;
-using ManagerAPI.Domain.Enums.CM;
-using System.Linq;
 
 namespace MovieCorner.Services.Services
 {
@@ -27,32 +24,70 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var episode = _databaseContext.Episodes.Where(x => x.Id == id).FirstOrDefault();
-            var connection = episode.ConnectedUsers.Where(x => x.User.Id == user.Id).FirstOrDefault();
-            if (connection != null)
+            var episode = _databaseContext.Episodes.FirstOrDefault(x => x.Id == id);
+            if (episode != null)
             {
-                connection.Seen = seen;
-                connection.SeenOn = seen ? (DateTime?)DateTime.Now : null;
-                this._databaseContext.UserEpisodeSwitch.Update(connection);
-            }
-            else
-            {
-                if (seen)
+                var connection = episode.ConnectedUsers.FirstOrDefault(x => x.User.Id == user.Id);
+                if (connection != null)
                 {
-                    var userEpisode = new UserEpisode
-                    {
-                        UserId = user.Id,
-                        EpisodeId = id,
-                        Seen = seen,
-                        SeenOn = seen ? (DateTime?)DateTime.Now : null
-                    };
-                    this._databaseContext.UserEpisodeSwitch.Add(userEpisode);
+                    connection.Seen = seen;
+                    connection.SeenOn = seen ? (DateTime?)DateTime.Now : null;
+                    this._databaseContext.UserEpisodeSwitch.Update(connection);
                 }
+                else
+                {
+                    if (seen)
+                    {
+                        var userEpisode = new UserEpisode
+                        {
+                            UserId = user.Id,
+                            EpisodeId = id,
+                            Seen = true,
+                            SeenOn = DateTime.Now
+                        };
+                        this._databaseContext.UserEpisodeSwitch.Add(userEpisode);
+                    }
+                }
+                _databaseContext.SaveChanges();
+
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set episode seen status for"), id);
             }
+        }
 
-            _databaseContext.SaveChanges();
+        public void AddIncremented(int seasonId)
+        {
+            var last = this.GetList(x => x.Season.Id == seasonId).OrderBy(x => x.Number).LastOrDefault();
 
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set episode seen status for"), id);
+            var number = last?.Number + 1 ?? 1;
+
+            var season = new Episode
+            {
+                Number = number,
+                SeasonId = seasonId
+            };
+
+            this.Add(season);
+        }
+
+        public void DeleteDecremented(int episodeId)
+        {
+            var season = this.Get(episodeId);
+            var seasonId = season.Season.Id;
+            var number = season.Number;
+
+            this.Remove(episodeId);
+
+            var episodes = this.GetList(x => x.Season.Id == seasonId).OrderBy(x => x.Number).Select(x =>
+            {
+                if (x.Number > number)
+                {
+                    x.Number--;
+                }
+
+                return x;
+            }).ToList();
+
+            this.UpdateRange(episodes);
         }
     }
 }

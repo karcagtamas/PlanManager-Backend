@@ -9,5 +9,7 @@ namespace EventManager.Client.Services.Interfaces
     public interface IEpisodeService : IHttpCall<EpisodeListDto, EpisodeDto, EpisodeModel>
     {
         Task<bool> UpdateSeenStatus(List<EpisodeSeenStatusModel> models);
+        Task<bool> AddIncremented(int seasonId);
+        Task<bool> DeleteDecremented(int episodeId);
     }
 }
