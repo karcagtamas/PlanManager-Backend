@@ -720,6 +720,53 @@ app {
 .sl-series-data .data .data-row strong {
   color: #5120a5;
 }
+.sl-series-data .seasons {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+.sl-series-data .seasons .season {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(249, 249, 249, 0.55);
+}
+.sl-series-data .seasons .season .head {
+  color: #5120a5;
+  font-weight: bold;
+}
+.sl-series-data .seasons .season .body .episodes .episode {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(249, 249, 249, 0.55);
+}
+.sl-series-data .seasons .season .body .episodes .episode .ep-head {
+  color: #5120a5;
+  font-style: italic;
+}
+.sl-series-data .seasons .season .body .episodes .episode .ep-body {
+  padding: 0.4rem;
+}
+.sl-series-data .seasons .season .body .episodes .episode-action {
+  display: flex;
+}
+.sl-series-data .seasons .season .body .episodes .episode-action .spacer {
+  flex-grow: 1;
+}
+.sl-series-data .seasons .season-action {
+  display: flex;
+}
+.sl-series-data .seasons .season-action .spacer {
+  flex-grow: 1;
+}
 
 /* SL My Series page */
 .sl-my-series {

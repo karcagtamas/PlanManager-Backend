@@ -27,7 +27,7 @@
                 {
                     <MatButton @onclick="AddToMySeriesList">Add to My Series</MatButton>
                 }
-                
+
                 @if (Series.IsSeen)
                 {
                     <MatButton @onclick="@(() => SetSeenStatus(false))">Set as Unseen</MatButton>
@@ -64,6 +64,52 @@
                 </div>
                 <div class="data-row">
                     <strong>Last Updater: </strong> @Series.LastUpdater
+                </div>
+            </div>
+            <div class="seasons">
+                <div class="em-sub-title">Seasons</div>
+                @foreach (var season in Series.Seasons)
+                {
+                    <div class="season">
+                        <div class="head">
+                            Season @season.Number
+                        </div>
+                        <div class="body">
+                            <div class="episodes">
+                                @foreach (var episode in season.Episodes)
+                                {
+                                    <div class="episode">
+                                        <div class="ep-head">
+                                            @episode.Number - [Title]
+                                        </div>
+                                        <div class="ep-body">
+                                            @episode.Description
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (season.Episodes.Count == 0)
+                                {
+                                    <div class="text-center">Season does not have any episode yet.</div>
+                                }
+
+                                <div class="episode-action">
+                                    <span class="spacer"></span>
+                                    <MatButton>Add Episode</MatButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @if (Series.Seasons.Count == 0)
+                {
+                    <div class="text-center">Series does not have any season yet.</div>
+                }
+
+                <div class="season-action">
+                    <span class="spacer"></span>
+                    <MatButton>Add Season</MatButton>
                 </div>
             </div>
         }
