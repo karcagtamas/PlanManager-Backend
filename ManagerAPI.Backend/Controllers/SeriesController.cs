@@ -96,7 +96,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPut("map/status")]
-        public IActionResult UpdateSeenStatus([FromBody] SeriesReadStatusModel model)
+        public IActionResult UpdateSeenStatus([FromBody] SeriesSeenStatusModel model)
         {
             try
             {
