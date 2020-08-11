@@ -32,7 +32,7 @@ namespace EventManager.Client.Pages.SL
                 {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false, Displaying = (e) => (string) e}
         };
 
-        private List<string> Footer { get; } = new List<string> {" ", " ", " ", " "};
+        private List<string> Footer { get; } = new List<string> {" ", " ", " "};
 
         protected override async Task OnInitializedAsync()
         {

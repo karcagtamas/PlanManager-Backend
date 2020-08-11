@@ -15,13 +15,13 @@
         </div>
         @if (SeriesList != null && SeriesList.Count > 0)
         {
-            <div class="movie-list">
+            <div class="series-list">
                 <ListTable Header="Header" Footer="Footer" Body="SeriesList" TList="ManagerAPI.Shared.DTOs.MC.MySeriesListDto" OnRowClick="@(e => RedirectToData(e))"></ListTable>
             </div>
         }
         else
         {
-            <div class="text-center">Movie list is empty</div>
+            <div class="text-center">Series list is empty</div>
         }
     }
 </div>

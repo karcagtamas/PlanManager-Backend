@@ -21,11 +21,11 @@
             {
                 @if (Series.IsMine)
                 {
-                    <MatButton @onclick="RemoveFromMySeriesList">Remove From My Books</MatButton>
+                    <MatButton @onclick="RemoveFromMySeriesList">Remove From My Series</MatButton>
                 }
                 else
                 {
-                    <MatButton @onclick="AddToMySeriesList">Add to My Books</MatButton>
+                    <MatButton @onclick="AddToMySeriesList">Add to My Series</MatButton>
                 }
                 
                 @if (Series.IsSeen)
@@ -38,8 +38,8 @@
                 }
             }
             <span class="spacer"></span>
-            <MatButton @onclick="@(() => Navigation.NavigateTo("/movies"))">Movie List</MatButton>
-            <MatButton @onclick="@(() => Navigation.NavigateTo("/my-movies"))">My Movie List</MatButton>
+            <MatButton @onclick="@(() => Navigation.NavigateTo("/series"))">Series List</MatButton>
+            <MatButton @onclick="@(() => Navigation.NavigateTo("/my-series"))">My Series List</MatButton>
         </div>
         @if (Series != null)
         {

@@ -6,23 +6,14 @@ using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.MC;
 using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common;
-using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
-using ManagerAPI.Shared.Models.MC;
-using Microsoft.Extensions.Logging;
 using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
     public class SeriesService : Repository<Series, MovieCornerNotificationType>, ISeriesService
     {
-        // Things
-        private const string SeasonThing = "season";
-
-        // Messages
-        private const string SeasonDoesNotExistMessage = "Season does not exist";
-
         // Injects
         private readonly DatabaseContext _databaseContext;
 

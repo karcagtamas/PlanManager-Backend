@@ -27,7 +27,7 @@ namespace EventManager.Client.Pages.SL
             new TableHeaderData
             {
                 PropertyName = "Publish", DisplayName = "Publish", IsSortable = false,
-                Displaying = (e) => DateHelper.DateToString((DateTime) e)
+                Displaying = (e) => DateHelper.DateToString((DateTime?) e)
             },
             new TableHeaderData
                 {PropertyName = "Author", DisplayName = "Author", IsSortable = false, Displaying = (e) => (string) e},

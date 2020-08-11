@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace ManagerAPI.Shared.DTOs.MC
 {
-    public class SeriesListDto
+    public class SeriesListDto : IIdentified
     {
         public int Id { get; set; }
         public string Title { get; set; }

@@ -665,6 +665,90 @@ app {
   background-color: rgba(187, 187, 255, 0.4);
 }
 
+/* SL Series page */
+.sl-series {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  flex-direction: column;
+}
+.sl-series .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+}
+.sl-series .series-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Series data page */
+.sl-series-data {
+  max-height: 100%;
+}
+.sl-series-data .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+  display: flex;
+}
+.sl-series-data .action-bar .spacer {
+  flex-grow: 1;
+}
+.sl-series-data .data {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+.sl-series-data .data .data-row strong {
+  color: #5120a5;
+}
+
+/* SL My Series page */
+.sl-my-series {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  flex-direction: column;
+}
+.sl-my-series .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+}
+.sl-my-series .series-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
 /* SL Movies page */
 .sl-movies {
   flex-grow: 1;
@@ -773,6 +857,24 @@ app {
   flex-grow: 1;
 }
 .sl-book-read-selector-dialog .book-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Series selector dialog */
+.sl-series-selector-dialog {
+  display: flex;
+  flex-grow: 1;
+}
+.sl-series-selector-dialog .series-list {
   flex-grow: 1;
   display: flex;
   max-height: 100%;
