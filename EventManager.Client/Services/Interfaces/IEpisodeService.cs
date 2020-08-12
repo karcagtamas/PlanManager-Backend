@@ -11,5 +11,6 @@ namespace EventManager.Client.Services.Interfaces
         Task<bool> UpdateSeenStatus(List<EpisodeSeenStatusModel> models);
         Task<bool> AddIncremented(int seasonId);
         Task<bool> DeleteDecremented(int episodeId);
+        Task<MyEpisodeDto> GetMy(int id);
     }
 }

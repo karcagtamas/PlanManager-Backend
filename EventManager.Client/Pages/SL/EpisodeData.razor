@@ -1,0 +1,44 @@
+@page "/episodes/{Id:int}"
+@using Microsoft.AspNetCore.Authorization
+@using ManagerAPI.Shared.Helpers
+@attribute [Authorize]
+
+<div class="sl-episode-data">
+    @if (Episode != null)
+    {
+        <h1 class="em-page-title">[Title]</h1>
+    }
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        <div class="action-bar">
+            <MatButton>Edit</MatButton>
+            <MatButton>Delete</MatButton>
+            @if (Episode != null)
+            {       
+                @if (true)
+                {
+                    <MatButton>Set as Unseen</MatButton>
+                }
+                else
+                {
+                    <MatButton>Set as Seen</MatButton>
+                }
+            }
+            <span class="spacer"></span>
+            <MatButton @onclick="@(() => Navigation.NavigateTo("/movies"))">Movie List</MatButton>
+            <MatButton @onclick="@(() => Navigation.NavigateTo("/my-movies"))">My Movie List</MatButton>
+        </div>
+        @if (Episode != null)
+        {
+            <div class="data">
+                <div class="data-row">
+                    <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Episode.Description)
+                </div>
+            </div>
+        }
+    }
+</div>

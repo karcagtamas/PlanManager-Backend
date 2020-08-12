@@ -73,6 +73,8 @@
                     <div class="season">
                         <div class="head">
                             Season @season.Number
+
+                            <MatButton @onclick="@(() => DeleteDecrementedSeason(season.Id))">Delete</MatButton>
                         </div>
                         <div class="body">
                             <div class="episodes">
@@ -81,6 +83,8 @@
                                     <div class="episode">
                                         <div class="ep-head">
                                             @episode.Number - [Title]
+
+                                            <MatButton @onclick="@(() => DeleteDecrementedEpisode(episode.Id))">Delete</MatButton>
                                         </div>
                                         <div class="ep-body">
                                             @episode.Description
@@ -96,6 +100,8 @@
                                 <div class="episode-action">
                                     <span class="spacer"></span>
                                     <MatButton @onclick="@(() => AddIncrementedEpisode(season.Id))">Add Episode</MatButton>
+                                    <MatButton>Set As Seen</MatButton>
+                                    <MatButton>Open</MatButton>
                                 </div>
                             </div>
                         </div>
@@ -110,6 +116,7 @@
                 <div class="season-action">
                     <span class="spacer"></span>
                     <MatButton @onclick="AddIncrementedSeason">Add Season</MatButton>
+                    <MatButton>Set As Seen</MatButton>
                 </div>
             </div>
         }

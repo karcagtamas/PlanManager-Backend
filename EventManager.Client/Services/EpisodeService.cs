@@ -44,5 +44,10 @@ namespace EventManager.Client.Services
 
             return await this.Http.Delete(settings);
         }
+
+        public Task<MyEpisodeDto> GetMy(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
