@@ -900,12 +900,12 @@ namespace ManagerAPI.DataAccess
                 .HasOne(x => x.Movie)
                 .WithMany(x => x.ConnectedUsers)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
             builder.Entity<UserMovie>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.MyMovies)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Series table settings
             builder.Entity<Series>()
@@ -938,12 +938,12 @@ namespace ManagerAPI.DataAccess
                 .HasOne(x => x.Series)
                 .WithMany(x => x.ConnectedUsers)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
             builder.Entity<UserSeries>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.MySeries)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Season table settings
             builder.Entity<Season>()
@@ -1012,12 +1012,12 @@ namespace ManagerAPI.DataAccess
                 .HasOne(x => x.Book)
                 .WithMany(x => x.ConnectedUsers)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
             builder.Entity<UserBook>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.MyBooks)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

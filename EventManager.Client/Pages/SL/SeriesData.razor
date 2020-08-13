@@ -22,19 +22,18 @@
                 @if (Series.IsMine)
                 {
                     <MatButton @onclick="RemoveFromMySeriesList">Remove From My Series</MatButton>
+                    @if (Series.IsSeen)
+                    {
+                        <MatButton @onclick="@(() => SetSeenStatus(false))">Set as Unseen</MatButton>
+                    }
+                    else
+                    {
+                        <MatButton @onclick="@(() => SetSeenStatus(true))">Set as Seen</MatButton>
+                    }
                 }
                 else
                 {
                     <MatButton @onclick="AddToMySeriesList">Add to My Series</MatButton>
-                }
-
-                @if (Series.IsSeen)
-                {
-                    <MatButton @onclick="@(() => SetSeenStatus(false))">Set as Unseen</MatButton>
-                }
-                else
-                {
-                    <MatButton @onclick="@(() => SetSeenStatus(true))">Set as Seen</MatButton>
                 }
             }
             <span class="spacer"></span>
@@ -92,13 +91,16 @@
                                         <div class="ep-foot">
                                             <span class="spacer"></span>
                                             <MatButton @onclick="@(() => OpenEpisode(episode.Id))">Open</MatButton>
-                                            @if (episode.Seen)
+                                            @if (Series.IsMine)
                                             {
-                                                <MatButton @onclick="@(() => SetEpisodeSeenStatus(episode.Id, false))">Set As Unseen</MatButton>
-                                            }
-                                            else
-                                            {
-                                                <MatButton @onclick="@(() => SetEpisodeSeenStatus(episode.Id, true))">Set As Seen</MatButton>
+                                                @if (episode.Seen)
+                                                {
+                                                    <MatButton @onclick="@(() => SetEpisodeSeenStatus(episode.Id, false))">Set As Unseen</MatButton>
+                                                }
+                                                else
+                                                {
+                                                    <MatButton @onclick="@(() => SetEpisodeSeenStatus(episode.Id, true))">Set As Seen</MatButton>
+                                                }
                                             }
                                         </div>
                                     </div>
@@ -112,13 +114,16 @@
                                 <div class="episode-action">
                                     <span class="spacer"></span>
                                     <MatButton @onclick="@(() => AddIncrementedEpisode(season.Id))">Add Episode</MatButton>
-                                    @if (season.IsSeen)
+                                    @if (Series.IsMine)
                                     {
-                                        <MatButton @onclick="@(() => SetSeasonSeenStatus(season.Id, false))">Set As Unseen</MatButton>
-                                    }
-                                    else
-                                    {
-                                        <MatButton @onclick="@(() => SetSeasonSeenStatus(season.Id, true))">Set As Seen</MatButton>
+                                        @if (season.IsSeen)
+                                        {
+                                            <MatButton @onclick="@(() => SetSeasonSeenStatus(season.Id, false))">Set As Unseen</MatButton>
+                                        }
+                                        else
+                                        {
+                                            <MatButton @onclick="@(() => SetSeasonSeenStatus(season.Id, true))">Set As Seen</MatButton>
+                                        }
                                     }
                                 </div>
                             </div>

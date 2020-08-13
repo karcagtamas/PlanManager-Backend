@@ -22,20 +22,20 @@
                 @if (Book.IsMine)
                 {
                     <MatButton @onclick="RemoveFromMyBooks">Remove From My Books</MatButton>
+                    @if (Book.IsRead)
+                    {
+                        <MatButton @onclick="@(() => SetReadStatus(false))">Set as Unread</MatButton>
+                    }
+                    else
+                    {
+                        <MatButton @onclick="@(() => SetReadStatus(true))">Set as Read</MatButton>
+                    }
                 }
                 else
                 {
                     <MatButton @onclick="AddToMyBooks">Add to My Books</MatButton>
                 }
                 
-                @if (Book.IsRead)
-                {
-                    <MatButton @onclick="@(() => SetReadStatus(false))">Set as Unread</MatButton>
-                }
-                else
-                {
-                    <MatButton @onclick="@(() => SetReadStatus(true))">Set as Read</MatButton>
-                }
             }
             <span class="spacer"></span>
             <MatButton @onclick="@(() => Navigation.NavigateTo("/books"))">Book List</MatButton>

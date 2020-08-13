@@ -61,7 +61,7 @@ namespace EventManager.Client.Pages.SL
         {
             if (await this.MovieService.Delete(this.Id))
             {
-                this.Navigation.NavigateTo("books");
+                this.Navigation.NavigateTo("movies");
             }
         }
 

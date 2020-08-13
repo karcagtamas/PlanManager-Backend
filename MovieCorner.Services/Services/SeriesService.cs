@@ -24,6 +24,7 @@ namespace MovieCorner.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
+        /// <param name="notificationService"></param>
         public SeriesService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Series", new NotificationArguments { })
         {
             _databaseContext = context;
@@ -112,6 +113,10 @@ namespace MovieCorner.Services.Services
 
             if (mapping != null)
             {
+                foreach (var episode in user.MyEpisodes.Where(x => x.Episode.Season.Series.Id == mapping.Series.Id))
+                {
+                    this._databaseContext.UserEpisodeSwitch.Remove(episode);
+                }
                 this._databaseContext.UserSeriesSwitch.Remove(mapping);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete my"), id);
@@ -124,21 +129,18 @@ namespace MovieCorner.Services.Services
             var user = this.Utils.GetCurrentUser();
 
             var currentMappings = _databaseContext.UserSeriesSwitch.Where(x => x.UserId == user.Id).ToList();
-            foreach (var i in currentMappings)
+            foreach (var i in currentMappings.Where(i => ids.FindIndex(x => x == i.SeriesId) == -1))
             {
-                if (ids.FindIndex(x => x == i.SeriesId) == -1)
+                foreach (var episode in user.MyEpisodes.Where(x => x.Episode.Season.Series.Id == i.SeriesId))
                 {
-                    _databaseContext.UserSeriesSwitch.Remove(i);
+                    _databaseContext.UserEpisodeSwitch.Remove(episode);
                 }
+                _databaseContext.UserSeriesSwitch.Remove(i);
             }
 
-            foreach (var i in ids)
+            foreach (var map in from i in ids where currentMappings.FirstOrDefault(x => x.SeriesId == i) == null select new UserSeries() { SeriesId = i, UserId = user.Id })
             {
-                if (currentMappings.FirstOrDefault(x => x.SeriesId == i) == null)
-                {
-                    var map = new UserSeries() { SeriesId = i, UserId = user.Id };
-                    _databaseContext.UserSeriesSwitch.Add(map);
-                }
+                _databaseContext.UserSeriesSwitch.Add(map);
             }
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
