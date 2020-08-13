@@ -61,7 +61,7 @@ namespace ManagerAPI.Backend.Controllers
             }
         }
         
-        [HttpDelete("/decremented/{episodeId}")]
+        [HttpDelete("decremented/{episodeId}")]
         public IActionResult DeleteDecremented(int episodeId)
         {
             try

@@ -26,7 +26,7 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var episodes = _databaseContext.Episodes.Where(x => x.Season.Id == id);
+            var episodes = _databaseContext.Episodes.Where(x => x.Season.Id == id).ToList();
             foreach (var i in episodes)
             {
                 var connection = i.ConnectedUsers.FirstOrDefault(x => x.User.Id == user.Id);
@@ -43,7 +43,7 @@ namespace MovieCorner.Services.Services
                         var userEpisode = new UserEpisode
                         {
                             UserId = user.Id,
-                            EpisodeId = id,
+                            EpisodeId = i.Id,
                             Seen = true,
                             SeenOn = DateTime.Now
                         };

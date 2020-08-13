@@ -739,6 +739,10 @@ app {
 .sl-series-data .seasons .season .head {
   color: #5120a5;
   font-weight: bold;
+  display: flex;
+}
+.sl-series-data .seasons .season .head .spacer {
+  flex-grow: 1;
 }
 .sl-series-data .seasons .season .body .episodes .episode {
   margin-bottom: 1rem;
@@ -751,9 +755,19 @@ app {
 .sl-series-data .seasons .season .body .episodes .episode .ep-head {
   color: #5120a5;
   font-style: italic;
+  display: flex;
+}
+.sl-series-data .seasons .season .body .episodes .episode .ep-head .spacer {
+  flex-grow: 1;
 }
 .sl-series-data .seasons .season .body .episodes .episode .ep-body {
   padding: 0.4rem;
+}
+.sl-series-data .seasons .season .body .episodes .episode .ep-foot {
+  display: flex;
+}
+.sl-series-data .seasons .season .body .episodes .episode .ep-foot .spacer {
+  flex-grow: 1;
 }
 .sl-series-data .seasons .season .body .episodes .episode-action {
   display: flex;

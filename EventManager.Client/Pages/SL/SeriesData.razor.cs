@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
@@ -43,7 +44,7 @@ namespace EventManager.Client.Pages.SL
 
             var options = new ModalOptions
             {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
+                ButtonOptions = {ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true}
             };
 
             Modal.OnClose += EditSeriesDialogClosed;
@@ -53,7 +54,7 @@ namespace EventManager.Client.Pages.SL
 
         private async void EditSeriesDialogClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetSeries();
+            if (!modalResult.Cancelled && (bool) modalResult.Data) await GetSeries();
 
             Modal.OnClose -= EditSeriesDialogClosed;
         }
@@ -85,7 +86,7 @@ namespace EventManager.Client.Pages.SL
         private async void SetSeenStatus(bool status)
         {
             if (await this.SeriesService.UpdateSeenStatus(
-                new SeriesSeenStatusModel { Id = this.Series.Id, Seen = status }))
+                new SeriesSeenStatusModel {Id = this.Series.Id, Seen = status}))
             {
                 await this.GetSeries();
             }
@@ -118,6 +119,29 @@ namespace EventManager.Client.Pages.SL
         private async void DeleteDecrementedEpisode(int episodeId)
         {
             if (await this.EpisodeService.DeleteDecremented(episodeId))
+            {
+                await this.GetSeries();
+            }
+        }
+
+        private void OpenEpisode(int id)
+        {
+            this.Navigation.NavigateTo($"/episodes/{id}");
+        }
+
+        private async void SetSeasonSeenStatus(int season, bool status)
+        {
+            if (await this.SeasonService.UpdateSeenStatus(
+                new List<SeasonSeenStatusModel> {new SeasonSeenStatusModel {Id = season, Seen = status}}))
+            {
+                await this.GetSeries();
+            }
+        }
+        
+        private async void SetEpisodeSeenStatus(int episode, bool status)
+        {
+            if (await this.EpisodeService.UpdateSeenStatus(
+                new List<EpisodeSeenStatusModel> {new EpisodeSeenStatusModel {Id = episode, Seen = status}}))
             {
                 await this.GetSeries();
             }

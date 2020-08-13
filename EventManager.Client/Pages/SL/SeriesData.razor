@@ -72,8 +72,8 @@
                 {
                     <div class="season">
                         <div class="head">
-                            Season @season.Number
-
+                            <span>Season @season.Number</span>
+                            <span class="spacer"></span>
                             <MatButton @onclick="@(() => DeleteDecrementedSeason(season.Id))">Delete</MatButton>
                         </div>
                         <div class="body">
@@ -82,12 +82,24 @@
                                 {
                                     <div class="episode">
                                         <div class="ep-head">
-                                            @episode.Number - [Title]
-
+                                            <span>@episode.Number - [Title]</span>
+                                            <span class="spacer"></span>
                                             <MatButton @onclick="@(() => DeleteDecrementedEpisode(episode.Id))">Delete</MatButton>
                                         </div>
                                         <div class="ep-body">
                                             @episode.Description
+                                        </div>
+                                        <div class="ep-foot">
+                                            <span class="spacer"></span>
+                                            <MatButton @onclick="@(() => OpenEpisode(episode.Id))">Open</MatButton>
+                                            @if (episode.Seen)
+                                            {
+                                                <MatButton @onclick="@(() => SetEpisodeSeenStatus(episode.Id, false))">Set As Unseen</MatButton>
+                                            }
+                                            else
+                                            {
+                                                <MatButton @onclick="@(() => SetEpisodeSeenStatus(episode.Id, true))">Set As Seen</MatButton>
+                                            }
                                         </div>
                                     </div>
                                 }
@@ -100,8 +112,14 @@
                                 <div class="episode-action">
                                     <span class="spacer"></span>
                                     <MatButton @onclick="@(() => AddIncrementedEpisode(season.Id))">Add Episode</MatButton>
-                                    <MatButton>Set As Seen</MatButton>
-                                    <MatButton>Open</MatButton>
+                                    @if (season.IsSeen)
+                                    {
+                                        <MatButton @onclick="@(() => SetSeasonSeenStatus(season.Id, false))">Set As Unseen</MatButton>
+                                    }
+                                    else
+                                    {
+                                        <MatButton @onclick="@(() => SetSeasonSeenStatus(season.Id, true))">Set As Seen</MatButton>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -116,7 +134,6 @@
                 <div class="season-action">
                     <span class="spacer"></span>
                     <MatButton @onclick="AddIncrementedSeason">Add Season</MatButton>
-                    <MatButton>Set As Seen</MatButton>
                 </div>
             </div>
         }

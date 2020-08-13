@@ -52,6 +52,7 @@ namespace MovieCorner.Services.Services
             var series = this.Get<MySeriesDto>(id);
             var mySeries = user.MySeries.FirstOrDefault(x => x.Series.Id == series.Id);
             series.IsMine = mySeries != null;
+            
 
             foreach (var season in series.Seasons)
             {
@@ -60,7 +61,11 @@ namespace MovieCorner.Services.Services
                     var myEpisode = user.MyEpisodes.FirstOrDefault(x => x.Episode.Id == episode.Id);
                     episode.Seen = myEpisode != null && myEpisode.Seen;
                 }
+
+                season.IsSeen = season.Episodes.Select(x => x.Seen).All(x => x);
             }
+
+            series.IsSeen = series.Seasons.SelectMany(x => x.Episodes.Select(y => y.Seen)).All(x => x);
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), series.Id);
 
@@ -143,10 +148,10 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var episodes = _databaseContext.Episodes.Where(x => x.Season.Series.Id == id);
+            var episodes = _databaseContext.Episodes.Where(x => x.Season.Series.Id == id).ToList();
             foreach (var i in episodes)
             {
-                var connection = i.ConnectedUsers.Where(x => x.User.Id == user.Id).FirstOrDefault();
+                var connection = i.ConnectedUsers.FirstOrDefault(x => x.User.Id == user.Id);
                 if (connection != null)
                 {
                     connection.Seen = seen;
@@ -160,9 +165,9 @@ namespace MovieCorner.Services.Services
                         var userEpisode = new UserEpisode
                         {
                             UserId = user.Id,
-                            EpisodeId = id,
-                            Seen = seen,
-                            SeenOn = seen ? (DateTime?)DateTime.Now : null
+                            EpisodeId = i.Id,
+                            Seen = true,
+                            SeenOn = DateTime.Now
                         };
                         this._databaseContext.UserEpisodeSwitch.Add(userEpisode);
                     }

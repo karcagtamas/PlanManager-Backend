@@ -882,6 +882,11 @@ app {
       .head {
         color: $primary;
         font-weight: bold;
+        display: flex;
+        
+        .spacer {
+          flex-grow: 1;
+        }
       }
 
       .body {
@@ -897,10 +902,23 @@ app {
             .ep-head {
               color: $primary;
               font-style: italic;
+              display: flex;
+              
+              .spacer {
+                flex-grow: 1;
+              }
             }
 
             .ep-body {
               padding: 0.4rem;
+            }
+            
+            .ep-foot {
+              display: flex;
+              
+              .spacer {
+                flex-grow: 1;
+              }
             }
           }
 
