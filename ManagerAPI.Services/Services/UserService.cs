@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +8,7 @@ using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace ManagerAPI.Services.Services
@@ -101,17 +101,17 @@ namespace ManagerAPI.Services.Services
         /// <summary>
         /// Update current user's data object by the given update object
         /// </summary>
-        /// <param name="updateDto">Update object</param>
+        /// <param name="model">Update object</param>
         /// <exception cref="Exception">Invalid user update object</exception>
-        public void UpdateUser(UserUpdateDto updateDto)
+        public void UpdateUser(UserModel model)
         {
             var user = _utilsService.GetCurrentUser();
-            if (updateDto == null)
+            if (model == null)
             {
                 throw _loggerService.LogInvalidThings(user, nameof(UserService), UserUpdateObjectThing, ErrorDuringUserUpdateMessage);
             }
 
-            _mapper.Map(updateDto, user);
+            _mapper.Map(model, user);
 
             _context.AppUsers.Update(user);
             _context.SaveChanges();

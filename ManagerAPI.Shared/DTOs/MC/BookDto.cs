@@ -2,6 +2,9 @@ using System;
 
 namespace ManagerAPI.Shared.DTOs.MC
 {
+    /// <summary>
+    /// Book DTO
+    /// </summary>
     public class BookDto
     {
         public int Id { get; set; }

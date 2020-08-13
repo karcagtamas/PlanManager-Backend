@@ -2,6 +2,9 @@
 
 namespace ManagerAPI.Shared.DTOs
 {
+    /// <summary>
+    /// Task list DTO
+    /// </summary>
     public class TaskListDto
     {
         public int Id { get; set; }

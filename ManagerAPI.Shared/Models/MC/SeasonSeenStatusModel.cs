@@ -1,8 +1,14 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace ManagerAPI.Shared.Models.MC
 {
+    /// <summary>
+    /// Season seen status model
+    /// </summary>
     public class SeasonSeenStatusModel
     {
-        public int Id { get; set; }
-        public bool Seen { get; set; }
+        [Required] public int Id { get; set; }
+
+        [Required] public bool Seen { get; set; }
     }
 }

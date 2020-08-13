@@ -1,8 +1,10 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.DTOs.MC
 {
+    /// <summary>
+    /// Series DTO
+    /// </summary>
     public class SeriesDto
     {
         public int Id { get; set; }

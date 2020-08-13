@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Models.EM
 {
+    /// <summary>
+    /// Event create or update model
+    /// </summary>
     public class EventModel
     {
         [Required(ErrorMessage = "Title is required")]

@@ -2,6 +2,9 @@ using System;
 
 namespace ManagerAPI.Shared.DTOs.EM
 {
+    /// <summary>
+    /// My event list DTO
+    /// </summary>
     public class MyEventListDto
     {
         public int Id { get; set; }

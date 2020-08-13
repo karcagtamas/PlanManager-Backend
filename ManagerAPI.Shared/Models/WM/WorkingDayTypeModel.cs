@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ManagerAPI.Shared.DTOs.WM
+﻿namespace ManagerAPI.Shared.Models.WM
 {
+    /// <summary>
+    /// Working day type create or update model
+    /// </summary>
     public class WorkingDayTypeModel
     {
         public string Title { get; set; }

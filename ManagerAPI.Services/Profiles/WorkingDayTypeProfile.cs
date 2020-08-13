@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ManagerAPI.Domain.Entities.WM;
 using ManagerAPI.Shared.DTOs.WM;
+using ManagerAPI.Shared.Models.WM;
 
 namespace ManagerAPI.Services.Profiles
 {

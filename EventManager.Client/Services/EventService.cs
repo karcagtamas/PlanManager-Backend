@@ -69,40 +69,40 @@ namespace EventManager.Client.Services
             return await this._httpService.Create<object>(settings, body);
         }
 
-        public async Task<bool> UpdateMasterEvent(MasterEventUpdateDto masterUpdate)
+        public async Task<bool> UpdateMasterEvent(MasterEventModel masterUpdate)
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(masterUpdate.Id, -1);
 
             var settings = new HttpSettings($"{this._url}", null, pathParams, "Master event updating");
 
-            var body = new HttpBody<MasterEventUpdateDto>(masterUpdate);
+            var body = new HttpBody<MasterEventModel>(masterUpdate);
 
-            return await this._httpService.Update<MasterEventUpdateDto>(settings, body);
+            return await this._httpService.Update<MasterEventModel>(settings, body);
         }
 
-        public async Task<bool> UpdateSportEvent(SportEventUpdateDto sportUpdate)
+        public async Task<bool> UpdateSportEvent(SportEventModel sportUpdate)
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(sportUpdate.Id, -1);
 
             var settings = new HttpSettings($"{this._url}/sport", null, pathParams, "Sport event updating");
 
-            var body = new HttpBody<SportEventUpdateDto>(sportUpdate);
+            var body = new HttpBody<SportEventModel>(sportUpdate);
 
-            return await this._httpService.Update<SportEventUpdateDto>(settings, body);
+            return await this._httpService.Update<SportEventModel>(settings, body);
         }
 
-        public async Task<bool> UpdateGtEvent(GtEventUpdateDto gtUpdate)
+        public async Task<bool> UpdateGtEvent(GtEventModel gtUpdate)
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(gtUpdate.Id, -1);
 
             var settings = new HttpSettings($"{this._url}/gt", null, pathParams, "Gt event updating");
 
-            var body = new HttpBody<GtEventUpdateDto>(gtUpdate);
+            var body = new HttpBody<GtEventModel>(gtUpdate);
 
-            return await this._httpService.Update<GtEventUpdateDto>(settings, body);
+            return await this._httpService.Update<GtEventModel>(settings, body);
         }
     }
 }

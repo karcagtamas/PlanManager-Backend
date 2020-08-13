@@ -2,6 +2,9 @@
 
 namespace ManagerAPI.Shared.DTOs.MC
 {
+    /// <summary>
+    /// Season list DTO
+    /// </summary>
     public class SeasonListDto
     {
         public int Id { get; set; }

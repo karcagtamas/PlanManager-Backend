@@ -1,5 +1,8 @@
 ﻿namespace ManagerAPI.Shared.DTOs.WM
 {
+    /// <summary>
+    /// Working field list DTO
+    /// </summary>
     public class WorkingFieldListDto
     {
         public int Id { get; set; }

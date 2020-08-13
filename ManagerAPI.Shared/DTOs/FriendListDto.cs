@@ -1,8 +1,10 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.DTOs
 {
+    /// <summary>
+    /// Friend list DTO
+    /// </summary>
     public class FriendListDto
     {
         public string FriendId { get; set; }
@@ -12,14 +14,17 @@ namespace ManagerAPI.Shared.DTOs
         public byte[] FriendImageData { get; set; }
         public DateTime ConnectionDate { get; set; }
 
-        public string ImageURL(string defaultImage)
+        /// <summary>
+        /// Generate image url
+        /// </summary>
+        /// <param name="defaultImage">Default image path</param>
+        /// <returns>Generated image path</returns>
+        public string ImageUrl(string defaultImage)
         {
-            if (FriendImageData.Length != 0)
-            {
-                var base64 = Convert.ToBase64String(FriendImageData);
-                return $"data:image/gif;base64,{base64}";
-            }
-            return defaultImage;
+            if (FriendImageData.Length == 0) return defaultImage;
+            var base64 = Convert.ToBase64String(FriendImageData);
+            return $"data:image/gif;base64,{base64}";
+
         }
     }
 }

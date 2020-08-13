@@ -27,7 +27,7 @@
                                         <i>&lt;@friend.FriendFullName&gt;</i>
                                     </div>
                                     <div class="picture">
-                                        <img src="@friend.ImageURL("/images/profile-icon.jpg")" alt="@friend.Friend" />
+                                        <img src="@friend.ImageUrl("/images/profile-icon.jpg")" alt="@friend.Friend" />
                                     </div>
                                     <div class="card-action-bar">
                                         <MatIconButton Icon="remove_red_eye" @onclick="@(() => OpenFriendDataModal(friend.FriendId))"></MatIconButton>

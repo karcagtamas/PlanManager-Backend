@@ -232,7 +232,7 @@ namespace EventManager.Services.Services
         /// Update master event part
         /// </summary>
         /// <param name="model">Model of update</param>
-        public void UpdateMasterEvent(MasterEventUpdateDto model)
+        public void UpdateMasterEvent(MasterEventModel model)
         {
             var user = _utilsService.GetCurrentUser();
             var masterEvent = _context.MasterEvents.Find(model.Id);
@@ -254,7 +254,7 @@ namespace EventManager.Services.Services
         /// Update sport event part
         /// </summary>
         /// <param name="model">Model of update</param>
-        public void UpdateSportEvent(SportEventUpdateDto model)
+        public void UpdateSportEvent(SportEventModel model)
         {
             var user = _utilsService.GetCurrentUser();
             var sportEvent = _context.DSportEvents.Find(model.Id);
@@ -275,7 +275,7 @@ namespace EventManager.Services.Services
         /// Update gt event part
         /// </summary>
         /// <param name="model">Model of update</param>
-        public void UpdateGtEvent(GtEventUpdateDto model)
+        public void UpdateGtEvent(GtEventModel model)
         {
             var user = _utilsService.GetCurrentUser();
             var gtEvent = _context.DGtEvents.Find(model.Id);

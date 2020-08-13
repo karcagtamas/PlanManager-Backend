@@ -7,6 +7,7 @@ using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Common;
 using EventManager.Client.Shared.Components.MyProfile;
 using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Pages.Profiles
@@ -29,7 +30,7 @@ namespace EventManager.Client.Pages.Profiles
         public IModalService Modal { get; set; }
 
         public UserDto User { get; set; }
-        public UserUpdateDto UserUpdate { get; set; }
+        public UserModel UserUpdate { get; set; }
         protected List<GenderListDto> Genders { get; set; }
 
         protected bool ShowConfirmDialog { get; set; } = false;
@@ -50,7 +51,7 @@ namespace EventManager.Client.Pages.Profiles
         {
             this.ProfileIsLoading = true;
             User = await UserService.GetUser();
-            UserUpdate = new UserUpdateDto(User);
+            UserUpdate = new UserModel(User);
             Roles = string.Join(", ", User.Roles);
             if (User.ProfileImageData.Length != 0)
             {

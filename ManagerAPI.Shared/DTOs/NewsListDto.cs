@@ -2,6 +2,9 @@ using System;
 
 namespace ManagerAPI.Shared.DTOs
 {
+    /// <summary>
+    /// News list DTO
+    /// </summary>
     public class NewsListDto
     {
         public int Id { get; set; }

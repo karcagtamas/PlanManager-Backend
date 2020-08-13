@@ -2,6 +2,9 @@ using System;
 
 namespace ManagerAPI.Shared.DTOs.EM
 {
+    /// <summary>
+    /// Master event DTO
+    /// </summary>
     public class MasterEventDto
     {
         public int Id { get; set; }

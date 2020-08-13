@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace ManagerAPI.Shared.DTOs.WM
 {
+    /// <summary>
+    /// Working day list DTO
+    /// </summary>
     public class WorkingDayListDto
     {
         public int Id { get; set; }

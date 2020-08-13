@@ -2,6 +2,9 @@
 
 namespace ManagerAPI.Shared.DTOs.WM
 {
+    /// <summary>
+    /// Working week stat DTO
+    /// </summary>
     public class WorkingWeekStatDto
     {
         public int HourSum { get; set; }

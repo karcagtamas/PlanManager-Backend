@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ManagerAPI.Shared.DTOs.WM
+﻿namespace ManagerAPI.Shared.DTOs.WM
 {
+    /// <summary>
+    /// Working day stat DTO
+    /// </summary>
     public class WorkingDayStatDto
     {
         public int SumMinutes { get; set; }

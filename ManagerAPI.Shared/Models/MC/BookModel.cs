@@ -4,12 +4,22 @@ using ManagerAPI.Shared.DTOs.MC;
 
 namespace ManagerAPI.Shared.Models.MC
 {
+    /// <summary>
+    /// Book create or update model
+    /// </summary>
     public class BookModel
     {
+        /// <summary>
+        /// Init empty model
+        /// </summary>
         public BookModel()
         {
         }
 
+        /// <summary>
+        /// Model from data object
+        /// </summary>
+        /// <param name="book">Book data object</param>
         public BookModel(BookDto book)
         {
             Name = book.Name;

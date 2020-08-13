@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ManagerAPI.Shared.DTOs
 {
+    /// <summary>
+    /// Friend data DTO
+    /// </summary>
     public class FriendDataDto
     {
         public string Id { get; set; }

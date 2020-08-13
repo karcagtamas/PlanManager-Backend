@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Shared.Models {
-    public class FriendRequestModel {
+namespace ManagerAPI.Shared.Models
+{
+    /// <summary>
+    /// Fiend request model
+    /// </summary>
+    public class FriendRequestModel
+    {
         [Required(ErrorMessage = "User name is required")]
         public string DestinationUserName { get; set; }
 

@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace ManagerAPI.Shared.DTOs.MC
 {
+    /// <summary>
+    /// My season DTO
+    /// </summary>
     public class MySeasonDto
     {
         public int Id { get; set; }

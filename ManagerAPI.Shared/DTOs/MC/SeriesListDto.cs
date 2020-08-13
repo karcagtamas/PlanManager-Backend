@@ -2,6 +2,9 @@
 
 namespace ManagerAPI.Shared.DTOs.MC
 {
+    /// <summary>
+    /// Series list DTO
+    /// </summary>
     public class SeriesListDto : IIdentified
     {
         public int Id { get; set; }

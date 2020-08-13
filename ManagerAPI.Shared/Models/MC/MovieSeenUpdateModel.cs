@@ -1,8 +1,14 @@
-﻿namespace ManagerAPI.Shared.Models.MC
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ManagerAPI.Shared.Models.MC
 {
+    /// <summary>
+    /// Movie seen update model
+    /// </summary>
     public class MovieSeenUpdateModel
     {
-        public int Id { get; set; }
-        public bool Seen { get; set; }
+        [Required] public int Id { get; set; }
+
+        [Required] public bool Seen { get; set; }
     }
 }

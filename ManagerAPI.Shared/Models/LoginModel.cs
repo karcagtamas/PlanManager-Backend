@@ -1,7 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Shared.Models {
-    public class LoginModel {
+namespace ManagerAPI.Shared.Models
+{
+    /// <summary>
+    /// Login model
+    /// </summary>
+    public class LoginModel
+    {
         [Required(ErrorMessage = "User name is required")]
         public string UserName { get; set; }
 

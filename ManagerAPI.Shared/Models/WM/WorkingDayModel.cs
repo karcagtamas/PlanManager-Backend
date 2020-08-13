@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Models.WM
 {
+    /// <summary>
+    /// Working day create or update model
+    /// </summary>
     public class WorkingDayModel
     {
         [Required]

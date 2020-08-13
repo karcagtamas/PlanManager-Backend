@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using ManagerAPI.Shared.DTOs.EM;
 using ManagerAPI.Shared.Models.EM;
-using System.Collections.Generic;
 
 namespace EventManager.Services.Services
 {
@@ -11,9 +11,9 @@ namespace EventManager.Services.Services
         void CreateEvent(EventModel model);
         void SetEventAsGtEvent(int eventId);
         void SetEventAsSportEvent(int eventId);
-        void UpdateMasterEvent(MasterEventUpdateDto model);
-        void UpdateSportEvent(SportEventUpdateDto model);
-        void UpdateGtEvent(GtEventUpdateDto model);
+        void UpdateMasterEvent(MasterEventModel model);
+        void UpdateSportEvent(SportEventModel model);
+        void UpdateGtEvent(GtEventModel model);
         void DeleteEvent(int eventId);
     }
 }

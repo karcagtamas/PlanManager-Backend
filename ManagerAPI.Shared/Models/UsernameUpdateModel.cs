@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Models
 {
+    /// <summary>
+    /// User Name update model
+    /// </summary>
     public class UsernameUpdateModel
     {
         [Required(ErrorMessage = "Username is required")]
