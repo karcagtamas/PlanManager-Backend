@@ -7,6 +7,6 @@ namespace ManagerAPI.Shared.DTOs.MC
         public int Id { get; set; }
         public int Number { get; set; }
         public bool IsSeen { get; set; }
-        public List<MyEpisodeDto> Episodes { get; set; }
+        public List<MyEpisodeListDto> Episodes { get; set; }
     }
 }

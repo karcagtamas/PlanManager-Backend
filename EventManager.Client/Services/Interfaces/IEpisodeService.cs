@@ -12,5 +12,6 @@ namespace EventManager.Client.Services.Interfaces
         Task<bool> AddIncremented(int seasonId);
         Task<bool> DeleteDecremented(int episodeId);
         Task<MyEpisodeDto> GetMy(int id);
+        Task<bool> UpdateShort(int id, EpisodeShortModel model);
     }
 }

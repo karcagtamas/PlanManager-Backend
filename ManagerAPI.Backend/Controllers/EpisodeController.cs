@@ -78,5 +78,40 @@ namespace ManagerAPI.Backend.Controllers
                 return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
+        
+        [HttpGet("my/{id}")]
+        public IActionResult GetMy(int id)
+        {
+            try
+            {
+                return Ok(this._episodeService.GetMy(id));
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
+
+        [HttpPut("short/{id}")]
+        public IActionResult UpdateShort(int id, [FromBody] EpisodeShortModel model)
+        {
+            try
+            {
+                this._episodeService.Update<EpisodeShortModel>(id, model);
+                return Ok();
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
     }
 }

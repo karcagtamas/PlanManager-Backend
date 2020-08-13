@@ -6,6 +6,7 @@ using ManagerAPI.Domain.Entities.MC;
 using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.MC;
 using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
@@ -88,6 +89,20 @@ namespace MovieCorner.Services.Services
             }).ToList();
 
             this.UpdateRange(episodes);
+        }
+
+        public MyEpisodeDto GetMy(int id)
+        {
+            var user = this.Utils.GetCurrentUser();
+
+            var episode = this.Get<MyEpisodeDto>(id);
+            var myEpisode = user.MyEpisodes.FirstOrDefault(x => x.Episode.Id == episode.Id);
+            episode.IsMine = myEpisode != null;
+            episode.IsSeen = myEpisode != null && myEpisode.Seen;
+
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), episode.Id);
+
+            return episode;
         }
     }
 }

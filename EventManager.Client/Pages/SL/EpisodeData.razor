@@ -15,22 +15,22 @@
     else
     {
         <div class="action-bar">
-            <MatButton>Edit</MatButton>
-            <MatButton>Delete</MatButton>
-            @if (Episode != null)
+            <MatButton @onclick="OpenEditEpisodeDialog">Edit</MatButton>
+            <MatButton @onclick="DeleteDecremented">Delete</MatButton>
+            @if (Episode != null && Episode.IsMine)
             {       
-                @if (true)
+                @if (Episode.IsSeen)
                 {
-                    <MatButton>Set as Unseen</MatButton>
+                    <MatButton @onclick="@(() => SetSeenStatus(false))">Set as Unseen</MatButton>
                 }
                 else
                 {
-                    <MatButton>Set as Seen</MatButton>
+                    <MatButton @onclick="@(() => SetSeenStatus(true))">Set as Seen</MatButton>
                 }
             }
             <span class="spacer"></span>
-            <MatButton @onclick="@(() => Navigation.NavigateTo("/movies"))">Movie List</MatButton>
-            <MatButton @onclick="@(() => Navigation.NavigateTo("/my-movies"))">My Movie List</MatButton>
+            <MatButton @onclick="@(() => Navigation.NavigateTo("/series"))">Series List</MatButton>
+            <MatButton @onclick="@(() => Navigation.NavigateTo("/my-series"))">My Series List</MatButton>
         </div>
         @if (Episode != null)
         {

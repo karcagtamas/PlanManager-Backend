@@ -45,9 +45,26 @@ namespace EventManager.Client.Services
             return await this.Http.Delete(settings);
         }
 
-        public Task<MyEpisodeDto> GetMy(int id)
+        public async Task<MyEpisodeDto> GetMy(int id)
         {
-            throw new System.NotImplementedException();
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/my", null, pathParams);
+
+            return await this.Http.Get<MyEpisodeDto>(settings);
+        }
+
+        public async Task<bool> UpdateShort(int id, EpisodeShortModel model)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/short", null, pathParams, "Episode updating");
+            
+            var body = new HttpBody<EpisodeShortModel>(model);
+
+            return await this.Http.Update<EpisodeShortModel>(settings, body);
         }
     }
 }

@@ -971,12 +971,12 @@ namespace ManagerAPI.DataAccess
                 .HasOne(x => x.Episode)
                 .WithMany(x => x.ConnectedUsers)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
             builder.Entity<UserEpisode>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.MyEpisodes)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Book table settings
             builder.Entity<Book>()

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.Domain.Entities.MC;
 using ManagerAPI.Shared.DTOs.MC;
 using ManagerAPI.Shared.Models.MC;
@@ -25,7 +24,7 @@ namespace MovieCorner.Services.Profiles
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
                 .ForMember(dest => dest.IsMine, opt => opt.Ignore());
             CreateMap<Season, MySeasonDto>();
-            CreateMap<Episode, MyEpisodeDto>()
+            CreateMap<Episode, MyEpisodeListDto>()
                 .ForMember(dest => dest.Seen, opt => opt.Ignore());
             CreateMap<Series, SeriesDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
@@ -35,6 +34,10 @@ namespace MovieCorner.Services.Profiles
             CreateMap<Series, MySeriesSelectorListDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
                 .ForMember(dest => dest.IsMine, opt => opt.Ignore());
+            CreateMap<Episode, MyEpisodeDto>()
+                .ForMember(dest => dest.IsSeen, opt => opt.Ignore());
+            CreateMap<EpisodeShortModel, Episode>();
+            CreateMap<Episode, EpisodeDto>();
         }
     }
 }

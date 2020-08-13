@@ -810,6 +810,34 @@ app {
   background-color: rgba(187, 187, 255, 0.4);
 }
 
+/* SL Episode data page */
+.sl-episode-data {
+  max-height: 100%;
+}
+.sl-episode-data .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+  display: flex;
+}
+.sl-episode-data .action-bar .spacer {
+  flex-grow: 1;
+}
+.sl-episode-data .data {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+.sl-episode-data .data .data-row strong {
+  color: #5120a5;
+}
+
 /* SL Movies page */
 .sl-movies {
   flex-grow: 1;

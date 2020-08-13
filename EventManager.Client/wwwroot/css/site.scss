@@ -973,6 +973,40 @@ app {
   }
 }
 
+/* SL Episode data page */
+.sl-episode-data {
+  max-height: 100%;
+
+  .action-bar {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: $primary-secondary-trans 3px solid;
+    border-radius: $border-radius;
+    padding: 0.5rem;
+    background-color: $orange-trans;
+    display: flex;
+
+    .spacer {
+      flex-grow: 1;
+    }
+  }
+
+  .data {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: $primary-secondary-trans 3px solid;
+    border-radius: $border-radius;
+    padding: 0.5rem;
+    background-color: $blue-light-trans;
+
+    .data-row {
+      strong {
+        color: $primary;
+      }
+    }
+  }
+}
+
 /* SL Movies page */
 .sl-movies {
   flex-grow: 1;

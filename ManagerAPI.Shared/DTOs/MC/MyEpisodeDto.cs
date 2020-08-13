@@ -1,10 +1,8 @@
-namespace ManagerAPI.Shared.DTOs.MC
+﻿namespace ManagerAPI.Shared.DTOs.MC
 {
-    public class MyEpisodeDto
+    public class MyEpisodeDto : EpisodeDto
     {
-        public int Id { get; set; }
-        public int Number { get; set; }
-        public string Description { get; set; }
-        public bool Seen { get; set; }
+        public bool IsMine { get; set; }
+        public bool IsSeen { get; set; }
     }
 }
