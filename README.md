@@ -15,7 +15,7 @@
 - My Series manage
 - My Books manage
 
-### V0.8.0 - 2020-07-
+### V0.8.0 - 2020-07-30
 
 - Add Status Library
 - Add Working Manager
