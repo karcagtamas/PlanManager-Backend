@@ -41,6 +41,12 @@ namespace EventManager.Client
             builder.Services.AddScoped<IWorkingDayService, WorkingDayService>();
             builder.Services.AddScoped<IWorkingFieldService, WorkingFieldService>();
             builder.Services.AddScoped<IWorkingDayTypeService, WorkingDayTypeService>();
+            builder.Services.AddScoped<IBookService, BookService>();
+            builder.Services.AddScoped<IMovieService, MovieService>();
+            builder.Services.AddScoped<IGenderService, GenderService>();
+            builder.Services.AddScoped<ISeriesService, SeriesService>();
+            builder.Services.AddScoped<ISeasonService, SeasonService>();
+            builder.Services.AddScoped<IEpisodeService, EpisodeService>();
 
             if (builder.HostEnvironment.IsDevelopment())
             {

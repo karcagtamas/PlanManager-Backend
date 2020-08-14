@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EventManager.Client.Http;
 using ManagerAPI.Shared.DTOs.MC;
 using ManagerAPI.Shared.Models.MC;
 
 namespace EventManager.Client.Services.Interfaces
 {
-    public interface IMovieService
+    public interface IMovieService : IHttpCall<MovieListDto, MovieDto, MovieModel>
     {
-        Task<List<MovieListDto>> GetMovies();
-        Task<MovieDto> GetMovie(int id);
-        Task<List<MyMovieDto>> GetMyMovies();
-        Task<bool> CreateMovie(MovieModel model);
-        Task<bool> UpdateMovie(int id, MovieModel model);
-        Task<bool> DeleteMovie(int id);
-        Task<bool> UpdateSeenStatus(int id, MovieSeenUpdateModel model);
+        Task<List<MyMovieListDto>> GetMyList();
+        Task<MyMovieDto> GetMy(int id);
+        Task<bool> UpdateSeenStatuses(List<MovieSeenUpdateModel> models);
         Task<bool> UpdateMyMovies(MyMovieModel model);
+        Task<bool> AddMovieToMyMovies(int id);
+        Task<bool> RemoveMovieFromMyMovies(int id);
+        Task<List<MyMovieSelectorListDto>> GetMySelectorList(bool onlyMine);
     }
 }

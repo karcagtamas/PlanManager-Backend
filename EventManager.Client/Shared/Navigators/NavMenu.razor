@@ -1,4 +1,5 @@
-﻿@inject EventManager.Client.Services.Interfaces.IHelperService HelperService
+﻿@using ManagerAPI.Shared.Helpers
+@inject EventManager.Client.Services.Interfaces.IHelperService HelperService
 
 <div class="em-navbar">
     <div class="em-navbar-brand-outer">
@@ -79,7 +80,7 @@
 
     private string GetWorkingManagerUri()
     {
-        return $"/wm/{HelperService.DateToNumberDayString(DateTime.Now)}";
+        return $"/wm/{DateHelper.DateToNumberDayString(DateTime.Now)}";
     }
 
     private string GetWorkingMonthStatUri()
@@ -89,7 +90,7 @@
 
     private string GetWorkingWeekStatUri()
     {
-        return $"/wm/week/{HelperService.DateToNumberDayString(HelperService.CurrentWeek())}";
+        return $"/wm/week/{DateHelper.DateToNumberDayString(HelperService.CurrentWeek())}";
     }
 
 }

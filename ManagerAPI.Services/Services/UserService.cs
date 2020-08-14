@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +8,7 @@ using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace ManagerAPI.Services.Services
@@ -23,7 +23,6 @@ namespace ManagerAPI.Services.Services
         private const string UpdateUserNameAction = "update username";
         private const string UpdatePasswordAction = "update password";
         private const string UpdateImageAction = "update image";
-        private const string GetGendersAction = "get genders";
         private const string UpdateUserAction = "update user";
 
         // Messages
@@ -102,34 +101,22 @@ namespace ManagerAPI.Services.Services
         /// <summary>
         /// Update current user's data object by the given update object
         /// </summary>
-        /// <param name="updateDto">Update object</param>
+        /// <param name="model">Update object</param>
         /// <exception cref="Exception">Invalid user update object</exception>
-        public void UpdateUser(UserUpdateDto updateDto)
+        public void UpdateUser(UserModel model)
         {
             var user = _utilsService.GetCurrentUser();
-            if (updateDto == null)
+            if (model == null)
             {
                 throw _loggerService.LogInvalidThings(user, nameof(UserService), UserUpdateObjectThing, ErrorDuringUserUpdateMessage);
             }
 
-            _mapper.Map(updateDto, user);
+            _mapper.Map(model, user);
 
             _context.AppUsers.Update(user);
             _context.SaveChanges();
             _loggerService.LogInformation(user, nameof(UserService), UpdateUserAction, user.Id);
             _notificationService.AddSystemNotificationByType(SystemNotificationType.MyProfileUpdated, user);
-        }
-
-        /// <summary>
-        /// Get genders
-        /// </summary>
-        /// <returns>List of genders</returns>
-        public List<GenderDto> GetGenders()
-        {
-            var user = _utilsService.GetCurrentUser();
-            var genders = _mapper.Map<List<GenderDto>>(_context.Genders.ToList());
-            _loggerService.LogInformation(user, nameof(UserService), GetGendersAction, genders.Select(x => x.Id).ToList());
-            return genders;
         }
 
         /// <summary>

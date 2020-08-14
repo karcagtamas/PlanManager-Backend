@@ -1,7 +1,7 @@
-using System;
 using System.Threading.Tasks;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.EM;
+using ManagerAPI.Shared.Models.EM;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 
@@ -22,15 +22,15 @@ namespace EventManager.Client.Pages.Events.Body
         public IMatToaster Toaster { get; set; }
 
         public EventDto Event { get; set; }
-        public MasterEventUpdateDto MasterUpdate { get; set; }
-        public SportEventUpdateDto SportUpdate { get; set; }
-        public GtEventUpdateDto GtUpdate { get; set; }
+        public MasterEventModel MasterUpdate { get; set; }
+        public SportEventModel SportUpdate { get; set; }
+        public GtEventModel GtUpdate { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            this.MasterUpdate = new MasterEventUpdateDto();
-            this.SportUpdate = new SportEventUpdateDto();
-            this.GtUpdate = new GtEventUpdateDto();
+            this.MasterUpdate = new MasterEventModel();
+            this.SportUpdate = new SportEventModel();
+            this.GtUpdate = new GtEventModel();
             await this.GetEvent();
             await base.OnInitializedAsync();
         }
@@ -38,13 +38,13 @@ namespace EventManager.Client.Pages.Events.Body
         private async Task GetEvent()
         {
             this.Event = await this.EventService.Get(Id);
-            this.MasterUpdate = new MasterEventUpdateDto(Event.MasterEvent);
+            this.MasterUpdate = new MasterEventModel(Event.MasterEvent);
             this.SportUpdate = this.Event.SportEvent != null
-                ? new SportEventUpdateDto(this.Event.SportEvent)
-                : new SportEventUpdateDto();
+                ? new SportEventModel(this.Event.SportEvent)
+                : new SportEventModel();
             this.GtUpdate = this.Event.GtEvent != null
-                ? new GtEventUpdateDto(this.Event.GtEvent)
-                : new GtEventUpdateDto();
+                ? new GtEventModel(this.Event.GtEvent)
+                : new GtEventModel();
         }
 
         protected async Task SetEventAsGt()

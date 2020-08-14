@@ -73,7 +73,7 @@ namespace ManagerAPI.Services.Common
 
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add"), entity.Id);
 
-                List<string> args = this.DetermineArguments(this._arguments.CreateArguments, type, entity);
+                List<string> args = this.DetermineArguments(this._arguments.CreateArguments, type, entity, user);
 
                 this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user, args.ToArray());
             }
@@ -123,8 +123,8 @@ namespace ManagerAPI.Services.Common
                 foreach (var entity in entities)
                 {
                     var type = entity.GetType();
-                    
-                    List<string> args = this.DetermineArguments(this._arguments.CreateArguments, type, entity);
+
+                    List<string> args = this.DetermineArguments(this._arguments.CreateArguments, type, entity, user);
 
                     this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user, args.ToArray());
                 }
@@ -249,9 +249,23 @@ namespace ManagerAPI.Services.Common
 
         public void Remove(TEntity entity)
         {
-            var type = entity.GetType();
-            List<string> args = this.DetermineArguments(this._arguments.DeleteArguments, type, entity);
-            
+            List<string> args = new List<string>();
+            try
+            {
+                var user = this.Utils.GetCurrentUser();
+
+                var type = entity.GetType();
+                args = this.DetermineArguments(this._arguments.DeleteArguments, type, entity, user);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                args = new List<string>();
+            }
+
             this._context.Set<TEntity>().Remove(entity);
 
             this.Complete();
@@ -261,7 +275,7 @@ namespace ManagerAPI.Services.Common
                 var user = this.Utils.GetCurrentUser();
 
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete"), entity.Id);
-                
+
                 this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("delete"), true), user, args.ToArray());
             }
             catch (Exception)
@@ -289,9 +303,22 @@ namespace ManagerAPI.Services.Common
             Dictionary<TEntity, List<string>> args = new Dictionary<TEntity, List<string>>();
             foreach (var entity in entities)
             {
-                args.Add(entity, this.DetermineArguments(this._arguments.DeleteArguments, type, entity));
+                try
+                {
+                    var user = this.Utils.GetCurrentUser();
+                    args.Add(entity, this.DetermineArguments(this._arguments.DeleteArguments, type, entity, user));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+                finally
+                {
+                    args.Add(entity, new List<string>());
+                }
+
             }
-            
+
             this._context.Set<TEntity>().RemoveRange(entities);
 
             this.Complete();
@@ -347,7 +374,7 @@ namespace ManagerAPI.Services.Common
 
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update"), entity.Id);
 
-                List<string> args = this.DetermineArguments(this._arguments.UpdateArguments, type, entity);
+                List<string> args = this.DetermineArguments(this._arguments.UpdateArguments, type, entity, user);
 
                 this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("update"), true), user, args.ToArray());
             }
@@ -383,12 +410,12 @@ namespace ManagerAPI.Services.Common
                 var user = this.Utils.GetCurrentUser();
 
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update"), entities.Select(x => x.Id).ToList());
-                
+
                 foreach (var entity in entities)
                 {
                     var type = entity.GetType();
-                    
-                    List<string> args = this.DetermineArguments(this._arguments.UpdateArguments, type, entity);
+
+                    List<string> args = this.DetermineArguments(this._arguments.UpdateArguments, type, entity, user);
 
                     this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user, args.ToArray());
                 }
@@ -427,7 +454,7 @@ namespace ManagerAPI.Services.Common
             return string.Join("", this.GetEvent(action).Split(" ").Select(x => char.ToUpper(x[0]) + x.Substring(1).ToLower()));
         }
 
-        private List<string> DetermineArguments(List<string> nameList, Type firstType, TEntity entity)
+        private List<string> DetermineArguments(List<string> nameList, Type firstType, TEntity entity, User user)
         {
             List<string> args = new List<string>();
 
@@ -439,13 +466,21 @@ namespace ManagerAPI.Services.Common
 
                 for (int j = 0; j < propList.Count(); j++)
                 {
-                    var prop = lastType.GetProperty(propList[j]);
-                    if (prop != null)
+                    if (propList[j] == "CurrentUser")
                     {
-                        lastEntity = prop.GetValue(lastEntity);
-                        if (lastEntity != null)
+                        lastType = user.GetType();
+                        lastEntity = user;
+                    }
+                    else
+                    {
+                        var prop = lastType.GetProperty(propList[j]);
+                        if (prop != null)
                         {
-                            lastType = lastEntity.GetType();
+                            lastEntity = prop.GetValue(lastEntity);
+                            if (lastEntity != null)
+                            {
+                                lastType = lastEntity.GetType();
+                            }
                         }
                     }
                 }
@@ -455,16 +490,20 @@ namespace ManagerAPI.Services.Common
                     if (lastType == typeof(string))
                     {
                         args.Add((string)lastEntity);
-                    } else if (lastType == typeof(DateTime))
+                    }
+                    else if (lastType == typeof(DateTime))
                     {
                         args.Add(((DateTime)lastEntity).ToLongDateString());
-                    } else if (lastType == typeof(int))
+                    }
+                    else if (lastType == typeof(int))
                     {
                         args.Add(((int)lastEntity).ToString());
-                    } else if (lastType == typeof(decimal))
+                    }
+                    else if (lastType == typeof(decimal))
                     {
                         args.Add(((decimal)lastEntity).ToString(CultureInfo.CurrentCulture));
-                    } else if (lastType == typeof(double))
+                    }
+                    else if (lastType == typeof(double))
                     {
                         args.Add(((double)lastEntity).ToString(CultureInfo.CurrentCulture));
                     }

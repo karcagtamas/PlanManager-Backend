@@ -2,6 +2,9 @@
 
 namespace ManagerAPI.Shared.DTOs.WM
 {
+    /// <summary>
+    /// Working month stat DTO
+    /// </summary>
     public class WorkingMonthStatDto
     {
         public decimal HourSum { get; set; }

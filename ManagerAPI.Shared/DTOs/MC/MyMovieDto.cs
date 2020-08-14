@@ -1,11 +1,11 @@
 ﻿namespace ManagerAPI.Shared.DTOs.MC
 {
-    public class MyMovieDto
+    /// <summary>
+    /// My movie DTO
+    /// </summary>
+    public class MyMovieDto : MovieDto
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public int Year { get; set; }
-        public string Description { get; set; }
-        public bool Seen { get; set; }
+        public bool IsMine { get; set; }
+        public bool IsSeen { get; set; }
     }
 }

@@ -1,5 +1,8 @@
 namespace ManagerAPI.Shared.DTOs.EM
 {
+    /// <summary>
+    /// Gt event DTO
+    /// </summary>
     public class GtEventDto
     {
         public int Id { get; set; }

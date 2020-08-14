@@ -2,6 +2,7 @@
 @attribute [Authorize]
 @layout MainLayout
 @using Microsoft.AspNetCore.Authorization
+@using ManagerAPI.Shared.Helpers
 @inherits MyEventsBase
 
 <div>
@@ -25,7 +26,7 @@
                 <tr @onclick="@(() => RedirectTo(myEvent.Id))">
                     <td>@myEvent.Title</td>
                     <td>@myEvent.Members</td>
-                    <td>@HelperService.DateToString(myEvent.CreationDate)</td>
+                    <td>@DateHelper.DateToString(myEvent.CreationDate)</td>
                     <td>@myEvent.Creator</td>
                     <td>@myEvent.Type</td>
                 </tr>

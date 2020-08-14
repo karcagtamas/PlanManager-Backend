@@ -11,16 +11,23 @@ namespace MovieCorner.Services.Profiles
         {
             CreateMap<Movie, MovieListDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName));
-            CreateMap<UserMovie, MyMovieDto>()
+            CreateMap<UserMovie, MyMovieListDto>()
                 .ForMember(dest => dest.Seen, opt =>  opt.MapFrom(src => src.Seen))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Movie.Description))
                 .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Movie.Year))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Movie.Title))
+                .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Movie.Creator.UserName))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Movie.Id));
+            CreateMap<Movie, MyMovieDto>()
+                .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
+                .ForMember(dest => dest.IsMine, opt => opt.Ignore());
             CreateMap<MovieModel, Movie>();
             CreateMap<Movie, MovieDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
                 .ForMember(dest => dest.LastUpdater, opt => opt.MapFrom(src => src.LastUpdater.UserName));
+            CreateMap<Movie, MyMovieSelectorListDto>()
+                .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
+                .ForMember(dest => dest.IsMine, opt => opt.Ignore());
         }
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using ManagerAPI.Services.Services.Interfaces;
-using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,22 +45,10 @@ namespace ManagerAPI.Backend.Controllers {
         }
 
         [HttpPut]
-        public IActionResult UpdateUser ([FromBody] UserUpdateDto updateDto) {
+        public IActionResult UpdateUser ([FromBody] UserModel model) {
             try {
-                _userService.UpdateUser (updateDto);
+                _userService.UpdateUser (model);
                 return Ok ();
-            } catch (MessageException me) {
-                return BadRequest (_loggerService.ExceptionToResponse (me));
-            } 
-            catch (Exception e) {
-                return BadRequest (_loggerService.ExceptionToResponse (new Exception(FATAL_ERROR), e));
-            }
-        }
-
-        [HttpGet ("genders")]
-        public IActionResult GetGenders () {
-            try {
-                return Ok (_userService.GetGenders ());
             } catch (MessageException me) {
                 return BadRequest (_loggerService.ExceptionToResponse (me));
             } 

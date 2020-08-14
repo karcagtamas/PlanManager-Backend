@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventManager.Client.Http;
 using EventManager.Client.Models;
@@ -34,20 +33,13 @@ namespace EventManager.Client.Services
             return await this._httpService.Get<UserShortDto>(settings);
         }
 
-        public async Task<bool> UpdateUser(UserUpdateDto userUpdate)
+        public async Task<bool> UpdateUser(UserModel userUpdate)
         {
             var settings = new HttpSettings($"{this._url}", null, null, "User updating");
 
-            var body = new HttpBody<UserUpdateDto>(userUpdate);
+            var body = new HttpBody<UserModel>(userUpdate);
 
-            return await this._httpService.Update<UserUpdateDto>(settings, body);
-        }
-
-        public async Task<List<GenderDto>> GetGenders()
-        {
-            var settings = new HttpSettings($"{this._url}/genders");
-
-            return await this._httpService.Get<List<GenderDto>>(settings);
+            return await this._httpService.Update<UserModel>(settings, body);
         }
 
         public async Task<bool> UpdatePassword(PasswordUpdateModel model)

@@ -1,7 +1,28 @@
 @page "/my-movies"
 @attribute [Microsoft.AspNetCore.Authorization.Authorize]
-@inherits MyMoviesBase
 
 <div class="sl-my-movies">
     <h1 class="em-page-title">My Movies</h1>
+
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        <div class="action-bar">
+            <MatButton @onclick="OpenEditMyMoviesDialog">Edit My Movies</MatButton>
+            <MatButton @onclick="OpenEditSeenMoviesDialog">Edit Seen Movies</MatButton>
+        </div>
+        @if (MovieList != null && MovieList.Count > 0)
+        {
+            <div class="movie-list">
+                <ListTable Header="Header" Footer="Footer" Body="MovieList" TList="ManagerAPI.Shared.DTOs.MC.MyMovieListDto" OnRowClick="@(e => RedirectToData(e))"></ListTable>
+            </div>
+        }
+        else
+        {
+            <div class="text-center">Movie list is empty</div>
+        }
+    }
 </div>

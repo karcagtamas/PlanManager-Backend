@@ -1,13 +1,11 @@
-using System;
-
-namespace ManagerAPI.Shared.DTOs.MC
+﻿namespace ManagerAPI.Shared.DTOs.MC
 {
-    public class MyBookDto
+    /// <summary>
+    /// My book DTO
+    /// </summary>
+    public class MyBookDto : BookDto
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public DateTime? Publish { get; set; }
-        public string Author { get; set; }
-        public bool Read { get; set; }
+        public bool IsMine { get; set; }
+        public bool IsRead { get; set; }
     }
 }

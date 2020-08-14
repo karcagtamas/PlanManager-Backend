@@ -1,27 +1,23 @@
-﻿using EventManager.Client.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Common;
 using EventManager.Client.Shared.Components.Tasks;
 using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.MyTasks
 {
     public class MyTasksBase : ComponentBase
     {
-        [Inject]
-        private ITaskService TaskService { get; set; }
+        [Inject] private ITaskService TaskService { get; set; }
 
-        [Inject]
-        protected IHelperService HelperService { get; set; }
-
-        [Inject]
-        public IModalService Modal { get; set; }
+        [Inject] private IModalService Modal { get; set; }
 
         protected List<TaskDateDto> TaskList { get; set; }
         protected bool IsLoading { get; set; } = false;
@@ -33,25 +29,25 @@ namespace EventManager.Client.Pages.MyTasks
             await this.GetTasks();
         }
 
-        protected async Task GetTasks()
+        private async Task GetTasks()
         {
             this.IsLoading = true;
             StateHasChanged();
-            this.TaskList = await this.TaskService.GetTasks(this.IsSolvedSelectorValue);
+            this.TaskList = await this.TaskService.GetDate(this.IsSolvedSelectorValue);
             this.IsLoading = false;
             StateHasChanged();
         }
 
         protected async void IsSolvedChanged(bool newValue, int taskId, TaskDateDto group) 
         {
-            var task = this.TaskList.SelectMany(x => x.TaskList).Where(x => x.Id == taskId).FirstOrDefault();
+            var task = this.TaskList.SelectMany(x => x.TaskList).FirstOrDefault(x => x.Id == taskId);
 
-            var taskData = await TaskService.GetTask(taskId);
+            var taskData = await TaskService.Get(taskId);
             if (taskData != null)
             {
                 taskData.IsSolved = newValue;
-                task.IsSolved = await TaskService.UpdateTask(taskData) ? newValue : !newValue;
-                group.AllSolved = group.TaskList.Where(x => !x.IsSolved).Count() == 0;
+                task.IsSolved = await TaskService.Update(taskId, new TaskModel(taskData)) ? newValue : !newValue;
+                group.AllSolved = @group.TaskList.Count(x => !x.IsSolved) == 0;
                 group.OutOfRange = group.Deadline < DateTime.Now && !group.AllSolved;
 
                 StateHasChanged();
@@ -63,9 +59,10 @@ namespace EventManager.Client.Pages.MyTasks
             var parameters = new ModalParameters();
             parameters.Add("FormId", 1);
 
-            var options = new ModalOptions();
-            options.ButtonOptions.ConfirmButtonType = ConfirmButton.Save;
-            options.ButtonOptions.ShowConfirmButton = true;
+            var options = new ModalOptions
+            {
+                ButtonOptions = {ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true}
+            };
 
             Modal.OnClose += TaskModalClosed;
 
@@ -111,9 +108,9 @@ namespace EventManager.Client.Pages.MyTasks
             Modal.Show<Confirm>("Task Delete", parameters, options);
         }
 
-        protected async void DeleteDialogClosed(ModalResult modalResult)
+        private async void DeleteDialogClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data && await TaskService.DeleteTask(this.SelectedTask))
+            if (!modalResult.Cancelled && (bool)modalResult.Data && await TaskService.Delete(this.SelectedTask))
             {
                 await this.GetTasks();
             }

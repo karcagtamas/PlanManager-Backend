@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Models
 {
+    /// <summary>
+    /// Registration data model
+    /// </summary>
     public class RegistrationModel
     {
         [Required(ErrorMessage = "User name is required")]
@@ -19,7 +22,7 @@ namespace ManagerAPI.Shared.Models
         public string PasswordConfirm { get; set; }
 
         [Required(ErrorMessage = "E-mail is required")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Address must be a valid E-mail")]
         public string Email { get; set; }
 
         [MaxLength(120, ErrorMessage = "Full name's max length is 120")]

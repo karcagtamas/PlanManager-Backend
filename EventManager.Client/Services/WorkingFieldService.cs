@@ -4,22 +4,21 @@ using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
+using ManagerAPI.Shared.Helpers;
 using ManagerAPI.Shared.Models.WM;
 
 namespace EventManager.Client.Services
 {
     public class WorkingFieldService : HttpCall<WorkingFieldListDto, WorkingFieldDto, WorkingFieldModel>, IWorkingFieldService
     {
-        private IHelperService _helper;
-        public WorkingFieldService(IHttpService httpService, IHelperService helperService, IHelperService helper) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/working-field", "Working field")
+        public WorkingFieldService(IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/working-field", "Working field")
         {
-            _helper = helper;
         }
 
         public async Task<WorkingWeekStatDto> GetWeekStat(DateTime week)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<string>(this._helper.DateToNumberDayString(week), -1);
+            pathParams.Add<string>(DateHelper.DateToNumberDayString(week), -1);
 
             var settings = new HttpSettings($"{this.Url}/week-stat", null, pathParams);
 

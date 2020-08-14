@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Models.MC
 {
+    /// <summary>
+    /// Movie seen update model
+    /// </summary>
     public class MovieSeenUpdateModel
     {
-        public bool Seen { get; set; }
+        [Required] public int Id { get; set; }
+
+        [Required] public bool Seen { get; set; }
     }
 }

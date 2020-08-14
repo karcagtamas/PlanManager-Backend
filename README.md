@@ -6,7 +6,17 @@
 
 ## Version log
 
-### V0.8.0 - 2020-07-30
+### V0.9.0 - 2020-08-14
+
+- Movie manage
+- Series manage
+- Book manage
+- My Movies manage
+- My Series manage
+- My Books manage
+
+### V0.8.0 - 2020-07-
+
 - Add Status Library
 - Add Working Manager
 - Add Working Month statistics

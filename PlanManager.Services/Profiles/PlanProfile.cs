@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using ManagerAPI.Domain.Entities.PM;
 using ManagerAPI.Shared.DTOs.PM;
+using ManagerAPI.Shared.Models.PM;
 
 namespace PlanManager.Services.Profiles
 {
@@ -13,8 +14,7 @@ namespace PlanManager.Services.Profiles
             CreateMap<Plan, PlanDto>();
             CreateMap<List<Plan>, List<PlanListDto>>();
             CreateMap<ICollection<Plan>, List<PlanListDto>>();
-            CreateMap<PlanCreateDto, Plan>();
-            CreateMap<PlanUpdateDto, Plan>();
+            CreateMap<PlanModel, Plan>();
         }
     }
 }

@@ -7,6 +7,7 @@ using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Common;
 using EventManager.Client.Shared.Components.MyProfile;
 using ManagerAPI.Shared.DTOs;
+using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Pages.Profiles
@@ -21,13 +22,16 @@ namespace EventManager.Client.Pages.Profiles
         
         [Inject]
         public IHelperService HelperService { get; set; }
+        
+        [Inject]
+        public IGenderService GenderService { get; set; }
 
         [Inject]
         public IModalService Modal { get; set; }
 
         public UserDto User { get; set; }
-        public UserUpdateDto UserUpdate { get; set; }
-        protected List<GenderDto> Genders { get; set; }
+        public UserModel UserUpdate { get; set; }
+        protected List<GenderListDto> Genders { get; set; }
 
         protected bool ShowConfirmDialog { get; set; } = false;
         protected bool ShowChangePasswordDialog { get; set; } = false;
@@ -47,7 +51,7 @@ namespace EventManager.Client.Pages.Profiles
         {
             this.ProfileIsLoading = true;
             User = await UserService.GetUser();
-            UserUpdate = new UserUpdateDto(User);
+            UserUpdate = new UserModel(User);
             Roles = string.Join(", ", User.Roles);
             if (User.ProfileImageData.Length != 0)
             {
@@ -60,7 +64,7 @@ namespace EventManager.Client.Pages.Profiles
         
         protected async Task GetGenders()
         {
-            Genders = await UserService.GetGenders();
+            Genders = await this.GenderService.GetAll();
         }
 
         protected async Task UpdateUser()

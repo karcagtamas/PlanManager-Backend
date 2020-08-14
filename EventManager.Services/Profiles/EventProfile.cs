@@ -27,9 +27,9 @@ namespace EventManager.Services.Profiles
             CreateMap<EventModel, MasterEvent>()
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
-            CreateMap<MasterEventUpdateDto, MasterEvent>();
-            CreateMap<GtEventUpdateDto, DGtEvent>();
-            CreateMap<SportEventUpdateDto, DSportEvent>();
+            CreateMap<MasterEventModel, MasterEvent>();
+            CreateMap<GtEventModel, DGtEvent>();
+            CreateMap<SportEventModel, DSportEvent>();
 
             CreateMap<EventAction, EventActionListDto>()
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User.UserName));

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ManagerAPI.Domain.Entities.WM;
+﻿using ManagerAPI.Domain.Entities.WM;
 using ManagerAPI.Domain.Enums.WM;
 using ManagerAPI.Services.Common;
-using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
-using Microsoft.AspNetCore.Http;
+using ManagerAPI.Shared.Models.WM;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Backend.Controllers

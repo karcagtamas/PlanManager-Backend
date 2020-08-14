@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities
 {
-    public class Gender
+    public class Gender : IEntity
     {
         [Required]
         public int Id { get; set; }

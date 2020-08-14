@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ManagerAPI.Shared.DTOs.MC
+﻿namespace ManagerAPI.Shared.DTOs.MC
 {
+    /// <summary>
+    /// Season DTO
+    /// </summary>
     public class SeasonDto
     {
         public int Id { get; set; }

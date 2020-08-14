@@ -1,7 +1,6 @@
 using System;
 using EventManager.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
-using ManagerAPI.Shared.DTOs.EM;
 using ManagerAPI.Shared.Models;
 using ManagerAPI.Shared.Models.EM;
 using Microsoft.AspNetCore.Authorization;
@@ -132,7 +131,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPut("{eventId}")]
-        public IActionResult UpdateMaterEvent(int eventId, [FromBody] MasterEventUpdateDto masterUpdate)
+        public IActionResult UpdateMaterEvent(int eventId, [FromBody] MasterEventModel masterUpdate)
         {
             try
             {
@@ -150,7 +149,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPut("sport/{sportEventId}")]
-        public IActionResult UpdateSportEvent(int sportEventId, [FromBody] SportEventUpdateDto sportUpdate)
+        public IActionResult UpdateSportEvent(int sportEventId, [FromBody] SportEventModel sportUpdate)
         {
             try
             {
@@ -168,7 +167,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPut("gt/{gtEventId}")]
-        public IActionResult UpdateGtEvent(int gtEventId, [FromBody] GtEventUpdateDto updateGt)
+        public IActionResult UpdateGtEvent(int gtEventId, [FromBody] GtEventModel updateGt)
         {
             try
             {

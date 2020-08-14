@@ -1,7 +1,28 @@
 @page "/books"
-@attribute [Microsoft.AspNetCore.Authorization.Authorize]
-@inherits BooksBase
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <div class="sl-books">
     <h1 class="em-page-title">Books</h1>
+
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        <div class="action-bar">
+            <MatButton @onclick="OpenAddBookDialog">Add</MatButton>
+        </div>
+        @if (BookList != null && BookList.Count > 0)
+        {
+            <div class="book-list">
+                <ListTable Header="Header" Footer="Footer" Body="BookList" TList="ManagerAPI.Shared.DTOs.MC.BookListDto" OnRowClick="@(e => RedirectToData(e))"></ListTable>
+            </div>
+        }
+        else
+        {
+            <div class="text-center">Book list is empty</div>
+        }
+    }
 </div>

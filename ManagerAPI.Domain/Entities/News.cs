@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities
 {
-    public class News
+    public class News : IEntity
     {
         [Required]
         public int Id { get; set; }

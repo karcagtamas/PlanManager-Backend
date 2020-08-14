@@ -71,6 +71,7 @@ namespace ManagerAPI.Backend
                 x.AddProfile(new MovieProfile());
                 x.AddProfile(new BookProfile());
                 x.AddProfile(new SeriesProfile());
+                x.AddProfile(new GenderProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -102,6 +103,7 @@ namespace ManagerAPI.Backend
             services.AddScoped<ISeriesService, SeriesService>();
             services.AddScoped<ISeasonService, SeasonService>();
             services.AddScoped<IEpisodeService, EpisodeService>();
+            services.AddScoped<IGenderService, GenderService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             

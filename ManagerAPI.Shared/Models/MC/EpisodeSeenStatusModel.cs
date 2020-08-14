@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Models.MC
 {
+    /// <summary>
+    /// Episode seen status model
+    /// </summary>
     public class EpisodeSeenStatusModel
     {
-        public bool Seen { get; set; }
+        [Required] public int Id { get; set; }
+
+        [Required] public bool Seen { get; set; }
     }
 }

@@ -108,6 +108,11 @@ app {
   border-bottom-color: #5120a5 !important;
 }
 
+.flex-parent {
+  display: flex;
+  flex-grow: 1;
+}
+
 /* Main page */
 .main-page div img {
   box-shadow: 0 0 0.5rem 0 #5120a5;
@@ -576,6 +581,443 @@ app {
   text-align: right;
 }
 
+/* SL Books page */
+.sl-books {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  flex-direction: column;
+}
+.sl-books .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+}
+.sl-books .book-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Books data page */
+.sl-book-data {
+  max-height: 100%;
+}
+.sl-book-data .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+  display: flex;
+}
+.sl-book-data .action-bar .spacer {
+  flex-grow: 1;
+}
+.sl-book-data .data {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+.sl-book-data .data .data-row strong {
+  color: #5120a5;
+}
+
+/* SL My Books page */
+.sl-my-books {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  flex-direction: column;
+}
+.sl-my-books .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+}
+.sl-my-books .book-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Series page */
+.sl-series {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  flex-direction: column;
+}
+.sl-series .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+}
+.sl-series .series-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Series data page */
+.sl-series-data {
+  max-height: 100%;
+}
+.sl-series-data .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+  display: flex;
+}
+.sl-series-data .action-bar .spacer {
+  flex-grow: 1;
+}
+.sl-series-data .data {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+.sl-series-data .data .data-row strong {
+  color: #5120a5;
+}
+.sl-series-data .seasons {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+.sl-series-data .seasons .season {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(249, 249, 249, 0.55);
+}
+.sl-series-data .seasons .season .head {
+  color: #5120a5;
+  font-weight: bold;
+  display: flex;
+}
+.sl-series-data .seasons .season .head .spacer {
+  flex-grow: 1;
+}
+.sl-series-data .seasons .season .body .episodes .episode {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(249, 249, 249, 0.55);
+}
+.sl-series-data .seasons .season .body .episodes .episode .ep-head {
+  color: #5120a5;
+  font-style: italic;
+  display: flex;
+}
+.sl-series-data .seasons .season .body .episodes .episode .ep-head .spacer {
+  flex-grow: 1;
+}
+.sl-series-data .seasons .season .body .episodes .episode .ep-body {
+  padding: 0.4rem;
+}
+.sl-series-data .seasons .season .body .episodes .episode .ep-foot {
+  display: flex;
+}
+.sl-series-data .seasons .season .body .episodes .episode .ep-foot .spacer {
+  flex-grow: 1;
+}
+.sl-series-data .seasons .season .body .episodes .episode-action {
+  display: flex;
+}
+.sl-series-data .seasons .season .body .episodes .episode-action .spacer {
+  flex-grow: 1;
+}
+.sl-series-data .seasons .season-action {
+  display: flex;
+}
+.sl-series-data .seasons .season-action .spacer {
+  flex-grow: 1;
+}
+
+/* SL My Series page */
+.sl-my-series {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  flex-direction: column;
+}
+.sl-my-series .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+}
+.sl-my-series .series-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Episode data page */
+.sl-episode-data {
+  max-height: 100%;
+}
+.sl-episode-data .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+  display: flex;
+}
+.sl-episode-data .action-bar .spacer {
+  flex-grow: 1;
+}
+.sl-episode-data .data {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+.sl-episode-data .data .data-row strong {
+  color: #5120a5;
+}
+
+/* SL Movies page */
+.sl-movies {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  flex-direction: column;
+}
+.sl-movies .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+}
+.sl-movies .movie-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Movies data page */
+.sl-movie-data {
+  max-height: 100%;
+}
+.sl-movie-data .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+  display: flex;
+}
+.sl-movie-data .action-bar .spacer {
+  flex-grow: 1;
+}
+.sl-movie-data .data {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+.sl-movie-data .data .data-row strong {
+  color: #5120a5;
+}
+
+/* SL My Movies page */
+.sl-my-movies {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  flex-direction: column;
+}
+.sl-my-movies .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+}
+.sl-my-movies .movie-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Book selector dialog */
+.sl-book-selector-dialog {
+  display: flex;
+  flex-grow: 1;
+}
+.sl-book-selector-dialog .book-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Book read selector dialog */
+.sl-book-read-selector-dialog {
+  display: flex;
+  flex-grow: 1;
+}
+.sl-book-read-selector-dialog .book-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Series selector dialog */
+.sl-series-selector-dialog {
+  display: flex;
+  flex-grow: 1;
+}
+.sl-series-selector-dialog .series-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+.dialog-content {
+  display: flex;
+  flex-grow: 1;
+  overflow: auto;
+}
+
+/* SL Movie selector dialog */
+.sl-movie-selector-dialog {
+  display: flex;
+  flex-grow: 1;
+}
+.sl-movie-selector-dialog .movie-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Movie seen selector dialog */
+.sl-movie-seen-selector-dialog {
+  display: flex;
+  flex-grow: 1;
+}
+.sl-movie-seen-selector-dialog .movie-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
 /* Image block */
 .em-image-block img {
   transition-duration: 0.5s;
@@ -583,6 +1025,153 @@ app {
 .em-image-block img:hover {
   transition-duration: 0.5s;
   transform: scale(1.1, 1.1);
+}
+
+/* List Table */
+.list-table {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+}
+.list-table .column {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+.list-table .column .head {
+  display: flex;
+  flex-direction: row;
+}
+.list-table .column .head .head-data {
+  flex-grow: 1;
+  color: #5120a5;
+  background-color: rgba(249, 249, 249, 0.55);
+  padding: 0.4rem;
+  min-height: 37px;
+}
+.list-table .column .head .head-data.right {
+  text-align: right;
+}
+.list-table .column .head .head-data.center {
+  text-align: center;
+}
+.list-table .column .head .head-data.left {
+  text-align: left;
+}
+.list-table .column .body {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+.list-table .column .body .body-row .body-data {
+  color: #5120a5;
+  padding: 0.4rem;
+  min-height: 37px;
+}
+.list-table .column .body .body-row:nth-child(even) {
+  background-color: rgba(92, 0, 255, 0.1);
+}
+.list-table .column .body .body-row.hovered {
+  background-color: rgba(80, 0, 255, 0.3) !important;
+  color: #5120a5;
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+.list-table .column .foot {
+  display: flex;
+  flex-direction: row;
+}
+.list-table .column .foot .foot-data {
+  flex-grow: 1;
+  color: #5120a5;
+  background-color: rgba(249, 249, 249, 0.55);
+  padding: 0.4rem;
+  min-height: 37px;
+}
+.list-table .column .foot .foot-data.right {
+  text-align: right;
+}
+.list-table .column .foot .foot-data.center {
+  text-align: center;
+}
+.list-table .column .foot .foot-data.left {
+  text-align: left;
+}
+
+/* List */
+.list {
+  flex-grow: 1;
+  display: flex;
+  overflow: auto;
+}
+.list table {
+  flex-grow: 1;
+  position: relative;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 4px;
+}
+.list table thead tr th {
+  position: sticky;
+  top: 0;
+  color: #5120a5;
+  background-color: #f9f9f9;
+  opacity: 90%;
+  padding: 0.4rem;
+}
+.list table thead tr th.right {
+  text-align: right;
+}
+.list table thead tr th.center {
+  text-align: center;
+}
+.list table thead tr th.left {
+  text-align: left;
+}
+.list table thead tr th:first-child {
+  border-left: 5px solid rgba(249, 249, 249, 0.55);
+}
+.list table thead tr th:last-child {
+  border-right: 5px solid rgba(249, 249, 249, 0.55);
+}
+.list table tfoot tr th {
+  position: sticky;
+  bottom: 0;
+  color: #5120a5;
+  background-color: #f9f9f9;
+  opacity: 90%;
+  padding: 0.4rem;
+}
+.list table tfoot tr th:first-child {
+  border-left: 5px solid rgba(249, 249, 249, 0.55);
+}
+.list table tfoot tr th:last-child {
+  border-right: 5px solid rgba(249, 249, 249, 0.55);
+}
+.list table tbody tr {
+  transition-duration: 0.5s;
+}
+.list table tbody tr td {
+  padding: 0.4rem;
+}
+.list table tbody tr td:first-child {
+  border-left: 5px solid rgba(249, 249, 249, 0.55);
+}
+.list table tbody tr td:last-child {
+  border-right: 5px solid rgba(249, 249, 249, 0.55);
+}
+.list table tbody tr:nth-child(even) {
+  background-color: rgba(92, 0, 255, 0.1);
+}
+.list table tbody tr:hover {
+  background-color: rgba(80, 0, 255, 0.3) !important;
+  color: #5120a5;
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+.list table tbody tr.selected {
+  background-color: #5120a5;
+  color: #f9f9f9;
 }
 
 /* Table settings */

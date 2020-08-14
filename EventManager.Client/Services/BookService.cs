@@ -8,89 +8,75 @@ using ManagerAPI.Shared.Models.MC;
 
 namespace EventManager.Client.Services
 {
-    public class BookService : IBookService
+    public class BookService : HttpCall<BookListDto, BookDto, BookModel>, IBookService
     {
-        private readonly string _url = ApplicationSettings.BaseApiUrl + "/book";
-        private readonly IHelperService _helperService;
-        private readonly IHttpService _httpService;
-
-        public BookService(IHelperService helperService, IHttpService httpService)
+        public BookService(IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/book", "Book")
         {
-            this._helperService = helperService;
-            this._httpService = httpService;
-        }
-        
-        public async Task<bool> CreateBook(BookModel model)
-        {
-            var settings = new HttpSettings($"{this._url}", null, null, "Book adding");
-
-            var body = new HttpBody<BookModel>(model);
-
-            return await this._httpService.Create<BookModel>(settings, body);
         }
 
-        public async Task<bool> DeleteBook(int id)
+        public async Task<bool> AddBookToMyBooks(int id)
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(id, -1);
+            var settings = new HttpSettings($"{this.Url}/map", null, pathParams, "Adding book to My Books");
 
-            var settings = new HttpSettings($"{this._url}", null, pathParams, "Book deleting");
+            var body = new HttpBody<object>(null);
 
-            return await this._httpService.Delete(settings);
+            return await this.Http.Create<object>(settings, body);
         }
 
-        public async Task<BookDto> GetBook(int id)
+        public async Task<List<MyBookListDto>> GetMyList()
+        {
+            var settings = new HttpSettings($"{this.Url}/my");
+
+            return await this.Http.Get<List<MyBookListDto>>(settings);
+        }
+
+        public async Task<MyBookDto> GetMy(int id)
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/my", null, pathParams);
 
-            var settings = new HttpSettings($"{this._url}", null, pathParams);
-
-            return await this._httpService.Get<BookDto>(settings);
+            return await this.Http.Get<MyBookDto>(settings);
         }
 
-        public async Task<List<BookListDto>> GetBooks()
-        {
-            var settings = new HttpSettings($"{this._url}");
-
-            return await this._httpService.Get<List<BookListDto>>(settings);
-        }
-
-        public async Task<List<MyBookDto>> GetMyBooks()
-        {
-            var settings = new HttpSettings($"{this._url}");
-
-            return await this._httpService.Get<List<MyBookDto>>(settings);
-        }
-
-        public async Task<bool> UpdateBook(int id, BookModel model)
+        public async Task<bool> RemoveBookFromMyBooks(int id)
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(id, -1);
+            var settings = new HttpSettings($"{this.Url}/map", null, pathParams, "Removing book from My Books");
 
-            var settings = new HttpSettings($"{this._url}", null, pathParams, "Book updating");
+            return await this.Http.Delete(settings);
+        }
 
-            var body = new HttpBody<BookModel>(model);
-
-            return await this._httpService.Update<BookModel>(settings, body);
+        public async Task<List<MyBookSelectorListDto>> GetMySelectorList(bool onlyMine)
+        {
+            var queryParams = new HttpQueryParameters();
+            queryParams.Add("onlyMine", onlyMine);
+            
+            var settings = new HttpSettings($"{this.Url}/selector", queryParams, null);
+            
+            return await this.Http.Get<List<MyBookSelectorListDto>>(settings);
         }
 
         public async Task<bool> UpdateMyBooks(MyBookModel model)
         {
-            var settings = new HttpSettings($"{this._url}", null, null, "My Books updating");
+            var settings = new HttpSettings($"{this.Url}/map", null, null, "My Books updating");
 
             var body = new HttpBody<MyBookModel>(model);
 
-            return await this._httpService.Update<MyBookModel>(settings, body);
+            return await this.Http.Update<MyBookModel>(settings, body);
         }
 
-        public async Task<bool> UpdateReadStatus(int id, BookReadStatusModel model)
+        public async Task<bool> UpdateReadStatuses(List<BookReadStatusModel> models)
         {
-            var settings = new HttpSettings($"{this._url}", null, null, "My Book read status updating");
+            var settings = new HttpSettings($"{this.Url}/map/status", null, null, "My Book read status updating");
 
-            var body = new HttpBody<BookReadStatusModel>(model);
+            var body = new HttpBody<List<BookReadStatusModel>>(models);
 
-            return await this._httpService.Update<BookReadStatusModel>(settings, body);
+            return await this.Http.Update<List<BookReadStatusModel>>(settings, body);
         }
     }
 }

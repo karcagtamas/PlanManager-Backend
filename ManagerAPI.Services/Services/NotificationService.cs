@@ -76,9 +76,9 @@ namespace ManagerAPI.Services.Services
                     SystemNotificationType.Registration => "Successfully registered. Have fun.",
                     SystemNotificationType.MessageArrived => "You have a new unread message from {0}.",
                     SystemNotificationType.MyProfileUpdated => "You profile data successfully updated",
-                    SystemNotificationType.TaskAdded => "{0} task successfully added. Do not forget it.",
-                    SystemNotificationType.TaskDeleted => "{0} task successfully deleted.",
-                    SystemNotificationType.TaskUpdated => "{0} task successfully updated.",
+                    SystemNotificationType.AddTask => "{0} task successfully added. Do not forget it.",
+                    SystemNotificationType.DeleteTask => "{0} task successfully deleted.",
+                    SystemNotificationType.UpdateTask => "{0} task successfully updated.",
                     SystemNotificationType.PasswordChanged => "Password changed",
                     SystemNotificationType.ProfileImageChanged => "Profile image changed",
                     SystemNotificationType.UsernameChanged => "Username changed from {0} to {1}",
@@ -89,9 +89,15 @@ namespace ManagerAPI.Services.Services
                     SystemNotificationType.FriendRequestDeclined => "Your friend request declined by {0}",
                     SystemNotificationType.YouHasANewFriend => "{0} is your friend now",
                     SystemNotificationType.FriendRemoved => "{0} removed from your friend list",
-                    SystemNotificationType.NewsAdded => "News added",
-                    SystemNotificationType.NewsUpdated => "News updated by {0}",
-                    SystemNotificationType.NewsDeleted => "News deleted by {0}",
+                    SystemNotificationType.AddNews => "News added by {0}",
+                    SystemNotificationType.UpdateNews => "News updated by {0}",
+                    SystemNotificationType.DeleteNews => "News deleted by {0}",
+                    SystemNotificationType.AddMessage => "Message added",
+                    SystemNotificationType.DeleteMessage => "Message deleted",
+                    SystemNotificationType.UpdateMessage => "Message updated",
+                    SystemNotificationType.AddGender => "Gender added with title {0}",
+                    SystemNotificationType.DeleteGender => "Gender deleted with title {0}",
+                    SystemNotificationType.UpdateGender => "Gender updated with title {0}",
                     _ =>
                     throw new Exception("System Notification is not implemented"),
                 };
@@ -138,7 +144,16 @@ namespace ManagerAPI.Services.Services
             string val = type
                 switch
                 {
-                    MovieCornerNotificationType.AddWorkingDay => "Successfully logged in. Welcome.",
+                    MovieCornerNotificationType.AddBook => "Book added with name: {0}",
+                    MovieCornerNotificationType.AddMovie => "Movie added with title: {0}",
+                    MovieCornerNotificationType.UpdateBook => "Book updated with name: {0}",
+                    MovieCornerNotificationType.UpdateMovie => "Movie updated with title: {0}",
+                    MovieCornerNotificationType.DeleteBook => "Book deleted with name: {0}",
+                    MovieCornerNotificationType.DeleteMovie => "Movie deleted with title: {0}",
+                    MovieCornerNotificationType.MyBookListUpdated => "My Book List updated",
+                    MovieCornerNotificationType.MyMovieListUpdated => "My Movie List updated",
+                    MovieCornerNotificationType.BookReadStatusUpdated => "{0} book read status has been changed to {1}",
+                    MovieCornerNotificationType.MovieSeenStatusUpdated => "{0} movie seen status has been changed to {1}",
                     _ =>
                     throw new Exception("System Notification is not implemented"),
                 };

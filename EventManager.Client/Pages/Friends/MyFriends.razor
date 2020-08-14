@@ -1,4 +1,5 @@
 ﻿@page "/my-friends"
+@using ManagerAPI.Shared.Helpers
 @inherits MyFriendsBase
 @attribute [Microsoft.AspNetCore.Authorization.Authorize]
 
@@ -26,7 +27,7 @@
                                         <i>&lt;@friend.FriendFullName&gt;</i>
                                     </div>
                                     <div class="picture">
-                                        <img src="@friend.ImageURL("/images/profile-icon.jpg")" alt="@friend.Friend" />
+                                        <img src="@friend.ImageUrl("/images/profile-icon.jpg")" alt="@friend.Friend" />
                                     </div>
                                     <div class="card-action-bar">
                                         <MatIconButton Icon="remove_red_eye" @onclick="@(() => OpenFriendDataModal(friend.FriendId))"></MatIconButton>
@@ -59,7 +60,7 @@
                                 {
                                     <i>&lt;@request.SenderFullName&gt;</i> 
                                 }
-                                - <small>@HelperService.DateToString(request.SentDate)</small>
+                                - <small>@DateHelper.DateToString(request.SentDate)</small>
                             </div>
                             <div class="content">
                                 @request.Message

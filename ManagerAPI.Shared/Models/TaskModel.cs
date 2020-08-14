@@ -1,8 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using ManagerAPI.Shared.DTOs;
 
 namespace ManagerAPI.Shared.Models
 {
+    /// <summary>
+    /// Task create or update model
+    /// </summary>
     public class TaskModel
     {
         [Required(ErrorMessage = "Field is required")]
@@ -14,5 +18,26 @@ namespace ManagerAPI.Shared.Models
 
         [Required(ErrorMessage = "Field is required")]
         public string Description { get; set; }
+
+        [Required] public bool IsSolved { get; set; }
+
+        /// <summary>
+        /// Init for mapper
+        /// </summary>
+        public TaskModel()
+        {
+        }
+
+        /// <summary>
+        /// Model from data object
+        /// </summary>
+        /// <param name="task">Task object</param>
+        public TaskModel(TaskDto task)
+        {
+            this.Title = task.Title;
+            this.Deadline = task.Deadline;
+            this.Description = task.Description;
+            this.IsSolved = task.IsSolved;
+        }
     }
 }

@@ -6,25 +6,16 @@ using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.MC;
 using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common;
-using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
-using ManagerAPI.Shared.Models.MC;
-using Microsoft.Extensions.Logging;
 using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
     public class SeriesService : Repository<Series, MovieCornerNotificationType>, ISeriesService
     {
-        // Things
-        private const string SeasonThing = "season";
-
-        // Messages
-        private const string SeasonDoesNotExistMessage = "Season does not exist";
-
         // Injects
-        private readonly DatabaseContext _context;
+        private readonly DatabaseContext _databaseContext;
 
         /// <summary>
         /// Injector Constructor
@@ -33,49 +24,56 @@ namespace MovieCorner.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
+        /// <param name="notificationService"></param>
         public SeriesService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Series", new NotificationArguments { })
         {
-            _context = context;
+            _databaseContext = context;
         }
 
-        public void AddEpisode(int seasonId, EpisodeModel model)
-        {
-            var user = this.Utils.GetCurrentUser();
-            var season = this._context.Seasons.Find(seasonId);
-
-            if (season == null) {
-                throw this.Logger.LogInvalidThings(user, this.GetService(), SeasonThing, SeasonDoesNotExistMessage);
-            }
-
-            var episode = this.Mapper.Map<Episode>(model);
-
-            season.Episodes.Add(episode);
-            _context.Seasons.Update(season);
-            _context.SaveChanges();
-
-            this.Logger.LogInformation(user, this.GetService(), "add episode to", episode.Id);
-        }
-
-        public void AddSeason(int seriesId, SeasonModel model)
+        public void AddSeriesToMySeries(int id)
         {
             var user = this.Utils.GetCurrentUser();
 
-            var series = this._context.Series.Find(seriesId);
+            var mapping = this._databaseContext.UserSeriesSwitch.FirstOrDefault(x => x.UserId == user.Id && x.SeriesId == id);
 
-            if (series == null) {
-                throw this.Logger.LogInvalidThings(user, this.GetService(), this.Entity, this.GetEntityErrorMessage());
+            if (mapping == null)
+            {
+                mapping = new UserSeries { SeriesId = id, UserId = user.Id };
+                this._databaseContext.UserSeriesSwitch.Add(mapping);
+                this._databaseContext.SaveChanges();
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
+                this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyBookListUpdated, user);
             }
-
-            var season = this.Mapper.Map<Season>(model);
-
-            series.Seasons.Add(season);
-            _context.Series.Update(series);
-            _context.SaveChanges();
-
-            this.Logger.LogInformation(user, this.GetService(), "add season to", season.Id);
         }
 
-        public List<MySeriesDto> GetMySeries()
+        public MySeriesDto GetMy(int id)
+        {
+            var user = this.Utils.GetCurrentUser();
+
+            var series = this.Get<MySeriesDto>(id);
+            var mySeries = user.MySeries.FirstOrDefault(x => x.Series.Id == series.Id);
+            series.IsMine = mySeries != null;
+            
+
+            foreach (var season in series.Seasons)
+            {
+                foreach (var episode in season.Episodes)
+                {
+                    var myEpisode = user.MyEpisodes.FirstOrDefault(x => x.Episode.Id == episode.Id);
+                    episode.Seen = myEpisode != null && myEpisode.Seen;
+                }
+
+                season.IsSeen = season.Episodes.Select(x => x.Seen).All(x => x);
+            }
+
+            series.IsSeen = series.Seasons.SelectMany(x => x.Episodes.Select(y => y.Seen)).All(x => x);
+
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), series.Id);
+
+            return series;
+        }
+
+        public List<MySeriesListDto> GetMyList()
         {
             var user = this.Utils.GetCurrentUser();
 
@@ -83,51 +81,103 @@ namespace MovieCorner.Services.Services
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), list.Select(x => x.Series.Id).ToList());
 
-            return this.Mapper.Map<List<MySeriesDto>>(list);
+            return this.Mapper.Map<List<MySeriesListDto>>(list);
         }
 
-        public void UpdateMySeries(List<int> ids) {
+        public List<MySeriesSelectorListDto> GetMySelectorList(bool onlyMine)
+        {
             var user = this.Utils.GetCurrentUser();
 
-            var currentMappings = _context.UserSeriesSwitch.Where(x => x.UserId == user.Id).ToList();
-            foreach (var i in currentMappings)
+            var list = this.GetAll<MySeriesSelectorListDto>();
+            foreach (var t in list)
             {
-                if (ids.FindIndex(x => x == i.SeriesId) == -1)
-                {
-                    _context.UserSeriesSwitch.Remove(i);
-                }
+                var mySeries = user.MySeries.FirstOrDefault(x => x.Series.Id == t.Id);
+                t.IsMine = mySeries != null;
             }
 
-            foreach (var i in ids)
+            if (onlyMine)
             {
-                if (currentMappings.FirstOrDefault(x => x.SeriesId == i) == null)
+                list = list.Where(x => x.IsMine).ToList();
+            }
+
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my selector"), list.Select(x => x.Id).ToList());
+
+            return list;
+        }
+
+        public void RemoveSeriesFromMySeries(int id)
+        {
+            var user = this.Utils.GetCurrentUser();
+
+            var mapping = this._databaseContext.UserSeriesSwitch.FirstOrDefault(x => x.UserId == user.Id && x.SeriesId == id);
+
+            if (mapping != null)
+            {
+                foreach (var episode in user.MyEpisodes.Where(x => x.Episode.Season.Series.Id == mapping.Series.Id))
                 {
-                    var map = new UserSeries() { SeriesId = i, UserId = user.Id };
-                    _context.UserSeriesSwitch.Add(map);
+                    this._databaseContext.UserEpisodeSwitch.Remove(episode);
                 }
+                this._databaseContext.UserSeriesSwitch.Remove(mapping);
+                this._databaseContext.SaveChanges();
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete my"), id);
+                this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyBookListUpdated, user);
+            }
+        }
+
+        public void UpdateMySeries(List<int> ids)
+        {
+            var user = this.Utils.GetCurrentUser();
+
+            var currentMappings = _databaseContext.UserSeriesSwitch.Where(x => x.UserId == user.Id).ToList();
+            foreach (var i in currentMappings.Where(i => ids.FindIndex(x => x == i.SeriesId) == -1))
+            {
+                foreach (var episode in user.MyEpisodes.Where(x => x.Episode.Season.Series.Id == i.SeriesId))
+                {
+                    _databaseContext.UserEpisodeSwitch.Remove(episode);
+                }
+                _databaseContext.UserSeriesSwitch.Remove(i);
+            }
+
+            foreach (var map in from i in ids where currentMappings.FirstOrDefault(x => x.SeriesId == i) == null select new UserSeries() { SeriesId = i, UserId = user.Id })
+            {
+                _databaseContext.UserSeriesSwitch.Add(map);
             }
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
-            _context.SaveChanges();
+            _databaseContext.SaveChanges();
         }
-        public void UpdateSeenStatus(int id, bool seen) {
+        public void UpdateSeenStatus(int id, bool seen)
+        {
             var user = this.Utils.GetCurrentUser();
 
-            var userEpisode = _context.UserEpisodeSwitch.Find(user.Id, id);
-            if (userEpisode == null)
+            var episodes = _databaseContext.Episodes.Where(x => x.Season.Series.Id == id).ToList();
+            foreach (var i in episodes)
             {
-                userEpisode = new UserEpisode {
-                    UserId = user.Id,
-                    EpisodeId = id
-                };
+                var connection = i.ConnectedUsers.FirstOrDefault(x => x.User.Id == user.Id);
+                if (connection != null)
+                {
+                    connection.Seen = seen;
+                    connection.SeenOn = seen ? (DateTime?)DateTime.Now : null;
+                    this._databaseContext.UserEpisodeSwitch.Update(connection);
+                }
+                else
+                {
+                    if (seen)
+                    {
+                        var userEpisode = new UserEpisode
+                        {
+                            UserId = user.Id,
+                            EpisodeId = i.Id,
+                            Seen = true,
+                            SeenOn = DateTime.Now
+                        };
+                        this._databaseContext.UserEpisodeSwitch.Add(userEpisode);
+                    }
+                }
             }
+            _databaseContext.SaveChanges();
 
-            userEpisode.Seen = seen;
-            userEpisode.SeenOn = seen ? (DateTime?)DateTime.Now : null;
-            _context.UserEpisodeSwitch.Update(userEpisode);
-            _context.SaveChanges();
-
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set episode seen status for"), userEpisode.Episode.Id);
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set series seen status for"), id);
         }
     }
 }

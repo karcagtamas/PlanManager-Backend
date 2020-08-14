@@ -30,7 +30,7 @@ namespace EventManager.Client.Shared.Components.Tasks
         public EditContext Context { get; set; }
         public bool IsEdit { get; set; } = false;
         public int Id { get; set; }
-        public TaskDataDto Task { get; set; }
+        public TaskDto Task { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -51,7 +51,7 @@ namespace EventManager.Client.Shared.Components.Tasks
 
             if (this.Id != 0)
             {
-                this.Task = await TaskService.GetTask(this.Id);
+                this.Task = await TaskService.Get(this.Id);
                 this.Model = new TaskModel
                 {
                     Title = this.Task.Title,
@@ -69,15 +69,7 @@ namespace EventManager.Client.Shared.Components.Tasks
             var isValid = this.Context.Validate();
             if (this.IsEdit)
             {
-                var task = new TaskDataDto
-                {
-                    Id = this.Id,
-                    Title = this.Model.Title,
-                    Description = this.Model.Description,
-                    Deadline = this.Model.Deadline.ToLocalTime(),
-                    IsSolved = this.Task.IsSolved
-                };
-                if (isValid && await TaskService.UpdateTask(task))
+                if (isValid && await TaskService.Update(this.Id, this.Model))
                 {
                     ModalService.Close(ModalResult.Ok<bool>(true));
                     ((ModalService)ModalService).OnConfirm -= OnConfirm;
@@ -85,7 +77,7 @@ namespace EventManager.Client.Shared.Components.Tasks
             }
             else
             {
-                if (isValid && await TaskService.CreateTask(this.Model))
+                if (isValid && await TaskService.Create(this.Model))
                 {
                     ModalService.Close(ModalResult.Ok<bool>(true));
                     ((ModalService)ModalService).OnConfirm -= OnConfirm;

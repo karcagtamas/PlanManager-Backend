@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Enums.CM;
+using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
 using ManagerAPI.Shared.Models;
@@ -12,119 +16,62 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class MovieController : ControllerBase
+    public class MovieController : MyController<Movie, MovieModel, MovieListDto, MovieDto, MovieCornerNotificationType>
     {
-        private const string FATAL_ERROR = "Something bad happened. Try againg later";
-        private readonly ILoggerService _loggerService;
         private readonly IMovieService _movieService;
-        public MovieController(IMovieService movieService, ILoggerService loggerService)
+        public MovieController(IMovieService movieService, ILoggerService loggerService) : base(loggerService, movieService)
         {
             _movieService = movieService;
-            _loggerService = loggerService;
-        }
-
-        [HttpGet]
-        public IActionResult GetMovies()
-        {
-            try
-            {
-                return Ok(_movieService.GetAll<MovieListDto>());
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetMovie(int id)
-        {
-            try
-            {
-                return Ok(_movieService.Get<MovieDto>(id));
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
         }
 
         [HttpGet("my")]
-        public IActionResult GetOwnMovies()
+        public IActionResult GetMyList()
         {
             try
             {
-                return Ok(_movieService.GetMyMovies());
+                return Ok(this._movieService.GetMyList());
             }
             catch (MessageException me)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
+                return BadRequest(this.Logger.ExceptionToResponse(me));
             }
             catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
-
-        [HttpPost]
-        public IActionResult CreateMovie([FromBody] MovieModel model)
+        
+        [HttpGet("my/{id}")]
+        public IActionResult GetMy(int id)
         {
             try
             {
-                _movieService.Add<MovieModel>(model);
-                return Ok();
+                return Ok(this._movieService.GetMy(id));
             }
             catch (MessageException me)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
+                return BadRequest(this.Logger.ExceptionToResponse(me));
             }
             catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
-
-        [HttpPut("{id}")]
-        public IActionResult UpdateMovie(int id, [FromBody] MovieModel model)
+        
+        [HttpGet("selector")]
+        public IActionResult GetMySelectorList([FromQuery] bool onlyMine)
         {
             try
             {
-                _movieService.Update<MovieModel>(id, model);
-                return Ok();
+                return Ok(this._movieService.GetMySelectorList(onlyMine));
             }
             catch (MessageException me)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
+                return BadRequest(this.Logger.ExceptionToResponse(me));
             }
             catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult DeleteMovie(int id)
-        {
-            try
-            {
-                _movieService.Remove(id);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
 
@@ -133,34 +80,71 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                _movieService.UpdateMyMovies(model.Ids);
+                this._movieService.UpdateMyMovies(model.Ids);
                 return Ok();
             }
             catch (MessageException me)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
+                return BadRequest(this.Logger.ExceptionToResponse(me));
             }
             catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
 
-        [HttpPut("map/status/{id}")]
-        public IActionResult UpdateSeenStatus(int id, [FromBody] MovieSeenUpdateModel model)
+        [HttpPut("map/status")]
+        public IActionResult UpdateSeenStatus([FromBody] List<MovieSeenUpdateModel> models)
         {
             try
             {
-                _movieService.UpdateSeenStatus(id, model.Seen);
+                foreach (var model in models)
+                {
+                    this._movieService.UpdateSeenStatus(model.Id, model.Seen);
+                }
                 return Ok();
             }
             catch (MessageException me)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
+                return BadRequest(this.Logger.ExceptionToResponse(me));
             }
             catch (Exception e)
             {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
+
+        [HttpPost("map/{id}")]
+        public IActionResult AddMovieToMyMovies(int id) {
+            try
+            {
+                this._movieService.AddMovieToMyMovies(id);
+                return Ok();
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
+
+        [HttpDelete("map/{id}")]
+        public IActionResult RemoveMovieFromMyMovies(int id) {
+            try
+            {
+                this._movieService.RemoveMovieFromMyMovies(id);
+                return Ok();
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
     }

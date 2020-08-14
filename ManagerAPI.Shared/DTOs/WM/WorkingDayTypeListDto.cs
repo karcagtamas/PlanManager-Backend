@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ManagerAPI.Shared.DTOs.WM
+﻿namespace ManagerAPI.Shared.DTOs.WM
 {
+    /// <summary>
+    /// Working day type list DTO
+    /// </summary>
     public class WorkingDayTypeListDto
     {
         public int Id { get; set; }

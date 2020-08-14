@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ManagerAPI.Domain.Entities.MC;
 using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common;
@@ -26,11 +27,11 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpGet("my")]
-        public IActionResult GetMySeries()
+        public IActionResult GetMyList()
         {
             try
             {
-                return Ok(this.SeriesService.GetMySeries());
+                return Ok(this.SeriesService.GetMyList());
             }
             catch (MessageException me)
             {
@@ -42,13 +43,12 @@ namespace ManagerAPI.Backend.Controllers
             }
         }
 
-        [HttpPost("{seriesId}/season")]
-        public IActionResult AddSeason(int seriesId, [FromBody] SeasonModel model)
+        [HttpGet("my/{id}")]
+        public IActionResult GetMy(int id)
         {
             try
             {
-                this.SeriesService.AddSeason(seriesId, model);
-                return Ok();
+                return Ok(this.SeriesService.GetMy(id));
             }
             catch (MessageException me)
             {
@@ -60,13 +60,12 @@ namespace ManagerAPI.Backend.Controllers
             }
         }
 
-        [HttpPost("season/{seasonId}")]
-        public IActionResult AddEpisode(int seasonId, [FromBody] EpisodeModel model)
+        [HttpGet("selector")]
+        public IActionResult GetMySelectorList([FromQuery] bool onlyMine)
         {
             try
             {
-                this.SeriesService.AddEpisode(seasonId, model);
-                return Ok();
+                return Ok(this.SeriesService.GetMySelectorList(onlyMine));
             }
             catch (MessageException me)
             {
@@ -78,7 +77,7 @@ namespace ManagerAPI.Backend.Controllers
             }
         }
 
-        [HttpPut("my")]
+        [HttpPut("map")]
         public IActionResult UpdateMySeries([FromBody] MySeriesModel model)
         {
             try
@@ -96,12 +95,46 @@ namespace ManagerAPI.Backend.Controllers
             }
         }
 
-        [HttpPut("episode/{id}/status")]
-        public IActionResult UpdateSeenStatus(int id, [FromBody] EpisodeSeenStatusModel model)
+        [HttpPut("map/status")]
+        public IActionResult UpdateSeenStatus([FromBody] SeriesSeenStatusModel model)
         {
             try
             {
-                this.SeriesService.UpdateSeenStatus(id, model.Seen);
+                this.SeriesService.UpdateSeenStatus(model.Id, model.Seen);
+                return Ok();
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
+
+        [HttpPost("map/{id}")]
+        public IActionResult AddSeriesToMySeries(int id) {
+            try
+            {
+                this.SeriesService.AddSeriesToMySeries(id);
+                return Ok();
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
+
+        [HttpDelete("map/{id}")]
+        public IActionResult RemoveBookFromMyBooks(int id) {
+            try
+            {
+                this.SeriesService.RemoveSeriesFromMySeries(id);
                 return Ok();
             }
             catch (MessageException me)

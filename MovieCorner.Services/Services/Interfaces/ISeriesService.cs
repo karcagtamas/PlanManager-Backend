@@ -9,10 +9,12 @@ namespace MovieCorner.Services.Services.Interfaces
 {
     public interface ISeriesService : IRepository<Series>
     {
-        List<MySeriesDto> GetMySeries();
-        void AddSeason(int seriesId, SeasonModel model);
-        void AddEpisode(int seasonId, EpisodeModel model);
+        List<MySeriesListDto> GetMyList();
+        MySeriesDto GetMy(int id);
         void UpdateMySeries(List<int> ids);
         void UpdateSeenStatus(int id, bool seen);
+        void AddSeriesToMySeries(int id);
+        void RemoveSeriesFromMySeries(int id);
+        List<MySeriesSelectorListDto> GetMySelectorList(bool onlyMine);
     }
 }

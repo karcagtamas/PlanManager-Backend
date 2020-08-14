@@ -15,9 +15,6 @@ namespace EventManager.Client.Pages.Friends
         private IFriendService FriendService { get; set; }
 
         [Inject]
-        protected IHelperService HelperService { get; set; }
-
-        [Inject]
         public IModalService Modal { get; set; }
 
         protected List<FriendListDto> Friends { get; set; } = null;

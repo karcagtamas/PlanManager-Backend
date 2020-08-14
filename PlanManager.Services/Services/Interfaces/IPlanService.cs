@@ -1,5 +1,6 @@
-using ManagerAPI.Shared.DTOs.PM;
 using System.Collections.Generic;
+using ManagerAPI.Shared.DTOs.PM;
+using ManagerAPI.Shared.Models.PM;
 
 namespace PlanManager.Services.Services.Interfaces
 {
@@ -9,8 +10,8 @@ namespace PlanManager.Services.Services.Interfaces
         List<PlanListDto> GetMyPlans();
         PlanDto GetPlan(int id);
         List<PlanListDto> GetUserPublicPlans(string userId);
-        void CreatePlan(PlanCreateDto model);
-        void UpdatePlan(int id, PlanUpdateDto model);
+        void CreatePlan(PlanModel model);
+        void UpdatePlan(int id, PlanModel model);
         void DeletePlan(int id);
     }
 }

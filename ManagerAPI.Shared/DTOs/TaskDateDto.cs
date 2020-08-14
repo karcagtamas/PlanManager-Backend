@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace ManagerAPI.Shared.DTOs
 {
+    /// <summary>
+    /// Task date DTO
+    /// </summary>
     public class TaskDateDto
     {
         public DateTime Deadline { get; set; }

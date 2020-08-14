@@ -2,11 +2,24 @@ using System;
 
 namespace ManagerAPI.Shared.Models
 {
+    /// <summary>
+    /// Own Generated Message Exception
+    /// </summary>
     public class MessageException : Exception
     {
-        public MessageException() {}
+        /// <summary>
+        /// Empty init
+        /// </summary>
+        public MessageException()
+        {
+        }
 
-        public MessageException(string msg): base(msg) {
+        /// <summary>
+        /// Exception with message
+        /// </summary>
+        /// <param name="msg">Exception message</param>
+        public MessageException(string msg) : base(msg)
+        {
         }
     }
 }

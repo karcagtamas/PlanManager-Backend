@@ -2,6 +2,7 @@
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
+using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
@@ -14,24 +15,20 @@ namespace ManagerAPI.Services.Services
     /// <summary>
     /// Message Service
     /// </summary>
-    public class MessageService : IMessageService
+    public class MessageService : Repository<Message, SystemNotificationType>, IMessageService
     {
         // Actions
         private const string SendMessageAction = "send message";
         private const string GetMessagesAction = "get messages";
-        
+
         // Things
         private const string MessageThing = "message";
-        
+
         // Messages
         private const string ParnterIsNeededForSendingMessage = "Partner is needed for the message sending";
-        
+
         // Injects
-        private readonly IUtilsService _utilsService;
-        private readonly INotificationService _notificationService;
-        private readonly DatabaseContext _context;
-        private readonly IMapper _mapper;
-        private readonly ILoggerService _loggerService;
+        private readonly DatabaseContext _databaseContext;
 
         /// <summary>
         /// Injector Constructor
@@ -41,13 +38,9 @@ namespace ManagerAPI.Services.Services
         /// <param name="context">Database Context</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="loggerService">Logger Service</param>
-        public MessageService(IUtilsService utilsService, INotificationService notificationService, DatabaseContext context, IMapper mapper, ILoggerService loggerService)
+        public MessageService(IUtilsService utilsService, INotificationService notificationService, DatabaseContext context, IMapper mapper, ILoggerService loggerService) : base(context, loggerService, utilsService, notificationService, mapper, "Message", new NotificationArguments { DeleteArguments = new List<string>(), UpdateArguments = new List<string>(), CreateArguments = new List<string>() })
         {
-            _utilsService = utilsService;
-            _notificationService = notificationService;
-            _context = context;
-            _mapper = mapper;
-            _loggerService = loggerService;
+            this._databaseContext = context;
         }
 
         /// <summary>
@@ -57,11 +50,11 @@ namespace ManagerAPI.Services.Services
         /// <returns>List of messages</returns>
         public List<MessageDto> GetMessages(int friendId)
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this.Utils.GetCurrentUser();
 
-            var list = _mapper.Map<List<MessageDto>>(user.SentMessages.Union(user.ReceivedMessages).OrderBy(x => x.Date).ToList()).Select(x => { x.IsMine = x.Sender == user.UserName; return x; }).ToList();
+            var list = this.Mapper.Map<List<MessageDto>>(user.SentMessages.Union(user.ReceivedMessages).OrderBy(x => x.Date).ToList()).Select(x => { x.IsMine = x.Sender == user.UserName; return x; }).ToList();
 
-            _loggerService.LogInformation(user, nameof(MessageService), GetMessagesAction, list.Select(x => x.Id).ToList());
+            this.Logger.LogInformation(user, nameof(MessageService), GetMessagesAction, list.Select(x => x.Id).ToList());
 
             return list;
         }
@@ -72,12 +65,12 @@ namespace ManagerAPI.Services.Services
         /// <param name="model">Model of message sending</param>
         public void SendMessage(MessageModel model)
         {
-            var user = _utilsService.GetCurrentUser();
-            var partner = _context.AppUsers.Find(model.PartnerId);
+            var user = this.Utils.GetCurrentUser();
+            var partner = this._databaseContext.AppUsers.Find(model.PartnerId);
 
             if (partner == null)
             {
-                throw _loggerService.LogInvalidThings(user, nameof(MessageService), MessageThing, ParnterIsNeededForSendingMessage);
+                throw this.Logger.LogInvalidThings(user, nameof(MessageService), MessageThing, ParnterIsNeededForSendingMessage);
             }
 
             var message = new Message();
@@ -86,11 +79,11 @@ namespace ManagerAPI.Services.Services
             message.ReceiverId = model.PartnerId;
             message.Text = model.Message;
 
-            _context.Messages.Add(message);
-            _context.SaveChanges();
+            this._databaseContext.Messages.Add(message);
+            this._databaseContext.SaveChanges();
 
-            _loggerService.LogInformation(user, nameof(MessageService), SendMessageAction, $"{user.Id}-{partner.Id}");
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.MessageArrived, partner, user.UserName);
+            this.Logger.LogInformation(user, nameof(MessageService), SendMessageAction, $"{user.Id}-{partner.Id}");
+            this.Notification.AddSystemNotificationByType(SystemNotificationType.MessageArrived, partner, user.UserName);
         }
     }
 }

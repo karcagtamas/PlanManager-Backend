@@ -5,6 +5,7 @@ using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.PM;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.PM;
+using ManagerAPI.Shared.Models.PM;
 using PlanManager.Services.Services.Interfaces;
 
 namespace PlanManager.Services.Services
@@ -124,7 +125,7 @@ namespace PlanManager.Services.Services
         /// Create plan
         /// </summary>
         /// <param name="model">Model of create</param>
-        public void CreatePlan(PlanCreateDto model)
+        public void CreatePlan(PlanModel model)
         {
             var user = _utilsService.GetCurrentUser();
 
@@ -140,7 +141,7 @@ namespace PlanManager.Services.Services
         /// </summary>
         /// <param name="id">Id of the plan</param>
         /// <param name="model">Mode of update</param>
-        public void UpdatePlan(int id, PlanUpdateDto model)
+        public void UpdatePlan(int id, PlanModel model)
         {
             var user = _utilsService.GetCurrentUser();
             var plan = _context.Plans.Find(id);

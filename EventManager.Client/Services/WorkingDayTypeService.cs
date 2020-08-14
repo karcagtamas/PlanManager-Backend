@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using EventManager.Client.Http;
+﻿using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
+using ManagerAPI.Shared.Models.WM;
 
 namespace EventManager.Client.Services
 {

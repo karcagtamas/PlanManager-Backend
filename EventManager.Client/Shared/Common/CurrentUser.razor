@@ -1,3 +1,4 @@
+@using ManagerAPI.Shared.Helpers
 @inherits CurrentUserBase
 
 <div class="p-1 em-current-user">
@@ -9,8 +10,8 @@
         <div class="p-1 data" title="@User.Email">
             <strong>E-mail: </strong> @User.Email
         </div>
-        <div class="p-1 data" title="@HelperService.DateToString(User.LastLogin)">
-            <strong>Last Login: </strong> @HelperService.DateToString(User.LastLogin)
+        <div class="p-1 data" title="@DateHelper.DateToString(User.LastLogin)">
+            <strong>Last Login: </strong> @DateHelper.DateToString(User.LastLogin)
         </div>
         @if (UnReadNotificationCount > 0)
         {

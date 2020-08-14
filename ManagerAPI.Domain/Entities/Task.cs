@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ManagerAPI.Domain.Entities
 
 {
-    public class Task
+    public class Task : IEntity
     {
         [Required]
         public int Id { get; set; }
@@ -34,5 +34,30 @@ namespace ManagerAPI.Domain.Entities
         public DateTime Deadline { get; set; }
 
         public virtual User Owner { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj != null && this.Id == ((Task)obj).Id;
+        }
+
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+            hash.Add(Id);
+            hash.Add(Title);
+            hash.Add(Description);
+            hash.Add(IsSolved);
+            hash.Add(OwnerId);
+            hash.Add(Creation);
+            hash.Add(LastUpdate);
+            hash.Add(Deadline);
+            hash.Add(Owner);
+            return hash.ToHashCode();
+        }
+
+        public override string ToString()
+        {
+            return $"{this.Id} - {this.Title}";
+        }
     }
 }

@@ -1,5 +1,8 @@
 namespace ManagerAPI.Shared.DTOs.EM
 {
+    /// <summary>
+    /// Sport event DTO
+    /// </summary>
     public class SportEventDto
     {
         public int Id { get; set; }

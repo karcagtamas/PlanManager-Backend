@@ -1,0 +1,39 @@
+﻿@typeparam TList
+
+@if (Header != null)
+{
+    <div class="list">
+        <table>
+            <thead>
+            <tr>
+                @foreach (var head in Header)
+                {
+                    <th>@head.DisplayName</th>
+                }
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var body in Body)
+            {
+                <tr @onclick="@(() => RowClick(body))" class="@(IsSelectionEnabled && SelectedIndexes.Contains(body.Id) ? "selected" : "")">
+                    @foreach (var head in Header)
+                    {
+                        <td>@head.Displaying(GetProperty(body, head.PropertyName))</td>
+                    }
+                </tr>
+            }
+            </tbody>
+            @if (FooterDisplay)
+            {
+                <tfoot>
+                <tr>
+                    @foreach (var foot in Footer)
+                    {
+                        <th>@foot</th>
+                    }
+                </tr>
+                </tfoot> 
+            }
+        </table>
+    </div>
+}

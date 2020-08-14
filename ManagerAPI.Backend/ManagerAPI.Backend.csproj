@@ -9,7 +9,7 @@
     <Company>karcags</Company>
     <UserSecretsId>329ea61a-c255-4c70-bf14-68ad48b3d061</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
-    <PackageVersion>0.8.0</PackageVersion>
+    <PackageVersion>0.9.0</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
