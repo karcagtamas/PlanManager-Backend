@@ -14,5 +14,12 @@
   "ApplicationSettings": {
     "JwtSecret": "0123456789012345678901Manager",
     "ClientURL": "http://localhost:4200"
-  }
+  },
+     "MailSettings": {
+       "Mail" : "noreply@karcags.eu",
+       "DisplayName": "Manager",
+       "Password": "",
+       "Host": "localhost",
+       "Port" : 587
+     }
 }

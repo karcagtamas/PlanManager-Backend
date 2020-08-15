@@ -5,6 +5,7 @@ using EventManager.Services.Profiles;
 using EventManager.Services.Services;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
+using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Profiles;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
@@ -54,6 +55,7 @@ namespace ManagerAPI.Backend
             });
 
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             
             var mapperConfig = new MapperConfiguration(x =>
             {
@@ -104,6 +106,7 @@ namespace ManagerAPI.Backend
             services.AddScoped<ISeasonService, SeasonService>();
             services.AddScoped<IEpisodeService, EpisodeService>();
             services.AddScoped<IGenderService, GenderService>();
+            services.AddScoped<IMailService, MailService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
