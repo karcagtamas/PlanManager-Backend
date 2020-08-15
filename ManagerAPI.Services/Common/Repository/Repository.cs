@@ -7,9 +7,8 @@ using AutoMapper;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace ManagerAPI.Services.Common
+namespace ManagerAPI.Services.Common.Repository
 {
     public class Repository<TEntity, TNotificationType> : IRepository<TEntity> where TEntity : class, IEntity where TNotificationType : Enum
     {

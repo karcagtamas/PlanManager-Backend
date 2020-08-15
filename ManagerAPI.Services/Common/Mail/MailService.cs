@@ -4,7 +4,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using ManagerAPI.Services.Utils;
 
-namespace ManagerAPI.Services.Common
+namespace ManagerAPI.Services.Common.Mail
 {
     /// <summary>
     /// Mail Service
@@ -27,7 +27,7 @@ namespace ManagerAPI.Services.Common
         /// </summary>
         /// <param name="mail">Mail object</param>
         /// <returns>Task</returns>
-        public async Task SendEmailAsync(Mail mail)
+        public async Task SendEmailAsync(Common.Mail.Mail mail)
         {
             var message = new MailMessage();
             

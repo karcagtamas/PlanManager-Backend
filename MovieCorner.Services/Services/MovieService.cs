@@ -5,7 +5,7 @@ using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.MC;
 using ManagerAPI.Domain.Enums.CM;
-using ManagerAPI.Services.Common;
+using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
 using MovieCorner.Services.Services.Interfaces;

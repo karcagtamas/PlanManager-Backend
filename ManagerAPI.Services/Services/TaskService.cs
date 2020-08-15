@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
-using ManagerAPI.Services.Common;
+using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
-using ManagerAPI.Shared.Models;
+using ManagerAPI.Shared.Helpers;
 
 namespace ManagerAPI.Services.Services
 {
@@ -26,7 +25,7 @@ namespace ManagerAPI.Services.Services
         /// <summary>
         /// Task Service
         /// </summary>
-        /// <param name="context">Databaes Context</param>
+        /// <param name="context">Database Context</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
@@ -45,7 +44,7 @@ namespace ManagerAPI.Services.Services
         public List<TaskDateDto> GetDate(bool? isSolved)
         {
             var user = this.Utils.GetCurrentUser();
-            var list = this.Mapper.Map<List<TaskDateDto>>(user.Tasks.GroupBy(x => this.ToDay(x.Deadline)).OrderBy(x => x.Key).ToList());
+            var list = this.Mapper.Map<List<TaskDateDto>>(user.Tasks.GroupBy(x => DateHelper.ToDay(x.Deadline)).OrderBy(x => x.Key).ToList());
 
             if (isSolved != null)
             {
@@ -57,9 +56,6 @@ namespace ManagerAPI.Services.Services
             return list;
         }
 
-        private DateTime ToDay(DateTime date)
-        {
-            return new DateTime(date.Year, date.Month, date.Day);
-        }
+        
     }
 }

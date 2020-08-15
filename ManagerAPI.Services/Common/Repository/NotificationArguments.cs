@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ManagerAPI.Services.Common
+namespace ManagerAPI.Services.Common.Repository
 {
     public class NotificationArguments
     {

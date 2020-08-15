@@ -1,14 +1,13 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.WM;
-using ManagerAPI.Services.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using ManagerAPI.Services.Common;
-using ManagerAPI.Shared.DTOs.WM;
-using System.Linq;
 using ManagerAPI.Domain.Enums.WM;
+using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.WM;
 
 namespace ManagerAPI.Services.Services
 {

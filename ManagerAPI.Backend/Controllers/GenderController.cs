@@ -1,5 +1,4 @@
 using ManagerAPI.Domain.Entities;
-using ManagerAPI.Domain.Enums;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
@@ -12,10 +11,8 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class GenderController : MyController<Gender, GenderModel, GenderListDto, GenderDto, SystemNotificationType>
+    public class GenderController : MyController<Gender, GenderModel, GenderListDto, GenderDto>
     {
-        private readonly IGenderService _genderService;
-
         /// <summary>
         /// Injector Constructor
         /// </summary>
@@ -23,7 +20,6 @@ namespace ManagerAPI.Backend.Controllers
         /// <param name="loggerService">Utils Service</param>
         public GenderController(IGenderService genderService, ILoggerService loggerService) : base (loggerService, genderService)
         {
-            _genderService = genderService;
         }
     }
 }

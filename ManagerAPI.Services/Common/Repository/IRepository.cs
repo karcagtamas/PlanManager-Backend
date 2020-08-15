@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using ManagerAPI.Domain.Entities;
 
-namespace ManagerAPI.Services.Common
+namespace ManagerAPI.Services.Common.Repository
 {
     public interface IRepository<TEntity> where TEntity : class, IEntity
     {

@@ -1,9 +1,7 @@
-﻿using ManagerAPI.Domain.Entities.MC;
-using ManagerAPI.Services.Services.Interfaces;
+﻿using System.Collections.Generic;
+using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Shared.DTOs.MC;
-using ManagerAPI.Shared.Models.MC;
-using System.Collections.Generic;
-using ManagerAPI.Services.Common;
 
 namespace MovieCorner.Services.Services.Interfaces
 {

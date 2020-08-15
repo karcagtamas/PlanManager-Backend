@@ -1,6 +1,5 @@
 ﻿using System;
 using ManagerAPI.Domain.Entities;
-using ManagerAPI.Domain.Enums;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
@@ -16,7 +15,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class MessageController : MyController<Message, MessageModel, MessageListDto, MessageDto, SystemNotificationType>
+    public class MessageController : MyController<Message, MessageModel, MessageListDto, MessageDto>
     {
         private readonly IMessageService _messageService;
 
@@ -36,7 +35,7 @@ namespace ManagerAPI.Backend.Controllers
         /// <param name="friendId">Partner Id</param>
         /// <returns>Server Response</returns>
         [HttpGet("friend/{friendId}")]
-        public IActionResult GetMessages(int friendId)
+        public IActionResult GetMessages(string friendId)
         {
             try
             {

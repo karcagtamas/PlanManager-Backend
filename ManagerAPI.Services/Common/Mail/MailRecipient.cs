@@ -1,6 +1,6 @@
 ﻿using System.Net.Mail;
 
-namespace ManagerAPI.Services.Common
+namespace ManagerAPI.Services.Common.Mail
 {
     /// <summary>
     /// E-mail recipient

@@ -1,6 +1,4 @@
-﻿using System;
-using ManagerAPI.Domain.Entities;
-using ManagerAPI.Domain.Enums;
+﻿using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
@@ -16,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class NewsController : MyController<News, PostModel, NewsListDto, NewsDto, SystemNotificationType>
+    public class NewsController : MyController<News, PostModel, NewsListDto, NewsDto>
     {
         private readonly INewsService _newsService;
 

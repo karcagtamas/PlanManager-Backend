@@ -1,12 +1,13 @@
 ﻿using System;
 using ManagerAPI.Domain.Entities;
+using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Services.Common
 {
-    public class MyController<TEntity, TModel, TList, TSimple, TNotificationType> : ControllerBase, IController<TEntity, TModel> where TEntity : class, IEntity where TNotificationType : Enum
+    public class MyController<TEntity, TModel, TList, TSimple> : ControllerBase, IController<TEntity, TModel> where TEntity : class, IEntity
     {
         protected const string FatalError = "Something bad happened. Try again later";
         protected readonly ILoggerService Logger;

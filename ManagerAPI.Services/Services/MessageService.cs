@@ -1,14 +1,13 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
-using ManagerAPI.Services.Common;
+using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace ManagerAPI.Services.Services
 {
@@ -48,11 +47,11 @@ namespace ManagerAPI.Services.Services
         /// </summary>
         /// <param name="friendId">Partner Id</param>
         /// <returns>List of messages</returns>
-        public List<MessageDto> GetMessages(int friendId)
+        public List<MessageDto> GetMessages(string friendId)
         {
             var user = this.Utils.GetCurrentUser();
 
-            var list = this.Mapper.Map<List<MessageDto>>(user.SentMessages.Union(user.ReceivedMessages).OrderBy(x => x.Date).ToList()).Select(x => { x.IsMine = x.Sender == user.UserName; return x; }).ToList();
+            var list = this.Mapper.Map<List<MessageDto>>(user.SentMessages.Where(x => x.Receiver.Id == friendId).Union(user.ReceivedMessages.Where(x => x.Sender.Id == friendId)).OrderBy(x => x.Date).ToList()).Select(x => { x.IsMine = x.Sender == user.UserName; return x; }).ToList();
 
             this.Logger.LogInformation(user, nameof(MessageService), GetMessagesAction, list.Select(x => x.Id).ToList());
 

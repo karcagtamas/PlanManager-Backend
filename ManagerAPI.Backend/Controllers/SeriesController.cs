@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using ManagerAPI.Domain.Entities.MC;
-using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common;
-using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
 using ManagerAPI.Shared.Models;
@@ -17,13 +14,13 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class SeriesController : MyController<Series, SeriesModel, SeriesListDto, SeriesDto, MovieCornerNotificationType>
+    public class SeriesController : MyController<Series, SeriesModel, SeriesListDto, SeriesDto>
     {
-        protected readonly ISeriesService SeriesService;
+        private readonly ISeriesService _seriesService;
 
         public SeriesController(ISeriesService seriesService, ILoggerService loggerService): base(loggerService, seriesService)
         {
-            this.SeriesService = seriesService;
+            this._seriesService = seriesService;
         }
 
         [HttpGet("my")]
@@ -31,7 +28,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(this.SeriesService.GetMyList());
+                return Ok(this._seriesService.GetMyList());
             }
             catch (MessageException me)
             {
@@ -48,7 +45,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(this.SeriesService.GetMy(id));
+                return Ok(this._seriesService.GetMy(id));
             }
             catch (MessageException me)
             {
@@ -65,7 +62,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(this.SeriesService.GetMySelectorList(onlyMine));
+                return Ok(this._seriesService.GetMySelectorList(onlyMine));
             }
             catch (MessageException me)
             {
@@ -82,7 +79,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                this.SeriesService.UpdateMySeries(model.Ids);
+                this._seriesService.UpdateMySeries(model.Ids);
                 return Ok();
             }
             catch (MessageException me)
@@ -100,7 +97,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                this.SeriesService.UpdateSeenStatus(model.Id, model.Seen);
+                this._seriesService.UpdateSeenStatus(model.Id, model.Seen);
                 return Ok();
             }
             catch (MessageException me)
@@ -117,7 +114,7 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult AddSeriesToMySeries(int id) {
             try
             {
-                this.SeriesService.AddSeriesToMySeries(id);
+                this._seriesService.AddSeriesToMySeries(id);
                 return Ok();
             }
             catch (MessageException me)
@@ -134,7 +131,7 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult RemoveBookFromMyBooks(int id) {
             try
             {
-                this.SeriesService.RemoveSeriesFromMySeries(id);
+                this._seriesService.RemoveSeriesFromMySeries(id);
                 return Ok();
             }
             catch (MessageException me)

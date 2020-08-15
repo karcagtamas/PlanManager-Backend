@@ -2,7 +2,7 @@
 using ManagerAPI.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 
-namespace ManagerAPI.Services.Common
+namespace ManagerAPI.Services.Common.Mail
 {
     /// <summary>
     /// Mail object

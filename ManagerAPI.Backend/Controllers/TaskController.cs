@@ -1,6 +1,5 @@
 ﻿using System;
 using ManagerAPI.Domain.Entities;
-using ManagerAPI.Domain.Enums;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
@@ -11,7 +10,7 @@ namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TaskController : MyController<Task, TaskModel, TaskListDto, TaskDto, SystemNotificationType>
+    public class TaskController : MyController<Task, TaskModel, TaskListDto, TaskDto>
     {
         private readonly ITaskService _taskService;
 

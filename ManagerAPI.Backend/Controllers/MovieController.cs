@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ManagerAPI.Domain.Entities.MC;
-using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
@@ -16,7 +15,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class MovieController : MyController<Movie, MovieModel, MovieListDto, MovieDto, MovieCornerNotificationType>
+    public class MovieController : MyController<Movie, MovieModel, MovieListDto, MovieDto>
     {
         private readonly IMovieService _movieService;
         public MovieController(IMovieService movieService, ILoggerService loggerService) : base(loggerService, movieService)

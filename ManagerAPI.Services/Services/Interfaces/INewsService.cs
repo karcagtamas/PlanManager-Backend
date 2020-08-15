@@ -1,8 +1,5 @@
-using System.Collections.Generic;
 using ManagerAPI.Domain.Entities;
-using ManagerAPI.Services.Common;
-using ManagerAPI.Shared.DTOs;
-using ManagerAPI.Shared.Models;
+using ManagerAPI.Services.Common.Repository;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {

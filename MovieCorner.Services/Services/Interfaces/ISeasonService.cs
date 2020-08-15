@@ -1,5 +1,5 @@
 using ManagerAPI.Domain.Entities.MC;
-using ManagerAPI.Services.Common;
+using ManagerAPI.Services.Common.Repository;
 
 namespace MovieCorner.Services.Services.Interfaces
 {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ManagerAPI.Services.Common
+namespace ManagerAPI.Services.Common.Mail
 {
     public interface IMailService
     {

@@ -5,7 +5,9 @@ using EventManager.Services.Profiles;
 using EventManager.Services.Services;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
-using ManagerAPI.Services.Common;
+using ManagerAPI.Services.Common.CSV;
+using ManagerAPI.Services.Common.Excel;
+using ManagerAPI.Services.Common.Mail;
 using ManagerAPI.Services.Profiles;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
@@ -107,6 +109,8 @@ namespace ManagerAPI.Backend
             services.AddScoped<IEpisodeService, EpisodeService>();
             services.AddScoped<IGenderService, GenderService>();
             services.AddScoped<IMailService, MailService>();
+            services.AddScoped<ICsvService, CsvService>();
+            services.AddScoped<IExcelService, ExcelService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             

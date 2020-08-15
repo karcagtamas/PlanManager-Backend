@@ -73,5 +73,15 @@ namespace ManagerAPI.Shared.Helpers
         {
             return $"{date:yyyy-MM-dd}";
         }
+        
+        /// <summary>
+        /// To day
+        /// </summary>
+        /// <param name="date">Date</param>
+        /// <returns></returns>
+        public static DateTime ToDay(DateTime date)
+        {
+            return new DateTime(date.Year, date.Month, date.Day);
+        }
     }
 }

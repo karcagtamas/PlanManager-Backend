@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ManagerAPI.Domain.Entities.MC;
-using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
@@ -14,7 +13,7 @@ namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EpisodeController : MyController<Episode, EpisodeModel, EpisodeListDto, EpisodeDto, MovieCornerNotificationType>
+    public class EpisodeController : MyController<Episode, EpisodeModel, EpisodeListDto, EpisodeDto>
     {
         private readonly IEpisodeService _episodeService;
         public EpisodeController(IEpisodeService episodeService, ILoggerService loggerService) : base(loggerService, episodeService)

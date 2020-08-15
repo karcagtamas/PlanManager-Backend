@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ManagerAPI.Domain.Entities.MC;
-using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;
@@ -16,12 +15,12 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class BookController : MyController<Book, BookModel, BookListDto, BookDto, MovieCornerNotificationType>
+    public class BookController : MyController<Book, BookModel, BookListDto, BookDto>
     {
-        protected readonly IBookService BookService;
+        private readonly IBookService _bookService;
         public BookController(IBookService bookService, ILoggerService loggerService) : base(loggerService, bookService)
         {
-            this.BookService = bookService;
+            this._bookService = bookService;
         }
 
         [HttpGet("my")]
@@ -29,7 +28,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(this.BookService.GetMyList());
+                return Ok(this._bookService.GetMyList());
             }
             catch (MessageException me)
             {
@@ -46,7 +45,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(this.BookService.GetMy(id));
+                return Ok(this._bookService.GetMy(id));
             }
             catch (MessageException me)
             {
@@ -63,7 +62,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                return Ok(this.BookService.GetMySelectorList(onlyMine));
+                return Ok(this._bookService.GetMySelectorList(onlyMine));
             }
             catch (MessageException me)
             {
@@ -80,7 +79,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             try
             {
-                this.BookService.UpdateMyBooks(model.Ids);
+                this._bookService.UpdateMyBooks(model.Ids);
                 return Ok();
             }
             catch (MessageException me)
@@ -100,7 +99,7 @@ namespace ManagerAPI.Backend.Controllers
             {
                 foreach (var model in models)
                 {
-                    this.BookService.UpdateReadStatus(model.Id, model.Read);
+                    this._bookService.UpdateReadStatus(model.Id, model.Read);
                 }
                 return Ok();
             }
@@ -118,7 +117,7 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult AddBookToMyBooks(int id) {
             try
             {
-                this.BookService.AddBookToMyBooks(id);
+                this._bookService.AddBookToMyBooks(id);
                 return Ok();
             }
             catch (MessageException me)
@@ -135,7 +134,7 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult RemoveBookFromMyBooks(int id) {
             try
             {
-                this.BookService.RemoveBookFromMyBooks(id);
+                this._bookService.RemoveBookFromMyBooks(id);
                 return Ok();
             }
             catch (MessageException me)
