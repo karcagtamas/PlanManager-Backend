@@ -1,5 +1,5 @@
 using AutoMapper;
-using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Shared.DTOs.MC;
 using ManagerAPI.Shared.Models.MC;
 

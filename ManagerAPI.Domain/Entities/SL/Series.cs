@@ -1,31 +1,23 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Domain.Entities.MC
+namespace ManagerAPI.Domain.Entities.SL
 {
-    public class Book : IEntity
+    public class Series : IEntity
     {
         [Required]
         public int Id { get; set; }
 
         [Required]
-        [MaxLength (150)]
-        public string Name { get; set; }
-
-        [Required]
-        [MaxLength (150)]
-        public string Author { get; set; }
+        [MaxLength(150)]
+        public string Title { get; set; }
 
         public string Description { get; set; }
-        
-        public DateTime? Publish { get; set; }
 
-        [Required]
-        public string CreatorId { get; set; }
+        public int? StartYear { get; set; }
 
-        [Required]
-        public string LastUpdaterId { get; set; }
+        public int? EndYear { get; set; }
 
         [Required]
         public DateTime Creation { get; set; }
@@ -34,12 +26,15 @@ namespace ManagerAPI.Domain.Entities.MC
         public DateTime LastUpdate { get; set; }
 
         [Required]
-        public virtual User Creator { get; set; }
+        public string CreatorId { get; set; }
 
         [Required]
-        public virtual User LastUpdater { get; set; }
+        public string LastUpdaterId { get; set; }
 
-        public virtual ICollection<UserBook> ConnectedUsers { get; set; }
+        public virtual ICollection<Season> Seasons { get; set; }
+        public virtual User Creator { get; set; }
+        public virtual User LastUpdater { get; set; }
+        public virtual ICollection<UserSeries> ConnectedUsers { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -50,14 +45,15 @@ namespace ManagerAPI.Domain.Entities.MC
         {
             HashCode hash = new HashCode();
             hash.Add(Id);
-            hash.Add(Name);
-            hash.Add(Author);
+            hash.Add(Title);
             hash.Add(Description);
-            hash.Add(Publish);
-            hash.Add(CreatorId);
-            hash.Add(LastUpdaterId);
+            hash.Add(StartYear);
+            hash.Add(EndYear);
             hash.Add(Creation);
             hash.Add(LastUpdate);
+            hash.Add(CreatorId);
+            hash.Add(LastUpdaterId);
+            hash.Add(Seasons);
             hash.Add(Creator);
             hash.Add(LastUpdater);
             hash.Add(ConnectedUsers);
@@ -66,7 +62,7 @@ namespace ManagerAPI.Domain.Entities.MC
 
         public override string ToString()
         {
-            return $"{this.Id} - {this.Name}";
+            return $"{this.Id} - {this.Title}";
         }
     }
 }

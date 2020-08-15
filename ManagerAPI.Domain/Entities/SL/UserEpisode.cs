@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Domain.Entities.MC
+namespace ManagerAPI.Domain.Entities.SL
 {
     public class UserEpisode
     {

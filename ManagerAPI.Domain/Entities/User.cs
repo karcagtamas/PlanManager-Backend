@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ManagerAPI.Domain.Entities.EM;
-using ManagerAPI.Domain.Entities.MC;
 using ManagerAPI.Domain.Entities.PM;
+using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Entities.WM;
 using Microsoft.AspNetCore.Identity;
 

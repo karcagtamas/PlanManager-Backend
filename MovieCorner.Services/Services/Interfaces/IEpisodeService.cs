@@ -1,4 +1,4 @@
-using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Shared.DTOs.MC;
 

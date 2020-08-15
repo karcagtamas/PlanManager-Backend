@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.MC;

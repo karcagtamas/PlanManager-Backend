@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Shared.DTOs.MC;
 using ManagerAPI.Shared.Models.MC;
 
@@ -14,7 +14,7 @@ namespace MovieCorner.Services.Profiles
             CreateMap<UserMovie, MyMovieListDto>()
                 .ForMember(dest => dest.Seen, opt =>  opt.MapFrom(src => src.Seen))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Movie.Description))
-                .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Movie.Year))
+                .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Movie.ReleaseYear))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Movie.Title))
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Movie.Creator.UserName))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Movie.Id));

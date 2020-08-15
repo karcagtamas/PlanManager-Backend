@@ -2,7 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
