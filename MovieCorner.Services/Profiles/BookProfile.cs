@@ -1,7 +1,7 @@
 using AutoMapper;
 using ManagerAPI.Domain.Entities.SL;
-using ManagerAPI.Shared.DTOs.MC;
-using ManagerAPI.Shared.Models.MC;
+using ManagerAPI.Shared.DTOs.SL;
+using ManagerAPI.Shared.Models.SL;
 
 namespace MovieCorner.Services.Profiles
 {

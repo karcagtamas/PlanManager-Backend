@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Components.SL;
-using ManagerAPI.Shared.DTOs.MC;
-using ManagerAPI.Shared.Models.MC;
+using ManagerAPI.Shared.DTOs.SL;
+using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Pages.SL

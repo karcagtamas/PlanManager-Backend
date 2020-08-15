@@ -8,7 +8,7 @@
         @if (List != null && List.Count > 0)
         {
             <div class="series-list">
-                <ListTable Header="Header" Body="List" TList="ManagerAPI.Shared.DTOs.MC.MySeriesSelectorListDto" IsSelectionEnabled="true" SelectedIndexes="SelectedIndexList" FooterDisplay="false" OnRowClick="@(e => SwitchMineFlag(e))"></ListTable>
+                <ListTable Header="Header" Body="List" TList="ManagerAPI.Shared.DTOs.SL.MySeriesSelectorListDto" IsSelectionEnabled="true" SelectedIndexes="SelectedIndexList" FooterDisplay="false" OnRowClick="@(e => SwitchMineFlag(e))"></ListTable>
             </div>
         }
     }

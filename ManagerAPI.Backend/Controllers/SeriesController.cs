@@ -2,9 +2,9 @@
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
-using ManagerAPI.Shared.DTOs.MC;
+using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models;
-using ManagerAPI.Shared.Models.MC;
+using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieCorner.Services.Services.Interfaces;

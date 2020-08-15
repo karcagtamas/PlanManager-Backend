@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ManagerAPI.Shared.Annotations;
 
 namespace ManagerAPI.Domain.Entities.SL
 {
@@ -9,11 +10,16 @@ namespace ManagerAPI.Domain.Entities.SL
         [Required] public int Id { get; set; }
         [Required] [MaxLength(150)] public string Title { get; set; }
         [MaxLength(999)] public string Description { get; set; }
-        public int ReleaseYear { get; set; }
-        public int Length { get; set; }
-        public string Director { get; set; }
-        public string TrailerUrl { get; set; }
-        public string ImageTitle { get; set; }
+
+        [MinNumber(1900)] public int? ReleaseYear { get; set; }
+
+        [MaxNumber(999)] [MinNumber(1)] public int? Length { get; set; }
+
+        [MaxLength(60)] public string Director { get; set; }
+
+        [MaxLength(200)] public string TrailerUrl { get; set; }
+
+        [MaxLength(100)] public string ImageTitle { get; set; }
         public byte[] ImageData { get; set; }
         [Required] public string CreatorId { get; set; }
         [Required] public string LastUpdaterId { get; set; }

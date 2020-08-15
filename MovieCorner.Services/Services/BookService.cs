@@ -7,7 +7,7 @@ using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.CM;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
-using ManagerAPI.Shared.DTOs.MC;
+using ManagerAPI.Shared.DTOs.SL;
 using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services

@@ -17,7 +17,7 @@
         @if (MovieList != null && MovieList.Count > 0)
         {
             <div class="movie-list">
-                <ListTable Header="Header" Footer="Footer" Body="MovieList" TList="ManagerAPI.Shared.DTOs.MC.MyMovieListDto" OnRowClick="@(e => RedirectToData(e))"></ListTable>
+                <ListTable Header="Header" Footer="Footer" Body="MovieList" TList="ManagerAPI.Shared.DTOs.SL.MyMovieListDto" OnRowClick="@(e => RedirectToData(e))"></ListTable>
             </div>
         }
         else

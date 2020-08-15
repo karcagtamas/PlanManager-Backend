@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
-using ManagerAPI.Shared.DTOs.MC;
+using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Helpers;
-using ManagerAPI.Shared.Models.MC;
+using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Shared.Components.SL

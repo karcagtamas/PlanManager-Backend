@@ -1,6 +1,6 @@
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Services.Common.Repository;
-using ManagerAPI.Shared.DTOs.MC;
+using ManagerAPI.Shared.DTOs.SL;
 
 namespace MovieCorner.Services.Services.Interfaces
 {

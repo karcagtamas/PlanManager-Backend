@@ -18,7 +18,7 @@ namespace ManagerAPI.Domain.Entities
                 }
             }
 
-            return string.Join(", ", values);
+            return string.Join(" - ", values);
         }
     }
 }
