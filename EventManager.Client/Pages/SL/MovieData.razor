@@ -17,6 +17,7 @@
         <div class="action-bar">
             <MatButton @onclick="OpenEditMovieDialog">Edit</MatButton>
             <MatButton @onclick="DeleteMovie">Delete</MatButton>
+            <MatButton @onclick="OpenEditMovieImageDialog"></MatButton>
             @if (Movie != null)
             {
                 @if (Movie.IsMine)
@@ -35,8 +36,6 @@
                 {
                     <MatButton @onclick="AddToMyMovies">Add to My Books</MatButton>
                 }
-                
-                
             }
             <span class="spacer"></span>
             <MatButton @onclick="@(() => Navigation.NavigateTo("/movies"))">Movie List</MatButton>
@@ -44,12 +43,31 @@
         </div>
         @if (Movie != null)
         {
+            <div class="image">
+                @if (Movie.ImageData.Length == 0)
+                {
+                    <img src="/images/profile-icon.jpg" alt="@Movie.Title"/>
+                }
+                else
+                {
+                    <img src="@MovieImage" alt="@Movie.ImageTitle"/>
+                }
+            </div>
             <div class="data">
                 <div class="data-row">
                     <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Movie.Description)
                 </div>
                 <div class="data-row">
-                    <strong>Year: </strong> @WriteHelper.WriteNullableField(Movie.ReleaseYear)
+                    <strong>Release Year: </strong> @WriteHelper.WriteNullableField(Movie.ReleaseYear)
+                </div>
+                <div class="data-row">
+                    <strong>Director: </strong> @WriteHelper.WriteEmptyableField(Movie.Director)
+                </div>
+                <div class="data-row">
+                    <strong>Length: </strong> @WriteHelper.WriteNullableField(Movie.Length)
+                </div>
+                <div class="data-row">
+                    <strong>Categories: </strong> @WriteHelper.WriteList(Movie.Categories, ", ")
                 </div>
                 <div class="data-row">
                     <strong>Creation: </strong> @DateHelper.DateToString(Movie.Creation)

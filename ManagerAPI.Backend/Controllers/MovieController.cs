@@ -18,7 +18,9 @@ namespace ManagerAPI.Backend.Controllers
     public class MovieController : MyController<Movie, MovieModel, MovieListDto, MovieDto>
     {
         private readonly IMovieService _movieService;
-        public MovieController(IMovieService movieService, ILoggerService loggerService) : base(loggerService, movieService)
+
+        public MovieController(IMovieService movieService, ILoggerService loggerService) : base(loggerService,
+            movieService)
         {
             _movieService = movieService;
         }
@@ -39,7 +41,7 @@ namespace ManagerAPI.Backend.Controllers
                 return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
-        
+
         [HttpGet("my/{id}")]
         public IActionResult GetMy(int id)
         {
@@ -56,7 +58,7 @@ namespace ManagerAPI.Backend.Controllers
                 return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
-        
+
         [HttpGet("selector")]
         public IActionResult GetMySelectorList([FromQuery] bool onlyMine)
         {
@@ -101,6 +103,7 @@ namespace ManagerAPI.Backend.Controllers
                 {
                     this._movieService.UpdateSeenStatus(model.Id, model.Seen);
                 }
+
                 return Ok();
             }
             catch (MessageException me)
@@ -114,7 +117,8 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPost("map/{id}")]
-        public IActionResult AddMovieToMyMovies(int id) {
+        public IActionResult AddMovieToMyMovies(int id)
+        {
             try
             {
                 this._movieService.AddMovieToMyMovies(id);
@@ -131,10 +135,47 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpDelete("map/{id}")]
-        public IActionResult RemoveMovieFromMyMovies(int id) {
+        public IActionResult RemoveMovieFromMyMovies(int id)
+        {
             try
             {
                 this._movieService.RemoveMovieFromMyMovies(id);
+                return Ok();
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
+
+        [HttpPut("image/{id}")]
+        public IActionResult UpdateImage(int id, [FromBody] MovieImageModel model)
+        {
+            try
+            {
+                this._movieService.UpdateImage(id, model);
+                return Ok();
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
+
+        [HttpPut("category/{id}")]
+        public IActionResult UpdateCategories(int id, [FromBody] MovieCategoryUpdateModel model)
+        {
+            try
+            {
+                this._movieService.UpdateCategories(id, model);
                 return Ok();
             }
             catch (MessageException me)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
@@ -17,8 +18,8 @@ namespace EventManager.Client.Pages.SL
         [Inject] private IMovieService MovieService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private IModalService Modal { get; set; }
-
         private bool IsLoading { get; set; }
+        private string MovieImage { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -30,6 +31,12 @@ namespace EventManager.Client.Pages.SL
             IsLoading = true;
             StateHasChanged();
             this.Movie = await MovieService.GetMy(this.Id);
+            if (this.Movie.ImageData.Length != 0)
+            {
+                var base64 = Convert.ToBase64String(this.Movie.ImageData);
+                this.MovieImage = $"data:image/gif;base64,{base64}";
+            }
+
             IsLoading = false;
             StateHasChanged();
         }
@@ -55,6 +62,29 @@ namespace EventManager.Client.Pages.SL
             if (!modalResult.Cancelled && (bool) modalResult.Data) await GetMovie();
 
             Modal.OnClose -= MovieDialogClosed;
+        }
+
+        private void OpenEditMovieImageDialog()
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+            parameters.Add("movie", this.Id);
+
+            var options = new ModalOptions
+            {
+                ButtonOptions = {ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true}
+            };
+
+            Modal.OnClose += EditMovieImageDialogClosed;
+
+            Modal.Show<MovieDialog>("Edit Movie Image", parameters, options);
+        }
+
+        private async void EditMovieImageDialogClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool) modalResult.Data) await GetMovie();
+
+            Modal.OnClose -= EditMovieImageDialogClosed;
         }
 
         private async void DeleteMovie()

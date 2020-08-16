@@ -2,6 +2,7 @@
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Shared.DTOs.SL;
+using ManagerAPI.Shared.Models.SL;
 
 namespace MovieCorner.Services.Services.Interfaces
 {
@@ -14,5 +15,7 @@ namespace MovieCorner.Services.Services.Interfaces
         void AddMovieToMyMovies(int id);
         void RemoveMovieFromMyMovies(int id);
         List<MyMovieSelectorListDto> GetMySelectorList(bool onlyMine);
+        void UpdateImage(int id, MovieImageModel model);
+        void UpdateCategories(int id, MovieCategoryUpdateModel model);
     }
 }

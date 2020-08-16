@@ -64,6 +64,30 @@ namespace EventManager.Client.Services
             return await this.Http.Get<List<MyMovieSelectorListDto>>(settings);
         }
 
+        public async Task<bool> UpdateImage(int id, MovieImageModel model)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/image", null, pathParams, "Movie image updating");
+            
+            var body = new HttpBody<MovieImageModel>(model);
+
+            return await this.Http.Update<MovieImageModel>(settings, body);
+        }
+
+        public async Task<bool> UpdateCategories(int id, MovieCategoryUpdateModel model)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/categories", null, pathParams, "Movie category updating");
+            
+            var body = new HttpBody<MovieCategoryUpdateModel>(model);
+
+            return await this.Http.Update<MovieCategoryUpdateModel>(settings, body);
+        }
+
         public async Task<bool> UpdateMyMovies(MyMovieModel model)
         {
             var settings = new HttpSettings($"{this.Url}/map", null, null, "My Movies updating");

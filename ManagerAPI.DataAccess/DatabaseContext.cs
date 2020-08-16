@@ -880,17 +880,17 @@ namespace ManagerAPI.DataAccess
                     },
                     new MovieCategory
                     {
-                        Id = 1,
+                        Id = 2,
                         Name = "Action"
                     },
                     new MovieCategory
                     {
-                        Id = 1,
+                        Id = 3,
                         Name = "Romantic"
                     },
                     new MovieCategory
                     {
-                        Id = 1,
+                        Id = 4,
                         Name = "Sci-fi"
                     }
                 });

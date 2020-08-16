@@ -111,6 +111,7 @@ namespace ManagerAPI.Backend
             services.AddScoped<IMailService, MailService>();
             services.AddScoped<ICsvService, CsvService>();
             services.AddScoped<IExcelService, ExcelService>();
+            services.AddScoped<IMovieCategoryService, MovieCategoryService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             

@@ -26,12 +26,16 @@ namespace MovieCorner.Services.Profiles
             CreateMap<Movie, MovieDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
                 .ForMember(dest => dest.LastUpdater, opt => opt.MapFrom(src => src.LastUpdater.UserName))
-                .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories))
+                .ForMember(dest => dest.Categories,
+                    opt => opt.MapFrom(src => src.Categories.Select(x => x.Category.Name).ToList()))
                 .ForMember(dest => dest.NumberOfSeen,
                     opt => opt.MapFrom(src => this.GetNumberOfSeen(src.ConnectedUsers.ToList())));
             CreateMap<Movie, MyMovieSelectorListDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
                 .ForMember(dest => dest.IsMine, opt => opt.Ignore());
+            CreateMap<MovieImageModel, Movie>();
+            CreateMap<MovieCategory, MovieCategoryDto>();
+            CreateMap<MovieCategoryModel, MovieCategory>();
         }
 
         private int GetNumberOfSeen(List<UserMovie> list)
