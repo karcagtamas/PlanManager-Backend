@@ -1,0 +1,15 @@
+<div class="sl-movie-category-selector-dialog">
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        @if (List != null && List.Count > 0)
+        {
+            <div class="category-list">
+                <ListTable Header="Header" Body="List" TList="ManagerAPI.Shared.DTOs.SL.MovieCategorySelectorListDto" IsSelectionEnabled="true" SelectedIndexes="SelectedIndexList" FooterDisplay="false" OnRowClick="@(e => SwitchSelectedFlag(e))"></ListTable>
+            </div>
+        }
+    }
+</div>

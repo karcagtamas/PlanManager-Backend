@@ -170,7 +170,7 @@ namespace ManagerAPI.Backend.Controllers
             }
         }
 
-        [HttpPut("category/{id}")]
+        [HttpPut("categories/{id}")]
         public IActionResult UpdateCategories(int id, [FromBody] MovieCategoryUpdateModel model)
         {
             try

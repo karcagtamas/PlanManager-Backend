@@ -21,13 +21,18 @@ namespace MovieCorner.Services.Profiles
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Movie.Id));
             CreateMap<Movie, MyMovieDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
-                .ForMember(dest => dest.IsMine, opt => opt.Ignore());
+                .ForMember(dest => dest.IsMine, opt => opt.Ignore())
+                .ForMember(dest => dest.LastUpdater, opt => opt.MapFrom(src => src.LastUpdater.UserName))
+                .ForMember(dest => dest.Categories,
+                    opt => opt.MapFrom(src => src.Categories.Select(x => x.Category.Name)))
+                .ForMember(dest => dest.NumberOfSeen,
+                    opt => opt.MapFrom(src => this.GetNumberOfSeen(src.ConnectedUsers.ToList())));
             CreateMap<MovieModel, Movie>();
             CreateMap<Movie, MovieDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
                 .ForMember(dest => dest.LastUpdater, opt => opt.MapFrom(src => src.LastUpdater.UserName))
                 .ForMember(dest => dest.Categories,
-                    opt => opt.MapFrom(src => src.Categories.Select(x => x.Category.Name).ToList()))
+                    opt => opt.MapFrom(src => src.Categories.Select(x => x.Category.Name)))
                 .ForMember(dest => dest.NumberOfSeen,
                     opt => opt.MapFrom(src => this.GetNumberOfSeen(src.ConnectedUsers.ToList())));
             CreateMap<Movie, MyMovieSelectorListDto>()
@@ -36,6 +41,8 @@ namespace MovieCorner.Services.Profiles
             CreateMap<MovieImageModel, Movie>();
             CreateMap<MovieCategory, MovieCategoryDto>();
             CreateMap<MovieCategoryModel, MovieCategory>();
+            CreateMap<MovieCategory, MovieCategorySelectorListDto>()
+                .ForMember(dest => dest.IsSelected, opt => opt.Ignore());
         }
 
         private int GetNumberOfSeen(List<UserMovie> list)

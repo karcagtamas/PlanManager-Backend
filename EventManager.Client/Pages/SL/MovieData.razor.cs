@@ -77,7 +77,7 @@ namespace EventManager.Client.Pages.SL
 
             Modal.OnClose += EditMovieImageDialogClosed;
 
-            Modal.Show<MovieDialog>("Edit Movie Image", parameters, options);
+            Modal.Show<MovieImageDialog>("Edit Movie Image", parameters, options);
         }
 
         private async void EditMovieImageDialogClosed(ModalResult modalResult)
@@ -118,6 +118,29 @@ namespace EventManager.Client.Pages.SL
             {
                 await this.GetMovie();
             }
+        }
+        
+        private void OpenEditMovieCategoriesDialog()
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+            parameters.Add("movie", this.Id);
+
+            var options = new ModalOptions
+            {
+                ButtonOptions = {ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true}
+            };
+
+            Modal.OnClose += EditMovieCategoriesDialogClosed;
+
+            Modal.Show<MovieCategoryDialog>("Edit Categories", parameters, options);
+        }
+
+        private async void EditMovieCategoriesDialogClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool) modalResult.Data) await GetMovie();
+
+            Modal.OnClose -= EditMovieCategoriesDialogClosed;
         }
     }
 }

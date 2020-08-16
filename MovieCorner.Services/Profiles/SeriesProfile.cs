@@ -22,6 +22,7 @@ namespace MovieCorner.Services.Profiles
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Series.Creator.UserName));
             CreateMap<Series, MySeriesDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
+                .ForMember(dest => dest.LastUpdater, opt => opt.MapFrom(src => src.LastUpdater.UserName))
                 .ForMember(dest => dest.IsMine, opt => opt.Ignore());
             CreateMap<Season, MySeasonDto>();
             CreateMap<Episode, MyEpisodeListDto>()

@@ -17,7 +17,8 @@
         <div class="action-bar">
             <MatButton @onclick="OpenEditMovieDialog">Edit</MatButton>
             <MatButton @onclick="DeleteMovie">Delete</MatButton>
-            <MatButton @onclick="OpenEditMovieImageDialog"></MatButton>
+            <MatButton @onclick="OpenEditMovieImageDialog">Edit Image</MatButton>
+            <MatButton @onclick="OpenEditMovieCategoriesDialog">Edit Categories</MatButton>
             @if (Movie != null)
             {
                 @if (Movie.IsMine)
@@ -43,43 +44,60 @@
         </div>
         @if (Movie != null)
         {
-            <div class="image">
-                @if (Movie.ImageData.Length == 0)
-                {
-                    <img src="/images/profile-icon.jpg" alt="@Movie.Title"/>
-                }
-                else
-                {
-                    <img src="@MovieImage" alt="@Movie.ImageTitle"/>
-                }
-            </div>
             <div class="data">
-                <div class="data-row">
-                    <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Movie.Description)
+
+                <div class="data-rows">
+                    <div class="data-row">
+                        <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Movie.Description)
+                    </div>
+                    <div class="data-row">
+                        <strong>Release Year: </strong> @WriteHelper.WriteNullableField(Movie.ReleaseYear)
+                    </div>
+                    <div class="data-row">
+                        <strong>Director: </strong> @WriteHelper.WriteEmptyableField(Movie.Director)
+                    </div>
+                    <div class="data-row">
+                        <strong>Length: </strong> @WriteHelper.WriteNullableField(Movie.Length)
+                    </div>
+                    <div class="data-row">
+                        <strong>Categories: </strong> @WriteHelper.WriteList(Movie.Categories, ", ")
+                    </div>
+                    <div class="data-row">
+                        <strong>Number of Seen: </strong> @Movie.NumberOfSeen
+                    </div>
+                    @if (!string.IsNullOrEmpty(Movie.TrailerUrl))
+                    {
+                        <div class="data-row">
+                            <strong>
+                                <a href="@Movie.TrailerUrl">Trailer Url</a>
+                            </strong>
+                        </div>
+                    }
+                    <div class="data-row">
+                        <strong>Creation: </strong> @DateHelper.DateToString(Movie.Creation)
+                    </div>
+                    <div class="data-row">
+                        <strong>Last Update: </strong> @DateHelper.DateToString(Movie.LastUpdate)
+                    </div>
+                    <div class="data-row">
+                        <strong>Creator: </strong> @Movie.Creator
+                    </div>
+                    <div class="data-row">
+                        <strong>Last Updater: </strong> @Movie.LastUpdater
+                    </div>
                 </div>
-                <div class="data-row">
-                    <strong>Release Year: </strong> @WriteHelper.WriteNullableField(Movie.ReleaseYear)
-                </div>
-                <div class="data-row">
-                    <strong>Director: </strong> @WriteHelper.WriteEmptyableField(Movie.Director)
-                </div>
-                <div class="data-row">
-                    <strong>Length: </strong> @WriteHelper.WriteNullableField(Movie.Length)
-                </div>
-                <div class="data-row">
-                    <strong>Categories: </strong> @WriteHelper.WriteList(Movie.Categories, ", ")
-                </div>
-                <div class="data-row">
-                    <strong>Creation: </strong> @DateHelper.DateToString(Movie.Creation)
-                </div>
-                <div class="data-row">
-                    <strong>Last Update: </strong> @DateHelper.DateToString(Movie.LastUpdate)
-                </div>
-                <div class="data-row">
-                    <strong>Creator: </strong> @Movie.Creator
-                </div>
-                <div class="data-row">
-                    <strong>Last Updater: </strong> @Movie.LastUpdater
+                <div class="image">
+                    <div class="picture">
+                        @if (Movie.ImageData.Length == 0)
+                        {
+                            <img src="/images/profile-icon.jpg" alt="@Movie.Title"/>
+                        }
+                        else
+                        {
+                            <img src="@MovieImage" alt="@Movie.ImageTitle"/>
+                        }
+                    </div>
+
                 </div>
             </div>
         }

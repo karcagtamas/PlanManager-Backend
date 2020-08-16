@@ -883,7 +883,7 @@ app {
         color: $primary;
         font-weight: bold;
         display: flex;
-        
+
         .spacer {
           flex-grow: 1;
         }
@@ -903,7 +903,7 @@ app {
               color: $primary;
               font-style: italic;
               display: flex;
-              
+
               .spacer {
                 flex-grow: 1;
               }
@@ -912,10 +912,10 @@ app {
             .ep-body {
               padding: 0.4rem;
             }
-            
+
             .ep-foot {
               display: flex;
-              
+
               .spacer {
                 flex-grow: 1;
               }
@@ -1056,6 +1056,8 @@ app {
   }
 
   .data {
+    display: flex;
+    flex-direction: row;
     margin-bottom: 1rem;
     margin-top: 1rem;
     border-bottom: $primary-secondary-trans 3px solid;
@@ -1063,9 +1065,41 @@ app {
     padding: 0.5rem;
     background-color: $blue-light-trans;
 
-    .data-row {
-      strong {
-        color: $primary;
+    .data-rows {
+      flex-grow: 1;
+
+      .data-row {
+        strong {
+          color: $primary;
+        }
+      }
+    }
+
+    .image {
+      .picture {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        margin: auto;
+        overflow: hidden;
+        border-radius: 50%;
+        transition-duration: 0.5s;
+        box-shadow: 0 0 0.5rem 0 $primary;
+
+        &:hover {
+          transition-duration: 0.5s;
+          transform: scale(1.4, 1.4);
+          opacity: 0.3;
+        }
+
+        img {
+          width: auto;
+          height: 100%;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          -webkit-transform: translateY(-50%) translateX(-50%);
+        }
       }
     }
   }
@@ -1170,6 +1204,25 @@ app {
   flex-grow: 1;
 
   .movie-list {
+    flex-grow: 1;
+    display: flex;
+    max-height: 100%;
+    overflow: auto;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: $primary-secondary-trans 3px solid;
+    border-radius: $border-radius;
+    padding: 0.5rem;
+    background-color: $blue-light-trans;
+  }
+}
+
+/* SL Movie selector dialog */
+.sl-movie-category-selector-dialog {
+  display: flex;
+  flex-grow: 1;
+
+  .category-list {
     flex-grow: 1;
     display: flex;
     max-height: 100%;

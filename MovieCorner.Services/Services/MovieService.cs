@@ -209,8 +209,10 @@ namespace MovieCorner.Services.Services
                 }
             }
 
-            foreach (var modelId in model.Ids.Where(modelId =>
-                !currentMappings.Select(x => x.Category.Id).Contains(modelId)))
+            var addList = model.Ids.Where(x =>
+                !currentMappings.Select(y => y.Category.Id).Contains(x)).ToList();
+            
+            foreach (var modelId in addList)
             {
                 this._databaseContext.MovieMovieCategorySwitch.Add(new MovieMovieCategory
                     {CategoryId = modelId, MovieId = movie.Id});

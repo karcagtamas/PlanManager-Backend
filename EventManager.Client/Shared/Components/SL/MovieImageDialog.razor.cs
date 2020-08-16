@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
@@ -35,7 +34,7 @@ namespace EventManager.Client.Shared.Components.SL
             "image/bmp"
         };
 
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
             FormId = Parameters.Get<int>("FormId");
             Id = Parameters.TryGet<int>("movie");

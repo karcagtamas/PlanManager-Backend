@@ -47,6 +47,7 @@ namespace EventManager.Client
             builder.Services.AddScoped<ISeriesService, SeriesService>();
             builder.Services.AddScoped<ISeasonService, SeasonService>();
             builder.Services.AddScoped<IEpisodeService, EpisodeService>();
+            builder.Services.AddScoped<IMovieCategoryService, MovieCategoryService>();
 
             if (builder.HostEnvironment.IsDevelopment())
             {
