@@ -27,7 +27,8 @@ namespace EventManager.Client
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
             // builder.Services.AddSingleton<HttpClient>();
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped(
+                sp => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
             builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IHelperService, HelperService>();
@@ -48,6 +49,7 @@ namespace EventManager.Client
             builder.Services.AddScoped<ISeasonService, SeasonService>();
             builder.Services.AddScoped<IEpisodeService, EpisodeService>();
             builder.Services.AddScoped<IMovieCategoryService, MovieCategoryService>();
+            builder.Services.AddScoped<IMovieCommentService, MovieCommentService>();
 
             if (builder.HostEnvironment.IsDevelopment())
             {
