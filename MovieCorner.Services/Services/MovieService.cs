@@ -243,5 +243,28 @@ namespace MovieCorner.Services.Services
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update"), movie.Id);
             this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.UpdateMovie, user);
         }
+
+        public void UpdateRate(int id, MovieRateModel model)
+        {
+            var user = this.Utils.GetCurrentUser();
+
+            var map = user.MyMovies.FirstOrDefault(x => x.Movie.Id == id);
+
+            if (map != null)
+            {
+                map.Rate = model.Rate;
+                _databaseContext.UserMovieSwitch.Update(map);
+                _databaseContext.SaveChanges();
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("rate"), map.Movie.Id);
+            }
+            else
+            {
+                map = new UserMovie
+                    {UserId = user.Id, MovieId = id, IsAdded = false, IsSeen = false, Rate = model.Rate};
+                this._databaseContext.UserMovieSwitch.Add(map);
+                this._databaseContext.SaveChanges();
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("rate"), id);
+            }
+        }
     }
 }

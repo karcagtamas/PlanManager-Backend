@@ -17,5 +17,6 @@ namespace MovieCorner.Services.Services.Interfaces
         List<MyMovieSelectorListDto> GetMySelectorList(bool onlyMine);
         void UpdateImage(int id, MovieImageModel model);
         void UpdateCategories(int id, MovieCategoryUpdateModel model);
+        void UpdateRate(int id, MovieRateModel model);
     }
 }

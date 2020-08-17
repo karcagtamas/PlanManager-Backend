@@ -187,5 +187,23 @@ namespace ManagerAPI.Backend.Controllers
                 return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
+        
+        [HttpPut("rate/{id}")]
+        public IActionResult UpdateRate(int id, [FromBody] MovieRateModel model)
+        {
+            try
+            {
+                this._movieService.UpdateRate(id, model);
+                return Ok();
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        } 
     }
 }

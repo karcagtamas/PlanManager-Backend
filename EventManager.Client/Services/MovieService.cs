@@ -88,6 +88,18 @@ namespace EventManager.Client.Services
             return await this.Http.Update<MovieCategoryUpdateModel>(settings, body);
         }
 
+        public async Task<bool> UpdateRate(int id, MovieRateModel model)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/rate", null, pathParams, "Movie rating");
+            
+            var body = new HttpBody<MovieRateModel>(model);
+
+            return await this.Http.Update<MovieRateModel>(settings, body);
+        }
+
         public async Task<bool> UpdateMyMovies(MyMovieModel model)
         {
             var settings = new HttpSettings($"{this.Url}/map", null, null, "My Movies updating");

@@ -17,5 +17,6 @@ namespace EventManager.Client.Services.Interfaces
         Task<List<MyMovieSelectorListDto>> GetMySelectorList(bool onlyMine);
         Task<bool> UpdateImage(int id, MovieImageModel model);
         Task<bool> UpdateCategories(int id, MovieCategoryUpdateModel model);
+        Task<bool> UpdateRate(int id, MovieRateModel model);
     }
 }
