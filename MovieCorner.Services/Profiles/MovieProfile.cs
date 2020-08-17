@@ -14,7 +14,7 @@ namespace MovieCorner.Services.Profiles
             CreateMap<Movie, MovieListDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName));
             CreateMap<UserMovie, MyMovieListDto>()
-                .ForMember(dest => dest.IsSeen, opt => opt.MapFrom(src => src.Seen))
+                .ForMember(dest => dest.IsSeen, opt => opt.MapFrom(src => src.IsSeen))
                 .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Movie.ReleaseYear))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Movie.Title))
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Movie.Creator.UserName))
@@ -47,7 +47,7 @@ namespace MovieCorner.Services.Profiles
 
         private int GetNumberOfSeen(List<UserMovie> list)
         {
-            return list.Count(x => x.Seen);
+            return list.Count(x => x.IsSeen);
         }
     }
 }

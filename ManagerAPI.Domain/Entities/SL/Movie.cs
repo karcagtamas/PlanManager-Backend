@@ -29,6 +29,7 @@ namespace ManagerAPI.Domain.Entities.SL
         public virtual User LastUpdater { get; set; }
         public virtual ICollection<UserMovie> ConnectedUsers { get; set; }
         public virtual ICollection<MovieMovieCategory> Categories { get; set; }
+        public virtual ICollection<MovieComment> Comments { get; set; }
 
         public override bool Equals(object obj)
         {

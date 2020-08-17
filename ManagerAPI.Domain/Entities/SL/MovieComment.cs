@@ -1,29 +1,26 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities.SL
 {
-    public class UserMovie
+    public class MovieComment
     {
+        public int Id { get; set; }
+
         [Required]
         public int MovieId { get; set; }
 
         [Required]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         [Required]
-        public bool IsSeen { get; set; }
+        public DateTime Creation { get; set; }
 
         [Required]
-        public bool IsMine { get; set; }
-
-        public DateTime? SeenOn { get; set; }
+        public DateTime LastUpdate { get; set; }
 
         [Required]
-        public DateTime AddedOn { get; set; }
-
-        public int Rate  {get; set; }
-
+        public string Comment { get; set; }
         public virtual Movie Movie { get; set; }
         public virtual User User { get; set; }
     }

@@ -52,6 +52,7 @@ namespace ManagerAPI.DataAccess
         // SL
         public DbSet<MovieCategory> MovieCategories { get; set; }
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<MovieComment> MovieComments { get; set; }
         public DbSet<MovieMovieCategory> MovieMovieCategorySwitch { get; set; }
         public DbSet<UserMovie> UserMovieSwitch { get; set; }
         public DbSet<Series> Series { get; set; }
@@ -913,6 +914,25 @@ namespace ManagerAPI.DataAccess
                 .WithMany(x => x.LastUpdatedMovies)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Movie comment table settings
+            builder.Entity<MovieComment>()
+                .Property(x => x.Creation)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<MovieComment>()
+                .Property(x => x.LastUpdate)
+                .HasDefaultValueSql("getdate()");
+
+            builder.Entity<MovieComment>()
+                .HasOne(x => x.Movie)
+                .WithMany(x => x.Comments)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<MovieComment>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.MovieComments)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
             
             // Movie - Movie category switch
             builder.Entity<MovieMovieCategory>()
@@ -934,10 +954,10 @@ namespace ManagerAPI.DataAccess
                 .HasKey(x => new {x.UserId, x.MovieId});
 
             builder.Entity<UserMovie>()
-                .Property(x => x.Seen)
+                .Property(x => x.IsSeen)
                 .HasDefaultValue(false);
             builder.Entity<UserMovie>()
-                .Property(x => x.AddOn)
+                .Property(x => x.AddedOn)
                 .HasDefaultValueSql("getdate()");
 
             builder.Entity<UserMovie>()

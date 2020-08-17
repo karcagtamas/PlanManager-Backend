@@ -63,7 +63,7 @@ namespace MovieCorner.Services.Services
             var movie = this.Get<MyMovieDto>(id);
             var myMovie = user.MyMovies.FirstOrDefault(x => x.Movie.Id == movie.Id);
             movie.IsMine = myMovie != null;
-            movie.IsSeen = myMovie != null && myMovie.Seen;
+            movie.IsSeen = myMovie != null && myMovie.IsSeen;
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), movie.Id);
 
@@ -81,7 +81,7 @@ namespace MovieCorner.Services.Services
                     UserMovieConnectionDoesNotExistMessage);
             }
 
-            userMovie.Seen = seen;
+            userMovie.IsSeen = seen;
             userMovie.SeenOn = seen ? (DateTime?) DateTime.Now : null;
             _databaseContext.UserMovieSwitch.Update(userMovie);
             _databaseContext.SaveChanges();
@@ -110,7 +110,7 @@ namespace MovieCorner.Services.Services
             {
                 if (currentMappings.FirstOrDefault(x => x.MovieId == i) == null)
                 {
-                    var map = new UserMovie() {MovieId = i, UserId = user.Id, Seen = false};
+                    var map = new UserMovie() {MovieId = i, UserId = user.Id, IsSeen = false};
                     _databaseContext.UserMovieSwitch.Add(map);
                 }
             }
@@ -129,7 +129,7 @@ namespace MovieCorner.Services.Services
 
             if (mapping == null)
             {
-                mapping = new UserMovie {MovieId = id, UserId = user.Id, Seen = false};
+                mapping = new UserMovie {MovieId = id, UserId = user.Id, IsSeen = false};
                 this._databaseContext.UserMovieSwitch.Add(mapping);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
@@ -164,7 +164,7 @@ namespace MovieCorner.Services.Services
             {
                 var myMovie = user.MyMovies.FirstOrDefault(x => x.Movie.Id == t.Id);
                 t.IsMine = myMovie != null;
-                t.IsSeen = myMovie != null && myMovie.Seen;
+                t.IsSeen = myMovie != null && myMovie.IsSeen;
             }
 
             if (onlyMine)
