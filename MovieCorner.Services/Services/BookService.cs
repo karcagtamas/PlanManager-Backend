@@ -4,7 +4,7 @@ using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.SL;
-using ManagerAPI.Domain.Enums.CM;
+using ManagerAPI.Domain.Enums.SL;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
@@ -12,7 +12,7 @@ using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
-    public class BookService : Repository<Book, MovieCornerNotificationType>, IBookService
+    public class BookService : Repository<Book, StatusLibraryNotificationType>, IBookService
     {
         // Things
         private const string UserBookThing = "user-book";
@@ -48,7 +48,7 @@ namespace MovieCorner.Services.Services
                 this._databaseContext.UserBookSwitch.Add(mapping);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
-                this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyBookListUpdated, user);
+                this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyBookListUpdated, user);
             }
         }
 
@@ -88,7 +88,7 @@ namespace MovieCorner.Services.Services
                 this._databaseContext.UserBookSwitch.Remove(mapping);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete my"), id);
-                this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyBookListUpdated, user);
+                this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyBookListUpdated, user);
             }
         }
 
@@ -138,7 +138,7 @@ namespace MovieCorner.Services.Services
 
             _databaseContext.SaveChanges();
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
-            this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyBookListUpdated, user);
+            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyBookListUpdated, user);
         }
 
         public void UpdateReadStatus(int id, bool status)
@@ -157,7 +157,7 @@ namespace MovieCorner.Services.Services
             _databaseContext.SaveChanges();
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set read status for"), userBook.Book.Id);
-            this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.BookReadStatusUpdated, user, userBook.Book.Name, status ? "Read" : "Unread");
+            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.BookReadStatusUpdated, user, userBook.Book.Name, status ? "Read" : "Unread");
         }
     }
 }

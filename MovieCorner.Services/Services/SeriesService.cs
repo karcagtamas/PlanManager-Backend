@@ -4,7 +4,7 @@ using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.SL;
-using ManagerAPI.Domain.Enums.CM;
+using ManagerAPI.Domain.Enums.SL;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
@@ -12,7 +12,7 @@ using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
-    public class SeriesService : Repository<Series, MovieCornerNotificationType>, ISeriesService
+    public class SeriesService : Repository<Series, StatusLibraryNotificationType>, ISeriesService
     {
         // Injects
         private readonly DatabaseContext _databaseContext;
@@ -25,7 +25,14 @@ namespace MovieCorner.Services.Services
         /// <param name="utilsService">Utils Service</param>
         /// <param name="loggerService">Logger Service</param>
         /// <param name="notificationService"></param>
-        public SeriesService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Series", new NotificationArguments { })
+        public SeriesService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
+            ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService,
+            utilsService, notificationService, mapper, "Series",
+            new NotificationArguments
+            {
+                DeleteArguments = new List<string> {"Title"}, UpdateArguments = new List<string> {"Title"},
+                CreateArguments = new List<string> {"Title"}
+            })
         {
             _databaseContext = context;
         }
@@ -34,15 +41,17 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var mapping = this._databaseContext.UserSeriesSwitch.FirstOrDefault(x => x.UserId == user.Id && x.SeriesId == id);
+            var mapping =
+                this._databaseContext.UserSeriesSwitch.FirstOrDefault(x => x.UserId == user.Id && x.SeriesId == id);
 
             if (mapping == null)
             {
-                mapping = new UserSeries { SeriesId = id, UserId = user.Id };
+                mapping = new UserSeries {SeriesId = id, UserId = user.Id};
                 this._databaseContext.UserSeriesSwitch.Add(mapping);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
-                this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyBookListUpdated, user);
+                this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated,
+                    user);
             }
         }
 
@@ -53,7 +62,7 @@ namespace MovieCorner.Services.Services
             var series = this.Get<MySeriesDto>(id);
             var mySeries = user.MySeries.FirstOrDefault(x => x.Series.Id == series.Id);
             series.IsMine = mySeries != null;
-            
+
 
             foreach (var season in series.Seasons)
             {
@@ -79,7 +88,8 @@ namespace MovieCorner.Services.Services
 
             var list = user.MySeries.ToList();
 
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), list.Select(x => x.Series.Id).ToList());
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"),
+                list.Select(x => x.Series.Id).ToList());
 
             return this.Mapper.Map<List<MySeriesListDto>>(list);
         }
@@ -100,7 +110,8 @@ namespace MovieCorner.Services.Services
                 list = list.Where(x => x.IsMine).ToList();
             }
 
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my selector"), list.Select(x => x.Id).ToList());
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my selector"),
+                list.Select(x => x.Id).ToList());
 
             return list;
         }
@@ -109,7 +120,8 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var mapping = this._databaseContext.UserSeriesSwitch.FirstOrDefault(x => x.UserId == user.Id && x.SeriesId == id);
+            var mapping =
+                this._databaseContext.UserSeriesSwitch.FirstOrDefault(x => x.UserId == user.Id && x.SeriesId == id);
 
             if (mapping != null)
             {
@@ -117,10 +129,12 @@ namespace MovieCorner.Services.Services
                 {
                     this._databaseContext.UserEpisodeSwitch.Remove(episode);
                 }
+
                 this._databaseContext.UserSeriesSwitch.Remove(mapping);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete my"), id);
-                this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyBookListUpdated, user);
+                this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated,
+                    user);
             }
         }
 
@@ -135,20 +149,28 @@ namespace MovieCorner.Services.Services
                 {
                     _databaseContext.UserEpisodeSwitch.Remove(episode);
                 }
+
                 _databaseContext.UserSeriesSwitch.Remove(i);
             }
 
-            foreach (var map in from i in ids where currentMappings.FirstOrDefault(x => x.SeriesId == i) == null select new UserSeries() { SeriesId = i, UserId = user.Id })
+            foreach (var map in from i in ids
+                where currentMappings.FirstOrDefault(x => x.SeriesId == i) == null
+                select new UserSeries() {SeriesId = i, UserId = user.Id})
             {
                 _databaseContext.UserSeriesSwitch.Add(map);
             }
 
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
+            
             _databaseContext.SaveChanges();
+            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
+            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated,
+                user);
         }
+
         public void UpdateSeenStatus(int id, bool seen)
         {
             var user = this.Utils.GetCurrentUser();
+            var series = this._databaseContext.Series.Find(id);
 
             var episodes = _databaseContext.Episodes.Where(x => x.Season.Series.Id == id).ToList();
             foreach (var i in episodes)
@@ -157,7 +179,7 @@ namespace MovieCorner.Services.Services
                 if (connection != null)
                 {
                     connection.Seen = seen;
-                    connection.SeenOn = seen ? (DateTime?)DateTime.Now : null;
+                    connection.SeenOn = seen ? (DateTime?) DateTime.Now : null;
                     this._databaseContext.UserEpisodeSwitch.Update(connection);
                 }
                 else
@@ -175,9 +197,12 @@ namespace MovieCorner.Services.Services
                     }
                 }
             }
+
             _databaseContext.SaveChanges();
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set series seen status for"), id);
+            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.SeriesSeenStatusUpdated,
+                user, series?.Title ?? "", seen ? "Seen" : "Unseen");
         }
     }
 }

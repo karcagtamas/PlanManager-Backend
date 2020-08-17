@@ -4,7 +4,7 @@ using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.SL;
-using ManagerAPI.Domain.Enums.CM;
+using ManagerAPI.Domain.Enums.SL;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
@@ -13,7 +13,7 @@ using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
-    public class MovieService : Repository<Movie, MovieCornerNotificationType>, IMovieService
+    public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IMovieService
     {
         // Things
         private const string UserMovieThing = "user-movie";
@@ -90,7 +90,7 @@ namespace MovieCorner.Services.Services
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set seen status for"),
                 userMovie.Movie.Id);
-            this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MovieSeenStatusUpdated, user,
+            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MovieSeenStatusUpdated, user,
                 userMovie.Movie.Title, seen ? "Seen" : "Unseen");
         }
 
@@ -127,7 +127,7 @@ namespace MovieCorner.Services.Services
 
             _databaseContext.SaveChanges();
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
-            this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyMovieListUpdated, user);
+            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyMovieListUpdated, user);
         }
 
         public void AddMovieToMyMovies(int id)
@@ -143,7 +143,7 @@ namespace MovieCorner.Services.Services
                 this._databaseContext.UserMovieSwitch.Add(mapping);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
-                this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyMovieListUpdated,
+                this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyMovieListUpdated,
                     user);
             }
             else
@@ -152,7 +152,7 @@ namespace MovieCorner.Services.Services
                 mapping.IsAdded = true;
                 this._databaseContext.UserMovieSwitch.Update(mapping);
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
-                this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyMovieListUpdated,
+                this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyMovieListUpdated,
                     user);
             }
         }
@@ -171,7 +171,7 @@ namespace MovieCorner.Services.Services
                 this._databaseContext.UserMovieSwitch.Update(mapping);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete my"), id);
-                this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyMovieListUpdated,
+                this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyMovieListUpdated,
                     user);
             }
         }
@@ -241,7 +241,7 @@ namespace MovieCorner.Services.Services
 
             this._databaseContext.SaveChanges();
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update"), movie.Id);
-            this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.UpdateMovie, user);
+            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.UpdateMovie, user);
         }
 
         public void UpdateRate(int id, MovieRateModel model)

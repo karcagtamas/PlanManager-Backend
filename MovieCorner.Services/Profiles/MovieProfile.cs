@@ -47,6 +47,11 @@ namespace MovieCorner.Services.Profiles
             CreateMap<MovieCategoryModel, MovieCategory>();
             CreateMap<MovieCategory, MovieCategorySelectorListDto>()
                 .ForMember(dest => dest.IsSelected, opt => opt.Ignore());
+            CreateMap<MovieComment, MovieCommentDto>()
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User.UserName));
+            CreateMap<MovieComment, MovieCommentListDto>()
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User.UserName));
+            CreateMap<MovieCommentModel, MovieComment>();
         }
 
         private int GetNumberOfSeen(List<UserMovie> list)

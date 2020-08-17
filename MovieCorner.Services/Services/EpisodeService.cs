@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.SL;
-using ManagerAPI.Domain.Enums.CM;
+using ManagerAPI.Domain.Enums.SL;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
@@ -11,12 +12,18 @@ using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
-    public class EpisodeService : Repository<Episode, MovieCornerNotificationType>, IEpisodeService
+    public class EpisodeService : Repository<Episode, StatusLibraryNotificationType>, IEpisodeService
     {
         // Injects
         private readonly DatabaseContext _databaseContext;
 
-        public EpisodeService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Episode", new NotificationArguments())
+        public EpisodeService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
+            ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService,
+            utilsService, notificationService, mapper, "Episode", new NotificationArguments
+            {
+                DeleteArguments = new List<string> {"Number"}, UpdateArguments = new List<string> {"Number"},
+                CreateArguments = new List<string> {"Number"}
+            })
         {
             this._databaseContext = context;
         }
@@ -32,7 +39,7 @@ namespace MovieCorner.Services.Services
                 if (connection != null)
                 {
                     connection.Seen = seen;
-                    connection.SeenOn = seen ? (DateTime?)DateTime.Now : null;
+                    connection.SeenOn = seen ? (DateTime?) DateTime.Now : null;
                     this._databaseContext.UserEpisodeSwitch.Update(connection);
                 }
                 else
@@ -49,9 +56,13 @@ namespace MovieCorner.Services.Services
                         this._databaseContext.UserEpisodeSwitch.Add(userEpisode);
                     }
                 }
+
                 _databaseContext.SaveChanges();
 
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set episode seen status for"), id);
+                this.Notification.AddStatusLibraryNotificationByType(
+                    StatusLibraryNotificationType.EpisodeSeenStatusUpdated, user, episode.Season.Series.Title,
+                    episode.Season.Number.ToString(), episode.Number.ToString(), seen ? "Seen" : "Unseen");
             }
         }
 

@@ -1,23 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.SL;
-using ManagerAPI.Domain.Enums.CM;
+using ManagerAPI.Domain.Enums.SL;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
-    public class SeasonService : Repository<Season, MovieCornerNotificationType>, ISeasonService
+    public class SeasonService : Repository<Season, StatusLibraryNotificationType>, ISeasonService
     {
         // Injects
         private readonly DatabaseContext _databaseContext;
 
         public SeasonService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
             ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService,
-            utilsService, notificationService, mapper, "Season", new NotificationArguments { })
+            utilsService, notificationService, mapper, "Season",
+            new NotificationArguments
+            {
+                DeleteArguments = new List<string> {"Number"}, UpdateArguments = new List<string> {"Number"},
+                CreateArguments = new List<string> {"Number"}
+            })
         {
             this._databaseContext = context;
         }
@@ -25,6 +31,7 @@ namespace MovieCorner.Services.Services
         public void UpdateSeenStatus(int id, bool seen)
         {
             var user = this.Utils.GetCurrentUser();
+            var season = this._databaseContext.Seasons.Find(id);
 
             var episodes = _databaseContext.Episodes.Where(x => x.Season.Id == id).ToList();
             foreach (var i in episodes)
@@ -55,6 +62,8 @@ namespace MovieCorner.Services.Services
             _databaseContext.SaveChanges();
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set season seen status for"), id);
+            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.SeasonSeenStatusUpdated,
+                user, season?.Series.Title ?? "", season?.Number.ToString() ?? "", seen ? "Seen" : "Unseen");
         }
 
         public void AddIncremented(int seriesId)

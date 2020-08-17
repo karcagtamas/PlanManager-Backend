@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities.SL
 {
-    public class MovieComment
+    public class MovieComment : IEntity
     {
         public int Id { get; set; }
 

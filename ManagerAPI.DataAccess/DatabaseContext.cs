@@ -427,6 +427,63 @@ namespace ManagerAPI.DataAccess
             builder.Entity<NotificationType>()
                 .HasData(new NotificationType
                     {Id = 76, Title = "My Movie List Updated", ImportanceLevel = 1, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 77, Title = "Series Added", ImportanceLevel = 1, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 78, Title = "Series Deleted", ImportanceLevel = 1, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 79, Title = "Series Updated", ImportanceLevel = 1, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 80, Title = "My Series List Updated", ImportanceLevel = 1, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 81, Title = "Season Added", ImportanceLevel = 1, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 82, Title = "Season Deleted", ImportanceLevel = 1, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 83, Title = "Season Updated", ImportanceLevel = 1, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 84, Title = "Episode Added", ImportanceLevel = 1, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 85, Title = "Episode Deleted", ImportanceLevel = 1, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 86, Title = "Episode Updated", ImportanceLevel = 1, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 87, Title = "Episode Seen Status Updated", ImportanceLevel = 1, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 88, Title = "Series Seen Status Updated", ImportanceLevel = 1, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 89, Title = "Season Seen Status Updated", ImportanceLevel = 1, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 90, Title = "Movie Category Added", ImportanceLevel = 2, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 91, Title = "Movie Category Deleted", ImportanceLevel = 2, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 92, Title = "Movie Category Updated", ImportanceLevel = 2, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 93, Title = "Movie Comment Added", ImportanceLevel = 2, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 94, Title = "Movie Comment Deleted", ImportanceLevel = 2, SystemId = 4});
+            builder.Entity<NotificationType>()
+                .HasData(new NotificationType
+                    {Id = 95, Title = "Movie Comment Updated", ImportanceLevel = 1, SystemId = 4});
 
             // Notification table settings
             builder.Entity<Notification>()
@@ -903,7 +960,7 @@ namespace ManagerAPI.DataAccess
             builder.Entity<Movie>()
                 .Property(x => x.LastUpdate)
                 .HasDefaultValueSql("getdate()");
-            
+
             builder.Entity<Movie>()
                 .HasOne(x => x.Creator)
                 .WithMany(x => x.CreatedMovies)
@@ -933,11 +990,11 @@ namespace ManagerAPI.DataAccess
                 .WithMany(x => x.MovieComments)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
             // Movie - Movie category switch
             builder.Entity<MovieMovieCategory>()
                 .HasKey(x => new {x.MovieId, x.CategoryId});
-            
+
             builder.Entity<MovieMovieCategory>()
                 .HasOne(x => x.Movie)
                 .WithMany(x => x.Categories)
