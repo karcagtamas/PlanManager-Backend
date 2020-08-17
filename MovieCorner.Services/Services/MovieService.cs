@@ -48,7 +48,7 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var list = user.MyMovies.ToList();
+            var list = user.MyMovies.Where(x => x.IsAdded).ToList();
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"),
                 list.Select(x => x.Movie.Id).ToList());
@@ -62,8 +62,10 @@ namespace MovieCorner.Services.Services
 
             var movie = this.Get<MyMovieDto>(id);
             var myMovie = user.MyMovies.FirstOrDefault(x => x.Movie.Id == movie.Id);
-            movie.IsMine = myMovie != null;
-            movie.IsSeen = myMovie != null && myMovie.IsSeen;
+            movie.IsMine = myMovie?.IsAdded ?? false;;
+            movie.IsSeen = myMovie?.IsSeen ?? false;
+            movie.AddedOn = myMovie?.AddedOn;
+            movie.SeenOn = myMovie?.SeenOn;
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), movie.Id);
 
@@ -102,7 +104,15 @@ namespace MovieCorner.Services.Services
             {
                 if (ids.FindIndex(x => x == i.MovieId) == -1)
                 {
-                    _databaseContext.UserMovieSwitch.Remove(i);
+                    i.IsAdded = false;
+                    i.AddedOn = null;
+                    this._databaseContext.UserMovieSwitch.Update(i);
+                }
+                else
+                {
+                    i.IsAdded = true;
+                    i.AddedOn = DateTime.Now;
+                    this._databaseContext.UserMovieSwitch.Update(i);
                 }
             }
 
@@ -110,7 +120,7 @@ namespace MovieCorner.Services.Services
             {
                 if (currentMappings.FirstOrDefault(x => x.MovieId == i) == null)
                 {
-                    var map = new UserMovie() {MovieId = i, UserId = user.Id, IsSeen = false};
+                    var map = new UserMovie() {MovieId = i, UserId = user.Id, IsSeen = false, AddedOn = DateTime.Now, IsAdded = true};
                     _databaseContext.UserMovieSwitch.Add(map);
                 }
             }
@@ -129,9 +139,18 @@ namespace MovieCorner.Services.Services
 
             if (mapping == null)
             {
-                mapping = new UserMovie {MovieId = id, UserId = user.Id, IsSeen = false};
+                mapping = new UserMovie {MovieId = id, UserId = user.Id, IsSeen = false, AddedOn = DateTime.Now, IsAdded = true};
                 this._databaseContext.UserMovieSwitch.Add(mapping);
                 this._databaseContext.SaveChanges();
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
+                this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyMovieListUpdated,
+                    user);
+            }
+            else
+            {
+                mapping.AddedOn = DateTime.Now;
+                mapping.IsAdded = true;
+                this._databaseContext.UserMovieSwitch.Update(mapping);
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
                 this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyMovieListUpdated,
                     user);
@@ -147,7 +166,9 @@ namespace MovieCorner.Services.Services
 
             if (mapping != null)
             {
-                this._databaseContext.UserMovieSwitch.Remove(mapping);
+                mapping.IsAdded = false;
+                mapping.AddedOn = null;
+                this._databaseContext.UserMovieSwitch.Update(mapping);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete my"), id);
                 this.Notification.AddMovieCornerNotificationByType(MovieCornerNotificationType.MyMovieListUpdated,
@@ -163,7 +184,7 @@ namespace MovieCorner.Services.Services
             foreach (var t in list)
             {
                 var myMovie = user.MyMovies.FirstOrDefault(x => x.Movie.Id == t.Id);
-                t.IsMine = myMovie != null;
+                t.IsMine = myMovie?.IsAdded ?? false;
                 t.IsSeen = myMovie != null && myMovie.IsSeen;
             }
 

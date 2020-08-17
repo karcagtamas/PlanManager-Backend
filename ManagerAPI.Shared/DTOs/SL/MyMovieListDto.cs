@@ -6,5 +6,6 @@
     public class MyMovieListDto : MovieListDto
     {
         public bool IsSeen { get; set; }
+        public bool IsAdded { get; set; }
     }
 }
