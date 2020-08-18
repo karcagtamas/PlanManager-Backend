@@ -56,7 +56,7 @@ namespace MovieCorner.Services.Profiles
 
         private int GetNumberOfSeen(List<UserMovie> list)
         {
-            return list.Count(x => x.IsSeen);
+            return list?.Count(x => x.IsSeen) ?? 0;
         }
     }
 }

@@ -22,6 +22,7 @@ namespace EventManager.Client.Pages.SL
         private bool IsLoading { get; set; }
         private string MovieImage { get; set; }
         private List<MovieCommentListDto> CommentList { get; set; }
+        private string Comment { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -153,6 +154,15 @@ namespace EventManager.Client.Pages.SL
             if (!modalResult.Cancelled && (bool) modalResult.Data) await GetMovie();
 
             Modal.OnClose -= EditMovieCategoriesDialogClosed;
+        }
+
+        private async void SaveComment()
+        {
+            if(string.IsNullOrEmpty(this.Comment)) return;
+
+            if (!await this.MovieCommentService.Create(new MovieCommentModel {Comment = this.Comment, MovieId = this.Id})) return;
+            this.Comment = "";
+            await this.GetComments();
         }
     }
 }

@@ -44,77 +44,104 @@
         </div>
         @if (Movie != null)
         {
-            <MatTabGroup>
+            <MatTabGroup Class="tab-group">
                 <MatTab Label="Data">
-<div class="data">
-
-                <div class="data-rows">
-                    <div class="data-row">
-                        <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Movie.Description)
-                    </div>
-                    <div class="data-row">
-                        <strong>Release Year: </strong> @WriteHelper.WriteNullableField(Movie.ReleaseYear)
-                    </div>
-                    <div class="data-row">
-                        <strong>Director: </strong> @WriteHelper.WriteEmptyableField(Movie.Director)
-                    </div>
-                    <div class="data-row">
-                        <strong>Length: </strong> @WriteHelper.WriteNullableField(Movie.Length)
-                    </div>
-                    <div class="data-row">
-                        <strong>Categories: </strong> @WriteHelper.WriteList(Movie.Categories, ", ")
-                    </div>
-                    <div class="data-row">
-                        <strong>Number of Seen: </strong> @Movie.NumberOfSeen
-                    </div>
-                    @if (!string.IsNullOrEmpty(Movie.TrailerUrl))
-                    {
-                        <div class="data-row">
-                            <strong>
-                                <a href="@Movie.TrailerUrl">Trailer Url</a>
-                            </strong>
+                    <div class="data">
+                        <div class="data-rows">
+                            <div class="data-row">
+                                <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Movie.Description)
+                            </div>
+                            <div class="data-row">
+                                <strong>Release Year: </strong> @WriteHelper.WriteNullableField(Movie.ReleaseYear)
+                            </div>
+                            <div class="data-row">
+                                <strong>Director: </strong> @WriteHelper.WriteEmptyableField(Movie.Director)
+                            </div>
+                            <div class="data-row">
+                                <strong>Length: </strong> @WriteHelper.WriteNullableField(Movie.Length)
+                            </div>
+                            <div class="data-row">
+                                <strong>Categories: </strong> @WriteHelper.WriteList(Movie.Categories, ", ")
+                            </div>
+                            <div class="data-row">
+                                <strong>Number of Seen: </strong> @Movie.NumberOfSeen
+                            </div>
+                            @if (!string.IsNullOrEmpty(Movie.TrailerUrl))
+                            {
+                                <div class="data-row">
+                                    <strong>
+                                        <a href="@Movie.TrailerUrl">Trailer Url</a>
+                                    </strong>
+                                </div>
+                            }
+                            <div class="data-row">
+                                <strong>Creation: </strong> @DateHelper.DateToString(Movie.Creation)
+                            </div>
+                            <div class="data-row">
+                                <strong>Last Update: </strong> @DateHelper.DateToString(Movie.LastUpdate)
+                            </div>
+                            <div class="data-row">
+                                <strong>Creator: </strong> @Movie.Creator
+                            </div>
+                            <div class="data-row">
+                                <strong>Last Updater: </strong> @Movie.LastUpdater
+                            </div>
+                            <div class="data-row">
+                                <strong>Added Status: </strong> @(Movie.IsMine ? "Added" : "Not Added")
+                            </div>
+                            @if (Movie.AddedOn != null)
+                            {
+                                <div class="data-row">
+                                    <strong>Added on: </strong> @DateHelper.DateToString(Movie.AddedOn)
+                                </div>
+                            }
+                            <div class="data-row">
+                                <strong>Seen Status: </strong> @(Movie.IsSeen ? "Seen" : "Unseen")
+                            </div>
+                            @if (Movie.SeenOn != null)
+                            {
+                                <div class="data-row">
+                                    <strong>Seen On: </strong> @DateHelper.DateToString(Movie.SeenOn)
+                                </div>
+                            }
                         </div>
-                    }
-                    <div class="data-row">
-                        <strong>Creation: </strong> @DateHelper.DateToString(Movie.Creation)
+                        <div class="image">
+                            <div class="picture">
+                                @if (Movie.ImageData.Length == 0)
+                                {
+                                    <img src="/images/profile-icon.jpg" alt="@Movie.Title"/>
+                                }
+                                else
+                                {
+                                    <img src="@MovieImage" alt="@Movie.ImageTitle"/>
+                                }
+                            </div>
+                        </div>
                     </div>
-                    <div class="data-row">
-                        <strong>Last Update: </strong> @DateHelper.DateToString(Movie.LastUpdate)
-                    </div>
-                    <div class="data-row">
-                        <strong>Creator: </strong> @Movie.Creator
-                    </div>
-                    <div class="data-row">
-                        <strong>Last Updater: </strong> @Movie.LastUpdater
-                    </div>
-                </div>
-                <div class="image">
-                    <div class="picture">
-                        @if (Movie.ImageData.Length == 0)
-                        {
-                            <img src="/images/profile-icon.jpg" alt="@Movie.Title"/>
-                        }
-                        else
-                        {
-                            <img src="@MovieImage" alt="@Movie.ImageTitle"/>
-                        }
-                    </div>
-
-                </div>
-            </div>
                 </MatTab>
                 <MatTab Label="Comments">
                     <div class="comments">
-                        @foreach(var comment in CommentList) 
-                        {
-                            <div class="comment">
-                                @comment.Comment
+                        <div class="comment-list">
+                            @foreach (var comment in CommentList)
+                            {
+                                <div class="comment">
+                                    @comment.Comment
+                                </div>
+                            }
+                        </div>
+
+                        <div class="input-panel">
+                            <div class="col col-12 p-1">
+                                <MatTextField class="w-100" @bind-Value="Comment" Label="Comment" Dense="true" Outlined="true" TextArea="true"></MatTextField>
                             </div>
-                        }
+                            <div class="down-row">
+                                <span class="spacer"></span>
+                                <MatButton @onclick="SaveComment">Comment</MatButton>
+                            </div>
+                        </div>
                     </div>
                 </MatTab>
             </MatTabGroup>
-            
         }
     }
 </div>

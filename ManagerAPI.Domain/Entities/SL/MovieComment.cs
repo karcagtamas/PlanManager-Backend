@@ -11,7 +11,7 @@ namespace ManagerAPI.Domain.Entities.SL
         public int MovieId { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [Required]
         public DateTime Creation { get; set; }
