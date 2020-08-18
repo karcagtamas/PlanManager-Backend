@@ -16,14 +16,17 @@ namespace EventManager.Client.Pages.SL
 
         private MyMovieDto Movie { get; set; }
         [Inject] private IMovieService MovieService { get; set; }
+        [Inject] private IMovieCommentService MovieCommentService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private IModalService Modal { get; set; }
         private bool IsLoading { get; set; }
         private string MovieImage { get; set; }
+        private List<MovieCommentListDto> CommentList { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             await GetMovie();
+            await GetComments();
         }
 
         private async Task GetMovie()
@@ -37,6 +40,15 @@ namespace EventManager.Client.Pages.SL
                 this.MovieImage = $"data:image/gif;base64,{base64}";
             }
 
+            IsLoading = false;
+            StateHasChanged();
+        }
+
+        private async Task GetComments() 
+        {
+            IsLoading = true;
+            StateHasChanged();
+            this.CommentList = await MovieCommentService.GetList(this.Id);
             IsLoading = false;
             StateHasChanged();
         }

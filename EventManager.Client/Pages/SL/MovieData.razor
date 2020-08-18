@@ -44,7 +44,9 @@
         </div>
         @if (Movie != null)
         {
-            <div class="data">
+            <MatTabGroup>
+                <MatTab Label="Data">
+<div class="data">
 
                 <div class="data-rows">
                     <div class="data-row">
@@ -100,6 +102,19 @@
 
                 </div>
             </div>
+                </MatTab>
+                <MatTab Label="Comments">
+                    <div class="comments">
+                        @foreach(var comment in CommentList) 
+                        {
+                            <div class="comment">
+                                @comment.Comment
+                            </div>
+                        }
+                    </div>
+                </MatTab>
+            </MatTabGroup>
+            
         }
     }
 </div>
