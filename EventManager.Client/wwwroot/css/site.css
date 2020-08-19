@@ -960,6 +960,23 @@ app {
   padding: 0.5rem;
   background-color: rgba(249, 249, 249, 0.55);
 }
+.sl-movie-data .comments .comment-list .comment .comment-header {
+  color: #5120a5;
+}
+.sl-movie-data .comments .comment-list .comment .comment-body {
+  padding: 0.8rem;
+}
+.sl-movie-data .comments .comment-list .comment .comment-action {
+  display: flex;
+  margin-bottom: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(255, 187, 187, 0.4);
+}
+.sl-movie-data .comments .comment-list .comment .comment-action .spacer {
+  flex-grow: 1;
+}
 .sl-movie-data .comments .input-panel {
   flex-direction: column;
 }

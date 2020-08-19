@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.SL;
@@ -32,7 +33,16 @@ namespace MovieCorner.Services.Services
 
             var movie = this._databaseContext.Movies.Find(movieId);
 
-            return movie != null && movie.Comments != null ? this.Mapper.Map<List<MovieCommentListDto>>(movie.Comments) : new List<MovieCommentListDto>();
+            var list = movie?.Comments != null
+                ? this.Mapper.Map<List<MovieCommentListDto>>(movie.Comments).Select(x =>
+                {
+                    x.OwnerIsCurrent = x.UserId == (user?.Id ?? "");
+                    return x;
+                }).OrderBy(x => x.Creation).ToList()
+                : new List<MovieCommentListDto>();
+
+
+            return list;
         }
     }
 }

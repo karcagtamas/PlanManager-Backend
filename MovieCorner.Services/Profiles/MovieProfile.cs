@@ -50,7 +50,9 @@ namespace MovieCorner.Services.Profiles
             CreateMap<MovieComment, MovieCommentDto>()
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User.UserName));
             CreateMap<MovieComment, MovieCommentListDto>()
-                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User.UserName));
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User.UserName))
+                .ForMember(dest => dest.OwnerIsCurrent, opt => opt.Ignore())
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.User.Id));
             CreateMap<MovieCommentModel, MovieComment>();
         }
 
