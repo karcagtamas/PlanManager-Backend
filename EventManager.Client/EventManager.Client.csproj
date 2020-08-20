@@ -44,6 +44,9 @@
     <Content Update="Shared\Components\SL\MovieCategoryDialog.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
+    <Content Update="Shared\Components\SL\MovieCommentComponent.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

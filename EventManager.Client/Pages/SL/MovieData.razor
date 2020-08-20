@@ -124,22 +124,7 @@
                         <div class="comment-list">
                             @foreach (var comment in CommentList)
                             {
-                                <div class="comment">
-                                    <div class="comment-header">
-                                        <strong>@comment.User</strong> <i>@DateHelper.DateToString(comment.Creation)</i>
-                                    </div>
-                                    <div class="comment-body">
-                                        @comment.Comment
-                                    </div>
-                                    @if (comment.OwnerIsCurrent)
-                                    {
-                                        <div class="comment-action">
-                                            <span class="spacer"></span>
-                                            <MatButton>Edit</MatButton>
-                                            <MatButton @onclick="@(() => DeleteComment(comment.Id))">Delete</MatButton>
-                                        </div>
-                                    }
-                                </div>
+                                <MovieCommentComponent Comment="@comment" Refresh="@GetComments" MovieId="@Movie.Id"></MovieCommentComponent>
                             }
                         </div>
 

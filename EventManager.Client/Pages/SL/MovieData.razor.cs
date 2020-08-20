@@ -164,13 +164,5 @@ namespace EventManager.Client.Pages.SL
             this.Comment = "";
             await this.GetComments();
         }
-
-        private async void DeleteComment(int id)
-        {
-            if (await this.MovieCommentService.Delete(id))
-            {
-                await this.GetComments();
-            }
-        }
     }
 }
