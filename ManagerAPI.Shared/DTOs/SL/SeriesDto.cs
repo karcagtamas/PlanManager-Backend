@@ -16,5 +16,8 @@ namespace ManagerAPI.Shared.DTOs.SL
         public string LastUpdater { get; set; }
         public DateTime Creation { get; set; }
         public DateTime LastUpdate { get; set; }
+        public string ImageTitle { get; set; }
+        public byte[] ImageData { get; set; }
+        public string TrailerUrl { get; set; }
     }
 }

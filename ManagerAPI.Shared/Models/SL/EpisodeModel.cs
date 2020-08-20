@@ -7,9 +7,15 @@ namespace ManagerAPI.Shared.Models.SL
     /// </summary>
     public class EpisodeModel
     {
-        [Required] public int Number { get; set; }
+        [Required(ErrorMessage = "Field is required")]
+        public int Number { get; set; }
 
+        [MaxLength(300, ErrorMessage = "Max length is 300")]
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "Field is required")]
+        [MaxLength(150, ErrorMessage = "Max length is 150")]
+        public string Title { get; set; }
 
         [Required] public int SeasonId { get; set; }
     }

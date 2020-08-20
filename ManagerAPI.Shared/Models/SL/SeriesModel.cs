@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ManagerAPI.Shared.Annotations;
 using ManagerAPI.Shared.DTOs.SL;
 
 namespace ManagerAPI.Shared.Models.SL
@@ -12,11 +13,13 @@ namespace ManagerAPI.Shared.Models.SL
         [MaxLength(150, ErrorMessage = "Max length is 150")]
         public string Title { get; set; }
 
+        [MaxLength(999, ErrorMessage = "Max length is 999")]
         public string Description { get; set; }
+        [MinNumber(1900)] public int? StartYear { get; set; }
+        [MinNumber(1900)] public int? EndYear { get; set; }
 
-        public int? StartYear { get; set; }
-
-        public int? EndYear { get; set; }
+        [MaxLength(200, ErrorMessage = "Max length is 200")]
+        public string TrailerUrl { get; set; }
 
         /// <summary>
         /// Empty init
@@ -35,6 +38,7 @@ namespace ManagerAPI.Shared.Models.SL
             this.Description = series.Description;
             this.StartYear = series.StartYear;
             this.EndYear = series.EndYear;
+            this.TrailerUrl = series.TrailerUrl;
         }
     }
 }

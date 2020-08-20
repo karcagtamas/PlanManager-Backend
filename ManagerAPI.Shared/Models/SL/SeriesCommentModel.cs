@@ -2,10 +2,13 @@
 
 namespace ManagerAPI.Shared.Models.SL
 {
-    public class MovieCommentModel
+    /// <summary>
+    /// Series comment create or update model
+    /// </summary>
+    public class SeriesCommentModel
     {
         [Required]
-        public int MovieId { get; set; }
+        public int SeriesId { get; set; }
 
         [Required]
         [MaxLength(500)]

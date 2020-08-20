@@ -6,5 +6,6 @@ namespace ManagerAPI.Shared.DTOs.SL
     public class MySeriesListDto : SeriesListDto
     {
         public bool IsMine { get; set; }
+        public bool IsAdded { get; set; }
     }
 }

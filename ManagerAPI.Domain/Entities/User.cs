@@ -90,5 +90,6 @@ namespace ManagerAPI.Domain.Entities {
         public virtual ICollection<Book> LastUpdatedBooks { get; set; }
         public virtual ICollection<UserBook> MyBooks { get; set; }
         public virtual ICollection<MovieComment> MovieComments { get; set; }
+        public virtual ICollection<SeriesComment> SeriesComments { get; set; }
     }
 }

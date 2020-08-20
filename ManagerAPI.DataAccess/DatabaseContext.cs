@@ -55,7 +55,10 @@ namespace ManagerAPI.DataAccess
         public DbSet<MovieComment> MovieComments { get; set; }
         public DbSet<MovieMovieCategory> MovieMovieCategorySwitch { get; set; }
         public DbSet<UserMovie> UserMovieSwitch { get; set; }
+        public DbSet<SeriesCategory> SeriesCategories { get; set; }
         public DbSet<Series> Series { get; set; }
+        public DbSet<SeriesComment> SeriesComments { get; set; }
+        public DbSet<SeriesSeriesCategory> SeriesSeriesCategoriesSwitch { get; set; }
         public DbSet<UserSeries> UserSeriesSwitch { get; set; }
         public DbSet<Season> Seasons { get; set; }
         public DbSet<Episode> Episodes { get; set; }
@@ -1027,6 +1030,32 @@ namespace ManagerAPI.DataAccess
                 .WithMany(x => x.MyMovies)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+            
+            // Series category table settings
+            builder.Entity<SeriesCategory>()
+                .HasData(new List<SeriesCategory>
+                {
+                    new SeriesCategory
+                    {
+                        Id = 1,
+                        Name = "Drama"
+                    },
+                    new SeriesCategory
+                    {
+                        Id = 2,
+                        Name = "Action"
+                    },
+                    new SeriesCategory
+                    {
+                        Id = 3,
+                        Name = "Romantic"
+                    },
+                    new SeriesCategory
+                    {
+                        Id = 4,
+                        Name = "Sci-fi"
+                    }
+                });
 
             // Series table settings
             builder.Entity<Series>()
@@ -1046,13 +1075,47 @@ namespace ManagerAPI.DataAccess
                 .WithMany(x => x.LastUpdatedSeries)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+            
+            // Series comment table settings
+            builder.Entity<SeriesComment>()
+                .Property(x => x.Creation)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<SeriesComment>()
+                .Property(x => x.LastUpdate)
+                .HasDefaultValueSql("getdate()");
+
+            builder.Entity<SeriesComment>()
+                .HasOne(x => x.Series)
+                .WithMany(x => x.Comments)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<SeriesComment>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.SeriesComments)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Movie - Movie category switch
+            builder.Entity<SeriesSeriesCategory>()
+                .HasKey(x => new {x.SeriesId, x.CategoryId});
+
+            builder.Entity<SeriesSeriesCategory>()
+                .HasOne(x => x.Series)
+                .WithMany(x => x.Categories)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<SeriesSeriesCategory>()
+                .HasOne(x => x.Category)
+                .WithMany(x => x.ConnectedSeriesList)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
 
             // User Series table settings
             builder.Entity<UserSeries>()
                 .HasKey(x => new {x.UserId, x.SeriesId});
 
             builder.Entity<UserSeries>()
-                .Property(x => x.AddOn)
+                .Property(x => x.AddedOn)
                 .HasDefaultValueSql("getdate()");
 
             builder.Entity<UserSeries>()

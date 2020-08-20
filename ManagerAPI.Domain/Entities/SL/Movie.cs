@@ -52,9 +52,6 @@ namespace ManagerAPI.Domain.Entities.SL
             hash.Add(LastUpdaterId);
             hash.Add(Creation);
             hash.Add(LastUpdate);
-            hash.Add(Creator);
-            hash.Add(LastUpdater);
-            hash.Add(ConnectedUsers);
             return hash.ToHashCode();
         }
 

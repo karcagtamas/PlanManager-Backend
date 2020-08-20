@@ -3,16 +3,14 @@
 namespace ManagerAPI.Shared.DTOs.SL
 {
     /// <summary>
-    /// Movie comment list data object
+    /// Series comment data object
     /// </summary>
-    public class MovieCommentListDto
+    public class SeriesCommentDto
     {
         public int Id { get; set; }
         public string User { get; set; }
-        public string UserId { get; set; }
         public DateTime Creation { get; set; }
         public DateTime LastUpdate { get; set; }
         public string Comment { get; set; }
-        public bool OwnerIsCurrent { get; set; }
     }
 }

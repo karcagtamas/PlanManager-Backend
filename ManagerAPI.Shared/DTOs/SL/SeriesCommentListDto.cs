@@ -3,9 +3,9 @@
 namespace ManagerAPI.Shared.DTOs.SL
 {
     /// <summary>
-    /// Movie comment list data object
+    /// Series comment list data object
     /// </summary>
-    public class MovieCommentListDto
+    public class SeriesCommentListDto
     {
         public int Id { get; set; }
         public string User { get; set; }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace ManagerAPI.Shared.DTOs.SL
@@ -9,6 +10,8 @@ namespace ManagerAPI.Shared.DTOs.SL
     {
         public bool IsMine { get; set; }
         public bool IsSeen { get; set; }
+        public DateTime? AddedOn { get; set; }
+        public int Rate { get; set; }
         public List<MySeasonDto> Seasons { get; set; }
     }
 }
