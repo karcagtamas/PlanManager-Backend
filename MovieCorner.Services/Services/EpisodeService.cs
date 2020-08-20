@@ -8,6 +8,7 @@ using ManagerAPI.Domain.Enums.SL;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
+using ManagerAPI.Shared.Models.SL;
 using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
@@ -109,11 +110,25 @@ namespace MovieCorner.Services.Services
             var episode = this.Get<MyEpisodeDto>(id);
             var myEpisode = user.MyEpisodes.FirstOrDefault(x => x.Episode.Id == episode.Id);
             episode.IsMine = myEpisode != null;
-            episode.IsSeen = myEpisode != null && myEpisode.Seen;
+            episode.IsSeen = myEpisode?.Seen ?? false;
+            episode.SeenOn = myEpisode?.SeenOn;
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), episode.Id);
 
             return episode;
+        }
+
+        public void UpdateImage(int id, EpisodeImageModel model)
+        {
+            var user = this.Utils.GetCurrentUser();
+
+            var episode = this._databaseContext.Episodes.Find(id);
+
+            if (episode == null) return;
+
+            this.Mapper.Map(model, episode);
+
+            this.Update(episode);
         }
     }
 }
