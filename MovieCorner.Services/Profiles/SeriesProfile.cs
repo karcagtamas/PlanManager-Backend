@@ -19,11 +19,16 @@ namespace MovieCorner.Services.Profiles
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Series.Title))
                 .ForMember(dest => dest.StartYear, opt => opt.MapFrom(src => src.Series.StartYear))
                 .ForMember(dest => dest.EndYear, opt => opt.MapFrom(src => src.Series.EndYear))
-                .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Series.Creator.UserName));
+                .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Series.Creator.UserName))
+                .ForMember(dest => dest.IsAdded, opt => opt.Ignore())
+                .ForMember(dest => dest.IsMine, opt => opt.Ignore());
             CreateMap<Series, MySeriesDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
                 .ForMember(dest => dest.LastUpdater, opt => opt.MapFrom(src => src.LastUpdater.UserName))
-                .ForMember(dest => dest.IsMine, opt => opt.Ignore());
+                .ForMember(dest => dest.IsMine, opt => opt.Ignore())
+                .ForMember(dest => dest.IsSeen, opt => opt.Ignore())
+                .ForMember(dest => dest.Rate, opt => opt.Ignore())
+                .ForMember(dest => dest.AddedOn, opt => opt.Ignore());
             CreateMap<Season, MySeasonDto>();
             CreateMap<Episode, MyEpisodeListDto>()
                 .ForMember(dest => dest.Seen, opt => opt.Ignore());
@@ -36,7 +41,9 @@ namespace MovieCorner.Services.Profiles
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
                 .ForMember(dest => dest.IsMine, opt => opt.Ignore());
             CreateMap<Episode, MyEpisodeDto>()
-                .ForMember(dest => dest.IsSeen, opt => opt.Ignore());
+                .ForMember(dest => dest.IsSeen, opt => opt.Ignore())
+                .ForMember(dest => dest.IsMine, opt => opt.Ignore())
+                .ForMember(dest => dest.SeenOn, opt => opt.Ignore());
             CreateMap<EpisodeShortModel, Episode>();
             CreateMap<Episode, EpisodeDto>();
         }
