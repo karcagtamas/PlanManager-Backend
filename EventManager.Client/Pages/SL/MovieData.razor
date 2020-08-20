@@ -104,6 +104,12 @@
                                     <strong>Seen On: </strong> @DateHelper.DateToString(Movie.SeenOn)
                                 </div>
                             }
+                            <div class="rates">
+                                @foreach (var rate in RateList)
+                                {
+                                    <MatIcon Class="rate-icon" Icon="@(rate <= Movie.Rate ? "star" : "star_border")" @onclick="@(() => UpdateRate(rate))" title="@rate"></MatIcon>
+                                }
+                            </div>
                         </div>
                         <div class="image">
                             <div class="picture">

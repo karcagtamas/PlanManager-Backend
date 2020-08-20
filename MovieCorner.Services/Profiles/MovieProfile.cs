@@ -30,7 +30,8 @@ namespace MovieCorner.Services.Profiles
                     opt => opt.MapFrom(src => this.GetNumberOfSeen(src.ConnectedUsers.ToList())))
                 .ForMember(dest => dest.IsSeen, opt => opt.Ignore())
                 .ForMember(dest => dest.AddedOn, opt => opt.Ignore())
-                .ForMember(dest => dest.SeenOn, opt => opt.Ignore());
+                .ForMember(dest => dest.SeenOn, opt => opt.Ignore())
+                .ForMember(dest => dest.Rate, opt => opt.Ignore());
             CreateMap<MovieModel, Movie>();
             CreateMap<Movie, MovieDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))

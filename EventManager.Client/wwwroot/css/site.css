@@ -913,6 +913,9 @@ app {
 .sl-movie-data .data .data-rows .data-row strong {
   color: #5120a5;
 }
+.sl-movie-data .data .data-rows .rates .rate-icon:hover {
+  cursor: pointer;
+}
 .sl-movie-data .data .image .picture {
   position: relative;
   width: 300px;

@@ -66,6 +66,7 @@ namespace MovieCorner.Services.Services
             movie.IsSeen = myMovie?.IsSeen ?? false;
             movie.AddedOn = myMovie?.AddedOn;
             movie.SeenOn = myMovie?.SeenOn;
+            movie.Rate = myMovie?.Rate ?? 0;
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), movie.Id);
 

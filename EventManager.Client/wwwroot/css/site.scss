@@ -1090,6 +1090,14 @@ app {
           color: $primary;
         }
       }
+      
+      .rates {
+        .rate-icon {
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
     }
 
     .image {

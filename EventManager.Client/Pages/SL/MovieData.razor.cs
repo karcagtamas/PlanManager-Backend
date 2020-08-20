@@ -23,6 +23,7 @@ namespace EventManager.Client.Pages.SL
         private string MovieImage { get; set; }
         private List<MovieCommentListDto> CommentList { get; set; }
         private string Comment { get; set; }
+        private List<int> RateList { get; set; } = new List<int> {1, 2, 3, 4, 5};
 
         protected override async Task OnInitializedAsync()
         {
@@ -163,6 +164,14 @@ namespace EventManager.Client.Pages.SL
             if (!await this.MovieCommentService.Create(new MovieCommentModel {Comment = this.Comment, MovieId = this.Id})) return;
             this.Comment = "";
             await this.GetComments();
+        }
+
+        private async void UpdateRate(int rate)
+        {
+            if (await this.MovieService.UpdateRate(this.Id, new MovieRateModel {Rate = rate}))
+            {
+                await this.GetMovie();
+            }
         }
     }
 }
