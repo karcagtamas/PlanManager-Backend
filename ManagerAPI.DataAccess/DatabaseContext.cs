@@ -1143,6 +1143,12 @@ namespace ManagerAPI.DataAccess
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<Episode>()
+                .HasOne(x => x.LastUpdater)
+                .WithMany(x => x.LastUpdatedEpisodes)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
             // User Episode table settings
             builder.Entity<UserEpisode>()
                 .HasKey(x => new {x.UserId, x.EpisodeId});
