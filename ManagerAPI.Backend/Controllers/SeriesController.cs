@@ -143,5 +143,59 @@ namespace ManagerAPI.Backend.Controllers
                 return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
+        
+        [HttpPut("image/{id}")]
+        public IActionResult UpdateImage(int id, [FromBody] SeriesImageModel model)
+        {
+            try
+            {
+                this._seriesService.UpdateImage(id, model);
+                return Ok();
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
+
+        [HttpPut("categories/{id}")]
+        public IActionResult UpdateCategories(int id, [FromBody] SeriesCategoryUpdateModel model)
+        {
+            try
+            {
+                this._seriesService.UpdateCategories(id, model);
+                return Ok();
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
+        
+        [HttpPut("rate/{id}")]
+        public IActionResult UpdateRate(int id, [FromBody] SeriesRateModel model)
+        {
+            try
+            {
+                this._seriesService.UpdateRate(id, model);
+                return Ok();
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        } 
     }
 }

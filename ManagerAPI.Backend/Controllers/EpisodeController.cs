@@ -112,5 +112,23 @@ namespace ManagerAPI.Backend.Controllers
                 return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
             }
         }
+        
+        [HttpPut("image/{id}")]
+        public IActionResult UpdateImage(int id, [FromBody] EpisodeImageModel model)
+        {
+            try
+            {
+                this._episodeService.UpdateImage(id, model);
+                return Ok();
+            }
+            catch (MessageException me)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(me));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
+            }
+        }
     }
 }
