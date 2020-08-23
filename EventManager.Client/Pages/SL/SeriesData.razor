@@ -4,143 +4,210 @@
 @attribute [Authorize]
 
 <div class="sl-series-data">
-    @if (Series != null)
-    {
-        <h1 class="em-page-title">@Series.Title</h1>
-    }
-    @if (IsLoading)
-    {
-        <Loader></Loader>
-    }
-    else
-    {
-        <div class="action-bar">
-            <MatButton @onclick="OpenEditSeriesDialog">Edit</MatButton>
-            <MatButton @onclick="DeleteSeries">Delete</MatButton>
-            @if (Series != null)
+@if (Series != null)
+{
+    <h1 class="em-page-title">@Series.Title</h1>
+}
+@if (IsLoading)
+{
+    <Loader></Loader>
+}
+else
+{
+    <div class="action-bar">
+        <MatButton @onclick="OpenEditSeriesDialog">Edit</MatButton>
+        <MatButton @onclick="DeleteSeries">Delete</MatButton>
+        <MatButton @onclick="OpenEditSeriesImageDialog">Edit Image</MatButton>
+        <MatButton @onclick="OpenEditSeriesCategoriesDialog">Edit Categories</MatButton>
+        @if (Series != null)
+        {
+            @if (Series.IsMine)
             {
-                @if (Series.IsMine)
+                <MatButton @onclick="RemoveFromMySeriesList">Remove From My Series</MatButton>
+                @if (Series.IsSeen)
                 {
-                    <MatButton @onclick="RemoveFromMySeriesList">Remove From My Series</MatButton>
-                    @if (Series.IsSeen)
-                    {
-                        <MatButton @onclick="@(() => SetSeenStatus(false))">Set as Unseen</MatButton>
-                    }
-                    else
-                    {
-                        <MatButton @onclick="@(() => SetSeenStatus(true))">Set as Seen</MatButton>
-                    }
+                    <MatButton @onclick="@(() => SetSeenStatus(false))">Set as Unseen</MatButton>
                 }
                 else
                 {
-                    <MatButton @onclick="AddToMySeriesList">Add to My Series</MatButton>
+                    <MatButton @onclick="@(() => SetSeenStatus(true))">Set as Seen</MatButton>
                 }
             }
-            <span class="spacer"></span>
-            <MatButton @onclick="@(() => Navigation.NavigateTo("/series"))">Series List</MatButton>
-            <MatButton @onclick="@(() => Navigation.NavigateTo("/my-series"))">My Series List</MatButton>
-        </div>
-        @if (Series != null)
-        {
-            <div class="data">
-                <div class="data-row">
-                    <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Series.Description)
-                </div>
-                <div class="data-row">
-                    <strong>Start Year: </strong> @WriteHelper.WriteNullableField(Series.StartYear)
-                </div>
-                <div class="data-row">
-                    <strong>End Year: </strong> @WriteHelper.WriteNullableField(Series.EndYear)
-                </div>
-                <div class="data-row">
-                    <strong>Creation: </strong> @DateHelper.DateToString(Series.Creation)
-                </div>
-                <div class="data-row">
-                    <strong>Last Update: </strong> @DateHelper.DateToString(Series.LastUpdate)
-                </div>
-                <div class="data-row">
-                    <strong>Creator: </strong> @Series.Creator
-                </div>
-                <div class="data-row">
-                    <strong>Last Updater: </strong> @Series.LastUpdater
-                </div>
-            </div>
-            <div class="seasons">
-                <div class="em-sub-title">Seasons</div>
-                @foreach (var season in Series.Seasons)
-                {
-                    <div class="season">
-                        <div class="head">
-                            <span>Season @season.Number</span>
-                            <span class="spacer"></span>
-                            <MatButton @onclick="@(() => DeleteDecrementedSeason(season.Id))">Delete</MatButton>
+            else
+            {
+                <MatButton @onclick="AddToMySeriesList">Add to My Series</MatButton>
+            }
+        }
+        <span class="spacer"></span>
+        <MatButton @onclick="@(() => Navigation.NavigateTo("/series"))">Series List</MatButton>
+        <MatButton @onclick="@(() => Navigation.NavigateTo("/my-series"))">My Series List</MatButton>
+    </div>
+    @if (Series != null)
+    {
+        <MatTabGroup Class="tab-group">
+            <MatTab Label="Data">
+                <div class="data">
+                    <div class="data-rows">
+                        <div class="data-row">
+                            <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Series.Description)
                         </div>
-                        <div class="body">
-                            <div class="episodes">
-                                @foreach (var episode in season.Episodes)
-                                {
-                                    <div class="episode">
-                                        <div class="ep-head">
-                                            <span>@episode.Number - [Title]</span>
-                                            <span class="spacer"></span>
-                                            <MatButton @onclick="@(() => DeleteDecrementedEpisode(episode.Id))">Delete</MatButton>
-                                        </div>
-                                        <div class="ep-body">
-                                            @episode.Description
-                                        </div>
-                                        <div class="ep-foot">
-                                            <span class="spacer"></span>
-                                            <MatButton @onclick="@(() => OpenEpisode(episode.Id))">Open</MatButton>
-                                            @if (Series.IsMine)
-                                            {
-                                                @if (episode.Seen)
-                                                {
-                                                    <MatButton @onclick="@(() => SetEpisodeSeenStatus(episode.Id, false))">Set As Unseen</MatButton>
-                                                }
-                                                else
-                                                {
-                                                    <MatButton @onclick="@(() => SetEpisodeSeenStatus(episode.Id, true))">Set As Seen</MatButton>
-                                                }
-                                            }
-                                        </div>
-                                    </div>
-                                }
-
-                                @if (season.Episodes.Count == 0)
-                                {
-                                    <div class="text-center">Season does not have any episode yet.</div>
-                                }
-
-                                <div class="episode-action">
-                                    <span class="spacer"></span>
-                                    <MatButton @onclick="@(() => AddIncrementedEpisode(season.Id))">Add Episode</MatButton>
-                                    @if (Series.IsMine)
+                        <div class="data-row">
+                            <strong>Start Year: </strong> @WriteHelper.WriteNullableField(Series.StartYear)
+                        </div>
+                        <div class="data-row">
+                            <strong>End Year: </strong> @WriteHelper.WriteNullableField(Series.EndYear)
+                        </div>
+                        <div class="data-row">
+                            <strong>Categories: </strong> @WriteHelper.WriteList(Series.Categories, ", ")
+                        </div>
+                        @if (!string.IsNullOrEmpty(Series.TrailerUrl))
+                        {
+                            <div class="data-row">
+                                <strong>
+                                    <a href="@Series.TrailerUrl">Trailer Url</a>
+                                </strong>
+                            </div>
+                        }
+                        <div class="data-row">
+                            <strong>Creation: </strong> @DateHelper.DateToString(Series.Creation)
+                        </div>
+                        <div class="data-row">
+                            <strong>Last Update: </strong> @DateHelper.DateToString(Series.LastUpdate)
+                        </div>
+                        <div class="data-row">
+                            <strong>Creator: </strong> @Series.Creator
+                        </div>
+                        <div class="data-row">
+                            <strong>Last Updater: </strong> @Series.LastUpdater
+                        </div>
+                        <div class="data-row">
+                            <strong>Added Status: </strong> @(Series.IsMine ? "Added" : "Not Added")
+                        </div>
+                        @if (Series.AddedOn != null)
+                        {
+                            <div class="data-row">
+                                <strong>Added on: </strong> @DateHelper.DateToString(Series.AddedOn)
+                            </div>
+                        }
+                        <div class="rates">
+                            @foreach (var rate in RateList)
+                            {
+                                <MatIcon Class="rate-icon" Icon="@(rate <= Series.Rate ? "star" : "star_border")" @onclick="@(() => UpdateRate(rate))" title="@rate"></MatIcon>
+                            }
+                        </div>
+                    </div>
+                    <div class="image">
+                        <div class="picture">
+                            @if (Series.ImageData.Length == 0)
+                            {
+                                <img src="/images/profile-icon.jpg" alt="@Series.Title"/>
+                            }
+                            else
+                            {
+                                <img src="@SeriesImage" alt="@Series.ImageTitle"/>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </MatTab>
+            <MatTab Label="Seasons">
+                <div class="seasons">
+                    @foreach (var season in Series.Seasons)
+                    {
+                        <div class="season">
+                            <div class="head">
+                                <span>Season @season.Number</span>
+                                <span class="spacer"></span>
+                                <MatButton @onclick="@(() => DeleteDecrementedSeason(season.Id))">Delete</MatButton>
+                            </div>
+                            <div class="body">
+                                <div class="episodes">
+                                    @foreach (var episode in season.Episodes)
                                     {
-                                        @if (season.IsSeen)
-                                        {
-                                            <MatButton @onclick="@(() => SetSeasonSeenStatus(season.Id, false))">Set As Unseen</MatButton>
-                                        }
-                                        else
-                                        {
-                                            <MatButton @onclick="@(() => SetSeasonSeenStatus(season.Id, true))">Set As Seen</MatButton>
-                                        }
+                                        <div class="episode">
+                                            <div class="ep-head">
+                                                <span>@episode.Number - @episode.Title</span>
+                                                <span class="spacer"></span>
+                                                <MatButton @onclick="@(() => DeleteDecrementedEpisode(episode.Id))">Delete</MatButton>
+                                            </div>
+                                            <div class="ep-body">
+                                                @episode.Description
+                                            </div>
+                                            <div class="ep-foot">
+                                                <span class="spacer"></span>
+                                                <MatButton @onclick="@(() => OpenEpisode(episode.Id))">Open</MatButton>
+                                                @if (Series.IsMine)
+                                                {
+                                                    @if (episode.Seen)
+                                                    {
+                                                        <MatButton @onclick="@(() => SetEpisodeSeenStatus(episode.Id, false))">Set As Unseen</MatButton>
+                                                    }
+                                                    else
+                                                    {
+                                                        <MatButton @onclick="@(() => SetEpisodeSeenStatus(episode.Id, true))">Set As Seen</MatButton>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
                                     }
+
+                                    @if (season.Episodes.Count == 0)
+                                    {
+                                        <div class="text-center">Season does not have any episode yet.</div>
+                                    }
+
+                                    <div class="episode-action">
+                                        <span class="spacer"></span>
+                                        <MatButton @onclick="@(() => AddIncrementedEpisode(season.Id))">Add Episode</MatButton>
+                                        @if (Series.IsMine)
+                                        {
+                                            @if (season.IsSeen)
+                                            {
+                                                <MatButton @onclick="@(() => SetSeasonSeenStatus(season.Id, false))">Set As Unseen</MatButton>
+                                            }
+                                            else
+                                            {
+                                                <MatButton @onclick="@(() => SetSeasonSeenStatus(season.Id, true))">Set As Seen</MatButton>
+                                            }
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    }
+
+                    @if (Series.Seasons.Count == 0)
+                    {
+                        <div class="text-center">Series does not have any season yet.</div>
+                    }
+
+                    <div class="season-action">
+                        <span class="spacer"></span>
+                        <MatButton @onclick="AddIncrementedSeason">Add Season</MatButton>
                     </div>
-                }
-
-                @if (Series.Seasons.Count == 0)
-                {
-                    <div class="text-center">Series does not have any season yet.</div>
-                }
-
-                <div class="season-action">
-                    <span class="spacer"></span>
-                    <MatButton @onclick="AddIncrementedSeason">Add Season</MatButton>
                 </div>
-            </div>
-        }
+            </MatTab>
+            <MatTab Label="Comments">
+                <div class="comments">
+                    <div class="comment-list">
+                        @foreach (var comment in CommentList)
+                        {
+                            <SeriesCommentComponent Comment="@comment" Refresh="@GetComments" SeriesId="@Series.Id"></SeriesCommentComponent>
+                        }
+                    </div>
+
+                    <div class="input-panel">
+                        <div class="col col-12 p-1">
+                            <MatTextField class="w-100" @bind-Value="Comment" Label="Comment" Dense="true" Outlined="true" TextArea="true"></MatTextField>
+                        </div>
+                        <div class="down-row">
+                            <span class="spacer"></span>
+                            <MatButton @onclick="SaveComment">Comment</MatButton>
+                        </div>
+                    </div>
+                </div>
+            </MatTab>
+        </MatTabGroup>
     }
+}
 </div>

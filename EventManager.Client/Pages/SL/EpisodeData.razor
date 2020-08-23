@@ -6,7 +6,7 @@
 <div class="sl-episode-data">
     @if (Episode != null)
     {
-        <h1 class="em-page-title">[Title]</h1>
+        <h1 class="em-page-title">@Episode.Title</h1>
     }
     @if (IsLoading)
     {
@@ -17,8 +17,9 @@
         <div class="action-bar">
             <MatButton @onclick="OpenEditEpisodeDialog">Edit</MatButton>
             <MatButton @onclick="DeleteDecremented">Delete</MatButton>
+            <MatButton @onclick="OpenEditEpisodeImageDialog">Edit Image</MatButton>
             @if (Episode != null && Episode.IsMine)
-            {       
+            {
                 @if (Episode.IsSeen)
                 {
                     <MatButton @onclick="@(() => SetSeenStatus(false))">Set as Unseen</MatButton>
@@ -35,8 +36,22 @@
         @if (Episode != null)
         {
             <div class="data">
-                <div class="data-row">
-                    <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Episode.Description)
+                <div class="data-rows">
+                    <div class="data-row">
+                        <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Episode.Description)
+                    </div>
+                </div>
+                <div class="image">
+                    <div class="picture">
+                        @if (Episode.ImageData.Length == 0)
+                        {
+                            <img src="/images/profile-icon.jpg" alt="@Episode.Title"/>
+                        }
+                        else
+                        {
+                            <img src="@EpisodeImage" alt="@Episode.ImageTitle"/>
+                        }
+                    </div>
                 </div>
             </div>
         }

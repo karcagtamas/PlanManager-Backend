@@ -50,6 +50,8 @@ namespace EventManager.Client
             builder.Services.AddScoped<IEpisodeService, EpisodeService>();
             builder.Services.AddScoped<IMovieCategoryService, MovieCategoryService>();
             builder.Services.AddScoped<IMovieCommentService, MovieCommentService>();
+            builder.Services.AddScoped<ISeriesCategoryService, SeriesCategoryService>();
+            builder.Services.AddScoped<ISeriesCommentService, SeriesCommentService>();
 
             if (builder.HostEnvironment.IsDevelopment())
             {

@@ -76,7 +76,8 @@ namespace MovieCorner.Services.Services
             var season = new Episode
             {
                 Number = number,
-                SeasonId = seasonId
+                SeasonId = seasonId,
+                Title = "[Episode Title]"
             };
 
             this.Add(season);

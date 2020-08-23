@@ -696,6 +696,9 @@ app {
 /* SL Series data page */
 .sl-series-data {
   max-height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 .sl-series-data .action-bar {
   margin-bottom: 1rem;
@@ -709,7 +712,21 @@ app {
 .sl-series-data .action-bar .spacer {
   flex-grow: 1;
 }
+.sl-series-data .tab-group {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+}
+.sl-series-data .tab-group .mat-tab-group-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+}
 .sl-series-data .data {
+  display: flex;
+  flex-direction: row;
   margin-bottom: 1rem;
   margin-top: 1rem;
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
@@ -717,8 +734,88 @@ app {
   padding: 0.5rem;
   background-color: rgba(187, 187, 255, 0.4);
 }
-.sl-series-data .data .data-row strong {
+.sl-series-data .data .data-rows {
+  flex-grow: 1;
+}
+.sl-series-data .data .data-rows .data-row strong {
   color: #5120a5;
+}
+.sl-series-data .data .data-rows .rates .rate-icon:hover {
+  cursor: pointer;
+}
+.sl-series-data .data .image .picture {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 50%;
+  transition-duration: 0.5s;
+  box-shadow: 0 0 0.5rem 0 #5120a5;
+}
+.sl-series-data .data .image .picture:hover {
+  transition-duration: 0.5s;
+  transform: scale(1.4, 1.4);
+  opacity: 0.3;
+}
+.sl-series-data .data .image .picture img {
+  width: auto;
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+}
+.sl-series-data .comments {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+  overflow: hidden;
+}
+.sl-series-data .comments .comment-list {
+  flex-grow: 1;
+  overflow: auto;
+}
+.sl-series-data .comments .comment-list .comment {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(249, 249, 249, 0.55);
+}
+.sl-series-data .comments .comment-list .comment .comment-header {
+  color: #5120a5;
+}
+.sl-series-data .comments .comment-list .comment .comment-body {
+  padding: 0.8rem;
+}
+.sl-series-data .comments .comment-list .comment .comment-action {
+  display: flex;
+  margin-bottom: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(255, 187, 187, 0.4);
+}
+.sl-series-data .comments .comment-list .comment .comment-action .spacer {
+  flex-grow: 1;
+}
+.sl-series-data .comments .input-panel {
+  flex-direction: column;
+}
+.sl-series-data .comments .input-panel .down-row {
+  display: flex;
+  flex-direction: row;
+}
+.sl-series-data .comments .input-panel .down-row .spacer {
+  flex-grow: 1;
 }
 .sl-series-data .seasons {
   margin-bottom: 1rem;
@@ -727,6 +824,7 @@ app {
   border-radius: 4px;
   padding: 0.5rem;
   background-color: rgba(187, 187, 255, 0.4);
+  overflow: auto;
 }
 .sl-series-data .seasons .season {
   margin-bottom: 1rem;
@@ -827,6 +925,8 @@ app {
   flex-grow: 1;
 }
 .sl-episode-data .data {
+  display: flex;
+  flex-direction: row;
   margin-bottom: 1rem;
   margin-top: 1rem;
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
@@ -834,8 +934,34 @@ app {
   padding: 0.5rem;
   background-color: rgba(187, 187, 255, 0.4);
 }
-.sl-episode-data .data .data-row strong {
+.sl-episode-data .data .data-rows {
+  flex-grow: 1;
+}
+.sl-episode-data .data .data-rows .data-row strong {
   color: #5120a5;
+}
+.sl-episode-data .data .image .picture {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 50%;
+  transition-duration: 0.5s;
+  box-shadow: 0 0 0.5rem 0 #5120a5;
+}
+.sl-episode-data .data .image .picture:hover {
+  transition-duration: 0.5s;
+  transform: scale(1.4, 1.4);
+  opacity: 0.3;
+}
+.sl-episode-data .data .image .picture img {
+  width: auto;
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translateY(-50%) translateX(-50%);
 }
 
 /* SL Movies page */
@@ -1103,6 +1229,24 @@ app {
   flex-grow: 1;
 }
 .sl-movie-category-selector-dialog .category-list {
+  flex-grow: 1;
+  display: flex;
+  max-height: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4);
+}
+
+/* SL Series selector dialog */
+.sl-series-category-selector-dialog {
+  display: flex;
+  flex-grow: 1;
+}
+.sl-series-category-selector-dialog .category-list {
   flex-grow: 1;
   display: flex;
   max-height: 100%;

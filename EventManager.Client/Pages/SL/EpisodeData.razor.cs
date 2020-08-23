@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
@@ -19,6 +20,7 @@ namespace EventManager.Client.Pages.SL
         [Inject] private IModalService Modal { get; set; }
 
         private bool IsLoading { get; set; }
+        private string EpisodeImage { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -30,6 +32,12 @@ namespace EventManager.Client.Pages.SL
             IsLoading = true;
             StateHasChanged();
             this.Episode = await EpisodeService.GetMy(this.Id);
+            if (this.Episode.ImageData.Length != 0)
+            {
+                var base64 = Convert.ToBase64String(this.Episode.ImageData);
+                this.EpisodeImage = $"data:image/gif;base64,{base64}";
+            }
+
             IsLoading = false;
             StateHasChanged();
         }
@@ -72,6 +80,29 @@ namespace EventManager.Client.Pages.SL
             {
                 await this.GetEpisode();
             }
+        }
+
+        private void OpenEditEpisodeImageDialog()
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+            parameters.Add("episode", this.Id);
+
+            var options = new ModalOptions
+            {
+                ButtonOptions = {ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true}
+            };
+
+            Modal.OnClose += EditEpisodeImageDialogClosed;
+
+            Modal.Show<EpisodeImageDialog>("Edit Episode Image", parameters, options);
+        }
+
+        private async void EditEpisodeImageDialogClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool) modalResult.Data) await GetEpisode();
+
+            Modal.OnClose -= EditEpisodeImageDialogClosed;
         }
     }
 }

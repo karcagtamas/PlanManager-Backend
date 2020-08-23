@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventManager.Client.Models;
@@ -15,16 +16,21 @@ namespace EventManager.Client.Pages.SL
 
         private MySeriesDto Series { get; set; }
         [Inject] private ISeriesService SeriesService { get; set; }
+        [Inject] private ISeriesCommentService SeriesCommentService { get; set; }
         [Inject] private ISeasonService SeasonService { get; set; }
         [Inject] private IEpisodeService EpisodeService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private IModalService Modal { get; set; }
-
         private bool IsLoading { get; set; }
+        private string SeriesImage { get; set; }
+        private List<SeriesCommentListDto> CommentList { get; set; }
+        private string Comment { get; set; }
+        private List<int> RateList { get; set; } = new List<int> {1, 2, 3, 4, 5};
 
         protected override async Task OnInitializedAsync()
         {
             await GetSeries();
+            await GetComments();
         }
 
         private async Task GetSeries()
@@ -32,6 +38,21 @@ namespace EventManager.Client.Pages.SL
             IsLoading = true;
             StateHasChanged();
             this.Series = await SeriesService.GetMy(this.Id);
+            if (this.Series.ImageData.Length != 0)
+            {
+                var base64 = Convert.ToBase64String(this.Series.ImageData);
+                this.SeriesImage = $"data:image/gif;base64,{base64}";
+            }
+
+            IsLoading = false;
+            StateHasChanged();
+        }
+
+        private async Task GetComments()
+        {
+            IsLoading = true;
+            StateHasChanged();
+            this.CommentList = await SeriesCommentService.GetList(this.Id);
             IsLoading = false;
             StateHasChanged();
         }
@@ -137,7 +158,7 @@ namespace EventManager.Client.Pages.SL
                 await this.GetSeries();
             }
         }
-        
+
         private async void SetEpisodeSeenStatus(int episode, bool status)
         {
             if (await this.EpisodeService.UpdateSeenStatus(
@@ -145,6 +166,70 @@ namespace EventManager.Client.Pages.SL
             {
                 await this.GetSeries();
             }
+        }
+
+        private void OpenEditSeriesCategoriesDialog()
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+            parameters.Add("series", this.Id);
+
+            var options = new ModalOptions
+            {
+                ButtonOptions = {ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true}
+            };
+
+            Modal.OnClose += EditSeriesCategoriesDialogClosed;
+
+            Modal.Show<SeriesCategoryDialog>("Edit Categories", parameters, options);
+        }
+
+        private async void EditSeriesCategoriesDialogClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool) modalResult.Data) await GetSeries();
+
+            Modal.OnClose -= EditSeriesCategoriesDialogClosed;
+        }
+
+        private async void SaveComment()
+        {
+            if (string.IsNullOrEmpty(this.Comment)) return;
+
+            if (!await this.SeriesCommentService.Create(new SeriesCommentModel
+                {Comment = this.Comment, SeriesId = this.Id})) return;
+            this.Comment = "";
+            await this.GetComments();
+        }
+
+        private async void UpdateRate(int rate)
+        {
+            if (await this.SeriesService.UpdateRate(this.Id, new SeriesRateModel {Rate = rate}))
+            {
+                await this.GetSeries();
+            }
+        }
+
+        private void OpenEditSeriesImageDialog()
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+            parameters.Add("series", this.Id);
+
+            var options = new ModalOptions
+            {
+                ButtonOptions = {ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true}
+            };
+
+            Modal.OnClose += EditSeriesImageDialogClosed;
+
+            Modal.Show<SeriesImageDialog>("Edit Series Image", parameters, options);
+        }
+
+        private async void EditSeriesImageDialogClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool) modalResult.Data) await GetSeries();
+
+            Modal.OnClose -= EditSeriesImageDialogClosed;
         }
     }
 }

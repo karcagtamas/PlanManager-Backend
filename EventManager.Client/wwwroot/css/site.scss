@@ -833,6 +833,9 @@ app {
 /* SL Series data page */
 .sl-series-data {
   max-height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 
   .action-bar {
     margin-bottom: 1rem;
@@ -848,7 +851,23 @@ app {
     }
   }
 
+  .tab-group {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+
+    .mat-tab-group-content {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      overflow: hidden;
+    }
+  }
+
   .data {
+    display: flex;
+    flex-direction: row;
     margin-bottom: 1rem;
     margin-top: 1rem;
     border-bottom: $primary-secondary-trans 3px solid;
@@ -856,9 +875,109 @@ app {
     padding: 0.5rem;
     background-color: $blue-light-trans;
 
-    .data-row {
-      strong {
-        color: $primary;
+    .data-rows {
+      flex-grow: 1;
+
+      .data-row {
+        strong {
+          color: $primary;
+        }
+      }
+
+      .rates {
+        .rate-icon {
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .image {
+      .picture {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        margin: auto;
+        overflow: hidden;
+        border-radius: 50%;
+        transition-duration: 0.5s;
+        box-shadow: 0 0 0.5rem 0 $primary;
+
+        &:hover {
+          transition-duration: 0.5s;
+          transform: scale(1.4, 1.4);
+          opacity: 0.3;
+        }
+
+        img {
+          width: auto;
+          height: 100%;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          -webkit-transform: translateY(-50%) translateX(-50%);
+        }
+      }
+    }
+  }
+  .comments {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: $primary-secondary-trans 3px solid;
+    border-radius: $border-radius;
+    padding: 0.5rem;
+    background-color: $blue-light-trans;
+    overflow: hidden;
+
+    .comment-list {
+      flex-grow: 1;
+      overflow: auto;
+
+      .comment {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $white-trans;
+
+        .comment-header {
+          color: $primary;
+        }
+
+        .comment-body {
+          padding: 0.8rem;
+        }
+
+        .comment-action {
+          display: flex;
+          margin-bottom: 1rem;
+          border-bottom: $primary-secondary-trans 3px solid;
+          border-radius: $border-radius;
+          padding: 0.5rem;
+          background-color: $red-light-trans;
+
+          .spacer {
+            flex-grow: 1;
+          }
+        }
+      }
+    }
+
+    .input-panel {
+      flex-direction: column;
+
+      .down-row {
+        display: flex;
+        flex-direction: row;
+
+        .spacer {
+          flex-grow: 1;
+        }
       }
     }
   }
@@ -870,6 +989,7 @@ app {
     border-radius: $border-radius;
     padding: 0.5rem;
     background-color: $blue-light-trans;
+    overflow: auto;
 
     .season {
       margin-bottom: 1rem;
@@ -992,16 +1112,50 @@ app {
   }
 
   .data {
+    display: flex;
+    flex-direction: row;
     margin-bottom: 1rem;
     margin-top: 1rem;
     border-bottom: $primary-secondary-trans 3px solid;
     border-radius: $border-radius;
     padding: 0.5rem;
     background-color: $blue-light-trans;
+    
+    .data-rows {
+      flex-grow: 1;
+      
+      .data-row {
+        strong {
+          color: $primary;
+        }
+      }
+    }
 
-    .data-row {
-      strong {
-        color: $primary;
+    .image {
+      .picture {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        margin: auto;
+        overflow: hidden;
+        border-radius: 50%;
+        transition-duration: 0.5s;
+        box-shadow: 0 0 0.5rem 0 $primary;
+
+        &:hover {
+          transition-duration: 0.5s;
+          transform: scale(1.4, 1.4);
+          opacity: 0.3;
+        }
+
+        img {
+          width: auto;
+          height: 100%;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          -webkit-transform: translateY(-50%) translateX(-50%);
+        }
       }
     }
   }
@@ -1057,7 +1211,7 @@ app {
       flex-grow: 1;
     }
   }
-  
+
   .tab-group {
     display: flex;
     flex-direction: column;
@@ -1090,7 +1244,7 @@ app {
           color: $primary;
         }
       }
-      
+
       .rates {
         .rate-icon {
           &:hover {
@@ -1152,15 +1306,15 @@ app {
         border-radius: $border-radius;
         padding: 0.5rem;
         background-color: $white-trans;
-        
+
         .comment-header {
           color: $primary;
         }
-        
+
         .comment-body {
           padding: 0.8rem;
         }
-        
+
         .comment-action {
           display: flex;
           margin-bottom: 1rem;
@@ -1168,7 +1322,7 @@ app {
           border-radius: $border-radius;
           padding: 0.5rem;
           background-color: $red-light-trans;
-          
+
           .spacer {
             flex-grow: 1;
           }
@@ -1178,11 +1332,11 @@ app {
 
     .input-panel {
       flex-direction: column;
-      
+
       .down-row {
         display: flex;
         flex-direction: row;
-        
+
         .spacer {
           flex-grow: 1;
         }
@@ -1305,6 +1459,25 @@ app {
 
 /* SL Movie selector dialog */
 .sl-movie-category-selector-dialog {
+  display: flex;
+  flex-grow: 1;
+
+  .category-list {
+    flex-grow: 1;
+    display: flex;
+    max-height: 100%;
+    overflow: auto;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: $primary-secondary-trans 3px solid;
+    border-radius: $border-radius;
+    padding: 0.5rem;
+    background-color: $blue-light-trans;
+  }
+}
+
+/* SL Series selector dialog */
+.sl-series-category-selector-dialog {
   display: flex;
   flex-grow: 1;
 

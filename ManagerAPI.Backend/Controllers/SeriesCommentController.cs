@@ -22,7 +22,7 @@ namespace ManagerAPI.Backend.Controllers
             this._seriesCommentService = service;
         }
 
-        [HttpGet("movie/{seriesId}")]
+        [HttpGet("series/{seriesId}")]
         public IActionResult GetList(int seriesId) 
         {
             try

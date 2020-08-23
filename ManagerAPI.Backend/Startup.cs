@@ -113,6 +113,8 @@ namespace ManagerAPI.Backend
             services.AddScoped<IExcelService, ExcelService>();
             services.AddScoped<IMovieCategoryService, MovieCategoryService>();
             services.AddScoped<IMovieCommentService, MovieCommentService>();
+            services.AddScoped<ISeriesCategoryService, SeriesCategoryService>();
+            services.AddScoped<ISeriesCommentService, SeriesCommentService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             

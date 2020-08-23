@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ManagerAPI.Shared.DTOs.SL
 {
@@ -19,5 +20,6 @@ namespace ManagerAPI.Shared.DTOs.SL
         public string ImageTitle { get; set; }
         public byte[] ImageData { get; set; }
         public string TrailerUrl { get; set; }
+        public List<string> Categories { get; set; }
     }
 }
