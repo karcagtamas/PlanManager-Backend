@@ -30,6 +30,12 @@ namespace ManagerAPI.Domain.Enums.SL
         UpdateMovieCategory = 92,
         AddMovieComment = 93,
         DeleteMovieComment = 94,
-        UpdateMovieComment = 95
+        UpdateMovieComment = 95,
+        AddSeriesCategory = 96,
+        DeleteSeriesCategory = 97,
+        UpdateSeriesCategory = 99,
+        AddSeriesComment = 99,
+        DeleteSeriesComment = 100,
+        UpdateSeriesComment = 101
     }
 }

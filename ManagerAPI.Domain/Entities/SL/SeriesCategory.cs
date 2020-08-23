@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities.SL
 {
-    public class SeriesCategory
+    public class SeriesCategory : IEntity
     {
         [Required] public int Id { get; set; }
 

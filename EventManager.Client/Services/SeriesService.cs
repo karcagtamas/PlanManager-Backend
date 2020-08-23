@@ -52,6 +52,42 @@ namespace EventManager.Client.Services
             return await this.Http.Get<List<MySeriesSelectorListDto>>(settings);
         }
 
+        public async Task<bool> UpdateImage(int id, SeriesImageModel model)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/image", null, pathParams, "Series image updating");
+            
+            var body = new HttpBody<SeriesImageModel>(model);
+
+            return await this.Http.Update<SeriesImageModel>(settings, body);
+        }
+
+        public async Task<bool> UpdateCategories(int id, SeriesCategoryUpdateModel model)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/categories", null, pathParams, "Series category updating");
+            
+            var body = new HttpBody<SeriesCategoryUpdateModel>(model);
+
+            return await this.Http.Update<SeriesCategoryUpdateModel>(settings, body);
+        }
+
+        public async Task<bool> UpdateRate(int id, SeriesRateModel model)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/rate", null, pathParams, "Series rating");
+            
+            var body = new HttpBody<SeriesRateModel>(model);
+
+            return await this.Http.Update<SeriesRateModel>(settings, body);
+        }
+
         public async Task<bool> RemoveSeriesFromMySeries(int id)
         {
             var pathParams = new HttpPathParameters();

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities.SL
 {
-    public class SeriesComment
+    public class SeriesComment : IEntity
     {
         public int Id { get; set; }
         [Required] public int SeriesId { get; set; }

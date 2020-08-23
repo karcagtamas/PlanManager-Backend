@@ -66,5 +66,17 @@ namespace EventManager.Client.Services
 
             return await this.Http.Update<EpisodeShortModel>(settings, body);
         }
+
+        public async Task<bool> UpdateImage(int id, EpisodeImageModel model)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/image", null, pathParams, "Episode image updating");
+            
+            var body = new HttpBody<EpisodeImageModel>(model);
+
+            return await this.Http.Update<EpisodeImageModel>(settings, body);
+        }
     }
 }
