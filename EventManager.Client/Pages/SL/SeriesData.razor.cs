@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using EventManager.Client.Shared.Common;
 using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
@@ -26,6 +28,7 @@ namespace EventManager.Client.Pages.SL
         private List<SeriesCommentListDto> CommentList { get; set; }
         private string Comment { get; set; }
         private List<int> RateList { get; set; } = new List<int> {1, 2, 3, 4, 5};
+        private int SelectedId { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -80,14 +83,6 @@ namespace EventManager.Client.Pages.SL
             Modal.OnClose -= EditSeriesDialogClosed;
         }
 
-        private async void DeleteSeries()
-        {
-            if (await this.SeriesService.Delete(this.Id))
-            {
-                this.Navigation.NavigateTo("series");
-            }
-        }
-
         private async void AddToMySeriesList()
         {
             if (await this.SeriesService.AddSeriesToMySeries(this.Id))
@@ -121,25 +116,9 @@ namespace EventManager.Client.Pages.SL
             }
         }
 
-        private async void DeleteDecrementedSeason(int seasonId)
-        {
-            if (await this.SeasonService.DeleteDecremented(seasonId))
-            {
-                await this.GetSeries();
-            }
-        }
-
         private async void AddIncrementedEpisode(int season)
         {
             if (await this.EpisodeService.AddIncremented(season))
-            {
-                await this.GetSeries();
-            }
-        }
-
-        private async void DeleteDecrementedEpisode(int episodeId)
-        {
-            if (await this.EpisodeService.DeleteDecremented(episodeId))
             {
                 await this.GetSeries();
             }
@@ -230,6 +209,80 @@ namespace EventManager.Client.Pages.SL
             if (!modalResult.Cancelled && (bool) modalResult.Data) await GetSeries();
 
             Modal.OnClose -= EditSeriesImageDialogClosed;
+        }
+
+        private void OpenDeleteDialog()
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+            parameters.Add("type", ConfirmType.Delete);
+            parameters.Add("name", this.Series.Title);
+
+            var options =
+                new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
+
+            Modal.OnClose += DeleteDialogClosed;
+            Modal.Show<Confirm>("Series Delete", parameters, options);
+        }
+
+        private async void DeleteDialogClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool) modalResult.Data && await SeriesService.Delete(this.Id))
+            {
+                this.Navigation.NavigateTo("series");
+            }
+
+            Modal.OnClose -= DeleteDialogClosed;
+        }
+        
+        private void OpenDeleteSeasonDialog(MySeasonDto season)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+            parameters.Add("type", ConfirmType.Delete);
+            parameters.Add("name", season.Number.ToString());
+            this.SelectedId = season.Id;
+
+            var options =
+                new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
+
+            Modal.OnClose += DeleteSeasonDialogClosed;
+            Modal.Show<Confirm>("Season Delete", parameters, options);
+        }
+
+        private async void DeleteSeasonDialogClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool) modalResult.Data && await SeasonService.DeleteDecremented(this.SelectedId))
+            {
+                await this.GetSeries();
+            }
+
+            Modal.OnClose -= DeleteSeasonDialogClosed;
+        }
+        
+        private void OpenDeleteEpisodeDialog(MyEpisodeListDto episode)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+            parameters.Add("type", ConfirmType.Delete);
+            parameters.Add("name", episode.Title);
+            this.SelectedId = episode.Id;
+
+            var options =
+                new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
+
+            Modal.OnClose += DeleteEpisodeDialogClosed;
+            Modal.Show<Confirm>("Episode Delete", parameters, options);
+        }
+
+        private async void DeleteEpisodeDialogClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool) modalResult.Data && await EpisodeService.DeleteDecremented(this.SelectedId))
+            {
+                await this.GetSeries();
+            }
+
+            Modal.OnClose -= DeleteEpisodeDialogClosed;
         }
     }
 }

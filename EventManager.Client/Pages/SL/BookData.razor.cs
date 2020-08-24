@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using EventManager.Client.Shared.Common;
 using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
@@ -56,14 +58,6 @@ namespace EventManager.Client.Pages.SL
             Modal.OnClose -= BookModalClosed;
         }
 
-        private async void DeleteBook()
-        {
-            if (await this.BookService.Delete(this.Id))
-            {
-                this.Navigation.NavigateTo("books");
-            }
-        }
-
         private async void AddToMyBooks()
         {
             if (await this.BookService.AddBookToMyBooks(this.Id))
@@ -87,6 +81,30 @@ namespace EventManager.Client.Pages.SL
             {
                 await this.GetBook();
             }
+        }
+        
+        private void OpenDeleteDialog()
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+            parameters.Add("type", ConfirmType.Delete);
+            parameters.Add("name", this.Book.Name);
+
+            var options =
+                new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
+
+            Modal.OnClose += DeleteDialogClosed;
+            Modal.Show<Confirm>("Book Delete", parameters, options);
+        }
+
+        private async void DeleteDialogClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool) modalResult.Data && await BookService.Delete(this.Id))
+            {
+                this.Navigation.NavigateTo("books");
+            }
+
+            Modal.OnClose -= DeleteDialogClosed;
         }
     }
 }

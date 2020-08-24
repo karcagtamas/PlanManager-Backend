@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using EventManager.Client.Shared.Common;
 using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
@@ -101,14 +103,6 @@ namespace EventManager.Client.Pages.SL
             Modal.OnClose -= EditMovieImageDialogClosed;
         }
 
-        private async void DeleteMovie()
-        {
-            if (await this.MovieService.Delete(this.Id))
-            {
-                this.Navigation.NavigateTo("movies");
-            }
-        }
-
         private async void AddToMyMovies()
         {
             if (await this.MovieService.AddMovieToMyMovies(this.Id))
@@ -172,6 +166,30 @@ namespace EventManager.Client.Pages.SL
             {
                 await this.GetMovie();
             }
+        }
+        
+        private void OpenDeleteDialog()
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+            parameters.Add("type", ConfirmType.Delete);
+            parameters.Add("name", this.Movie.Title);
+
+            var options =
+                new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
+
+            Modal.OnClose += DeleteDialogClosed;
+            Modal.Show<Confirm>("Movie Delete", parameters, options);
+        }
+
+        private async void DeleteDialogClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool) modalResult.Data && await MovieService.Delete(this.Id))
+            {
+                this.Navigation.NavigateTo("movies");
+            }
+
+            Modal.OnClose -= DeleteDialogClosed;
         }
     }
 }

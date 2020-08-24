@@ -19,7 +19,7 @@ else
             <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditSeriesDialog"></MatIconButton>
         </MatTooltip>
         <MatTooltip Tooltip="Delete Series">
-            <MatIconButton RefBack="@context" Icon="delete" @onclick="DeleteSeries"></MatIconButton>
+            <MatIconButton RefBack="@context" Icon="delete" @onclick="OpenDeleteDialog"></MatIconButton>
         </MatTooltip>
         <MatTooltip Tooltip="Edit Image">
             <MatIconButton RefBack="@context" Icon="image" @onclick="OpenEditSeriesImageDialog"></MatIconButton>
@@ -138,7 +138,7 @@ else
                                 <span>Season @season.Number</span>
                                 <span class="spacer"></span>
                                 <MatTooltip Tooltip="Delete Season">
-                                    <MatIconButton RefBack="@context" Icon="delete" @onclick="@(() => DeleteDecrementedSeason(season.Id))"></MatIconButton>
+                                    <MatIconButton RefBack="@context" Icon="delete" @onclick="@(() => OpenDeleteSeasonDialog(season))"></MatIconButton>
                                 </MatTooltip>
                             </div>
                             <div class="body">
@@ -150,7 +150,7 @@ else
                                                 <span>@episode.Number - @episode.Title</span>
                                                 <span class="spacer"></span>
                                                 <MatTooltip Tooltip="Delete Episode">
-                                                    <MatIconButton RefBack="@context" Icon="delete" @onclick="@(() => DeleteDecrementedEpisode(episode.Id))"></MatIconButton>
+                                                    <MatIconButton RefBack="@context" Icon="delete" @onclick="@(() => OpenDeleteEpisodeDialog(episode))"></MatIconButton>
                                                 </MatTooltip>
                                             </div>
                                             <div class="ep-body">
