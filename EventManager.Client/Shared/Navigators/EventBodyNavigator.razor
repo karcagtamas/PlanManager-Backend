@@ -19,7 +19,7 @@
     [Parameter]
     public int Id { get; set; }
 
-    protected string GetPath(string page)
+    private string GetPath(string page)
     {
         return $"/events/{Id}/{page}";
     }

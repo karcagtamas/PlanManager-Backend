@@ -44,7 +44,7 @@ namespace EventManager.Client
             NotifyAuthenticationStateChanged(authState);
         }
 
-        public void MarkUserAsLoggedOut()
+        private void MarkUserAsLoggedOut()
         {
             var anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
             var authState = Task.FromResult(new AuthenticationState(anonymousUser));
@@ -58,7 +58,7 @@ namespace EventManager.Client
             var jsonBytes = ParseBase64WithoutPadding(payload);
             var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
 
-            if (keyValuePairs.Keys.Contains("exp"))
+            if (keyValuePairs != null && keyValuePairs.Keys.Contains("exp"))
             {
                 long.TryParse(keyValuePairs["exp"].ToString(), out long exp);
                 DateTime date = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
