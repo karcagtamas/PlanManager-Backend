@@ -344,6 +344,7 @@ app {
   padding: 0.5rem;
   background-color: rgba(240, 174, 73, 0.4);
   display: flex;
+  color: #5120a5;
 }
 .em-my-tasks .action-bar .spacer {
   flex-grow: 1;
@@ -401,6 +402,7 @@ app {
 .em-my-tasks .date-groups .task .description .description-button {
   display: table-cell;
   vertical-align: bottom;
+  color: #5120a5;
 }
 .em-my-tasks .date-groups .task .description .description-button .wrapper {
   display: flex;
@@ -595,6 +597,7 @@ app {
   border-radius: 4px;
   padding: 0.5rem;
   background-color: rgba(240, 174, 73, 0.4);
+  color: #5120a5;
 }
 .sl-books .book-list {
   flex-grow: 1;
@@ -621,6 +624,7 @@ app {
   padding: 0.5rem;
   background-color: rgba(240, 174, 73, 0.4);
   display: flex;
+  color: #5120a5;
 }
 .sl-book-data .action-bar .spacer {
   flex-grow: 1;
@@ -645,12 +649,18 @@ app {
   flex-direction: column;
 }
 .sl-my-books .action-bar {
+  display: flex;
+  flex-direction: row;
   margin-bottom: 1rem;
   margin-top: 1rem;
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
   border-radius: 4px;
   padding: 0.5rem;
   background-color: rgba(240, 174, 73, 0.4);
+  color: #5120a5;
+}
+.sl-my-books .action-bar .spacer {
+  flex-grow: 1;
 }
 .sl-my-books .book-list {
   flex-grow: 1;
@@ -679,6 +689,7 @@ app {
   border-radius: 4px;
   padding: 0.5rem;
   background-color: rgba(240, 174, 73, 0.4);
+  color: #5120a5;
 }
 .sl-series .series-list {
   flex-grow: 1;
@@ -708,6 +719,7 @@ app {
   padding: 0.5rem;
   background-color: rgba(240, 174, 73, 0.4);
   display: flex;
+  color: #5120a5;
 }
 .sl-series-data .action-bar .spacer {
   flex-grow: 1;
@@ -894,6 +906,7 @@ app {
   border-radius: 4px;
   padding: 0.5rem;
   background-color: rgba(240, 174, 73, 0.4);
+  color: #5120a5;
 }
 .sl-my-series .series-list {
   flex-grow: 1;
@@ -978,6 +991,7 @@ app {
   border-radius: 4px;
   padding: 0.5rem;
   background-color: rgba(240, 174, 73, 0.4);
+  color: #5120a5;
 }
 .sl-movies .movie-list {
   flex-grow: 1;
@@ -1007,6 +1021,7 @@ app {
   padding: 0.5rem;
   background-color: rgba(240, 174, 73, 0.4);
   display: flex;
+  color: #5120a5;
 }
 .sl-movie-data .action-bar .spacer {
   flex-grow: 1;
@@ -1125,12 +1140,18 @@ app {
   flex-direction: column;
 }
 .sl-my-movies .action-bar {
+  display: flex;
+  flex-direction: row;
   margin-bottom: 1rem;
   margin-top: 1rem;
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
   border-radius: 4px;
   padding: 0.5rem;
   background-color: rgba(240, 174, 73, 0.4);
+  color: #5120a5;
+}
+.sl-my-movies .action-bar .spacer {
+  flex-grow: 1;
 }
 .sl-my-movies .movie-list {
   flex-grow: 1;

@@ -15,27 +15,46 @@
 else
 {
     <div class="action-bar">
-        <MatButton @onclick="OpenEditSeriesDialog">Edit</MatButton>
-        <MatButton @onclick="DeleteSeries">Delete</MatButton>
-        <MatButton @onclick="OpenEditSeriesImageDialog">Edit Image</MatButton>
-        <MatButton @onclick="OpenEditSeriesCategoriesDialog">Edit Categories</MatButton>
+        <MatTooltip Tooltip="Edit Series">
+            <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditSeriesDialog"></MatIconButton>
+        </MatTooltip>
+        <MatTooltip Tooltip="Delete Series">
+            <MatIconButton RefBack="@context" Icon="delete" @onclick="DeleteSeries"></MatIconButton>
+        </MatTooltip>
+        <MatTooltip Tooltip="Edit Image">
+            <MatIconButton RefBack="@context" Icon="image" @onclick="OpenEditSeriesImageDialog"></MatIconButton>
+        </MatTooltip>
+        <MatTooltip Tooltip="Edit Categories">
+            <MatIconButton RefBack="@context" Icon="category" @onclick="OpenEditSeriesCategoriesDialog"></MatIconButton>
+        </MatTooltip>
         @if (Series != null)
         {
             @if (Series.IsMine)
             {
-                <MatButton @onclick="RemoveFromMySeriesList">Remove From My Series</MatButton>
-                @if (Series.IsSeen)
+                <MatTooltip Tooltip="Remove from My list">
+                    <MatIconButton RefBack="@context" Icon="remove" @onclick="RemoveFromMySeriesList"></MatIconButton>
+                </MatTooltip>
+                @if (Series.Seasons != null && Series.Seasons.Count > 0 && Series.Seasons.Sum(x => x.Episodes.Count) > 0)
                 {
-                    <MatButton @onclick="@(() => SetSeenStatus(false))">Set as Unseen</MatButton>
-                }
-                else
-                {
-                    <MatButton @onclick="@(() => SetSeenStatus(true))">Set as Seen</MatButton>
+                    @if (Series.IsSeen)
+                    {
+                        <MatTooltip Tooltip="Set to not seen">
+                            <MatIconButton RefBack="@context" Icon="visibility_off" @onclick="@(() => SetSeenStatus(false))"></MatIconButton>
+                        </MatTooltip>
+                    }
+                    else
+                    {
+                        <MatTooltip Tooltip="Set to seen">
+                            <MatIconButton RefBack="@context" Icon="visibility" @onclick="@(() => SetSeenStatus(true))"></MatIconButton>
+                        </MatTooltip>
+                    }
                 }
             }
             else
             {
-                <MatButton @onclick="AddToMySeriesList">Add to My Series</MatButton>
+                <MatTooltip Tooltip="Add to My list">
+                    <MatIconButton RefBack="@context" Icon="add" @onclick="AddToMySeriesList"></MatIconButton>
+                </MatTooltip>
             }
         }
         <span class="spacer"></span>
@@ -118,7 +137,9 @@ else
                             <div class="head">
                                 <span>Season @season.Number</span>
                                 <span class="spacer"></span>
-                                <MatButton @onclick="@(() => DeleteDecrementedSeason(season.Id))">Delete</MatButton>
+                                <MatTooltip Tooltip="Delete Season">
+                                    <MatIconButton RefBack="@context" Icon="delete" @onclick="@(() => DeleteDecrementedSeason(season.Id))"></MatIconButton>
+                                </MatTooltip>
                             </div>
                             <div class="body">
                                 <div class="episodes">
@@ -128,23 +149,31 @@ else
                                             <div class="ep-head">
                                                 <span>@episode.Number - @episode.Title</span>
                                                 <span class="spacer"></span>
-                                                <MatButton @onclick="@(() => DeleteDecrementedEpisode(episode.Id))">Delete</MatButton>
+                                                <MatTooltip Tooltip="Delete Episode">
+                                                    <MatIconButton RefBack="@context" Icon="delete" @onclick="@(() => DeleteDecrementedEpisode(episode.Id))"></MatIconButton>
+                                                </MatTooltip>
                                             </div>
                                             <div class="ep-body">
                                                 @episode.Description
                                             </div>
                                             <div class="ep-foot">
                                                 <span class="spacer"></span>
-                                                <MatButton @onclick="@(() => OpenEpisode(episode.Id))">Open</MatButton>
+                                                <MatTooltip Tooltip="@($"Open Episode {episode.Title}")">
+                                                    <MatIconButton RefBack="@context" Icon="open_in_new" @onclick="@(() => OpenEpisode(episode.Id))"></MatIconButton>
+                                                </MatTooltip>
                                                 @if (Series.IsMine)
                                                 {
                                                     @if (episode.Seen)
                                                     {
-                                                        <MatButton @onclick="@(() => SetEpisodeSeenStatus(episode.Id, false))">Set As Unseen</MatButton>
+                                                        <MatTooltip Tooltip="@($"Set to not seen {episode.Title}")">
+                                                            <MatIconButton RefBack="@context" Icon="visibility_off" @onclick="@(() => SetEpisodeSeenStatus(episode.Id, false))"></MatIconButton>
+                                                        </MatTooltip>
                                                     }
                                                     else
                                                     {
-                                                        <MatButton @onclick="@(() => SetEpisodeSeenStatus(episode.Id, true))">Set As Seen</MatButton>
+                                                        <MatTooltip Tooltip="@($"Set to seen {episode.Title}")">
+                                                            <MatIconButton RefBack="@context" Icon="visibility" @onclick="@(() => SetEpisodeSeenStatus(episode.Id, true))"></MatIconButton>
+                                                        </MatTooltip>
                                                     }
                                                 }
                                             </div>
@@ -158,16 +187,25 @@ else
 
                                     <div class="episode-action">
                                         <span class="spacer"></span>
-                                        <MatButton @onclick="@(() => AddIncrementedEpisode(season.Id))">Add Episode</MatButton>
+                                        <MatTooltip Tooltip="@($"Add Episode to season {season.Number}")">
+                                            <MatIconButton RefBack="@context" Icon="add" @onclick="@(() => AddIncrementedEpisode(season.Id))"></MatIconButton>
+                                        </MatTooltip>
                                         @if (Series.IsMine)
                                         {
-                                            @if (season.IsSeen)
+                                            @if (season.Episodes != null && season.Episodes.Count > 0)
                                             {
-                                                <MatButton @onclick="@(() => SetSeasonSeenStatus(season.Id, false))">Set As Unseen</MatButton>
-                                            }
-                                            else
-                                            {
-                                                <MatButton @onclick="@(() => SetSeasonSeenStatus(season.Id, true))">Set As Seen</MatButton>
+                                                @if (season.IsSeen)
+                                                {
+                                                    <MatTooltip Tooltip="@($"Set to not seen season {season.Number}")">
+                                                        <MatIconButton RefBack="@context" Icon="visibility_off" @onclick="@(() => SetSeasonSeenStatus(season.Id, false))"></MatIconButton>
+                                                    </MatTooltip>
+                                                }
+                                                else
+                                                {
+                                                    <MatTooltip Tooltip="@($"Set to seen season {season.Number}")">
+                                                        <MatIconButton RefBack="@context" Icon="visibility" @onclick="@(() => SetSeasonSeenStatus(season.Id, true))"></MatIconButton>
+                                                    </MatTooltip>
+                                                }
                                             }
                                         }
                                     </div>
@@ -183,7 +221,9 @@ else
 
                     <div class="season-action">
                         <span class="spacer"></span>
-                        <MatButton @onclick="AddIncrementedSeason">Add Season</MatButton>
+                        <MatTooltip Tooltip="Add Season to Series">
+                            <MatIconButton RefBack="@context" Icon="add" @onclick="AddIncrementedSeason"></MatIconButton>
+                        </MatTooltip>
                     </div>
                 </div>
             </MatTab>

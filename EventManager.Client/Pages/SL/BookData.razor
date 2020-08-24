@@ -15,27 +15,38 @@
     else
     {
         <div class="action-bar">
-            <MatButton @onclick="OpenEditBookDialog">Edit</MatButton>
-            <MatButton @onclick="DeleteBook">Delete</MatButton>
+            <MatTooltip Tooltip="Edit Book">
+                <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditBookDialog"></MatIconButton>
+            </MatTooltip>
+            <MatTooltip Tooltip="Delete Book">
+                <MatIconButton RefBack="@context" Icon="delete" @onclick="DeleteBook"></MatIconButton>
+            </MatTooltip>
             @if (Book != null)
             {
                 @if (Book.IsMine)
                 {
-                    <MatButton @onclick="RemoveFromMyBooks">Remove From My Books</MatButton>
+                    <MatTooltip Tooltip="Remove from My list">
+                        <MatIconButton RefBack="@context" Icon="remove" @onclick="RemoveFromMyBooks"></MatIconButton>
+                    </MatTooltip>
                     @if (Book.IsRead)
                     {
-                        <MatButton @onclick="@(() => SetReadStatus(false))">Set as Unread</MatButton>
+                        <MatTooltip Tooltip="Set to not read">
+                            <MatIconButton RefBack="@context" Icon="visibility_off" @onclick="@(() => SetReadStatus(false))"></MatIconButton>
+                        </MatTooltip>
                     }
                     else
                     {
-                        <MatButton @onclick="@(() => SetReadStatus(true))">Set as Read</MatButton>
+                        <MatTooltip Tooltip="Set to read">
+                            <MatIconButton RefBack="@context" Icon="visibility" @onclick="@(() => SetReadStatus(true))"></MatIconButton>
+                        </MatTooltip>
                     }
                 }
                 else
                 {
-                    <MatButton @onclick="AddToMyBooks">Add to My Books</MatButton>
+                    <MatTooltip Tooltip="Add to My list">
+                        <MatIconButton RefBack="@context" Icon="add" @onclick="AddToMyBooks"></MatIconButton>
+                    </MatTooltip>
                 }
-                
             }
             <span class="spacer"></span>
             <MatButton @onclick="@(() => Navigation.NavigateTo("/books"))">Book List</MatButton>

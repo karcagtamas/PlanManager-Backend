@@ -11,7 +11,9 @@
     else
     {
         <div class="action-bar">
-            <MatButton @onclick="OpenAddMovieDialog">Add</MatButton>
+            <MatTooltip Tooltip="Add Movie">
+                <MatIconButton RefBack="@context" Icon="add" @onclick="OpenAddMovieDialog"></MatIconButton>
+            </MatTooltip>
         </div>
         @if (MovieList != null && MovieList.Count > 0)
         {

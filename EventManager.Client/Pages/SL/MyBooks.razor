@@ -11,7 +11,10 @@
     else
     {
         <div class="action-bar">
-            <MatButton @onclick="OpenEditMyBooksDialog">Edit My Books</MatButton>
+            <MatTooltip Tooltip="Edit My List">
+                <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditMyBooksDialog"></MatIconButton>
+            </MatTooltip>
+            <span class="spacer"></span>
             <MatButton @onclick="OpenEditReadBooksDialog">Edit Read Books</MatButton>
         </div>
         @if (BookList != null && BookList.Count > 0)

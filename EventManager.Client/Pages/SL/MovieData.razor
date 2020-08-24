@@ -15,27 +15,43 @@
     else
     {
         <div class="action-bar">
-            <MatButton @onclick="OpenEditMovieDialog">Edit</MatButton>
-            <MatButton @onclick="DeleteMovie">Delete</MatButton>
-            <MatButton @onclick="OpenEditMovieImageDialog">Edit Image</MatButton>
-            <MatButton @onclick="OpenEditMovieCategoriesDialog">Edit Categories</MatButton>
+            <MatTooltip Tooltip="Edit Movie">
+                <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditMovieDialog"></MatIconButton>
+            </MatTooltip>
+            <MatTooltip Tooltip="Delete Movie">
+                <MatIconButton RefBack="@context" Icon="delete" @onclick="DeleteMovie"></MatIconButton>
+            </MatTooltip>
+            <MatTooltip Tooltip="Edit Image">
+                <MatIconButton RefBack="@context" Icon="image" @onclick="OpenEditMovieImageDialog"></MatIconButton>
+            </MatTooltip>
+            <MatTooltip Tooltip="Edit Categories">
+                <MatIconButton RefBack="@context" Icon="category" @onclick="OpenEditMovieCategoriesDialog"></MatIconButton>
+            </MatTooltip>
             @if (Movie != null)
             {
                 @if (Movie.IsMine)
                 {
-                    <MatButton @onclick="RemoveFromMyMovies">Remove From My Books</MatButton>
+                    <MatTooltip Tooltip="Remove from My list">
+                        <MatIconButton RefBack="@context" Icon="remove" @onclick="RemoveFromMyMovies"></MatIconButton>
+                    </MatTooltip>
                     @if (Movie.IsSeen)
                     {
-                        <MatButton @onclick="@(() => SetSeenStatus(false))">Set as Unseen</MatButton>
+                        <MatTooltip Tooltip="Set to not seen">
+                            <MatIconButton RefBack="@context" Icon="visibility_off" @onclick="@(() => SetSeenStatus(false))"></MatIconButton>
+                        </MatTooltip>
                     }
                     else
                     {
-                        <MatButton @onclick="@(() => SetSeenStatus(true))">Set as Seen</MatButton>
+                        <MatTooltip Tooltip="Set to seen">
+                            <MatIconButton RefBack="@context" Icon="visibility" @onclick="@(() => SetSeenStatus(true))"></MatIconButton>
+                        </MatTooltip>
                     }
                 }
                 else
                 {
-                    <MatButton @onclick="AddToMyMovies">Add to My Books</MatButton>
+                    <MatTooltip Tooltip="Add to My list">
+                        <MatIconButton RefBack="@context" Icon="add" @onclick="AddToMyMovies"></MatIconButton>
+                    </MatTooltip>
                 }
             }
             <span class="spacer"></span>

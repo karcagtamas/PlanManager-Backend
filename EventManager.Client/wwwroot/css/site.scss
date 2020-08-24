@@ -415,6 +415,7 @@ app {
     padding: 0.5rem;
     background-color: $orange-trans;
     display: flex;
+    color: $primary;
 
     .spacer {
       flex-grow: 1;
@@ -483,6 +484,7 @@ app {
         .description-button {
           display: table-cell;
           vertical-align: bottom;
+          color: $primary;
 
           .wrapper {
             display: flex;
@@ -720,6 +722,7 @@ app {
     border-radius: $border-radius;
     padding: 0.5rem;
     background-color: $orange-trans;
+    color: $primary;
   }
 
   .book-list {
@@ -748,6 +751,7 @@ app {
     padding: 0.5rem;
     background-color: $orange-trans;
     display: flex;
+    color: $primary;
 
     .spacer {
       flex-grow: 1;
@@ -778,12 +782,19 @@ app {
   flex-direction: column;
 
   .action-bar {
+    display: flex;
+    flex-direction: row;
     margin-bottom: 1rem;
     margin-top: 1rem;
     border-bottom: $primary-secondary-trans 3px solid;
     border-radius: $border-radius;
     padding: 0.5rem;
     background-color: $orange-trans;
+    color: $primary;
+    
+    .spacer {
+      flex-grow: 1;
+    }
   }
 
   .book-list {
@@ -814,6 +825,7 @@ app {
     border-radius: $border-radius;
     padding: 0.5rem;
     background-color: $orange-trans;
+    color: $primary;
   }
 
   .series-list {
@@ -845,6 +857,7 @@ app {
     padding: 0.5rem;
     background-color: $orange-trans;
     display: flex;
+    color: $primary;
 
     .spacer {
       flex-grow: 1;
@@ -1077,6 +1090,7 @@ app {
     border-radius: $border-radius;
     padding: 0.5rem;
     background-color: $orange-trans;
+    color: $primary;
   }
 
   .series-list {
@@ -1175,6 +1189,7 @@ app {
     border-radius: $border-radius;
     padding: 0.5rem;
     background-color: $orange-trans;
+    color: $primary;
   }
 
   .movie-list {
@@ -1206,6 +1221,7 @@ app {
     padding: 0.5rem;
     background-color: $orange-trans;
     display: flex;
+    color: $primary;
 
     .spacer {
       flex-grow: 1;
@@ -1353,12 +1369,19 @@ app {
   flex-direction: column;
 
   .action-bar {
+    display: flex;
+    flex-direction: row;
     margin-bottom: 1rem;
     margin-top: 1rem;
     border-bottom: $primary-secondary-trans 3px solid;
     border-radius: $border-radius;
     padding: 0.5rem;
     background-color: $orange-trans;
+    color: $primary;
+    
+    .spacer {
+      flex-grow: 1;
+    }
   }
 
   .movie-list {
