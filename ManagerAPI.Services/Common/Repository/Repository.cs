@@ -519,5 +519,37 @@ namespace ManagerAPI.Services.Common.Repository
 
             return args;
         }
+
+        public List<TEntity> GetOrderedAll(string orderBy, string direction)
+        {
+            if (!string.IsNullOrEmpty(orderBy))
+            {
+                var type = typeof(TEntity);
+                var property = type.GetProperty(orderBy);
+
+                switch (direction)
+                {
+                    case "asc":
+                        return this.GetAll().OrderBy(x => property.GetValue(x)).ToList();
+                        break;
+                    case "desc":
+                        return this.GetAll().OrderByDescending(x => property.GetValue(x)).ToList();
+                        break;
+                    case "none":
+                        return this.GetAll();
+                        break;
+                    default: throw new ArgumentException(); break;
+                }
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+        }
+
+        public List<T> GetOrderedAll<T>(string orderBy, string direction)
+        {
+            return this.Mapper.Map<List<T>>(this.GetOrderedAll(orderBy, direction));
+        }
     }
 }

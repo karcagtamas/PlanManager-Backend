@@ -15,6 +15,8 @@ namespace ManagerAPI.Services.Common.Repository
         List<T> GetList<T>(Expression<Func<TEntity, bool>> predicate, int? count);
         List<TEntity> GetList(Expression<Func<TEntity, bool>> predicate, int? count, int? skip);
         List<T> GetList<T>(Expression<Func<TEntity, bool>> predicate, int? count, int? skip);
+        List<TEntity> GetOrderedAll(string orderBy, string direction);
+        List<T> GetOrderedAll<T>(string orderBy, string direction);
         TEntity Get(params object[] keys);
         T Get<T>(params object[] keys);
         void Update(TEntity entity);
