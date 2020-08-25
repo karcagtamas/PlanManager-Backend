@@ -60,7 +60,7 @@ namespace MovieCorner.Services.Services
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), list.Select(x => x.Book.Id).ToList());
 
-            return this.Mapper.Map<List<MyBookListDto>>(list);
+            return this.Mapper.Map<List<MyBookListDto>>(list).OrderBy(x => x.Name).ToList();
         }
 
         public MyBookDto GetMy(int id)
@@ -96,7 +96,7 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var list = this.GetAll<MyBookSelectorListDto>();
+            var list = this.GetAll<MyBookSelectorListDto>().OrderBy(x => x.Name).ToList();
             foreach (var t in list)
             {
                 var myBook = user.MyBooks.FirstOrDefault(x => x.Book.Id == t.Id);

@@ -30,7 +30,7 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var list = this.GetAll<MovieCategorySelectorListDto>();
+            var list = this.GetAll<MovieCategorySelectorListDto>().OrderBy(x => x.Name).ToList();
             var movie = this._databaseContext.Movies.FirstOrDefault(x => x.Id == movieId);
 
             var selected = movie != null

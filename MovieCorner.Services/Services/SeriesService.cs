@@ -104,14 +104,14 @@ namespace MovieCorner.Services.Services
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"),
                 list.Select(x => x.Series.Id).ToList());
 
-            return this.Mapper.Map<List<MySeriesListDto>>(list);
+            return this.Mapper.Map<List<MySeriesListDto>>(list).OrderBy(x => x.Title).ToList();
         }
 
         public List<MySeriesSelectorListDto> GetMySelectorList(bool onlyMine)
         {
             var user = this.Utils.GetCurrentUser();
 
-            var list = this.GetAll<MySeriesSelectorListDto>();
+            var list = this.GetAll<MySeriesSelectorListDto>().OrderBy(x => x.Title).ToList();
             foreach (var t in list)
             {
                 var mySeries = user.MySeries.FirstOrDefault(x => x.Series.Id == t.Id);
