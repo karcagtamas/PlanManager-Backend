@@ -1,9 +1,6 @@
-﻿using System;
-using ManagerAPI.Domain.Entities.SL;
+﻿using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Services.Common;
-using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
-using ManagerAPI.Shared.Models;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +15,7 @@ namespace ManagerAPI.Backend.Controllers
     {
         private readonly ISeriesService _seriesService;
 
-        public SeriesController(ISeriesService seriesService, ILoggerService loggerService): base(loggerService, seriesService)
+        public SeriesController(ISeriesService seriesService) : base(seriesService)
         {
             this._seriesService = seriesService;
         }
@@ -26,176 +23,68 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("my")]
         public IActionResult GetMyList()
         {
-            try
-            {
-                return Ok(this._seriesService.GetMyList());
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            return Ok(this._seriesService.GetMyList());
         }
 
         [HttpGet("my/{id}")]
         public IActionResult GetMy(int id)
         {
-            try
-            {
-                return Ok(this._seriesService.GetMy(id));
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            return Ok(this._seriesService.GetMy(id));
         }
 
         [HttpGet("selector")]
         public IActionResult GetMySelectorList([FromQuery] bool onlyMine)
         {
-            try
-            {
-                return Ok(this._seriesService.GetMySelectorList(onlyMine));
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            return Ok(this._seriesService.GetMySelectorList(onlyMine));
         }
 
         [HttpPut("map")]
         public IActionResult UpdateMySeries([FromBody] MySeriesModel model)
         {
-            try
-            {
-                this._seriesService.UpdateMySeries(model.Ids);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._seriesService.UpdateMySeries(model.Ids);
+            return Ok();
         }
 
         [HttpPut("map/status")]
         public IActionResult UpdateSeenStatus([FromBody] SeriesSeenStatusModel model)
         {
-            try
-            {
-                this._seriesService.UpdateSeenStatus(model.Id, model.Seen);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._seriesService.UpdateSeenStatus(model.Id, model.Seen);
+            return Ok();
         }
 
         [HttpPost("map/{id}")]
-        public IActionResult AddSeriesToMySeries(int id) {
-            try
-            {
-                this._seriesService.AddSeriesToMySeries(id);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+        public IActionResult AddSeriesToMySeries(int id)
+        {
+            this._seriesService.AddSeriesToMySeries(id);
+            return Ok();
         }
 
         [HttpDelete("map/{id}")]
-        public IActionResult RemoveBookFromMyBooks(int id) {
-            try
-            {
-                this._seriesService.RemoveSeriesFromMySeries(id);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+        public IActionResult RemoveBookFromMyBooks(int id)
+        {
+            this._seriesService.RemoveSeriesFromMySeries(id);
+            return Ok();
         }
-        
+
         [HttpPut("image/{id}")]
         public IActionResult UpdateImage(int id, [FromBody] SeriesImageModel model)
         {
-            try
-            {
-                this._seriesService.UpdateImage(id, model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._seriesService.UpdateImage(id, model);
+            return Ok();
         }
 
         [HttpPut("categories/{id}")]
         public IActionResult UpdateCategories(int id, [FromBody] SeriesCategoryUpdateModel model)
         {
-            try
-            {
-                this._seriesService.UpdateCategories(id, model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._seriesService.UpdateCategories(id, model);
+            return Ok();
         }
-        
+
         [HttpPut("rate/{id}")]
         public IActionResult UpdateRate(int id, [FromBody] SeriesRateModel model)
         {
-            try
-            {
-                this._seriesService.UpdateRate(id, model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
-        } 
+            this._seriesService.UpdateRate(id, model);
+            return Ok();
+        }
     }
 }

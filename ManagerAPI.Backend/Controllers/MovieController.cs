@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Services.Common;
-using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
-using ManagerAPI.Shared.Models;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +16,7 @@ namespace ManagerAPI.Backend.Controllers
     {
         private readonly IMovieService _movieService;
 
-        public MovieController(IMovieService movieService, ILoggerService loggerService) : base(loggerService,
-            movieService)
+        public MovieController(IMovieService movieService) : base(movieService)
         {
             _movieService = movieService;
         }
@@ -28,182 +24,72 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("my")]
         public IActionResult GetMyList()
         {
-            try
-            {
-                return Ok(this._movieService.GetMyList());
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            return Ok(this._movieService.GetMyList());
         }
 
         [HttpGet("my/{id}")]
         public IActionResult GetMy(int id)
         {
-            try
-            {
-                return Ok(this._movieService.GetMy(id));
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            return Ok(this._movieService.GetMy(id));
         }
 
         [HttpGet("selector")]
         public IActionResult GetMySelectorList([FromQuery] bool onlyMine)
         {
-            try
-            {
-                return Ok(this._movieService.GetMySelectorList(onlyMine));
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            return Ok(this._movieService.GetMySelectorList(onlyMine));
         }
 
         [HttpPut("map")]
         public IActionResult UpdateMyMovies([FromBody] MyMovieModel model)
         {
-            try
-            {
-                this._movieService.UpdateMyMovies(model.Ids);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._movieService.UpdateMyMovies(model.Ids);
+            return Ok();
         }
 
         [HttpPut("map/status")]
         public IActionResult UpdateSeenStatus([FromBody] List<MovieSeenUpdateModel> models)
         {
-            try
+            foreach (var model in models)
             {
-                foreach (var model in models)
-                {
-                    this._movieService.UpdateSeenStatus(model.Id, model.Seen);
-                }
+                this._movieService.UpdateSeenStatus(model.Id, model.Seen);
+            }
 
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            return Ok();
         }
 
         [HttpPost("map/{id}")]
         public IActionResult AddMovieToMyMovies(int id)
         {
-            try
-            {
-                this._movieService.AddMovieToMyMovies(id);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._movieService.AddMovieToMyMovies(id);
+            return Ok();
         }
 
         [HttpDelete("map/{id}")]
         public IActionResult RemoveMovieFromMyMovies(int id)
         {
-            try
-            {
-                this._movieService.RemoveMovieFromMyMovies(id);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._movieService.RemoveMovieFromMyMovies(id);
+            return Ok();
         }
 
         [HttpPut("image/{id}")]
         public IActionResult UpdateImage(int id, [FromBody] MovieImageModel model)
         {
-            try
-            {
-                this._movieService.UpdateImage(id, model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._movieService.UpdateImage(id, model);
+            return Ok();
         }
 
         [HttpPut("categories/{id}")]
         public IActionResult UpdateCategories(int id, [FromBody] MovieCategoryUpdateModel model)
         {
-            try
-            {
-                this._movieService.UpdateCategories(id, model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._movieService.UpdateCategories(id, model);
+            return Ok();
         }
-        
+
         [HttpPut("rate/{id}")]
         public IActionResult UpdateRate(int id, [FromBody] MovieRateModel model)
         {
-            try
-            {
-                this._movieService.UpdateRate(id, model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
-        } 
+            this._movieService.UpdateRate(id, model);
+            return Ok();
+        }
     }
 }

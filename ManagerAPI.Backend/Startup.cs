@@ -3,6 +3,7 @@ using System.Text;
 using AutoMapper;
 using EventManager.Services.Profiles;
 using EventManager.Services.Services;
+using ManagerAPI.Backend.Middlewares;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Common.CSV;
@@ -80,6 +81,8 @@ namespace ManagerAPI.Backend
 
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
+
+            services.AddSingleton<ExceptionHandler>();
             
             /*services.AddAutoMapper(typeof(UserProfile));
             services.AddAutoMapper(typeof(EventProfile));
@@ -163,6 +166,8 @@ namespace ManagerAPI.Backend
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseAuthentication();
+            
+            
 
             if (env.IsDevelopment())
             {
@@ -172,6 +177,8 @@ namespace ManagerAPI.Backend
             {
                 app.UseHttpsRedirection();
             }
+            
+            app.UseMyExceptionHandler();
 
             app.UseRouting();
 

@@ -22,8 +22,7 @@ namespace ManagerAPI.Backend.Controllers
         /// Injector Constructor
         /// </summary>
         /// <param name="newsService">News Service</param>
-        /// <param name="loggerService">Utils Service</param>
-        public NewsController(INewsService newsService, ILoggerService loggerService):base(loggerService, newsService)
+        public NewsController(INewsService newsService):base(newsService)
         {
             _newsService = newsService;
         }

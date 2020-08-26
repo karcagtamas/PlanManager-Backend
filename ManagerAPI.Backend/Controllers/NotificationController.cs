@@ -1,6 +1,4 @@
-﻿using System;
-using ManagerAPI.Services.Services.Interfaces;
-using ManagerAPI.Shared.Models;
+﻿using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,19 +12,15 @@ namespace ManagerAPI.Backend.Controllers
     [Authorize]
     public class NotificationController : ControllerBase
     {
-        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly INotificationService _notificationService;
-        private readonly ILoggerService _loggerService;
 
         /// <summary>
         /// Injector Constructor
         /// </summary>
         /// <param name="notificationService">Notification Service</param>
-        /// <param name="loggerService">Utils Service</param>
-        public NotificationController(INotificationService notificationService, ILoggerService loggerService)
+        public NotificationController(INotificationService notificationService)
         {
             _notificationService = notificationService;
-            _loggerService = loggerService;
         }
 
         /// <summary>
@@ -36,18 +30,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet]
         public IActionResult GetMyNotifications()
         {
-            try
-            {
-                return Ok(_notificationService.GetMyNotifications());
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            return Ok(_notificationService.GetMyNotifications());
         }
 
         /// <summary>
@@ -57,18 +40,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("unreads/count")]
         public IActionResult GetCountOfUnReadNotifications()
         {
-            try
-            {
-                return Ok(_notificationService.GetCountOfUnReadNotifications());
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            return Ok(_notificationService.GetCountOfUnReadNotifications());
         }
 
         /// <summary>
@@ -79,19 +51,8 @@ namespace ManagerAPI.Backend.Controllers
         [HttpPut]
         public IActionResult SetAsReadNotificationsById([FromBody] int[] notifications)
         {
-            try
-            {
-                _notificationService.SetAsReadNotificationsById(notifications);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            _notificationService.SetAsReadNotificationsById(notifications);
+            return Ok();
         }
     }
 }

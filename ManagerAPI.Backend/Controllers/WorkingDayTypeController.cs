@@ -11,7 +11,7 @@ namespace ManagerAPI.Backend.Controllers
     [ApiController]
     public class WorkingDayTypeController : MyController<WorkingDayType, WorkingDayTypeModel, WorkingDayTypeListDto, WorkingDayTypeDto>
     {
-        public WorkingDayTypeController(IWorkingDayTypeService workingDayTypeService, ILoggerService loggerService) : base(loggerService, workingDayTypeService)
+        public WorkingDayTypeController(IWorkingDayTypeService workingDayTypeService) : base(workingDayTypeService)
         {
         }
     }

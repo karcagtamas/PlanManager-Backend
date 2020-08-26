@@ -1,187 +1,81 @@
-using System;
 using EventManager.Services.Services;
-using ManagerAPI.Services.Services.Interfaces;
-using ManagerAPI.Shared.Models;
 using ManagerAPI.Shared.Models.EM;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Backend.Controllers
 {
-
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
     public class EventController : ControllerBase
     {
-        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly IEventService _eventService;
-        private readonly ILoggerService _loggerService;
 
-        public EventController(IEventService eventService, ILoggerService loggerService)
+        public EventController(IEventService eventService)
         {
             _eventService = eventService;
-            _loggerService = loggerService;
         }
 
         [HttpGet("my")]
         public IActionResult GetMyEventsList()
         {
-            try
-            {
-                return Ok(_eventService.GetMyEvents());
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            return Ok(_eventService.GetMyEvents());
         }
 
         [HttpGet("{eventId}")]
         public IActionResult GetEvent(int eventId)
         {
-            try
-            {
-                return Ok(_eventService.GetEvent(eventId));
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            return Ok(_eventService.GetEvent(eventId));
         }
 
         [HttpPost]
         public IActionResult CreateEvent([FromBody] EventModel model)
         {
-            try
-            {
-                _eventService.CreateEvent(model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            _eventService.CreateEvent(model);
+            return Ok();
         }
 
         [HttpPost("gt/{eventId}")]
         public IActionResult SetEventAsGtEvent(int eventId)
         {
-            try
-            {
-                _eventService.SetEventAsGtEvent(eventId);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            _eventService.SetEventAsGtEvent(eventId);
+            return Ok();
         }
 
         [HttpPost("sport/{eventId}")]
         public IActionResult SetEventAsSportEvent(int eventId)
         {
-            try
-            {
-                _eventService.SetEventAsSportEvent(eventId);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            _eventService.SetEventAsSportEvent(eventId);
+            return Ok();
         }
 
         [HttpDelete("{eventId}")]
         public IActionResult DeleteEvent(int eventId)
         {
-            try
-            {
-                _eventService.DeleteEvent(eventId);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            _eventService.DeleteEvent(eventId);
+            return Ok();
         }
 
         [HttpPut("{eventId}")]
         public IActionResult UpdateMaterEvent(int eventId, [FromBody] MasterEventModel masterUpdate)
         {
-            try
-            {
-                _eventService.UpdateMasterEvent(masterUpdate);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            _eventService.UpdateMasterEvent(masterUpdate);
+            return Ok();
         }
 
         [HttpPut("sport/{sportEventId}")]
         public IActionResult UpdateSportEvent(int sportEventId, [FromBody] SportEventModel sportUpdate)
         {
-            try
-            {
-                _eventService.UpdateSportEvent(sportUpdate);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            _eventService.UpdateSportEvent(sportUpdate);
+            return Ok();
         }
 
         [HttpPut("gt/{gtEventId}")]
         public IActionResult UpdateGtEvent(int gtEventId, [FromBody] GtEventModel updateGt)
         {
-            try
-            {
-                _eventService.UpdateGtEvent(updateGt);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            _eventService.UpdateGtEvent(updateGt);
+            return Ok();
         }
     }
 }

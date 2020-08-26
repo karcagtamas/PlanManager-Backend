@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -15,19 +14,15 @@ namespace ManagerAPI.Backend.Controllers
     [Authorize]
     public class FriendController : ControllerBase
     {
-        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly IFriendService _friendService;
-        private readonly ILoggerService _loggerService;
 
         /// <summary>
         /// Injector Constructor
         /// </summary>
         /// <param name="friendService">Friend Service</param>
-        /// <param name="loggerService">Utils Service</param>
-        public FriendController(IFriendService friendService, ILoggerService loggerService)
+        public FriendController(IFriendService friendService)
         {
             _friendService = friendService;
-            _loggerService = loggerService;
         }
 
         /// <summary>
@@ -37,18 +32,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("request")]
         public IActionResult GetMyFriendRequests()
         {
-            try
-            {
-                return Ok(_friendService.GetMyFriendRequests());
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            return Ok(_friendService.GetMyFriendRequests());
         }
 
         /// <summary>
@@ -58,18 +42,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet]
         public IActionResult GetMyFriends()
         {
-            try
-            {
-                return Ok(_friendService.GetMyFriends());
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            return Ok(_friendService.GetMyFriends());
         }
 
         /// <summary>
@@ -80,18 +53,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("data/{friendId}")]
         public async Task<IActionResult> GetFriendData(string friendId)
         {
-            try
-            {
-                return Ok(await _friendService.GetFriendData(friendId));
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            return Ok(await _friendService.GetFriendData(friendId));
         }
 
         /// <summary>
@@ -102,19 +64,8 @@ namespace ManagerAPI.Backend.Controllers
         [HttpDelete("{friendId}")]
         public IActionResult RemoveFriend(string friendId)
         {
-            try
-            {
-                _friendService.RemoveFriend(friendId);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            _friendService.RemoveFriend(friendId);
+            return Ok();
         }
 
         /// <summary>
@@ -125,19 +76,8 @@ namespace ManagerAPI.Backend.Controllers
         [HttpPost("request")]
         public IActionResult SendFriendRequest(FriendRequestModel model)
         {
-            try
-            {
-                _friendService.SendFriendRequest(model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            _friendService.SendFriendRequest(model);
+            return Ok();
         }
 
         /// <summary>
@@ -148,19 +88,8 @@ namespace ManagerAPI.Backend.Controllers
         [HttpPut("request")]
         public IActionResult SendFriendRequestResponse(FriendRequestResponseModel model)
         {
-            try
-            {
-                _friendService.SendFriendRequestResponse(model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            _friendService.SendFriendRequestResponse(model);
+            return Ok();
         }
     }
 }

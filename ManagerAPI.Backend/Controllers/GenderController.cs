@@ -17,8 +17,7 @@ namespace ManagerAPI.Backend.Controllers
         /// Injector Constructor
         /// </summary>
         /// <param name="genderService">Message Service</param>
-        /// <param name="loggerService">Utils Service</param>
-        public GenderController(IGenderService genderService, ILoggerService loggerService) : base (loggerService, genderService)
+        public GenderController(IGenderService genderService) : base(genderService)
         {
         }
     }
