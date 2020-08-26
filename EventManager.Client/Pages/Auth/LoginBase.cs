@@ -40,7 +40,7 @@ namespace EventManager.Client.Pages.Auth
 
         protected async Task SignIn()
         {
-            if (await AuthService.Login(Model) != "")
+            if (!string.IsNullOrEmpty(await AuthService.Login(Model)))
             {
                 NavigationManager.NavigateTo("/");
             }

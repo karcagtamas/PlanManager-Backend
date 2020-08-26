@@ -1,7 +1,6 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 
 /// <summary>
@@ -105,10 +104,8 @@ namespace EventManager.Client.Http
                     return default;
                 }
             }
-            else
-            {
-                return default;
-            }
+
+            return default;
         }
 
         /// <summary>
