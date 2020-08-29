@@ -19,7 +19,7 @@
         @if (BookList != null && BookList.Count > 0)
         {
             <div class="book-list">
-                <ListTable Header="Header" Footer="Footer" Body="BookList" TList="ManagerAPI.Shared.DTOs.SL.BookListDto" OnRowClick="@(e => RedirectToData(e))"></ListTable>
+                <ListTable Header="Header" Body="BookList" TList="ManagerAPI.Shared.DTOs.SL.BookListDto" OnRowClick="@(e => RedirectToData(e))"></ListTable>
             </div>
         }
         else

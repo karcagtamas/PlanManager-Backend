@@ -1,24 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EventManager.Client.Models;
 using ManagerAPI.Shared;
+using ManagerAPI.Shared.Enums;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Shared.Common
 {
     public partial class ListTable<TList> where TList : IIdentified
     {
-        [Parameter] public List<TableHeaderData> Header { get; set; }
-        [Parameter] public List<string> Footer { get; set; } = new List<string>();
+        [Parameter]
+        public List<TableHeaderData<TList>> Header { get; set; }
         [Parameter] public List<TList> Body { get; set; }
         [Parameter] public EventCallback<TList> OnRowClick { get; set; }
         [Parameter] public List<int> SelectedIndexes { get; set; } = new List<int>();
         [Parameter] public bool IsSelectionEnabled { get; set; } = false;
         [Parameter] public bool FooterDisplay { get; set; } = true;
         [Parameter] public bool ShowFilter { get; set; } = false;
-        private TableHeaderData OrderBy { get; set; }
+        private TableHeaderData<TList> OrderBy { get; set; }
         private List<TList> DisplayList { get; set; } = new List<TList>();
-        private string Direction { get; set; } = "none";
+        private OrderDirection Direction { get; set; } = OrderDirection.None;
         private string FilterValue { get; set; } = "";
 
 
@@ -45,29 +47,33 @@ namespace EventManager.Client.Shared.Common
             this.DoFilteringAndOrdering();
         }
         
-        private void HeaderClick(TableHeaderData data)
+        private void HeaderClick(TableHeaderData<TList> data)
         {
             if (data.IsSortable)
             {
                 if (this.OrderBy == null || this.OrderBy.PropertyName != data.PropertyName)
                 {
                     this.OrderBy = data;
-                    this.Direction = "asc";
+                    this.Direction = OrderDirection.Ascend;
                 }
-
-                if (this.OrderBy.PropertyName == data.PropertyName)
+                else
                 {
-                    switch (this.Direction)
+                    if (this.OrderBy.PropertyName == data.PropertyName)
                     {
-                        case "asc":
-                            this.Direction = "desc";
-                            break;
-                        case "desc":
-                            this.Direction = "none";
-                            this.OrderBy = null;
-                            break;
+                        switch (this.Direction)
+                        {
+                            case OrderDirection.Ascend:
+                                this.Direction = OrderDirection.Descend;
+                                break;
+                            case OrderDirection.Descend:
+                                this.Direction = OrderDirection.None;
+                                this.OrderBy = null;
+                                break;
+                        }
                     }
                 }
+                
+                Console.WriteLine(OrderDirectionService.GetValue(this.Direction));
                 this.DoFilteringAndOrdering();
             }
         }
@@ -85,8 +91,8 @@ namespace EventManager.Client.Shared.Common
             {
                 query = this.Direction switch
                 {
-                    "asc" => query.OrderBy(x => this.GetProperty(x, this.OrderBy.PropertyName)),
-                    "desc" => query.OrderByDescending(x => this.GetProperty(x, this.OrderBy.PropertyName)),
+                    OrderDirection.Ascend => query.OrderBy(x => this.GetProperty(x, this.OrderBy.PropertyName)),
+                    OrderDirection.Descend => query.OrderByDescending(x => this.GetProperty(x, this.OrderBy.PropertyName)),
                     _ => query
                 };
             }

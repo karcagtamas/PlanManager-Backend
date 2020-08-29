@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Components.SL;
@@ -18,15 +18,14 @@ namespace EventManager.Client.Pages.SL
         private List<MyMovieListDto> MovieList { get; set; }
         private bool IsLoading { get; set; }
 
-        private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
+        private List<TableHeaderData<MyMovieListDto>> Header { get; set; } = new List<TableHeaderData<MyMovieListDto>>
         {
-            new TableHeaderData("Title"),
-            new TableHeaderData("Year", "Year", (e) => ((int) e).ToString()),
-            new TableHeaderData("Creator"),
-            new TableHeaderData("Seen", "Seen", (e) => (bool) e ? "Seen" : "Not seen")
+            new TableHeaderData<MyMovieListDto>("Title", true, Alignment.Left)
+                {FooterRunnableData = (list) => list.Count.ToString()},
+            new TableHeaderData<MyMovieListDto>("ReleaseYear", "Release Year", true, (e) => ((int) e).ToString(), Alignment.Right),
+            new TableHeaderData<MyMovieListDto>("Creator", true, Alignment.Left),
+            new TableHeaderData<MyMovieListDto>("Seen", "Seen", true, (e) => (bool) e ? "Seen" : "Not seen", Alignment.Center)
         };
-
-        private List<string> Footer { get; } = new List<string> {" ", " ", " ", " "};
 
         protected override async Task OnInitializedAsync()
         {
@@ -39,7 +38,6 @@ namespace EventManager.Client.Pages.SL
             StateHasChanged();
             MovieList = await MovieService.GetMyList();
             IsLoading = false;
-            Footer[0] = MovieList.Count().ToString();
             StateHasChanged();
         }
 

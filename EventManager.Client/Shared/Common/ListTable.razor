@@ -1,4 +1,6 @@
-﻿@typeparam TList
+﻿@using EventManager.Client.Enums
+@using ManagerAPI.Shared.Enums
+@typeparam TList
 
 @if (Header != null)
 {
@@ -14,7 +16,16 @@
             <tr>
                 @foreach (var head in Header)
                 {
-                    <th @onclick="@(() => HeaderClick(head))">@head.DisplayName</th>
+                    <th @onclick="@(() => HeaderClick(head))" class="@(head.HeaderAlignment == Alignment.Left ? "left" : head.HeaderAlignment == Alignment.Center ? "center" : head.HeaderAlignment == Alignment.Right ? "right" : "")">
+                        @head.DisplayName
+                        @if (OrderBy != null && OrderBy.PropertyName == head.PropertyName)
+                        {
+                            @if (Direction != OrderDirection.None)
+                            {
+                                <MatIcon class="arrow-icon" Icon="@(OrderDirectionService.GetValue(Direction) == "asc" ? "arrow_downward" : "arrow_upward")"></MatIcon>
+                            }
+                        }
+                    </th>
                 }
             </tr>
             </thead>
@@ -24,7 +35,7 @@
                 <tr @onclick="@(() => RowClick(body))" class="@(IsSelectionEnabled && SelectedIndexes.Contains(body.Id) ? "selected" : "")">
                     @foreach (var head in Header)
                     {
-                        <td>@head.Displaying(GetProperty(body, head.PropertyName))</td>
+                        <td class="@(head.HeaderAlignment == Alignment.Left ? "left" : head.HeaderAlignment == Alignment.Center ? "center" : head.HeaderAlignment == Alignment.Right ? "right" : "")">@head.Displaying(GetProperty(body, head.PropertyName))</td>
                     }
                 </tr>
             }
@@ -33,9 +44,20 @@
             {
                 <tfoot>
                 <tr>
-                    @foreach (var foot in Footer)
+                    @foreach (var head in Header)
                     {
-                        <th>@foot</th>
+                        @if (head.FooterRunnableData != null)
+                        {
+                            <th>@head.FooterRunnableData(DisplayList)</th>
+                        }
+                        else if (!string.IsNullOrEmpty(head.FooterData))
+                        {
+                            <th>@head.FooterData</th>
+                        }
+                        else
+                        {
+                            <th></th>
+                        }
                     }
                 </tr>
                 </tfoot>

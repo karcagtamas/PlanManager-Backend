@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Components.SL;
@@ -20,17 +20,16 @@ namespace EventManager.Client.Pages.SL
         private List<MyBookListDto> BookList { get; set; }
         private bool IsLoading { get; set; }
 
-        private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
+        private List<TableHeaderData<MyBookListDto>> Header { get; set; } = new List<TableHeaderData<MyBookListDto>>
         {
-            new TableHeaderData("Name"),
-            new TableHeaderData("Publish", "Publish", (e) => DateHelper.DateToString((DateTime?) e)),
-            new TableHeaderData("Author"),
-            new TableHeaderData("Creator")
-                {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false, Displaying = (e) => (string) e},
-            new TableHeaderData("Read", "Read", (e) => (bool) e ? "Read" : "Not read")
+            new TableHeaderData<MyBookListDto>("Name", true, Alignment.Left)
+                {FooterRunnableData = (list) => list.Count.ToString()},
+            new TableHeaderData<MyBookListDto>("Publish", "Publish", true, (e) => DateHelper.DateToString((DateTime?) e),
+                Alignment.Right),
+            new TableHeaderData<MyBookListDto>("Author", true, Alignment.Left),
+            new TableHeaderData<MyBookListDto>("Creator", true, Alignment.Left),
+            new TableHeaderData<MyBookListDto>("Read", "Read", true, (e) => (bool) e ? "Read" : "Not read", Alignment.Center)
         };
-
-        private List<string> Footer { get; } = new List<string> {" ", " ", " ", " ", " "};
 
         protected override async Task OnInitializedAsync()
         {
@@ -43,7 +42,6 @@ namespace EventManager.Client.Pages.SL
             StateHasChanged();
             BookList = await BookService.GetMyList();
             IsLoading = false;
-            Footer[0] = BookList.Count().ToString();
             StateHasChanged();
         }
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
@@ -22,11 +23,11 @@ namespace EventManager.Client.Shared.Components.SL
         private List<int> SelectedIndexList { get; set; } = new List<int>();
         private bool IsLoading { get; set; } = false;
 
-        private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
+        private List<TableHeaderData<MySeriesSelectorListDto>> Header { get; set; } = new List<TableHeaderData<MySeriesSelectorListDto>>
         {
-            new TableHeaderData("Title"),
-            new TableHeaderData("StartYear", "Start Year", (e) => WriteHelper.WriteNullableField((int?) e)),
-            new TableHeaderData("Creator")
+            new TableHeaderData<MySeriesSelectorListDto>("Title", Alignment.Left),
+            new TableHeaderData<MySeriesSelectorListDto>("StartYear", "Start Year", (e) => WriteHelper.WriteNullableField((int?) e), Alignment.Right),
+            new TableHeaderData<MySeriesSelectorListDto>("Creator", Alignment.Left)
         };
 
         protected override async Task OnInitializedAsync()

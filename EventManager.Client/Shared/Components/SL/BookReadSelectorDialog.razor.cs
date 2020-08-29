@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
@@ -24,12 +25,12 @@ namespace EventManager.Client.Shared.Components.SL
         private bool IsLoading { get; set; } = false;
         private List<BookReadStatusModel> SaveList = new List<BookReadStatusModel>();
 
-        private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
+        private List<TableHeaderData<MyBookSelectorListDto>> Header { get; set; } = new List<TableHeaderData<MyBookSelectorListDto>>
         {
-            new TableHeaderData("Name"),
-            new TableHeaderData("Publish", "Publish", (e) => DateHelper.DateToString((DateTime?) e)),
-            new TableHeaderData("Author"),
-            new TableHeaderData("Creator")
+            new TableHeaderData<MyBookSelectorListDto>("Name", Alignment.Left),
+            new TableHeaderData<MyBookSelectorListDto>("Publish", "Publish", (e) => DateHelper.DateToString((DateTime?) e), Alignment.Left),
+            new TableHeaderData<MyBookSelectorListDto>("Author", Alignment.Left),
+            new TableHeaderData<MyBookSelectorListDto>("Creator", Alignment.Left)
         };
 
         protected override async Task OnInitializedAsync()

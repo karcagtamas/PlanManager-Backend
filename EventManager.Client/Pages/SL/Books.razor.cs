@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Components.SL;
@@ -20,15 +20,15 @@ namespace EventManager.Client.Pages.SL
         private List<BookListDto> BookList { get; set; }
         private bool IsLoading { get; set; }
 
-        private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
+        private List<TableHeaderData<BookListDto>> Header { get; set; } = new List<TableHeaderData<BookListDto>>
         {
-            new TableHeaderData("Name"),
-            new TableHeaderData("Publish", "Publish", (e) => DateHelper.DateToString((DateTime?) e)),
-            new TableHeaderData("Author"),
-            new TableHeaderData("Creator")
+            new TableHeaderData<BookListDto>("Name", true, Alignment.Left)
+                {FooterRunnableData = (list) => list.Count.ToString()},
+            new TableHeaderData<BookListDto>("Publish", "Publish", true, (e) => DateHelper.DateToString((DateTime?) e),
+                Alignment.Right),
+            new TableHeaderData<BookListDto>("Author", true, Alignment.Left),
+            new TableHeaderData<BookListDto>("Creator", true, Alignment.Left)
         };
-
-        private List<string> Footer { get; } = new List<string> {" ", " ", " ", " "};
 
         protected override async Task OnInitializedAsync()
         {
@@ -41,7 +41,6 @@ namespace EventManager.Client.Pages.SL
             StateHasChanged();
             BookList = await BookService.GetAll("Name");
             IsLoading = false;
-            Footer[0] = BookList.Count().ToString();
             StateHasChanged();
         }
 
