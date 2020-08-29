@@ -35,9 +35,15 @@ namespace ManagerAPI.Services.Common
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromQuery] string orderBy, [FromQuery] string direction)
         {
-            return Ok(this._service.GetAll<TList>());
+            if (string.IsNullOrEmpty(orderBy) || string.IsNullOrEmpty(direction))
+            {
+                return Ok(this._service.GetAll<TList>());
+            }
+
+            return Ok(this._service.GetOrderedAll<TList>(orderBy, direction));
+
         }
 
         [HttpPut("{id}")]

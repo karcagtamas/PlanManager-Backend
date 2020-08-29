@@ -45,7 +45,7 @@ namespace EventManager.Client.Pages.SL
         {
             IsLoading = true;
             StateHasChanged();
-            SeriesList = await SeriesService.GetAll();
+            SeriesList = await SeriesService.GetAll("Title");
             IsLoading = false;
             Footer[0] = SeriesList.Count().ToString();
             StateHasChanged();

@@ -10,7 +10,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ManagerAPI.Services.Common.Repository
 {
-    public class Repository<TEntity, TNotificationType> : IRepository<TEntity> where TEntity : class, IEntity where TNotificationType : Enum
+    public class Repository<TEntity, TNotificationType> : IRepository<TEntity>
+        where TEntity : class, IEntity where TNotificationType : Enum
     {
         private readonly DbContext _context;
         private readonly NotificationArguments _arguments;
@@ -20,7 +21,8 @@ namespace ManagerAPI.Services.Common.Repository
         protected readonly IMapper Mapper;
         protected readonly string Entity;
 
-        protected Repository(DbContext context, ILoggerService logger, IUtilsService utils, INotificationService notification, IMapper mapper, string entity, NotificationArguments arguments)
+        protected Repository(DbContext context, ILoggerService logger, IUtilsService utils,
+            INotificationService notification, IMapper mapper, string entity, NotificationArguments arguments)
         {
             this._context = context;
             this.Logger = logger;
@@ -74,7 +76,9 @@ namespace ManagerAPI.Services.Common.Repository
 
                 List<string> args = this.DetermineArguments(this._arguments.CreateArguments, type, entity, user);
 
-                this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user, args.ToArray());
+                this.Notification.AddNotificationByType(typeof(TNotificationType),
+                    Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user,
+                    args.ToArray());
             }
             catch (Exception)
             {
@@ -117,7 +121,8 @@ namespace ManagerAPI.Services.Common.Repository
             {
                 var user = this.Utils.GetCurrentUser();
 
-                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add"), entities.Select(x => x.Id).ToList());
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add"),
+                    entities.Select(x => x.Id).ToList());
 
                 foreach (var entity in entities)
                 {
@@ -125,12 +130,15 @@ namespace ManagerAPI.Services.Common.Repository
 
                     List<string> args = this.DetermineArguments(this._arguments.CreateArguments, type, entity, user);
 
-                    this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user, args.ToArray());
+                    this.Notification.AddNotificationByType(typeof(TNotificationType),
+                        Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user,
+                        args.ToArray());
                 }
             }
             catch (Exception)
             {
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("add"), entities.Select(x => x.Id).ToList());
+                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("add"),
+                    entities.Select(x => x.Id).ToList());
             }
         }
 
@@ -175,11 +183,13 @@ namespace ManagerAPI.Services.Common.Repository
             {
                 var user = this.Utils.GetCurrentUser();
 
-                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get"), list.Select(x => x.Id).ToList());
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get"),
+                    list.Select(x => x.Id).ToList());
             }
             catch (Exception)
             {
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("get"), list.Select(x => x.Id).ToList());
+                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("get"),
+                    list.Select(x => x.Id).ToList());
             }
 
             return list;
@@ -206,12 +216,12 @@ namespace ManagerAPI.Services.Common.Repository
 
             if (count != null)
             {
-                query = query.Take((int)count);
+                query = query.Take((int) count);
             }
 
             if (skip != null)
             {
-                query = query.Skip((int)skip);
+                query = query.Skip((int) skip);
             }
 
             var list = query.ToList();
@@ -220,11 +230,13 @@ namespace ManagerAPI.Services.Common.Repository
             {
                 var user = this.Utils.GetCurrentUser();
 
-                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get"), list.Select(x => x.Id).ToList());
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get"),
+                    list.Select(x => x.Id).ToList());
             }
             catch (Exception)
             {
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("get"), list.Select(x => x.Id).ToList());
+                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("get"),
+                    list.Select(x => x.Id).ToList());
             }
 
             return list;
@@ -238,7 +250,6 @@ namespace ManagerAPI.Services.Common.Repository
         public List<T> GetList<T>(Expression<Func<TEntity, bool>> predicate, int? count)
         {
             return this.Mapper.Map<List<T>>(this.GetList(predicate, count));
-
         }
 
         public List<T> GetList<T>(Expression<Func<TEntity, bool>> predicate, int? count, int? skip)
@@ -275,7 +286,9 @@ namespace ManagerAPI.Services.Common.Repository
 
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete"), entity.Id);
 
-                this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("delete"), true), user, args.ToArray());
+                this.Notification.AddNotificationByType(typeof(TNotificationType),
+                    Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("delete"), true), user,
+                    args.ToArray());
             }
             catch (Exception)
             {
@@ -315,7 +328,6 @@ namespace ManagerAPI.Services.Common.Repository
                 {
                     args.Add(entity, new List<string>());
                 }
-
             }
 
             this._context.Set<TEntity>().RemoveRange(entities);
@@ -326,16 +338,20 @@ namespace ManagerAPI.Services.Common.Repository
             {
                 var user = this.Utils.GetCurrentUser();
 
-                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete"), entities.Select(x => x.Id).ToList());
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete"),
+                    entities.Select(x => x.Id).ToList());
 
                 foreach (var entity in args)
                 {
-                    this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("delete"), true), user, entity.Value.ToArray());
+                    this.Notification.AddNotificationByType(typeof(TNotificationType),
+                        Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("delete"), true), user,
+                        entity.Value.ToArray());
                 }
             }
             catch (Exception)
             {
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("delete"), entities.Select(x => x.Id).ToList());
+                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("delete"),
+                    entities.Select(x => x.Id).ToList());
             }
         }
 
@@ -375,7 +391,9 @@ namespace ManagerAPI.Services.Common.Repository
 
                 List<string> args = this.DetermineArguments(this._arguments.UpdateArguments, type, entity, user);
 
-                this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("update"), true), user, args.ToArray());
+                this.Notification.AddNotificationByType(typeof(TNotificationType),
+                    Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("update"), true), user,
+                    args.ToArray());
             }
             catch (Exception)
             {
@@ -408,7 +426,8 @@ namespace ManagerAPI.Services.Common.Repository
             {
                 var user = this.Utils.GetCurrentUser();
 
-                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update"), entities.Select(x => x.Id).ToList());
+                this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update"),
+                    entities.Select(x => x.Id).ToList());
 
                 foreach (var entity in entities)
                 {
@@ -416,12 +435,15 @@ namespace ManagerAPI.Services.Common.Repository
 
                     List<string> args = this.DetermineArguments(this._arguments.UpdateArguments, type, entity, user);
 
-                    this.Notification.AddNotificationByType(typeof(TNotificationType), Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user, args.ToArray());
+                    this.Notification.AddNotificationByType(typeof(TNotificationType),
+                        Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user,
+                        args.ToArray());
                 }
             }
             catch (Exception)
             {
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("update"), entities.Select(x => x.Id).ToList());
+                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("update"),
+                    entities.Select(x => x.Id).ToList());
             }
         }
 
@@ -450,7 +472,8 @@ namespace ManagerAPI.Services.Common.Repository
 
         private string GetNotificationAction(string action)
         {
-            return string.Join("", this.GetEvent(action).Split(" ").Select(x => char.ToUpper(x[0]) + x.Substring(1).ToLower()));
+            return string.Join("",
+                this.GetEvent(action).Split(" ").Select(x => char.ToUpper(x[0]) + x.Substring(1).ToLower()));
         }
 
         private List<string> DetermineArguments(List<string> nameList, Type firstType, TEntity entity, User user)
@@ -488,23 +511,23 @@ namespace ManagerAPI.Services.Common.Repository
                 {
                     if (lastType == typeof(string))
                     {
-                        args.Add((string)lastEntity);
+                        args.Add((string) lastEntity);
                     }
                     else if (lastType == typeof(DateTime))
                     {
-                        args.Add(((DateTime)lastEntity).ToLongDateString());
+                        args.Add(((DateTime) lastEntity).ToLongDateString());
                     }
                     else if (lastType == typeof(int))
                     {
-                        args.Add(((int)lastEntity).ToString());
+                        args.Add(((int) lastEntity).ToString());
                     }
                     else if (lastType == typeof(decimal))
                     {
-                        args.Add(((decimal)lastEntity).ToString(CultureInfo.CurrentCulture));
+                        args.Add(((decimal) lastEntity).ToString(CultureInfo.CurrentCulture));
                     }
                     else if (lastType == typeof(double))
                     {
-                        args.Add(((double)lastEntity).ToString(CultureInfo.CurrentCulture));
+                        args.Add(((double) lastEntity).ToString(CultureInfo.CurrentCulture));
                     }
                     else
                     {
@@ -527,24 +550,24 @@ namespace ManagerAPI.Services.Common.Repository
                 var type = typeof(TEntity);
                 var property = type.GetProperty(orderBy);
 
+                if (property == null)
+                {
+                    throw new ArgumentException("Property does not exist");
+                }
+                
                 switch (direction)
                 {
                     case "asc":
                         return this.GetAll().OrderBy(x => property.GetValue(x)).ToList();
-                        break;
                     case "desc":
                         return this.GetAll().OrderByDescending(x => property.GetValue(x)).ToList();
-                        break;
                     case "none":
                         return this.GetAll();
-                        break;
-                    default: throw new ArgumentException(); break;
+                    default: throw new ArgumentException("Ordering direction does not exist");
                 }
             }
-            else
-            {
-                throw new ArgumentException();
-            }
+
+            throw new ArgumentException("Order by value is empty or null");
         }
 
         public List<T> GetOrderedAll<T>(string orderBy, string direction)

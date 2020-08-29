@@ -44,7 +44,7 @@ namespace EventManager.Client.Pages.SL
         {
             IsLoading = true;
             StateHasChanged();
-            MovieList = await MovieService.GetAll();
+            MovieList = await MovieService.GetAll("Title");
             IsLoading = false;
             Footer[0] = MovieList.Count().ToString();
             StateHasChanged();

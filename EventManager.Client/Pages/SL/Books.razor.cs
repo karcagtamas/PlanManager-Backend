@@ -46,7 +46,7 @@ namespace EventManager.Client.Pages.SL
         {
             IsLoading = true;
             StateHasChanged();
-            BookList = await BookService.GetAll();
+            BookList = await BookService.GetAll("Name");
             IsLoading = false;
             Footer[0] = BookList.Count().ToString();
             StateHasChanged();

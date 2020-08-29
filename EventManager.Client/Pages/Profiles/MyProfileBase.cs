@@ -47,7 +47,7 @@ namespace EventManager.Client.Pages.Profiles
             await GetGenders();
         }
 
-        protected async Task GetUser()
+        private async Task GetUser()
         {
             this.ProfileIsLoading = true;
             User = await UserService.GetUser();
@@ -61,10 +61,10 @@ namespace EventManager.Client.Pages.Profiles
             this.ProfileIsLoading = false;
             StateHasChanged();
         }
-        
-        protected async Task GetGenders()
+
+        private async Task GetGenders()
         {
-            Genders = await this.GenderService.GetAll();
+            Genders = await this.GenderService.GetAll("Name");
         }
 
         protected async Task UpdateUser()

@@ -9,7 +9,7 @@ namespace EventManager.Client.Http
     /// </summary>
     public class HttpQueryParameters : IDictionaryState
     {
-        private Dictionary<string, object> _queryParams;
+        private readonly Dictionary<string, object> _queryParams;
 
         /// <summary>
         /// Query paramters
@@ -94,17 +94,17 @@ namespace EventManager.Client.Http
 
         /// <summary>
         /// Create string from the dictionary.
-        /// Key - value pairs concated into string
+        /// Key - value pairs concatenated into string
         /// </summary>
         /// <returns></returns>
-        override public string ToString()
+        public override string ToString()
         {
-            string val = "";
-
-            // TODO: manage arrays
+            var val = "";
+            
             foreach (var key in this._queryParams.Keys)
             {
-                val += $"{key}={this._queryParams[key].ToString()}";
+                val += val != "" ? "&" : "";
+                val += $"{key}={this._queryParams[key]}";
             }
 
             return val;

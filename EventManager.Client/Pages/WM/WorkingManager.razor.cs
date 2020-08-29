@@ -69,7 +69,7 @@ namespace EventManager.Client.Pages.WM
 
         private async Task GetWorkingDayTypes()
         {
-            this.WorkingDayTypes = await this.WorkingDayTypeService.GetAll();
+            this.WorkingDayTypes = await this.WorkingDayTypeService.GetAll("Title");
         }
 
         private void Redirect(bool direction)
