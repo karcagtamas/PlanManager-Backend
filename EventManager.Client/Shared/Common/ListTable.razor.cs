@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using EventManager.Client.Models;
 using ManagerAPI.Shared;
 using Microsoft.AspNetCore.Components;
@@ -16,9 +17,15 @@ namespace EventManager.Client.Shared.Common
         [Parameter] public bool FooterDisplay { get; set; } = true;
         [Parameter] public bool ShowFilter { get; set; } = false;
         private TableHeaderData OrderBy { get; set; }
+        private List<TList> DisplayList { get; set; } = new List<TList>();
         private string Direction { get; set; } = "none";
         private string FilterValue { get; set; } = "";
-        
+
+
+        protected override void OnParametersSet()
+        {
+            this.DoFilteringAndOrdering();
+        }
 
         private object GetProperty(TList entity, string property)
         {
@@ -31,29 +38,77 @@ namespace EventManager.Client.Shared.Common
         {
             OnRowClick.InvokeAsync(entity);
         }
+
+        private void Filter(string val)
+        {
+            this.FilterValue = val;
+            this.DoFilteringAndOrdering();
+        }
         
         private void HeaderClick(TableHeaderData data)
         {
-            if (this.OrderBy == null || this.OrderBy.PropertyName != data.PropertyName)
+            if (data.IsSortable)
             {
-                this.OrderBy = data;
-                this.Direction = "asc";
+                if (this.OrderBy == null || this.OrderBy.PropertyName != data.PropertyName)
+                {
+                    this.OrderBy = data;
+                    this.Direction = "asc";
+                }
+
+                if (this.OrderBy.PropertyName == data.PropertyName)
+                {
+                    switch (this.Direction)
+                    {
+                        case "asc":
+                            this.Direction = "desc";
+                            break;
+                        case "desc":
+                            this.Direction = "none";
+                            this.OrderBy = null;
+                            break;
+                    }
+                }
+                this.DoFilteringAndOrdering();
+            }
+        }
+        
+        private void DoFilteringAndOrdering()
+        {
+            var query = this.Body.AsQueryable();
+
+            if (!string.IsNullOrEmpty(this.FilterValue))
+            {
+                query = query.Where(x => IsFiltered(x));
             }
 
-            if (this.OrderBy.PropertyName == data.PropertyName)
+            if (this.OrderBy != null)
             {
-                switch (this.Direction)
+                query = this.Direction switch
                 {
-                    case "asc":
-                        this.Direction = "desc";
-                        break;
-                    case "desc":
-                        this.Direction = "none";
-                        this.OrderBy = null;
-                        break;
+                    "asc" => query.OrderBy(x => this.GetProperty(x, this.OrderBy.PropertyName)),
+                    "desc" => query.OrderByDescending(x => this.GetProperty(x, this.OrderBy.PropertyName)),
+                    _ => query
+                };
+            }
+
+            this.DisplayList = query.ToList();
+            StateHasChanged();
+        }
+
+        private bool IsFiltered(TList val)
+        {
+            var res = false;
+
+            foreach (var head in this.Header)
+            {
+                if (head.IsFilterable && !res)
+                {
+                    var propVal = head.Displaying(this.GetProperty(val, head.PropertyName));
+                    res =  propVal.ToLower().Contains(this.FilterValue.ToLower());
                 }
             }
-            StateHasChanged();
+
+            return res;
         }
     }
 }

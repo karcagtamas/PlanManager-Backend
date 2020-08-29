@@ -1643,6 +1643,11 @@ app {
   flex-grow: 1;
   display: flex;
   overflow: auto;
+  flex-direction: column;
+  
+  .filter {
+    display: flex;
+  }
 
   table {
     flex-grow: 1;

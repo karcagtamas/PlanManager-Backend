@@ -1383,6 +1383,10 @@ app {
   flex-grow: 1;
   display: flex;
   overflow: auto;
+  flex-direction: column;
+}
+.list .filter {
+  display: flex;
 }
 .list table {
   flex-grow: 1;

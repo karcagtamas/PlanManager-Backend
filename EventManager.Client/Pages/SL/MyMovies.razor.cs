@@ -20,20 +20,10 @@ namespace EventManager.Client.Pages.SL
 
         private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
         {
-            new TableHeaderData
-                {PropertyName = "Title", DisplayName = "Title", IsSortable = false, Displaying = (e) => (string) e},
-            new TableHeaderData
-            {
-                PropertyName = "Year", DisplayName = "Year", IsSortable = false,
-                Displaying = (e) => ((int) e).ToString()
-            },
-            new TableHeaderData
-                {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false, Displaying = (e) => (string) e},
-            new TableHeaderData
-            {
-                PropertyName = "Seen", DisplayName = "Seen", IsSortable = false,
-                Displaying = (e) => (bool) e ? "Seen" : "Unseen"
-            }
+            new TableHeaderData("Title"),
+            new TableHeaderData("Year", "Year", (e) => ((int) e).ToString()),
+            new TableHeaderData("Creator"),
+            new TableHeaderData("Seen", "Seen", (e) => (bool) e ? "Seen" : "Not seen")
         };
 
         private List<string> Footer { get; } = new List<string> {" ", " ", " ", " "};
@@ -79,7 +69,7 @@ namespace EventManager.Client.Pages.SL
 
             Modal.OnClose -= EditMyMoviesModalClosed;
         }
-        
+
         private void OpenEditSeenMoviesDialog()
         {
             var parameters = new ModalParameters();
@@ -90,7 +80,7 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = {ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true}
             };
 
-            Modal.OnClose += EditSeenMoviesModalClosed;    
+            Modal.OnClose += EditSeenMoviesModalClosed;
 
             Modal.Show<MovieSeenSelectorDialog>("Edit Seen Books", parameters, options);
         }

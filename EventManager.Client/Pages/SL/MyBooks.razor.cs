@@ -22,22 +22,12 @@ namespace EventManager.Client.Pages.SL
 
         private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
         {
-            new TableHeaderData
-                {PropertyName = "Name", DisplayName = "Name", IsSortable = false, Displaying = (e) => (string) e},
-            new TableHeaderData
-            {
-                PropertyName = "Publish", DisplayName = "Publish", IsSortable = false,
-                Displaying = (e) => DateHelper.DateToString((DateTime?) e)
-            },
-            new TableHeaderData
-                {PropertyName = "Author", DisplayName = "Author", IsSortable = false, Displaying = (e) => (string) e},
-            new TableHeaderData
+            new TableHeaderData("Name"),
+            new TableHeaderData("Publish", "Publish", (e) => DateHelper.DateToString((DateTime?) e)),
+            new TableHeaderData("Author"),
+            new TableHeaderData("Creator")
                 {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false, Displaying = (e) => (string) e},
-            new TableHeaderData
-            {
-                PropertyName = "Read", DisplayName = "Read", IsSortable = false,
-                Displaying = (e) => (bool) e ? "Read" : "Unread"
-            }
+            new TableHeaderData("Read", "Read", (e) => (bool) e ? "Read" : "Not read")
         };
 
         private List<string> Footer { get; } = new List<string> {" ", " ", " ", " ", " "};
@@ -83,7 +73,7 @@ namespace EventManager.Client.Pages.SL
 
             Modal.OnClose -= EditMyBooksModalClosed;
         }
-        
+
         private void OpenEditReadBooksDialog()
         {
             var parameters = new ModalParameters();

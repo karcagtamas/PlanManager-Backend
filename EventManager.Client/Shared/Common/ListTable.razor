@@ -5,8 +5,8 @@
     <div class="list">
         @if (ShowFilter)
         {
-            <div class="col col-12 p-1">
-                <MatTextField class="w-100" @bind-Value="FilterValue" Label="Filter" Dense="true" Outlined="true"></MatTextField>
+            <div class="filter">
+                <MatTextField TValue="string" class="w-100" Label="Filter" Dense="true" Outlined="true" ValueChanged="@(val => Filter(val))"></MatTextField>
             </div>
         }
         <table>
@@ -19,7 +19,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var body in Body)
+            @foreach (var body in DisplayList)
             {
                 <tr @onclick="@(() => RowClick(body))" class="@(IsSelectionEnabled && SelectedIndexes.Contains(body.Id) ? "selected" : "")">
                     @foreach (var head in Header)

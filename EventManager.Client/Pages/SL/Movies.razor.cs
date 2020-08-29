@@ -22,15 +22,9 @@ namespace EventManager.Client.Pages.SL
 
         private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
         {
-            new TableHeaderData
-                {PropertyName = "Title", DisplayName = "Title", IsSortable = false, Displaying = (e) => (string) e},
-            new TableHeaderData
-            {
-                PropertyName = "Year", DisplayName = "Year", IsSortable = false,
-                Displaying = (e) => ((int) e).ToString()
-            },
-            new TableHeaderData
-                {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false, Displaying = (e) => (string) e}
+            new TableHeaderData("Title"),
+            new TableHeaderData("Year", "Year", (e) => ((int) e).ToString()),
+            new TableHeaderData("Creator")
         };
 
         private List<string> Footer { get; } = new List<string> {" ", " ", " "};

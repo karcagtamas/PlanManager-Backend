@@ -23,15 +23,9 @@ namespace EventManager.Client.Pages.SL
 
         private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
         {
-            new TableHeaderData
-                {PropertyName = "Title", DisplayName = "Title", IsSortable = false, Displaying = (e) => (string) e},
-            new TableHeaderData
-            {
-                PropertyName = "StartYear", DisplayName = "StartYear", IsSortable = false,
-                Displaying = (e) => WriteHelper.WriteNullableField((int?) e)
-            },
-            new TableHeaderData
-                {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false, Displaying = (e) => (string) e}
+            new TableHeaderData("Title"),
+            new TableHeaderData("StartYear", "Start Year", (e) => WriteHelper.WriteNullableField((int?) e)),
+            new TableHeaderData("Creator")
         };
 
         private List<string> Footer { get; } = new List<string> {" ", " ", " "};
