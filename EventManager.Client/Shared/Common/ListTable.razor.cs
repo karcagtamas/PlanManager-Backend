@@ -14,20 +14,46 @@ namespace EventManager.Client.Shared.Common
         [Parameter] public List<int> SelectedIndexes { get; set; } = new List<int>();
         [Parameter] public bool IsSelectionEnabled { get; set; } = false;
         [Parameter] public bool FooterDisplay { get; set; } = true;
+        [Parameter] public bool ShowFilter { get; set; } = false;
+        private TableHeaderData OrderBy { get; set; }
+        private string Direction { get; set; } = "none";
+        private string FilterValue { get; set; } = "";
         
 
         private object GetProperty(TList entity, string property)
         {
             var type = typeof(TList);
             var prop = type.GetProperty(property);
-            if (prop != null) return prop.GetValue(entity);
-
-            return "";
+            return prop != null ? prop.GetValue(entity) : "";
         }
 
         private void RowClick(TList entity)
         {
             OnRowClick.InvokeAsync(entity);
+        }
+        
+        private void HeaderClick(TableHeaderData data)
+        {
+            if (this.OrderBy == null || this.OrderBy.PropertyName != data.PropertyName)
+            {
+                this.OrderBy = data;
+                this.Direction = "asc";
+            }
+
+            if (this.OrderBy.PropertyName == data.PropertyName)
+            {
+                switch (this.Direction)
+                {
+                    case "asc":
+                        this.Direction = "desc";
+                        break;
+                    case "desc":
+                        this.Direction = "none";
+                        this.OrderBy = null;
+                        break;
+                }
+            }
+            StateHasChanged();
         }
     }
 }
