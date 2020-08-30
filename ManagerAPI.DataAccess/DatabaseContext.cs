@@ -188,6 +188,36 @@ namespace ManagerAPI.DataAccess
                     Name = "Administrator",
                     NormalizedName = "ADMINISTRATOR"
                 });
+            builder.Entity<WebsiteRole>().HasData(new List<WebsiteRole>
+            {
+                new WebsiteRole
+                {
+                    Id = "936e4ddc-5d3f-4355-af3a-304a4fe4f518",
+                    AccessLevel = 1,
+                    Name = "Status Library User",
+                    NormalizedName = "STATUS LIBRARY USER"
+                }
+            });
+            builder.Entity<WebsiteRole>().HasData(new List<WebsiteRole>
+            {
+                new WebsiteRole
+                {
+                    Id = "936e4ddc-5d3f-5466-af3a-3b4a4424d518",
+                    AccessLevel = 3,
+                    Name = "Status Library Moderator",
+                    NormalizedName = "STATUS LIBRARY MODERATOR"
+                }
+            });
+            builder.Entity<WebsiteRole>().HasData(new List<WebsiteRole>
+            {
+                new WebsiteRole
+                {
+                    Id = "936d4dfc-5536-4d5f-af2a-304d4fe4f518",
+                    AccessLevel = 3,
+                    Name = "Status Library Administrator",
+                    NormalizedName = "STATUS LIBRARY ADMINISTRATOR"
+                }
+            });
             builder.Entity<WebsiteRole>()
                 .HasData(new WebsiteRole
                 {

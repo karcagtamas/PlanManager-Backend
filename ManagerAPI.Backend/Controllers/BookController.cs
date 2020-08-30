@@ -10,7 +10,7 @@ using MovieCorner.Services.Services.Interfaces;
 namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
     [ApiController]
     public class BookController : MyController<Book, BookModel, BookListDto, BookDto>
     {
@@ -68,6 +68,30 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult RemoveBookFromMyBooks(int id)
         {
             this._bookService.RemoveBookFromMyBooks(id);
+            return Ok();
+        }
+        
+        [HttpPost]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
+        public override IActionResult Create([FromBody] BookModel model)
+        {
+            this._bookService.Add<BookModel>(model);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator,Root,Status Library Administrator")]
+        public override IActionResult Delete(int id)
+        {
+            this._bookService.Remove(id);
+            return Ok();
+        }
+        
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
+        public override IActionResult Update(int id, BookModel model)
+        {
+            this._bookService.Update<BookModel>(id, model);
             return Ok();
         }
     }

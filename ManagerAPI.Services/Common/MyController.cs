@@ -1,5 +1,6 @@
 ﻿using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Common.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Services.Common
@@ -15,14 +16,16 @@ namespace ManagerAPI.Services.Common
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] TModel model)
+        [Authorize(Roles = "Administrator,Root,Moderator")]
+        public virtual IActionResult Create([FromBody] TModel model)
         {
             this._service.Add<TModel>(model);
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [Authorize(Roles = "Administrator,Root")]
+        public virtual IActionResult Delete(int id)
         {
             this._service.Remove(id);
             return Ok();
@@ -47,7 +50,8 @@ namespace ManagerAPI.Services.Common
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, TModel model)
+        [Authorize(Roles = "Administrator,Root,Moderator")]
+        public virtual IActionResult Update(int id, TModel model)
         {
             this._service.Update<TModel>(id, model);
             return Ok();

@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using EventManager.Client.Http;
@@ -58,6 +61,15 @@ namespace EventManager.Client.Services
         public async Task Logout()
         {
             await ((ApiAuthenticationStateProvider)_authenticationStateProvider).ClearStorage();
+        }
+
+        public async Task<bool> HasRole(List<string> roles)
+        {
+            var state = await  _authenticationStateProvider.GetAuthenticationStateAsync();
+            var claims = state.User.Claims.Where(x => x.Type == ClaimTypes.Role)
+                .Select(x => x.Value).ToList();
+
+            return claims.Any(roles.Contains);
         }
     }
 }

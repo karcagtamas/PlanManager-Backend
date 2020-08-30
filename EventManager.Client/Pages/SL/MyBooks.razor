@@ -1,5 +1,6 @@
 @page "/my-books"
-@attribute [Microsoft.AspNetCore.Authorization.Authorize]
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
 
 <div class="sl-my-books">
     <h1 class="em-page-title">My Books</h1>
