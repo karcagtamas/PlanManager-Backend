@@ -1,5 +1,6 @@
 @page "/my-movies"
-@attribute [Microsoft.AspNetCore.Authorization.Authorize]
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
 
 <div class="sl-my-movies">
     <h1 class="em-page-title">My Movies</h1>

@@ -1,7 +1,7 @@
 ﻿@page "/movies/{Id:int}"
 @using Microsoft.AspNetCore.Authorization
 @using ManagerAPI.Shared.Helpers
-@attribute [Authorize]
+@attribute [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
 
 <div class="sl-movie-data">
     @if (Movie != null)

@@ -10,7 +10,7 @@ namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/movie-category")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
     public class
         MovieCategoryController : MyController<MovieCategory, MovieCategoryModel, MovieCategoryDto, MovieCategoryDto>
     {

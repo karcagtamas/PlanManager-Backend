@@ -10,7 +10,7 @@ using MovieCorner.Services.Services.Interfaces;
 namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
     [ApiController]
     public class MovieController : MyController<Movie, MovieModel, MovieListDto, MovieDto>
     {
@@ -72,6 +72,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPut("image/{id}")]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult UpdateImage(int id, [FromBody] MovieImageModel model)
         {
             this._movieService.UpdateImage(id, model);
@@ -79,6 +80,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPut("categories/{id}")]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult UpdateCategories(int id, [FromBody] MovieCategoryUpdateModel model)
         {
             this._movieService.UpdateCategories(id, model);
@@ -89,6 +91,30 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult UpdateRate(int id, [FromBody] MovieRateModel model)
         {
             this._movieService.UpdateRate(id, model);
+            return Ok();
+        }
+        
+        [HttpPost]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
+        public override IActionResult Create([FromBody] MovieModel model)
+        {
+            this._movieService.Add<MovieModel>(model);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator,Root,Status Library Administrator")]
+        public override IActionResult Delete(int id)
+        {
+            this._movieService.Remove(id);
+            return Ok();
+        }
+        
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
+        public override IActionResult Update(int id, MovieModel model)
+        {
+            this._movieService.Update<MovieModel>(id, model);
             return Ok();
         }
     }

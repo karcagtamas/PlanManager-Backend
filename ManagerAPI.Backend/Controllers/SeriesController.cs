@@ -9,7 +9,7 @@ using MovieCorner.Services.Services.Interfaces;
 namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
     [ApiController]
     public class SeriesController : MyController<Series, SeriesModel, SeriesListDto, SeriesDto>
     {
@@ -67,6 +67,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPut("image/{id}")]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult UpdateImage(int id, [FromBody] SeriesImageModel model)
         {
             this._seriesService.UpdateImage(id, model);
@@ -74,6 +75,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPut("categories/{id}")]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult UpdateCategories(int id, [FromBody] SeriesCategoryUpdateModel model)
         {
             this._seriesService.UpdateCategories(id, model);
@@ -84,6 +86,30 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult UpdateRate(int id, [FromBody] SeriesRateModel model)
         {
             this._seriesService.UpdateRate(id, model);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
+        public override IActionResult Create([FromBody] SeriesModel model)
+        {
+            this._seriesService.Add<SeriesModel>(model);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator,Root,Status Library Administrator")]
+        public override IActionResult Delete(int id)
+        {
+            this._seriesService.Remove(id);
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
+        public override IActionResult Update(int id, SeriesModel model)
+        {
+            this._seriesService.Update<SeriesModel>(id, model);
             return Ok();
         }
     }

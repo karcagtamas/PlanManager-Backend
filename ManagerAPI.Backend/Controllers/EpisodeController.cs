@@ -3,6 +3,7 @@ using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieCorner.Services.Services.Interfaces;
 
@@ -10,6 +11,7 @@ namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
     public class EpisodeController : MyController<Episode, EpisodeModel, EpisodeListDto, EpisodeDto>
     {
         private readonly IEpisodeService _episodeService;
@@ -31,6 +33,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPost("{seasonId}")]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult AddIncremented(int seasonId)
         {
             this._episodeService.AddIncremented(seasonId);
@@ -38,6 +41,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpDelete("decremented/{episodeId}")]
+        [Authorize(Roles = "Administrator,Root,Status Library Administrator")]
         public IActionResult DeleteDecremented(int episodeId)
         {
             this._episodeService.DeleteDecremented(episodeId);
@@ -51,6 +55,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPut("short/{id}")]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult UpdateShort(int id, [FromBody] EpisodeShortModel model)
         {
             this._episodeService.Update<EpisodeShortModel>(id, model);
@@ -58,6 +63,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPut("image/{id}")]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult UpdateImage(int id, [FromBody] EpisodeImageModel model)
         {
             this._episodeService.UpdateImage(id, model);

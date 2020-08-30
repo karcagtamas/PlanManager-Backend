@@ -3,6 +3,7 @@ using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieCorner.Services.Services.Interfaces;
 
@@ -10,6 +11,7 @@ namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
     public class SeasonController : MyController<Season, SeasonModel, SeasonListDto, SeasonDto>
     {
         private readonly ISeasonService _seasonService;
@@ -31,6 +33,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPost("{seriesId}")]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult AddIncremented(int seriesId)
         {
             this._seasonService.AddIncremented(seriesId);
@@ -38,6 +41,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpDelete("decremented/{seasonId}")]
+        [Authorize(Roles = "Administrator,Root,Status Library Administrator")]
         public IActionResult DeleteDecremented(int seasonId)
         {
             this._seasonService.DeleteDecremented(seasonId);

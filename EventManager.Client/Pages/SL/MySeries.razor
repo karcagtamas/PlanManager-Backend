@@ -1,5 +1,6 @@
 @page "/my-series"
-@attribute [Microsoft.AspNetCore.Authorization.Authorize]
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
 
 <div class="sl-my-series">
     <h1 class="em-page-title">My Series</h1>
