@@ -6,6 +6,9 @@ using ManagerAPI.Shared.Models.SL;
 
 namespace MovieCorner.Services.Profiles
 {
+    /// <summary>
+    /// Series profile for auto mapper
+    /// </summary>
     public class SeriesProfile : Profile
     {
         public SeriesProfile()

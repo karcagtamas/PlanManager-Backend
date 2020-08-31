@@ -11,10 +11,21 @@ using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
+    /// <summary>
+    /// Series Category Series
+    /// </summary>
     public class SeriesCategoryService: Repository<SeriesCategory, StatusLibraryNotificationType>, ISeriesCategoryService
     {
         private readonly DatabaseContext _databaseContext;
 
+        /// <summary>
+        /// Injector constructor
+        /// </summary>
+        /// <param name="context">Database Context</param>
+        /// <param name="logger">Logger Service</param>
+        /// <param name="utils">Utils Service</param>
+        /// <param name="notification">Notification Service</param>
+        /// <param name="mapper">Mapper</param>
         public SeriesCategoryService(DatabaseContext context, ILoggerService logger, IUtilsService utils,
             INotificationService notification, IMapper mapper) : base(context, logger, utils, notification, mapper,
             "Series Category", new NotificationArguments
@@ -26,6 +37,11 @@ namespace MovieCorner.Services.Services
             this._databaseContext = context;
         }
 
+        /// <summary>
+        /// Gets selector list for the given series.
+        /// </summary>
+        /// <param name="seriesId">Series Id</param>
+        /// <returns>Series category selector list for the requested series.</returns>
         public List<SeriesCategorySelectorListDto> GetSelectorList(int seriesId)
         {
             var user = this.Utils.GetCurrentUser();

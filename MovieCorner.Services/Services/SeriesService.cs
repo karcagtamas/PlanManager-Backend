@@ -13,6 +13,9 @@ using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
+    /// <summary>
+    /// Series Service
+    /// </summary>
     public class SeriesService : Repository<Series, StatusLibraryNotificationType>, ISeriesService
     {
         // Injects
@@ -38,6 +41,10 @@ namespace MovieCorner.Services.Services
             _databaseContext = context;
         }
 
+        /// <summary>
+        /// Add series to my list
+        /// </summary>
+        /// <param name="id">Series Id</param>
         public void AddSeriesToMySeries(int id)
         {
             var user = this.Utils.GetCurrentUser();
@@ -65,6 +72,11 @@ namespace MovieCorner.Services.Services
             }
         }
 
+        /// <summary>
+        /// Gets my object
+        /// </summary>
+        /// <param name="id">Series Id</param>
+        /// <returns>Get my series object by Id</returns>
         public MySeriesDto GetMy(int id)
         {
             var user = this.Utils.GetCurrentUser();
@@ -95,6 +107,10 @@ namespace MovieCorner.Services.Services
             return series;
         }
 
+        /// <summary>
+        /// Gets my list
+        /// </summary>
+        /// <returns>My series list</returns>
         public List<MySeriesListDto> GetMyList()
         {
             var user = this.Utils.GetCurrentUser();
@@ -107,6 +123,11 @@ namespace MovieCorner.Services.Services
             return this.Mapper.Map<List<MySeriesListDto>>(list).OrderBy(x => x.Title).ToList();
         }
 
+        /// <summary>
+        /// Get my selector list
+        /// </summary>
+        /// <param name="onlyMine">Return only mine elements</param>
+        /// <returns>Get my series selector list</returns>
         public List<MySeriesSelectorListDto> GetMySelectorList(bool onlyMine)
         {
             var user = this.Utils.GetCurrentUser();
@@ -129,6 +150,11 @@ namespace MovieCorner.Services.Services
             return list;
         }
 
+        /// <summary>
+        /// Updates series's image.
+        /// </summary>
+        /// <param name="id">Series Id</param>
+        /// <param name="model">New image model</param>
         public void UpdateImage(int id, SeriesImageModel model)
         {
             var user = this.Utils.GetCurrentUser();
@@ -142,6 +168,11 @@ namespace MovieCorner.Services.Services
             this.Update(series);
         }
 
+        /// <summary>
+        /// Updates series's categories
+        /// </summary>
+        /// <param name="id">Series Id</param>
+        /// <param name="model">Categories model</param>
         public void UpdateCategories(int id, SeriesCategoryUpdateModel model)
         {
             var user = this.Utils.GetCurrentUser();
@@ -174,6 +205,11 @@ namespace MovieCorner.Services.Services
             this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.UpdateSeries, user);
         }
 
+        /// <summary>
+        /// Updates series's rate status for current user.
+        /// </summary>
+        /// <param name="id">Series Id</param>
+        /// <param name="model">Rate model</param>
         public void UpdateRate(int id, SeriesRateModel model)
         {
             var user = this.Utils.GetCurrentUser();
@@ -197,6 +233,10 @@ namespace MovieCorner.Services.Services
             }
         }
 
+        /// <summary>
+        /// Remove series from my list
+        /// </summary>
+        /// <param name="id">Series Id</param>
         public void RemoveSeriesFromMySeries(int id)
         {
             var user = this.Utils.GetCurrentUser();
@@ -216,6 +256,10 @@ namespace MovieCorner.Services.Services
             }
         }
 
+        /// <summary>
+        /// Update my list
+        /// </summary>
+        /// <param name="ids">Current my series list</param>
         public void UpdateMySeries(List<int> ids)
         {
             var user = this.Utils.GetCurrentUser();
@@ -251,6 +295,11 @@ namespace MovieCorner.Services.Services
             this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated, user);
         }
 
+        /// <summary>
+        /// Update seen status for mapped series
+        /// </summary>
+        /// <param name="id">Series id</param>
+        /// <param name="status">Seen status</param>
         public void UpdateSeenStatus(int id, bool seen)
         {
             var user = this.Utils.GetCurrentUser();

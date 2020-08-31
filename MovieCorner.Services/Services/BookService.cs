@@ -12,6 +12,9 @@ using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
+    /// <summary>
+    /// Book Service
+    /// </summary>
     public class BookService : Repository<Book, StatusLibraryNotificationType>, IBookService
     {
         // Things
@@ -36,6 +39,10 @@ namespace MovieCorner.Services.Services
             this._databaseContext = context;
         }
 
+        /// <summary>
+        /// Add book to my list
+        /// </summary>
+        /// <param name="id">Book Id</param>
         public void AddBookToMyBooks(int id)
         {
             var user = this.Utils.GetCurrentUser();
@@ -52,6 +59,10 @@ namespace MovieCorner.Services.Services
             }
         }
 
+        /// <summary>
+        /// Gets my list
+        /// </summary>
+        /// <returns>My book list</returns>
         public List<MyBookListDto> GetMyList()
         {
             var user = this.Utils.GetCurrentUser();
@@ -63,6 +74,11 @@ namespace MovieCorner.Services.Services
             return this.Mapper.Map<List<MyBookListDto>>(list).OrderBy(x => x.Name).ToList();
         }
 
+        /// <summary>
+        /// Gets my object
+        /// </summary>
+        /// <param name="id">Book Id</param>
+        /// <returns>Get my book object by Id</returns>
         public MyBookDto GetMy(int id)
         {
             var user = this.Utils.GetCurrentUser();
@@ -77,6 +93,10 @@ namespace MovieCorner.Services.Services
             return book;
         }
 
+        /// <summary>
+        /// Remove book from my list
+        /// </summary>
+        /// <param name="id">Book Id</param>
         public void RemoveBookFromMyBooks(int id)
         {
             var user = this.Utils.GetCurrentUser();
@@ -92,6 +112,11 @@ namespace MovieCorner.Services.Services
             }
         }
 
+        /// <summary>
+        /// Get my selector list
+        /// </summary>
+        /// <param name="onlyMine">Return only mine elements</param>
+        /// <returns>Get my book selector list</returns>
         public List<MyBookSelectorListDto> GetMySelectorList(bool onlyMine)
         {
             var user = this.Utils.GetCurrentUser();
@@ -114,6 +139,10 @@ namespace MovieCorner.Services.Services
             return list;
         }
 
+        /// <summary>
+        /// Update my list
+        /// </summary>
+        /// <param name="ids">Current my book list</param>
         public void UpdateMyBooks(List<int> ids)
         {
             var user = this.Utils.GetCurrentUser();
@@ -141,6 +170,11 @@ namespace MovieCorner.Services.Services
             this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyBookListUpdated, user);
         }
 
+        /// <summary>
+        /// Update read status for mapped book
+        /// </summary>
+        /// <param name="id">Book id</param>
+        /// <param name="status">Read status</param>
         public void UpdateReadStatus(int id, bool status)
         {
             var user = this.Utils.GetCurrentUser();

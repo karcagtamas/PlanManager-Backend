@@ -13,11 +13,22 @@ using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
+    /// <summary>
+    /// Episode service
+    /// </summary>
     public class EpisodeService : Repository<Episode, StatusLibraryNotificationType>, IEpisodeService
     {
         // Injects
         private readonly DatabaseContext _databaseContext;
 
+        /// <summary>
+        /// Injector constructor
+        /// </summary>
+        /// <param name="context">Database context</param>
+        /// <param name="mapper">Mapper</param>
+        /// <param name="utilsService">Utils Service</param>
+        /// <param name="loggerService">Logger Service</param>
+        /// <param name="notificationService">Notification Service</param>
         public EpisodeService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
             ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService,
             utilsService, notificationService, mapper, "Episode", new NotificationArguments
@@ -29,6 +40,11 @@ namespace MovieCorner.Services.Services
             this._databaseContext = context;
         }
 
+        /// <summary>
+        /// Update seen status for episode
+        /// </summary>
+        /// <param name="id">Episode Id</param>
+        /// <param name="seen">Seen status</param>
         public void UpdateSeenStatus(int id, bool seen)
         {
             var user = this.Utils.GetCurrentUser();
@@ -67,6 +83,11 @@ namespace MovieCorner.Services.Services
             }
         }
 
+        /// <summary>
+        /// Add episode to the given season.
+        /// The episode number will be next number after the last episode.
+        /// </summary>
+        /// <param name="seasonId">Season Id</param>
         public void AddIncremented(int seasonId)
         {
             var last = this.GetList(x => x.Season.Id == seasonId).OrderBy(x => x.Number).LastOrDefault();
@@ -83,6 +104,11 @@ namespace MovieCorner.Services.Services
             this.Add(season);
         }
 
+        /// <summary>
+        /// Delete episode by the given Id.
+        /// Every continous episode's number will be decremented by one.
+        /// </summary>
+        /// <param name="episodeId">Episode Id</param>
         public void DeleteDecremented(int episodeId)
         {
             var season = this.Get(episodeId);
@@ -104,6 +130,11 @@ namespace MovieCorner.Services.Services
             this.UpdateRange(episodes);
         }
 
+        /// <summary>
+        /// Gets my object by the given Id.
+        /// </summary>
+        /// <param name="id">Episode Id</param>
+        /// <returns>My episode object</returns>
         public MyEpisodeDto GetMy(int id)
         {
             var user = this.Utils.GetCurrentUser();
@@ -119,6 +150,11 @@ namespace MovieCorner.Services.Services
             return episode;
         }
 
+        /// <summary>
+        /// Updates episode's image.
+        /// </summary>
+        /// <param name="id">Episode Id</param>
+        /// <param name="model">New image model</param>
         public void UpdateImage(int id, EpisodeImageModel model)
         {
             var user = this.Utils.GetCurrentUser();

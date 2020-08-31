@@ -7,6 +7,9 @@ using ManagerAPI.Shared.Models.SL;
 
 namespace MovieCorner.Services.Profiles
 {
+    /// <summary>
+    /// Movie profile for auto mapper
+    /// </summary>
     public class MovieProfile : Profile
     {
         public MovieProfile()
@@ -57,6 +60,11 @@ namespace MovieCorner.Services.Profiles
             CreateMap<MovieCommentModel, MovieComment>();
         }
 
+        /// <summary>
+        /// Get number of members whose saw the movie
+        /// </summary>
+        /// <param name="list">List of maps</param>
+        /// <returns>Number of members</returns>
         private int GetNumberOfSeen(List<UserMovie> list)
         {
             return list?.Count(x => x.IsSeen) ?? 0;

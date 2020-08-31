@@ -5,6 +5,9 @@ using ManagerAPI.Shared.Models.SL;
 
 namespace MovieCorner.Services.Profiles
 {
+    /// <summary>
+    /// Book profile for auto mapper
+    /// </summary>
     public class BookProfile : Profile
     {
         public BookProfile()
