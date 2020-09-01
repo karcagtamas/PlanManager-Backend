@@ -4,6 +4,9 @@ using ManagerAPI.Shared.DTOs.SL;
 
 namespace ManagerAPI.Shared.Models.SL
 {
+    /// <summary>
+    /// Movie create or update model
+    /// </summary>
     public class MovieModel
     {
         [Required(ErrorMessage = "Field is required")]

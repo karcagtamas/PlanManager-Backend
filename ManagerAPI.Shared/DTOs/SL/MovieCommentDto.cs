@@ -2,6 +2,9 @@
 
 namespace ManagerAPI.Shared.DTOs.SL
 {
+    /// <summary>
+    /// Movie comment data object
+    /// </summary>
     public class MovieCommentDto
     {
         public int Id { get; set; }

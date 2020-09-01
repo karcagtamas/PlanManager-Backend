@@ -2,6 +2,9 @@
 
 namespace ManagerAPI.Shared.Models.SL
 {
+    /// <summary>
+    /// Movie comment create or update model
+    /// </summary>
     public class MovieCommentModel
     {
         [Required]
