@@ -5,6 +5,9 @@ using ManagerAPI.Shared.Models;
 
 namespace ManagerAPI.Services.Profiles
 {
+    /// <summary>
+    /// Gender profile for auto mapper
+    /// </summary>
     public class GenderProfile : Profile
     {
         public GenderProfile()

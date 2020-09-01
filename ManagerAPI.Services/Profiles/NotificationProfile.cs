@@ -4,6 +4,9 @@ using ManagerAPI.Shared.DTOs;
 
 namespace ManagerAPI.Services.Profiles
 {
+    /// <summary>
+    /// Notification profile for auto mapper
+    /// </summary>
     public class NotificationProfile : Profile
     {
         public NotificationProfile()

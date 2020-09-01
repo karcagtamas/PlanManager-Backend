@@ -5,6 +5,9 @@ using ManagerAPI.Shared.Models;
 
 namespace ManagerAPI.Services.Profiles
 {
+    /// <summary>
+    /// News profile for auto mapper
+    /// </summary>
     public class NewsProfile : Profile
     {
         public NewsProfile()

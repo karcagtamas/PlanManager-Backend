@@ -5,20 +5,32 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ManagerAPI.Services.Common
 {
+    /// <summary>
+    /// Serializable object copier
+    /// </summary>
     public static class ObjectCopier
     {
+        /// <summary>
+        /// Clone
+        /// </summary>
+        /// <param name="source">Source object</param>
+        /// <typeparam name="T">Type of object</typeparam>
+        /// <returns></returns>
         public static T Clone<T>(T source)
         {
+            // Check serializable state
             if (!typeof(T).IsSerializable)
             {
                 throw new ArgumentException("The type must be serializable.", nameof(source));
             }
 
+            // Object is null
             if (Object.ReferenceEquals(source, null))
             {
                 return default(T);
             }
             
+            // Cloning
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new MemoryStream();
             using (stream)

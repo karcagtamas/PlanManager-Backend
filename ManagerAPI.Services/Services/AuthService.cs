@@ -119,6 +119,10 @@ namespace ManagerAPI.Services.Services
             throw new MessageException($"Username or password is incorrect.");
         }
 
+        /// <summary>
+        /// Logut
+        /// </summary>
+        /// <param name="userId"></param>
         public void Logout(string userId)
         {
             var user = _context.AppUsers.Find(userId);

@@ -8,6 +8,9 @@ using ManagerAPI.Services.Services.Interfaces;
 
 namespace ManagerAPI.Services.Services
 {
+    /// <summary>
+    /// Working Day Type Service
+    /// </summary>
     public class WorkingDayTypeService : Repository<WorkingDayType, WorkingManagerNotificationType>,
         IWorkingDayTypeService
     {

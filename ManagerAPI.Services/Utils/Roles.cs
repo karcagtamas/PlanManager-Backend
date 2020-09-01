@@ -1,5 +1,8 @@
 namespace ManagerAPI.Services.Utils
 {
+    /// <summary>
+    /// Roless
+    /// </summary>
     public static class Roles
     {
         public static readonly string NORMAL = "NORMAL";

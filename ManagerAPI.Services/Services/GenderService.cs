@@ -8,6 +8,9 @@ using ManagerAPI.Services.Services.Interfaces;
 
 namespace ManagerAPI.Services.Services
 {
+    /// <summary>
+    /// Gender Service
+    /// </summary>
     public class GenderService : Repository<Gender, SystemNotificationType>, IGenderService
     {
         /// <summary>

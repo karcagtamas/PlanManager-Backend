@@ -174,21 +174,47 @@ namespace ManagerAPI.Services.Services
             this.LogInformation(user, service, action, ids, null);
         }
 
+        /// <summary>
+        /// Log executed events as anonimus
+        /// </summary>
+        /// <param name="service">Service's name</param>
+        /// <param name="action">Executed action</param>
+        /// <param name="id">Ids of elements</param>
         public void LogAnonimInformation(string service, string action, int id)
         {
             this.LogAnonimInformation(service, action, id, null);
         }
 
+        /// <summary>
+        /// Log executed events as anonimus
+        /// </summary>
+        /// <param name="service">Service's name</param>
+        /// <param name="action">Executed action</param>
+        /// <param name="id">Id of element</param>
+        /// <param name="entity">Entity</param>
         public void LogAnonimInformation(string service, string action, int id, object entity)
         {
             this.LogAnonimInformation(service, action, id.ToString(), entity);
         }
 
+        /// <summary>
+        /// Log executed events as anonimus
+        /// </summary>
+        /// <param name="service">Service's name</param>
+        /// <param name="action">Executed action</param>
+        /// <param name="id">Id of element</param>
         public void LogAnonimInformation(string service, string action, string id)
         {
             this.LogAnonimInformation(service, action, id, null);
         }
 
+        /// <summary>
+        /// Log executed events as anonimus
+        /// </summary>
+        /// <param name="service">Service's name</param>
+        /// <param name="action">Executed action</param>
+        /// <param name="id">Id of element</param>
+        /// <param name="entity">Entity</param>
         public void LogAnonimInformation(string service, string action, string id, object entity)
         {
             this._logger.LogInformation($"Anonim: {service} - {action.ToUpper()} - with id: {id}");
@@ -198,21 +224,47 @@ namespace ManagerAPI.Services.Services
             }
         }
 
+        /// <summary>
+        /// Log executed events as anonimus
+        /// </summary>
+        /// <param name="service">Service's name</param>
+        /// <param name="action">Executed action</param>
+        /// <param name="id">Id list of elements</param>
         public void LogAnonimInformation(string service, string action, List<string> ids)
         {
             this.LogAnonimInformation(service, action, ids, null);
         }
 
+        /// <summary>
+        /// Log executed events as anonimus
+        /// </summary>
+        /// <param name="service">Service's name</param>
+        /// <param name="action">Executed action</param>
+        /// <param name="id">Id list of elements</param>
+        /// <param name="entity">Entity</param>
         public void LogAnonimInformation(string service, string action, List<string> ids, object entity)
         {
             this.LogAnonimInformation(service, action, string.Join(", ", ids), entity);
         }
 
+        /// <summary>
+        /// Log executed events as anonimus
+        /// </summary>
+        /// <param name="service">Service's name</param>
+        /// <param name="action">Executed action</param>
+        /// <param name="id">Id list of elements</param>
         public void LogAnonimInformation(string service, string action, List<int> ids)
         {
             this.LogAnonimInformation(service, action, ids, null);
         }
 
+        /// <summary>
+        /// Log executed events as anonimus
+        /// </summary>
+        /// <param name="service">Service's name</param>
+        /// <param name="action">Executed action</param>
+        /// <param name="id">Id list of elements</param>
+        /// <param name="entity">Entity</param>
         public void LogAnonimInformation(string service, string action, List<int> ids, object entity)
         {
             this.LogAnonimInformation(service, action, ids.Select(x => x.ToString()).ToList(), entity);

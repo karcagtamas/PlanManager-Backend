@@ -11,6 +11,9 @@ using ManagerAPI.Shared.DTOs.WM;
 
 namespace ManagerAPI.Services.Services
 {
+    /// <summary>
+    /// Working Field Service
+    /// </summary>
     public class WorkingFieldService : Repository<WorkingField, WorkingManagerNotificationType>, IWorkingFieldService
     {
         // Injects
@@ -36,6 +39,11 @@ namespace ManagerAPI.Services.Services
             this._databaseContext = context;
         }
 
+        /// <summary>
+        /// Get statistic summary for the given week
+        /// </summary>
+        /// <param name="week">First day of the week (M)</param>
+        /// <returns>Statistic</returns>
         public WorkingWeekStatDto GetWeekStat(DateTime week)
         {
             var user = this.Utils.GetCurrentUser();
@@ -49,6 +57,12 @@ namespace ManagerAPI.Services.Services
             return list;
         }
 
+        /// <summary>
+        /// Get statistic summary for the given month
+        /// </summary>
+        /// <param name="year">Year</param>
+        /// <param name="month">Month</param>
+        /// <returns>Statistic</returns>
         public WorkingMonthStatDto GetMonthStat(int year, int month)
         {
             var user = this.Utils.GetCurrentUser();

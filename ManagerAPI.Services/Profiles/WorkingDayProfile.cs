@@ -7,6 +7,10 @@ using ManagerAPI.Shared.Models.WM;
 
 namespace ManagerAPI.Services.Profiles
 {
+
+    /// <summary>
+    /// Working Day profile for auto mapper
+    /// </summary>
     public class WorkingDayProfile : Profile
     {
         private const int LotHour = 8;
@@ -31,6 +35,11 @@ namespace ManagerAPI.Services.Profiles
                 .ForMember(dest => dest.IsEnough, opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) >= EnoughHour * HourToMin));
         }
         
+        /// <summary>
+        /// Get sum minutes counted from hours
+        /// </summary>
+        /// <param name="fields">Working fields</param>
+        /// <returns>Sum of mintutes</returns>
         private int GetSumMinutes(List<WorkingField> fields) 
         {
             return fields.Sum(x => (int)(x.Length * HourToMin));

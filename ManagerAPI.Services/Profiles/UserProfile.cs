@@ -4,6 +4,10 @@ using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 
 namespace ManagerAPI.Services.Profiles {
+
+    /// <summary>
+    /// User profile for auto mapper
+    /// </summary>
     public class UserProfile : Profile {
         public UserProfile ()
         {

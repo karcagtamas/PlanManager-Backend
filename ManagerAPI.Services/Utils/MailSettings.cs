@@ -1,5 +1,8 @@
 ﻿namespace ManagerAPI.Services.Utils
 {
+    /// <summary>
+    /// Mail Settings
+    /// </summary>
     public class MailSettings
     {
         public string Mail { get; set; }

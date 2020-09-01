@@ -7,6 +7,9 @@ using ManagerAPI.Domain.Entities;
 
 namespace ManagerAPI.Services.Profiles
 {
+    /// <summary>
+    /// Task profile for auto mapper
+    /// </summary>
     public class TaskProfile : Profile
     {
         public TaskProfile()

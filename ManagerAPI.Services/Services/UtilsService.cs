@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 namespace ManagerAPI.Services.Services {
+
     /// <summary>
     /// Utils Service
     /// </summary>
@@ -54,25 +55,47 @@ namespace ManagerAPI.Services.Services {
             return userId;
         }
 
+        /// <summary>
+        /// Inject params into string.
+        /// </summary>
+        /// <param name="baseText">Base text with number placeholders.</param>
+        /// <param name="args">Injecable params.</param>
+        /// <returns>Base text with injected params.</returns>
         public string InjectString(string baseText, params string[] args)
         {
             string res = baseText;
-
+            
             for (int i = 0; i < args.Length; i++) {
+                // Get placerholder from the current interation
                 string placeholder = "{i}".Replace('i', i.ToString()[0]);
+
+                // Placeholder does not exist in the base text
                 if (!res.Contains(placeholder)) {
-                    throw new ArgumentException("");
+                    throw new ArgumentException($"Placer holder is missing with number: {i}");
                 }
+
+                // Inject params instead of placerholder
                 res = res.Replace(placeholder, $"{args[i]}");
             }
             return res;
         }
 
+        /// <summary>
+        /// User display text.
+        /// Format: [User Name] ([User Id])
+        /// </summary>
+        /// <param name="user">User</param>
+        /// <returns>Display text</returns>
         public string UserDisplay(User user)
         {
             return $"{user.UserName} ({user.Id})";
         }
 
+        /// <summary>
+        /// Identity errors to string.
+        /// </summary>
+        /// <param name="errors">Error list</param>
+        /// <returns>First error's description</returns>
         public string ErrorsToString(IEnumerable<IdentityError> errors) {
             var list = errors.ToList();
             return list.FirstOrDefault().Description;
