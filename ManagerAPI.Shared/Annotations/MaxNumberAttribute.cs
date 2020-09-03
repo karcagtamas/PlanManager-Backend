@@ -31,7 +31,7 @@ namespace ManagerAPI.Shared.Annotations
             {
                 // Try convert to nullable int
                 var number = (int?) value;
-                
+
                 // Ignore null values
                 if (number == null)
                 {

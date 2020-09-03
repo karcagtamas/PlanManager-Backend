@@ -52,7 +52,7 @@ namespace ManagerAPI.Services.Services
             {
                 Content = this._utilsService.InjectString(val, args),
                 OwnerId = user.Id,
-                TypeId = (int) type
+                TypeId = type
             };
 
             // Save notification
@@ -152,7 +152,8 @@ namespace ManagerAPI.Services.Services
         /// <param name="type">Type of notification</param>
         /// <param name="user">Destination user</param>
         /// <param name="args">Inject arguments</param>
-        public void AddStatusLibraryNotificationByType(StatusLibraryNotificationType type, User user, params string[] args)
+        public void AddStatusLibraryNotificationByType(StatusLibraryNotificationType type, User user,
+            params string[] args)
         {
             if (user == null)
             {
@@ -171,8 +172,10 @@ namespace ManagerAPI.Services.Services
                     StatusLibraryNotificationType.DeleteMovie => "Movie deleted with title: {0}",
                     StatusLibraryNotificationType.MyBookListUpdated => "My Book List updated",
                     StatusLibraryNotificationType.MyMovieListUpdated => "My Movie List updated",
-                    StatusLibraryNotificationType.BookReadStatusUpdated => "{0} book read status has been changed to {1}",
-                    StatusLibraryNotificationType.MovieSeenStatusUpdated => "{0} movie seen status has been changed to {1}",
+                    StatusLibraryNotificationType.BookReadStatusUpdated =>
+                    "{0} book read status has been changed to {1}",
+                    StatusLibraryNotificationType.MovieSeenStatusUpdated =>
+                    "{0} movie seen status has been changed to {1}",
                     StatusLibraryNotificationType.AddSeries => "Series added with name: {0}",
                     StatusLibraryNotificationType.UpdateSeries => "Series updated with name: {0}",
                     StatusLibraryNotificationType.DeleteSeries => "Series deleted with name: {0}",
@@ -189,9 +192,12 @@ namespace ManagerAPI.Services.Services
                     StatusLibraryNotificationType.UpdateMovieComment => "Movie Comment updated",
                     StatusLibraryNotificationType.DeleteMovieComment => "Movie Comment deleted",
                     StatusLibraryNotificationType.MySeriesListUpdated => "My Series List updated",
-                    StatusLibraryNotificationType.SeriesSeenStatusUpdated => "{0} series seen status has been changed to {1}",
-                    StatusLibraryNotificationType.SeasonSeenStatusUpdated => "{0} series {1}. season sen status has been changed to {2}",
-                    StatusLibraryNotificationType.EpisodeSeenStatusUpdated => "{0} series {1}. season {2}. episode seen status has been changed to {3}",
+                    StatusLibraryNotificationType.SeriesSeenStatusUpdated =>
+                    "{0} series seen status has been changed to {1}",
+                    StatusLibraryNotificationType.SeasonSeenStatusUpdated =>
+                    "{0} series {1}. season sen status has been changed to {2}",
+                    StatusLibraryNotificationType.EpisodeSeenStatusUpdated =>
+                    "{0} series {1}. season {2}. episode seen status has been changed to {3}",
                     _ =>
                     throw new Exception("System Notification is not implemented"),
                 };

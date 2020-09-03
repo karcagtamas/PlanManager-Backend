@@ -78,7 +78,6 @@ namespace ManagerAPI.Services.Common
             }
 
             return Ok(this._service.GetOrderedAll<TList>(orderBy, direction));
-
         }
 
         /// <summary>

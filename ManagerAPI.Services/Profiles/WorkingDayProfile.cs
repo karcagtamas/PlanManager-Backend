@@ -7,7 +7,6 @@ using ManagerAPI.Shared.Models.WM;
 
 namespace ManagerAPI.Services.Profiles
 {
-
     /// <summary>
     /// Working Day profile for auto mapper
     /// </summary>
@@ -17,7 +16,7 @@ namespace ManagerAPI.Services.Profiles
         private const int OptimalHour = 6;
         private const int EnoughHour = 4;
         private const int HourToMin = 60;
-        
+
         public WorkingDayProfile()
         {
             CreateMap<WorkingDay, WorkingDayListDto>()
@@ -29,20 +28,24 @@ namespace ManagerAPI.Services.Profiles
                 .ForMember(dest => dest.Day, opt => opt.MapFrom(src => src.Date));
             CreateMap<WorkingDay, WorkingDayStatDto>()
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.Type.DayIsActive))
-                .ForMember(dest => dest.SumMinutes, opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList())))
-                .ForMember(dest => dest.IsALot, opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) >= LotHour * HourToMin))
-                .ForMember(dest => dest.IsOptimal, opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) >= OptimalHour * HourToMin))
-                .ForMember(dest => dest.IsEnough, opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) >= EnoughHour * HourToMin));
+                .ForMember(dest => dest.SumMinutes,
+                    opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList())))
+                .ForMember(dest => dest.IsALot,
+                    opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) >= LotHour * HourToMin))
+                .ForMember(dest => dest.IsOptimal,
+                    opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) >= OptimalHour * HourToMin))
+                .ForMember(dest => dest.IsEnough,
+                    opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) >= EnoughHour * HourToMin));
         }
-        
+
         /// <summary>
         /// Get sum minutes counted from hours
         /// </summary>
         /// <param name="fields">Working fields</param>
-        /// <returns>Sum of mintutes</returns>
-        private int GetSumMinutes(List<WorkingField> fields) 
+        /// <returns>Sum of minutes</returns>
+        private int GetSumMinutes(List<WorkingField> fields)
         {
-            return fields.Sum(x => (int)(x.Length * HourToMin));
+            return fields.Sum(x => (int) (x.Length * HourToMin));
         }
     }
 }

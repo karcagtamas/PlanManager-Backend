@@ -5,7 +5,7 @@ using ManagerAPI.Shared.DTOs.SL;
 
 namespace MovieCorner.Services.Services.Interfaces
 {
-    public interface ISeriesCategoryService: IRepository<SeriesCategory>
+    public interface ISeriesCategoryService : IRepository<SeriesCategory>
     {
         List<SeriesCategorySelectorListDto> GetSelectorList(int seriesId);
     }

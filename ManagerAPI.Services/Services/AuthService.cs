@@ -24,7 +24,6 @@ namespace ManagerAPI.Services.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly ApplicationSettings _appSettings;
-        private readonly RoleManager<WebsiteRole> _roleManager;
         private readonly ILogger<AuthService> _logger;
         private readonly DatabaseContext _context;
         private readonly INotificationService _notificationService;
@@ -35,21 +34,22 @@ namespace ManagerAPI.Services.Services
         /// </summary>
         /// <param name="userManager">User Manager</param>
         /// <param name="appSettings">App Settings</param>
-        /// <param name="roleManager">Role Manager</param>
         /// <param name="logger">Logger</param>
         /// <param name="context">Database Context</param>
         /// <param name="notificationService">Notification Service</param>
-        public AuthService(UserManager<User> userManager, IOptions<ApplicationSettings> appSettings, RoleManager<WebsiteRole> roleManager, ILogger<AuthService> logger, DatabaseContext context, INotificationService notificationService, IUtilsService utilsService)
+        /// <param name="utilsService">Utils Service</param>
+        public AuthService(UserManager<User> userManager, IOptions<ApplicationSettings> appSettings,
+            ILogger<AuthService> logger, DatabaseContext context,
+            INotificationService notificationService, IUtilsService utilsService)
         {
             _userManager = userManager;
             _appSettings = appSettings.Value;
-            _roleManager = roleManager;
             _logger = logger;
             _context = context;
             _notificationService = notificationService;
             _utilsService = utilsService;
         }
-        
+
         /// <summary>
         /// Registration by registration model
         /// </summary>
@@ -67,17 +67,16 @@ namespace ManagerAPI.Services.Services
             if (result.Succeeded)
             {
                 User user = await _userManager.FindByNameAsync(appUser.UserName);
-                await _userManager.AddToRoleAsync(user, Roles.NORMAL);
+                await _userManager.AddToRoleAsync(user, Roles.NormalWebsiteRole);
                 _logger.LogInformation($"{user.UserName}'s registration was successfully with e-mail {user.Email}");
                 _notificationService.AddSystemNotificationByType(SystemNotificationType.Registration, user);
             }
             else
             {
-                
                 throw new MessageException(this._utilsService.ErrorsToString(result.Errors));
             }
         }
-        
+
         /// <summary>
         /// Login by the login model
         /// </summary>
@@ -103,7 +102,9 @@ namespace ManagerAPI.Services.Services
                 {
                     Subject = new ClaimsIdentity(claims),
                     Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JwtSecret)), SecurityAlgorithms.HmacSha256Signature)
+                    SigningCredentials = new SigningCredentials(
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JwtSecret)),
+                        SecurityAlgorithms.HmacSha256Signature)
                 };
                 JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
                 SecurityToken securityToken = tokenHandler.CreateToken(tokenDescriptor);
@@ -116,13 +117,13 @@ namespace ManagerAPI.Services.Services
                 return token;
             }
 
-            throw new MessageException($"Username or password is incorrect.");
+            throw new MessageException("Username or password is incorrect.");
         }
 
         /// <summary>
-        /// Logut
+        /// Logout
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="userId">User Id</param>
         public void Logout(string userId)
         {
             var user = _context.AppUsers.Find(userId);

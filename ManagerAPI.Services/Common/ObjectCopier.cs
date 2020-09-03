@@ -29,7 +29,7 @@ namespace ManagerAPI.Services.Common
             {
                 return default(T);
             }
-            
+
             // Cloning
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new MemoryStream();

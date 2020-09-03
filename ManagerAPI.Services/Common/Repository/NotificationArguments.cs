@@ -7,8 +7,8 @@ namespace ManagerAPI.Services.Common.Repository
     /// </summary>
     public class NotificationArguments
     {
-        public List<string> UpdateArguments { get; set;}
-        public List<string> DeleteArguments { get;set; }
+        public List<string> UpdateArguments { get; set; }
+        public List<string> DeleteArguments { get; set; }
         public List<string> CreateArguments { get; set; }
 
         /// <summary>

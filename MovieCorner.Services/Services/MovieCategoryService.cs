@@ -24,15 +24,15 @@ namespace MovieCorner.Services.Services
         /// <param name="context">Database Context</param>
         /// <param name="logger">Logger Service</param>
         /// <param name="utils">Utils Service</param>
-        /// <param name="notification">Notificaion Service</param>
+        /// <param name="notification">Notification Service</param>
         /// <param name="mapper">Mapper</param>
         public MovieCategoryService(DatabaseContext context, ILoggerService logger, IUtilsService utils,
             INotificationService notification, IMapper mapper) : base(context, logger, utils, notification, mapper,
             "Movie Category", new NotificationArguments
-        {
-            DeleteArguments = new List<string> {"Name"}, UpdateArguments = new List<string> {"Name"},
-            CreateArguments = new List<string> {"Name"}
-        })
+            {
+                DeleteArguments = new List<string> {"Name"}, UpdateArguments = new List<string> {"Name"},
+                CreateArguments = new List<string> {"Name"}
+            })
         {
             this._databaseContext = context;
         }

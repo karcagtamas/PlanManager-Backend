@@ -19,7 +19,7 @@ namespace MovieCorner.Services.Services
         private readonly DatabaseContext _databaseContext;
 
         /// <summary>
-        /// Injecto constructor
+        /// Injector constructor
         /// </summary>
         /// <param name="context">Database Context</param>
         /// <param name="logger">Logger Service</param>

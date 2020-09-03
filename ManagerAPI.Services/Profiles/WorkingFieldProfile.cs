@@ -43,7 +43,9 @@ namespace ManagerAPI.Services.Profiles
         /// <returns>Sum of hours</returns>
         private decimal CalcSumHour(List<WorkingField> fields)
         {
-            return fields == null || !fields.Any() ? 0 : fields.Where(x => x.WorkingDay.Type.DayIsActive).Sum(x => x.Length);
+            return fields == null || !fields.Any()
+                ? 0
+                : fields.Where(x => x.WorkingDay.Type.DayIsActive).Sum(x => x.Length);
         }
 
         /// <summary>
@@ -53,7 +55,7 @@ namespace ManagerAPI.Services.Profiles
         /// <returns>Avg of hours</returns>
         private double CalcAvgHour(List<WorkingField> fields)
         {
-            return fields == null || !fields.Any() ? 0 : (double)CalcSumHour(fields) / this.ActiveDays(fields);
+            return fields == null || !fields.Any() ? 0 : (double) CalcSumHour(fields) / this.ActiveDays(fields);
         }
 
         /// <summary>
@@ -61,7 +63,7 @@ namespace ManagerAPI.Services.Profiles
         /// </summary>
         /// <param name="fields">Working fields</param>
         /// <returns>Count of days</returns>
-        private int ActiveDays(List<WorkingField> fields) 
+        private int ActiveDays(List<WorkingField> fields)
         {
             return fields.GroupBy(x => x.WorkingDay).Select(x => x.Key).Count(x => x.Type.DayIsActive);
         }
@@ -83,7 +85,7 @@ namespace ManagerAPI.Services.Profiles
             int month = fields[0].WorkingDay.Day.Month;
             var date = new DateTime(year, month, 1);
             var monthDays = DateTime.DaysInMonth(year, month);
-            
+
             while (date.Day != monthDays)
             {
                 if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday)
@@ -102,9 +104,10 @@ namespace ManagerAPI.Services.Profiles
         /// </summary>
         /// <param name="fields">Working fields</param>
         /// <returns>List of calculated elements</returns>
-        private List<WorkingDayTypeCountDto> CalcCounts(List<WorkingField> fields) 
+        private List<WorkingDayTypeCountDto> CalcCounts(List<WorkingField> fields)
         {
-            return fields.GroupBy(x => x.WorkingDay.Type).Select(x => new WorkingDayTypeCountDto { Type = x.Key.Title, Count = x.GroupBy(y => y.WorkingDay).Count() }).ToList();
+            return fields.GroupBy(x => x.WorkingDay.Type).Select(x => new WorkingDayTypeCountDto
+                {Type = x.Key.Title, Count = x.GroupBy(y => y.WorkingDay).Count()}).ToList();
         }
     }
 }

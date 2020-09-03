@@ -15,7 +15,7 @@ namespace MovieCorner.Services.Profiles
             CreateMap<Book, BookListDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName));
             CreateMap<UserBook, MyBookListDto>()
-                .ForMember(dest => dest.Read, opt =>  opt.MapFrom(src => src.Read))
+                .ForMember(dest => dest.Read, opt => opt.MapFrom(src => src.Read))
                 .ForMember(dest => dest.Publish, opt => opt.MapFrom(src => src.Book.Publish))
                 .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Book.Author))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Book.Name))

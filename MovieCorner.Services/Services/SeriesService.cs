@@ -100,7 +100,7 @@ namespace MovieCorner.Services.Services
             }
 
             series.IsSeen = series.Seasons.SelectMany(x => x.Episodes.Select(y => y.Seen)).All(x => x);
-            
+
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), series.Id);
 
@@ -157,8 +157,6 @@ namespace MovieCorner.Services.Services
         /// <param name="model">New image model</param>
         public void UpdateImage(int id, SeriesImageModel model)
         {
-            var user = this.Utils.GetCurrentUser();
-
             var series = this._databaseContext.Series.Find(id);
 
             if (series == null) return;
@@ -292,14 +290,15 @@ namespace MovieCorner.Services.Services
 
             _databaseContext.SaveChanges();
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
-            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated, user);
+            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated,
+                user);
         }
 
         /// <summary>
         /// Update seen status for mapped series
         /// </summary>
         /// <param name="id">Series id</param>
-        /// <param name="status">Seen status</param>
+        /// <param name="seen">Seen status</param>
         public void UpdateSeenStatus(int id, bool seen)
         {
             var user = this.Utils.GetCurrentUser();

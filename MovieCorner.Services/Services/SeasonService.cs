@@ -104,7 +104,7 @@ namespace MovieCorner.Services.Services
 
         /// <summary>
         /// Delete season by the given Id.
-        /// Every continous season's number will be decremented by one.
+        /// Every continuous season's number will be decremented by one.
         /// </summary>
         /// <param name="seasonId">Season Id</param>
         public void DeleteDecremented(int seasonId)

@@ -5,6 +5,5 @@ namespace ManagerAPI.Services.Services.Interfaces
 {
     public interface IGenderService : IRepository<Gender>
     {
-        
     }
 }

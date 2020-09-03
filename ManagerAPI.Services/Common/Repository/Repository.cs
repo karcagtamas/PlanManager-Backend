@@ -54,7 +54,7 @@ namespace ManagerAPI.Services.Common.Repository
         /// <param name="entity">Entity object</param>
         public void Add(TEntity entity)
         {
-            // Add default datas automatically
+            // Add default data automatically
             var type = entity.GetType();
             var creator = type.GetProperty("CreatorId");
             if (creator != null)
@@ -106,8 +106,8 @@ namespace ManagerAPI.Services.Common.Repository
             }
             catch (Exception)
             {
-                // Anonim log
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("add"), entity.Id);
+                // Anonymous log
+                this.Logger.LogAnonymousInformation(this.GetService(), this.GetEvent("add"), entity.Id);
             }
         }
 
@@ -127,7 +127,7 @@ namespace ManagerAPI.Services.Common.Repository
         /// <param name="entities">Entities</param>
         public void AddRange(IEnumerable<TEntity> entities)
         {
-            // Add default datas automatically
+            // Add default data automatically
             entities = entities.Select(x =>
             {
                 var type = x.GetType();
@@ -159,11 +159,12 @@ namespace ManagerAPI.Services.Common.Repository
                     owner.SetValue(x, user.Id, null);
                 }
 
-                    return x;
-                });
+                return x;
+            });
 
             // Add
-            this._context.Set<TEntity>().AddRange(entities);
+            var entityList = entities.ToList();
+            this._context.Set<TEntity>().AddRange(entityList);
 
             // Save
             this.Complete();
@@ -174,10 +175,10 @@ namespace ManagerAPI.Services.Common.Repository
 
                 // Log
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add"),
-                    entities.Select(x => x.Id).ToList());
+                    entityList.Select(x => x.Id).ToList());
 
                 // Notification generate
-                foreach (var entity in entities)
+                foreach (var entity in entityList)
                 {
                     var type = entity.GetType();
 
@@ -190,16 +191,16 @@ namespace ManagerAPI.Services.Common.Repository
             }
             catch (Exception)
             {
-                // Anonim log
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("add"),
-                    entities.Select(x => x.Id).ToList());
+                // Anonymous log
+                this.Logger.LogAnonymousInformation(this.GetService(), this.GetEvent("add"),
+                    entityList.Select(x => x.Id).ToList());
             }
         }
 
         /// <summary>
         /// Add multiple entity
         /// </summary>
-        /// <param name="entities">Entites</param>
+        /// <param name="entities">Entities</param>
         /// <typeparam name="T">Type of mappable entities</typeparam>
         public void AddRange<T>(IEnumerable<T> entities)
         {
@@ -233,7 +234,7 @@ namespace ManagerAPI.Services.Common.Repository
             }
             catch (Exception)
             {
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("get"), entity.Id);
+                this.Logger.LogAnonymousInformation(this.GetService(), this.GetEvent("get"), entity.Id);
             }
 
             return entity;
@@ -269,7 +270,7 @@ namespace ManagerAPI.Services.Common.Repository
             }
             catch (Exception)
             {
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("get"),
+                this.Logger.LogAnonymousInformation(this.GetService(), this.GetEvent("get"),
                     list.Select(x => x.Id).ToList());
             }
 
@@ -344,7 +345,7 @@ namespace ManagerAPI.Services.Common.Repository
             }
             catch (Exception)
             {
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("get"),
+                this.Logger.LogAnonymousInformation(this.GetService(), this.GetEvent("get"),
                     list.Select(x => x.Id).ToList());
             }
 
@@ -394,7 +395,7 @@ namespace ManagerAPI.Services.Common.Repository
         public void Remove(TEntity entity)
         {
             // Determine Arguments
-            List<string> args = new List<string>();
+            List<string> args;
             try
             {
                 var user = this.Utils.GetCurrentUser();
@@ -416,11 +417,11 @@ namespace ManagerAPI.Services.Common.Repository
 
             // Save
             this.Complete();
-            
+
             try
             {
                 var user = this.Utils.GetCurrentUser();
-                
+
                 // Log
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete"), entity.Id);
 
@@ -431,8 +432,8 @@ namespace ManagerAPI.Services.Common.Repository
             }
             catch (Exception)
             {
-                // Log anonimus
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("delete"), entity.Id);
+                // Log anonymous
+                this.Logger.LogAnonymousInformation(this.GetService(), this.GetEvent("delete"), entity.Id);
             }
         }
 
@@ -444,7 +445,7 @@ namespace ManagerAPI.Services.Common.Repository
         {
             // Get entity
             var entity = this.Get(id);
-            
+
             if (entity == null)
             {
                 var user = this.Utils.GetCurrentUser();
@@ -462,9 +463,10 @@ namespace ManagerAPI.Services.Common.Repository
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             // Determine arguments
-            var type = entities.ToList()[0].GetType();
+            var entityList = entities.ToList();
+            var type = entityList.ToList()[0].GetType();
             Dictionary<TEntity, List<string>> args = new Dictionary<TEntity, List<string>>();
-            foreach (var entity in entities)
+            foreach (var entity in entityList)
             {
                 try
                 {
@@ -482,7 +484,7 @@ namespace ManagerAPI.Services.Common.Repository
             }
 
             // Remove range
-            this._context.Set<TEntity>().RemoveRange(entities);
+            this._context.Set<TEntity>().RemoveRange(entityList);
 
             // Save
             this.Complete();
@@ -493,7 +495,7 @@ namespace ManagerAPI.Services.Common.Repository
 
                 // Log
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete"),
-                    entities.Select(x => x.Id).ToList());
+                    entityList.Select(x => x.Id).ToList());
 
                 // Notification generate
                 foreach (var entity in args)
@@ -505,9 +507,9 @@ namespace ManagerAPI.Services.Common.Repository
             }
             catch (Exception)
             {
-                // Anonim log
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("delete"),
-                    entities.Select(x => x.Id).ToList());
+                // Anonymous log
+                this.Logger.LogAnonymousInformation(this.GetService(), this.GetEvent("delete"),
+                    entityList.Select(x => x.Id).ToList());
             }
         }
 
@@ -518,9 +520,10 @@ namespace ManagerAPI.Services.Common.Repository
         public void RemoveRange(IEnumerable<int> ids)
         {
             // Remove
-            if (ids.Any())
+            var idList = ids.ToList();
+            if (idList.Any())
             {
-                this.RemoveRange(this.GetList(x => ids.Contains(x.Id)));
+                this.RemoveRange(this.GetList(x => idList.Contains(x.Id)));
             }
         }
 
@@ -550,7 +553,7 @@ namespace ManagerAPI.Services.Common.Repository
 
             // Save
             this.Complete();
-            
+
             try
             {
                 var user = this.Utils.GetCurrentUser();
@@ -567,8 +570,8 @@ namespace ManagerAPI.Services.Common.Repository
             }
             catch (Exception)
             {
-                // Anonim log
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("update"), entity.Id);
+                // Anonymous log
+                this.Logger.LogAnonymousInformation(this.GetService(), this.GetEvent("update"), entity.Id);
             }
         }
 
@@ -603,7 +606,8 @@ namespace ManagerAPI.Services.Common.Repository
         public void UpdateRange(IEnumerable<TEntity> entities)
         {
             // Update 
-            this._context.Set<TEntity>().UpdateRange(entities);
+            var entityList = entities.ToList();
+            this._context.Set<TEntity>().UpdateRange(entityList);
 
             // Save
             this.Complete();
@@ -614,10 +618,10 @@ namespace ManagerAPI.Services.Common.Repository
 
                 // Log
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update"),
-                    entities.Select(x => x.Id).ToList());
+                    entityList.Select(x => x.Id).ToList());
 
                 // Notification generate
-                foreach (var entity in entities)
+                foreach (var entity in entityList)
                 {
                     var type = entity.GetType();
 
@@ -630,9 +634,9 @@ namespace ManagerAPI.Services.Common.Repository
             }
             catch (Exception)
             {
-                // Anonim log
-                this.Logger.LogAnonimInformation(this.GetService(), this.GetEvent("update"),
-                    entities.Select(x => x.Id).ToList());
+                // Anonymous log
+                this.Logger.LogAnonymousInformation(this.GetService(), this.GetEvent("update"),
+                    entityList.Select(x => x.Id).ToList());
             }
         }
 
@@ -646,10 +650,10 @@ namespace ManagerAPI.Services.Common.Repository
             // Update
             foreach (var i in entities.Keys)
             {
-                this.Update<T>(i, entities[i]);
+                this.Update(i, entities[i]);
             }
         }
-        
+
         /// <summary>
         /// Generate entity service
         /// </summary>
@@ -707,10 +711,10 @@ namespace ManagerAPI.Services.Common.Repository
                 var lastType = firstType;
                 object lastEntity = entity;
 
-                for (int j = 0; j < propList.Count(); j++)
+                foreach (var propElement in propList)
                 {
                     // Special event for updater
-                    if (propList[j] == "CurrentUser")
+                    if (propElement == "CurrentUser")
                     {
                         lastType = user.GetType();
                         lastEntity = user;
@@ -718,7 +722,7 @@ namespace ManagerAPI.Services.Common.Repository
                     else
                     {
                         // Get inner entity from entity
-                        var prop = lastType.GetProperty(propList[j]);
+                        var prop = lastType.GetProperty(propElement);
                         if (prop != null)
                         {
                             lastEntity = prop.GetValue(lastEntity);
@@ -784,7 +788,7 @@ namespace ManagerAPI.Services.Common.Repository
                 {
                     throw new ArgumentException("Property does not exist");
                 }
-                
+
                 switch (direction)
                 {
                     case "asc":

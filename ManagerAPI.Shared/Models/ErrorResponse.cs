@@ -7,9 +7,9 @@ namespace ManagerAPI.Shared.Models
     /// </summary>
     public class ErrorResponse
     {
-        public string Message { get; set; }
-        public ErrorResponse Inner { get; set; }
-        public string StackTrace { get; set; }
+        private string Message { get; set; }
+        private ErrorResponse Inner { get; set; }
+        private string StackTrace { get; set; }
 
         /// <summary>
         /// Error response from Exception

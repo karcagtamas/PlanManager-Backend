@@ -16,9 +16,6 @@ namespace ManagerAPI.Services.Services
     /// </summary>
     public class WorkingFieldService : Repository<WorkingField, WorkingManagerNotificationType>, IWorkingFieldService
     {
-        // Injects
-        private readonly DatabaseContext _databaseContext;
-
         /// <summary>
         /// Injector Constructor
         /// </summary>
@@ -36,7 +33,6 @@ namespace ManagerAPI.Services.Services
                 UpdateArguments = new List<string> {"WorkingDay.Day"}
             })
         {
-            this._databaseContext = context;
         }
 
         /// <summary>

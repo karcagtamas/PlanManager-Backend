@@ -24,7 +24,7 @@ namespace ManagerAPI.Services.Services
         private const string MessageThing = "message";
 
         // Messages
-        private const string ParnterIsNeededForSendingMessage = "Partner is needed for the message sending";
+        private const string PartnerIsNeededForSendingMessage = "Partner is needed for the message sending";
 
         // Injects
         private readonly DatabaseContext _databaseContext;
@@ -37,7 +37,14 @@ namespace ManagerAPI.Services.Services
         /// <param name="context">Database Context</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="loggerService">Logger Service</param>
-        public MessageService(IUtilsService utilsService, INotificationService notificationService, DatabaseContext context, IMapper mapper, ILoggerService loggerService) : base(context, loggerService, utilsService, notificationService, mapper, "Message", new NotificationArguments { DeleteArguments = new List<string>(), UpdateArguments = new List<string>(), CreateArguments = new List<string>() })
+        public MessageService(IUtilsService utilsService, INotificationService notificationService,
+            DatabaseContext context, IMapper mapper, ILoggerService loggerService) : base(context, loggerService,
+            utilsService, notificationService, mapper, "Message",
+            new NotificationArguments
+            {
+                DeleteArguments = new List<string>(), UpdateArguments = new List<string>(),
+                CreateArguments = new List<string>()
+            })
         {
             this._databaseContext = context;
         }
@@ -51,9 +58,16 @@ namespace ManagerAPI.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var list = this.Mapper.Map<List<MessageDto>>(user.SentMessages.Where(x => x.Receiver.Id == friendId).Union(user.ReceivedMessages.Where(x => x.Sender.Id == friendId)).OrderBy(x => x.Date).ToList()).Select(x => { x.IsMine = x.Sender == user.UserName; return x; }).ToList();
+            var list = this.Mapper.Map<List<MessageDto>>(user.SentMessages.Where(x => x.Receiver.Id == friendId)
+                .Union(user.ReceivedMessages.Where(x => x.Sender.Id == friendId)).OrderBy(x => x.Date).ToList()).Select(
+                x =>
+                {
+                    x.IsMine = x.Sender == user.UserName;
+                    return x;
+                }).ToList();
 
-            this.Logger.LogInformation(user, nameof(MessageService), GetMessagesAction, list.Select(x => x.Id).ToList());
+            this.Logger.LogInformation(user, nameof(MessageService), GetMessagesAction,
+                list.Select(x => x.Id).ToList());
 
             return list;
         }
@@ -69,20 +83,19 @@ namespace ManagerAPI.Services.Services
 
             if (partner == null)
             {
-                throw this.Logger.LogInvalidThings(user, nameof(MessageService), MessageThing, ParnterIsNeededForSendingMessage);
+                throw this.Logger.LogInvalidThings(user, nameof(MessageService), MessageThing,
+                    PartnerIsNeededForSendingMessage);
             }
 
-            var message = new Message();
+            var message = new Message {SenderId = user.Id, ReceiverId = model.PartnerId, Text = model.Message};
 
-            message.SenderId = user.Id;
-            message.ReceiverId = model.PartnerId;
-            message.Text = model.Message;
 
             this._databaseContext.Messages.Add(message);
             this._databaseContext.SaveChanges();
 
             this.Logger.LogInformation(user, nameof(MessageService), SendMessageAction, $"{user.Id}-{partner.Id}");
-            this.Notification.AddSystemNotificationByType(SystemNotificationType.MessageArrived, partner, user.UserName);
+            this.Notification.AddSystemNotificationByType(SystemNotificationType.MessageArrived, partner,
+                user.UserName);
         }
     }
 }

@@ -14,7 +14,8 @@ namespace MovieCorner.Services.Services
     /// <summary>
     /// Series Category Series
     /// </summary>
-    public class SeriesCategoryService: Repository<SeriesCategory, StatusLibraryNotificationType>, ISeriesCategoryService
+    public class SeriesCategoryService : Repository<SeriesCategory, StatusLibraryNotificationType>,
+        ISeriesCategoryService
     {
         private readonly DatabaseContext _databaseContext;
 

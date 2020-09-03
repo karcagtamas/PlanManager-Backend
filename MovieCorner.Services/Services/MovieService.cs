@@ -74,7 +74,8 @@ namespace MovieCorner.Services.Services
 
             var movie = this.Get<MyMovieDto>(id);
             var myMovie = user.MyMovies.FirstOrDefault(x => x.Movie.Id == movie.Id);
-            movie.IsMine = myMovie?.IsAdded ?? false;;
+            movie.IsMine = myMovie?.IsAdded ?? false;
+            
             movie.IsSeen = myMovie?.IsSeen ?? false;
             movie.AddedOn = myMovie?.AddedOn;
             movie.SeenOn = myMovie?.SeenOn;
@@ -89,7 +90,7 @@ namespace MovieCorner.Services.Services
         /// Update seen status for mapped movie
         /// </summary>
         /// <param name="id">Movie id</param>
-        /// <param name="status">Seen status</param>
+        /// <param name="seen">Seen status</param>
         public void UpdateSeenStatus(int id, bool seen)
         {
             var user = this.Utils.GetCurrentUser();
@@ -108,7 +109,8 @@ namespace MovieCorner.Services.Services
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set seen status for"),
                 userMovie.Movie.Id);
-            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MovieSeenStatusUpdated, user,
+            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MovieSeenStatusUpdated,
+                user,
                 userMovie.Movie.Title, seen ? "Seen" : "Unseen");
         }
 
@@ -141,14 +143,16 @@ namespace MovieCorner.Services.Services
             {
                 if (currentMappings.FirstOrDefault(x => x.MovieId == i) == null)
                 {
-                    var map = new UserMovie() {MovieId = i, UserId = user.Id, IsSeen = false, AddedOn = DateTime.Now, IsAdded = true};
+                    var map = new UserMovie()
+                        {MovieId = i, UserId = user.Id, IsSeen = false, AddedOn = DateTime.Now, IsAdded = true};
                     _databaseContext.UserMovieSwitch.Add(map);
                 }
             }
 
             _databaseContext.SaveChanges();
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
-            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyMovieListUpdated, user);
+            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyMovieListUpdated,
+                user);
         }
 
         /// <summary>
@@ -164,7 +168,8 @@ namespace MovieCorner.Services.Services
 
             if (mapping == null)
             {
-                mapping = new UserMovie {MovieId = id, UserId = user.Id, IsSeen = false, AddedOn = DateTime.Now, IsAdded = true};
+                mapping = new UserMovie
+                    {MovieId = id, UserId = user.Id, IsSeen = false, AddedOn = DateTime.Now, IsAdded = true};
                 this._databaseContext.UserMovieSwitch.Add(mapping);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
@@ -240,8 +245,6 @@ namespace MovieCorner.Services.Services
         /// <param name="model">New image model</param>
         public void UpdateImage(int id, MovieImageModel model)
         {
-            var user = this.Utils.GetCurrentUser();
-
             var movie = this._databaseContext.Movies.Find(id);
 
             if (movie == null) return;
@@ -276,7 +279,7 @@ namespace MovieCorner.Services.Services
 
             var addList = model.Ids.Where(x =>
                 !currentMappings.Select(y => y.Category.Id).Contains(x)).ToList();
-            
+
             foreach (var modelId in addList)
             {
                 this._databaseContext.MovieMovieCategorySwitch.Add(new MovieMovieCategory
