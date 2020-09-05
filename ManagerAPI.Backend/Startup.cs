@@ -63,7 +63,6 @@ namespace ManagerAPI.Backend
             var mapperConfig = new MapperConfiguration(x =>
             {
                 x.AddProfile(new UserProfile());
-                x.AddProfile(new EventProfile());
                 x.AddProfile(new PlanProfile());
                 x.AddProfile(new NotificationProfile());
                 x.AddProfile(new FriendProfile());
@@ -94,8 +93,6 @@ namespace ManagerAPI.Backend
             services.AddScoped<IUtilsService, UtilsService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPlanService, PlanService>();
-            services.AddScoped<IEventService, EventService>();
-            services.AddScoped<IEventActionService, EventActionService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IFriendService, FriendService>();
             services.AddScoped<IMessageService, MessageService>();

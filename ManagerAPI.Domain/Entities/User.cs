@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ManagerAPI.Domain.Entities.EM;
 using ManagerAPI.Domain.Entities.PM;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Entities.WM;
@@ -60,13 +59,6 @@ namespace ManagerAPI.Domain.Entities {
         public virtual ICollection<PlanGroupPlanComment> CreatedPlanGroupPlanComment { get; set; }
         public virtual ICollection<UserPlanGroup> Groups { get; set; }
         public virtual ICollection<UserPlanGroup> AddedUsersToGroups { get; set; }
-        public virtual ICollection<MasterEvent> CreatedMasterEvents { get; set; }
-        public virtual ICollection<MasterEvent> UpdatedMasterEvents { get; set; }
-        public virtual ICollection<UserEvent> Events { get; set; }
-        public virtual ICollection<UserEvent> AddedUsersToEvents { get; set; }
-        public virtual ICollection<UserEventRole> EventRoles { get; set; }
-        public virtual ICollection<UserEventRole> AddedRolesToEvent { get; set; }
-        public virtual ICollection<EventAction> CausedEventActions { get; set; }
         public virtual Gender Gender { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
         public virtual ICollection<FriendRequest> SentFriendRequest { get; set; }

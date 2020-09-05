@@ -29,6 +29,11 @@
                         </MatNavSubMenuList>
                     </MatNavSubMenu>
                 </Authorized>
+                <NotAuthorized>
+                                    <MatNavItem Href="" class="important">Home</MatNavItem>
+                                    <MatNavItem Href="/auth/login">Login</MatNavItem>
+                                    <MatNavItem Href="/auth/registration">Registration</MatNavItem>
+                                </NotAuthorized>
             </AuthorizeView>
             <AuthorizeView Roles="Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root">
                 <Authorized>
@@ -48,25 +53,6 @@
                     </MatNavSubMenu>
                 </Authorized>
                 <NotAuthorized></NotAuthorized>
-            </AuthorizeView>
-            <AuthorizeView Roles="Normal,Moderator,Administrator,Root">
-                <Authorized>
-                    <MatNavSubMenu>
-                        <MatNavSubMenuHeader>
-                            <MatNavItem AllowSelection="false">Events</MatNavItem>
-                        </MatNavSubMenuHeader>
-                        <MatNavSubMenuList>
-                            <MatNavItem Href="/events/home">Event Home</MatNavItem>
-                            <MatNavItem Href="/events/my-events">My Events</MatNavItem>
-                            <MatNavItem Href="/events/create">Create</MatNavItem>
-                        </MatNavSubMenuList>
-                    </MatNavSubMenu>
-                </Authorized>
-                <NotAuthorized>
-                    <MatNavItem Href="" class="important">Home</MatNavItem>
-                    <MatNavItem Href="/auth/login">Login</MatNavItem>
-                    <MatNavItem Href="/auth/registration">Registration</MatNavItem>
-                </NotAuthorized>
             </AuthorizeView>
         </MatNavMenu>
         @if (ChildContent != null)
