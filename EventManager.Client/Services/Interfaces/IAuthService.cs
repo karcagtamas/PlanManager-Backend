@@ -7,6 +7,6 @@ namespace EventManager.Client.Services.Interfaces {
         Task<bool> Register (RegistrationModel model);
         Task<string> Login (LoginModel model);
         Task Logout ();
-        Task<bool> HasRole(List<string> roles);
+        Task<bool> HasRole(params string[] roles);
     }
 }

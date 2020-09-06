@@ -23,17 +23,24 @@ namespace EventManager.Client.Pages.SL
         [Inject] private IEpisodeService EpisodeService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private IModalService Modal { get; set; }
+        [Inject] private IAuthService Auth { get; set; }
         private bool IsLoading { get; set; }
         private string SeriesImage { get; set; }
         private List<SeriesCommentListDto> CommentList { get; set; }
         private string Comment { get; set; }
         private List<int> RateList { get; set; } = new List<int> {1, 2, 3, 4, 5};
         private int SelectedId { get; set; }
+        private bool CanAddOrEdit { get; set; }
+        private bool CanDelete { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             await GetSeries();
             await GetComments();
+            this.CanAddOrEdit = await Auth.HasRole("Administrator", "Status Library Moderator",
+                "Status Library Administrator", "Root");
+            this.CanDelete = await Auth.HasRole("Administrator",
+                "Status Library Administrator", "Root");
         }
 
         private async Task GetSeries()

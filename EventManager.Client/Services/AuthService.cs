@@ -63,7 +63,7 @@ namespace EventManager.Client.Services
             await ((ApiAuthenticationStateProvider)_authenticationStateProvider).ClearStorage();
         }
 
-        public async Task<bool> HasRole(List<string> roles)
+        public async Task<bool> HasRole(params string[] roles)
         {
             var state = await  _authenticationStateProvider.GetAuthenticationStateAsync();
             var claims = state.User.Claims.Where(x => x.Type == ClaimTypes.Role)

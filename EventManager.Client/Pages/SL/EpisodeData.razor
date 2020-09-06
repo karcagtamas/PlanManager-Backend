@@ -15,9 +15,25 @@
     else
     {
         <div class="action-bar">
-            <MatButton @onclick="OpenEditEpisodeDialog">Edit</MatButton>
-            <MatButton @onclick="DeleteDecremented">Delete</MatButton>
-            <MatButton @onclick="OpenEditEpisodeImageDialog">Edit Image</MatButton>
+            @if (CanEdit)
+            {
+                <MatTooltip Tooltip="Edit Episode">
+                    <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditEpisodeDialog"></MatIconButton>
+                </MatTooltip>
+            }
+            @if (CanDelete)
+            {
+                <MatTooltip Tooltip="Delete Episode">
+                    <MatIconButton RefBack="@context" Icon="delete" @onclick="DeleteDecremented"></MatIconButton>
+                </MatTooltip>
+            }
+            @if (CanEdit)
+            {
+                <MatTooltip Tooltip="Edit Image">
+                    <MatIconButton RefBack="@context" Icon="image" @onclick="OpenEditEpisodeImageDialog"></MatIconButton>
+                </MatTooltip>
+            }
+
             @if (Episode != null && Episode.IsMine)
             {
                 @if (Episode.IsSeen)

@@ -15,18 +15,28 @@
 else
 {
     <div class="action-bar">
-        <MatTooltip Tooltip="Edit Series">
-            <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditSeriesDialog"></MatIconButton>
-        </MatTooltip>
-        <MatTooltip Tooltip="Delete Series">
-            <MatIconButton RefBack="@context" Icon="delete" @onclick="OpenDeleteDialog"></MatIconButton>
-        </MatTooltip>
-        <MatTooltip Tooltip="Edit Image">
-            <MatIconButton RefBack="@context" Icon="image" @onclick="OpenEditSeriesImageDialog"></MatIconButton>
-        </MatTooltip>
-        <MatTooltip Tooltip="Edit Categories">
-            <MatIconButton RefBack="@context" Icon="category" @onclick="OpenEditSeriesCategoriesDialog"></MatIconButton>
-        </MatTooltip>
+        @if (CanAddOrEdit)
+        {
+            <MatTooltip Tooltip="Edit Series">
+                <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditSeriesDialog"></MatIconButton>
+            </MatTooltip>
+        }
+        @if (CanDelete)
+        {
+            <MatTooltip Tooltip="Delete Series">
+                <MatIconButton RefBack="@context" Icon="delete" @onclick="OpenDeleteDialog"></MatIconButton>
+            </MatTooltip>
+        }
+        @if (CanAddOrEdit)
+        {
+            <MatTooltip Tooltip="Edit Image">
+                <MatIconButton RefBack="@context" Icon="image" @onclick="OpenEditSeriesImageDialog"></MatIconButton>
+            </MatTooltip>
+            <MatTooltip Tooltip="Edit Categories">
+                <MatIconButton RefBack="@context" Icon="category" @onclick="OpenEditSeriesCategoriesDialog"></MatIconButton>
+            </MatTooltip>
+        }
+
         @if (Series != null)
         {
             @if (Series.IsMine)
@@ -137,9 +147,12 @@ else
                             <div class="head">
                                 <span>Season @season.Number</span>
                                 <span class="spacer"></span>
-                                <MatTooltip Tooltip="Delete Season">
-                                    <MatIconButton RefBack="@context" Icon="delete" @onclick="@(() => OpenDeleteSeasonDialog(season))"></MatIconButton>
-                                </MatTooltip>
+                                @if (CanDelete)
+                                {
+                                    <MatTooltip Tooltip="Delete Season">
+                                        <MatIconButton RefBack="@context" Icon="delete" @onclick="@(() => OpenDeleteSeasonDialog(season))"></MatIconButton>
+                                    </MatTooltip>
+                                }
                             </div>
                             <div class="body">
                                 <div class="episodes">
@@ -149,9 +162,12 @@ else
                                             <div class="ep-head">
                                                 <span>@episode.Number - @episode.Title</span>
                                                 <span class="spacer"></span>
-                                                <MatTooltip Tooltip="Delete Episode">
-                                                    <MatIconButton RefBack="@context" Icon="delete" @onclick="@(() => OpenDeleteEpisodeDialog(episode))"></MatIconButton>
-                                                </MatTooltip>
+                                                @if (CanDelete)
+                                                {
+                                                    <MatTooltip Tooltip="Delete Episode">
+                                                        <MatIconButton RefBack="@context" Icon="delete" @onclick="@(() => OpenDeleteEpisodeDialog(episode))"></MatIconButton>
+                                                    </MatTooltip>
+                                                }
                                             </div>
                                             <div class="ep-body">
                                                 @episode.Description
@@ -187,9 +203,12 @@ else
 
                                     <div class="episode-action">
                                         <span class="spacer"></span>
-                                        <MatTooltip Tooltip="@($"Add Episode to season {season.Number}")">
-                                            <MatIconButton RefBack="@context" Icon="add" @onclick="@(() => AddIncrementedEpisode(season.Id))"></MatIconButton>
-                                        </MatTooltip>
+                                        @if (CanAddOrEdit)
+                                        {
+                                            <MatTooltip Tooltip="@($"Add Episode to season {season.Number}")">
+                                                <MatIconButton RefBack="@context" Icon="add" @onclick="@(() => AddIncrementedEpisode(season.Id))"></MatIconButton>
+                                            </MatTooltip>
+                                        }
                                         @if (Series.IsMine)
                                         {
                                             @if (season.Episodes != null && season.Episodes.Count > 0)
@@ -221,9 +240,12 @@ else
 
                     <div class="season-action">
                         <span class="spacer"></span>
-                        <MatTooltip Tooltip="Add Season to Series">
-                            <MatIconButton RefBack="@context" Icon="add" @onclick="AddIncrementedSeason"></MatIconButton>
-                        </MatTooltip>
+                        @if (CanAddOrEdit)
+                        {
+                            <MatTooltip Tooltip="Add Season to Series">
+                                <MatIconButton RefBack="@context" Icon="add" @onclick="AddIncrementedSeason"></MatIconButton>
+                            </MatTooltip>
+                        }
                     </div>
                 </div>
             </MatTab>

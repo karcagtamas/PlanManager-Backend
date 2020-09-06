@@ -15,12 +15,19 @@
     else
     {
         <div class="action-bar">
-            <MatTooltip Tooltip="Edit Book">
-                <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditBookDialog"></MatIconButton>
-            </MatTooltip>
-            <MatTooltip Tooltip="Delete Book">
-                <MatIconButton RefBack="@context" Icon="delete" @onclick="OpenDeleteDialog"></MatIconButton>
-            </MatTooltip>
+            @if (CanEdit)
+            {
+                <MatTooltip Tooltip="Edit Book">
+                    <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditBookDialog"></MatIconButton>
+                </MatTooltip>
+            }
+
+            @if (CanDelete)
+            {
+                <MatTooltip Tooltip="Delete Book">
+                    <MatIconButton RefBack="@context" Icon="delete" @onclick="OpenDeleteDialog"></MatIconButton>
+                </MatTooltip>
+            }
             @if (Book != null)
             {
                 @if (Book.IsMine)

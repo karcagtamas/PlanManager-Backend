@@ -12,9 +12,12 @@
     else
     {
         <div class="action-bar">
-            <MatTooltip Tooltip="Add Book">
-                <MatIconButton RefBack="@context" Icon="add" @onclick="OpenAddBookDialog"></MatIconButton>
-            </MatTooltip>
+            @if (CanAdd)
+            {
+                <MatTooltip Tooltip="Add Book">
+                    <MatIconButton RefBack="@context" Icon="add" @onclick="OpenAddBookDialog"></MatIconButton>
+                </MatTooltip>
+            }
         </div>
         @if (BookList != null && BookList.Count > 0)
         {

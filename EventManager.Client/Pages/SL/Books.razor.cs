@@ -16,9 +16,11 @@ namespace EventManager.Client.Pages.SL
         [Inject] private IBookService BookService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private IModalService Modal { get; set; }
+        [Inject] private IAuthService Auth { get; set; }
 
         private List<BookListDto> BookList { get; set; }
         private bool IsLoading { get; set; }
+        private bool CanAdd { get; set; }
 
         private List<TableHeaderData<BookListDto>> Header { get; set; } = new List<TableHeaderData<BookListDto>>
         {
@@ -33,6 +35,8 @@ namespace EventManager.Client.Pages.SL
         protected override async Task OnInitializedAsync()
         {
             await GetBooks();
+            this.CanAdd = await Auth.HasRole("Administrator", "Status Library Moderator",
+                "Status Library Administrator", "Root");
         }
 
         private async Task GetBooks()

@@ -15,18 +15,28 @@
     else
     {
         <div class="action-bar">
-            <MatTooltip Tooltip="Edit Movie">
-                <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditMovieDialog"></MatIconButton>
-            </MatTooltip>
-            <MatTooltip Tooltip="Delete Movie">
-                <MatIconButton RefBack="@context" Icon="delete" @onclick="OpenDeleteDialog"></MatIconButton>
-            </MatTooltip>
-            <MatTooltip Tooltip="Edit Image">
-                <MatIconButton RefBack="@context" Icon="image" @onclick="OpenEditMovieImageDialog"></MatIconButton>
-            </MatTooltip>
-            <MatTooltip Tooltip="Edit Categories">
-                <MatIconButton RefBack="@context" Icon="category" @onclick="OpenEditMovieCategoriesDialog"></MatIconButton>
-            </MatTooltip>
+            @if (CanEdit)
+            {
+                <MatTooltip Tooltip="Edit Movie">
+                    <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditMovieDialog"></MatIconButton>
+                </MatTooltip>
+            }
+            @if (CanDelete)
+            {
+                <MatTooltip Tooltip="Delete Movie">
+                    <MatIconButton RefBack="@context" Icon="delete" @onclick="OpenDeleteDialog"></MatIconButton>
+                </MatTooltip>
+            }
+            @if (CanEdit)
+            {
+                <MatTooltip Tooltip="Edit Image">
+                    <MatIconButton RefBack="@context" Icon="image" @onclick="OpenEditMovieImageDialog"></MatIconButton>
+                </MatTooltip>
+                <MatTooltip Tooltip="Edit Categories">
+                    <MatIconButton RefBack="@context" Icon="category" @onclick="OpenEditMovieCategoriesDialog"></MatIconButton>
+                </MatTooltip>
+            }
+
             @if (Movie != null)
             {
                 @if (Movie.IsMine)

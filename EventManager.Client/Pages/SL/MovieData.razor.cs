@@ -21,16 +21,23 @@ namespace EventManager.Client.Pages.SL
         [Inject] private IMovieCommentService MovieCommentService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private IModalService Modal { get; set; }
+        [Inject] private IAuthService Auth { get; set; }
         private bool IsLoading { get; set; }
         private string MovieImage { get; set; }
         private List<MovieCommentListDto> CommentList { get; set; }
         private string Comment { get; set; }
         private List<int> RateList { get; set; } = new List<int> {1, 2, 3, 4, 5};
+        private bool CanEdit { get; set; }
+        private bool CanDelete { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             await GetMovie();
             await GetComments();
+            this.CanEdit = await Auth.HasRole("Administrator", "Status Library Moderator",
+                "Status Library Administrator", "Root");
+            this.CanDelete = await Auth.HasRole("Administrator",
+                "Status Library Administrator", "Root");
         }
 
         private async Task GetMovie()
@@ -48,7 +55,7 @@ namespace EventManager.Client.Pages.SL
             StateHasChanged();
         }
 
-        private async Task GetComments() 
+        private async Task GetComments()
         {
             IsLoading = true;
             StateHasChanged();
@@ -127,7 +134,7 @@ namespace EventManager.Client.Pages.SL
                 await this.GetMovie();
             }
         }
-        
+
         private void OpenEditMovieCategoriesDialog()
         {
             var parameters = new ModalParameters();
@@ -153,9 +160,10 @@ namespace EventManager.Client.Pages.SL
 
         private async void SaveComment()
         {
-            if(string.IsNullOrEmpty(this.Comment)) return;
+            if (string.IsNullOrEmpty(this.Comment)) return;
 
-            if (!await this.MovieCommentService.Create(new MovieCommentModel {Comment = this.Comment, MovieId = this.Id})) return;
+            if (!await this.MovieCommentService.Create(
+                new MovieCommentModel {Comment = this.Comment, MovieId = this.Id})) return;
             this.Comment = "";
             await this.GetComments();
         }
@@ -167,7 +175,7 @@ namespace EventManager.Client.Pages.SL
                 await this.GetMovie();
             }
         }
-        
+
         private void OpenDeleteDialog()
         {
             var parameters = new ModalParameters();

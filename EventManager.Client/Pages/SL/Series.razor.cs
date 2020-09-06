@@ -17,9 +17,11 @@ namespace EventManager.Client.Pages.SL
         [Inject] private NavigationManager Navigation { get; set; }
 
         [Inject] private IModalService Modal { get; set; }
+        [Inject] private IAuthService Auth { get; set; }
 
         private List<SeriesListDto> SeriesList { get; set; }
         private bool IsLoading { get; set; }
+        private bool CanAdd { get; set; }
 
         private List<TableHeaderData<SeriesListDto>> Header { get; set; } = new List<TableHeaderData<SeriesListDto>>
         {
@@ -33,6 +35,8 @@ namespace EventManager.Client.Pages.SL
         protected override async Task OnInitializedAsync()
         {
             await GetSeries();
+            this.CanAdd = await Auth.HasRole("Administrator", "Status Library Moderator",
+                "Status Library Administrator", "Root");
         }
 
         private async Task GetSeries()

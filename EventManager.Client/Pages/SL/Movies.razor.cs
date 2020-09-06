@@ -16,21 +16,26 @@ namespace EventManager.Client.Pages.SL
         [Inject] private NavigationManager Navigation { get; set; }
 
         [Inject] private IModalService Modal { get; set; }
+        [Inject] private IAuthService Auth { get; set; }
 
         private List<MovieListDto> MovieList { get; set; }
         private bool IsLoading { get; set; }
+        private bool CanAdd { get; set; }
 
         private List<TableHeaderData<MovieListDto>> Header { get; set; } = new List<TableHeaderData<MovieListDto>>
         {
             new TableHeaderData<MovieListDto>("Title", true, Alignment.Left)
                 {FooterRunnableData = (list) => list.Count.ToString()},
-            new TableHeaderData<MovieListDto>("ReleaseYear", "Release Year", true, (e) => ((int) e).ToString(), Alignment.Right),
+            new TableHeaderData<MovieListDto>("ReleaseYear", "Release Year", true, (e) => ((int) e).ToString(),
+                Alignment.Right),
             new TableHeaderData<MovieListDto>("Creator", true, Alignment.Left)
         };
 
         protected override async Task OnInitializedAsync()
         {
             await GetMovies();
+            this.CanAdd = await Auth.HasRole("Administrator", "Status Library Moderator",
+                "Status Library Administrator", "Root");
         }
 
         private async Task GetMovies()

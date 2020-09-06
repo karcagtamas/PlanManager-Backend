@@ -18,13 +18,20 @@ namespace EventManager.Client.Pages.SL
         [Inject] private IEpisodeService EpisodeService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private IModalService Modal { get; set; }
+        [Inject] private IAuthService Auth { get; set; }
 
         private bool IsLoading { get; set; }
         private string EpisodeImage { get; set; }
+        private bool CanEdit { get; set; }
+        private bool CanDelete { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             await GetEpisode();
+            this.CanEdit = await Auth.HasRole("Administrator", "Status Library Moderator",
+                "Status Library Administrator", "Root");
+            this.CanDelete = await Auth.HasRole("Administrator",
+                "Status Library Administrator", "Root");
         }
 
         private async Task GetEpisode()

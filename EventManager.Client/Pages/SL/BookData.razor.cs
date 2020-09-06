@@ -18,12 +18,19 @@ namespace EventManager.Client.Pages.SL
         [Inject] private IBookService BookService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private IModalService Modal { get; set; }
+        [Inject] private IAuthService Auth { get; set; }
 
         private bool IsLoading { get; set; }
+        private bool CanEdit { get; set; }
+        private bool CanDelete { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             await GetBook();
+            this.CanEdit = await Auth.HasRole("Administrator", "Status Library Moderator",
+                "Status Library Administrator", "Root");
+            this.CanDelete = await Auth.HasRole("Administrator",
+                "Status Library Administrator", "Root");
         }
 
         private async Task GetBook()
@@ -82,7 +89,7 @@ namespace EventManager.Client.Pages.SL
                 await this.GetBook();
             }
         }
-        
+
         private void OpenDeleteDialog()
         {
             var parameters = new ModalParameters();
