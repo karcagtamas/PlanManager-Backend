@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieCorner.Services", "Mov
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerAPI.Shared", "ManagerAPI.Shared\ManagerAPI.Shared.csproj", "{A6369695-89DE-4CD3-A34B-90177C23FCE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsomorGenerator", "CsomorGenerator\CsomorGenerator.csproj", "{C70832A1-1B52-453B-9A22-30B876D0A93D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{A6369695-89DE-4CD3-A34B-90177C23FCE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6369695-89DE-4CD3-A34B-90177C23FCE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6369695-89DE-4CD3-A34B-90177C23FCE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C70832A1-1B52-453B-9A22-30B876D0A93D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C70832A1-1B52-453B-9A22-30B876D0A93D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C70832A1-1B52-453B-9A22-30B876D0A93D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C70832A1-1B52-453B-9A22-30B876D0A93D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +96,7 @@ Global
 		{267F7DF1-FA75-4A83-A63D-C9E696373392} = {E0D33AD4-24D9-4056-8176-15CDE27770CD}
 		{3E60E00C-942C-43A6-8D45-4F939440F06D} = {267F7DF1-FA75-4A83-A63D-C9E696373392}
 		{A6369695-89DE-4CD3-A34B-90177C23FCE7} = {E0D33AD4-24D9-4056-8176-15CDE27770CD}
+		{C70832A1-1B52-453B-9A22-30B876D0A93D} = {E0D33AD4-24D9-4056-8176-15CDE27770CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {42B15A23-20A6-4A56-8C36-4FA287377346}

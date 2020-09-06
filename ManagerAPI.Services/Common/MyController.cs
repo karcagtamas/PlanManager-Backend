@@ -32,7 +32,6 @@ namespace ManagerAPI.Services.Common
         /// <param name="model">Object model</param>
         /// <returns>Ok state</returns>
         [HttpPost]
-        [Authorize(Roles = "Administrator,Root,Moderator")]
         public virtual IActionResult Create([FromBody] TModel model)
         {
             this._service.Add<TModel>(model);
@@ -45,7 +44,6 @@ namespace ManagerAPI.Services.Common
         /// <param name="id">Id of object</param>
         /// <returns>Ok state</returns>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Administrator,Root")]
         public virtual IActionResult Delete(int id)
         {
             this._service.Remove(id);
@@ -87,7 +85,6 @@ namespace ManagerAPI.Services.Common
         /// <param name="model">Model of object</param>
         /// <returns>Ok state</returns>
         [HttpPut("{id}")]
-        [Authorize(Roles = "Administrator,Root,Moderator")]
         public virtual IActionResult Update(int id, TModel model)
         {
             this._service.Update<TModel>(id, model);

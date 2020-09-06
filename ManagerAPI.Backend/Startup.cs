@@ -1,6 +1,8 @@
 using System;
 using System.Text;
 using AutoMapper;
+using CsomorGenerator.Services;
+using CsomorGenerator.Services.Interfaces;
 using EventManager.Services.Profiles;
 using EventManager.Services.Services;
 using ManagerAPI.Backend.Middlewares;
@@ -115,6 +117,7 @@ namespace ManagerAPI.Backend
             services.AddScoped<IMovieCommentService, MovieCommentService>();
             services.AddScoped<ISeriesCategoryService, SeriesCategoryService>();
             services.AddScoped<ISeriesCommentService, SeriesCommentService>();
+            services.AddScoped<IGeneratorService, GeneratorService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
