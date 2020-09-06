@@ -3,8 +3,6 @@ using System.Text;
 using AutoMapper;
 using CsomorGenerator.Services;
 using CsomorGenerator.Services.Interfaces;
-using EventManager.Services.Profiles;
-using EventManager.Services.Services;
 using ManagerAPI.Backend.Middlewares;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
