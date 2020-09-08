@@ -24,7 +24,7 @@ namespace EventManager.Client.Pages.SL
                 {FooterRunnableData = (list) => list.Count.ToString()},
             new TableHeaderData<MyMovieListDto>("ReleaseYear", "Release Year", true, (e) => ((int) e).ToString(), Alignment.Right),
             new TableHeaderData<MyMovieListDto>("Creator", true, Alignment.Left),
-            new TableHeaderData<MyMovieListDto>("Seen", "Seen", true, (e) => (bool) e ? "Seen" : "Not seen", Alignment.Center)
+            new TableHeaderData<MyMovieListDto>("IsSeen", "Is Seen", true, (e) => ((bool) e) ? "Seen" : "Not seen", Alignment.Center)
         };
 
         protected override async Task OnInitializedAsync()

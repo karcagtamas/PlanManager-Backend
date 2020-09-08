@@ -30,7 +30,7 @@ namespace CsomorGenerator.Services
                    {
                        work.Tables.ForEach(table =>
                        {
-                           if (table.IsAvailable)
+                           if (table.IsActive)
                            {
                                var count = 0;
                                Person person = null;
@@ -182,7 +182,7 @@ namespace CsomorGenerator.Services
         /// <param name="work">Work</param>
         private void CheckWork(Work work)
         {
-            if (!work.Tables.Any(x => x.IsAvailable))
+            if (!work.Tables.Any(x => x.IsActive))
             {
                 throw new ArgumentException($"Work ({work.Name}) cannot be unavailable all the time.");
             }
@@ -203,7 +203,7 @@ namespace CsomorGenerator.Services
             {
                 // Count of works
                 var works = settings.Works.Count(x =>
-                    x.Tables.FirstOrDefault(y => CompareDates(start, y.Date))?.IsAvailable ?? false);
+                    x.Tables.FirstOrDefault(y => CompareDates(start, y.Date))?.IsActive ?? false);
                 
                 // Count of persons
                 var persons = settings.Persons.Count(x =>
@@ -230,7 +230,7 @@ namespace CsomorGenerator.Services
         {
             // Sums
             var personSum = settings.Persons.Sum(x => x.Tables.Count(y => y.IsAvailable));
-            var workSum = settings.Works.Sum(x => x.Tables.Count(y => y.IsAvailable));
+            var workSum = settings.Works.Sum(x => x.Tables.Count(y => y.IsActive));
 
             // Work sum has to be less than person sum's 90% and minus the res hour sum
             if (workSum > (personSum * 0.9) - this.GetLength(settings.Start, settings.Finish) / (settings.MaxWorkHour + settings.MinRestHour) * settings.MinRestHour)
@@ -346,7 +346,7 @@ namespace CsomorGenerator.Services
         private void SetWorkHours(ref GeneratorSettings settings)
         {
             // All hour
-            var hours = settings.Works.Sum(x => x.Tables.Count(y => y.IsAvailable));
+            var hours = settings.Works.Sum(x => x.Tables.Count(y => y.IsActive));
 
             // Add hours to the persons
             while (hours > 0)

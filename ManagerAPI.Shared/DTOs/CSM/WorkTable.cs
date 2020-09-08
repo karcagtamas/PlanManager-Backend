@@ -5,7 +5,7 @@ namespace ManagerAPI.Shared.DTOs.CSM
     public class WorkTable
     {
         public DateTime Date;
-        public bool IsAvailable { get; set; }
+        public bool IsActive { get; set; }
         public string PersonId { get; set; }
     }
 }
