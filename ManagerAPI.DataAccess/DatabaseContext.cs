@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ManagerAPI.DataAccess
 {
+    /// <summary>
+    /// Database Context
+    /// </summary>
     public class DatabaseContext : IdentityDbContext
     {
         public DbSet<Gender> Genders { get; set; }

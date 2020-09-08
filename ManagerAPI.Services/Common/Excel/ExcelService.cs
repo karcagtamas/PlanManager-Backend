@@ -8,8 +8,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Services.Common.Excel
 {
+    /// <summary>
+    /// Excel Service
+    /// </summary>
     public class ExcelService : IExcelService
     {
+
+        /// <summary>
+        /// Generate table export
+        /// </summary>
+        /// <param name="objectList">Object table</param>
+        /// <param name="columnList">Export columns</param>
+        /// <param name="fileName">Destination file name</param>
+        /// <param name="appendCurrentDate">Add current date to the name</param>
+        /// <typeparam name="T">Type of object list</typeparam>
+        /// <returns>File stream</returns>
         public FileStreamResult GenerateTableExport<T>(IEnumerable<T> objectList, IEnumerable<Header> columnList,
             string fileName,
             bool appendCurrentDate)
