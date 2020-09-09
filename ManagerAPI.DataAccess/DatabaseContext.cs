@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ManagerAPI.Domain.Entities;
+using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Domain.Entities.PM;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Entities.WM;
@@ -58,6 +59,15 @@ namespace ManagerAPI.DataAccess
         public DbSet<UserEpisode> UserEpisodeSwitch { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<UserBook> UserBookSwitch { get; set; }
+        
+        // CSM
+        public DbSet<Csomor> Csomors { get; set; }
+        public DbSet<CsomorPerson> CsomorPersons { get; set; }
+        public DbSet<CsomorWork> CsomorWorks { get; set; }
+        public DbSet<CsomorPersonTable> CsomorPersonTables { get; set; }
+        public DbSet<CsomorWorkTable> CsomorWorkTables { get; set; }
+        public DbSet<UserCsomor> SharedCsomors { get; set; }
+        public DbSet<IgnoredWork> IgnoredWorks { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
@@ -1145,6 +1155,122 @@ namespace ManagerAPI.DataAccess
                 .WithMany(x => x.MyBooks)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+            
+            // Csomor table settings
+            builder.Entity<Csomor>()
+                .Property(x => x.Creation)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<Csomor>()
+                .Property(x => x.LastUpdate)
+                .HasDefaultValueSql("getdate()");
+            builder.Entity<Csomor>()
+                .Property(x => x.IsShared)
+                .HasDefaultValue(false);
+            builder.Entity<Csomor>()
+                .Property(x => x.IsPublic)
+                .HasDefaultValue(false);
+            builder.Entity<Csomor>()
+                .Property(x => x.HasGeneratedCsomor)
+                .HasDefaultValue(false);
+
+            builder.Entity<Csomor>()
+                .HasOne(x => x.Owner)
+                .WithMany(x => x.OwnedCsomors)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            builder.Entity<Csomor>()
+                .HasOne(x => x.LastUpdater)
+                .WithMany(x => x.LastUpdatedCsomors)
+                .OnDelete(DeleteBehavior.SetNull);
+            
+            // Csomor Person table settings
+            builder.Entity<CsomorPerson>()
+                .Property(x => x.IsIgnored)
+                .HasDefaultValue(false);
+            builder.Entity<CsomorPerson>()
+                .Property(x => x.PlusWorkCounter)
+                .HasDefaultValue(0);
+            
+            builder.Entity<CsomorPerson>()
+                .HasOne(x => x.Csomor)
+                .WithMany(x => x.Persons)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            // Csomor Work table settings
+            builder.Entity<CsomorWork>()
+                .HasOne(x => x.Csomor)
+                .WithMany(x => x.Works)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            // Csomor Person Table table settings
+            builder.Entity<CsomorPersonTable>()
+                .Property(x => x.IsAvailable)
+                .HasDefaultValue(false);
+            
+            builder.Entity<CsomorPersonTable>()
+                .HasOne(x => x.Person)
+                .WithMany(x => x.Tables)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<CsomorPersonTable>()
+                .HasOne(x => x.Work)
+                .WithMany(x => x.Persons)
+                .OnDelete(DeleteBehavior.SetNull);
+            
+            // Csomor Work Table table settings
+            builder.Entity<CsomorWorkTable>()
+                .Property(x => x.IsActive)
+                .HasDefaultValue(false);
+            
+            builder.Entity<CsomorWorkTable>()
+                .HasOne(x => x.Work)
+                .WithMany(x => x.Tables)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<CsomorWorkTable>()
+                .HasOne(x => x.Person)
+                .WithMany(x => x.Works)
+                .OnDelete(DeleteBehavior.SetNull);
+            
+            // User Csomor
+            builder.Entity<UserCsomor>()
+                .HasKey(x => new {x.UserId, x.CsomorId});
+            
+            builder.Entity<UserCsomor>()
+                .Property(x => x.HasWriteAccess)
+                .HasDefaultValue(false);
+            builder.Entity<UserCsomor>()
+                .Property(x => x.SharedOn)
+                .HasDefaultValueSql("getdate()");
+            
+            builder.Entity<UserCsomor>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.SharedCsomors)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<UserCsomor>()
+                .HasOne(x => x.Csomor)
+                .WithMany(x => x.SharedWith)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            // Ignored Work table settings
+            builder.Entity<IgnoredWork>()
+                .HasKey(x => new {x.PersonId, x.WorkId});
+
+            builder.Entity<IgnoredWork>()
+                .HasOne(x => x.Person)
+                .WithMany(x => x.IgnoredWorks)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<IgnoredWork>()
+                .HasOne(x => x.Work)
+                .WithMany(x => x.IgnoringPersons)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

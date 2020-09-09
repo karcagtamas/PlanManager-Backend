@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Domain.Entities.PM;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Entities.WM;
@@ -84,5 +85,8 @@ namespace ManagerAPI.Domain.Entities {
         public virtual ICollection<MovieComment> MovieComments { get; set; }
         public virtual ICollection<SeriesComment> SeriesComments { get; set; }
         public virtual ICollection<Episode> LastUpdatedEpisodes { get; set; }
+        public virtual ICollection<Csomor> OwnedCsomors { get; set; }
+        public virtual ICollection<Csomor> LastUpdatedCsomors { get; set; }
+        public virtual ICollection<UserCsomor> SharedCsomors { get; set; }
     }
 }

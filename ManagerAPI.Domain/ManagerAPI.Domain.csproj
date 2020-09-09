@@ -16,8 +16,4 @@
       <ProjectReference Include="..\ManagerAPI.Shared\ManagerAPI.Shared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Entities\CSM" />
-    </ItemGroup>
-
 </Project>
