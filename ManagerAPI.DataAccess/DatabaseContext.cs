@@ -1177,12 +1177,12 @@ namespace ManagerAPI.DataAccess
                 .HasOne(x => x.Owner)
                 .WithMany(x => x.OwnedCsomors)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
             
             builder.Entity<Csomor>()
                 .HasOne(x => x.LastUpdater)
                 .WithMany(x => x.LastUpdatedCsomors)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.ClientSetNull);
             
             // Csomor Person table settings
             builder.Entity<CsomorPerson>()
@@ -1196,14 +1196,14 @@ namespace ManagerAPI.DataAccess
                 .HasOne(x => x.Csomor)
                 .WithMany(x => x.Persons)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
             
             // Csomor Work table settings
             builder.Entity<CsomorWork>()
                 .HasOne(x => x.Csomor)
                 .WithMany(x => x.Works)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
             
             // Csomor Person Table table settings
             builder.Entity<CsomorPersonTable>()
@@ -1214,11 +1214,11 @@ namespace ManagerAPI.DataAccess
                 .HasOne(x => x.Person)
                 .WithMany(x => x.Tables)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<CsomorPersonTable>()
                 .HasOne(x => x.Work)
                 .WithMany(x => x.Persons)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.ClientSetNull);
             
             // Csomor Work Table table settings
             builder.Entity<CsomorWorkTable>()
@@ -1229,11 +1229,11 @@ namespace ManagerAPI.DataAccess
                 .HasOne(x => x.Work)
                 .WithMany(x => x.Tables)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<CsomorWorkTable>()
                 .HasOne(x => x.Person)
                 .WithMany(x => x.Works)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.ClientSetNull);
             
             // User Csomor
             builder.Entity<UserCsomor>()
@@ -1250,12 +1250,12 @@ namespace ManagerAPI.DataAccess
                 .HasOne(x => x.User)
                 .WithMany(x => x.SharedCsomors)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<UserCsomor>()
                 .HasOne(x => x.Csomor)
                 .WithMany(x => x.SharedWith)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
             
             // Ignored Work table settings
             builder.Entity<IgnoredWork>()
@@ -1265,12 +1265,12 @@ namespace ManagerAPI.DataAccess
                 .HasOne(x => x.Person)
                 .WithMany(x => x.IgnoredWorks)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<IgnoredWork>()
                 .HasOne(x => x.Work)
                 .WithMany(x => x.IgnoringPersons)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }
