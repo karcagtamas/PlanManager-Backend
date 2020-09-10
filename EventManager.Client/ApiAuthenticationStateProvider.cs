@@ -21,7 +21,7 @@ namespace EventManager.Client
             _httpClient = httpClient;
             _localStorageService = localStorageService;
         }
-        
+
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var savedToken = await _localStorageService.GetItemAsync<string>("authToken");
@@ -31,15 +31,15 @@ namespace EventManager.Client
                 await ClearStorage();
                 return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
             }
-            
+
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", savedToken);
-            
+
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(await ParseClaimsFromJwt(savedToken), "jwt")));
         }
 
         public void MarkUserAsAuthenticated(string userName)
         {
-            var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(new[] {new Claim(ClaimTypes.Name, userName)}, "apiauth"));
+            var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, userName) }, "apiauth"));
             var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
             NotifyAuthenticationStateChanged(authState);
         }
@@ -74,12 +74,12 @@ namespace EventManager.Client
                 await ClearStorage();
                 return null;
             }
-            
+
             foreach (var dic in keyValuePairs)
             {
                 switch (dic.Key)
                 {
-                    case "unique_name": 
+                    case "unique_name":
                         claims.Add(new Claim(ClaimTypes.Name, dic.Value.ToString()));
                         break;
                     case "role":
@@ -119,9 +119,11 @@ namespace EventManager.Client
         {
             switch (base64.Length % 4)
             {
-                case 2: base64 += "==";
+                case 2:
+                    base64 += "==";
                     break;
-                case 3: base64 += "=";
+                case 3:
+                    base64 += "=";
                     break;
             }
             return Convert.FromBase64String(base64);

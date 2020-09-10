@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using CsomorGenerator.Services.Interfaces;
+using ManagerAPI.DataAccess;
+using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.CSM;
+using ManagerAPI.Shared.Models.CSM;
 
 namespace CsomorGenerator.Services
 {
@@ -11,6 +15,17 @@ namespace CsomorGenerator.Services
     /// </summary>
     public class GeneratorService : IGeneratorService
     {
+        private readonly DatabaseContext _context;
+        private readonly IMapper _mapper;
+        private readonly IUtilsService _utils;
+
+        public GeneratorService(DatabaseContext context, IMapper mapper, IUtilsService utils)
+        {
+            this._context = context;
+            this._mapper = mapper;
+            this._utils = utils;
+        }
+
         /// <summary>
         /// Simple generator
         /// </summary>
@@ -362,6 +377,50 @@ namespace CsomorGenerator.Services
                     }
                 }
             }
+        }
+
+        public void Create(GeneratorSettingsModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(int id, GeneratorSettingsModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CsomorListDTO> GetPublicList()
+        {
+            return this._mapper.Map<List<CsomorListDTO>>(this._context.Csomors.Where(x => x.IsPublic));
+        }
+
+        public List<CsomorListDTO> GetOwnedList()
+        {
+            var user = this._utils.GetCurrentUser();
+
+            return this._mapper.Map<List<CsomorListDTO>>(user.OwnedCsomors);
+        }
+
+        public List<CsomorListDTO> GetSharedList()
+        {
+            var user = this._utils.GetCurrentUser();
+
+            return this._mapper.Map<List<CsomorListDTO>>(user.SharedCsomors.Select(x => x.Csomor));
+        }
+
+        public List<CsomorListDTO> GetList()
+        {
+            throw new NotImplementedException();
         }
     }
 }
