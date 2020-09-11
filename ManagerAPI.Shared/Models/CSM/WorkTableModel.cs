@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace ManagerAPI.Shared.DTOs.CSM
+namespace ManagerAPI.Shared.Models.CSM
 {
-    public class WorkTable
+    public class WorkTableModel
     {
-        public int? Id;
         public DateTime Date;
         public bool IsActive { get; set; }
         public string PersonId { get; set; }

@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace ManagerAPI.Shared.DTOs.CSM
+namespace ManagerAPI.Shared.Models.CSM
 {
-    public class PersonTable
+    public class PersonTableModel
     {
-        public int? Id;
         public DateTime Date;
         public bool IsAvailable { get; set; }
         public string WorkId { get; set; }

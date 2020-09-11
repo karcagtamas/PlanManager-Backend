@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using AutoMapper;
+using CsomorGenerator.Profiles;
 using CsomorGenerator.Services;
 using CsomorGenerator.Services.Interfaces;
 using ManagerAPI.Backend.Middlewares;
@@ -76,6 +77,7 @@ namespace ManagerAPI.Backend
                 x.AddProfile(new BookProfile());
                 x.AddProfile(new SeriesProfile());
                 x.AddProfile(new GenderProfile());
+                x.AddProfile(new CsomorProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
