@@ -18,6 +18,7 @@ namespace CsomorGenerator.Services
         private readonly DatabaseContext _context;
         private readonly IMapper _mapper;
         private readonly IUtilsService _utils;
+        private readonly int GenerateLimit = 500;
 
         public GeneratorService(DatabaseContext context, IMapper mapper, IUtilsService utils)
         {
@@ -36,103 +37,88 @@ namespace CsomorGenerator.Services
             // Pre check
             if (PreCheckSimple(settings))
             {
-                   this.SetWorkHours(ref settings);
-                   var limit = 500;
-                   var stop = true;
-                   
-                   
-                   settings.Works.ForEach(work =>
-                   {
-                       work.Tables.ForEach(table =>
-                       {
-                           if (table.IsActive)
-                           {
-                               var count = 0;
-                               Person person = null;
-                               do
-                               {
-                                   Random rand = new Random();
-                                   int index = rand.Next(settings.Persons.Count);
-                                   person = settings.Persons[index];
-                                   count++;
+                this.SetWorkHours(ref settings);
 
-                                   if (count >= 100)
-                                   {
-                                       var newIndex = rand.Next(settings.Persons.Count);
-                                       var newPerson = settings.Persons[newIndex];
-                                       var newDate =  table.Date.AddHours(-rand.Next(this.GetLength(settings.Start, table.Date)));
-
-                                       var addedWork = settings.Works.FirstOrDefault(x =>
-                                           x.Id == newPerson.Tables
-                                               .FirstOrDefault(y => this.CompareDates(newDate, y.Date))?.WorkId);
-
-                                       var newTable =
-                                           newPerson.Tables.FirstOrDefault(x => this.CompareDates(table.Date, x.Date));
-                                       if (newTable != null && newTable.IsAvailable
-                                           && string.IsNullOrEmpty(newTable.WorkId) && this.WorkerIsValid(person, newDate, addedWork?.Id, settings.MaxWorkHour))
-                                       {
-                                           if (addedWork != null)
-                                           {
-                                               person.Hours--;
-                                               var pTable = person.Tables.FirstOrDefault(x => this.CompareDates(newDate, x.Date));
-                                               if (pTable == null)
-                                               {
-                                                   throw new ArgumentException("Table is missing");
-                                               }
-
-                                               pTable.WorkId = addedWork.Id;
-                                                   
-
-                                               newPerson.Hours++;
-                                               var newPTable = person.Tables.FirstOrDefault(x => this.CompareDates(newDate, x.Date));
-                                               if (newPTable == null)
-                                               {
-                                                   throw new ArgumentException("Table is missing");
-                                               }
-
-                                               newPTable.WorkId = null;
-
-                                               var workTable = settings.Works.FirstOrDefault(x => x.Id == addedWork.Id)
-                                                   ?.Tables
-                                                   .FirstOrDefault(x => this.CompareDates(newDate, x.Date));
-
-                                               if (workTable == null)
-                                               {
-                                                   throw new ArgumentException("Table is missing");
-                                               }
-
-                                               workTable.PersonId = person.Id;
-                                           }
-
-                                           person = newPerson;
-                                       }
-                                   }
-
-                               } while (this.WorkerIsValid(person, table.Date, work.Id, settings.MaxWorkHour) && count < limit);
-
-                               if (count < limit)
-                               {
-                                   table.PersonId = person.Id;
-                                   var pTable = person.Tables.FirstOrDefault(x => this.CompareDates(table.Date, x.Date));
-
-                                   if (pTable == null)
-                                   {
-                                       throw new ArgumentException("Table is missing");
-                                   }
-
-                                   pTable.WorkId = work.Id;
-                                   person.Hours--;
-                               }
-                               else
-                               {
-                                   throw new ArgumentException("Generating was not successful");
-                               }
-                           }
-                       });
-                   });
+                settings.Works.ForEach(work =>
+                {
+                    settings.Persons = this.GenerateToWork(ref work, settings.Persons, settings.MaxWorkHour);
+                });
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Generate csomor for works
+        /// </summary>
+        /// <param name="work">Work</param>
+        /// <param name="persons">Persons</param>
+        /// <param name="maxHour">Maximum work hour</param>
+        /// <returns>List of modified persons</returns>
+        private List<Person> GenerateToWork(ref Work work, List<Person> persons, int maxHour)
+        {
+            for (int i = 0; i < work.Tables.Count; i++)
+            {
+                var table = work.Tables[i];
+                GenerateToDate(ref table, ref persons, work.Id, maxHour, 0);
+            }
+            return persons;
+        }
+
+        /// <summary>
+        /// Generate csomor for table
+        /// </summary>
+        /// <param name="table">Work table</param>
+        /// <param name="persons">Person list</param>
+        /// <param name="workId">Work Id</param>
+        /// <param name="maxHour">Maximum work hour</param>
+        /// <param name="counter">Counter against infinite loop</param>
+        private void GenerateToDate(ref WorkTable table, ref List<Person> persons, string workId, int maxHour, int counter = 0) 
+        {
+            var person = GetValidRandomPerson(persons);
+
+            if (this.WorkerIsValid(person, table.Date, workId, maxHour))
+            {
+                table.PersonId = person.Id;
+                DateTime date = table.Date;
+                var pTable = person.Tables.FirstOrDefault(x => this.CompareDates(date, x.Date));
+
+                if (pTable == null)
+                {
+                    throw new ArgumentException("Table is missing");
+                }
+
+                pTable.WorkId = workId;
+                person.Hours--;
+            }
+            else
+            {
+                if (counter < this.GenerateLimit)
+                {
+                    if (counter > 100)
+                    {
+                        // TODO: Worker switch
+                    }
+                    else
+                    {
+                        this.GenerateToDate(ref table, ref persons, workId, maxHour, counter++);
+                    }
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Get valid random person.
+        /// Filtered to active and available persons
+        /// </summary>
+        /// <param name="persons">Person list</param>
+        /// <returns>Randomoized person</returns>
+        private Person GetValidRandomPerson(List<Person> persons) 
+        {
+            Random r = new Random();
+            var validList = persons.Where(x => !x.IsIgnored && x.Hours != 0).ToList();
+
+            return validList[r.Next(validList.Count)];
         }
 
         /// <summary>
@@ -219,7 +205,7 @@ namespace CsomorGenerator.Services
                 // Count of works
                 var works = settings.Works.Count(x =>
                     x.Tables.FirstOrDefault(y => CompareDates(start, y.Date))?.IsActive ?? false);
-                
+
                 // Count of persons
                 var persons = settings.Persons.Count(x =>
                     x.Tables.FirstOrDefault(y => CompareDates(start, y.Date))?.IsAvailable ?? false);
@@ -229,7 +215,7 @@ namespace CsomorGenerator.Services
                 {
                     throw new ArgumentException($"There are not enough person in hour {start.Month}-{start.Day}-{start.Hour}.");
                 }
-                
+
                 start = start.AddHours(1);
             }
 
@@ -252,7 +238,7 @@ namespace CsomorGenerator.Services
             {
                 throw new ArgumentException("Does not have enough person.");
             }
-            
+
             return true;
         }
 
@@ -271,7 +257,7 @@ namespace CsomorGenerator.Services
             {
                 return false;
             }
-            
+
             var table = person.Tables.FirstOrDefault(x => this.CompareDates(date, x.Date));
 
             // Worker does not have hour table.
@@ -279,7 +265,7 @@ namespace CsomorGenerator.Services
             {
                 throw new ArgumentException("Wrong person table");
             }
-            
+
             // Person is available and not has any work
             if (table.IsAvailable && string.IsNullOrEmpty(table.WorkId))
             {
@@ -293,11 +279,11 @@ namespace CsomorGenerator.Services
             }
 
             // Past is acceptable for the settings
-            if (!CheckPast(person, date, maxWorkHour))
+            if (!this.CheckPast(person, date, maxWorkHour))
             {
                 return false;
             }
-            
+
             return true;
         }
 
@@ -311,6 +297,8 @@ namespace CsomorGenerator.Services
         /// <returns>Valid or not</returns>
         private bool CheckPast(Person person, DateTime date, int maxWorkHour)
         {
+            // TODO: add min rest
+            // TODO: check future too (because of change)
             for (int i = 1; i <= maxWorkHour; i++)
             {
                 if (string.IsNullOrEmpty(person.Tables.FirstOrDefault(x => this.CompareDates(date.AddHours(-i), x.Date))
@@ -319,7 +307,7 @@ namespace CsomorGenerator.Services
                     return true;
                 }
             }
-            
+
             return false;
         }
 
@@ -416,11 +404,6 @@ namespace CsomorGenerator.Services
             var user = this._utils.GetCurrentUser();
 
             return this._mapper.Map<List<CsomorListDTO>>(user.SharedCsomors.Select(x => x.Csomor));
-        }
-
-        public List<CsomorListDTO> GetList()
-        {
-            throw new NotImplementedException();
         }
     }
 }

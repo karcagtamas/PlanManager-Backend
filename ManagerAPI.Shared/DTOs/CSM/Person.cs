@@ -8,6 +8,7 @@ namespace ManagerAPI.Shared.DTOs.CSM
         public string Name { get; set; }
         public List<PersonTable> Tables { get; set; }
         public List<string> IgnoredWorks { get; set; }
+        public bool IsIgnored { get; set; }
         public int Hours { get; set; } = 0;
     }
 }

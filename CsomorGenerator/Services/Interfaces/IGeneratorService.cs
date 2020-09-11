@@ -14,6 +14,5 @@ namespace CsomorGenerator.Services.Interfaces
         List<CsomorListDTO> GetPublicList();
         List<CsomorListDTO> GetOwnedList();
         List<CsomorListDTO> GetSharedList();
-        List<CsomorListDTO> GetList();
     }
 }
