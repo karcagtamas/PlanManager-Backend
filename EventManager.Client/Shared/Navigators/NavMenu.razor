@@ -28,12 +28,13 @@
                             <MatNavItem Href="@GetWorkingWeekStatUri()">Working Week</MatNavItem>
                         </MatNavSubMenuList>
                     </MatNavSubMenu>
+                    <MatNavItem Href="/csomors">Generators</MatNavItem>
                 </Authorized>
                 <NotAuthorized>
-                                    <MatNavItem Href="" class="important">Home</MatNavItem>
-                                    <MatNavItem Href="/auth/login">Login</MatNavItem>
-                                    <MatNavItem Href="/auth/registration">Registration</MatNavItem>
-                                </NotAuthorized>
+                    <MatNavItem Href="" class="important">Home</MatNavItem>
+                    <MatNavItem Href="/auth/login">Login</MatNavItem>
+                    <MatNavItem Href="/auth/registration">Registration</MatNavItem>
+                </NotAuthorized>
             </AuthorizeView>
             <AuthorizeView Roles="Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root">
                 <Authorized>

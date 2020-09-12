@@ -1,4 +1,4 @@
-.csomor-list .action-bar {
+.setting .action-bar {
   background-color: rgba(240, 174, 73, 0.4);
   margin-bottom: 1rem;
   margin-top: 1rem;
@@ -8,5 +8,5 @@
   padding: 0.5rem;
   display: flex;
   flex-direction: row; }
-  .csomor-list .action-bar .spacer {
+  .setting .action-bar .spacer {
     flex-grow: 1; }
