@@ -8,3 +8,6 @@ PlanManager.Backend/appsettings.json
 PlanManager.Backend/appsettings.Development.json
 
 .vs/
+
+node_modules/
+*/dtbcache.v2
