@@ -51,6 +51,7 @@ namespace EventManager.Client
             builder.Services.AddScoped<IMovieCommentService, MovieCommentService>();
             builder.Services.AddScoped<ISeriesCategoryService, SeriesCategoryService>();
             builder.Services.AddScoped<ISeriesCommentService, SeriesCommentService>();
+            builder.Services.AddScoped<IGeneratorService, GeneratorService>();
 
             if (builder.HostEnvironment.IsDevelopment())
             {

@@ -41,8 +41,8 @@ namespace CsomorGenerator.Profiles
                 .ForMember(dest => dest.HasWriteAccess, opt => opt.MapFrom(src => src.HasWriteAccess));
 
             CreateMap<CsomorPerson, Person>();
-            CreateMap<IgnoredWork, string>()
-                .ForMember(dest => dest, opt => opt.MapFrom(src => src.WorkId));
+            /*CreateMap<IgnoredWork, string>()
+                .ForMember(dest => dest, opt => opt.MapFrom(src => src.WorkId));*/
             CreateMap<CsomorWork, Work>();
             CreateMap<CsomorPersonTable, PersonTable>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => (int?)src.Id));
