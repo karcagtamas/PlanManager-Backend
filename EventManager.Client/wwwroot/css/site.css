@@ -1461,3 +1461,18 @@ app {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #5120a5; }
+
+/* Input */
+.input-row {
+  padding: 0.6rem; }
+
+.tab-group {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden; }
+  .tab-group .mat-tab-group-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden; }

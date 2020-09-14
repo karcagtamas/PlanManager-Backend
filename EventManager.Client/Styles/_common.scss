@@ -20,6 +20,11 @@
     @include panel;
 }
 
+@mixin main-panel {
+    background-color: $blue-light-trans;
+    @include panel;
+}
+
 @mixin display-flex {
     display: flex;
     flex-direction: row;

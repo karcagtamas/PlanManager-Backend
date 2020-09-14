@@ -791,7 +791,7 @@ app {
     padding: 0.5rem;
     background-color: $orange-trans;
     color: $primary;
-    
+
     .spacer {
       flex-grow: 1;
     }
@@ -1134,10 +1134,10 @@ app {
     border-radius: $border-radius;
     padding: 0.5rem;
     background-color: $blue-light-trans;
-    
+
     .data-rows {
       flex-grow: 1;
-      
+
       .data-row {
         strong {
           color: $primary;
@@ -1378,7 +1378,7 @@ app {
     padding: 0.5rem;
     background-color: $orange-trans;
     color: $primary;
-    
+
     .spacer {
       flex-grow: 1;
     }
@@ -1644,7 +1644,7 @@ app {
   display: flex;
   overflow: auto;
   flex-direction: column;
-  
+
   .filter {
     display: flex;
   }
@@ -1667,7 +1667,7 @@ app {
           background-color: $white;
           opacity: 90%;
           padding: 0.4rem;
-          
+
           .arrow-icon {
             font-size: 1.2rem;
           }
@@ -1737,15 +1737,15 @@ app {
 
         td {
           padding: 0.4rem;
-          
+
           &.left {
             text-align: left;
           }
-          
+
           &.center {
             text-align: center;
           }
-          
+
           &.right {
             text-align: right;
           }
@@ -2117,4 +2117,25 @@ app {
 
 ::-webkit-scrollbar-thumb:hover {
   background: $primary;
+}
+
+
+/* Input */
+
+.input-row {
+    padding: 0.6rem;
+}
+
+.tab-group {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+
+    .mat-tab-group-content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: hidden;
+    }
 }

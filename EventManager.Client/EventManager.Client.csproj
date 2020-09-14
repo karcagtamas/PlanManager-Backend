@@ -83,7 +83,6 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
-    <_ContentIncludedByDefault Remove="wwwroot\scss\site.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -132,10 +131,6 @@
     <Content Update="Shared\Common\CurrentUser.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\scss\" />
   </ItemGroup>
 
   <ItemGroup>

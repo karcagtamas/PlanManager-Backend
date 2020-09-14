@@ -1,12 +1,34 @@
-.setting .action-bar {
-  background-color: rgba(240, 174, 73, 0.4);
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
-  border-radius: 4px;
-  color: #5120a5;
-  padding: 0.5rem;
+.setting {
   display: flex;
-  flex-direction: row; }
-  .setting .action-bar .spacer {
-    flex-grow: 1; }
+  flex-grow: 1;
+  flex-direction: column; }
+  .setting .action-bar {
+    background-color: rgba(240, 174, 73, 0.4);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+    border-radius: 4px;
+    color: #5120a5;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: row; }
+    .setting .action-bar .spacer {
+      flex-grow: 1; }
+  .setting .csomor {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    background-color: rgba(187, 187, 255, 0.4);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+    border-radius: 4px;
+    color: #5120a5;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: row; }
+    .setting .csomor .spacer {
+      flex-grow: 1; }
+    .setting .csomor .tabs {
+      flex-grow: 1;
+      width: 100% !important; }

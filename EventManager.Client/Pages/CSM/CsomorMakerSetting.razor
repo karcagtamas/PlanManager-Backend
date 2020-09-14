@@ -2,9 +2,53 @@
 @page "/csomor/{Id:int}"
 
 <div class="setting">
+    <h1 class="em-page-title">Generator Settings
+    @if (Id != null)
+    {
+        <span>#@Id</span>
+    }
+    else
+    {
+        <span>- New</span>
+    }
+    </h1>
     <div class="action-bar">
         <MatTooltip Tooltip="Save">
             <MatIconButton RefBack="@context" Icon="done"></MatIconButton>
         </MatTooltip>
+    </div>
+    <div class="csomor">
+        <MatTabGroup Class="tabs tab-group">
+            <MatTab Label="Settings">
+                <EditForm EditContext="Context">
+                    <div class="input-row">
+                        <MatTextField class="w-100" @bind-Value="Model.Title" Label="Title" Dense="true" Outlined="true"></MatTextField>
+                    </div>
+                    <div class="col col-12 row">
+                        <div class="input-row col col-12 col-md-6">
+                            <MatDatePicker class="w-100" @bind-Value="Model.Start" EnableTime="true" Enable24hours="true" AllowInput="false" Label="Start" Dense="true" Outlined="true"></MatDatePicker>
+                        </div>
+                        <div class="input-row col col-12 col-md-6">
+                            <MatDatePicker class="w-100" @bind-Value="Model.Finish" EnableTime="true" Enable24hours="true" AllowInput="false" Label="Finish" Dense="true" Outlined="true"></MatDatePicker>
+                        </div>
+                    </div>
+                    <div class="col col-12 row">
+                        <div class="input-row col col-12 col-md-6">
+                            <MatNumericUpDownField class="w-100" @bind-Value="Model.MaxWorkHour" Label="Maximum Work Hour" Dense="true" Minimum="1" Maximum="8" Outlined="true"></MatNumericUpDownField>
+                        </div>
+                        <div class="input-row col col-12 col-md-6">
+                            <MatNumericUpDownField class="w-100" @bind-Value="Model.MinRestHour" Label="Minimum Rest Hour" Dense="true" Minimum="1" Maximum="4" Outlined="true"></MatNumericUpDownField>
+                        </div>
+                    </div>
+
+                </EditForm>
+            </MatTab>
+            <MatTab Label="Person">
+
+            </MatTab>
+            <MatTab Label="Works">
+
+            </MatTab>
+        </MatTabGroup>
     </div>
 </div>
