@@ -11,3 +11,4 @@ PlanManager.Backend/appsettings.Development.json
 
 node_modules/
 */dtbcache.v2
+ManagerAPI.Backend/logs/

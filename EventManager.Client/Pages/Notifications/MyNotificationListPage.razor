@@ -1,6 +1,5 @@
 ﻿@page "/my-notifications"
 @attribute [Microsoft.AspNetCore.Authorization.Authorize]
-@inherits MyNotificationsBase
 
 <div class="em-my-notifications">
     <h1 class="em-page-title">My Notifications</h1>
@@ -15,10 +14,12 @@
         <span class="spacer"></span>
         <MatCheckbox TValue="bool" Label="Show unread notifications" ValueChanged="@(val => ShowReadValueChangedEvent(val))"></MatCheckbox>
     </div>
-    @if (IsLoading) {
+    @if (IsLoading)
+    {
         <Loader></Loader>
     }
-    else {
+    else
+    {
         @if (FilteredNotifications != null && FilteredNotifications.Count > 0)
         {
             <div class="notification-list p-2">
@@ -27,7 +28,8 @@
                     <MyNotification Notification="notification"></MyNotification>
                 }
             </div>
-        } else
+        }
+        else
         {
             <div class="text-center m-5 pt-5">
                 <strong>You does not have any notification. That's cool!</strong>

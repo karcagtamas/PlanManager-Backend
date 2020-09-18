@@ -1,0 +1,42 @@
+﻿@import "../../Styles/_common.scss";
+
+.em-my-notifications {
+    .action-bar {
+        @include action-panel;
+    }
+
+    .em-notification {
+        @include panel;
+
+        .em-notification-footer {
+            font-size: 0.8rem;
+            color: $primary;
+            font-style: italic;
+            display: flex;
+
+            .spacer {
+                flex-grow: 1;
+            }
+        }
+
+        .em-notification-content {
+            text-align: justify;
+        }
+
+        .em-notification-right {
+            text-align: right;
+        }
+
+        &.importance-1 {
+            background-color: $important-1;
+        }
+
+        &.importance-2 {
+            background-color: $important-2;
+        }
+
+        &.importance-3 {
+            background-color: $important-3;
+        }
+    }
+}

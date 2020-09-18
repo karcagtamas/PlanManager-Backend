@@ -6,19 +6,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Pages.Auth
 {
-    public class LoginBase : ComponentBase
+    public partial class LoginPage
     {
-        [Inject] 
+        [Inject]
         private IAuthService AuthService { get; set; }
-        
+
         [Inject]
         private NavigationManager NavigationManager { get; set; }
-        
-        [Inject]
-        private IHelperService HelperService { get; set; }
-        
-        [Inject]
-        private IMatToaster Toaster { get; set; }
 
         protected string Title { get; set; } = "Login";
         protected LoginModel Model { get; set; }
@@ -30,9 +24,8 @@ namespace EventManager.Client.Pages.Auth
                 UserName = "",
                 Password = ""
             };
-            base.OnInitialized();
         }
-        
+
         protected void Navigate(string path)
         {
             NavigationManager.NavigateTo(path);

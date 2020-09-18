@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.Notifications
 {
-    public class MyNotificationsBase : ComponentBase
+    public partial class MyNotificationListPage
     {
-        [Inject] 
+        [Inject]
         private INotificationService NotificationService { get; set; }
 
         [Inject]
@@ -33,7 +33,8 @@ namespace EventManager.Client.Pages.Notifications
         {
             this.IsLoading = true;
             Notifications = await NotificationService.GetMyNotifications();
-            if (Notifications.Any()) {
+            if (Notifications.Any())
+            {
                 FilterNotifications();
             }
             this.IsLoading = false;
@@ -54,7 +55,7 @@ namespace EventManager.Client.Pages.Notifications
         protected void ShowReadValueChangedEvent(bool value)
         {
             this.IsLoading = true;
-            ShowRead = value;            
+            ShowRead = value;
             FilterNotifications();
             this.IsLoading = false;
             StateHasChanged();

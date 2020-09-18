@@ -1,9 +1,8 @@
 ﻿@page "/my-friends"
 @using ManagerAPI.Shared.Helpers
-@inherits MyFriendsBase
 @attribute [Microsoft.AspNetCore.Authorization.Authorize]
 
-<div class="em-my-friends">
+<div class="page">
     <h1 class="em-page-title">My Friends</h1>
 
     <div class="action-bar">
@@ -55,10 +54,10 @@
                         @foreach (var request in FriendRequests) {
                         <div class="friend-request">
                             <div class="title">
-                                @request.Sender 
+                                @request.Sender
                                 @if(!String.IsNullOrEmpty(request.SenderFullName))
                                 {
-                                    <i>&lt;@request.SenderFullName&gt;</i> 
+                                    <i>&lt;@request.SenderFullName&gt;</i>
                                 }
                                 - <small>@DateHelper.DateToString(request.SentDate)</small>
                             </div>

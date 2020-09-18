@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using EventManager.Client.Models;
+﻿using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Components.Friends;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.Friends
 {
-    public class MyFriendsBase : ComponentBase
+    public partial class MyFriendListPage
     {
         [Inject]
         private IFriendService FriendService { get; set; }
@@ -31,9 +31,9 @@ namespace EventManager.Client.Pages.Friends
         protected async Task GetFriendRequests()
         {
             this.MyFriendRequestsIsLoading = true;
-            StateHasChanged();    
+            StateHasChanged();
             this.FriendRequests = await FriendService.GetMyFriendRequests();
-            StateHasChanged();    
+            StateHasChanged();
             this.MyFriendRequestsIsLoading = false;
             StateHasChanged();
         }
@@ -41,7 +41,7 @@ namespace EventManager.Client.Pages.Friends
         protected async Task GetFriends()
         {
             this.MyFriendsIsLoading = true;
-            StateHasChanged();    
+            StateHasChanged();
             this.Friends = await FriendService.GetMyFriends();
             StateHasChanged();
             this.MyFriendsIsLoading = false;

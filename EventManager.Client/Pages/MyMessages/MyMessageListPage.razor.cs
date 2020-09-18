@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.MyMessages
 {
-    public class MyMessagesBase : ComponentBase
+    public partial class MyMessageListPage
     {
     }
 }

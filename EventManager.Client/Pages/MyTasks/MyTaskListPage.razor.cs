@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EventManager.Client.Enums;
+﻿using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Common;
@@ -10,10 +6,14 @@ using EventManager.Client.Shared.Components.Tasks;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Components;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.MyTasks
 {
-    public class MyTasksBase : ComponentBase
+    public partial class MyTaskListPage
     {
         [Inject] private ITaskService TaskService { get; set; }
 
@@ -38,7 +38,7 @@ namespace EventManager.Client.Pages.MyTasks
             StateHasChanged();
         }
 
-        protected async void IsSolvedChanged(bool newValue, int taskId, TaskDateDto group) 
+        protected async void IsSolvedChanged(bool newValue, int taskId, TaskDateDto group)
         {
             var task = this.TaskList.SelectMany(x => x.TaskList).FirstOrDefault(x => x.Id == taskId);
 
@@ -61,7 +61,7 @@ namespace EventManager.Client.Pages.MyTasks
 
             var options = new ModalOptions
             {
-                ButtonOptions = {ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true}
+                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
             Modal.OnClose += TaskModalClosed;
