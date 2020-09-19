@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EventManager.Client.Enums;
+﻿using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
@@ -10,6 +6,10 @@ using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Helpers;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.SL
 {
@@ -40,7 +40,7 @@ namespace EventManager.Client.Shared.Components.SL
             await this.GetSelectorList();
             this.SelectedIndexList = this.List.Where(x => x.IsRead).Select(x => x.Id).ToList();
 
-            ((ModalService) ModalService).OnConfirm += OnConfirm;
+            ((ModalService)ModalService).OnConfirm += OnConfirm;
         }
 
         private async Task GetSelectorList()
@@ -57,14 +57,14 @@ namespace EventManager.Client.Shared.Components.SL
             if (await this.BookService.UpdateReadStatuses(this.SaveList))
             {
                 ModalService.Close(ModalResult.Ok(true));
-                ((ModalService) ModalService).OnConfirm -= OnConfirm;
+                ((ModalService)ModalService).OnConfirm -= OnConfirm;
             }
         }
 
         private void SwitchReadFlag(MyBookSelectorListDto book)
         {
             book.IsRead = !book.IsRead;
-            this.SaveList.Add(new BookReadStatusModel {Id = book.Id, Read = book.IsRead});
+            this.SaveList.Add(new BookReadStatusModel { Id = book.Id, Read = book.IsRead });
             if (book.IsRead)
             {
                 this.SelectedIndexList.Add(book.Id);

@@ -34,7 +34,7 @@ namespace EventManager.Client.Shared.Components.SL
         {
             if (!string.IsNullOrEmpty(this.CommentText) &&
                 await this.MovieCommentService.Update(this.Comment.Id,
-                    new MovieCommentModel {Comment = this.CommentText, MovieId = this.MovieId}))
+                    new MovieCommentModel { Comment = this.CommentText, MovieId = this.MovieId }))
             {
                 await this.Refresh.InvokeAsync(null);
             }

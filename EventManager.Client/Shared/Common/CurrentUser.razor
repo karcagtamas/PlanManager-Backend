@@ -1,11 +1,10 @@
 @using ManagerAPI.Shared.Helpers
-@inherits CurrentUserBase
 
 <div class="p-1 em-current-user">
     @if (User != null)
     {
         <div class="p-1 data" title="@User.Username">
-            <strong>Username: </strong> @User.Username
+            <strong>User Name: </strong> @User.Username
         </div>
         <div class="p-1 data" title="@User.Email">
             <strong>E-mail: </strong> @User.Email

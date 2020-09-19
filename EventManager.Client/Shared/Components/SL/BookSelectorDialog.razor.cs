@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EventManager.Client.Enums;
+﻿using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
@@ -10,6 +6,10 @@ using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Helpers;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.SL
 {
@@ -39,7 +39,7 @@ namespace EventManager.Client.Shared.Components.SL
             await this.GetSelectorList();
             this.SelectedIndexList = this.List.Where(x => x.IsMine).Select(x => x.Id).ToList();
 
-            ((ModalService) ModalService).OnConfirm += OnConfirm;
+            ((ModalService)ModalService).OnConfirm += OnConfirm;
         }
 
         private async Task GetSelectorList()
@@ -55,10 +55,10 @@ namespace EventManager.Client.Shared.Components.SL
         {
             var indexList = this.List.Where(x => x.IsMine).Select(x => x.Id).ToList();
 
-            if (await this.BookService.UpdateMyBooks(new MyBookModel {Ids = indexList}))
+            if (await this.BookService.UpdateMyBooks(new MyBookModel { Ids = indexList }))
             {
                 ModalService.Close(ModalResult.Ok(true));
-                ((ModalService) ModalService).OnConfirm -= OnConfirm;
+                ((ModalService)ModalService).OnConfirm -= OnConfirm;
             }
         }
 

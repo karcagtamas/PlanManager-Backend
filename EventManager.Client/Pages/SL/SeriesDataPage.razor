@@ -1,0 +1,275 @@
+@page "/series/{Id:int}"
+@using Microsoft.AspNetCore.Authorization
+@using ManagerAPI.Shared.Helpers
+@attribute [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
+
+<div class="sl-series-data">
+    @if (Series != null)
+    {
+        <h1 class="em-page-title">@Series.Title</h1>
+    }
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        <div class="action-bar">
+            @if (CanAddOrEdit)
+            {
+                <MatTooltip Tooltip="Edit Series">
+                    <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditSeriesDialog"></MatIconButton>
+                </MatTooltip>
+            }
+            @if (CanDelete)
+            {
+                <MatTooltip Tooltip="Delete Series">
+                    <MatIconButton RefBack="@context" Icon="delete" @onclick="OpenDeleteDialog"></MatIconButton>
+                </MatTooltip>
+            }
+            @if (CanAddOrEdit)
+            {
+                <MatTooltip Tooltip="Edit Image">
+                    <MatIconButton RefBack="@context" Icon="image" @onclick="OpenEditSeriesImageDialog"></MatIconButton>
+                </MatTooltip>
+                <MatTooltip Tooltip="Edit Categories">
+                    <MatIconButton RefBack="@context" Icon="category" @onclick="OpenEditSeriesCategoriesDialog"></MatIconButton>
+                </MatTooltip>
+            }
+
+            @if (Series != null)
+            {
+                @if (Series.IsMine)
+                {
+                    <MatTooltip Tooltip="Remove from My list">
+                        <MatIconButton RefBack="@context" Icon="remove" @onclick="RemoveFromMySeriesList"></MatIconButton>
+                    </MatTooltip>
+                    @if (Series.Seasons != null && Series.Seasons.Count > 0 && Series.Seasons.Sum(x => x.Episodes.Count) > 0)
+                    {
+                        @if (Series.IsSeen)
+                        {
+                            <MatTooltip Tooltip="Set to not seen">
+                                <MatIconButton RefBack="@context" Icon="visibility_off" @onclick="@(() => SetSeenStatus(false))"></MatIconButton>
+                            </MatTooltip>
+                        }
+                        else
+                        {
+                            <MatTooltip Tooltip="Set to seen">
+                                <MatIconButton RefBack="@context" Icon="visibility" @onclick="@(() => SetSeenStatus(true))"></MatIconButton>
+                            </MatTooltip>
+                        }
+                    }
+                }
+                else
+                {
+                    <MatTooltip Tooltip="Add to My list">
+                        <MatIconButton RefBack="@context" Icon="add" @onclick="AddToMySeriesList"></MatIconButton>
+                    </MatTooltip>
+                }
+            }
+            <span class="spacer"></span>
+            <MatButton @onclick="@(() => Navigation.NavigateTo("/series"))">Series List</MatButton>
+            <MatButton @onclick="@(() => Navigation.NavigateTo("/my-series"))">My Series List</MatButton>
+        </div>
+        @if (Series != null)
+        {
+            <MatTabGroup Class="tab-group">
+                <MatTab Label="Data">
+                    <div class="data">
+                        <div class="data-rows">
+                            <div class="data-row">
+                                <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Series.Description)
+                            </div>
+                            <div class="data-row">
+                                <strong>Start Year: </strong> @WriteHelper.WriteNullableField(Series.StartYear)
+                            </div>
+                            <div class="data-row">
+                                <strong>End Year: </strong> @WriteHelper.WriteNullableField(Series.EndYear)
+                            </div>
+                            <div class="data-row">
+                                <strong>Categories: </strong> @WriteHelper.WriteList(Series.Categories, ", ")
+                            </div>
+                            @if (!string.IsNullOrEmpty(Series.TrailerUrl))
+                            {
+                                <div class="data-row">
+                                    <strong>
+                                        <a href="@Series.TrailerUrl">Trailer Url</a>
+                                    </strong>
+                                </div>
+                            }
+                            <div class="data-row">
+                                <strong>Creation: </strong> @DateHelper.DateToString(Series.Creation)
+                            </div>
+                            <div class="data-row">
+                                <strong>Last Update: </strong> @DateHelper.DateToString(Series.LastUpdate)
+                            </div>
+                            <div class="data-row">
+                                <strong>Creator: </strong> @Series.Creator
+                            </div>
+                            <div class="data-row">
+                                <strong>Last Updater: </strong> @Series.LastUpdater
+                            </div>
+                            <div class="data-row">
+                                <strong>Added Status: </strong> @(Series.IsMine ? "Added" : "Not Added")
+                            </div>
+                            @if (Series.AddedOn != null)
+                            {
+                                <div class="data-row">
+                                    <strong>Added on: </strong> @DateHelper.DateToString(Series.AddedOn)
+                                </div>
+                            }
+                            <div class="rates">
+                                @foreach (var rate in RateList)
+                                {
+                                    <MatIcon Class="rate-icon" Icon="@(rate <= Series.Rate ? "star" : "star_border")" @onclick="@(() => UpdateRate(rate))" title="@rate"></MatIcon>
+                                }
+                            </div>
+                        </div>
+                        <div class="image">
+                            <div class="picture">
+                                @if (Series.ImageData.Length == 0)
+                                {
+                                    <img src="/images/profile-icon.jpg" alt="@Series.Title" />
+                                }
+                                else
+                                {
+                                    <img src="@SeriesImage" alt="@Series.ImageTitle" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </MatTab>
+                <MatTab Label="Seasons">
+                    <div class="seasons">
+                        @foreach (var season in Series.Seasons)
+                        {
+                            <div class="season">
+                                <div class="head">
+                                    <span>Season @season.Number</span>
+                                    <span class="spacer"></span>
+                                    @if (CanDelete)
+                                    {
+                                        <MatTooltip Tooltip="Delete Season">
+                                            <MatIconButton RefBack="@context" Icon="delete" @onclick="@(() => OpenDeleteSeasonDialog(season))"></MatIconButton>
+                                        </MatTooltip>
+                                    }
+                                </div>
+                                <div class="body">
+                                    <div class="episodes">
+                                        @foreach (var episode in season.Episodes)
+                                        {
+                                            <div class="episode">
+                                                <div class="ep-head">
+                                                    <span>@episode.Number - @episode.Title</span>
+                                                    <span class="spacer"></span>
+                                                    @if (CanDelete)
+                                                    {
+                                                        <MatTooltip Tooltip="Delete Episode">
+                                                            <MatIconButton RefBack="@context" Icon="delete" @onclick="@(() => OpenDeleteEpisodeDialog(episode))"></MatIconButton>
+                                                        </MatTooltip>
+                                                    }
+                                                </div>
+                                                <div class="ep-body">
+                                                    @episode.Description
+                                                </div>
+                                                <div class="ep-foot">
+                                                    <span class="spacer"></span>
+                                                    <MatTooltip Tooltip="@($"Open Episode {episode.Title}")">
+                                                        <MatIconButton RefBack="@context" Icon="open_in_new" @onclick="@(() => OpenEpisode(episode.Id))"></MatIconButton>
+                                                    </MatTooltip>
+                                                    @if (Series.IsMine)
+                                                    {
+                                                        @if (episode.Seen)
+                                                        {
+                                                            <MatTooltip Tooltip="@($"Set to not seen {episode.Title}")">
+                                                                <MatIconButton RefBack="@context" Icon="visibility_off" @onclick="@(() => SetEpisodeSeenStatus(episode.Id, false))"></MatIconButton>
+                                                            </MatTooltip>
+                                                        }
+                                                        else
+                                                        {
+                                                            <MatTooltip Tooltip="@($"Set to seen {episode.Title}")">
+                                                                <MatIconButton RefBack="@context" Icon="visibility" @onclick="@(() => SetEpisodeSeenStatus(episode.Id, true))"></MatIconButton>
+                                                            </MatTooltip>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+
+                                        @if (season.Episodes.Count == 0)
+                                        {
+                                            <div class="text-center">Season does not have any episode yet.</div>
+                                        }
+
+                                        <div class="episode-action">
+                                            <span class="spacer"></span>
+                                            @if (CanAddOrEdit)
+                                            {
+                                                <MatTooltip Tooltip="@($"Add Episode to season {season.Number}")">
+                                                    <MatIconButton RefBack="@context" Icon="add" @onclick="@(() => AddIncrementedEpisode(season.Id))"></MatIconButton>
+                                                </MatTooltip>
+                                            }
+                                            @if (Series.IsMine)
+                                            {
+                                                @if (season.Episodes != null && season.Episodes.Count > 0)
+                                                {
+                                                    @if (season.IsSeen)
+                                                    {
+                                                        <MatTooltip Tooltip="@($"Set to not seen season {season.Number}")">
+                                                            <MatIconButton RefBack="@context" Icon="visibility_off" @onclick="@(() => SetSeasonSeenStatus(season.Id, false))"></MatIconButton>
+                                                        </MatTooltip>
+                                                    }
+                                                    else
+                                                    {
+                                                        <MatTooltip Tooltip="@($"Set to seen season {season.Number}")">
+                                                            <MatIconButton RefBack="@context" Icon="visibility" @onclick="@(() => SetSeasonSeenStatus(season.Id, true))"></MatIconButton>
+                                                        </MatTooltip>
+                                                    }
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @if (Series.Seasons.Count == 0)
+                        {
+                            <div class="text-center">Series does not have any season yet.</div>
+                        }
+
+                        <div class="season-action">
+                            <span class="spacer"></span>
+                            @if (CanAddOrEdit)
+                            {
+                                <MatTooltip Tooltip="Add Season to Series">
+                                    <MatIconButton RefBack="@context" Icon="add" @onclick="AddIncrementedSeason"></MatIconButton>
+                                </MatTooltip>
+                            }
+                        </div>
+                    </div>
+                </MatTab>
+                <MatTab Label="Comments">
+                    <div class="comments">
+                        <div class="comment-list">
+                            @foreach (var comment in CommentList)
+                            {
+                                <SeriesCommentComponent Comment="@comment" Refresh="@GetComments" SeriesId="@Series.Id"></SeriesCommentComponent>
+                            }
+                        </div>
+
+                        <div class="input-panel">
+                            <div class="col col-12 p-1">
+                                <MatTextField class="w-100" @bind-Value="Comment" Label="Comment" Dense="true" Outlined="true" TextArea="true"></MatTextField>
+                            </div>
+                            <div class="down-row">
+                                <span class="spacer"></span>
+                                <MatButton @onclick="SaveComment">Comment</MatButton>
+                            </div>
+                        </div>
+                    </div>
+                </MatTab>
+            </MatTabGroup>
+        }
+    }
+</div>

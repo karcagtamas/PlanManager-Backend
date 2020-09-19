@@ -69,7 +69,7 @@ namespace EventManager.Client.Pages.Friends
 
             Modal.OnClose += FriendRequestDialogClosed;
 
-            Modal.Show<FriendRequest>("Friend request", parameters, options);
+            Modal.Show<FriendRequestDialog>("Friend request", parameters, options);
         }
 
         protected async void FriendRequestDialogClosed(ModalResult modalResult)

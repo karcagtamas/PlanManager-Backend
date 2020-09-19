@@ -1,0 +1,31 @@
+﻿@import "../../../Styles/_common.scss";
+
+.comment {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: $primary-secondary-trans 3px solid;
+    border-radius: $border-radius;
+    padding: 0.5rem;
+    background-color: $white-trans;
+
+    .comment-header {
+        color: $primary;
+    }
+
+    .comment-body {
+        padding: 0.8rem;
+    }
+
+    .comment-action {
+        display: flex;
+        margin-bottom: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $red-light-trans;
+
+        .spacer {
+            flex-grow: 1;
+        }
+    }
+}

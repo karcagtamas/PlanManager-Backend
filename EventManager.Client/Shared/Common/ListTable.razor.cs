@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using EventManager.Client.Models;
+﻿using EventManager.Client.Models;
 using ManagerAPI.Shared;
 using ManagerAPI.Shared.Enums;
 using Microsoft.AspNetCore.Components;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EventManager.Client.Shared.Common
 {
@@ -12,6 +12,7 @@ namespace EventManager.Client.Shared.Common
     {
         [Parameter]
         public List<TableHeaderData<TList>> Header { get; set; }
+
         [Parameter] public List<TList> Body { get; set; }
         [Parameter] public EventCallback<TList> OnRowClick { get; set; }
         [Parameter] public List<int> SelectedIndexes { get; set; } = new List<int>();
@@ -22,7 +23,6 @@ namespace EventManager.Client.Shared.Common
         private List<TList> DisplayList { get; set; } = new List<TList>();
         private OrderDirection Direction { get; set; } = OrderDirection.None;
         private string FilterValue { get; set; } = "";
-
 
         protected override void OnParametersSet()
         {
@@ -46,7 +46,7 @@ namespace EventManager.Client.Shared.Common
             this.FilterValue = val;
             this.DoFilteringAndOrdering();
         }
-        
+
         private void HeaderClick(TableHeaderData<TList> data)
         {
             if (data.IsSortable)
@@ -65,6 +65,7 @@ namespace EventManager.Client.Shared.Common
                             case OrderDirection.Ascend:
                                 this.Direction = OrderDirection.Descend;
                                 break;
+
                             case OrderDirection.Descend:
                                 this.Direction = OrderDirection.None;
                                 this.OrderBy = null;
@@ -72,12 +73,12 @@ namespace EventManager.Client.Shared.Common
                         }
                     }
                 }
-                
+
                 Console.WriteLine(OrderDirectionService.GetValue(this.Direction));
                 this.DoFilteringAndOrdering();
             }
         }
-        
+
         private void DoFilteringAndOrdering()
         {
             var query = this.Body.AsQueryable();
@@ -110,7 +111,7 @@ namespace EventManager.Client.Shared.Common
                 if (head.IsFilterable && !res)
                 {
                     var propVal = head.Displaying(this.GetProperty(val, head.PropertyName));
-                    res =  propVal.ToLower().Contains(this.FilterValue.ToLower());
+                    res = propVal.ToLower().Contains(this.FilterValue.ToLower());
                 }
             }
 

@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using EventManager.Client.Models;
+﻿using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.SL
 {
@@ -32,8 +32,7 @@ namespace EventManager.Client.Shared.Components.SL
             FormId = Parameters.Get<int>("FormId");
             Id = Parameters.TryGet<int>("episode");
 
-
-            ((ModalService) ModalService).OnConfirm += OnConfirm;
+            ((ModalService)ModalService).OnConfirm += OnConfirm;
 
             Model = new EpisodeShortModel
             {
@@ -59,7 +58,7 @@ namespace EventManager.Client.Shared.Components.SL
                 if (isValid && await EpisodeService.UpdateShort(this.Id, this.Model))
                 {
                     ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService) ModalService).OnConfirm -= OnConfirm;
+                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
                 }
             }
         }

@@ -1,29 +1,29 @@
 ﻿<div class="w-100">
     <EditForm EditContext="@Context">
-        <DataAnnotationsValidator/>
+        <DataAnnotationsValidator />
         <div class="col col-12 p-1">
             <MatTextField class="w-100" @bind-Value="Model.Title" Label="Title" Dense="true" Outlined="true"></MatTextField>
-            <ValidationMessage For="() => Model.Title"/>
+            <ValidationMessage For="() => Model.Title" />
         </div>
         <div class="col col-12 p-1">
             <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" @bind-Value="Model.ReleaseYear" Dense="true" Label="Release Year" Outlined="true"></MatNumericUpDownField>
-            <ValidationMessage For="() => Model.ReleaseYear"/>
+            <ValidationMessage For="() => Model.ReleaseYear" />
         </div>
         <div class="col col-12 p-1">
             <MatTextField class="w-100" @bind-Value="Model.Description" Label="Description" Dense="true" Outlined="true" TextArea="true"></MatTextField>
-            <ValidationMessage For="() => Model.Description"/>
+            <ValidationMessage For="() => Model.Description" />
         </div>
         <div class="col col-12 p-1">
             <MatTextField class="w-100" @bind-Value="Model.Director" Label="Director" Dense="true" Outlined="true"></MatTextField>
-            <ValidationMessage For="() => Model.Director"/>
+            <ValidationMessage For="() => Model.Director" />
         </div>
         <div class="col col-12 p-1">
             <MatNumericUpDownField class="w-100" DecimalPlaces="0" Minimum="0" @bind-Value="Model.Length" Dense="true" Label="Length" Outlined="true"></MatNumericUpDownField>
-            <ValidationMessage For="() => Model.Length"/>
+            <ValidationMessage For="() => Model.Length" />
         </div>
         <div class="col col-12 p-1">
             <MatTextField class="w-100" @bind-Value="Model.TrailerUrl" Label="Trailer Url" Dense="true" Outlined="true"></MatTextField>
-            <ValidationMessage For="() => Model.TrailerUrl"/>
+            <ValidationMessage For="() => Model.TrailerUrl" />
         </div>
     </EditForm>
 </div>

@@ -1,20 +1,18 @@
 <div class="col col-12">
     <div class="em-panel col col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
         <MatCard class="p-3">
-                <MatHeadline5>
-                    <div class="panel-title"><strong>@Title</strong></div>
-                </MatHeadline5>
-                <div class="panel-content">
-                    @ChildContent
-                </div>
+            <MatHeadline5>
+                <div class="panel-title"><strong>@Title</strong></div>
+            </MatHeadline5>
+            <div class="panel-content">
+                @ChildContent
+            </div>
         </MatCard>
     </div>
 </div>
 
-@code {
-    [Parameter]
-    public string Title { get; set; }
-    
-    [Parameter]
-    public RenderFragment ChildContent { get; set; }
-}
+@code { [Parameter]
+            public string Title { get; set; }
+
+            [Parameter]
+            public RenderFragment ChildContent { get; set; } }

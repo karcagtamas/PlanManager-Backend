@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
@@ -8,6 +7,7 @@ using ManagerAPI.Shared.DTOs.WM;
 using ManagerAPI.Shared.Models.WM;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.WM
 {
@@ -17,9 +17,9 @@ namespace EventManager.Client.Shared.Components.WM
 
         [CascadingParameter] public BlazoredModal BlazoredModal { get; set; }
 
-        [Inject] IWorkingFieldService WorkingFieldService { get; set; }
+        [Inject] private IWorkingFieldService WorkingFieldService { get; set; }
 
-        [Inject] IModalService ModalService { get; set; }
+        [Inject] private IModalService ModalService { get; set; }
 
         private int FormId { get; set; }
         private WorkingFieldModel Model { get; set; }
@@ -35,8 +35,7 @@ namespace EventManager.Client.Shared.Components.WM
             this.Id = Parameters.TryGet<int>("field");
             this.WorkingDayId = Parameters.Get<int>("working-day");
 
-
-            ((ModalService) ModalService).OnConfirm += OnConfirm;
+            ((ModalService)ModalService).OnConfirm += OnConfirm;
 
             this.Model = new WorkingFieldModel
             {
@@ -70,7 +69,7 @@ namespace EventManager.Client.Shared.Components.WM
                 if (isValid && await WorkingFieldService.Update(this.Id, this.Model))
                 {
                     ModalService.Close(ModalResult.Ok<bool>(true));
-                    ((ModalService) ModalService).OnConfirm -= OnConfirm;
+                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
                 }
             }
             else
@@ -78,7 +77,7 @@ namespace EventManager.Client.Shared.Components.WM
                 if (isValid && await WorkingFieldService.Create(this.Model))
                 {
                     ModalService.Close(ModalResult.Ok<bool>(true));
-                    ((ModalService) ModalService).OnConfirm -= OnConfirm;
+                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
                 }
             }
         }
@@ -98,7 +97,7 @@ namespace EventManager.Client.Shared.Components.WM
             parameters.Add("type", ConfirmType.Delete);
             parameters.Add("name", this.Field.Title);
 
-            ((ModalService) ModalService).OnConfirm -= OnConfirm;
+            ((ModalService)ModalService).OnConfirm -= OnConfirm;
 
             var options =
                 new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
@@ -109,7 +108,7 @@ namespace EventManager.Client.Shared.Components.WM
 
         private async void DeleteDialogClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool) modalResult.Data && await this.WorkingFieldService.Delete(this.Id))
+            if (!modalResult.Cancelled && (bool)modalResult.Data && await this.WorkingFieldService.Delete(this.Id))
             {
                 ModalService.Close(ModalResult.Ok<bool>(true));
             }

@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EventManager.Client.Enums;
+﻿using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.SL
 {
@@ -37,7 +37,7 @@ namespace EventManager.Client.Shared.Components.SL
             await this.GetSelectorList();
             this.SelectedIndexList = this.List.Where(x => x.IsSelected).Select(x => x.Id).ToList();
 
-            ((ModalService) ModalService).OnConfirm += OnConfirm;
+            ((ModalService)ModalService).OnConfirm += OnConfirm;
         }
 
         private async Task GetSelectorList()
@@ -53,10 +53,10 @@ namespace EventManager.Client.Shared.Components.SL
         {
             var indexList = this.List.Where(x => x.IsSelected).Select(x => x.Id).ToList();
 
-            if (await this.MovieService.UpdateCategories(this.MovieId, new MovieCategoryUpdateModel {Ids = indexList}))
+            if (await this.MovieService.UpdateCategories(this.MovieId, new MovieCategoryUpdateModel { Ids = indexList }))
             {
                 ModalService.Close(ModalResult.Ok(true));
-                ((ModalService) ModalService).OnConfirm -= OnConfirm;
+                ((ModalService)ModalService).OnConfirm -= OnConfirm;
             }
         }
 

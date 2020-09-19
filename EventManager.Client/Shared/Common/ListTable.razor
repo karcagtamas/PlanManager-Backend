@@ -13,53 +13,53 @@
         }
         <table>
             <thead>
-            <tr>
-                @foreach (var head in Header)
-                {
-                    <th @onclick="@(() => HeaderClick(head))" class="@(head.HeaderAlignment == Alignment.Left ? "left" : head.HeaderAlignment == Alignment.Center ? "center" : head.HeaderAlignment == Alignment.Right ? "right" : "")">
-                        @head.DisplayName
-                        @if (OrderBy != null && OrderBy.PropertyName == head.PropertyName)
-                        {
-                            @if (Direction != OrderDirection.None)
-                            {
-                                <MatIcon class="arrow-icon" Icon="@(OrderDirectionService.GetValue(Direction) == "asc" ? "arrow_downward" : "arrow_upward")"></MatIcon>
-                            }
-                        }
-                    </th>
-                }
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var body in DisplayList)
-            {
-                <tr @onclick="@(() => RowClick(body))" class="@(IsSelectionEnabled && SelectedIndexes.Contains(body.Id) ? "selected" : "")">
+                <tr>
                     @foreach (var head in Header)
                     {
-                        <td class="@(head.HeaderAlignment == Alignment.Left ? "left" : head.HeaderAlignment == Alignment.Center ? "center" : head.HeaderAlignment == Alignment.Right ? "right" : "")">@head.Displaying(GetProperty(body, head.PropertyName))</td>
+                        <th @onclick="@(() => HeaderClick(head))" class="@(head.HeaderAlignment == Alignment.Left ? "left" : head.HeaderAlignment == Alignment.Center ? "center" : head.HeaderAlignment == Alignment.Right ? "right" : "")">
+                            @head.DisplayName
+                            @if (OrderBy != null && OrderBy.PropertyName == head.PropertyName)
+                            {
+                                @if (Direction != OrderDirection.None)
+                                {
+                                    <MatIcon class="arrow-icon" Icon="@(OrderDirectionService.GetValue(Direction) == "asc" ? "arrow_downward" : "arrow_upward")"></MatIcon>
+                                }
+                            }
+                        </th>
                     }
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @foreach (var body in DisplayList)
+                {
+                    <tr @onclick="@(() => RowClick(body))" class="@(IsSelectionEnabled && SelectedIndexes.Contains(body.Id) ? "selected" : "")">
+                        @foreach (var head in Header)
+                        {
+                            <td class="@(head.HeaderAlignment == Alignment.Left ? "left" : head.HeaderAlignment == Alignment.Center ? "center" : head.HeaderAlignment == Alignment.Right ? "right" : "")">@head.Displaying(GetProperty(body, head.PropertyName))</td>
+                        }
+                    </tr>
+                }
             </tbody>
             @if (FooterDisplay)
             {
                 <tfoot>
-                <tr>
-                    @foreach (var head in Header)
-                    {
-                        @if (head.FooterRunnableData != null)
+                    <tr>
+                        @foreach (var head in Header)
                         {
-                            <th>@head.FooterRunnableData(DisplayList)</th>
+                            @if (head.FooterRunnableData != null)
+                            {
+                                <th>@head.FooterRunnableData(DisplayList)</th>
+                            }
+                            else if (!string.IsNullOrEmpty(head.FooterData))
+                            {
+                                <th>@head.FooterData</th>
+                            }
+                            else
+                            {
+                                <th></th>
+                            }
                         }
-                        else if (!string.IsNullOrEmpty(head.FooterData))
-                        {
-                            <th>@head.FooterData</th>
-                        }
-                        else
-                        {
-                            <th></th>
-                        }
-                    }
-                </tr>
+                    </tr>
                 </tfoot>
             }
         </table>

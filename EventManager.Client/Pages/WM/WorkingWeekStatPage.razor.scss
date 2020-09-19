@@ -1,0 +1,71 @@
+﻿@import "../../Styles/_common.scss";
+
+.wm-week {
+    .title-bar {
+        display: flex;
+
+        .spacer {
+            flex-grow: 1;
+        }
+
+        .date {
+            color: $primary;
+            font-style: italic;
+        }
+    }
+
+    .action-bar {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $orange-trans;
+        display: flex;
+
+        .spacer {
+            flex-grow: 1;
+        }
+    }
+
+    .field-list {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $white-trans;
+    }
+
+    .stat-box {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $green-light-trans;
+
+        .data-row {
+            strong {
+                color: $primary;
+                font-style: italic;
+            }
+        }
+    }
+
+    .type-stat {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $green-light-trans;
+
+        .data-row {
+            strong {
+                color: $primary;
+                font-style: italic;
+            }
+        }
+    }
+}

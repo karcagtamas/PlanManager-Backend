@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using EventManager.Client.Models;
+﻿using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.Models.SL;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace EventManager.Client.Shared.Components.SL
 {
@@ -39,8 +39,7 @@ namespace EventManager.Client.Shared.Components.SL
             FormId = Parameters.Get<int>("FormId");
             Id = Parameters.TryGet<int>("movie");
 
-
-            ((ModalService) ModalService).OnConfirm += OnConfirm;
+            ((ModalService)ModalService).OnConfirm += OnConfirm;
         }
 
         private async void OnConfirm()
@@ -58,9 +57,9 @@ namespace EventManager.Client.Shared.Components.SL
                     await this.File.WriteToStreamAsync(stream);
 
                     if (!await this.MovieService.UpdateImage(this.Id,
-                        new MovieImageModel {ImageData = stream.ToArray(), ImageTitle = this.File.Name})) return;
+                        new MovieImageModel { ImageData = stream.ToArray(), ImageTitle = this.File.Name })) return;
                     ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService) ModalService).OnConfirm -= OnConfirm;
+                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
                 }
                 catch (Exception e)
                 {

@@ -14,7 +14,6 @@ namespace EventManager.Client.Shared.Components.SL
         private bool IsEdit { get; set; }
         private string CommentText { get; set; }
 
-
         private async void DeleteComment()
         {
             if (await this.SeriesCommentService.Delete(this.Comment.Id))
@@ -34,7 +33,7 @@ namespace EventManager.Client.Shared.Components.SL
         {
             if (!string.IsNullOrEmpty(this.CommentText) &&
                 await this.SeriesCommentService.Update(this.Comment.Id,
-                    new SeriesCommentModel {Comment = this.CommentText, SeriesId = this.SeriesId}))
+                    new SeriesCommentModel { Comment = this.CommentText, SeriesId = this.SeriesId }))
             {
                 await this.Refresh.InvokeAsync(null);
             }

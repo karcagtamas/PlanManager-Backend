@@ -1,0 +1,28 @@
+.em-notification {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  color: #5120a5;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row; }
+  .em-notification .spacer {
+    flex-grow: 1; }
+  .em-notification .em-notification-footer {
+    font-size: 0.8rem;
+    color: #5120a5;
+    font-style: italic;
+    display: flex; }
+    .em-notification .em-notification-footer .spacer {
+      flex-grow: 1; }
+  .em-notification .em-notification-content {
+    text-align: justify; }
+  .em-notification .em-notification-right {
+    text-align: right; }
+  .em-notification.importance-1 {
+    background-color: rgba(235, 223, 109, 0.75); }
+  .em-notification.importance-2 {
+    background-color: rgba(235, 159, 109, 0.75); }
+  .em-notification.importance-3 {
+    background-color: rgba(235, 109, 109, 0.75); }

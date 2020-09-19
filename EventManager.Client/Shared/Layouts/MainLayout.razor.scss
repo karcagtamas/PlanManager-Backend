@@ -1,0 +1,27 @@
+﻿@import "../../Styles/_common.scss";
+
+.em-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+
+    .main-box {
+        flex-grow: 1;
+        max-height: 100vh;
+        padding: 1rem;
+    }
+
+    .em-navbar-box {
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        background-color: $white-trans;
+
+        .em-navbar-outer {
+            flex-grow: 1;
+            display: flex;
+            overflow: auto;
+        }
+    }
+}
