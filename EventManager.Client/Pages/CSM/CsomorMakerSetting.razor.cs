@@ -61,8 +61,16 @@ namespace EventManager.Client.Pages.CSM
             }
         }
 
-        private void DateChange(ChangeEventArgs args)
+        private void ReSetup(DateTime date, string type)
         {
+            if (type == "start")
+            {
+                this.Model.Start = date.AddMinutes(-date.Minute).ToLocalTime();
+            }
+            if (type == "finish")
+            {
+                this.Model.Finish = date.AddMinutes(-date.Minute).ToLocalTime();
+            }
             this.Persons.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
             this.Works.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
             StateHasChanged();

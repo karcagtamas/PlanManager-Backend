@@ -10,7 +10,7 @@
         }
         else
         {
-            <span>- New</span>
+            <span>- New Generator</span>
         }
     </h1>
     <div class="action-bar">
@@ -29,11 +29,11 @@
                     </div>
                     <div class="col col-12 row">
                         <div class="input-row col col-12 col-md-6">
-                            <MatDatePicker class="w-100" @bind-Value="Model.Start" @onchange="DateChange" EnableTime="true" Enable24hours="true" AllowInput="false" Label="Start" Dense="true" Outlined="true"></MatDatePicker>
+                            <MatDatePicker class="w-100" Value="@Model.Start" ValueExpression="@(() => Model.Start)" TValue="DateTime" ValueChanged="@(date => ReSetup(date, "start"))" EnableTime="true" Enable24hours="true" AllowInput="false" Label="Start" Dense="true" Outlined="true"></MatDatePicker>
                             <ValidationMessage For="() => Model.Start" />
                         </div>
                         <div class="input-row col col-12 col-md-6">
-                            <MatDatePicker class="w-100" @bind-Value="Model.Finish" @onchange="DateChange" EnableTime="true" Enable24hours="true" AllowInput="false" Label="Finish" Dense="true" Outlined="true"></MatDatePicker>
+                            <MatDatePicker class="w-100" Value="@Model.Finish" ValueExpression="@(() => Model.Finish)" TValue="DateTime" ValueChanged="@(date => ReSetup(date, "finish"))" EnableTime="true" Enable24hours="true" AllowInput="false" Label="Finish" Dense="true" Outlined="true"></MatDatePicker>
                             <ValidationMessage For="() => Model.Finish" />
                         </div>
                     </div>
@@ -64,13 +64,13 @@
                 @if (Persons.Count > 0)
                 {
                     <div class="list">
-                        @foreach(var person in Persons)
+                        @foreach (var person in Persons)
                         {
                             <div class="entity">
                                 @person.Id
                                 @person.Name
 
-                                @foreach(var table in person.Tables)
+                                @foreach (var table in person.Tables)
                                 {
                                     <div>@ManagerAPI.Shared.Helpers.DateHelper.DateToString(table.Date)</div>
                                 }

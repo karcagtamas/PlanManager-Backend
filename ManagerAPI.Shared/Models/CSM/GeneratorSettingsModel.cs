@@ -30,5 +30,16 @@ namespace ManagerAPI.Shared.Models.CSM
         public int MinRestHour { get; set; } = 1;
         public List<PersonModel> Persons { get; set; }
         public List<Work> Works { get; set; }
+
+        public GeneratorSettingsModel()
+        {
+            this.Title = "New Generator";
+            var date = DateTime.Now;
+            date = date.AddMinutes(-date.Minute).AddMinutes(-date.Second).ToLocalTime();
+            this.Start = date;
+            this.Finish = date.AddDays(1);
+            this.MaxWorkHour = 3;
+            this.MinRestHour = 1;
+        }
     }
 }
