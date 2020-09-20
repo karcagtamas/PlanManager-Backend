@@ -9,5 +9,12 @@ namespace ManagerAPI.Shared.Models.CSM
         public DateTime Date;
         public bool IsAvailable { get; set; }
         public string WorkId { get; set; }
+
+        public PersonTableModel(DateTime date)
+        {
+            this.Date = date;
+            this.IsAvailable = true;
+            this.WorkId = null;
+        }
     }
 }

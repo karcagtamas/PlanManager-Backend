@@ -7,6 +7,7 @@
   color: #5120a5;
   padding: 0.5rem;
   display: flex;
+  flex-direction: column;
   flex-direction: row; }
   .page .action-bar .spacer {
     flex-grow: 1; }
@@ -20,7 +21,7 @@
   color: #5120a5;
   padding: 0.5rem;
   display: flex;
-  flex-direction: row; }
+  flex-direction: column; }
   .page .friend-list .friend-card .spacer {
     flex-grow: 1; }
   .page .friend-list .friend-card .title {
@@ -57,7 +58,7 @@
   color: #5120a5;
   padding: 0.5rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background-color: rgba(240, 174, 73, 0.4); }
   .page .friend-request-list .friend-request .spacer {
     flex-grow: 1; }

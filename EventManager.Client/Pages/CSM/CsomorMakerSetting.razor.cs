@@ -1,8 +1,8 @@
 ﻿using ManagerAPI.Shared.Models.CSM;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace EventManager.Client.Pages.CSM
 {
@@ -25,11 +25,47 @@ namespace EventManager.Client.Pages.CSM
             this.Model = new GeneratorSettingsModel();
             this.Context = new EditContext(this.Model);
 
-            this.WorkModel = new WorkModel();
             this.PersonModel = new PersonModel();
+            this.WorkModel = new WorkModel();
 
-            this.WorkContext = new EditContext(this.WorkModel);
             this.PersonContext = new EditContext(this.PersonModel);
+            this.WorkContext = new EditContext(this.WorkModel);
+
+            this.Persons = new List<PersonModel>();
+            this.Works = new List<WorkModel>();
+        }
+
+        private void SaveSettings() { }
+
+        private void AddPerson()
+        {
+            if (this.PersonContext.Validate())
+            {
+                this.PersonModel.SetTables(this.Model.Start, this.Model.Finish);
+                this.Persons.Add(this.PersonModel);
+                this.PersonModel = new PersonModel();
+                this.PersonContext = new EditContext(this.PersonModel);
+                StateHasChanged();
+            }
+        }
+
+        private void AddWork()
+        {
+            if (this.WorkContext.Validate())
+            {
+                this.WorkModel.SetTables(this.Model.Start, this.Model.Finish);
+                this.Works.Add(this.WorkModel);
+                this.WorkModel = new WorkModel();
+                this.WorkContext = new EditContext(this.WorkModel);
+                StateHasChanged();
+            }
+        }
+
+        private void DateChange(ChangeEventArgs args)
+        {
+            this.Persons.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
+            this.Works.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
+            StateHasChanged();
         }
     }
 }

@@ -21,4 +21,19 @@
             width: 100% !important;
         }
     }
+
+    .list {
+        .entity {
+            @include panel;
+            background-color: $white-trans;
+        }
+    }
+}
+
+.action {
+    display: flex;
+
+    .spacer {
+        flex-grow: 1;
+    }
 }

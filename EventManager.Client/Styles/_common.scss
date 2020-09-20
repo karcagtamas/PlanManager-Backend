@@ -8,7 +8,7 @@
     color: $primary;
     padding: 0.5rem;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
     .spacer {
         flex-grow: 1;
@@ -18,6 +18,7 @@
 @mixin action-panel {
     background-color: $orange-trans;
     @include panel;
+    flex-direction: row;
 }
 
 @mixin main-panel {

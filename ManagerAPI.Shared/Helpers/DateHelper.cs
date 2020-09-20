@@ -73,7 +73,7 @@ namespace ManagerAPI.Shared.Helpers
         {
             return $"{date:yyyy-MM-dd}";
         }
-        
+
         /// <summary>
         /// To day
         /// </summary>
@@ -82,6 +82,12 @@ namespace ManagerAPI.Shared.Helpers
         public static DateTime ToDay(DateTime date)
         {
             return new DateTime(date.Year, date.Month, date.Day);
+        }
+
+        public static bool CompareDates(DateTime date1, DateTime date2)
+        {
+            return date1.Year == date2.Year && date1.Month == date2.Month && date1.Day == date2.Day &&
+                   date1.Hour == date2.Hour;
         }
     }
 }

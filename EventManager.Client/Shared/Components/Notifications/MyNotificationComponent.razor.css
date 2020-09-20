@@ -6,7 +6,7 @@
   color: #5120a5;
   padding: 0.5rem;
   display: flex;
-  flex-direction: row; }
+  flex-direction: column; }
   .em-notification .spacer {
     flex-grow: 1; }
   .em-notification .em-notification-footer {
