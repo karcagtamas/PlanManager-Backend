@@ -1,12 +1,14 @@
 [
   {
     "outputFile": "wwwroot/scss/site.css",
-    "inputFile": "wwwroot/scss/site.scss",
-    "sourceMap": false
+    "inputFile": "wwwroot/scss/site.scss"
   },
   {
     "outputFile": "wwwroot/css/site.css",
-    "inputFile": "wwwroot/css/site.scss",
-    "sourceMap": false
+    "inputFile": "wwwroot/css/site.scss"
+  },
+  {
+    "outputFile": "Shared/Navigators/MainNavigator.razor.css",
+    "inputFile": "Shared/Navigators/MainNavigator.razor.scss"
   }
 ]

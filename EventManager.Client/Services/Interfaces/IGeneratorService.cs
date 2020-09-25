@@ -13,7 +13,7 @@ namespace EventManager.Client.Services.Interfaces
         Task<bool> Create(GeneratorSettingsModel model);
         Task<bool> Update(int id, GeneratorSettingsModel model);
         Task<bool> Delete(int id);
-        GeneratorSettings Get(int id);
+        Task<GeneratorSettings> Get(int id);
         Task<List<CsomorListDTO>> GetPublicList();
         Task<List<CsomorListDTO>> GetOwnedList();
         Task<List<CsomorListDTO>> GetSharedList();

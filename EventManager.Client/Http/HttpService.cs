@@ -27,7 +27,7 @@ namespace EventManager.Client.Http
         /// <summary>
         /// POST request
         /// </summary>
-        /// <param name="settings">Http settings</param>
+        /// <param name="settings">HTTP settings</param>
         /// <param name="body">Body of post request</param>
         /// <typeparam name="T">Type of the body</typeparam>
         /// <returns>The request was success or not</returns>
@@ -62,7 +62,7 @@ namespace EventManager.Client.Http
         /// <summary>
         /// POST request where we want string response
         /// </summary>
-        /// <param name="settings">Http settings</param>
+        /// <param name="settings">HTTP settings</param>
         /// <param name="body">Body of post request</param>
         /// <typeparam name="T">Type of the body</typeparam>
         /// <returns>Response string value</returns>
@@ -91,7 +91,7 @@ namespace EventManager.Client.Http
                 await _helperService.AddToaster(response, settings.ToasterSettings.Caption);
             }
 
-            // Deserialize json
+            // De-serialize JSON
             if (response.IsSuccessStatusCode)
             {
                 try
@@ -111,7 +111,7 @@ namespace EventManager.Client.Http
         /// <summary>
         /// DELETE request
         /// </summary>
-        /// <param name="settings">Http settings</param>
+        /// <param name="settings">HTTP settings</param>
         /// <returns>The request was success or not</returns>
         public async Task<bool> Delete(HttpSettings settings)
         {
@@ -143,7 +143,7 @@ namespace EventManager.Client.Http
         /// <summary>
         /// GET request
         /// </summary>
-        /// <param name="settings">Http settings</param>
+        /// <param name="settings">HTTP settings</param>
         /// <typeparam name="T">Type of the result</typeparam>
         /// <returns>Response as T type</returns>
         public async Task<T> Get<T>(HttpSettings settings)
@@ -164,7 +164,7 @@ namespace EventManager.Client.Http
                 return default;
             }
 
-            // Deserialize json
+            // De-serialize JSON
             if (response.IsSuccessStatusCode)
             {
                 try
@@ -189,7 +189,7 @@ namespace EventManager.Client.Http
         /// <summary>
         /// Get number
         /// </summary>
-        /// <param name="settings">Http settings</param>
+        /// <param name="settings">HTTP settings</param>
         /// <returns>Number response</returns>
         public async Task<int?> GetInt(HttpSettings settings)
         {
@@ -232,7 +232,7 @@ namespace EventManager.Client.Http
         /// <summary>
         /// Get string
         /// </summary>
-        /// <param name="settings">Http settings</param>
+        /// <param name="settings">HTTP settings</param>
         /// <returns>String response</returns>
         public async Task<string> GetString(HttpSettings settings)
         {
@@ -253,7 +253,7 @@ namespace EventManager.Client.Http
             }
 
 
-            // Deserialize json
+            // De-serialize JSON
             if (response.IsSuccessStatusCode)
             {
                 try
@@ -275,7 +275,7 @@ namespace EventManager.Client.Http
         /// <summary>
         /// PUT request
         /// </summary>
-        /// <param name="settings">Http settings</param>
+        /// <param name="settings">HTTP settings</param>
         /// <param name="body">Body of put request</param>
         /// <typeparam name="T">Type of the body</typeparam>
         /// <returns>The request was success or not</returns>
@@ -307,11 +307,11 @@ namespace EventManager.Client.Http
         }
 
         /// <summary>
-        /// Create url from http settings
-        /// Concat url, path parameters and query parameters
+        /// Create URL from HTTP settings
+        /// Concatenate URL, path parameters and query parameters
         /// </summary>
-        /// <param name="settings">Http settings</param>
-        /// <returns>Created url</returns>
+        /// <param name="settings">HTTP settings</param>
+        /// <returns>Created URL</returns>
         private string CreateUrl(HttpSettings settings)
         {
             string url = settings.Url;
@@ -345,8 +345,54 @@ namespace EventManager.Client.Http
 
         private void ConsoleCallError(Exception e, string url)
         {
-            Console.WriteLine($"Http Call Error from {url}: ");
+            Console.WriteLine($"HTTP Call Error from {url}: ");
             Console.WriteLine(e);
+        }
+
+        public async Task<T> UpdateWithResult<T, V>(HttpSettings settings, HttpBody<V> body)
+        {
+            this.CheckSettings(settings);
+
+            var url = this.CreateUrl(settings);
+
+            HttpResponseMessage response;
+
+            try
+            {
+                response = await _httpClient.PutAsync(url, body.GetStringContent());
+            }
+            catch (Exception e)
+            {
+                this.ConsoleCallError(e, url);
+                return default;
+            }
+
+            // Optional toast
+            if (settings.ToasterSettings.IsNeeded)
+            {
+                await _helperService.AddToaster(response, settings.ToasterSettings.Caption);
+            }
+
+            // De-serialize JSON
+            if (response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    using (var sr = await response.Content.ReadAsStreamAsync())
+                    {
+                        return await System.Text.Json.JsonSerializer.DeserializeAsync<T>(sr, _helperService.GetSerializerOptions());
+                    }
+                }
+                catch (Exception e)
+                {
+                    this.ConsoleSerializationError(e);
+                    return default;
+                }
+            }
+            else
+            {
+                return default;
+            }
         }
     }
 }

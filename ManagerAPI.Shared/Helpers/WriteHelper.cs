@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ManagerAPI.Shared.Helpers
 {
@@ -63,6 +64,11 @@ namespace ManagerAPI.Shared.Helpers
             }
 
             return string.Join($"{separator} ", list);
+        }
+
+        public static string HourInterval(DateTime date, int count)
+        {
+            return $"{date.Hour} - {date.Hour + count}";
         }
     }
 }
