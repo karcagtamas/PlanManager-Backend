@@ -10,6 +10,8 @@ namespace ManagerAPI.Shared.Models.CSM
         public bool IsActive { get; set; }
         public string PersonId { get; set; }
 
+        public WorkTableModel() { }
+
         public WorkTableModel(DateTime date)
         {
             this.Date = date;

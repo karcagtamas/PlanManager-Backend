@@ -379,6 +379,24 @@ namespace CsomorGenerator.Services
             var user = this._utils.GetCurrentUser();
 
             var csomor = this._mapper.Map<Csomor>(model);
+            csomor.OwnerId = user.Id;
+
+            model.Persons.ForEach(x =>
+            {
+                var person = csomor.Persons.FirstOrDefault(y => y.Id == x.Id);
+
+                person.IgnoredWorks = new List<IgnoredWork>();
+
+                x.IgnoredWorks.ForEach(y => {
+                    var ignored = new IgnoredWork
+                    {
+                        PersonId = x.Id,
+                        WorkId = y
+                    };
+
+                    person.IgnoredWorks.Add(ignored);
+                });
+            });
 
             this._context.Csomors.Add(csomor);
             this._context.SaveChanges();

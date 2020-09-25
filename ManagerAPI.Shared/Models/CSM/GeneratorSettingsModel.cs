@@ -29,7 +29,7 @@ namespace ManagerAPI.Shared.Models.CSM
         [MaxNumber(4)]
         public int MinRestHour { get; set; } = 1;
         public List<PersonModel> Persons { get; set; }
-        public List<Work> Works { get; set; }
+        public List<WorkModel> Works { get; set; }
 
         public GeneratorSettingsModel()
         {
@@ -40,6 +40,9 @@ namespace ManagerAPI.Shared.Models.CSM
             this.Finish = date.AddDays(1);
             this.MaxWorkHour = 3;
             this.MinRestHour = 1;
+
+            this.Persons = new List<PersonModel>();
+            this.Works = new List<WorkModel>();
         }
     }
 }

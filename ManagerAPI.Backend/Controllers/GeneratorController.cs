@@ -1,6 +1,7 @@
 ﻿using CsomorGenerator.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Models.CSM;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace ManagerAPI.Backend.Controllers
 {
+    [Route("api/csomor")]
+    [ApiController]
+    [Authorize]
     public class GeneratorController : ControllerBase
     {
         private readonly IGeneratorService _generatorService;

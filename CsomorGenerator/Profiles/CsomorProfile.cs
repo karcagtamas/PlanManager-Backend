@@ -18,8 +18,6 @@ namespace CsomorGenerator.Profiles
             CreateMap<WorkModel, CsomorWork>();
             CreateMap<PersonTableModel, CsomorPersonTable>();
             CreateMap<WorkTableModel, CsomorWorkTable>();
-            CreateMap<string, IgnoredWork>()
-                .ForMember(dest => dest.WorkId, opt => opt.MapFrom(src => src));
 
             CreateMap<Csomor, GeneratorSettings>()
                 .ForMember(dest => dest.Creation, opt => opt.MapFrom(src => (DateTime?)src.Creation))
