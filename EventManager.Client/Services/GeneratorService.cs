@@ -22,7 +22,11 @@ namespace EventManager.Client.Services
 
         public Task<bool> ChangePublicStatus(int id, bool status)
         {
-            throw new NotImplementedException();
+            var settings = new HttpSettings($"{this._url}", null, null, "Public status changing");
+
+            var body = new HttpBody<bool>(status);
+
+            return this._http.Update<bool>(settings, body);
         }
 
         public Task<bool> Create(GeneratorSettingsModel model)
@@ -88,6 +92,7 @@ namespace EventManager.Client.Services
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add(id, -1);
+            pathParams.Add("share", -1);
 
             var settings = new HttpSettings($"{this._url}", null, pathParams, "Csomor sharing");
 

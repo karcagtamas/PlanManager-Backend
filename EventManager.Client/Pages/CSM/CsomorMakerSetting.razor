@@ -69,12 +69,22 @@
                             <div class="entity">
                                 <div class="data-row"><strong>Name: </strong> @person.Name</div>
                                 <div class="data-row">
-                                    <strong>Settings:</strong>
+                                    <strong>Settings:</strong> <br />
+                                    <MatCheckbox @bind-Value="person.IsIgnored" Label="Is Ignored" ></MatCheckbox> <br />
 
                                     @foreach (var table in person.Tables)
                                     {
-                                        <span>
+                                        <span class="box">
                                             <MatCheckbox @bind-Value="table.IsAvailable" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)"></MatCheckbox>
+                                        </span>
+                                    }
+
+                                    <br />
+
+                                    @foreach(var ignoredWork in Works)
+                                    {
+                                        <span class="box">
+                                            <MatCheckbox ValueChanged="@(val => IgnoredWorkChange(person, ignoredWork, val))" TValue="bool" Value="WorkIsIgnored(person, ignoredWork)" Label="@ignoredWork.Name"></MatCheckbox>
                                         </span>
                                     }
                                 </div>
@@ -103,11 +113,11 @@
                             <div class="entity">
                                 <div class="data-row"><strong>Name: </strong> @work.Name</div>
                                 <div class="data-row">
-                                    <strong>Settings:</strong>
+                                    <strong>Settings:</strong> <br />
 
                                     @foreach (var table in work.Tables)
                                     {
-                                        <span>
+                                        <span class="box">
                                             <MatCheckbox @bind-Value="table.IsActive" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)"></MatCheckbox>
                                         </span>
                                     }

@@ -76,7 +76,7 @@ namespace CsomorGenerator.Services
         /// <param name="workId">Work Id</param>
         /// <param name="maxHour">Maximum work hour</param>
         /// <param name="counter">Counter against infinite loop</param>
-        private void GenerateToDate(ref WorkTable table, ref List<Person> persons, string workId, int maxHour, int counter = 0) 
+        private void GenerateToDate(ref WorkTable table, ref List<Person> persons, string workId, int maxHour, int counter = 0)
         {
             var person = GetValidRandomPerson(persons);
 
@@ -109,14 +109,14 @@ namespace CsomorGenerator.Services
                 }
             }
         }
-        
+
         /// <summary>
         /// Get valid random person.
         /// Filtered to active and available persons
         /// </summary>
         /// <param name="persons">Person list</param>
         /// <returns>Randomoized person</returns>
-        private Person GetValidRandomPerson(List<Person> persons) 
+        private Person GetValidRandomPerson(List<Person> persons)
         {
             Random r = new Random();
             var validList = persons.Where(x => !x.IsIgnored && x.Hours != 0).ToList();
@@ -151,7 +151,7 @@ namespace CsomorGenerator.Services
         /// Check person
         /// </summary>
         /// <param name="person">Person</param>
-        /// <param name="works">Work</param>    
+        /// <param name="works">Work</param>
         private void CheckPerson(Person person, int works)
         {
             // Check all hour is unavailable
@@ -458,7 +458,7 @@ namespace CsomorGenerator.Services
         /// <returns></returns>
         public List<CsomorListDTO> GetPublicList()
         {
-            var list = this._mapper.Map<List<CsomorListDTO>>(this._context.Csomors.Where(x => x.IsPublic));
+            var list = this._mapper.Map<List<CsomorListDTO>>(this._context.Csomors.Where(x => x.IsPublic).OrderBy(x => x.Id));
 
             try
             {
@@ -478,7 +478,7 @@ namespace CsomorGenerator.Services
         {
             var user = this._utils.GetCurrentUser();
 
-            var list = this._mapper.Map<List<CsomorListDTO>>(user.OwnedCsomors);
+            var list = this._mapper.Map<List<CsomorListDTO>>(user.OwnedCsomors.OrderBy(x => x.Id));
 
             this._logger.LogInformation(user, "Generator Service", "get csomor", list.Select(x => x.Id).ToList());
 
@@ -489,7 +489,7 @@ namespace CsomorGenerator.Services
         {
             var user = this._utils.GetCurrentUser();
 
-            var list = this._mapper.Map<List<CsomorListDTO>>(user.SharedCsomors.Select(x => x.Csomor));
+            var list = this._mapper.Map<List<CsomorListDTO>>(user.SharedCsomors.Select(x => x.Csomor).OrderBy(x => x.Id));
 
             this._logger.LogInformation(user, "Generator Service", "get csomor", list.Select(x => x.Id).ToList());
 

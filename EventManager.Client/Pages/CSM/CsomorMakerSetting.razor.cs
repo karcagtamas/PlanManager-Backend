@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EventManager.Client.Pages.CSM
 {
@@ -74,6 +75,29 @@ namespace EventManager.Client.Pages.CSM
             this.Persons.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
             this.Works.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
             StateHasChanged();
+        }
+
+        private void IgnoredWorkChange(PersonModel person, WorkModel work, bool value)
+        {
+            if (value)
+            {
+                if (!person.IgnoredWorks.Any(x => x == work.Id))
+                {
+                    person.IgnoredWorks.Add(work.Id);
+                }
+            }
+            else
+            {
+                if (person.IgnoredWorks.Any(x => x == work.Id))
+                {
+                    person.IgnoredWorks.Remove(work.Id);
+                }
+            }
+        }
+
+        private bool WorkIsIgnored(PersonModel person, WorkModel work)
+        {
+            return person.IgnoredWorks.Any(x => x == work.Id);
         }
     }
 }
