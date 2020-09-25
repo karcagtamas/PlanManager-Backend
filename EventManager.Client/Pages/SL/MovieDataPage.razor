@@ -1,0 +1,177 @@
+﻿@page "/movies/{Id:int}"
+@using Microsoft.AspNetCore.Authorization
+@using ManagerAPI.Shared.Helpers
+@attribute [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
+
+<div class="sl-movie-data">
+    @if (Movie != null)
+    {
+        <h1 class="em-page-title">@Movie.Title</h1>
+    }
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        <div class="action-bar">
+            @if (CanEdit)
+            {
+                <MatTooltip Tooltip="Edit Movie">
+                    <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditMovieDialog"></MatIconButton>
+                </MatTooltip>
+            }
+            @if (CanDelete)
+            {
+                <MatTooltip Tooltip="Delete Movie">
+                    <MatIconButton RefBack="@context" Icon="delete" @onclick="OpenDeleteDialog"></MatIconButton>
+                </MatTooltip>
+            }
+            @if (CanEdit)
+            {
+                <MatTooltip Tooltip="Edit Image">
+                    <MatIconButton RefBack="@context" Icon="image" @onclick="OpenEditMovieImageDialog"></MatIconButton>
+                </MatTooltip>
+                <MatTooltip Tooltip="Edit Categories">
+                    <MatIconButton RefBack="@context" Icon="category" @onclick="OpenEditMovieCategoriesDialog"></MatIconButton>
+                </MatTooltip>
+            }
+
+            @if (Movie != null)
+            {
+                @if (Movie.IsMine)
+                {
+                    <MatTooltip Tooltip="Remove from My list">
+                        <MatIconButton RefBack="@context" Icon="remove" @onclick="RemoveFromMyMovies"></MatIconButton>
+                    </MatTooltip>
+                    @if (Movie.IsSeen)
+                    {
+                        <MatTooltip Tooltip="Set to not seen">
+                            <MatIconButton RefBack="@context" Icon="visibility_off" @onclick="@(() => SetSeenStatus(false))"></MatIconButton>
+                        </MatTooltip>
+                    }
+                    else
+                    {
+                        <MatTooltip Tooltip="Set to seen">
+                            <MatIconButton RefBack="@context" Icon="visibility" @onclick="@(() => SetSeenStatus(true))"></MatIconButton>
+                        </MatTooltip>
+                    }
+                }
+                else
+                {
+                    <MatTooltip Tooltip="Add to My list">
+                        <MatIconButton RefBack="@context" Icon="add" @onclick="AddToMyMovies"></MatIconButton>
+                    </MatTooltip>
+                }
+            }
+            <span class="spacer"></span>
+            <MatButton @onclick="@(() => Navigation.NavigateTo("/movies"))">Movie List</MatButton>
+            <MatButton @onclick="@(() => Navigation.NavigateTo("/my-movies"))">My Movie List</MatButton>
+        </div>
+        @if (Movie != null)
+        {
+            <MatTabGroup Class="tab-group">
+                <MatTab Label="Data">
+                    <div class="data">
+                        <div class="data-rows">
+                            <div class="data-row">
+                                <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Movie.Description)
+                            </div>
+                            <div class="data-row">
+                                <strong>Release Year: </strong> @WriteHelper.WriteNullableField(Movie.ReleaseYear)
+                            </div>
+                            <div class="data-row">
+                                <strong>Director: </strong> @WriteHelper.WriteEmptyableField(Movie.Director)
+                            </div>
+                            <div class="data-row">
+                                <strong>Length: </strong> @WriteHelper.WriteNullableField(Movie.Length)
+                            </div>
+                            <div class="data-row">
+                                <strong>Categories: </strong> @WriteHelper.WriteList(Movie.Categories, ", ")
+                            </div>
+                            <div class="data-row">
+                                <strong>Number of Seen: </strong> @Movie.NumberOfSeen
+                            </div>
+                            @if (!string.IsNullOrEmpty(Movie.TrailerUrl))
+                            {
+                                <div class="data-row">
+                                    <strong>
+                                        <a href="@Movie.TrailerUrl">Trailer Url</a>
+                                    </strong>
+                                </div>
+                            }
+                            <div class="data-row">
+                                <strong>Creation: </strong> @DateHelper.DateToString(Movie.Creation)
+                            </div>
+                            <div class="data-row">
+                                <strong>Last Update: </strong> @DateHelper.DateToString(Movie.LastUpdate)
+                            </div>
+                            <div class="data-row">
+                                <strong>Creator: </strong> @Movie.Creator
+                            </div>
+                            <div class="data-row">
+                                <strong>Last Updater: </strong> @Movie.LastUpdater
+                            </div>
+                            <div class="data-row">
+                                <strong>Added Status: </strong> @(Movie.IsMine ? "Added" : "Not Added")
+                            </div>
+                            @if (Movie.AddedOn != null)
+                            {
+                                <div class="data-row">
+                                    <strong>Added on: </strong> @DateHelper.DateToString(Movie.AddedOn)
+                                </div>
+                            }
+                            <div class="data-row">
+                                <strong>Seen Status: </strong> @(Movie.IsSeen ? "Seen" : "Unseen")
+                            </div>
+                            @if (Movie.SeenOn != null)
+                            {
+                                <div class="data-row">
+                                    <strong>Seen On: </strong> @DateHelper.DateToString(Movie.SeenOn)
+                                </div>
+                            }
+                            <div class="rates">
+                                @foreach (var rate in RateList)
+                                {
+                                    <MatIcon Class="rate-icon" Icon="@(rate <= Movie.Rate ? "star" : "star_border")" @onclick="@(() => UpdateRate(rate))" title="@rate"></MatIcon>
+                                }
+                            </div>
+                        </div>
+                        <div class="image">
+                            <div class="picture">
+                                @if (Movie.ImageData.Length == 0)
+                                {
+                                    <img src="/images/profile-icon.jpg" alt="@Movie.Title" />
+                                }
+                                else
+                                {
+                                    <img src="@MovieImage" alt="@Movie.ImageTitle" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </MatTab>
+                <MatTab Label="Comments">
+                    <div class="comments">
+                        <div class="comment-list">
+                            @foreach (var comment in CommentList)
+                            {
+                                <MovieCommentComponent Comment="@comment" Refresh="@GetComments" MovieId="@Movie.Id"></MovieCommentComponent>
+                            }
+                        </div>
+
+                        <div class="input-panel">
+                            <div class="col col-12 p-1">
+                                <MatTextField class="w-100" @bind-Value="Comment" Label="Comment" Dense="true" Outlined="true" TextArea="true"></MatTextField>
+                            </div>
+                            <div class="down-row">
+                                <span class="spacer"></span>
+                                <MatButton @onclick="SaveComment">Comment</MatButton>
+                            </div>
+                        </div>
+                    </div>
+                </MatTab>
+            </MatTabGroup>
+        }
+    }
+</div>

@@ -6,7 +6,7 @@ namespace ManagerAPI.Services.Common
     public interface IController<TEntity, TModel> where TEntity : class, IEntity
     {
         IActionResult Get(int id);
-        IActionResult GetAll();
+        IActionResult GetAll([FromQuery] string orderBy, [FromQuery] string direction);
         IActionResult Delete(int id);
         IActionResult Update(int id, TModel model);
         IActionResult Create(TModel model);

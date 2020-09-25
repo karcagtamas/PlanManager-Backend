@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.Models;
@@ -12,52 +11,27 @@ namespace ManagerAPI.Backend.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private const string FATAL_ERROR = "Something bad happened. Try againg later";
         private readonly IAuthService _authService;
-        private readonly ILoggerService _loggerService;
 
-        public AuthController(IAuthService authService, ILoggerService loggerService)
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
-            _loggerService = loggerService;
         }
 
         [HttpPost("registration")]
         [AllowAnonymous]
         public async Task<IActionResult> Registration([FromBody] RegistrationModel model)
         {
-            try
-            {
-                await _authService.Registration(model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            await _authService.Registration(model);
+            return Ok();
         }
 
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            try
-            {
-                string token = await _authService.Login(model);
-                return Ok(token);
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(_loggerService.ExceptionToResponse(new Exception(FATAL_ERROR), e));
-            }
+            var token = await _authService.Login(model);
+            return Ok(token);
         }
     }
 }

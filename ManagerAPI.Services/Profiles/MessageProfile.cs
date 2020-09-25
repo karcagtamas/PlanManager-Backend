@@ -5,6 +5,9 @@ using ManagerAPI.Shared.Models;
 
 namespace ManagerAPI.Services.Profiles
 {
+    /// <summary>
+    /// Message profile for auto mapper
+    /// </summary>
     public class MessageProfile : Profile
     {
         public MessageProfile()

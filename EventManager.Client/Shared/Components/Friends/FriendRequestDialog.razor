@@ -1,0 +1,13 @@
+<div class="w-100">
+    <EditForm EditContext="@Context">
+        <DataAnnotationsValidator/>
+            <div class="col col-12 p-1">
+                <MatTextField class="w-100" @bind-Value="Model.DestinationUserName" Label="User Name" Dense="true" Outlined="true"></MatTextField>
+                <ValidationMessage For="() => Model.DestinationUserName"/>
+            </div>
+            <div class="col col-12 p-1">
+                <MatTextField class="w-100" @bind-Value="Model.Message" Label="Message" Dense="true" Outlined="true"></MatTextField>
+                <ValidationMessage For="() => Model.Message"/>
+            </div>
+    </EditForm>
+</div>

@@ -1,6 +1,4 @@
-﻿using System;
-using ManagerAPI.Domain.Entities;
-using ManagerAPI.Domain.Enums;
+﻿using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
@@ -16,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class MessageController : MyController<Message, MessageModel, MessageListDto, MessageDto, SystemNotificationType>
+    public class MessageController : MyController<Message, MessageModel, MessageListDto, MessageDto>
     {
         private readonly IMessageService _messageService;
 
@@ -24,8 +22,7 @@ namespace ManagerAPI.Backend.Controllers
         /// Injector Constructor
         /// </summary>
         /// <param name="messageService">Message Service</param>
-        /// <param name="loggerService">Utils Service</param>
-        public MessageController(IMessageService messageService, ILoggerService loggerService) : base (loggerService, messageService)
+        public MessageController(IMessageService messageService) : base(messageService)
         {
             _messageService = messageService;
         }
@@ -36,20 +33,9 @@ namespace ManagerAPI.Backend.Controllers
         /// <param name="friendId">Partner Id</param>
         /// <returns>Server Response</returns>
         [HttpGet("friend/{friendId}")]
-        public IActionResult GetMessages(int friendId)
+        public IActionResult GetMessages(string friendId)
         {
-            try
-            {
-                return Ok(this._messageService.GetMessages(friendId));
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            return Ok(this._messageService.GetMessages(friendId));
         }
 
         /// <summary>
@@ -60,19 +46,8 @@ namespace ManagerAPI.Backend.Controllers
         [HttpPost("send")]
         public IActionResult SendMessage([FromBody] MessageModel model)
         {
-            try
-            {
-                this._messageService.SendMessage(model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._messageService.SendMessage(model);
+            return Ok();
         }
     }
 }

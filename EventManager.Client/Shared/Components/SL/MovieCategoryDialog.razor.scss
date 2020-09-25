@@ -1,0 +1,19 @@
+﻿@import "../../../Styles/_common.scss";
+
+.sl-movie-category-selector-dialog {
+    display: flex;
+    flex-grow: 1;
+
+    .category-list {
+        flex-grow: 1;
+        display: flex;
+        max-height: 100%;
+        overflow: auto;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $blue-light-trans;
+    }
+}

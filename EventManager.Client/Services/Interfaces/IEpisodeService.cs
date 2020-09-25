@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventManager.Client.Http;
-using ManagerAPI.Shared.DTOs.MC;
-using ManagerAPI.Shared.Models.MC;
+using ManagerAPI.Shared.DTOs.SL;
+using ManagerAPI.Shared.Models.SL;
 
 namespace EventManager.Client.Services.Interfaces
 {
@@ -13,5 +13,6 @@ namespace EventManager.Client.Services.Interfaces
         Task<bool> DeleteDecremented(int episodeId);
         Task<MyEpisodeDto> GetMy(int id);
         Task<bool> UpdateShort(int id, EpisodeShortModel model);
+        Task<bool> UpdateImage(int id, EpisodeImageModel model);
     }
 }

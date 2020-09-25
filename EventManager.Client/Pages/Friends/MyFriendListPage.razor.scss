@@ -1,0 +1,73 @@
+﻿@import "../../Styles/_common.scss";
+
+.page {
+    .action-bar {
+        @include action-panel;
+    }
+
+    .friend-list {
+        .friend-card {
+            @include main-panel;
+
+            .title {
+                color: $primary;
+                font-weight: bold;
+            }
+
+            .picture {
+                position: relative;
+                width: 300px;
+                height: 300px;
+                margin: auto;
+                overflow: hidden;
+                border-radius: 50%;
+                transition-duration: 0.5s;
+                box-shadow: 0 0 0.5rem 0 $primary;
+
+                &:hover {
+                    transition-duration: 0.5s;
+                    transform: scale(1.4, 1.4);
+                    opacity: 0.3;
+                }
+
+                img {
+                    width: auto;
+                    height: 100%;
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    -webkit-transform: translateY(-50%) translateX(-50%);
+                }
+            }
+
+            .card-action-bar {
+                text-align: right;
+            }
+        }
+    }
+
+    .friend-request-list {
+        .friend-request {
+            @include panel;
+            background-color: $orange-trans;
+
+            .title {
+                color: $primary;
+                font-weight: bold;
+            }
+
+            .content {
+                margin: 0.8rem;
+                background-color: $orange;
+                padding: 0.5rem;
+                border-radius: $border-radius;
+                text-align: justify;
+                border-left: $primary-light 3px solid;
+            }
+
+            .request-action-bar {
+                text-align: right;
+            }
+        }
+    }
+}

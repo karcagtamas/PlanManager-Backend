@@ -1,22 +1,21 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.WM;
-using ManagerAPI.Services.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using ManagerAPI.Services.Common;
-using ManagerAPI.Shared.DTOs.WM;
-using System.Linq;
 using ManagerAPI.Domain.Enums.WM;
+using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.WM;
 
 namespace ManagerAPI.Services.Services
 {
+    /// <summary>
+    /// Working Field Service
+    /// </summary>
     public class WorkingFieldService : Repository<WorkingField, WorkingManagerNotificationType>, IWorkingFieldService
     {
-        // Injects
-        private readonly DatabaseContext _databaseContext;
-
         /// <summary>
         /// Injector Constructor
         /// </summary>
@@ -34,9 +33,13 @@ namespace ManagerAPI.Services.Services
                 UpdateArguments = new List<string> {"WorkingDay.Day"}
             })
         {
-            this._databaseContext = context;
         }
 
+        /// <summary>
+        /// Get statistic summary for the given week
+        /// </summary>
+        /// <param name="week">First day of the week (M)</param>
+        /// <returns>Statistic</returns>
         public WorkingWeekStatDto GetWeekStat(DateTime week)
         {
             var user = this.Utils.GetCurrentUser();
@@ -50,6 +53,12 @@ namespace ManagerAPI.Services.Services
             return list;
         }
 
+        /// <summary>
+        /// Get statistic summary for the given month
+        /// </summary>
+        /// <param name="year">Year</param>
+        /// <param name="month">Month</param>
+        /// <returns>Statistic</returns>
         public WorkingMonthStatDto GetMonthStat(int year, int month)
         {
             var user = this.Utils.GetCurrentUser();

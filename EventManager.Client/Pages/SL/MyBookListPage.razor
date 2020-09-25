@@ -1,0 +1,32 @@
+@page "/my-books"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
+
+<div class="sl-my-books">
+    <h1 class="em-page-title">My Books</h1>
+
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        <div class="action-bar">
+            <MatTooltip Tooltip="Edit My List">
+                <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditMyBooksDialog"></MatIconButton>
+            </MatTooltip>
+            <span class="spacer"></span>
+            <MatButton @onclick="OpenEditReadBooksDialog">Edit Read Books</MatButton>
+        </div>
+        @if (BookList != null && BookList.Count > 0)
+        {
+            <div class="book-list">
+                <ListTable Header="Header" Body="BookList" TList="ManagerAPI.Shared.DTOs.SL.MyBookListDto" OnRowClick="@(e => RedirectToData(e))"></ListTable>
+            </div>
+        }
+        else
+        {
+            <div class="text-center">Book list is empty</div>
+        }
+    }
+</div>

@@ -1,21 +1,19 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.WM;
-using ManagerAPI.Services.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using ManagerAPI.Services.Common;
 using ManagerAPI.Domain.Enums.WM;
+using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Services.Interfaces;
 
 namespace ManagerAPI.Services.Services
 {
+    /// <summary>
+    /// Working Day Type Service
+    /// </summary>
     public class WorkingDayTypeService : Repository<WorkingDayType, WorkingManagerNotificationType>,
         IWorkingDayTypeService
     {
-        // Injects
-        private readonly DatabaseContext _databaseContext;
-
         /// <summary>
         /// Injector Constructor
         /// </summary>
@@ -33,7 +31,6 @@ namespace ManagerAPI.Services.Services
                 UpdateArguments = new List<string> {"Title"}
             })
         {
-            this._databaseContext = context;
         }
     }
 }

@@ -1,18 +1,20 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.WM;
+using ManagerAPI.Domain.Enums.WM;
+using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ManagerAPI.Services.Common;
-using ManagerAPI.Domain.Enums.WM;
 
 namespace ManagerAPI.Services.Services
 {
+    /// <summary>
+    /// Working Day Service
+    /// </summary>
     public class WorkingDayService : Repository<WorkingDay, WorkingManagerNotificationType>, IWorkingDayService
     {
         // Injects
@@ -38,6 +40,11 @@ namespace ManagerAPI.Services.Services
             this._databaseContext = context;
         }
 
+        /// <summary>
+        /// Get working day by date
+        /// </summary>
+        /// <param name="day">Date of the day</param>
+        /// <returns>Working day</returns>
         public WorkingDayListDto Get(DateTime day)
         {
             User user = this.Utils.GetCurrentUser();
@@ -53,6 +60,11 @@ namespace ManagerAPI.Services.Services
             return dto;
         }
 
+        /// <summary>
+        /// Working day statistic
+        /// </summary>
+        /// <param name="id">Id of the working day</param>
+        /// <returns>Statistic</returns>
         public WorkingDayStatDto Stat(int id)
         {
             var user = this.Utils.GetCurrentUser();

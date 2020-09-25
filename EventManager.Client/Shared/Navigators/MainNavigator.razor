@@ -1,0 +1,93 @@
+﻿@using ManagerAPI.Shared.Helpers
+@inject EventManager.Client.Services.Interfaces.IHelperService HelperService
+
+<div class="em-navbar">
+    <div class="em-navbar-brand-outer">
+        <div class="em-navbar-brand">
+            Manager
+        </div>
+    </div>
+    <div class="em-navbar-menu">
+        <MatNavMenu>
+            <AuthorizeView Roles="Normal,Moderator,Administrator,Root">
+                <Authorized>
+                    <MatNavItem Href="" class="important">Home</MatNavItem>
+                    <MatNavItem Href="/counter">Counter</MatNavItem>
+                    <MatNavItem Href="/my-profile">My Profile</MatNavItem>
+                    <MatNavItem Href="/my-notifications">My Notifications</MatNavItem>
+                    <MatNavItem Href="/my-messages">My Messages</MatNavItem>
+                    <MatNavItem Href="/my-tasks">My Tasks</MatNavItem>
+                    <MatNavItem Href="/my-friends">My Friends</MatNavItem>
+                    <MatNavItem Href="@(GetWorkingManagerUri())">Working Manager</MatNavItem>
+                    <MatNavSubMenu>
+                        <MatNavSubMenuHeader>
+                            <MatNavItem AllowSelection="false">Working Statistics</MatNavItem>
+                        </MatNavSubMenuHeader>
+                        <MatNavSubMenuList>
+                            <MatNavItem Href="@GetWorkingMonthStatUri()">Working Month</MatNavItem>
+                            <MatNavItem Href="@GetWorkingWeekStatUri()">Working Week</MatNavItem>
+                        </MatNavSubMenuList>
+                    </MatNavSubMenu>
+                    <MatNavItem Href="/csomors">Generators</MatNavItem>
+                </Authorized>
+                <NotAuthorized>
+                    <MatNavItem Href="" class="important">Home</MatNavItem>
+                    <MatNavItem Href="/auth/login">Login</MatNavItem>
+                    <MatNavItem Href="/auth/registration">Registration</MatNavItem>
+                </NotAuthorized>
+            </AuthorizeView>
+            <AuthorizeView Roles="Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root">
+                <Authorized>
+                    <MatNavSubMenu>
+                        <MatNavSubMenuHeader>
+                            <MatNavItem AllowSelection="false">Status Library</MatNavItem>
+                        </MatNavSubMenuHeader>
+
+                        <MatNavSubMenuList>
+                            <MatNavItem Href="/my-movies">My Movies</MatNavItem>
+                            <MatNavItem Href="/my-books">My Books</MatNavItem>
+                            <MatNavItem Href="/my-series">My Series</MatNavItem>
+                            <MatNavItem Href="/movies">Movies</MatNavItem>
+                            <MatNavItem Href="/books">Books</MatNavItem>
+                            <MatNavItem Href="/series">Series</MatNavItem>
+                        </MatNavSubMenuList>
+                    </MatNavSubMenu>
+                </Authorized>
+                <NotAuthorized></NotAuthorized>
+            </AuthorizeView>
+        </MatNavMenu>
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+    </div>
+    <div class="em-navbar-footer">
+        <AuthorizeView>
+            <Authorized>
+                <CurrentUser></CurrentUser>
+            </Authorized>
+        </AuthorizeView>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private string GetWorkingManagerUri()
+    {
+        return $"/wm/{DateHelper.DateToNumberDayString(DateTime.Now)}";
+    }
+
+    private string GetWorkingMonthStatUri()
+    {
+        return $"/wm/month/{HelperService.CurrentYear()}/{HelperService.CurrentMonth()}";
+    }
+
+    private string GetWorkingWeekStatUri()
+    {
+        return $"/wm/week/{DateHelper.DateToNumberDayString(HelperService.CurrentWeek())}";
+    }
+
+}

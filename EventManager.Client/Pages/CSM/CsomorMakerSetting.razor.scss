@@ -1,0 +1,39 @@
+﻿@import '../../Styles/_common.scss';
+
+.setting {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+
+    .action-bar {
+        @include action-panel;
+    }
+
+    .csomor {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+
+        @include main-panel;
+
+        .tabs {
+            flex-grow: 1;
+            width: 100% !important;
+        }
+    }
+
+    .list {
+        .entity {
+            @include panel;
+            background-color: $white-trans;
+        }
+    }
+}
+
+.action {
+    display: flex;
+
+    .spacer {
+        flex-grow: 1;
+    }
+}

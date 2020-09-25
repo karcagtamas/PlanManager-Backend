@@ -5,6 +5,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace ManagerAPI.DataAccess
 {
+    /// <summary>
+    /// Database Context Factory
+    /// </summary>
     public class DatabaseContextFactory : IDesignTimeDbContextFactory<DatabaseContext>
     {
         public DatabaseContext CreateDbContext(string[] args)

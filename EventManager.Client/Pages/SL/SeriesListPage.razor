@@ -1,0 +1,33 @@
+@page "/series"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
+
+<div class="sl-series">
+    <h1 class="em-page-title">Series</h1>
+
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        <div class="action-bar">
+            @if (CanAdd)
+            {
+                <MatTooltip Tooltip="Add Series">
+                    <MatIconButton RefBack="@context" Icon="add" @onclick="OpenAddSeriesDialog"></MatIconButton>
+                </MatTooltip>
+            }
+        </div>
+        @if (SeriesList != null && SeriesList.Count > 0)
+        {
+            <div class="series-list">
+                <ListTable Header="Header" Body="SeriesList" TList="ManagerAPI.Shared.DTOs.SL.SeriesListDto" OnRowClick="@(e => RedirectToData(e))"></ListTable>
+            </div>
+        }
+        else
+        {
+            <div class="text-center">Series list is empty</div>
+        }
+    }
+</div>

@@ -1,9 +1,10 @@
+@using EventManager.Client.Services.Interfaces
 @inject NavigationManager NavigationManager
+@inject IAuthService AuthService
 @code
-{
-    protected override void OnInitialized()
-    {
-        var returnUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-        NavigationManager.NavigateTo("/auth/login");
-    }
-}
+{ protected override async Task OnInitializedAsync()
+            {
+                var returnUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+                await this.AuthService.Logout();
+                NavigationManager.NavigateTo("/auth/login");
+            } }

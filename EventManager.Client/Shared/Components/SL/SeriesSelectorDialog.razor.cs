@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
-using ManagerAPI.Shared.DTOs.MC;
+using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Helpers;
-using ManagerAPI.Shared.Models.MC;
+using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Shared.Components.SL
@@ -22,17 +23,11 @@ namespace EventManager.Client.Shared.Components.SL
         private List<int> SelectedIndexList { get; set; } = new List<int>();
         private bool IsLoading { get; set; } = false;
 
-        private List<TableHeaderData> Header { get; set; } = new List<TableHeaderData>
+        private List<TableHeaderData<MySeriesSelectorListDto>> Header { get; set; } = new List<TableHeaderData<MySeriesSelectorListDto>>
         {
-            new TableHeaderData
-                {PropertyName = "Title", DisplayName = "Title", IsSortable = false, Displaying = (e) => (string) e},
-            new TableHeaderData
-            {
-                PropertyName = "StartYear", DisplayName = "StartYear", IsSortable = false,
-                Displaying = (e) => WriteHelper.WriteNullableField((int?) e)
-            },
-            new TableHeaderData
-                {PropertyName = "Creator", DisplayName = "Creator", IsSortable = false, Displaying = (e) => (string) e}
+            new TableHeaderData<MySeriesSelectorListDto>("Title", Alignment.Left),
+            new TableHeaderData<MySeriesSelectorListDto>("StartYear", "Start Year", (e) => WriteHelper.WriteNullableField((int?) e), Alignment.Right),
+            new TableHeaderData<MySeriesSelectorListDto>("Creator", Alignment.Left)
         };
 
         protected override async Task OnInitializedAsync()
@@ -42,7 +37,7 @@ namespace EventManager.Client.Shared.Components.SL
             await this.GetSelectorList();
             this.SelectedIndexList = this.List.Where(x => x.IsMine).Select(x => x.Id).ToList();
 
-            ((ModalService) ModalService).OnConfirm += OnConfirm;
+            ((ModalService)ModalService).OnConfirm += OnConfirm;
         }
 
         private async Task GetSelectorList()
@@ -58,10 +53,10 @@ namespace EventManager.Client.Shared.Components.SL
         {
             var indexList = this.List.Where(x => x.IsMine).Select(x => x.Id).ToList();
 
-            if (await this.SeriesService.UpdateMySeries(new MySeriesModel {Ids = indexList}))
+            if (await this.SeriesService.UpdateMySeries(new MySeriesModel { Ids = indexList }))
             {
                 ModalService.Close(ModalResult.Ok(true));
-                ((ModalService) ModalService).OnConfirm -= OnConfirm;
+                ((ModalService)ModalService).OnConfirm -= OnConfirm;
             }
         }
 

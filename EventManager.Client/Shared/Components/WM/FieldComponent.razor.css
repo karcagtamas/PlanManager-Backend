@@ -1,0 +1,16 @@
+.wm-field {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4); }
+  .wm-field .title-row {
+    display: flex;
+    color: #5120a5; }
+    .wm-field .title-row .title {
+      font-style: italic; }
+    .wm-field .title-row .spacer {
+      flex-grow: 1; }
+    .wm-field .title-row .hours {
+      font-weight: bold; }

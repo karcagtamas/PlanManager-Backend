@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using ManagerAPI.Domain.Entities.MC;
-using ManagerAPI.Domain.Enums.CM;
+﻿using System.Collections.Generic;
+using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Services.Common;
-using ManagerAPI.Services.Services.Interfaces;
-using ManagerAPI.Shared.DTOs.MC;
-using ManagerAPI.Shared.Models;
-using ManagerAPI.Shared.Models.MC;
+using ManagerAPI.Shared.DTOs.SL;
+using ManagerAPI.Shared.Models.SL;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieCorner.Services.Services.Interfaces;
 
@@ -14,10 +11,12 @@ namespace ManagerAPI.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SeasonController : MyController<Season, SeasonModel, SeasonListDto, SeasonDto, MovieCornerNotificationType>
+    [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
+    public class SeasonController : MyController<Season, SeasonModel, SeasonListDto, SeasonDto>
     {
         private readonly ISeasonService _seasonService;
-        public SeasonController(ISeasonService seasonService, ILoggerService loggerService) : base(loggerService, seasonService)
+
+        public SeasonController(ISeasonService seasonService) : base(seasonService)
         {
             this._seasonService = seasonService;
         }
@@ -25,58 +24,28 @@ namespace ManagerAPI.Backend.Controllers
         [HttpPut("map/status")]
         public IActionResult UpdateSeenStatus([FromBody] List<SeasonSeenStatusModel> models)
         {
-            try
+            foreach (var season in models)
             {
-                foreach (var season in models)
-                {
-                    this._seasonService.UpdateSeenStatus(season.Id, season.Seen);
-                }
-                return Ok();
+                this._seasonService.UpdateSeenStatus(season.Id, season.Seen);
             }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+
+            return Ok();
         }
 
         [HttpPost("{seriesId}")]
+        [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult AddIncremented(int seriesId)
         {
-            try
-            {
-                this._seasonService.AddIncremented(seriesId);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._seasonService.AddIncremented(seriesId);
+            return Ok();
         }
-        
+
         [HttpDelete("decremented/{seasonId}")]
+        [Authorize(Roles = "Administrator,Root,Status Library Administrator")]
         public IActionResult DeleteDecremented(int seasonId)
         {
-            try
-            {
-                this._seasonService.DeleteDecremented(seasonId);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._seasonService.DeleteDecremented(seasonId);
+            return Ok();
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using ManagerAPI.Domain.Entities;
-using ManagerAPI.Domain.Enums;
+﻿using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
@@ -16,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class NewsController : MyController<News, PostModel, NewsListDto, NewsDto, SystemNotificationType>
+    public class NewsController : MyController<News, PostModel, NewsListDto, NewsDto>
     {
         private readonly INewsService _newsService;
 
@@ -24,8 +22,7 @@ namespace ManagerAPI.Backend.Controllers
         /// Injector Constructor
         /// </summary>
         /// <param name="newsService">News Service</param>
-        /// <param name="loggerService">Utils Service</param>
-        public NewsController(INewsService newsService, ILoggerService loggerService):base(loggerService, newsService)
+        public NewsController(INewsService newsService):base(newsService)
         {
             _newsService = newsService;
         }

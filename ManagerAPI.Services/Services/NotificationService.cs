@@ -5,7 +5,7 @@ using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
-using ManagerAPI.Domain.Enums.CM;
+using ManagerAPI.Domain.Enums.SL;
 using ManagerAPI.Domain.Enums.WM;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
@@ -38,6 +38,13 @@ namespace ManagerAPI.Services.Services
             _loggerService = loggerService;
         }
 
+        /// <summary>
+        /// Add notification
+        /// </summary>
+        /// <param name="user">User</param>
+        /// <param name="type">Type of notification</param>
+        /// <param name="val">String base text</param>
+        /// <param name="args">Inject params</param>
         public void AddNotification(User user, int type, string val, params string[] args)
         {
             // Create notification
@@ -45,7 +52,7 @@ namespace ManagerAPI.Services.Services
             {
                 Content = this._utilsService.InjectString(val, args),
                 OwnerId = user.Id,
-                TypeId = (int) type
+                TypeId = type
             };
 
             // Save notification
@@ -105,6 +112,12 @@ namespace ManagerAPI.Services.Services
             this.AddNotification(user, (int) type, val, args);
         }
 
+        /// <summary>
+        /// Add Working Manager notification by given type.
+        /// </summary>
+        /// <param name="type">Type of notification</param>
+        /// <param name="user">Destination user</param>
+        /// <param name="args">Inject arguments</param>
         public void AddWorkingManagerNotificationByType(WorkingManagerNotificationType type, User user,
             params string[] args)
         {
@@ -133,7 +146,14 @@ namespace ManagerAPI.Services.Services
             this.AddNotification(user, (int) type, val, args);
         }
 
-        public void AddMovieCornerNotificationByType(MovieCornerNotificationType type, User user, params string[] args)
+        /// <summary>
+        /// Add Status Library notification by given type
+        /// </summary>
+        /// <param name="type">Type of notification</param>
+        /// <param name="user">Destination user</param>
+        /// <param name="args">Inject arguments</param>
+        public void AddStatusLibraryNotificationByType(StatusLibraryNotificationType type, User user,
+            params string[] args)
         {
             if (user == null)
             {
@@ -144,16 +164,40 @@ namespace ManagerAPI.Services.Services
             string val = type
                 switch
                 {
-                    MovieCornerNotificationType.AddBook => "Book added with name: {0}",
-                    MovieCornerNotificationType.AddMovie => "Movie added with title: {0}",
-                    MovieCornerNotificationType.UpdateBook => "Book updated with name: {0}",
-                    MovieCornerNotificationType.UpdateMovie => "Movie updated with title: {0}",
-                    MovieCornerNotificationType.DeleteBook => "Book deleted with name: {0}",
-                    MovieCornerNotificationType.DeleteMovie => "Movie deleted with title: {0}",
-                    MovieCornerNotificationType.MyBookListUpdated => "My Book List updated",
-                    MovieCornerNotificationType.MyMovieListUpdated => "My Movie List updated",
-                    MovieCornerNotificationType.BookReadStatusUpdated => "{0} book read status has been changed to {1}",
-                    MovieCornerNotificationType.MovieSeenStatusUpdated => "{0} movie seen status has been changed to {1}",
+                    StatusLibraryNotificationType.AddBook => "Book added with name: {0}",
+                    StatusLibraryNotificationType.AddMovie => "Movie added with title: {0}",
+                    StatusLibraryNotificationType.UpdateBook => "Book updated with name: {0}",
+                    StatusLibraryNotificationType.UpdateMovie => "Movie updated with title: {0}",
+                    StatusLibraryNotificationType.DeleteBook => "Book deleted with name: {0}",
+                    StatusLibraryNotificationType.DeleteMovie => "Movie deleted with title: {0}",
+                    StatusLibraryNotificationType.MyBookListUpdated => "My Book List updated",
+                    StatusLibraryNotificationType.MyMovieListUpdated => "My Movie List updated",
+                    StatusLibraryNotificationType.BookReadStatusUpdated =>
+                    "{0} book read status has been changed to {1}",
+                    StatusLibraryNotificationType.MovieSeenStatusUpdated =>
+                    "{0} movie seen status has been changed to {1}",
+                    StatusLibraryNotificationType.AddSeries => "Series added with name: {0}",
+                    StatusLibraryNotificationType.UpdateSeries => "Series updated with name: {0}",
+                    StatusLibraryNotificationType.DeleteSeries => "Series deleted with name: {0}",
+                    StatusLibraryNotificationType.AddSeason => "Season added with number: {0}",
+                    StatusLibraryNotificationType.UpdateSeason => "Series updated with number: {0}",
+                    StatusLibraryNotificationType.DeleteSeason => "Series deleted with number: {0}",
+                    StatusLibraryNotificationType.AddEpisode => "Episode added with number: {0}",
+                    StatusLibraryNotificationType.UpdateEpisode => "Episode updated with number: {0}",
+                    StatusLibraryNotificationType.DeleteEpisode => "Series deleted with number: {0}",
+                    StatusLibraryNotificationType.AddMovieCategory => "Movie Category added with name: {0}",
+                    StatusLibraryNotificationType.UpdateMovieCategory => "Movie Category updated with name: {0}",
+                    StatusLibraryNotificationType.DeleteMovieCategory => "Movie Category deleted with name: {0}",
+                    StatusLibraryNotificationType.AddMovieComment => "Movie Comment added",
+                    StatusLibraryNotificationType.UpdateMovieComment => "Movie Comment updated",
+                    StatusLibraryNotificationType.DeleteMovieComment => "Movie Comment deleted",
+                    StatusLibraryNotificationType.MySeriesListUpdated => "My Series List updated",
+                    StatusLibraryNotificationType.SeriesSeenStatusUpdated =>
+                    "{0} series seen status has been changed to {1}",
+                    StatusLibraryNotificationType.SeasonSeenStatusUpdated =>
+                    "{0} series {1}. season sen status has been changed to {2}",
+                    StatusLibraryNotificationType.EpisodeSeenStatusUpdated =>
+                    "{0} series {1}. season {2}. episode seen status has been changed to {3}",
                     _ =>
                     throw new Exception("System Notification is not implemented"),
                 };
@@ -214,7 +258,14 @@ namespace ManagerAPI.Services.Services
                 list.Select(x => x.Id).ToList());
         }
 
-        void INotificationService.AddNotificationByType(Type type, object typeVal, User user, params string[] args)
+        /// <summary>
+        /// Add notification by type
+        /// </summary>
+        /// <param name="type">Type of type</param>
+        /// <param name="typeVal">Type value</param>
+        /// <param name="user">User</param>
+        /// <param name="args">Args</param>
+        public void AddNotificationByType(Type type, object typeVal, User user, params string[] args)
         {
             if (type == typeof(SystemNotificationType))
             {
@@ -224,9 +275,9 @@ namespace ManagerAPI.Services.Services
             {
                 this.AddWorkingManagerNotificationByType((WorkingManagerNotificationType) typeVal, user, args);
             }
-            else if (type == typeof(MovieCornerNotificationType))
+            else if (type == typeof(StatusLibraryNotificationType))
             {
-                this.AddMovieCornerNotificationByType((MovieCornerNotificationType) typeVal, user, args);
+                this.AddStatusLibraryNotificationByType((StatusLibraryNotificationType) typeVal, user, args);
             }
         }
     }

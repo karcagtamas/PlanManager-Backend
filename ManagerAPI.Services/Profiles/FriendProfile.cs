@@ -4,6 +4,9 @@ using ManagerAPI.Shared.DTOs;
 
 namespace ManagerAPI.Services.Profiles
 {
+    /// <summary>
+    /// Friend profile for auto mapper
+    /// </summary>
     public class FriendProfile : Profile
     {
         public FriendProfile()

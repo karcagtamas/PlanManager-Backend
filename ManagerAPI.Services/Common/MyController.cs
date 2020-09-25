@@ -1,109 +1,94 @@
-﻿using System;
-using ManagerAPI.Domain.Entities;
-using ManagerAPI.Services.Services.Interfaces;
-using ManagerAPI.Shared.Models;
+﻿using ManagerAPI.Domain.Entities;
+using ManagerAPI.Services.Common.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Services.Common
 {
-    public class MyController<TEntity, TModel, TList, TSimple, TNotificationType> : ControllerBase, IController<TEntity, TModel> where TEntity : class, IEntity where TNotificationType : Enum
+    /// <summary>
+    /// My Controller
+    /// </summary>
+    /// <typeparam name="TEntity">Type of Entity</typeparam>
+    /// <typeparam name="TModel">Type of Model object</typeparam>
+    /// <typeparam name="TList">Type of List object</typeparam>
+    /// <typeparam name="TSimple">Type of Simple data object</typeparam>
+    public class MyController<TEntity, TModel, TList, TSimple> : ControllerBase, IController<TEntity, TModel>
+        where TEntity : class, IEntity
     {
-        protected const string FatalError = "Something bad happened. Try again later";
-        protected readonly ILoggerService Logger;
         private readonly IRepository<TEntity> _service;
 
-        public MyController(ILoggerService logger, IRepository<TEntity> service) 
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="service">Repository service</param>
+        public MyController(IRepository<TEntity> service)
         {
-            this.Logger = logger;
             this._service = service;
         }
 
+        /// <summary>
+        /// Create
+        /// </summary>
+        /// <param name="model">Object model</param>
+        /// <returns>Ok state</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] TModel model)
+        public virtual IActionResult Create([FromBody] TModel model)
         {
-            try
-            {
-                this._service.Add<TModel>(model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._service.Add<TModel>(model);
+            return Ok();
         }
 
+        /// <summary>
+        /// Delete by Id
+        /// </summary>
+        /// <param name="id">Id of object</param>
+        /// <returns>Ok state</returns>
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public virtual IActionResult Delete(int id)
         {
-            try
-            {
-                this._service.Remove(id);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._service.Remove(id);
+            return Ok();
         }
 
+        /// <summary>
+        /// Get by Id
+        /// </summary>
+        /// <param name="id">Id of object</param>
+        /// <returns>Element in ok state</returns>
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            try
-            {
-                return Ok(this._service.Get<TSimple>(id));
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            return Ok(this._service.Get<TSimple>(id));
         }
 
+        /// <summary>
+        /// Get all element
+        /// </summary>
+        /// <param name="orderBy">Order by</param>
+        /// <param name="direction">Order direction</param>
+        /// <returns>List of elements in ok state</returns>
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromQuery] string orderBy, [FromQuery] string direction)
         {
-            try
+            if (string.IsNullOrEmpty(orderBy) || string.IsNullOrEmpty(direction))
             {
                 return Ok(this._service.GetAll<TList>());
             }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+
+            return Ok(this._service.GetOrderedAll<TList>(orderBy, direction));
         }
 
+        /// <summary>
+        /// Update
+        /// </summary>
+        /// <param name="id">Id of object</param>
+        /// <param name="model">Model of object</param>
+        /// <returns>Ok state</returns>
         [HttpPut("{id}")]
-        public IActionResult Update(int id, TModel model)
+        public virtual IActionResult Update(int id, TModel model)
         {
-            try
-            {
-                this._service.Update<TModel>(id, model);
-                return Ok();
-            }
-            catch (MessageException me)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(me));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(this.Logger.ExceptionToResponse(new Exception(FatalError), e));
-            }
+            this._service.Update<TModel>(id, model);
+            return Ok();
         }
     }
 }

@@ -43,7 +43,6 @@ namespace ManagerAPI.Services.Services
         private readonly IMapper _mapper;
         private readonly IUtilsService _utilsService;
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<WebsiteRole> _roleManager;
         private readonly INotificationService _notificationService;
         private readonly ILoggerService _loggerService;
 
@@ -54,16 +53,16 @@ namespace ManagerAPI.Services.Services
         /// <param name="mapper">Mapper</param>
         /// <param name="utilsService">Utils Service</param>
         /// <param name="userManager">User manager</param>
-        /// <param name="roleManager">Role manager</param>
         /// <param name="notificationService">Notification Service</param>
         /// <param name="loggerService">Logger Service</param>
-        public UserService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, UserManager<User> userManager, RoleManager<WebsiteRole> roleManager, INotificationService notificationService, ILoggerService loggerService)
+        public UserService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
+            UserManager<User> userManager,
+            INotificationService notificationService, ILoggerService loggerService)
         {
             _context = context;
             _mapper = mapper;
             _utilsService = utilsService;
             _userManager = userManager;
-            _roleManager = roleManager;
             _notificationService = notificationService;
             this._loggerService = loggerService;
         }
@@ -79,7 +78,8 @@ namespace ManagerAPI.Services.Services
 
             var userDto = _mapper.Map<UserDto>(user);
             var list = (await _userManager.GetRolesAsync(user)).ToList();
-            userDto.Roles = _context.AppRoles.OrderByDescending(x => x.AccessLevel).Where(x => list.Contains(x.Name)).Select(x => x.Name).ToList();
+            userDto.Roles = _context.AppRoles.OrderByDescending(x => x.AccessLevel).Where(x => list.Contains(x.Name))
+                .Select(x => x.Name).ToList();
 
             _loggerService.LogInformation(user, nameof(UserService), "get user", user.Id);
             return userDto;
@@ -88,7 +88,7 @@ namespace ManagerAPI.Services.Services
         /// <summary>
         /// Get small data object from user object
         /// </summary>
-        /// <returns>Minimalized user data object</returns>
+        /// <returns>Minimized user data object</returns>
         public UserShortDto GetShortUser()
         {
             var user = _utilsService.GetCurrentUser();
@@ -108,7 +108,8 @@ namespace ManagerAPI.Services.Services
             var user = _utilsService.GetCurrentUser();
             if (model == null)
             {
-                throw _loggerService.LogInvalidThings(user, nameof(UserService), UserUpdateObjectThing, ErrorDuringUserUpdateMessage);
+                throw _loggerService.LogInvalidThings(user, nameof(UserService), UserUpdateObjectThing,
+                    ErrorDuringUserUpdateMessage);
             }
 
             _mapper.Map(model, user);
@@ -144,7 +145,7 @@ namespace ManagerAPI.Services.Services
         /// Update profile login password
         /// </summary>
         /// <param name="oldPassword">Old password for authentication</param>
-        /// <param name="newPassword">Newly choosed password</param>
+        /// <param name="newPassword">Newly cheesed password</param>
         /// <returns>Void</returns>
         public async System.Threading.Tasks.Task UpdatePassword(string oldPassword, string newPassword)
         {
@@ -154,20 +155,23 @@ namespace ManagerAPI.Services.Services
             {
                 if (newPassword == oldPassword)
                 {
-                    throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing, OldAndNewPasswordCannotBeSameMessage);
+                    throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing,
+                        OldAndNewPasswordCannotBeSameMessage);
                 }
 
                 var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
                 if (!result.Succeeded)
                 {
-                    // TODO: fix message
-                    throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing, this._utilsService.ErrorsToString(result.Errors));
+                    throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing,
+                        this._utilsService.ErrorsToString(result.Errors));
                 }
             }
             else
             {
-                throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing, IncorrectOldPasswordMessage);
+                throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing,
+                    IncorrectOldPasswordMessage);
             }
+
             _loggerService.LogInformation(user, nameof(UserService), UpdatePasswordAction, user.Id);
             _notificationService.AddSystemNotificationByType(SystemNotificationType.PasswordChanged, user);
         }
@@ -185,15 +189,19 @@ namespace ManagerAPI.Services.Services
                 var result = await _userManager.SetUserNameAsync(user, newUsername);
                 if (!result.Succeeded)
                 {
-                    throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing, this._utilsService.ErrorsToString(result.Errors));
+                    throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing,
+                        this._utilsService.ErrorsToString(result.Errors));
                 }
             }
             else
             {
-                throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing, NewEqualOldUserNameMessage);
+                throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing,
+                    NewEqualOldUserNameMessage);
             }
+
             _loggerService.LogInformation(user, nameof(UserService), UpdateUserNameAction, user.Id);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.UsernameChanged, user, user.UserName, newUsername);
+            _notificationService.AddSystemNotificationByType(SystemNotificationType.UsernameChanged, user,
+                user.UserName, newUsername);
         }
 
         /// <summary>

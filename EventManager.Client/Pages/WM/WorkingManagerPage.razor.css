@@ -1,0 +1,56 @@
+.wm .title-bar {
+  display: flex; }
+  .wm .title-bar .spacer {
+    flex-grow: 1; }
+  .wm .title-bar .date {
+    color: #5120a5;
+    font-style: italic; }
+
+.wm .action-bar {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(240, 174, 73, 0.4);
+  display: flex; }
+  .wm .action-bar .spacer {
+    flex-grow: 1; }
+
+.wm .working-day-settings {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(187, 187, 255, 0.4); }
+
+.wm .stats {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(203, 255, 187, 0.4); }
+  .wm .stats .hour-sum strong {
+    color: #5120a5; }
+  .wm .stats .state * {
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1.2rem; }
+  .wm .stats .state .is-lot {
+    color: #0027bc; }
+  .wm .stats .state .optimal {
+    color: #1d9932; }
+  .wm .stats .state .enough {
+    color: #f0ae49; }
+  .wm .stats .state .not-enough {
+    color: #ef5350; }
+
+.wm .field-list {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: rgba(249, 249, 249, 0.55); }

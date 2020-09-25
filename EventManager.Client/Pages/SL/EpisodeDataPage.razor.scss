@@ -1,0 +1,68 @@
+﻿@import "../../Styles/_common.scss";
+
+.sl-episode-data {
+    max-height: 100%;
+
+    .action-bar {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $orange-trans;
+        display: flex;
+
+        .spacer {
+            flex-grow: 1;
+        }
+    }
+
+    .data {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $blue-light-trans;
+
+        .data-rows {
+            flex-grow: 1;
+
+            .data-row {
+                strong {
+                    color: $primary;
+                }
+            }
+        }
+
+        .image {
+            .picture {
+                position: relative;
+                width: 300px;
+                height: 300px;
+                margin: auto;
+                overflow: hidden;
+                border-radius: 50%;
+                transition-duration: 0.5s;
+                box-shadow: 0 0 0.5rem 0 $primary;
+
+                &:hover {
+                    transition-duration: 0.5s;
+                    transform: scale(1.4, 1.4);
+                    opacity: 0.3;
+                }
+
+                img {
+                    width: auto;
+                    height: 100%;
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    -webkit-transform: translateY(-50%) translateX(-50%);
+                }
+            }
+        }
+    }
+}

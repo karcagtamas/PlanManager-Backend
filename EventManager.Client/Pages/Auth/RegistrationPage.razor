@@ -1,0 +1,33 @@
+@page "/auth/registration"
+@layout AuthLayout
+
+<AuthPanel Title="@Title">
+    <EditForm Model="Model" OnValidSubmit="SignUp">
+        <DataAnnotationsValidator />
+        <div class="mb-3">
+            <MatTextField class="w-100" @bind-Value="Model.UserName" Label="User Name" Outlined="true"></MatTextField>
+        </div>
+        <div class="mb-3">
+            <MatTextField type="password" class="w-100" @bind-Value="Model.Password" Label="Password" Outlined="true"></MatTextField>
+        </div>
+        <div class="mb-3">
+            <MatTextField type="password" class="w-100" @bind-Value="Model.PasswordConfirm" Label="Password Confirm" Outlined="true"></MatTextField>
+        </div>
+        <div class="mb-3">
+            <MatTextField type="email" class="w-100" @bind-Value="Model.Email" Label="E-Mail" Outlined="true"></MatTextField>
+        </div>
+        <div class="mb-3">
+            <MatTextField class="w-100" @bind-Value="Model.FullName" Label="Full Name" Outlined="true"></MatTextField>
+        </div>
+        <div class="p-1 text-center">
+            <MatButton Raised="true">Sign up</MatButton>
+        </div>
+        <ValidationSummary />
+    </EditForm>
+    <div class="col col-12 row mt-2">
+        <div class="col col-6 p-1"></div>
+        <div class="col col-6 p-1 text-right">
+            <MatButton Outlined="true" @onclick="@(() => Navigate("/auth/login"))">Login</MatButton>
+        </div>
+    </div>
+</AuthPanel>

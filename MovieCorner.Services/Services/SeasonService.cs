@@ -1,30 +1,53 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Domain.Entities.MC;
-using ManagerAPI.Domain.Enums.CM;
-using ManagerAPI.Services.Common;
+using ManagerAPI.Domain.Entities.SL;
+using ManagerAPI.Domain.Enums.SL;
+using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
-    public class SeasonService : Repository<Season, MovieCornerNotificationType>, ISeasonService
+    /// <summary>
+    /// Season Service
+    /// </summary>
+    public class SeasonService : Repository<Season, StatusLibraryNotificationType>, ISeasonService
     {
         // Injects
         private readonly DatabaseContext _databaseContext;
 
+        /// <summary>
+        /// Injector constructor
+        /// </summary>
+        /// <param name="context">Database Context</param>
+        /// <param name="mapper">Mapper</param>
+        /// <param name="utilsService">Utils Service</param>
+        /// <param name="loggerService">Logger Service</param>
+        /// <param name="notificationService">Notification Service</param>
         public SeasonService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
             ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService,
-            utilsService, notificationService, mapper, "Season", new NotificationArguments { })
+            utilsService, notificationService, mapper, "Season",
+            new NotificationArguments
+            {
+                DeleteArguments = new List<string> {"Number"}, UpdateArguments = new List<string> {"Number"},
+                CreateArguments = new List<string> {"Number"}
+            })
         {
             this._databaseContext = context;
         }
 
+        /// <summary>
+        /// Update seen status for season's episodes
+        /// </summary>
+        /// <param name="id">Season Id</param>
+        /// <param name="seen">Seen status</param>
         public void UpdateSeenStatus(int id, bool seen)
         {
             var user = this.Utils.GetCurrentUser();
+            var season = this._databaseContext.Seasons.Find(id);
 
             var episodes = _databaseContext.Episodes.Where(x => x.Season.Id == id).ToList();
             foreach (var i in episodes)
@@ -55,8 +78,15 @@ namespace MovieCorner.Services.Services
             _databaseContext.SaveChanges();
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set season seen status for"), id);
+            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.SeasonSeenStatusUpdated,
+                user, season?.Series.Title ?? "", season?.Number.ToString() ?? "", seen ? "Seen" : "Unseen");
         }
 
+        /// <summary>
+        /// Add season to the given series.
+        /// The season number will be next number after the last season.
+        /// </summary>
+        /// <param name="seriesId">Series Id</param>
         public void AddIncremented(int seriesId)
         {
             var last = this.GetList(x => x.Series.Id == seriesId).OrderBy(x => x.Number).LastOrDefault();
@@ -72,6 +102,11 @@ namespace MovieCorner.Services.Services
             this.Add(season);
         }
 
+        /// <summary>
+        /// Delete season by the given Id.
+        /// Every continuous season's number will be decremented by one.
+        /// </summary>
+        /// <param name="seasonId">Season Id</param>
         public void DeleteDecremented(int seasonId)
         {
             var season = this.Get(seasonId);

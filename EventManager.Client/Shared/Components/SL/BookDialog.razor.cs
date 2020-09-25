@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using EventManager.Client.Models;
+﻿using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
-using ManagerAPI.Shared.DTOs.MC;
-using ManagerAPI.Shared.Models.MC;
+using ManagerAPI.Shared.DTOs.SL;
+using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.SL
 {
@@ -27,8 +27,7 @@ namespace EventManager.Client.Shared.Components.SL
             FormId = Parameters.Get<int>("FormId");
             Id = Parameters.TryGet<int>("book");
 
-
-            ((ModalService) ModalService).OnConfirm += OnConfirm;
+            ((ModalService)ModalService).OnConfirm += OnConfirm;
 
             Model = new BookModel
             {
@@ -57,7 +56,7 @@ namespace EventManager.Client.Shared.Components.SL
                 if (isValid && await BookService.Update(Id, Model))
                 {
                     ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService) ModalService).OnConfirm -= OnConfirm;
+                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
                 }
             }
             else
@@ -65,7 +64,7 @@ namespace EventManager.Client.Shared.Components.SL
                 if (isValid && await BookService.Create(Model))
                 {
                     ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService) ModalService).OnConfirm -= OnConfirm;
+                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
                 }
             }
         }

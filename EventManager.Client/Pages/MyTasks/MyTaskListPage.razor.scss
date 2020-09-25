@@ -1,0 +1,77 @@
+﻿@import "../../Styles/_common.scss";
+
+.em-my-tasks {
+    .action-bar {
+        @include action-panel;
+    }
+
+    .date-groups {
+        @include panel;
+
+        &.standard {
+            background-color: $blue-light-trans;
+        }
+
+        &.out-of-range {
+            background-color: $red-light-trans;
+        }
+
+        &.all-solved {
+            background-color: $gray-trans;
+        }
+
+        .date {
+            color: $primary;
+            font-weight: bold;
+        }
+
+        .task {
+           @include panel;
+            background-color: $white-trans;
+
+            &.solved {
+                background-color: $green-light-trans;
+            }
+
+            .title {
+                display: flex;
+
+                .text {
+                    color: $primary;
+                    font-style: italic;
+                }
+
+                .spacer {
+                    flex-grow: 1;
+                }
+            }
+
+            .description {
+                display: flex;
+                flex-direction: row;
+
+                .description-text {
+                    display: table-cell;
+                    flex-grow: 1;
+                    padding: 0.4rem;
+                }
+
+                .description-button {
+                    display: table-cell;
+                    vertical-align: bottom;
+                    color: $primary;
+
+                    .wrapper {
+                        display: flex;
+                        height: 100%;
+                        flex-direction: column;
+
+                        .spacer {
+                            flex-grow: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

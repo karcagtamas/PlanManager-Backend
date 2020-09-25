@@ -1,0 +1,33 @@
+﻿@import '../wwwroot/css/variables.scss';
+
+@mixin panel {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: $primary-secondary-trans 3px solid;
+    border-radius: $border-radius;
+    color: $primary;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+
+    .spacer {
+        flex-grow: 1;
+    }
+}
+
+@mixin action-panel {
+    background-color: $orange-trans;
+    @include panel;
+    flex-direction: row;
+}
+
+@mixin main-panel {
+    background-color: $blue-light-trans;
+    @include panel;
+}
+
+@mixin display-flex {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}

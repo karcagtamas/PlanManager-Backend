@@ -1,0 +1,33 @@
+﻿@import "../../Styles/_common.scss";
+
+.em-navbar {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+
+    .em-navbar-brand-outer {
+        padding: 0.5rem;
+
+        .em-navbar-brand {
+            padding: 0.5rem;
+            border-radius: $border-radius;
+            background-color: $primary;
+            color: $white;
+            font-size: 1.6rem;
+            text-align: center;
+            transition-duration: 0.5s;
+
+            &:hover {
+                cursor: pointer;
+                background-color: $primary-hover;
+                color: $primary;
+                transition-duration: 0.5s;
+            }
+        }
+    }
+
+    .em-navbar-menu {
+        flex-grow: 1;
+        overflow: auto;
+    }
+}

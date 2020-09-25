@@ -1,0 +1,31 @@
+﻿@import "../../Styles/_common.scss";
+
+.sl-movies {
+    flex-grow: 1;
+    display: flex;
+    max-height: 100%;
+    flex-direction: column;
+
+    .action-bar {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $orange-trans;
+        color: $primary;
+    }
+
+    .movie-list {
+        flex-grow: 1;
+        display: flex;
+        max-height: 100%;
+        overflow: auto;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: $primary-secondary-trans 3px solid;
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        background-color: $blue-light-trans;
+    }
+}

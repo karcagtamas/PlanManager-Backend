@@ -1,0 +1,27 @@
+﻿@import "../../../Styles/_common.scss";
+
+.wm-field {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: $primary-secondary-trans 3px solid;
+    border-radius: $border-radius;
+    padding: 0.5rem;
+    background-color: $orange-trans;
+
+    .title-row {
+        display: flex;
+        color: $primary;
+
+        .title {
+            font-style: italic;
+        }
+
+        .spacer {
+            flex-grow: 1;
+        }
+
+        .hours {
+            font-weight: bold;
+        }
+    }
+}

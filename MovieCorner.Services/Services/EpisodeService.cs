@@ -1,26 +1,50 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Domain.Entities.MC;
-using ManagerAPI.Domain.Enums.CM;
-using ManagerAPI.Services.Common;
+using ManagerAPI.Domain.Entities.SL;
+using ManagerAPI.Domain.Enums.SL;
+using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
-using ManagerAPI.Shared.DTOs.MC;
+using ManagerAPI.Shared.DTOs.SL;
+using ManagerAPI.Shared.Models.SL;
 using MovieCorner.Services.Services.Interfaces;
 
 namespace MovieCorner.Services.Services
 {
-    public class EpisodeService : Repository<Episode, MovieCornerNotificationType>, IEpisodeService
+    /// <summary>
+    /// Episode service
+    /// </summary>
+    public class EpisodeService : Repository<Episode, StatusLibraryNotificationType>, IEpisodeService
     {
         // Injects
         private readonly DatabaseContext _databaseContext;
 
-        public EpisodeService(DatabaseContext context, IMapper mapper, IUtilsService utilsService, ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService, utilsService, notificationService, mapper, "Episode", new NotificationArguments { })
+        /// <summary>
+        /// Injector constructor
+        /// </summary>
+        /// <param name="context">Database context</param>
+        /// <param name="mapper">Mapper</param>
+        /// <param name="utilsService">Utils Service</param>
+        /// <param name="loggerService">Logger Service</param>
+        /// <param name="notificationService">Notification Service</param>
+        public EpisodeService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
+            ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService,
+            utilsService, notificationService, mapper, "Episode", new NotificationArguments
+            {
+                DeleteArguments = new List<string> {"Number"}, UpdateArguments = new List<string> {"Number"},
+                CreateArguments = new List<string> {"Number"}
+            })
         {
             this._databaseContext = context;
         }
 
+        /// <summary>
+        /// Update seen status for episode
+        /// </summary>
+        /// <param name="id">Episode Id</param>
+        /// <param name="seen">Seen status</param>
         public void UpdateSeenStatus(int id, bool seen)
         {
             var user = this.Utils.GetCurrentUser();
@@ -32,7 +56,7 @@ namespace MovieCorner.Services.Services
                 if (connection != null)
                 {
                     connection.Seen = seen;
-                    connection.SeenOn = seen ? (DateTime?)DateTime.Now : null;
+                    connection.SeenOn = seen ? (DateTime?) DateTime.Now : null;
                     this._databaseContext.UserEpisodeSwitch.Update(connection);
                 }
                 else
@@ -49,12 +73,21 @@ namespace MovieCorner.Services.Services
                         this._databaseContext.UserEpisodeSwitch.Add(userEpisode);
                     }
                 }
+
                 _databaseContext.SaveChanges();
 
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set episode seen status for"), id);
+                this.Notification.AddStatusLibraryNotificationByType(
+                    StatusLibraryNotificationType.EpisodeSeenStatusUpdated, user, episode.Season.Series.Title,
+                    episode.Season.Number.ToString(), episode.Number.ToString(), seen ? "Seen" : "Unseen");
             }
         }
 
+        /// <summary>
+        /// Add episode to the given season.
+        /// The episode number will be next number after the last episode.
+        /// </summary>
+        /// <param name="seasonId">Season Id</param>
         public void AddIncremented(int seasonId)
         {
             var last = this.GetList(x => x.Season.Id == seasonId).OrderBy(x => x.Number).LastOrDefault();
@@ -64,12 +97,18 @@ namespace MovieCorner.Services.Services
             var season = new Episode
             {
                 Number = number,
-                SeasonId = seasonId
+                SeasonId = seasonId,
+                Title = "[Episode Title]"
             };
 
             this.Add(season);
         }
 
+        /// <summary>
+        /// Delete episode by the given Id.
+        /// Every continous episode's number will be decremented by one.
+        /// </summary>
+        /// <param name="episodeId">Episode Id</param>
         public void DeleteDecremented(int episodeId)
         {
             var season = this.Get(episodeId);
@@ -91,6 +130,11 @@ namespace MovieCorner.Services.Services
             this.UpdateRange(episodes);
         }
 
+        /// <summary>
+        /// Gets my object by the given Id.
+        /// </summary>
+        /// <param name="id">Episode Id</param>
+        /// <returns>My episode object</returns>
         public MyEpisodeDto GetMy(int id)
         {
             var user = this.Utils.GetCurrentUser();
@@ -98,11 +142,30 @@ namespace MovieCorner.Services.Services
             var episode = this.Get<MyEpisodeDto>(id);
             var myEpisode = user.MyEpisodes.FirstOrDefault(x => x.Episode.Id == episode.Id);
             episode.IsMine = myEpisode != null;
-            episode.IsSeen = myEpisode != null && myEpisode.Seen;
+            episode.IsSeen = myEpisode?.Seen ?? false;
+            episode.SeenOn = myEpisode?.SeenOn;
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), episode.Id);
 
             return episode;
+        }
+
+        /// <summary>
+        /// Updates episode's image.
+        /// </summary>
+        /// <param name="id">Episode Id</param>
+        /// <param name="model">New image model</param>
+        public void UpdateImage(int id, EpisodeImageModel model)
+        {
+            var user = this.Utils.GetCurrentUser();
+
+            var episode = this._databaseContext.Episodes.Find(id);
+
+            if (episode == null) return;
+
+            this.Mapper.Map(model, episode);
+
+            this.Update(episode);
         }
     }
 }

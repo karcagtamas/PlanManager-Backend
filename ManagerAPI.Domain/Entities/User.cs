@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ManagerAPI.Domain.Entities.EM;
-using ManagerAPI.Domain.Entities.MC;
+using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Domain.Entities.PM;
+using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Entities.WM;
 using Microsoft.AspNetCore.Identity;
 
@@ -60,13 +60,6 @@ namespace ManagerAPI.Domain.Entities {
         public virtual ICollection<PlanGroupPlanComment> CreatedPlanGroupPlanComment { get; set; }
         public virtual ICollection<UserPlanGroup> Groups { get; set; }
         public virtual ICollection<UserPlanGroup> AddedUsersToGroups { get; set; }
-        public virtual ICollection<MasterEvent> CreatedMasterEvents { get; set; }
-        public virtual ICollection<MasterEvent> UpdatedMasterEvents { get; set; }
-        public virtual ICollection<UserEvent> Events { get; set; }
-        public virtual ICollection<UserEvent> AddedUsersToEvents { get; set; }
-        public virtual ICollection<UserEventRole> EventRoles { get; set; }
-        public virtual ICollection<UserEventRole> AddedRolesToEvent { get; set; }
-        public virtual ICollection<EventAction> CausedEventActions { get; set; }
         public virtual Gender Gender { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
         public virtual ICollection<FriendRequest> SentFriendRequest { get; set; }
@@ -89,5 +82,11 @@ namespace ManagerAPI.Domain.Entities {
         public virtual ICollection<Book> CreatedBooks { get; set; }
         public virtual ICollection<Book> LastUpdatedBooks { get; set; }
         public virtual ICollection<UserBook> MyBooks { get; set; }
+        public virtual ICollection<MovieComment> MovieComments { get; set; }
+        public virtual ICollection<SeriesComment> SeriesComments { get; set; }
+        public virtual ICollection<Episode> LastUpdatedEpisodes { get; set; }
+        public virtual ICollection<Csomor> OwnedCsomors { get; set; }
+        public virtual ICollection<Csomor> LastUpdatedCsomors { get; set; }
+        public virtual ICollection<UserCsomor> SharedCsomors { get; set; }
     }
 }

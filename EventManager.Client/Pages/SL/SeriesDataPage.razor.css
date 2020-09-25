@@ -1,0 +1,130 @@
+.sl-series-data {
+  max-height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column; }
+  .sl-series-data .action-bar {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+    border-radius: 4px;
+    padding: 0.5rem;
+    background-color: rgba(240, 174, 73, 0.4);
+    display: flex;
+    color: #5120a5; }
+    .sl-series-data .action-bar .spacer {
+      flex-grow: 1; }
+  .sl-series-data .tab-group {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden; }
+    .sl-series-data .tab-group .mat-tab-group-content {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      overflow: hidden; }
+  .sl-series-data .data {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+    border-radius: 4px;
+    padding: 0.5rem;
+    background-color: rgba(187, 187, 255, 0.4); }
+    .sl-series-data .data .data-rows {
+      flex-grow: 1; }
+      .sl-series-data .data .data-rows .data-row strong {
+        color: #5120a5; }
+      .sl-series-data .data .data-rows .rates .rate-icon:hover {
+        cursor: pointer; }
+    .sl-series-data .data .image .picture {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: auto;
+      overflow: hidden;
+      border-radius: 50%;
+      transition-duration: 0.5s;
+      box-shadow: 0 0 0.5rem 0 #5120a5; }
+      .sl-series-data .data .image .picture:hover {
+        transition-duration: 0.5s;
+        transform: scale(1.4, 1.4);
+        opacity: 0.3; }
+      .sl-series-data .data .image .picture img {
+        width: auto;
+        height: 100%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translateY(-50%) translateX(-50%); }
+  .sl-series-data .comments {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+    border-radius: 4px;
+    padding: 0.5rem;
+    background-color: rgba(187, 187, 255, 0.4);
+    overflow: hidden; }
+    .sl-series-data .comments .comment-list {
+      flex-grow: 1;
+      overflow: auto; }
+    .sl-series-data .comments .input-panel {
+      flex-direction: column; }
+      .sl-series-data .comments .input-panel .down-row {
+        display: flex;
+        flex-direction: row; }
+        .sl-series-data .comments .input-panel .down-row .spacer {
+          flex-grow: 1; }
+  .sl-series-data .seasons {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+    border-radius: 4px;
+    padding: 0.5rem;
+    background-color: rgba(187, 187, 255, 0.4);
+    overflow: auto; }
+    .sl-series-data .seasons .season {
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+      border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+      border-radius: 4px;
+      padding: 0.5rem;
+      background-color: rgba(249, 249, 249, 0.55); }
+      .sl-series-data .seasons .season .head {
+        color: #5120a5;
+        font-weight: bold;
+        display: flex; }
+        .sl-series-data .seasons .season .head .spacer {
+          flex-grow: 1; }
+      .sl-series-data .seasons .season .body .episodes .episode {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+        border-radius: 4px;
+        padding: 0.5rem;
+        background-color: rgba(249, 249, 249, 0.55); }
+        .sl-series-data .seasons .season .body .episodes .episode .ep-head {
+          color: #5120a5;
+          font-style: italic;
+          display: flex; }
+          .sl-series-data .seasons .season .body .episodes .episode .ep-head .spacer {
+            flex-grow: 1; }
+        .sl-series-data .seasons .season .body .episodes .episode .ep-body {
+          padding: 0.4rem; }
+        .sl-series-data .seasons .season .body .episodes .episode .ep-foot {
+          display: flex; }
+          .sl-series-data .seasons .season .body .episodes .episode .ep-foot .spacer {
+            flex-grow: 1; }
+      .sl-series-data .seasons .season .body .episodes .episode-action {
+        display: flex; }
+        .sl-series-data .seasons .season .body .episodes .episode-action .spacer {
+          flex-grow: 1; }
+    .sl-series-data .seasons .season-action {
+      display: flex; }
+      .sl-series-data .seasons .season-action .spacer {
+        flex-grow: 1; }

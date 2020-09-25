@@ -1,0 +1,32 @@
+@page "/my-movies"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
+
+<div class="sl-my-movies">
+    <h1 class="em-page-title">My Movies</h1>
+
+    @if (IsLoading)
+    {
+        <Loader></Loader>
+    }
+    else
+    {
+        <div class="action-bar">
+            <MatTooltip Tooltip="Edit My List">
+                <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditMyMoviesDialog"></MatIconButton>
+            </MatTooltip>
+            <span class="spacer"></span>
+            <MatButton @onclick="OpenEditSeenMoviesDialog">Edit Seen Movies</MatButton>
+        </div>
+        @if (MovieList != null && MovieList.Count > 0)
+        {
+            <div class="movie-list">
+                <ListTable Header="Header" Body="MovieList" TList="ManagerAPI.Shared.DTOs.SL.MyMovieListDto" OnRowClick="@(e => RedirectToData(e))"></ListTable>
+            </div>
+        }
+        else
+        {
+            <div class="text-center">Movie list is empty</div>
+        }
+    }
+</div>

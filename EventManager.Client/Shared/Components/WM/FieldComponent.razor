@@ -1,0 +1,13 @@
+@if (WorkingField != null)
+{
+    <div @onclick="@OpenUpdateFieldModal" class="wm-field">
+        <div class="title-row">
+            <span class="title">@WorkingField.Title</span>
+            <span class="spacer"></span>
+            <span class="hours">@WorkingField.Length h</span>
+        </div>
+        <div class="description">
+            @WorkingField.Description
+        </div>
+    </div>
+}

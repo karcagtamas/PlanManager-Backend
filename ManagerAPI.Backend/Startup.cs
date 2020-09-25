@@ -1,10 +1,15 @@
 using System;
 using System.Text;
 using AutoMapper;
-using EventManager.Services.Profiles;
-using EventManager.Services.Services;
+using CsomorGenerator.Profiles;
+using CsomorGenerator.Services;
+using CsomorGenerator.Services.Interfaces;
+using ManagerAPI.Backend.Middlewares;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
+using ManagerAPI.Services.Common.CSV;
+using ManagerAPI.Services.Common.Excel;
+using ManagerAPI.Services.Common.Mail;
 using ManagerAPI.Services.Profiles;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
@@ -54,11 +59,11 @@ namespace ManagerAPI.Backend
             });
 
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             
             var mapperConfig = new MapperConfiguration(x =>
             {
                 x.AddProfile(new UserProfile());
-                x.AddProfile(new EventProfile());
                 x.AddProfile(new PlanProfile());
                 x.AddProfile(new NotificationProfile());
                 x.AddProfile(new FriendProfile());
@@ -72,10 +77,13 @@ namespace ManagerAPI.Backend
                 x.AddProfile(new BookProfile());
                 x.AddProfile(new SeriesProfile());
                 x.AddProfile(new GenderProfile());
+                x.AddProfile(new CsomorProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
+
+            services.AddSingleton<ExceptionHandler>();
             
             /*services.AddAutoMapper(typeof(UserProfile));
             services.AddAutoMapper(typeof(EventProfile));
@@ -87,8 +95,6 @@ namespace ManagerAPI.Backend
             services.AddScoped<IUtilsService, UtilsService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPlanService, PlanService>();
-            services.AddScoped<IEventService, EventService>();
-            services.AddScoped<IEventActionService, EventActionService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IFriendService, FriendService>();
             services.AddScoped<IMessageService, MessageService>();
@@ -104,6 +110,14 @@ namespace ManagerAPI.Backend
             services.AddScoped<ISeasonService, SeasonService>();
             services.AddScoped<IEpisodeService, EpisodeService>();
             services.AddScoped<IGenderService, GenderService>();
+            services.AddScoped<IMailService, MailService>();
+            services.AddScoped<ICsvService, CsvService>();
+            services.AddScoped<IExcelService, ExcelService>();
+            services.AddScoped<IMovieCategoryService, MovieCategoryService>();
+            services.AddScoped<IMovieCommentService, MovieCommentService>();
+            services.AddScoped<ISeriesCategoryService, SeriesCategoryService>();
+            services.AddScoped<ISeriesCommentService, SeriesCommentService>();
+            services.AddScoped<IGeneratorService, GeneratorService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
@@ -152,6 +166,8 @@ namespace ManagerAPI.Backend
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseAuthentication();
+            
+            
 
             if (env.IsDevelopment())
             {
@@ -161,6 +177,8 @@ namespace ManagerAPI.Backend
             {
                 app.UseHttpsRedirection();
             }
+            
+            app.UseMyExceptionHandler();
 
             app.UseRouting();
 

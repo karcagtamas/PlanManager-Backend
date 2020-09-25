@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
-using ManagerAPI.Shared.DTOs.MC;
-using ManagerAPI.Shared.Models.MC;
+using ManagerAPI.Shared.DTOs.SL;
+using ManagerAPI.Shared.Models.SL;
 
 namespace EventManager.Client.Services
 {
@@ -62,6 +62,42 @@ namespace EventManager.Client.Services
             var settings = new HttpSettings($"{this.Url}/selector", queryParams, null);
             
             return await this.Http.Get<List<MyMovieSelectorListDto>>(settings);
+        }
+
+        public async Task<bool> UpdateImage(int id, MovieImageModel model)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/image", null, pathParams, "Movie image updating");
+            
+            var body = new HttpBody<MovieImageModel>(model);
+
+            return await this.Http.Update<MovieImageModel>(settings, body);
+        }
+
+        public async Task<bool> UpdateCategories(int id, MovieCategoryUpdateModel model)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/categories", null, pathParams, "Movie category updating");
+            
+            var body = new HttpBody<MovieCategoryUpdateModel>(model);
+
+            return await this.Http.Update<MovieCategoryUpdateModel>(settings, body);
+        }
+
+        public async Task<bool> UpdateRate(int id, MovieRateModel model)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add<int>(id, -1);
+            
+            var settings = new HttpSettings($"{this.Url}/rate", null, pathParams, "Movie rating");
+            
+            var body = new HttpBody<MovieRateModel>(model);
+
+            return await this.Http.Update<MovieRateModel>(settings, body);
         }
 
         public async Task<bool> UpdateMyMovies(MyMovieModel model)

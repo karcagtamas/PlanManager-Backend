@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventManager.Client.Http;
-using ManagerAPI.Shared.DTOs.MC;
-using ManagerAPI.Shared.Models.MC;
+using ManagerAPI.Shared.DTOs.SL;
+using ManagerAPI.Shared.Models.SL;
 
 namespace EventManager.Client.Services.Interfaces
 {
@@ -15,5 +15,8 @@ namespace EventManager.Client.Services.Interfaces
         Task<bool> AddMovieToMyMovies(int id);
         Task<bool> RemoveMovieFromMyMovies(int id);
         Task<List<MyMovieSelectorListDto>> GetMySelectorList(bool onlyMine);
+        Task<bool> UpdateImage(int id, MovieImageModel model);
+        Task<bool> UpdateCategories(int id, MovieCategoryUpdateModel model);
+        Task<bool> UpdateRate(int id, MovieRateModel model);
     }
 }

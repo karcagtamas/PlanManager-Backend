@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using EventManager.Client.Models.Interfaces;
-using EventManager.Client.Services.Interfaces;
 
 namespace EventManager.Client.Http
 {
@@ -18,9 +16,20 @@ namespace EventManager.Client.Http
             this._caption = caption;
         }
 
-        public async Task<List<TList>> GetAll()
+        public async Task<List<TList>> GetAll(string orderBy, string direction = "asc")
         {
-            var settings = new HttpSettings($"{this.Url}");
+            var queryParams = new HttpQueryParameters();
+            if (!string.IsNullOrEmpty(orderBy))
+            {
+                queryParams.Add("orderBy", orderBy);
+            }
+
+            if (!string.IsNullOrEmpty(direction))
+            {
+                queryParams.Add("direction", direction);
+            }
+
+            var settings = new HttpSettings($"{this.Url}", queryParams, null);
 
             return await this.Http.Get<List<TList>>(settings);
         }

@@ -1,9 +1,8 @@
-﻿using ManagerAPI.Domain.Entities.MC;
-using ManagerAPI.Services.Services.Interfaces;
-using ManagerAPI.Shared.DTOs.MC;
-using ManagerAPI.Shared.Models.MC;
-using System.Collections.Generic;
-using ManagerAPI.Services.Common;
+﻿using System.Collections.Generic;
+using ManagerAPI.Domain.Entities.SL;
+using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Shared.DTOs.SL;
+using ManagerAPI.Shared.Models.SL;
 
 namespace MovieCorner.Services.Services.Interfaces
 {
@@ -16,5 +15,8 @@ namespace MovieCorner.Services.Services.Interfaces
         void AddSeriesToMySeries(int id);
         void RemoveSeriesFromMySeries(int id);
         List<MySeriesSelectorListDto> GetMySelectorList(bool onlyMine);
+        void UpdateImage(int id, SeriesImageModel model);
+        void UpdateCategories(int id, SeriesCategoryUpdateModel model);
+        void UpdateRate(int id, SeriesRateModel model);
     }
 }

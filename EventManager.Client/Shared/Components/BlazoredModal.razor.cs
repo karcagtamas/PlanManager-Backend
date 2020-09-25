@@ -1,15 +1,15 @@
-using System;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
+using System;
 
 namespace EventManager.Client.Shared.Components
 {
     public partial class BlazoredModal : IDisposable
     {
-        const string DefaultStyle = "blazored-modal";
-        const string DefaultPosition = "blazored-modal-center";
+        private const string DefaultStyle = "blazored-modal";
+        private const string DefaultPosition = "blazored-modal-center";
 
         [Inject] private IModalService ModalService { get; set; }
 
@@ -39,8 +39,8 @@ namespace EventManager.Client.Shared.Components
 
         protected override void OnInitialized()
         {
-            ((ModalService) ModalService).OnShow += ShowModal;
-            ((ModalService) ModalService).CloseModal += CloseModal;
+            ((ModalService)ModalService).OnShow += ShowModal;
+            ((ModalService)ModalService).CloseModal += CloseModal;
         }
 
         public void Dispose()
@@ -78,8 +78,8 @@ namespace EventManager.Client.Shared.Components
         {
             if (disposing)
             {
-                ((ModalService) ModalService).OnShow -= ShowModal;
-                ((ModalService) ModalService).CloseModal -= CloseModal;
+                ((ModalService)ModalService).OnShow -= ShowModal;
+                ((ModalService)ModalService).CloseModal -= CloseModal;
             }
         }
 
