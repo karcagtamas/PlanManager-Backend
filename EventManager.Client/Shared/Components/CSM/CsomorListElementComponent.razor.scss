@@ -1,0 +1,15 @@
+﻿@import '../../../Styles/_common.scss';
+
+.element {
+    @include panel;
+    background-color: $white-trans;
+    margin: 2rem;
+    transition-duration: 0.5s;
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+        transition-duration: 0.5s;
+        background-color: $red-light-trans;
+    }
+}

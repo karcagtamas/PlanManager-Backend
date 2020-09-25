@@ -69,7 +69,7 @@ namespace EventManager.Client.Services
 
         public Task<List<CsomorListDTO>> GetOwnedList()
         {
-            var settings = new HttpSettings($"{this._url}");
+            var settings = new HttpSettings($"{this._url}/my");
 
             return this._http.Get<List<CsomorListDTO>>(settings);
         }

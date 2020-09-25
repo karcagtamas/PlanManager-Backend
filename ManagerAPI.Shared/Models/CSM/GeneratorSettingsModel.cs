@@ -35,7 +35,7 @@ namespace ManagerAPI.Shared.Models.CSM
         {
             this.Title = "New Generator";
             var date = DateTime.Now;
-            date = date.AddMinutes(-date.Minute).AddMinutes(-date.Second).ToLocalTime();
+            date = date.AddMinutes(-date.Minute).AddSeconds(-date.Second).ToLocalTime();
             this.Start = date;
             this.Finish = date.AddDays(1);
             this.MaxWorkHour = 3;

@@ -46,6 +46,10 @@ namespace CsomorGenerator.Profiles
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => (int?)src.Id));
             CreateMap<CsomorWorkTable, WorkTable>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => (int?)src.Id));
+
+
+            CreateMap<Csomor, CsomorListDTO>()
+                .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => src.Owner.UserName));
         }
     }
 }

@@ -1,0 +1,18 @@
+﻿@import '../../Styles/_common.scss';
+
+.csomor-list {
+    .action-bar {
+        @include action-panel;
+    }
+
+    .lists {
+        .list {
+            @include main-panel;
+
+            .elements {
+                display: grid;
+                grid-template-columns: auto auto auto;
+            }
+        }
+    }
+}

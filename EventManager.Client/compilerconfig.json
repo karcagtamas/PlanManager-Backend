@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "outputFile": "wwwroot/scss/site.css",
     "inputFile": "wwwroot/scss/site.scss"
@@ -10,5 +10,13 @@
   {
     "outputFile": "Shared/Navigators/MainNavigator.razor.css",
     "inputFile": "Shared/Navigators/MainNavigator.razor.scss"
+  },
+  {
+    "outputFile": "Pages/CSM/CsomorListPage.razor.css",
+    "inputFile": "Pages/CSM/CsomorListPage.razor.scss"
+  },
+  {
+    "outputFile": "Shared/Components/CSM/CsomorListElementComponent.razor.css",
+    "inputFile": "Shared/Components/CSM/CsomorListElementComponent.razor.scss"
   }
 ]

@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieCorner.Services", "Mov
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerAPI.Shared", "ManagerAPI.Shared\ManagerAPI.Shared.csproj", "{A6369695-89DE-4CD3-A34B-90177C23FCE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsomorGenerator", "CsomorGenerator\CsomorGenerator.csproj", "{C70832A1-1B52-453B-9A22-30B876D0A93D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsomorGenerator", "CsomorGenerator\CsomorGenerator.csproj", "{C70832A1-1B52-453B-9A22-30B876D0A93D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
