@@ -10,7 +10,7 @@ namespace EventManager.Client.Services.Interfaces
     public interface IGeneratorService
     {
         Task<GeneratorSettings> GenerateSimple(GeneratorSettings settings);
-        Task<bool> Create(GeneratorSettingsModel model);
+        Task<int> Create(GeneratorSettingsModel model);
         Task<bool> Update(int id, GeneratorSettingsModel model);
         Task<bool> Delete(int id);
         Task<GeneratorSettings> Get(int id);

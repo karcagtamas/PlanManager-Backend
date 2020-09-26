@@ -12,5 +12,6 @@ namespace EventManager.Client.Http
         Task<bool> Create<T>(HttpSettings settings, HttpBody<T> body);
         Task<string> CreateString<T>(HttpSettings settings, HttpBody<T> body);
         Task<T> UpdateWithResult<T, V>(HttpSettings settings, HttpBody<V> body);
+        Task<int> CreateInt<T>(HttpSettings settings, HttpBody<T> body);
     }
 }

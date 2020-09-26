@@ -1,4 +1,5 @@
-﻿using ManagerAPI.Shared.Helpers;
+﻿using ManagerAPI.Shared.DTOs.CSM;
+using ManagerAPI.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,6 +22,13 @@ namespace ManagerAPI.Shared.Models.CSM
         {
             this.Id = Guid.NewGuid().ToString();
             this.Tables = new List<WorkTableModel>();
+        }
+
+        public WorkModel(Work work)
+        {
+            this.Id = work.Id;
+            this.Name = work.Name;
+            this.Tables = work.Tables.Select(x => new WorkTableModel(x)).ToList();
         }
 
         public void SetTables(DateTime start, DateTime finish)

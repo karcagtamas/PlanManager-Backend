@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManagerAPI.Shared.DTOs.CSM;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,6 +18,13 @@ namespace ManagerAPI.Shared.Models.CSM
             this.Date = date;
             this.IsActive = true;
             this.PersonId = null;
+        }
+
+        public WorkTableModel(WorkTable table)
+        {
+            this.Date = table.Date;
+            this.IsActive = table.IsActive;
+            this.PersonId = table.PersonId;
         }
     }
 }

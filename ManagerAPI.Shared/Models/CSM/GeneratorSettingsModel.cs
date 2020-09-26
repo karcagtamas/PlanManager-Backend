@@ -3,6 +3,7 @@ using ManagerAPI.Shared.DTOs.CSM;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 
 namespace ManagerAPI.Shared.Models.CSM
@@ -34,8 +35,8 @@ namespace ManagerAPI.Shared.Models.CSM
         public GeneratorSettingsModel()
         {
             this.Title = "New Generator";
-            var date = DateTime.Now;
-            date = date.AddMinutes(-date.Minute).AddSeconds(-date.Second).ToLocalTime();
+            var date = DateTime.UtcNow;
+            date = date.AddMinutes(-date.Minute).AddSeconds(-date.Second);
             this.Start = date;
             this.Finish = date.AddDays(1);
             this.MaxWorkHour = 3;
@@ -43,6 +44,18 @@ namespace ManagerAPI.Shared.Models.CSM
 
             this.Persons = new List<PersonModel>();
             this.Works = new List<WorkModel>();
+        }
+
+        public GeneratorSettingsModel(GeneratorSettings settings)
+        {
+            this.Title = settings.Title;
+            this.Start = settings.Start;
+            this.Finish = settings.Finish;
+            this.MaxWorkHour = settings.MaxWorkHour;
+            this.MinRestHour = settings.MinRestHour;
+
+            this.Persons = settings.Persons.Select(x => new PersonModel(x)).ToList();
+            this.Works = settings.Works.Select(x => new WorkModel(x)).ToList();
         }
     }
 }

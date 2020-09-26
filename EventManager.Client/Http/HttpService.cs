@@ -394,5 +394,10 @@ namespace EventManager.Client.Http
                 return default;
             }
         }
+
+        public async Task<int> CreateInt<T>(HttpSettings settings, HttpBody<T> body)
+        {
+            return int.Parse(await this.CreateString(settings, body));
+        }
     }
 }

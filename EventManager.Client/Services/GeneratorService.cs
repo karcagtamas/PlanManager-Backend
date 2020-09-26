@@ -29,13 +29,13 @@ namespace EventManager.Client.Services
             return this._http.Update<bool>(settings, body);
         }
 
-        public Task<bool> Create(GeneratorSettingsModel model)
+        public Task<int> Create(GeneratorSettingsModel model)
         {
             var settings = new HttpSettings($"{this._url}", null, null, "Generator setting creating");
 
             var body = new HttpBody<GeneratorSettingsModel>(model);
 
-            return this._http.Create<GeneratorSettingsModel>(settings, body);
+            return this._http.CreateInt<GeneratorSettingsModel>(settings, body);
         }
 
         public Task<bool> Delete(int id)

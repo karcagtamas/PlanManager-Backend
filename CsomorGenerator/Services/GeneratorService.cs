@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using CsomorGenerator.Services.Interfaces;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Models.CSM;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CsomorGenerator.Services
 {
@@ -115,7 +115,7 @@ namespace CsomorGenerator.Services
         /// Filtered to active and available persons
         /// </summary>
         /// <param name="persons">Person list</param>
-        /// <returns>Randomoized person</returns>
+        /// <returns>Randomized person</returns>
         private Person GetValidRandomPerson(List<Person> persons)
         {
             Random r = new Random();
@@ -125,7 +125,7 @@ namespace CsomorGenerator.Services
         }
 
         /// <summary>
-        /// Pre check simple generation
+        /// Precheck simple generation
         /// </summary>
         /// <param name="settings">Generator settings</param>
         /// <returns>Is startable or not</returns>
@@ -374,7 +374,7 @@ namespace CsomorGenerator.Services
         /// Create Csomor from settings model
         /// </summary>
         /// <param name="model">Settings model</param>
-        public void Create(GeneratorSettingsModel model)
+        public int Create(GeneratorSettingsModel model)
         {
             var user = this._utils.GetCurrentUser();
 
@@ -387,7 +387,8 @@ namespace CsomorGenerator.Services
 
                 person.IgnoredWorks = new List<IgnoredWork>();
 
-                x.IgnoredWorks.ForEach(y => {
+                x.IgnoredWorks.ForEach(y =>
+                {
                     var ignored = new IgnoredWork
                     {
                         PersonId = x.Id,
@@ -402,6 +403,8 @@ namespace CsomorGenerator.Services
             this._context.SaveChanges();
 
             this._logger.LogInformation(user, "Generator Service", "create csomor", csomor.Id);
+
+            return csomor.Id;
         }
 
         /// <summary>

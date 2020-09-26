@@ -31,9 +31,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] GeneratorSettingsModel model)
         {
-            this._generatorService.Create(model);
-
-            return Ok();
+            return Ok(this._generatorService.Create(model));
         }
 
         [HttpPut("{id}")]

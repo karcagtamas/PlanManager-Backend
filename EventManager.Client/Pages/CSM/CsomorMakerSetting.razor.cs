@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.CSM
 {
@@ -15,6 +16,9 @@ namespace EventManager.Client.Pages.CSM
 
         [Inject]
         private IGeneratorService GeneratorService { get; set; }
+
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
 
         private EditContext Context { get; set; }
         private GeneratorSettingsModel Model { get; set; }
@@ -35,11 +39,41 @@ namespace EventManager.Client.Pages.CSM
             this.WorkContext = new EditContext(this.WorkModel);
         }
 
-        private void SaveSettings()
+        protected override async Task OnParametersSetAsync()
+        {
+            await this.GetSettings();
+        }
+
+        private async Task GetSettings()
+        {
+            if (this.Id != null)
+            {
+                var settings = await this.GeneratorService.Get((int)this.Id);
+                if (settings == null)
+                {
+                    this.NavigationManager.NavigateTo("/csomors");
+                }
+                this.Model = new GeneratorSettingsModel(settings);
+            }
+            else
+            {
+                this.Model = new GeneratorSettingsModel();
+            }
+        }
+
+        private async void SaveSettings()
         {
             if (this.Context.Validate())
             {
-                this.GeneratorService.Create(this.Model);
+                if (this.Id == null)
+                {
+                    this.Id = await this.GeneratorService.Create(this.Model);
+                    this.NavigationManager.NavigateTo($"/csomor/{this.Id}");
+                }
+                else
+                {
+                    await this.GeneratorService.Update((int)this.Id, this.Model);
+                }
             }
         }
 
@@ -50,7 +84,7 @@ namespace EventManager.Client.Pages.CSM
                 this.PersonModel.SetTables(this.Model.Start, this.Model.Finish);
                 this.Model.Persons.Add(this.PersonModel);
                 this.PersonModel = new PersonModel();
-                this.PersonContext = new EditContext(this.PersonModel);
+                // this.PersonContext = new EditContext(this.PersonModel);
                 StateHasChanged();
             }
         }
@@ -62,21 +96,24 @@ namespace EventManager.Client.Pages.CSM
                 this.WorkModel.SetTables(this.Model.Start, this.Model.Finish);
                 this.Model.Works.Add(this.WorkModel);
                 this.WorkModel = new WorkModel();
-                this.WorkContext = new EditContext(this.WorkModel);
+                // this.WorkContext = new EditContext(this.WorkModel);
                 StateHasChanged();
             }
         }
 
         private void ReSetup(DateTime date, string type)
         {
+            Console.WriteLine(date);
             if (type == "start")
             {
-                this.Model.Start = date.AddMinutes(-date.Minute).ToLocalTime();
+                this.Model.Start = date.AddMinutes(-date.Minute);
             }
             if (type == "finish")
             {
-                this.Model.Finish = date.AddMinutes(-date.Minute).ToLocalTime();
+                this.Model.Finish = date.AddMinutes(-date.Minute);
             }
+            Console.WriteLine(this.Model.Start);
+            Console.WriteLine(this.Model.Finish);
             this.Model.Persons.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
             this.Model.Works.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
             StateHasChanged();
