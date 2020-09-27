@@ -7,18 +7,18 @@ namespace ManagerAPI.Domain.Entities.CSM
     {
         [Required]
         public int Id { get; set; }
-        
+
         [Required]
-        public DateTime Date;
-        
+        public DateTime Date { get; set; }
+
         [Required]
         public string WorkId { get; set; }
-        
+
         [Required]
         public bool IsActive { get; set; }
-        
+
         public string PersonId { get; set; }
-        
+
         public virtual CsomorWork Work { get; set; }
         public virtual CsomorPerson Person { get; set; }
     }

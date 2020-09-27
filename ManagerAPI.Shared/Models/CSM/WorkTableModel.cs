@@ -7,7 +7,7 @@ namespace ManagerAPI.Shared.Models.CSM
 {
     public class WorkTableModel
     {
-        public DateTime Date;
+        public DateTime Date { get; set; }
         public bool IsActive { get; set; }
         public string PersonId { get; set; }
 

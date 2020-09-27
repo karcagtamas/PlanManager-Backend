@@ -54,8 +54,8 @@ namespace ManagerAPI.Shared.Models.CSM
             this.MaxWorkHour = settings.MaxWorkHour;
             this.MinRestHour = settings.MinRestHour;
 
-            this.Persons = settings.Persons.Select(x => new PersonModel(x)).ToList();
-            this.Works = settings.Works.Select(x => new WorkModel(x)).ToList();
+            this.Persons = settings.Persons.Select(x => new PersonModel(x)).OrderBy(x => x.Name).ToList();
+            this.Works = settings.Works.Select(x => new WorkModel(x)).OrderBy(x => x.Name).ToList();
         }
     }
 }
