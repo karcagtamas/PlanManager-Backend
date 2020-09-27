@@ -34,7 +34,7 @@ namespace ManagerAPI.Shared.Models.CSM
         {
             this.Id = person.Id;
             this.Name = person.Name;
-            this.Tables = person.Tables.Select(x => new PersonTableModel(x)).ToList();
+            this.Tables = person.Tables.Select(x => new PersonTableModel(x)).OrderBy(x => x.Date).ToList();
             this.IgnoredWorks = person.IgnoredWorks;
             this.IsIgnored = person.IsIgnored;
         }

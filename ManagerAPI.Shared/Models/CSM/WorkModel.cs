@@ -28,7 +28,7 @@ namespace ManagerAPI.Shared.Models.CSM
         {
             this.Id = work.Id;
             this.Name = work.Name;
-            this.Tables = work.Tables.Select(x => new WorkTableModel(x)).ToList();
+            this.Tables = work.Tables.Select(x => new WorkTableModel(x)).OrderBy(x => x.Date).ToList();
         }
 
         public void SetTables(DateTime start, DateTime finish)
