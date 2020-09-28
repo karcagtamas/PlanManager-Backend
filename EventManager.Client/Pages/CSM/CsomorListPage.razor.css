@@ -1,29 +1,40 @@
-﻿.csomor-list .action-bar {
-  background-color: rgba(240, 174, 73, 0.4);
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
-  border-radius: 4px;
-  color: #5120a5;
-  padding: 0.5rem;
+﻿.csomor-list {
   display: flex;
   flex-direction: column;
-  flex-direction: row; }
-  .csomor-list .action-bar .spacer {
-    flex-grow: 1; }
-
-.csomor-list .lists .list {
-  background-color: rgba(187, 187, 255, 0.4);
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-  border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
-  border-radius: 4px;
-  color: #5120a5;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column; }
-  .csomor-list .lists .list .spacer {
-    flex-grow: 1; }
-  .csomor-list .lists .list .elements {
-    display: grid;
-    grid-template-columns: auto auto auto; }
+  flex-grow: 1;
+  overflow: hidden; }
+  .csomor-list .action-bar {
+    background-color: rgba(240, 174, 73, 0.4);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+    border-radius: 4px;
+    color: #5120a5;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-direction: row; }
+    .csomor-list .action-bar .spacer {
+      flex-grow: 1; }
+  .csomor-list .lists {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden; }
+    .csomor-list .lists .list {
+      background-color: rgba(187, 187, 255, 0.4);
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+      border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+      border-radius: 4px;
+      color: #5120a5;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      width: 100%;
+      overflow: auto; }
+      .csomor-list .lists .list .spacer {
+        flex-grow: 1; }
+      .csomor-list .lists .list .elements {
+        display: grid;
+        grid-template-columns: auto auto auto; }

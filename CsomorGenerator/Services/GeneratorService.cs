@@ -426,23 +426,20 @@ namespace CsomorGenerator.Services
                 throw this._logger.LogInvalidThings(user, "Generator Service", "csomor", "Csomor does not exist");
             }
 
-            this._mapper.Map(model, csomor);
+            csomor.Persons.ToList().ForEach(x =>
+            {
+                this._context.CsomorPersonTables.RemoveRange(x.Tables);
+                this._context.CsomorPersons.Remove(x);
+                this._context.SaveChanges();
+            });
+            csomor.Works.ToList().ForEach(x =>
+            {
+                this._context.CsomorWorkTables.RemoveRange(x.Tables);
+                this._context.CsomorWorks.Remove(x);
+                this._context.SaveChanges();
+            });
 
-            for (var i = 0; i < csomor.Persons.Count; i++)
-            {
-                this._context.CsomorPersonTables.RemoveRange(csomor.Persons.ToList()[i].Tables);
-                this._context.SaveChanges();
-                this._context.CsomorPersons.Remove(csomor.Persons.ToList()[i]);
-                this._context.SaveChanges();
-            }
-            for (var i = 0; i < csomor.Works.Count; i++)
-            {
-                this._context.CsomorWorkTables.RemoveRange(csomor.Works.ToList()[i].Tables);
-                this._context.SaveChanges();
-                this._context.CsomorWorks.Remove(csomor.Works.ToList()[i]);
-                this._context.SaveChanges();
-            }
-            this._context.SaveChanges();
+            this._mapper.Map(model, csomor);
 
             csomor.Persons = this._mapper.Map<List<CsomorPerson>>(model.Persons);
             csomor.Works = this._mapper.Map<List<CsomorWork>>(model.Works);

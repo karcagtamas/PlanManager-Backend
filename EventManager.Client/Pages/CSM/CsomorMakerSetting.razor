@@ -6,7 +6,15 @@
         Generator Settings
         @if (Id != null)
         {
-            <span>#@Id</span>
+            <span>
+                #@Id -
+
+                @if (Model != null)
+                {
+                    @Model.Title
+                }
+            </span>
+
         }
         else
         {
@@ -19,6 +27,10 @@
     <div class="action-bar">
         <MatTooltip Tooltip="Save">
             <MatIconButton RefBack="@context" Icon="done" @onclick="SaveSettings"></MatIconButton>
+        </MatTooltip>
+        <span class="spacer"></span>
+        <MatTooltip Tooltip="Back to List">
+            <MatIconButton RefBack="@context" Icon="arrow_left" @onclick="@(() => NavigationManager.NavigateTo("/csomors"))"></MatIconButton>
         </MatTooltip>
     </div>
     <div class="csomor">
@@ -73,7 +85,7 @@
                                 <div class="data-row"><strong>Name: </strong> @person.Name</div>
                                 <div class="data-row">
                                     <strong>Settings:</strong> <br />
-                                    <MatCheckbox @bind-Value="person.IsIgnored" Label="Is Ignored" ></MatCheckbox> <br />
+                                    <MatCheckbox @bind-Value="person.IsIgnored" Label="Is Ignored"></MatCheckbox> <br />
 
                                     @foreach (var table in person.Tables)
                                     {
@@ -84,7 +96,7 @@
 
                                     <br />
 
-                                    @foreach(var ignoredWork in Model.Works)
+                                    @foreach (var ignoredWork in Model.Works)
                                     {
                                         <span class="box">
                                             <MatCheckbox ValueChanged="@(val => IgnoredWorkChange(person, ignoredWork, val))" TValue="bool" Value="WorkIsIgnored(person, ignoredWork)" Label="@ignoredWork.Name"></MatCheckbox>

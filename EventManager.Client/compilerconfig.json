@@ -18,5 +18,9 @@
   {
     "outputFile": "Shared/Components/CSM/CsomorListElementComponent.razor.css",
     "inputFile": "Shared/Components/CSM/CsomorListElementComponent.razor.scss"
+  },
+  {
+    "outputFile": "Pages/CSM/CsomorMakerSetting.razor.css",
+    "inputFile": "Pages/CSM/CsomorMakerSetting.razor.scss"
   }
 ]
