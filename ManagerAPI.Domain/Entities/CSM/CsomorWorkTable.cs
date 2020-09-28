@@ -5,8 +5,7 @@ namespace ManagerAPI.Domain.Entities.CSM
 {
     public class CsomorWorkTable
     {
-        [Required]
-        public int Id { get; set; }
+        [Required] public string Id { get; set; }
 
         [Required]
         public DateTime Date { get; set; }

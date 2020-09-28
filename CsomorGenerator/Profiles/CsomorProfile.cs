@@ -12,7 +12,9 @@ namespace CsomorGenerator.Profiles
     {
         public CsomorProfile()
         {
-            CreateMap<GeneratorSettingsModel, Csomor>();
+            CreateMap<GeneratorSettingsModel, Csomor>()
+                .ForMember(dest => dest.Persons, opt => opt.Ignore())
+                .ForMember(dest => dest.Works, opt => opt.Ignore());
             CreateMap<PersonModel, CsomorPerson>()
                 .ForMember(dest => dest.IgnoredWorks, opt => opt.Ignore());
             CreateMap<WorkModel, CsomorWork>();
@@ -42,10 +44,8 @@ namespace CsomorGenerator.Profiles
             /*CreateMap<IgnoredWork, string>()
                 .ForMember(dest => dest, opt => opt.MapFrom(src => src.WorkId));*/
             CreateMap<CsomorWork, Work>();
-            CreateMap<CsomorPersonTable, PersonTable>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => (int?)src.Id));
-            CreateMap<CsomorWorkTable, WorkTable>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => (int?)src.Id));
+            CreateMap<CsomorPersonTable, PersonTable>();
+            CreateMap<CsomorWorkTable, WorkTable>();
 
 
             CreateMap<Csomor, CsomorListDTO>()

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManagerAPI.DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200818160730_UserMovieFix")]
-    partial class UserMovieFix
+    [Migration("20200928154622_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,138 +21,59 @@ namespace ManagerAPI.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.DGtEvent", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.Csomor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Greeny")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("GreenyCost")
-                        .HasColumnType("decimal(10,4)");
-
-                    b.Property<string>("TShirtColor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId")
-                        .IsUnique();
-
-                    b.ToTable("DGtEvents");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.DSportEvent", b =>
-                {
-                    b.Property<int>("Id")
+                    b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
-                    b.Property<string>("Doctors")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("FixTeamCost")
-                        .HasColumnType("decimal(10,4)");
-
-                    b.Property<decimal?>("FixTeamDeposit")
-                        .HasColumnType("decimal(10,4)");
-
-                    b.Property<int?>("HelperLimit")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Helpers")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Injured")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MatchJudges")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("PlayerCost")
-                        .HasColumnType("decimal(10,4)");
-
-                    b.Property<decimal?>("PlayerDeposit")
-                        .HasColumnType("decimal(10,4)");
-
-                    b.Property<int?>("PlayerLimit")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Players")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TeamLimit")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("VisitorCost")
-                        .HasColumnType("decimal(10,4)");
-
-                    b.Property<int?>("VisitorLimit")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Visitors")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId")
-                        .IsUnique();
-
-                    b.ToTable("DSportEvents");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.EventAction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("Finish")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EventId")
+                    b.Property<bool>("HasGeneratedCsomor")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsPublic")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsShared")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("LastGeneration")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastUpdate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("LastUpdaterId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("MaxWorkHour")
                         .HasColumnType("int");
 
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MinRestHour")
+                        .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("EventActions");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.EventRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AccessLevel")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -161,124 +82,159 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("LastUpdaterId");
 
-                    b.ToTable("EventRoles");
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Csomors");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.MasterEvent", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorPerson", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CsomorId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsIgnored")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(120)")
+                        .HasMaxLength(120);
+
+                    b.Property<int>("PlusWorkCounter")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
-
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDisabled")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<bool>("IsLocked")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<bool>("IsPublic")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<DateTime>("LastUpdate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
-
-                    b.Property<string>("LastUpdaterId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasDefaultValue(0);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("CsomorId");
 
-                    b.HasIndex("LastUpdaterId");
-
-                    b.ToTable("MasterEvents");
+                    b.ToTable("CsomorPersons");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.UserEvent", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorPersonTable", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsAvailable")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("PersonId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("WorkId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.HasIndex("WorkId");
+
+                    b.ToTable("CsomorPersonTables");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorWork", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CsomorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CsomorId");
+
+                    b.ToTable("CsomorWorks");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorWorkTable", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("PersonId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("WorkId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.HasIndex("WorkId");
+
+                    b.ToTable("CsomorWorkTables");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.IgnoredWork", b =>
+                {
+                    b.Property<string>("PersonId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("WorkId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("PersonId", "WorkId");
+
+                    b.HasIndex("WorkId");
+
+                    b.ToTable("IgnoredWorks");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.UserCsomor", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("EventId")
+                    b.Property<int>("CsomorId")
                         .HasColumnType("int");
 
-                    b.Property<string>("AddedById")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<bool>("HasWriteAccess")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
-                    b.Property<DateTime>("ConnectionDate")
+                    b.Property<DateTime>("SharedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
 
-                    b.HasKey("UserId", "EventId");
+                    b.HasKey("UserId", "CsomorId");
 
-                    b.HasIndex("AddedById");
+                    b.HasIndex("CsomorId");
 
-                    b.HasIndex("EventId");
-
-                    b.ToTable("UserEventsSwitch");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.UserEventRole", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AddedById")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("OwnershipDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("AddedById");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("UserEventRolesSwitch");
+                    b.ToTable("SharedCsomors");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.FriendRequest", b =>
@@ -1236,6 +1192,48 @@ namespace ManagerAPI.DataAccess.Migrations
                             ImportanceLevel = 1,
                             SystemId = 4,
                             Title = "Movie Comment Updated"
+                        },
+                        new
+                        {
+                            Id = 96,
+                            ImportanceLevel = 2,
+                            SystemId = 4,
+                            Title = "Series Category Added"
+                        },
+                        new
+                        {
+                            Id = 97,
+                            ImportanceLevel = 2,
+                            SystemId = 4,
+                            Title = "Series Category Deleted"
+                        },
+                        new
+                        {
+                            Id = 98,
+                            ImportanceLevel = 2,
+                            SystemId = 4,
+                            Title = "Series Category Updated"
+                        },
+                        new
+                        {
+                            Id = 99,
+                            ImportanceLevel = 2,
+                            SystemId = 4,
+                            Title = "Series Comment Added"
+                        },
+                        new
+                        {
+                            Id = 100,
+                            ImportanceLevel = 2,
+                            SystemId = 4,
+                            Title = "Series Comment Deleted"
+                        },
+                        new
+                        {
+                            Id = 101,
+                            ImportanceLevel = 1,
+                            SystemId = 4,
+                            Title = "Series Comment Updated"
                         });
                 });
 
@@ -1717,7 +1715,21 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(300)")
+                        .HasMaxLength(300);
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ImageTitle")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastUpdaterId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Number")
                         .HasColumnType("int");
@@ -1725,7 +1737,14 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<int>("SeasonId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)")
+                        .HasMaxLength(150);
+
                     b.HasKey("Id");
+
+                    b.HasIndex("LastUpdaterId");
 
                     b.HasIndex("SeasonId");
 
@@ -1844,7 +1863,8 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("Comment")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
@@ -1924,10 +1944,18 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(999)")
+                        .HasMaxLength(999);
 
                     b.Property<int?>("EndYear")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ImageTitle")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime>("LastUpdate")
                         .ValueGeneratedOnAdd()
@@ -1946,6 +1974,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasColumnType("nvarchar(150)")
                         .HasMaxLength(150);
 
+                    b.Property<string>("TrailerUrl")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
@@ -1953,6 +1985,98 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.HasIndex("LastUpdaterId");
 
                     b.ToTable("Series");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.SeriesCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(120)")
+                        .HasMaxLength(120);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SeriesCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Drama"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Action"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Romantic"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Sci-fi"
+                        });
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.SeriesComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<DateTime>("Creation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<int>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SeriesId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SeriesComments");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.SeriesSeriesCategory", b =>
+                {
+                    b.Property<int>("SeriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SeriesId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("SeriesSeriesCategoriesSwitch");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.UserBook", b =>
@@ -2048,10 +2172,16 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<int>("SeriesId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("AddOn")
+                    b.Property<DateTime?>("AddedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
+
+                    b.Property<bool>("IsAdded")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("Rate")
+                        .HasColumnType("int");
 
                     b.HasKey("UserId", "SeriesId");
 
@@ -2459,7 +2589,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9",
-                            ConcurrencyStamp = "12763e1f-9d29-4896-b051-3ac4f3ca5b35",
+                            ConcurrencyStamp = "ac92ea20-75bd-40bd-b1b3-2c7721f5f24f",
                             Name = "Visitor",
                             NormalizedName = "VISITOR",
                             AccessLevel = 0
@@ -2467,7 +2597,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "776474d7-8d01-4809-963e-c721f39dbb45",
-                            ConcurrencyStamp = "0ece7a83-9735-46f4-a974-a0708bf45592",
+                            ConcurrencyStamp = "0d1a3e75-7a9c-4d93-b6ba-d18b74a12117",
                             Name = "Normal",
                             NormalizedName = "NORMAL",
                             AccessLevel = 1
@@ -2475,7 +2605,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "5e0a9192-793f-4c85-a0b1-3198295bf409",
-                            ConcurrencyStamp = "91261a8f-da6a-45f6-bc4f-db5707249159",
+                            ConcurrencyStamp = "77c7e1fc-b7b6-4cd7-8244-b18eb3a13f60",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR",
                             AccessLevel = 2
@@ -2483,15 +2613,39 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "936e42dc-5d3f-4355-bc3a-304a4fe4f518",
-                            ConcurrencyStamp = "2a578123-08b6-49c5-8030-d3517412c685",
+                            ConcurrencyStamp = "491a02c2-9844-4f7a-8cfe-c0e422ee9991",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR",
                             AccessLevel = 3
                         },
                         new
                         {
+                            Id = "936e4ddc-5d3f-4355-af3a-304a4fe4f518",
+                            ConcurrencyStamp = "8c591ae9-c29a-4c3e-91eb-76c3ad3cb35f",
+                            Name = "Status Library User",
+                            NormalizedName = "STATUS LIBRARY USER",
+                            AccessLevel = 1
+                        },
+                        new
+                        {
+                            Id = "936e4ddc-5d3f-5466-af3a-3b4a4424d518",
+                            ConcurrencyStamp = "4209642a-8daf-468b-b400-40cc0f5c1fac",
+                            Name = "Status Library Moderator",
+                            NormalizedName = "STATUS LIBRARY MODERATOR",
+                            AccessLevel = 3
+                        },
+                        new
+                        {
+                            Id = "936d4dfc-5536-4d5f-af2a-304d4fe4f518",
+                            ConcurrencyStamp = "cabaad41-bdf8-4464-ba7a-dff9cfb4dd13",
+                            Name = "Status Library Administrator",
+                            NormalizedName = "STATUS LIBRARY ADMINISTRATOR",
+                            AccessLevel = 3
+                        },
+                        new
+                        {
                             Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20",
-                            ConcurrencyStamp = "29aa2a06-1095-43f8-9edb-5739345eb98f",
+                            ConcurrencyStamp = "5fa9966b-92bb-498c-a892-6a83d90eb630",
                             Name = "Root",
                             NormalizedName = "ROOT",
                             AccessLevel = 4
@@ -2564,7 +2718,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "44045506-66fd-4af8-9d59-133c47d1787c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "046fb8c2-da37-4b6e-88d8-c59e30acf4e0",
+                            ConcurrencyStamp = "8f9d1437-c8d5-42a5-8382-c258556bc740",
                             Email = "karcagtamas@outlook.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2572,7 +2726,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "KARCAGTAMAS",
                             PasswordHash = "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a54d8c4f-9cf6-4a2d-a806-f7182a0b904c",
+                            SecurityStamp = "76a53ee0-fdc2-499e-8e27-f36ea0246c54",
                             TwoFactorEnabled = false,
                             UserName = "karcagtamas",
                             FullName = "Karcag Tamas",
@@ -2584,7 +2738,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "f8237fac-c6dc-47b0-8f71-b72f93368b02",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f61682ef-5213-4fd3-ad16-a896f069ee2d",
+                            ConcurrencyStamp = "f1202b71-fd6c-4c2b-89b3-5101c7b5d4e6",
                             Email = "aron.klenovszky@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2592,7 +2746,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "AARONKAA",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7dc910e5-e02c-46f2-9a8a-f90ad5052b9b",
+                            SecurityStamp = "41c3d685-b28b-4de7-a57e-444247fd1658",
                             TwoFactorEnabled = false,
                             UserName = "aaronkaa",
                             FullName = "Klenovszky Áron",
@@ -2604,7 +2758,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "cd5e5069-59c8-4163-95c5-776fab95e51a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1be385c7-4b78-403c-ac56-ceaf4f5ee2f0",
+                            ConcurrencyStamp = "5b3afc34-1754-4c65-8f68-c3920c89350f",
                             Email = "root@karcags.hu",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2612,7 +2766,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "ROOT",
                             PasswordHash = "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "48befa4c-bc09-4073-bbf7-d4777ed32a43",
+                            SecurityStamp = "586abc6c-4a1e-4567-91f8-3ec6cb818cc3",
                             TwoFactorEnabled = false,
                             UserName = "root",
                             FullName = "Root",
@@ -2624,7 +2778,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "fa2edf69-5fc8-a163-9fc5-726f3b94e51b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "895f60ef-fd51-46b8-b4bf-5c627b0c85bb",
+                            ConcurrencyStamp = "6eca96cd-81f1-44e3-bb16-41ce06b14792",
                             Email = "barni.pbs@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2632,7 +2786,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "BARNI363HUN",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "469f3e17-fbcb-43a5-aefb-f242f5fe19bb",
+                            SecurityStamp = "d7d39c56-cff0-4f78-88fb-50906ffde5de",
                             TwoFactorEnabled = false,
                             UserName = "barni363hun",
                             FullName = "Root",
@@ -2642,102 +2796,90 @@ namespace ManagerAPI.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.DGtEvent", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.Csomor", b =>
                 {
-                    b.HasOne("ManagerAPI.Domain.Entities.EM.MasterEvent", "Event")
-                        .WithOne("GtEvent")
-                        .HasForeignKey("ManagerAPI.Domain.Entities.EM.DGtEvent", "EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.DSportEvent", b =>
-                {
-                    b.HasOne("ManagerAPI.Domain.Entities.EM.MasterEvent", "Event")
-                        .WithOne("SportEvent")
-                        .HasForeignKey("ManagerAPI.Domain.Entities.EM.DSportEvent", "EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.EventAction", b =>
-                {
-                    b.HasOne("ManagerAPI.Domain.Entities.EM.MasterEvent", "Event")
-                        .WithMany("Actions")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "User")
-                        .WithMany("CausedEventActions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.EventRole", b =>
-                {
-                    b.HasOne("ManagerAPI.Domain.Entities.EM.MasterEvent", "Event")
-                        .WithMany("Roles")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.MasterEvent", b =>
-                {
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "Creator")
-                        .WithMany("CreatedMasterEvents")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("ManagerAPI.Domain.Entities.User", "LastUpdater")
-                        .WithMany("UpdatedMasterEvents")
-                        .HasForeignKey("LastUpdaterId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .WithMany("LastUpdatedCsomors")
+                        .HasForeignKey("LastUpdaterId");
+
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "Owner")
+                        .WithMany("OwnedCsomors")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.UserEvent", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorPerson", b =>
                 {
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "AddedBy")
-                        .WithMany("AddedUsersToEvents")
-                        .HasForeignKey("AddedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.EM.MasterEvent", "Event")
-                        .WithMany("Users")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "User")
-                        .WithMany("Events")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("ManagerAPI.Domain.Entities.CSM.Csomor", "Csomor")
+                        .WithMany("Persons")
+                        .HasForeignKey("CsomorId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.EM.UserEventRole", b =>
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorPersonTable", b =>
                 {
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "AddedBy")
-                        .WithMany("AddedRolesToEvent")
-                        .HasForeignKey("AddedById")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("ManagerAPI.Domain.Entities.CSM.CsomorPerson", "Person")
+                        .WithMany("Tables")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.HasOne("ManagerAPI.Domain.Entities.EM.EventRole", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("ManagerAPI.Domain.Entities.CSM.CsomorWork", "Work")
+                        .WithMany("Persons")
+                        .HasForeignKey("WorkId");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorWork", b =>
+                {
+                    b.HasOne("ManagerAPI.Domain.Entities.CSM.Csomor", "Csomor")
+                        .WithMany("Works")
+                        .HasForeignKey("CsomorId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorWorkTable", b =>
+                {
+                    b.HasOne("ManagerAPI.Domain.Entities.CSM.CsomorPerson", "Person")
+                        .WithMany("Works")
+                        .HasForeignKey("PersonId");
+
+                    b.HasOne("ManagerAPI.Domain.Entities.CSM.CsomorWork", "Work")
+                        .WithMany("Tables")
+                        .HasForeignKey("WorkId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.IgnoredWork", b =>
+                {
+                    b.HasOne("ManagerAPI.Domain.Entities.CSM.CsomorPerson", "Person")
+                        .WithMany("IgnoredWorks")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("ManagerAPI.Domain.Entities.CSM.CsomorWork", "Work")
+                        .WithMany("IgnoringPersons")
+                        .HasForeignKey("WorkId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.UserCsomor", b =>
+                {
+                    b.HasOne("ManagerAPI.Domain.Entities.CSM.Csomor", "Csomor")
+                        .WithMany("SharedWith")
+                        .HasForeignKey("CsomorId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.User", "User")
-                        .WithMany("EventRoles")
+                        .WithMany("SharedCsomors")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
@@ -2958,6 +3100,12 @@ namespace ManagerAPI.DataAccess.Migrations
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.Episode", b =>
                 {
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "LastUpdater")
+                        .WithMany("LastUpdatedEpisodes")
+                        .HasForeignKey("LastUpdaterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ManagerAPI.Domain.Entities.SL.Season", "Season")
                         .WithMany("Episodes")
                         .HasForeignKey("SeasonId")
@@ -3031,6 +3179,36 @@ namespace ManagerAPI.DataAccess.Migrations
                         .WithMany("LastUpdatedSeries")
                         .HasForeignKey("LastUpdaterId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.SeriesComment", b =>
+                {
+                    b.HasOne("ManagerAPI.Domain.Entities.SL.Series", "Series")
+                        .WithMany("Comments")
+                        .HasForeignKey("SeriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ManagerAPI.Domain.Entities.User", "User")
+                        .WithMany("SeriesComments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.SeriesSeriesCategory", b =>
+                {
+                    b.HasOne("ManagerAPI.Domain.Entities.SL.SeriesCategory", "Category")
+                        .WithMany("ConnectedSeriesList")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ManagerAPI.Domain.Entities.SL.Series", "Series")
+                        .WithMany("Categories")
+                        .HasForeignKey("SeriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

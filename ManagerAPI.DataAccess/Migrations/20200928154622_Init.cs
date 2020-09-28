@@ -64,6 +64,19 @@ namespace ManagerAPI.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MovieCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(maxLength: 120, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovieCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "NotificationSystems",
                 columns: table => new
                 {
@@ -88,6 +101,19 @@ namespace ManagerAPI.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PlanTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SeriesCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(maxLength: 120, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SeriesCategories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -310,6 +336,43 @@ namespace ManagerAPI.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Csomors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(maxLength: 120, nullable: false),
+                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    OwnerId = table.Column<string>(nullable: false),
+                    LastUpdate = table.Column<DateTime>(nullable: true, defaultValueSql: "getdate()"),
+                    LastUpdaterId = table.Column<string>(nullable: true),
+                    Start = table.Column<DateTime>(nullable: false),
+                    Finish = table.Column<DateTime>(nullable: false),
+                    MaxWorkHour = table.Column<int>(nullable: false),
+                    MinRestHour = table.Column<int>(nullable: false),
+                    IsShared = table.Column<bool>(nullable: false, defaultValue: false),
+                    IsPublic = table.Column<bool>(nullable: false, defaultValue: false),
+                    HasGeneratedCsomor = table.Column<bool>(nullable: false, defaultValue: false),
+                    LastGeneration = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Csomors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Csomors_AspNetUsers_LastUpdaterId",
+                        column: x => x.LastUpdaterId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Csomors_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FriendRequests",
                 columns: table => new
                 {
@@ -334,41 +397,6 @@ namespace ManagerAPI.DataAccess.Migrations
                     table.ForeignKey(
                         name: "FK_FriendRequests_AspNetUsers_SenderId",
                         column: x => x.SenderId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MasterEvents",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 256, nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    IsLocked = table.Column<bool>(nullable: false, defaultValue: false),
-                    IsDisabled = table.Column<bool>(nullable: false, defaultValue: false),
-                    IsPublic = table.Column<bool>(nullable: false, defaultValue: true),
-                    CreatorId = table.Column<string>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    LastUpdaterId = table.Column<string>(nullable: false),
-                    LastUpdate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    StartDate = table.Column<DateTime>(nullable: true),
-                    EndDate = table.Column<DateTime>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MasterEvents", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MasterEvents_AspNetUsers_CreatorId",
-                        column: x => x.CreatorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_MasterEvents_AspNetUsers_LastUpdaterId",
-                        column: x => x.LastUpdaterId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -410,7 +438,12 @@ namespace ManagerAPI.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(maxLength: 150, nullable: false),
                     Description = table.Column<string>(maxLength: 999, nullable: true),
-                    Year = table.Column<int>(nullable: false),
+                    ReleaseYear = table.Column<int>(nullable: true),
+                    Length = table.Column<int>(nullable: true),
+                    Director = table.Column<string>(maxLength: 60, nullable: true),
+                    TrailerUrl = table.Column<string>(maxLength: 200, nullable: true),
+                    ImageTitle = table.Column<string>(maxLength: 100, nullable: true),
+                    ImageData = table.Column<byte[]>(nullable: true),
                     CreatorId = table.Column<string>(nullable: false),
                     LastUpdaterId = table.Column<string>(nullable: false),
                     Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
@@ -533,9 +566,12 @@ namespace ManagerAPI.DataAccess.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(maxLength: 150, nullable: false),
-                    Description = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(maxLength: 999, nullable: true),
                     StartYear = table.Column<int>(nullable: true),
                     EndYear = table.Column<int>(nullable: true),
+                    TrailerUrl = table.Column<string>(maxLength: 200, nullable: true),
+                    ImageTitle = table.Column<string>(maxLength: 100, nullable: true),
+                    ImageData = table.Column<byte[]>(nullable: true),
                     Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
                     LastUpdate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
                     CreatorId = table.Column<string>(nullable: false),
@@ -658,13 +694,79 @@ namespace ManagerAPI.DataAccess.Migrations
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserBookSwitch_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CsomorPersons",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 120, nullable: false),
+                    CsomorId = table.Column<int>(nullable: false),
+                    PlusWorkCounter = table.Column<int>(nullable: false, defaultValue: 0),
+                    IsIgnored = table.Column<bool>(nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CsomorPersons", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CsomorPersons_Csomors_CsomorId",
+                        column: x => x.CsomorId,
+                        principalTable: "Csomors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CsomorWorks",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 80, nullable: false),
+                    CsomorId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CsomorWorks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CsomorWorks_Csomors_CsomorId",
+                        column: x => x.CsomorId,
+                        principalTable: "Csomors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SharedCsomors",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    CsomorId = table.Column<int>(nullable: false),
+                    SharedOn = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    HasWriteAccess = table.Column<bool>(nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SharedCsomors", x => new { x.UserId, x.CsomorId });
+                    table.ForeignKey(
+                        name: "FK_SharedCsomors_Csomors_CsomorId",
+                        column: x => x.CsomorId,
+                        principalTable: "Csomors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SharedCsomors_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -700,138 +802,54 @@ namespace ManagerAPI.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DGtEvents",
+                name: "MovieComments",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EventId = table.Column<int>(nullable: false),
-                    TShirtColor = table.Column<string>(nullable: true),
-                    Greeny = table.Column<int>(nullable: true),
-                    GreenyCost = table.Column<decimal>(type: "decimal(10,4)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DGtEvents", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DGtEvents_MasterEvents_EventId",
-                        column: x => x.EventId,
-                        principalTable: "MasterEvents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DSportEvents",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EventId = table.Column<int>(nullable: false),
-                    Injured = table.Column<int>(nullable: true),
-                    Visitors = table.Column<int>(nullable: true),
-                    VisitorLimit = table.Column<int>(nullable: true),
-                    VisitorCost = table.Column<decimal>(type: "decimal(10,4)", nullable: true),
-                    Players = table.Column<int>(nullable: true),
-                    PlayerLimit = table.Column<int>(nullable: true),
-                    PlayerCost = table.Column<decimal>(type: "decimal(10,4)", nullable: true),
-                    PlayerDeposit = table.Column<decimal>(type: "decimal(10,4)", nullable: true),
-                    Helpers = table.Column<int>(nullable: true),
-                    HelperLimit = table.Column<int>(nullable: true),
-                    FixTeamDeposit = table.Column<decimal>(type: "decimal(10,4)", nullable: true),
-                    FixTeamCost = table.Column<decimal>(type: "decimal(10,4)", nullable: true),
-                    TeamLimit = table.Column<int>(nullable: true),
-                    MatchJudges = table.Column<string>(nullable: true),
-                    Doctors = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DSportEvents", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DSportEvents_MasterEvents_EventId",
-                        column: x => x.EventId,
-                        principalTable: "MasterEvents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EventActions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(nullable: false),
-                    Message = table.Column<string>(nullable: false),
-                    EventId = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EventActions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EventActions_MasterEvents_EventId",
-                        column: x => x.EventId,
-                        principalTable: "MasterEvents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EventActions_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EventRoles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 120, nullable: false),
-                    AccessLevel = table.Column<int>(nullable: false),
-                    EventId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EventRoles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EventRoles_MasterEvents_EventId",
-                        column: x => x.EventId,
-                        principalTable: "MasterEvents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserEventsSwitch",
-                columns: table => new
-                {
+                    MovieId = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: false),
-                    EventId = table.Column<int>(nullable: false),
-                    ConnectionDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    AddedById = table.Column<string>(nullable: false)
+                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    LastUpdate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    Comment = table.Column<string>(maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserEventsSwitch", x => new { x.UserId, x.EventId });
+                    table.PrimaryKey("PK_MovieComments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserEventsSwitch_AspNetUsers_AddedById",
-                        column: x => x.AddedById,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UserEventsSwitch_MasterEvents_EventId",
-                        column: x => x.EventId,
-                        principalTable: "MasterEvents",
+                        name: "FK_MovieComments_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserEventsSwitch_AspNetUsers_UserId",
+                        name: "FK_MovieComments_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MovieMovieCategorySwitch",
+                columns: table => new
+                {
+                    MovieId = table.Column<int>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovieMovieCategorySwitch", x => new { x.MovieId, x.CategoryId });
+                    table.ForeignKey(
+                        name: "FK_MovieMovieCategorySwitch_MovieCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "MovieCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MovieMovieCategorySwitch_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -842,9 +860,11 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     MovieId = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: false),
-                    Seen = table.Column<bool>(nullable: false, defaultValue: false),
+                    IsSeen = table.Column<bool>(nullable: false, defaultValue: false),
+                    IsAdded = table.Column<bool>(nullable: false),
                     SeenOn = table.Column<DateTime>(nullable: true),
-                    AddOn = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()")
+                    AddedOn = table.Column<DateTime>(nullable: true, defaultValueSql: "getdate()"),
+                    Rate = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -854,13 +874,13 @@ namespace ManagerAPI.DataAccess.Migrations
                         column: x => x.MovieId,
                         principalTable: "Movies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserMovieSwitch_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1041,12 +1061,67 @@ namespace ManagerAPI.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SeriesComments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SeriesId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
+                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    LastUpdate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    Comment = table.Column<string>(maxLength: 500, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SeriesComments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SeriesComments_Series_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Series",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SeriesComments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SeriesSeriesCategoriesSwitch",
+                columns: table => new
+                {
+                    SeriesId = table.Column<int>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SeriesSeriesCategoriesSwitch", x => new { x.SeriesId, x.CategoryId });
+                    table.ForeignKey(
+                        name: "FK_SeriesSeriesCategoriesSwitch_SeriesCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "SeriesCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SeriesSeriesCategoriesSwitch_Series_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Series",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserSeriesSwitch",
                 columns: table => new
                 {
                     SeriesId = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: false),
-                    AddOn = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()")
+                    IsAdded = table.Column<bool>(nullable: false),
+                    AddedOn = table.Column<DateTime>(nullable: true, defaultValueSql: "getdate()"),
+                    Rate = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1056,13 +1131,13 @@ namespace ManagerAPI.DataAccess.Migrations
                         column: x => x.SeriesId,
                         principalTable: "Series",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserSeriesSwitch_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1088,35 +1163,81 @@ namespace ManagerAPI.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserEventRolesSwitch",
+                name: "CsomorPersonTables",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    RoleId = table.Column<int>(nullable: false),
-                    OwnershipDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    AddedById = table.Column<string>(nullable: false)
+                    Id = table.Column<string>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    PersonId = table.Column<string>(nullable: false),
+                    IsAvailable = table.Column<bool>(nullable: false, defaultValue: false),
+                    WorkId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserEventRolesSwitch", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("PK_CsomorPersonTables", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserEventRolesSwitch_AspNetUsers_AddedById",
-                        column: x => x.AddedById,
-                        principalTable: "AspNetUsers",
+                        name: "FK_CsomorPersonTables_CsomorPersons_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "CsomorPersons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserEventRolesSwitch_EventRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "EventRoles",
+                        name: "FK_CsomorPersonTables_CsomorWorks_WorkId",
+                        column: x => x.WorkId,
+                        principalTable: "CsomorWorks",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CsomorWorkTables",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    WorkId = table.Column<string>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false, defaultValue: false),
+                    PersonId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CsomorWorkTables", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserEventRolesSwitch_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_CsomorWorkTables_CsomorPersons_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "CsomorPersons",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CsomorWorkTables_CsomorWorks_WorkId",
+                        column: x => x.WorkId,
+                        principalTable: "CsomorWorks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IgnoredWorks",
+                columns: table => new
+                {
+                    PersonId = table.Column<string>(nullable: false),
+                    WorkId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IgnoredWorks", x => new { x.PersonId, x.WorkId });
+                    table.ForeignKey(
+                        name: "FK_IgnoredWorks_CsomorPersons_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "CsomorPersons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_IgnoredWorks_CsomorWorks_WorkId",
+                        column: x => x.WorkId,
+                        principalTable: "CsomorWorks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1153,13 +1274,24 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(maxLength: 150, nullable: false),
                     Number = table.Column<int>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    SeasonId = table.Column<int>(nullable: false)
+                    Description = table.Column<string>(maxLength: 300, nullable: true),
+                    SeasonId = table.Column<int>(nullable: false),
+                    LastUpdaterId = table.Column<string>(nullable: false),
+                    LastUpdate = table.Column<DateTime>(nullable: false),
+                    ImageTitle = table.Column<string>(nullable: true),
+                    ImageData = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Episodes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Episodes_AspNetUsers_LastUpdaterId",
+                        column: x => x.LastUpdaterId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Episodes_Seasons_SeasonId",
                         column: x => x.SeasonId,
@@ -1199,11 +1331,14 @@ namespace ManagerAPI.DataAccess.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Discriminator", "Name", "NormalizedName", "AccessLevel" },
                 values: new object[,]
                 {
-                    { "fa5deb78-59c2-4faa-83dc-6c3369eedf20", "ff287b60-e124-4389-9257-241bdeb1d776", "WebsiteRole", "Root", "ROOT", 4 },
-                    { "5e0a9192-793f-4c85-a0b1-3198295bf409", "d73461a3-5575-4eeb-89bd-6d2f719b0764", "WebsiteRole", "Moderator", "MODERATOR", 2 },
-                    { "776474d7-8d01-4809-963e-c721f39dbb45", "30282300-baa8-40b4-8f15-45d94c0204c5", "WebsiteRole", "Normal", "NORMAL", 1 },
-                    { "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9", "b54f74a2-db66-4f2f-bb74-e5ffbc5f5d4d", "WebsiteRole", "Visitor", "VISITOR", 0 },
-                    { "936e42dc-5d3f-4355-bc3a-304a4fe4f518", "e91c6348-e7a5-4bb1-8ce2-5ea9fb515b2e", "WebsiteRole", "Administrator", "ADMINISTRATOR", 3 }
+                    { "fa5deb78-59c2-4faa-83dc-6c3369eedf20", "5fa9966b-92bb-498c-a892-6a83d90eb630", "WebsiteRole", "Root", "ROOT", 4 },
+                    { "936e4ddc-5d3f-5466-af3a-3b4a4424d518", "4209642a-8daf-468b-b400-40cc0f5c1fac", "WebsiteRole", "Status Library Moderator", "STATUS LIBRARY MODERATOR", 3 },
+                    { "936e4ddc-5d3f-4355-af3a-304a4fe4f518", "8c591ae9-c29a-4c3e-91eb-76c3ad3cb35f", "WebsiteRole", "Status Library User", "STATUS LIBRARY USER", 1 },
+                    { "936e42dc-5d3f-4355-bc3a-304a4fe4f518", "491a02c2-9844-4f7a-8cfe-c0e422ee9991", "WebsiteRole", "Administrator", "ADMINISTRATOR", 3 },
+                    { "5e0a9192-793f-4c85-a0b1-3198295bf409", "77c7e1fc-b7b6-4cd7-8244-b18eb3a13f60", "WebsiteRole", "Moderator", "MODERATOR", 2 },
+                    { "776474d7-8d01-4809-963e-c721f39dbb45", "0d1a3e75-7a9c-4d93-b6ba-d18b74a12117", "WebsiteRole", "Normal", "NORMAL", 1 },
+                    { "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9", "ac92ea20-75bd-40bd-b1b3-2c7721f5f24f", "WebsiteRole", "Visitor", "VISITOR", 0 },
+                    { "936d4dfc-5536-4d5f-af2a-304d4fe4f518", "cabaad41-bdf8-4464-ba7a-dff9cfb4dd13", "WebsiteRole", "Status Library Administrator", "STATUS LIBRARY ADMINISTRATOR", 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -1211,10 +1346,10 @@ namespace ManagerAPI.DataAccess.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "Allergy", "BirthDay", "City", "Country", "FullName", "GenderId", "Group", "IsActive", "ProfileImageData", "ProfileImageTitle", "SecondaryEmail", "TShirtSize" },
                 values: new object[,]
                 {
-                    { "fa2edf69-5fc8-a163-9fc5-726f3b94e51b", 0, "911d61d8-7e1b-4877-a7be-3d0fd0204843", "User", "barni.pbs@gmail.com", true, false, null, "BARNI.PBS@GMAIL.COM", "BARNI363HUN", "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", null, false, "ea03ba34-a3ee-4c3f-9b18-170abad73965", false, "barni363hun", null, null, null, null, "Root", null, null, true, null, null, null, null },
-                    { "cd5e5069-59c8-4163-95c5-776fab95e51a", 0, "de6e228d-5ac0-4131-9619-5659fd03f822", "User", "root@karcags.hu", true, false, null, "ROOT@KARCAGS.HU", "ROOT", "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==", null, false, "652a6b62-bd08-4d3b-a954-ffa926eff76e", false, "root", null, null, null, null, "Root", null, null, true, null, null, null, null },
-                    { "f8237fac-c6dc-47b0-8f71-b72f93368b02", 0, "3556a519-18fe-40ab-92e8-00aa7c5d219e", "User", "aron.klenovszky@gmail.com", true, false, null, "ARON.KLENOVSZKY@GMAIL.COM", "AARONKAA", "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", null, false, "d7ffc5dc-de1d-4321-8024-58190ac57522", false, "aaronkaa", null, null, null, null, "Klenovszky Áron", null, null, true, null, null, null, null },
-                    { "44045506-66fd-4af8-9d59-133c47d1787c", 0, "97495a46-337d-4d22-9a49-4ce91ab2c506", "User", "karcagtamas@outlook.com", true, false, null, "KARCAGTAMAS@OUTLOOK.COM", "KARCAGTAMAS", "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==", null, false, "8650b24f-25bb-496a-8b7a-56fda4adf745", false, "karcagtamas", null, null, null, null, "Karcag Tamas", null, null, true, null, null, null, null }
+                    { "fa2edf69-5fc8-a163-9fc5-726f3b94e51b", 0, "6eca96cd-81f1-44e3-bb16-41ce06b14792", "User", "barni.pbs@gmail.com", true, false, null, "BARNI.PBS@GMAIL.COM", "BARNI363HUN", "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", null, false, "d7d39c56-cff0-4f78-88fb-50906ffde5de", false, "barni363hun", null, null, null, null, "Root", null, null, true, null, null, null, null },
+                    { "cd5e5069-59c8-4163-95c5-776fab95e51a", 0, "5b3afc34-1754-4c65-8f68-c3920c89350f", "User", "root@karcags.hu", true, false, null, "ROOT@KARCAGS.HU", "ROOT", "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==", null, false, "586abc6c-4a1e-4567-91f8-3ec6cb818cc3", false, "root", null, null, null, null, "Root", null, null, true, null, null, null, null },
+                    { "f8237fac-c6dc-47b0-8f71-b72f93368b02", 0, "f1202b71-fd6c-4c2b-89b3-5101c7b5d4e6", "User", "aron.klenovszky@gmail.com", true, false, null, "ARON.KLENOVSZKY@GMAIL.COM", "AARONKAA", "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", null, false, "41c3d685-b28b-4de7-a57e-444247fd1658", false, "aaronkaa", null, null, null, null, "Klenovszky Áron", null, null, true, null, null, null, null },
+                    { "44045506-66fd-4af8-9d59-133c47d1787c", 0, "8f9d1437-c8d5-42a5-8382-c258556bc740", "User", "karcagtamas@outlook.com", true, false, null, "KARCAGTAMAS@OUTLOOK.COM", "KARCAGTAMAS", "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==", null, false, "76a53ee0-fdc2-499e-8e27-f36ea0246c54", false, "karcagtamas", null, null, null, null, "Karcag Tamas", null, null, true, null, null, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -1232,12 +1367,12 @@ namespace ManagerAPI.DataAccess.Migrations
                 columns: new[] { "Id", "AccessLevel", "Title" },
                 values: new object[,]
                 {
-                    { 3, 2, "Editor" },
-                    { 2, 1, "Normal" },
-                    { 1, 0, "Visitor" },
                     { 6, 5, "Owner" },
+                    { 1, 0, "Visitor" },
                     { 5, 4, "Administrator" },
-                    { 4, 3, "Moderator" }
+                    { 3, 2, "Editor" },
+                    { 4, 3, "Moderator" },
+                    { 2, 1, "Normal" }
                 });
 
             migrationBuilder.InsertData(
@@ -1245,10 +1380,21 @@ namespace ManagerAPI.DataAccess.Migrations
                 columns: new[] { "Id", "Title" },
                 values: new object[,]
                 {
-                    { 2, "Owner" },
                     { 3, "Modifier" },
-                    { 4, "Leader" },
-                    { 1, "Responsible" }
+                    { 2, "Owner" },
+                    { 1, "Responsible" },
+                    { 4, "Leader" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MovieCategories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Drama" },
+                    { 2, "Action" },
+                    { 3, "Romantic" },
+                    { 4, "Sci-fi" }
                 });
 
             migrationBuilder.InsertData(
@@ -1256,11 +1402,11 @@ namespace ManagerAPI.DataAccess.Migrations
                 columns: new[] { "Id", "Name", "ShortName" },
                 values: new object[,]
                 {
-                    { 4, "Movie Corner", "MC" },
                     { 1, "System", "Sys" },
                     { 2, "Event Manager", "EM" },
-                    { 5, "Work Manager", "WM" },
-                    { 3, "Plan Manager", "PM" }
+                    { 3, "Plan Manager", "PM" },
+                    { 4, "Status Library", "SL" },
+                    { 5, "Work Manager", "WM" }
                 });
 
             migrationBuilder.InsertData(
@@ -1269,11 +1415,22 @@ namespace ManagerAPI.DataAccess.Migrations
                 values: new object[,]
                 {
                     { 6, "Event" },
+                    { 5, "Decision" },
                     { 4, "Learning" },
                     { 3, "Nice To Have" },
                     { 2, "Future Idea" },
-                    { 5, "Decision" },
                     { 1, "Plan" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SeriesCategories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 2, "Action" },
+                    { 1, "Drama" },
+                    { 4, "Sci-fi" },
+                    { 3, "Romantic" }
                 });
 
             migrationBuilder.InsertData(
@@ -1297,32 +1454,12 @@ namespace ManagerAPI.DataAccess.Migrations
                 values: new object[,]
                 {
                     { 1, 2, 1, "Login" },
-                    { 36, 3, 2, "Event PayOut Added" },
-                    { 35, 1, 2, "Event ToDo Updated" },
-                    { 34, 2, 2, "Event ToDo Deleted" },
-                    { 33, 2, 2, "Event ToDo Added" },
-                    { 32, 2, 2, "Role Removed In An Event" },
-                    { 31, 2, 2, "Event Role Removed From A User" },
-                    { 30, 2, 2, "Role Added In An Event" },
-                    { 29, 2, 2, "Event Role Added To A User" },
-                    { 28, 3, 2, "Event Role Deleted" },
-                    { 27, 2, 2, "Event Role Updated" },
-                    { 26, 2, 2, "Event Role Added" },
-                    { 25, 1, 2, "Event Date Changed" },
-                    { 24, 2, 2, "Event Evolved To GT Event" },
-                    { 23, 2, 2, "Event Evolved To Sport Event" },
-                    { 22, 3, 2, "Removed From An Event" },
-                    { 37, 3, 2, "Event PayOut Deleted" },
-                    { 21, 3, 2, "Event Member Removed" },
-                    { 38, 3, 2, "Event PayOut Updated" },
-                    { 68, 1, 4, "Movie Deleted" },
-                    { 58, 2, 5, "Working Day Type Added" },
-                    { 57, 1, 5, "Working Day Updated" },
-                    { 56, 1, 5, "Working Day Deleted" },
-                    { 55, 1, 5, "Working Day Added" },
-                    { 54, 1, 5, "Working Field Updated" },
-                    { 53, 1, 5, "Working Field Deleted" },
-                    { 52, 1, 5, "Working Field Added" },
+                    { 82, 1, 4, "Season Deleted" },
+                    { 81, 1, 4, "Season Added" },
+                    { 80, 1, 4, "My Series List Updated" },
+                    { 79, 1, 4, "Series Updated" },
+                    { 78, 1, 4, "Series Deleted" },
+                    { 77, 1, 4, "Series Added" },
                     { 76, 1, 4, "My Movie List Updated" },
                     { 75, 1, 4, "Movie Seen Status Updated" },
                     { 74, 1, 4, "My Book List Updated" },
@@ -1331,10 +1468,49 @@ namespace ManagerAPI.DataAccess.Migrations
                     { 71, 1, 4, "Book Deleted" },
                     { 70, 1, 4, "Book Added" },
                     { 69, 1, 4, "Movie Updated" },
+                    { 68, 1, 4, "Movie Deleted" },
                     { 67, 1, 4, "Movie Added" },
-                    { 20, 1, 2, "Decline Event Invitation" },
-                    { 19, 1, 2, "Accept Event Invitation" },
-                    { 18, 1, 2, "Invited To An Event" },
+                    { 38, 3, 2, "Event PayOut Updated" },
+                    { 37, 3, 2, "Event PayOut Deleted" },
+                    { 36, 3, 2, "Event PayOut Added" },
+                    { 35, 1, 2, "Event ToDo Updated" },
+                    { 34, 2, 2, "Event ToDo Deleted" },
+                    { 83, 1, 4, "Season Updated" },
+                    { 84, 1, 4, "Episode Added" },
+                    { 85, 1, 4, "Episode Deleted" },
+                    { 86, 1, 4, "Episode Updated" },
+                    { 58, 2, 5, "Working Day Type Added" },
+                    { 57, 1, 5, "Working Day Updated" },
+                    { 56, 1, 5, "Working Day Deleted" },
+                    { 55, 1, 5, "Working Day Added" },
+                    { 54, 1, 5, "Working Field Updated" },
+                    { 53, 1, 5, "Working Field Deleted" },
+                    { 52, 1, 5, "Working Field Added" },
+                    { 101, 1, 4, "Series Comment Updated" },
+                    { 100, 2, 4, "Series Comment Deleted" },
+                    { 99, 2, 4, "Series Comment Added" },
+                    { 33, 2, 2, "Event ToDo Added" },
+                    { 98, 2, 4, "Series Category Updated" },
+                    { 96, 2, 4, "Series Category Added" },
+                    { 95, 1, 4, "Movie Comment Updated" },
+                    { 94, 2, 4, "Movie Comment Deleted" },
+                    { 93, 2, 4, "Movie Comment Added" },
+                    { 92, 2, 4, "Movie Category Updated" },
+                    { 91, 2, 4, "Movie Category Deleted" },
+                    { 90, 2, 4, "Movie Category Added" },
+                    { 89, 1, 4, "Season Seen Status Updated" },
+                    { 88, 1, 4, "Series Seen Status Updated" },
+                    { 87, 1, 4, "Episode Seen Status Updated" },
+                    { 97, 2, 4, "Series Category Deleted" },
+                    { 59, 3, 5, "Working Day Type Deleted" },
+                    { 32, 2, 2, "Role Removed In An Event" },
+                    { 30, 2, 2, "Role Added In An Event" },
+                    { 61, 1, 1, "Message Added" },
+                    { 51, 3, 1, "News Deleted" },
+                    { 50, 1, 1, "News Updated" },
+                    { 49, 2, 1, "News Added" },
+                    { 48, 3, 1, "Friend Removed" },
+                    { 47, 2, 1, "You Has a new Friend" },
                     { 46, 2, 1, "Friend Request Declined" },
                     { 45, 2, 1, "Friend Request Accepted" },
                     { 44, 1, 1, "Friend Request Sent" },
@@ -1350,10 +1526,22 @@ namespace ManagerAPI.DataAccess.Migrations
                     { 4, 3, 1, "My Profile Updated" },
                     { 3, 1, 1, "Logout" },
                     { 2, 3, 1, "Registration" },
-                    { 47, 2, 1, "You Has a new Friend" },
-                    { 48, 3, 1, "Friend Removed" },
-                    { 49, 2, 1, "News Added" },
-                    { 50, 1, 1, "News Updated" },
+                    { 62, 1, 1, "Message Deleted" },
+                    { 63, 1, 1, "Message Updated" },
+                    { 64, 2, 1, "Gender Added" },
+                    { 65, 3, 1, "Gender Deleted" },
+                    { 29, 2, 2, "Event Role Added To A User" },
+                    { 28, 3, 2, "Event Role Deleted" },
+                    { 27, 2, 2, "Event Role Updated" },
+                    { 26, 2, 2, "Event Role Added" },
+                    { 25, 1, 2, "Event Date Changed" },
+                    { 24, 2, 2, "Event Evolved To GT Event" },
+                    { 23, 2, 2, "Event Evolved To Sport Event" },
+                    { 22, 3, 2, "Removed From An Event" },
+                    { 21, 3, 2, "Event Member Removed" },
+                    { 20, 1, 2, "Decline Event Invitation" },
+                    { 31, 2, 2, "Event Role Removed From A User" },
+                    { 19, 1, 2, "Accept Event Invitation" },
                     { 17, 2, 2, "Invitation Declined" },
                     { 16, 2, 2, "Invitation Accepted" },
                     { 15, 2, 2, "Event Member Invited" },
@@ -1361,16 +1549,10 @@ namespace ManagerAPI.DataAccess.Migrations
                     { 13, 2, 2, "Event Updated" },
                     { 12, 1, 2, "Event Locked" },
                     { 11, 2, 2, "Event Published" },
-                    { 59, 3, 5, "Working Day Type Deleted" },
                     { 10, 3, 2, "Event Disabled" },
-                    { 66, 2, 1, "Gender Updated" },
-                    { 65, 3, 1, "Gender Deleted" },
-                    { 64, 2, 1, "Gender Added" },
-                    { 63, 1, 1, "Message Updated" },
-                    { 62, 1, 1, "Message Deleted" },
-                    { 61, 1, 1, "Message Added" },
-                    { 51, 3, 1, "News Deleted" },
                     { 9, 3, 2, "Event Created" },
+                    { 66, 2, 1, "Gender Updated" },
+                    { 18, 1, 2, "Invited To An Event" },
                     { 60, 2, 5, "Working Day Type Updated" }
                 });
 
@@ -1429,36 +1611,54 @@ namespace ManagerAPI.DataAccess.Migrations
                 column: "LastUpdaterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DGtEvents_EventId",
-                table: "DGtEvents",
-                column: "EventId",
-                unique: true);
+                name: "IX_CsomorPersons_CsomorId",
+                table: "CsomorPersons",
+                column: "CsomorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DSportEvents_EventId",
-                table: "DSportEvents",
-                column: "EventId",
-                unique: true);
+                name: "IX_CsomorPersonTables_PersonId",
+                table: "CsomorPersonTables",
+                column: "PersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CsomorPersonTables_WorkId",
+                table: "CsomorPersonTables",
+                column: "WorkId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Csomors_LastUpdaterId",
+                table: "Csomors",
+                column: "LastUpdaterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Csomors_OwnerId",
+                table: "Csomors",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CsomorWorks_CsomorId",
+                table: "CsomorWorks",
+                column: "CsomorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CsomorWorkTables_PersonId",
+                table: "CsomorWorkTables",
+                column: "PersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CsomorWorkTables_WorkId",
+                table: "CsomorWorkTables",
+                column: "WorkId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Episodes_LastUpdaterId",
+                table: "Episodes",
+                column: "LastUpdaterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Episodes_SeasonId",
                 table: "Episodes",
                 column: "SeasonId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EventActions_EventId",
-                table: "EventActions",
-                column: "EventId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EventActions_UserId",
-                table: "EventActions",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EventRoles_EventId",
-                table: "EventRoles",
-                column: "EventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FriendRequests_DestinationId",
@@ -1481,14 +1681,9 @@ namespace ManagerAPI.DataAccess.Migrations
                 column: "RequestId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MasterEvents_CreatorId",
-                table: "MasterEvents",
-                column: "CreatorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MasterEvents_LastUpdaterId",
-                table: "MasterEvents",
-                column: "LastUpdaterId");
+                name: "IX_IgnoredWorks_WorkId",
+                table: "IgnoredWorks",
+                column: "WorkId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_ReceiverId",
@@ -1499,6 +1694,21 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "IX_Messages_SenderId",
                 table: "Messages",
                 column: "SenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovieComments_MovieId",
+                table: "MovieComments",
+                column: "MovieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovieComments_UserId",
+                table: "MovieComments",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovieMovieCategorySwitch_CategoryId",
+                table: "MovieMovieCategorySwitch",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movies_CreatorId",
@@ -1631,6 +1841,26 @@ namespace ManagerAPI.DataAccess.Migrations
                 column: "LastUpdaterId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SeriesComments_SeriesId",
+                table: "SeriesComments",
+                column: "SeriesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SeriesComments_UserId",
+                table: "SeriesComments",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SeriesSeriesCategoriesSwitch_CategoryId",
+                table: "SeriesSeriesCategoriesSwitch",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SharedCsomors_CsomorId",
+                table: "SharedCsomors",
+                column: "CsomorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tasks_OwnerId",
                 table: "Tasks",
                 column: "OwnerId");
@@ -1644,26 +1874,6 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "IX_UserEpisodeSwitch_EpisodeId",
                 table: "UserEpisodeSwitch",
                 column: "EpisodeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserEventRolesSwitch_AddedById",
-                table: "UserEventRolesSwitch",
-                column: "AddedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserEventRolesSwitch_RoleId",
-                table: "UserEventRolesSwitch",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserEventsSwitch_AddedById",
-                table: "UserEventsSwitch",
-                column: "AddedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserEventsSwitch_EventId",
-                table: "UserEventsSwitch",
-                column: "EventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserMovieSwitch_MovieId",
@@ -1724,19 +1934,25 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "DGtEvents");
+                name: "CsomorPersonTables");
 
             migrationBuilder.DropTable(
-                name: "DSportEvents");
-
-            migrationBuilder.DropTable(
-                name: "EventActions");
+                name: "CsomorWorkTables");
 
             migrationBuilder.DropTable(
                 name: "Friends");
 
             migrationBuilder.DropTable(
+                name: "IgnoredWorks");
+
+            migrationBuilder.DropTable(
                 name: "Messages");
+
+            migrationBuilder.DropTable(
+                name: "MovieComments");
+
+            migrationBuilder.DropTable(
+                name: "MovieMovieCategorySwitch");
 
             migrationBuilder.DropTable(
                 name: "News");
@@ -1757,6 +1973,15 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "Plans");
 
             migrationBuilder.DropTable(
+                name: "SeriesComments");
+
+            migrationBuilder.DropTable(
+                name: "SeriesSeriesCategoriesSwitch");
+
+            migrationBuilder.DropTable(
+                name: "SharedCsomors");
+
+            migrationBuilder.DropTable(
                 name: "Tasks");
 
             migrationBuilder.DropTable(
@@ -1764,12 +1989,6 @@ namespace ManagerAPI.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserEpisodeSwitch");
-
-            migrationBuilder.DropTable(
-                name: "UserEventRolesSwitch");
-
-            migrationBuilder.DropTable(
-                name: "UserEventsSwitch");
 
             migrationBuilder.DropTable(
                 name: "UserMovieSwitch");
@@ -1790,19 +2009,28 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "FriendRequests");
 
             migrationBuilder.DropTable(
+                name: "CsomorPersons");
+
+            migrationBuilder.DropTable(
+                name: "CsomorWorks");
+
+            migrationBuilder.DropTable(
+                name: "MovieCategories");
+
+            migrationBuilder.DropTable(
                 name: "NotificationTypes");
 
             migrationBuilder.DropTable(
                 name: "PlanGroupPlans");
 
             migrationBuilder.DropTable(
+                name: "SeriesCategories");
+
+            migrationBuilder.DropTable(
                 name: "Books");
 
             migrationBuilder.DropTable(
                 name: "Episodes");
-
-            migrationBuilder.DropTable(
-                name: "EventRoles");
 
             migrationBuilder.DropTable(
                 name: "Movies");
@@ -1812,6 +2040,9 @@ namespace ManagerAPI.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "WorkingDays");
+
+            migrationBuilder.DropTable(
+                name: "Csomors");
 
             migrationBuilder.DropTable(
                 name: "NotificationSystems");
@@ -1827,9 +2058,6 @@ namespace ManagerAPI.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Seasons");
-
-            migrationBuilder.DropTable(
-                name: "MasterEvents");
 
             migrationBuilder.DropTable(
                 name: "WorkingDayTypes");

@@ -119,10 +119,8 @@ namespace ManagerAPI.DataAccess.Migrations
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorPersonTable", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -170,10 +168,8 @@ namespace ManagerAPI.DataAccess.Migrations
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorWorkTable", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -2591,7 +2587,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9",
-                            ConcurrencyStamp = "59b37707-e4fe-4da7-bd68-4a371ed113cf",
+                            ConcurrencyStamp = "ac92ea20-75bd-40bd-b1b3-2c7721f5f24f",
                             Name = "Visitor",
                             NormalizedName = "VISITOR",
                             AccessLevel = 0
@@ -2599,7 +2595,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "776474d7-8d01-4809-963e-c721f39dbb45",
-                            ConcurrencyStamp = "c393973a-f08b-4360-968f-270467da14bc",
+                            ConcurrencyStamp = "0d1a3e75-7a9c-4d93-b6ba-d18b74a12117",
                             Name = "Normal",
                             NormalizedName = "NORMAL",
                             AccessLevel = 1
@@ -2607,7 +2603,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "5e0a9192-793f-4c85-a0b1-3198295bf409",
-                            ConcurrencyStamp = "473928be-2575-45ed-bca8-1e8f3193e4de",
+                            ConcurrencyStamp = "77c7e1fc-b7b6-4cd7-8244-b18eb3a13f60",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR",
                             AccessLevel = 2
@@ -2615,7 +2611,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "936e42dc-5d3f-4355-bc3a-304a4fe4f518",
-                            ConcurrencyStamp = "4a38cbd0-d56f-4800-9a05-b6f34e636ed5",
+                            ConcurrencyStamp = "491a02c2-9844-4f7a-8cfe-c0e422ee9991",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR",
                             AccessLevel = 3
@@ -2623,7 +2619,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "936e4ddc-5d3f-4355-af3a-304a4fe4f518",
-                            ConcurrencyStamp = "0a15ea4e-6a31-48ca-ab99-76810c4e211c",
+                            ConcurrencyStamp = "8c591ae9-c29a-4c3e-91eb-76c3ad3cb35f",
                             Name = "Status Library User",
                             NormalizedName = "STATUS LIBRARY USER",
                             AccessLevel = 1
@@ -2631,7 +2627,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "936e4ddc-5d3f-5466-af3a-3b4a4424d518",
-                            ConcurrencyStamp = "7a6be914-3927-479e-926d-f5df72f6ac6f",
+                            ConcurrencyStamp = "4209642a-8daf-468b-b400-40cc0f5c1fac",
                             Name = "Status Library Moderator",
                             NormalizedName = "STATUS LIBRARY MODERATOR",
                             AccessLevel = 3
@@ -2639,7 +2635,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "936d4dfc-5536-4d5f-af2a-304d4fe4f518",
-                            ConcurrencyStamp = "a9c8dd75-bb23-4845-852a-5023fa990648",
+                            ConcurrencyStamp = "cabaad41-bdf8-4464-ba7a-dff9cfb4dd13",
                             Name = "Status Library Administrator",
                             NormalizedName = "STATUS LIBRARY ADMINISTRATOR",
                             AccessLevel = 3
@@ -2647,7 +2643,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20",
-                            ConcurrencyStamp = "6570d592-6929-4419-b5b0-b05e02c0db63",
+                            ConcurrencyStamp = "5fa9966b-92bb-498c-a892-6a83d90eb630",
                             Name = "Root",
                             NormalizedName = "ROOT",
                             AccessLevel = 4
@@ -2720,7 +2716,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "44045506-66fd-4af8-9d59-133c47d1787c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d5c9f09d-05e8-475a-929a-54f68cd55e6a",
+                            ConcurrencyStamp = "8f9d1437-c8d5-42a5-8382-c258556bc740",
                             Email = "karcagtamas@outlook.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2728,7 +2724,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "KARCAGTAMAS",
                             PasswordHash = "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "559710da-897c-4b03-b444-ee9088f91766",
+                            SecurityStamp = "76a53ee0-fdc2-499e-8e27-f36ea0246c54",
                             TwoFactorEnabled = false,
                             UserName = "karcagtamas",
                             FullName = "Karcag Tamas",
@@ -2740,7 +2736,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "f8237fac-c6dc-47b0-8f71-b72f93368b02",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "59859216-bb94-4af6-b80b-da5d7458e1eb",
+                            ConcurrencyStamp = "f1202b71-fd6c-4c2b-89b3-5101c7b5d4e6",
                             Email = "aron.klenovszky@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2748,7 +2744,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "AARONKAA",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6ad2230b-5f61-41ed-a4a7-3a89a451544a",
+                            SecurityStamp = "41c3d685-b28b-4de7-a57e-444247fd1658",
                             TwoFactorEnabled = false,
                             UserName = "aaronkaa",
                             FullName = "Klenovszky Áron",
@@ -2760,7 +2756,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "cd5e5069-59c8-4163-95c5-776fab95e51a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f52174ea-5742-45a9-9bc0-09c009b2e10f",
+                            ConcurrencyStamp = "5b3afc34-1754-4c65-8f68-c3920c89350f",
                             Email = "root@karcags.hu",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2768,7 +2764,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "ROOT",
                             PasswordHash = "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cbd876e6-8290-4f72-a8e2-a1ea6c03cfd1",
+                            SecurityStamp = "586abc6c-4a1e-4567-91f8-3ec6cb818cc3",
                             TwoFactorEnabled = false,
                             UserName = "root",
                             FullName = "Root",
@@ -2780,7 +2776,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "fa2edf69-5fc8-a163-9fc5-726f3b94e51b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "202ce1d8-dea4-499a-8228-49976e348a9f",
+                            ConcurrencyStamp = "6eca96cd-81f1-44e3-bb16-41ce06b14792",
                             Email = "barni.pbs@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2788,7 +2784,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "BARNI363HUN",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "38ffe0ef-1dfe-4937-825b-5a2a34a0c138",
+                            SecurityStamp = "d7d39c56-cff0-4f78-88fb-50906ffde5de",
                             TwoFactorEnabled = false,
                             UserName = "barni363hun",
                             FullName = "Root",
