@@ -1,5 +1,7 @@
-﻿using System;
+﻿using ManagerAPI.Shared.Models.CSM;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ManagerAPI.Shared.DTOs.CSM
 {
@@ -23,5 +25,19 @@ namespace ManagerAPI.Shared.DTOs.CSM
         public bool? HasGeneratedCsomor { get; set; }
         public DateTime? LastGeneration { get; set; }
         public List<CsomorAccessDTO> SharedWith { get; set; }
+
+        public GeneratorSettings() { }
+
+        public GeneratorSettings(int? id, GeneratorSettingsModel model)
+        {
+            this.Id = id;
+            this.Title = model.Title;
+            this.Start = model.Start;
+            this.Finish = model.Finish;
+            this.MaxWorkHour = model.MaxWorkHour;
+            this.MinRestHour = model.MinRestHour;
+            this.Persons = model.Persons.Select(x => new Person(x)).ToList();
+            this.Works = model.Works.Select(x => new Work(x)).ToList();
+        }
     }
 }

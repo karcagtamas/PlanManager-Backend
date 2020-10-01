@@ -1,4 +1,5 @@
 ﻿using EventManager.Client.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Models.CSM;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -84,7 +85,8 @@ namespace EventManager.Client.Pages.CSM
                 this.PersonModel.SetTables(this.Model.Start, this.Model.Finish);
                 this.Model.Persons.Add(this.PersonModel);
                 this.PersonModel = new PersonModel();
-                // this.PersonContext = new EditContext(this.PersonModel);
+                this.PersonContext.NotifyValidationStateChanged();
+                this.PersonContext = new EditContext(this.PersonModel);
                 StateHasChanged();
             }
         }
@@ -96,7 +98,7 @@ namespace EventManager.Client.Pages.CSM
                 this.WorkModel.SetTables(this.Model.Start, this.Model.Finish);
                 this.Model.Works.Add(this.WorkModel);
                 this.WorkModel = new WorkModel();
-                // this.WorkContext = new EditContext(this.WorkModel);
+                this.WorkContext = new EditContext(this.WorkModel);
                 StateHasChanged();
             }
         }
@@ -140,6 +142,15 @@ namespace EventManager.Client.Pages.CSM
         private bool WorkIsIgnored(PersonModel person, WorkModel work)
         {
             return person.IgnoredWorks.Any(x => x == work.Id);
+        }
+
+        private async void Generate()
+        {
+            if (!this.Context.IsModified())
+            {
+                await this.GeneratorService.GenerateSimple(new GeneratorSettings(this.Id, this.Model));
+                StateHasChanged();
+            }
         }
     }
 }

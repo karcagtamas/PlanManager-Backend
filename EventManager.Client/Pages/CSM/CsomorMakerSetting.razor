@@ -28,6 +28,9 @@
         <MatTooltip Tooltip="Save">
             <MatIconButton RefBack="@context" Icon="done" @onclick="SaveSettings"></MatIconButton>
         </MatTooltip>
+        <MatTooltip Tooltip="Generate">
+            <MatIconButton RefBack="@context" Icon="miscellaneous_services" @onclick="Generate"></MatIconButton>
+        </MatTooltip>
         <span class="spacer"></span>
         <MatTooltip Tooltip="Back to List">
             <MatIconButton RefBack="@context" Icon="arrow_left" @onclick="@(() => NavigationManager.NavigateTo("/csomors"))"></MatIconButton>
