@@ -4,7 +4,6 @@ using ManagerAPI.Shared.Models.CSM;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -148,7 +147,9 @@ namespace EventManager.Client.Pages.CSM
         {
             if (!this.Context.IsModified())
             {
-                await this.GeneratorService.GenerateSimple(new GeneratorSettings(this.Id, this.Model));
+                var settings = await this.GeneratorService.GenerateSimple(new GeneratorSettings(this.Id, this.Model));
+                this.Model.Persons = settings.Persons.Select(x => new PersonModel(x)).ToList();
+                this.Model.Works = settings.Works.Select(x => new WorkModel(x)).ToList();
                 StateHasChanged();
             }
         }

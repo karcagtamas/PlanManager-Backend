@@ -461,16 +461,36 @@ namespace CsomorGenerator.Services
                 throw this._logger.LogInvalidThings(user, "Generator Service", "csomor", "Csomor does not exist");
             }
 
+            csomor.Works.ToList().ForEach(x =>
+            {
+                x.Tables.ToList().ForEach(y =>
+                {
+                    y.PersonId = null;
+                    this._context.CsomorWorkTables.Update(y);
+                });
+
+            });
             csomor.Persons.ToList().ForEach(x =>
             {
-                this._context.CsomorPersonTables.RemoveRange(x.Tables);
-                this._context.CsomorPersons.Remove(x);
-                this._context.SaveChanges();
+                x.Tables.ToList().ForEach(y =>
+                {
+                    y.WorkId = null;
+                    this._context.CsomorPersonTables.Update(y);
+                });
             });
+            this._context.SaveChanges();
+
             csomor.Works.ToList().ForEach(x =>
             {
                 this._context.CsomorWorkTables.RemoveRange(x.Tables);
                 this._context.CsomorWorks.Remove(x);
+                this._context.SaveChanges();
+            });
+
+            csomor.Persons.ToList().ForEach(x =>
+            {
+                this._context.CsomorPersonTables.RemoveRange(x.Tables);
+                this._context.CsomorPersons.Remove(x);
                 this._context.SaveChanges();
             });
 
