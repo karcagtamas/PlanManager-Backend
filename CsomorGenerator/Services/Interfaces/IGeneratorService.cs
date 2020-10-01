@@ -6,6 +6,7 @@ namespace CsomorGenerator.Services.Interfaces
 {
     public interface IGeneratorService
     {
+        GeneratorSettings Generate(GeneratorSettings settings);
         GeneratorSettings GenerateSimple(GeneratorSettings settings);
         int Create(GeneratorSettingsModel model);
         void Update(int id, GeneratorSettingsModel model);

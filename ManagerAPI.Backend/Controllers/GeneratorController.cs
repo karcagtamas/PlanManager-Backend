@@ -25,7 +25,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpPut("generate")]
         public IActionResult Generate([FromBody] GeneratorSettings settings)
         {
-            return Ok(this._generatorService.GenerateSimple(settings));
+            return Ok(this._generatorService.Generate(settings));
         }
 
         [HttpPost]

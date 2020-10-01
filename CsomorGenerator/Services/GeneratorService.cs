@@ -4,6 +4,7 @@ using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.CSM;
+using ManagerAPI.Shared.Models;
 using ManagerAPI.Shared.Models.CSM;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,29 @@ namespace CsomorGenerator.Services
             this._logger = logger;
         }
 
+        public GeneratorSettings Generate(GeneratorSettings settings)
+        {
+            if (!this.PreCheckSimple(settings))
+            {
+                return null;
+            }
+
+            this.SetWorkHours(ref settings);
+
+            for (int i = 0; i < settings.Works.Count; i++)
+            {
+                var work = settings.Works[i];
+                var persons = settings.Persons;
+
+                this.GenerateToWork(ref work, ref persons, settings.MaxWorkHour);
+
+                settings.Works[i] = work;
+                settings.Persons = persons;
+            }
+
+            return settings;
+        }
+
         /// <summary>
         /// Simple generator
         /// </summary>
@@ -38,17 +62,25 @@ namespace CsomorGenerator.Services
         public GeneratorSettings GenerateSimple(GeneratorSettings settings)
         {
             // Pre check
-            if (PreCheckSimple(settings))
+            if (!PreCheckSimple(settings))
             {
-                this.SetWorkHours(ref settings);
-
-                settings.Works.ForEach(work =>
-                {
-                    settings.Persons = this.GenerateToWork(ref work, settings.Persons, settings.MaxWorkHour);
-                });
+                return null;
             }
 
-            return null;
+            this.SetWorkHours(ref settings);
+
+            for (int i = 0; i < settings.Works.Count; i++)
+            {
+                var work = settings.Works[i];
+                var persons = settings.Persons;
+
+                this.GenerateToWork(ref work, ref persons, settings.MaxWorkHour);
+
+                settings.Works[i] = work;
+                settings.Persons = persons;
+            }
+
+            return settings;
         }
 
         /// <summary>
@@ -58,14 +90,16 @@ namespace CsomorGenerator.Services
         /// <param name="persons">Persons</param>
         /// <param name="maxHour">Maximum work hour</param>
         /// <returns>List of modified persons</returns>
-        private List<Person> GenerateToWork(ref Work work, List<Person> persons, int maxHour)
+        private void GenerateToWork(ref Work work, ref List<Person> persons, int maxHour)
         {
             for (int i = 0; i < work.Tables.Count; i++)
             {
                 var table = work.Tables[i];
+
                 GenerateToDate(ref table, ref persons, work.Id, maxHour, 0);
+
+                work.Tables[i] = table;
             }
-            return persons;
         }
 
         /// <summary>
@@ -157,13 +191,13 @@ namespace CsomorGenerator.Services
             // Check all hour is unavailable
             if (!person.Tables.Any(x => x.IsAvailable))
             {
-                throw new ArgumentException($"Person ({person.Name}) cannot be unavailable all the time.");
+                throw new MessageException($"Person ({person.Name}) cannot be unavailable all the time.");
             }
 
             // All works is ignored
             if (person.IgnoredWorks.Count == works)
             {
-                throw new ArgumentException($"Person ({person.Name}) must has least one not ignored Work");
+                throw new MessageException($"Person ({person.Name}) must has least one not ignored Work");
             }
         }
 
@@ -188,7 +222,7 @@ namespace CsomorGenerator.Services
         {
             if (!work.Tables.Any(x => x.IsActive))
             {
-                throw new ArgumentException($"Work ({work.Name}) cannot be unavailable all the time.");
+                throw new MessageException($"Work ({work.Name}) cannot be unavailable all the time.");
             }
         }
 
@@ -216,7 +250,7 @@ namespace CsomorGenerator.Services
                 // Work number has to be less thank works
                 if (works > persons)
                 {
-                    throw new ArgumentException($"There are not enough person in hour {start.Month}-{start.Day}-{start.Hour}.");
+                    throw new MessageException($"There are not enough person in hour {start.Month.ToString().PadLeft(2, '0')}-{start.Day.ToString().PadLeft(2, '0')}-{start.Hour.ToString().PadLeft(2, '0')}.");
                 }
 
                 start = start.AddHours(1);
@@ -239,7 +273,7 @@ namespace CsomorGenerator.Services
             // Work sum has to be less than person sum's 90% and minus the res hour sum
             if (workSum > (personSum * 0.9) - this.GetLength(settings.Start, settings.Finish) / (settings.MaxWorkHour + settings.MinRestHour) * settings.MinRestHour)
             {
-                throw new ArgumentException("Does not have enough person.");
+                throw new MessageException("Does not have enough person.");
             }
 
             return true;
@@ -266,11 +300,12 @@ namespace CsomorGenerator.Services
             // Worker does not have hour table.
             if (table == null)
             {
-                throw new ArgumentException("Wrong person table");
+                throw new MessageException("Wrong person table");
             }
 
-            // Person is available and not has any work
-            if (table.IsAvailable && string.IsNullOrEmpty(table.WorkId))
+            // Person is not available or already has any work
+            var a = string.IsNullOrEmpty(table.WorkId);
+            if (!table.IsAvailable || !string.IsNullOrEmpty(table.WorkId))
             {
                 return false;
             }
