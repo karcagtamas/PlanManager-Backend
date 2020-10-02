@@ -153,6 +153,8 @@ namespace EventManager.Client.Pages.CSM
                 var settings = await this.GeneratorService.GenerateSimple(new GeneratorSettings(this.Id, this.Model));
                 this.Model.Persons = settings.Persons.Select(x => new PersonModel(x)).ToList();
                 this.Model.Works = settings.Works.Select(x => new WorkModel(x)).ToList();
+                this.Model.HasGeneratedCsomor = settings.HasGeneratedCsomor;
+                this.Model.LastGeneration = settings.LastGeneration;
                 this.Settings = settings;
                 StateHasChanged();
             }

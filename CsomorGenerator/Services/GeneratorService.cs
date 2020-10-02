@@ -138,6 +138,7 @@ namespace CsomorGenerator.Services
                     if (counter > 100)
                     {
                         // TODO: Worker switch
+                        Console.WriteLine("Bigger than 100");
                     }
                     else
                     {
@@ -274,7 +275,7 @@ namespace CsomorGenerator.Services
             var workSum = settings.Works.Sum(x => x.Tables.Count(y => y.IsActive));
 
             // Work sum has to be less than person sum's 90% and minus the res hour sum
-            if (workSum > (personSum * 0.9) - this.GetLength(settings.Start, settings.Finish) / (settings.MaxWorkHour + settings.MinRestHour) * settings.MinRestHour)
+            if (workSum > (personSum * 0.75) - this.GetLength(settings.Start, settings.Finish) / (settings.MaxWorkHour + settings.MinRestHour) * settings.MinRestHour)
             {
                 throw new MessageException("Does not have enough person.");
             }
