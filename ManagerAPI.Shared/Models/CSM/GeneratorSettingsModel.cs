@@ -29,6 +29,9 @@ namespace ManagerAPI.Shared.Models.CSM
         [MinNumber(1)]
         [MaxNumber(4)]
         public int MinRestHour { get; set; } = 1;
+
+        public bool HasGeneratedCsomor { get; set; }
+        public DateTime? LastGeneration { get; set; }
         public List<PersonModel> Persons { get; set; }
         public List<WorkModel> Works { get; set; }
 
@@ -41,6 +44,8 @@ namespace ManagerAPI.Shared.Models.CSM
             this.Finish = date.AddDays(1);
             this.MaxWorkHour = 3;
             this.MinRestHour = 1;
+            this.HasGeneratedCsomor = false;
+            this.LastGeneration = null;
 
             this.Persons = new List<PersonModel>();
             this.Works = new List<WorkModel>();
@@ -53,6 +58,8 @@ namespace ManagerAPI.Shared.Models.CSM
             this.Finish = settings.Finish;
             this.MaxWorkHour = settings.MaxWorkHour;
             this.MinRestHour = settings.MinRestHour;
+            this.HasGeneratedCsomor = settings.HasGeneratedCsomor;
+            this.LastGeneration = settings.LastGeneration;
 
             this.Persons = settings.Persons.Select(x => new PersonModel(x)).OrderBy(x => x.Name).ToList();
             this.Works = settings.Works.Select(x => new WorkModel(x)).OrderBy(x => x.Name).ToList();

@@ -51,6 +51,9 @@ namespace CsomorGenerator.Services
                 settings.Persons = persons;
             }
 
+            settings.HasGeneratedCsomor = true;
+            settings.LastGeneration = DateTime.Now;
+
             return settings;
         }
 

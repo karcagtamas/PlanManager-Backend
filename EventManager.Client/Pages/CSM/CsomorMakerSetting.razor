@@ -145,9 +145,12 @@
                     </div>
                 }
             </MatTab>
-            <MatTab Label="Csomor">
-                <CsomorComponent Settings="Settings"></CsomorComponent>
-            </MatTab>
+            @if (Model.HasGeneratedCsomor)
+            {
+                <MatTab Label="Csomor">
+                    <CsomorComponent Settings="Settings"></CsomorComponent>
+                </MatTab>
+            }
         </MatTabGroup>
     </div>
 </div>

@@ -22,7 +22,7 @@ namespace ManagerAPI.Shared.DTOs.CSM
         public string LastUpdater { get; set; }
         public bool? IsShared { get; set; }
         public bool? IsPublic { get; set; }
-        public bool? HasGeneratedCsomor { get; set; }
+        public bool HasGeneratedCsomor { get; set; }
         public DateTime? LastGeneration { get; set; }
         public List<CsomorAccessDTO> SharedWith { get; set; }
 
