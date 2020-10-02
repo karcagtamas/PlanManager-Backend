@@ -22,5 +22,17 @@
   {
     "outputFile": "Pages/CSM/CsomorMakerSetting.razor.css",
     "inputFile": "Pages/CSM/CsomorMakerSetting.razor.scss"
+  },
+  {
+    "outputFile": "Shared/Components/CSM/FullCsomorComponent.razor.css",
+    "inputFile": "Shared/Components/CSM/FullCsomorComponent.razor.scss"
+  },
+  {
+    "outputFile": "Shared/Components/CSM/CsomorComponent.razor.css",
+    "inputFile": "Shared/Components/CSM/CsomorComponent.razor.scss"
+  },
+  {
+    "outputFile": "Shared/Layouts/MainLayout.razor.css",
+    "inputFile": "Shared/Layouts/MainLayout.razor.scss"
   }
 ]

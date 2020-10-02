@@ -1,0 +1,29 @@
+﻿<div class="csomor">
+    <div class="table-row">
+        <div class="element header interval">Full</div>
+        @foreach (var work in Settings.Works)
+        {
+            <div class="element header">@work.Name</div>
+        }
+    </div>
+
+    @foreach (var row in Rows)
+    {
+        <div class="table-row">
+
+            <div class="element interval">@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(row.Key, 1)</div>
+
+            @foreach (var person in row.Value)
+            {
+                @if (person != null)
+                {
+                    <div class="element @(HoveredPersonId == person.Id ? "hovered" : "")" @onmouseover="@(() => Hover(person.Id))" @onmouseout="@(() => Hover(null))">@person.Name</div>
+                }
+                else
+                {
+                    <div class="element">-</div>
+                }
+            }
+        </div>
+    }
+</div>

@@ -20,6 +20,7 @@ namespace EventManager.Client.Pages.CSM
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
+        private GeneratorSettings Settings { get; set; }
         private EditContext Context { get; set; }
         private GeneratorSettingsModel Model { get; set; }
         private EditContext PersonContext { get; set; }
@@ -48,16 +49,17 @@ namespace EventManager.Client.Pages.CSM
         {
             if (this.Id != null)
             {
-                var settings = await this.GeneratorService.Get((int)this.Id);
-                if (settings == null)
+                this.Settings = await this.GeneratorService.Get((int)this.Id);
+                if (this.Settings == null)
                 {
                     this.NavigationManager.NavigateTo("/csomors");
                 }
-                this.Model = new GeneratorSettingsModel(settings);
+                this.Model = new GeneratorSettingsModel(this.Settings);
             }
             else
             {
                 this.Model = new GeneratorSettingsModel();
+                this.Settings = null;
             }
         }
 
@@ -73,6 +75,7 @@ namespace EventManager.Client.Pages.CSM
                 else
                 {
                     await this.GeneratorService.Update((int)this.Id, this.Model);
+                    await this.GetSettings();
                 }
             }
         }
@@ -150,6 +153,7 @@ namespace EventManager.Client.Pages.CSM
                 var settings = await this.GeneratorService.GenerateSimple(new GeneratorSettings(this.Id, this.Model));
                 this.Model.Persons = settings.Persons.Select(x => new PersonModel(x)).ToList();
                 this.Model.Works = settings.Works.Select(x => new WorkModel(x)).ToList();
+                this.Settings = settings;
                 StateHasChanged();
             }
         }
