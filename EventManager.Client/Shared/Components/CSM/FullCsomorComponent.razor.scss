@@ -9,7 +9,8 @@
         flex-direction: row;
 
         .element {
-            width: 700px;
+            min-width: 250px;
+            max-width: 250px;
             padding: 0.5rem;
             text-align: center;
             background-color: $blue-light-trans;
@@ -22,7 +23,8 @@
             }
 
             &.interval {
-                width: 100px;
+                min-width: 100px;
+                max-width: 100px;
                 background-color: $yellow-light;
             }
 

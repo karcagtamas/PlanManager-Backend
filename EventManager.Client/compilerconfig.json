@@ -34,5 +34,9 @@
   {
     "outputFile": "Shared/Layouts/MainLayout.razor.css",
     "inputFile": "Shared/Layouts/MainLayout.razor.scss"
+  },
+  {
+    "outputFile": "Shared/Components/Notifications/MyNotificationComponent.razor.css",
+    "inputFile": "Shared/Components/Notifications/MyNotificationComponent.razor.scss"
   }
 ]

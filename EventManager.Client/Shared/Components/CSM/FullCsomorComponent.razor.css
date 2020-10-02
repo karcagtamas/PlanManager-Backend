@@ -5,7 +5,8 @@
     display: flex;
     flex-direction: row; }
     .csomor .table-row .element {
-      width: 700px;
+      min-width: 250px;
+      max-width: 250px;
       padding: 0.5rem;
       text-align: center;
       background-color: rgba(187, 187, 255, 0.4);
@@ -15,7 +16,8 @@
       .csomor .table-row .element.header {
         background-color: rgba(249, 249, 249, 0.55); }
       .csomor .table-row .element.interval {
-        width: 100px;
+        min-width: 100px;
+        max-width: 100px;
         background-color: #fff7ac; }
       .csomor .table-row .element.interval.header {
         background-color: rgba(255, 187, 187, 0.4); }
