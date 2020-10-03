@@ -31,6 +31,21 @@
         <MatTooltip Tooltip="Generate">
             <MatIconButton RefBack="@context" Icon="miscellaneous_services" @onclick="Generate" Disabled="!CanGenerate()"></MatIconButton>
         </MatTooltip>
+        @if (Settings != null)
+        {
+            @if (Settings.IsPublic != null && (bool)Settings.IsPublic)
+            {
+                <MatTooltip Tooltip="Hide">
+                    <MatIconButton RefBack="@context" Icon="visibility_off" Disabled="Id == null" @onclick="@(() => OpenConfirmDialog(false))"></MatIconButton>
+                </MatTooltip>
+            }
+            @if (Settings.IsPublic != null && !(bool)Settings.IsPublic)
+            {
+                <MatTooltip Tooltip="Publish">
+                    <MatIconButton RefBack="@context" Icon="visibility" Disabled="Id == null" @onclick="@(() => OpenConfirmDialog(true))"></MatIconButton>
+                </MatTooltip>
+            }
+        }
         <span class="spacer"></span>
         <MatTooltip Tooltip="Back to List">
             <MatIconButton RefBack="@context" Icon="arrow_left" @onclick="@(() => NavigationManager.NavigateTo("/csomors"))"></MatIconButton>
@@ -150,6 +165,10 @@
                 <MatTab Label="Csomor">
                     <CsomorComponent Settings="Settings"></CsomorComponent>
                 </MatTab>
+            }
+            @if (this.Id != null)
+            {
+                <MatTab Label="Share"></MatTab>
             }
         </MatTabGroup>
     </div>

@@ -16,6 +16,6 @@ namespace CsomorGenerator.Services.Interfaces
         List<CsomorListDTO> GetOwnedList();
         List<CsomorListDTO> GetSharedList();
         void Share(int id, List<CsomorAccessModel> models);
-        void ChangePublicStatus(int id, bool status);
+        void ChangePublicStatus(int id, GeneratorPublishModel model);
     }
 }

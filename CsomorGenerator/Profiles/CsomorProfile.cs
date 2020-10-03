@@ -49,7 +49,10 @@ namespace CsomorGenerator.Profiles
 
 
             CreateMap<Csomor, CsomorListDTO>()
-                .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => src.Owner.UserName));
+                .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => src.Owner.UserName))
+                .ForMember(dest => dest.IsPublished, opt => opt.MapFrom(src => src.IsPublic))
+                .ForMember(dest => dest.HasCsomor, opt => opt.MapFrom(src => src.HasGeneratedCsomor))
+                .ForMember(dest => dest.IsShared, opt => opt.MapFrom(src => src.IsShared));
         }
     }
 }

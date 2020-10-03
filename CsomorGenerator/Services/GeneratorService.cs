@@ -502,6 +502,8 @@ namespace CsomorGenerator.Services
 
             csomor.Persons = this._mapper.Map<List<CsomorPerson>>(model.Persons);
             csomor.Works = this._mapper.Map<List<CsomorWork>>(model.Works);
+            csomor.LastUpdate = DateTime.Now;
+            csomor.LastUpdaterId = user.Id;
 
 
             this._context.Csomors.Update(csomor);
@@ -651,8 +653,8 @@ namespace CsomorGenerator.Services
         /// Change public status
         /// </summary>
         /// <param name="id">Csomor Id</param>
-        /// <param name="status">New status</param>
-        public void ChangePublicStatus(int id, bool status)
+        /// <param name="model">New status</param>
+        public void ChangePublicStatus(int id, GeneratorPublishModel model)
         {
             var user = this._utils.GetCurrentUser();
             var csomor = this._context.Csomors.Find(id);
@@ -662,11 +664,11 @@ namespace CsomorGenerator.Services
                 throw this._logger.LogInvalidThings(user, "Generator Service", "csomor", "Csomor does not exist");
             }
 
-            csomor.IsPublic = status;
+            csomor.IsPublic = model.Status;
             this._context.Update(csomor);
             this._context.SaveChanges();
 
-            this._logger.LogInformation(user, "Generator Service", status ? "publish" : "unpublish" + " csomor", id);
+            this._logger.LogInformation(user, "Generator Service", model.Status ? "publish" : "unpublish" + " csomor", id);
         }
     }
 }

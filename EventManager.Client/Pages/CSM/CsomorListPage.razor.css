@@ -18,8 +18,13 @@
       flex-grow: 1; }
   .csomor-list .lists {
     display: flex;
+    flex-direction: column;
     flex-grow: 1;
     overflow: hidden; }
+    .csomor-list .lists .tabs {
+      flex-grow: 1;
+      width: 100% !important;
+      overflow: hidden; }
     .csomor-list .lists .list {
       background-color: rgba(187, 187, 255, 0.4);
       margin-bottom: 1rem;

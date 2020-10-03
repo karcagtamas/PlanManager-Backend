@@ -18,6 +18,6 @@ namespace EventManager.Client.Services.Interfaces
         Task<List<CsomorListDTO>> GetOwnedList();
         Task<List<CsomorListDTO>> GetSharedList();
         Task<bool> Share(int id, List<CsomorAccessModel> models);
-        Task<bool> ChangePublicStatus(int id, bool status);
+        Task<bool> ChangePublicStatus(int id, GeneratorPublishModel model);
     }
 }

@@ -20,13 +20,17 @@ namespace EventManager.Client.Services
             this._http = httpService;
         }
 
-        public Task<bool> ChangePublicStatus(int id, bool status)
+        public Task<bool> ChangePublicStatus(int id, GeneratorPublishModel model)
         {
-            var settings = new HttpSettings($"{this._url}", null, null, "Public status changing");
+            var pathParams = new HttpPathParameters();
+            pathParams.Add(id, -1);
+            pathParams.Add("publish", -1);
 
-            var body = new HttpBody<bool>(status);
+            var settings = new HttpSettings($"{this._url}", null, pathParams, "Public status changing");
 
-            return this._http.Update<bool>(settings, body);
+            var body = new HttpBody<GeneratorPublishModel>(model);
+
+            return this._http.Update<GeneratorPublishModel>(settings, body);
         }
 
         public Task<int> Create(GeneratorSettingsModel model)

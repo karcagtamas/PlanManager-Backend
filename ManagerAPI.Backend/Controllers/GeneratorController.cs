@@ -82,10 +82,10 @@ namespace ManagerAPI.Backend.Controllers
             return Ok();
         }
 
-        [HttpPut("{id}/public")]
-        public IActionResult ChangePublicStatus([FromQuery] int id, [FromBody] bool status)
+        [HttpPut("{id}/publish")]
+        public IActionResult ChangePublicStatus([FromRoute] int id, [FromBody] GeneratorPublishModel model)
         {
-            this._generatorService.ChangePublicStatus(id, status);
+            this._generatorService.ChangePublicStatus(id, model);
 
             return Ok();
         }

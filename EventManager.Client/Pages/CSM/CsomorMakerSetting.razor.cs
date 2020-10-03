@@ -1,4 +1,7 @@
-﻿using EventManager.Client.Services.Interfaces;
+﻿using EventManager.Client.Enums;
+using EventManager.Client.Models;
+using EventManager.Client.Services.Interfaces;
+using EventManager.Client.Shared.Common;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Models.CSM;
 using Microsoft.AspNetCore.Components;
@@ -19,6 +22,7 @@ namespace EventManager.Client.Pages.CSM
 
         [Inject]
         private NavigationManager NavigationManager { get; set; }
+        [Inject] private IModalService Modal { get; set; }
 
         private GeneratorSettings Settings { get; set; }
         private EditContext Context { get; set; }
@@ -207,6 +211,31 @@ namespace EventManager.Client.Pages.CSM
         {
             model.IsActive = value;
             this.IsModifiedState = true;
+        }
+
+        private void OpenConfirmDialog(bool status)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("FormId", 1);
+            parameters.Add("type", status ? ConfirmType.Publish : ConfirmType.Hide);
+            parameters.Add("name", this.Model.Title);
+
+            var options =
+                new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
+
+            Modal.OnClose += ConfirmDialogClosed;
+            Modal.Show<Confirm>(status ? "Confirm Publish" : "Confirm Hide", parameters, options);
+        }
+
+        private async void ConfirmDialogClosed(ModalResult modalResult)
+        {
+            if (!modalResult.Cancelled && (bool)modalResult.Data && this.Settings != null && this.Settings.IsPublic != null && await this.GeneratorService.ChangePublicStatus((int)this.Id, new GeneratorPublishModel { Status = !(bool)this.Settings.IsPublic }))
+            {
+                this.Settings.IsPublic = !(bool)this.Settings.IsPublic;
+                StateHasChanged();
+            }
+
+            Modal.OnClose -= ConfirmDialogClosed;
         }
     }
 }
