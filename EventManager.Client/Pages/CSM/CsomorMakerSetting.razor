@@ -26,10 +26,10 @@
     </h1>
     <div class="action-bar">
         <MatTooltip Tooltip="Save">
-            <MatIconButton RefBack="@context" Icon="done" @onclick="SaveSettings"></MatIconButton>
+            <MatIconButton RefBack="@context" Icon="done" @onclick="SaveSettings" Disabled="!CanSave()"></MatIconButton>
         </MatTooltip>
         <MatTooltip Tooltip="Generate">
-            <MatIconButton RefBack="@context" Icon="miscellaneous_services" @onclick="Generate"></MatIconButton>
+            <MatIconButton RefBack="@context" Icon="miscellaneous_services" @onclick="Generate" Disabled="!CanGenerate()"></MatIconButton>
         </MatTooltip>
         <span class="spacer"></span>
         <MatTooltip Tooltip="Back to List">
@@ -88,12 +88,12 @@
                                 <div class="data-row"><strong>Name: </strong> @person.Name</div>
                                 <div class="data-row">
                                     <strong>Settings:</strong> <br />
-                                    <MatCheckbox @bind-Value="person.IsIgnored" Label="Is Ignored"></MatCheckbox> <br />
+                                    <MatCheckbox TValue="bool" Value="person.IsIgnored" ValueChanged="@((val) => ChangeIsIgnoredStatus(person, val))" Label="Is Ignored"></MatCheckbox> <br />
 
                                     @foreach (var table in person.Tables)
                                     {
                                         <span class="box">
-                                            <MatCheckbox @bind-Value="table.IsAvailable" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)"></MatCheckbox>
+                                            <MatCheckbox TValue="bool" Value="table.IsAvailable" ValueChanged="@((val) => ChangeIsAvailableStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)"></MatCheckbox>
                                         </span>
                                     }
 
@@ -136,7 +136,7 @@
                                     @foreach (var table in work.Tables)
                                     {
                                         <span class="box">
-                                            <MatCheckbox @bind-Value="table.IsActive" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)"></MatCheckbox>
+                                            <MatCheckbox TValue="bool" Value="table.IsActive" ValueChanged="@((val) => ChangeIsActiveStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)"></MatCheckbox>
                                         </span>
                                     }
                                 </div>

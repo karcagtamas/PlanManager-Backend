@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.CSM
 {
-    public partial class CsomorMakerSetting
+    public partial class CsomorMakerSetting : IDisposable
     {
         [Parameter]
         public int? Id { get; set; }
@@ -27,17 +27,25 @@ namespace EventManager.Client.Pages.CSM
         private PersonModel PersonModel { get; set; }
         private EditContext WorkContext { get; set; }
         private WorkModel WorkModel { get; set; }
+        private bool IsModifiedState { get; set; }
 
         protected override void OnInitialized()
         {
             this.Model = new GeneratorSettingsModel();
             this.Context = new EditContext(this.Model);
 
+            this.Context.OnFieldChanged += OnFieldChanged;
+
             this.PersonModel = new PersonModel();
             this.WorkModel = new WorkModel();
 
             this.PersonContext = new EditContext(this.PersonModel);
             this.WorkContext = new EditContext(this.WorkModel);
+        }
+
+        private void OnFieldChanged(object sender, FieldChangedEventArgs e)
+        {
+            this.IsModifiedState = true;
         }
 
         protected override async Task OnParametersSetAsync()
@@ -61,6 +69,8 @@ namespace EventManager.Client.Pages.CSM
                 this.Model = new GeneratorSettingsModel();
                 this.Settings = null;
             }
+            this.IsModifiedState = false;
+            StateHasChanged();
         }
 
         private async void SaveSettings()
@@ -76,6 +86,7 @@ namespace EventManager.Client.Pages.CSM
                 {
                     await this.GeneratorService.Update((int)this.Id, this.Model);
                     await this.GetSettings();
+                    this.IsModifiedState = false;
                 }
             }
         }
@@ -89,6 +100,7 @@ namespace EventManager.Client.Pages.CSM
                 this.PersonModel = new PersonModel();
                 this.PersonContext.NotifyValidationStateChanged();
                 this.PersonContext = new EditContext(this.PersonModel);
+                this.IsModifiedState = true;
                 StateHasChanged();
             }
         }
@@ -101,6 +113,7 @@ namespace EventManager.Client.Pages.CSM
                 this.Model.Works.Add(this.WorkModel);
                 this.WorkModel = new WorkModel();
                 this.WorkContext = new EditContext(this.WorkModel);
+                this.IsModifiedState = true;
                 StateHasChanged();
             }
         }
@@ -120,6 +133,7 @@ namespace EventManager.Client.Pages.CSM
             Console.WriteLine(this.Model.Finish);
             this.Model.Persons.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
             this.Model.Works.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
+            this.IsModifiedState = true;
             StateHasChanged();
         }
 
@@ -139,6 +153,7 @@ namespace EventManager.Client.Pages.CSM
                     person.IgnoredWorks.Remove(work.Id);
                 }
             }
+            this.IsModifiedState = true;
         }
 
         private bool WorkIsIgnored(PersonModel person, WorkModel work)
@@ -156,8 +171,42 @@ namespace EventManager.Client.Pages.CSM
                 this.Model.HasGeneratedCsomor = settings.HasGeneratedCsomor;
                 this.Model.LastGeneration = settings.LastGeneration;
                 this.Settings = settings;
+                this.IsModifiedState = true;
                 StateHasChanged();
             }
+        }
+
+        private bool CanSave()
+        {
+            return this.IsModifiedState;
+        }
+
+        private bool CanGenerate()
+        {
+            return !this.CanSave();
+        }
+
+        public void Dispose()
+        {
+            this.Context.OnFieldChanged -= OnFieldChanged;
+        }
+
+        private void ChangeIsAvailableStatus(PersonTableModel model, bool value)
+        {
+            model.IsAvailable = value;
+            this.IsModifiedState = true;
+        }
+
+        private void ChangeIsIgnoredStatus(PersonModel model, bool value)
+        {
+            model.IsIgnored = value;
+            this.IsModifiedState = true;
+        }
+
+        private void ChangeIsActiveStatus(WorkTableModel model, bool value)
+        {
+            model.IsActive = value;
+            this.IsModifiedState = true;
         }
     }
 }
