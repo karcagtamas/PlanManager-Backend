@@ -1,4 +1,5 @@
 ﻿using ManagerAPI.Shared.DTOs.CSM;
+using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,6 @@ namespace EventManager.Client.Services.Interfaces
         Task<List<CsomorListDTO>> GetSharedList();
         Task<bool> Share(int id, List<CsomorAccessModel> models);
         Task<bool> ChangePublicStatus(int id, GeneratorPublishModel model);
+        Task<CsomorRole> GetRole(int id);
     }
 }

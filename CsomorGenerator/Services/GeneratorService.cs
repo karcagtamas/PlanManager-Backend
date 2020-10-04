@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using CsomorGenerator.Services.Interfaces;
 using ManagerAPI.DataAccess;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.CSM;
+using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models;
 using ManagerAPI.Shared.Models.CSM;
 using System;
@@ -17,6 +19,9 @@ namespace CsomorGenerator.Services
     /// </summary>
     public class GeneratorService : IGeneratorService
     {
+        private const string CsomorDoesNotExistMessage = "Csomor does not exist";
+        private const string CsomorThing = "csomor";
+        private const string GeneratorServiceSource = "Generator Service";
         private readonly DatabaseContext _context;
         private readonly IMapper _mapper;
         private readonly IUtilsService _utils;
@@ -444,7 +449,7 @@ namespace CsomorGenerator.Services
             this._context.Csomors.Add(csomor);
             this._context.SaveChanges();
 
-            this._logger.LogInformation(user, "Generator Service", "create csomor", csomor.Id);
+            this._logger.LogInformation(user, GeneratorServiceSource, "create csomor", csomor.Id);
 
             return csomor.Id;
         }
@@ -462,7 +467,7 @@ namespace CsomorGenerator.Services
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, "Generator Service", "csomor", "Csomor does not exist");
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
             }
 
             csomor.Works.ToList().ForEach(x =>
@@ -509,7 +514,7 @@ namespace CsomorGenerator.Services
             this._context.Csomors.Update(csomor);
             this._context.SaveChanges();
 
-            this._logger.LogInformation(user, "Generator Service", "update csomor", csomor.Id);
+            this._logger.LogInformation(user, GeneratorServiceSource, "update csomor", csomor.Id);
         }
 
         /// <summary>
@@ -524,13 +529,13 @@ namespace CsomorGenerator.Services
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, "Generator Service", "csomor", "Csomor does not exist");
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
             }
 
             this._context.Csomors.Remove(csomor);
             this._context.SaveChanges();
 
-            this._logger.LogInformation(user, "Generator Service", "delete csomor", id);
+            this._logger.LogInformation(user, GeneratorServiceSource, "delete csomor", id);
         }
 
         /// <summary>
@@ -546,10 +551,10 @@ namespace CsomorGenerator.Services
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, "Generator Service", "csomor", "Csomor does not exist");
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
             }
 
-            this._logger.LogInformation(user, "Generator Service", "get csomor", id);
+            this._logger.LogInformation(user, GeneratorServiceSource, "get csomor", id);
 
             return this._mapper.Map<GeneratorSettings>(csomor);
         }
@@ -560,17 +565,17 @@ namespace CsomorGenerator.Services
         /// <returns></returns>
         public List<CsomorListDTO> GetPublicList()
         {
-            var list = this._mapper.Map<List<CsomorListDTO>>(this._context.Csomors.Where(x => x.IsPublic).OrderBy(x => x.Id));
+            var list = this._mapper.Map<List<CsomorListDTO>>(this._context.Csomors.Where(x => x.IsPublic && x.HasGeneratedCsomor).OrderBy(x => x.Id));
 
             try
             {
                 var user = this._utils.GetCurrentUser();
 
-                this._logger.LogInformation(user, "Generator Service", "get csomor", list.Select(x => x.Id).ToList());
+                this._logger.LogInformation(user, GeneratorServiceSource, "get csomor", list.Select(x => x.Id).ToList());
             }
             catch (Exception)
             {
-                this._logger.LogAnonymousInformation("Generator Service", "get csomor", list.Select(x => x.Id).ToList());
+                this._logger.LogAnonymousInformation(GeneratorServiceSource, "get csomor", list.Select(x => x.Id).ToList());
             }
 
             return list;
@@ -582,7 +587,7 @@ namespace CsomorGenerator.Services
 
             var list = this._mapper.Map<List<CsomorListDTO>>(user.OwnedCsomors.OrderBy(x => x.Id));
 
-            this._logger.LogInformation(user, "Generator Service", "get csomor", list.Select(x => x.Id).ToList());
+            this._logger.LogInformation(user, GeneratorServiceSource, "get csomor", list.Select(x => x.Id).ToList());
 
             return list;
         }
@@ -593,7 +598,7 @@ namespace CsomorGenerator.Services
 
             var list = this._mapper.Map<List<CsomorListDTO>>(user.SharedCsomors.Select(x => x.Csomor).OrderBy(x => x.Id));
 
-            this._logger.LogInformation(user, "Generator Service", "get csomor", list.Select(x => x.Id).ToList());
+            this._logger.LogInformation(user, GeneratorServiceSource, "get csomor", list.Select(x => x.Id).ToList());
 
             return list;
         }
@@ -646,7 +651,7 @@ namespace CsomorGenerator.Services
 
             this._context.SaveChanges();
 
-            this._logger.LogInformation(user, "Generator Service", "update shared", models.Select(x => x.Id).ToList());
+            this._logger.LogInformation(user, GeneratorServiceSource, "update shared", models.Select(x => x.Id).ToList());
         }
 
         /// <summary>
@@ -661,14 +666,64 @@ namespace CsomorGenerator.Services
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, "Generator Service", "csomor", "Csomor does not exist");
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
             }
 
             csomor.IsPublic = model.Status;
             this._context.Update(csomor);
             this._context.SaveChanges();
 
-            this._logger.LogInformation(user, "Generator Service", model.Status ? "publish" : "unpublish" + " csomor", id);
+            this._logger.LogInformation(user, GeneratorServiceSource, model.Status ? "publish" : "unpublish" + " csomor", id);
+        }
+
+        public CsomorRole GetRoleForCsomor(int id)
+        {
+            User user;
+
+            try
+            {
+                user = this._utils.GetCurrentUser();
+            }
+            catch
+            {
+                user = null;
+            }
+
+            var csomor = this._context.Csomors.Find(id);
+
+            if (csomor == null)
+            {
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+            }
+
+            if (user != null)
+            {
+                if (csomor.OwnerId == user.Id)
+                {
+                    return CsomorRole.Owner;
+                }
+
+                var shared = csomor.SharedWith.Where(x => x.UserId == user.Id).FirstOrDefault();
+
+                if (shared != null)
+                {
+                    if (shared.HasWriteAccess)
+                    {
+                        return CsomorRole.Write;
+                    }
+                    else
+                    {
+                        return CsomorRole.Read;
+                    }
+                }
+            }
+
+            if (csomor.IsPublic)
+            {
+                return CsomorRole.Public;
+            }
+
+            return CsomorRole.Denied;
         }
     }
 }

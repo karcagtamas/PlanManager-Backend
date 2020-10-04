@@ -89,5 +89,11 @@ namespace ManagerAPI.Backend.Controllers
 
             return Ok();
         }
+
+        [HttpGet("{id}/role")]
+        public IActionResult GetRoleForCsomor([FromRoute] int id)
+        {
+            return Ok(this._generatorService.GetRoleForCsomor(id));
+        }
     }
 }

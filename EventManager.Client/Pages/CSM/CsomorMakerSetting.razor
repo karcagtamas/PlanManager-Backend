@@ -1,5 +1,6 @@
 @page "/csomor"
 @page "/csomor/{Id:int}"
+@using ManagerAPI.Shared.Enums;
 
 <div class="setting">
     <h1 class="em-page-title">
@@ -36,13 +37,13 @@
             @if (Settings.IsPublic != null && (bool)Settings.IsPublic)
             {
                 <MatTooltip Tooltip="Hide">
-                    <MatIconButton RefBack="@context" Icon="visibility_off" Disabled="Id == null" @onclick="@(() => OpenConfirmDialog(false))"></MatIconButton>
+                    <MatIconButton RefBack="@context" Icon="visibility_off" Disabled="Id == null || !CheckRole(CsomorRole.Owner, CsomorRole.Write)" @onclick="@(() => OpenConfirmDialog(false))"></MatIconButton>
                 </MatTooltip>
             }
             @if (Settings.IsPublic != null && !(bool)Settings.IsPublic)
             {
                 <MatTooltip Tooltip="Publish">
-                    <MatIconButton RefBack="@context" Icon="visibility" Disabled="Id == null" @onclick="@(() => OpenConfirmDialog(true))"></MatIconButton>
+                    <MatIconButton RefBack="@context" Icon="visibility" Disabled="Id == null || !CheckRole(CsomorRole.Owner, CsomorRole.Write)" @onclick="@(() => OpenConfirmDialog(true))"></MatIconButton>
                 </MatTooltip>
             }
         }
@@ -53,120 +54,130 @@
     </div>
     <div class="csomor">
         <MatTabGroup Class="tabs tab-group">
-            <MatTab Label="Settings">
-                <EditForm EditContext="Context">
-                    <DataAnnotationsValidator />
-                    <div class="input-row">
-                        <MatTextField class="w-100" @bind-Value="Model.Title" Label="Title" Dense="true" Outlined="true"></MatTextField>
-                        <ValidationMessage For="() => Model.Title" />
-                    </div>
-                    <div class="col col-12 row">
-                        <div class="input-row col col-12 col-md-6">
-                            <MatDatePicker class="w-100" Value="@Model.Start" ValueExpression="@(() => Model.Start)" TValue="DateTime" ValueChanged="@(date => ReSetup(date, "start"))" EnableTime="true" Enable24hours="true" AllowInput="false" Label="Start" Dense="true" Outlined="true"></MatDatePicker>
-                            <ValidationMessage For="() => Model.Start" />
+            @if (CheckRole(CsomorRole.Owner, CsomorRole.Write, CsomorRole.Read))
+            {
+                <MatTab Label="Settings">
+                    <EditForm EditContext="Context">
+                        <DataAnnotationsValidator />
+                        <div class="input-row">
+                            <MatTextField class="w-100" @bind-Value="Model.Title" Label="Title" Dense="true" Outlined="true" Disabled="CheckRole(CsomorRole.Read)"></MatTextField>
+                            <ValidationMessage For="() => Model.Title" />
                         </div>
-                        <div class="input-row col col-12 col-md-6">
-                            <MatDatePicker class="w-100" Value="@Model.Finish" ValueExpression="@(() => Model.Finish)" TValue="DateTime" ValueChanged="@(date => ReSetup(date, "finish"))" EnableTime="true" Enable24hours="true" AllowInput="false" Label="Finish" Dense="true" Outlined="true"></MatDatePicker>
-                            <ValidationMessage For="() => Model.Finish" />
-                        </div>
-                    </div>
-                    <div class="col col-12 row">
-                        <div class="input-row col col-12 col-md-6">
-                            <MatNumericUpDownField class="w-100" @bind-Value="Model.MaxWorkHour" Label="Maximum Work Hour" Dense="true" Minimum="1" Maximum="8" Outlined="true"></MatNumericUpDownField>
-                            <ValidationMessage For="() => Model.MaxWorkHour" />
-                        </div>
-                        <div class="input-row col col-12 col-md-6">
-                            <MatNumericUpDownField class="w-100" @bind-Value="Model.MinRestHour" Label="Minimum Rest Hour" Dense="true" Minimum="1" Maximum="4" Outlined="true"></MatNumericUpDownField>
-                            <ValidationMessage For="() => Model.MinRestHour" />
-                        </div>
-                    </div>
-                </EditForm>
-            </MatTab>
-            <MatTab Label="Person">
-                <EditForm EditContext="PersonContext">
-                    <DataAnnotationsValidator />
-                    <div class="input-row">
-                        <MatTextField class="w-100" @bind-Value="PersonModel.Name" Label="Name" Dense="true" Outlined="true"></MatTextField>
-                        <ValidationMessage For="() => PersonModel.Name" />
-                    </div>
-                    <div class="action">
-                        <span class="spacer"></span>
-                        <MatButton Raised="true" @onclick="AddPerson">Add</MatButton>
-                    </div>
-                </EditForm>
-                @if (Model.Persons.Count > 0)
-                {
-                    <div class="list">
-                        @foreach (var person in Model.Persons)
-                        {
-                            <div class="entity">
-                                <div class="data-row"><strong>Name: </strong> @person.Name</div>
-                                <div class="data-row">
-                                    <strong>Settings:</strong> <br />
-                                    <MatCheckbox TValue="bool" Value="person.IsIgnored" ValueChanged="@((val) => ChangeIsIgnoredStatus(person, val))" Label="Is Ignored"></MatCheckbox> <br />
-
-                                    @foreach (var table in person.Tables)
-                                    {
-                                        <span class="box">
-                                            <MatCheckbox TValue="bool" Value="table.IsAvailable" ValueChanged="@((val) => ChangeIsAvailableStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)"></MatCheckbox>
-                                        </span>
-                                    }
-
-                                    <br />
-
-                                    @foreach (var ignoredWork in Model.Works)
-                                    {
-                                        <span class="box">
-                                            <MatCheckbox ValueChanged="@(val => IgnoredWorkChange(person, ignoredWork, val))" TValue="bool" Value="WorkIsIgnored(person, ignoredWork)" Label="@ignoredWork.Name"></MatCheckbox>
-                                        </span>
-                                    }
-                                </div>
+                        <div class="col col-12 row">
+                            <div class="input-row col col-12 col-md-6">
+                                <MatDatePicker class="w-100" Value="@Model.Start" ValueExpression="@(() => Model.Start)" TValue="DateTime" ValueChanged="@(date => ReSetup(date, "start"))" EnableTime="true" Enable24hours="true" AllowInput="false" Label="Start" Dense="true" Outlined="true" Disabled="CheckRole(CsomorRole.Read)"></MatDatePicker>
+                                <ValidationMessage For="() => Model.Start" />
                             </div>
-                        }
-                    </div>
-                }
-            </MatTab>
-            <MatTab Label="Works">
-                <EditForm EditContext="WorkContext">
-                    <DataAnnotationsValidator />
-                    <div class="input-row">
-                        <MatTextField class="w-100" @bind-Value="WorkModel.Name" Label="Name" Dense="true" Outlined="true"></MatTextField>
-                        <ValidationMessage For="() => WorkModel.Name" />
-                    </div>
-                    <div class="action">
-                        <span class="spacer"></span>
-                        <MatButton Raised="true" @onclick="AddWork">Add</MatButton>
-                    </div>
-                </EditForm>
-                @if (Model.Works.Count > 0)
-                {
-                    <div class="list">
-                        @foreach (var work in Model.Works)
-                        {
-                            <div class="entity">
-                                <div class="data-row"><strong>Name: </strong> @work.Name</div>
-                                <div class="data-row">
-                                    <strong>Settings:</strong> <br />
-
-                                    @foreach (var table in work.Tables)
-                                    {
-                                        <span class="box">
-                                            <MatCheckbox TValue="bool" Value="table.IsActive" ValueChanged="@((val) => ChangeIsActiveStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)"></MatCheckbox>
-                                        </span>
-                                    }
-                                </div>
+                            <div class="input-row col col-12 col-md-6">
+                                <MatDatePicker class="w-100" Value="@Model.Finish" ValueExpression="@(() => Model.Finish)" TValue="DateTime" ValueChanged="@(date => ReSetup(date, "finish"))" EnableTime="true" Enable24hours="true" AllowInput="false" Label="Finish" Dense="true" Outlined="true" Disabled="CheckRole(CsomorRole.Read)"></MatDatePicker>
+                                <ValidationMessage For="() => Model.Finish" />
                             </div>
-                        }
-                    </div>
-                }
-            </MatTab>
+                        </div>
+                        <div class="col col-12 row">
+                            <div class="input-row col col-12 col-md-6">
+                                <MatNumericUpDownField class="w-100" @bind-Value="Model.MaxWorkHour" Label="Maximum Work Hour" Dense="true" Minimum="1" Maximum="8" Outlined="true" Disabled="CheckRole(CsomorRole.Read)"></MatNumericUpDownField>
+                                <ValidationMessage For="() => Model.MaxWorkHour" />
+                            </div>
+                            <div class="input-row col col-12 col-md-6">
+                                <MatNumericUpDownField class="w-100" @bind-Value="Model.MinRestHour" Label="Minimum Rest Hour" Dense="true" Minimum="1" Maximum="4" Outlined="true" Disabled="CheckRole(CsomorRole.Read)"></MatNumericUpDownField>
+                                <ValidationMessage For="() => Model.MinRestHour" />
+                            </div>
+                        </div>
+                    </EditForm>
+                </MatTab>
+                <MatTab Label="Person">
+                    @if (CheckRole(CsomorRole.Owner, CsomorRole.Write))
+                    {
+
+                        <EditForm EditContext="PersonContext">
+                            <DataAnnotationsValidator />
+                            <div class="input-row">
+                                <MatTextField class="w-100" @bind-Value="PersonModel.Name" Label="Name" Dense="true" Outlined="true"></MatTextField>
+                                <ValidationMessage For="() => PersonModel.Name" />
+                            </div>
+                            <div class="action">
+                                <span class="spacer"></span>
+                                <MatButton Raised="true" @onclick="AddPerson">Add</MatButton>
+                            </div>
+                        </EditForm>
+                    }
+                    @if (Model.Persons.Count > 0)
+                    {
+                        <div class="list">
+                            @foreach (var person in Model.Persons)
+                            {
+                                <div class="entity">
+                                    <div class="data-row"><strong>Name: </strong> @person.Name</div>
+                                    <div class="data-row">
+                                        <strong>Settings:</strong> <br />
+                                        <MatCheckbox TValue="bool" Value="person.IsIgnored" ValueChanged="@((val) => ChangeIsIgnoredStatus(person, val))" Label="Is Ignored" Disabled="CheckRole(CsomorRole.Read)"></MatCheckbox> <br />
+
+                                        @foreach (var table in person.Tables)
+                                        {
+                                            <span class="box">
+                                                <MatCheckbox TValue="bool" Value="table.IsAvailable" ValueChanged="@((val) => ChangeIsAvailableStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)" Disabled="CheckRole(CsomorRole.Read)"></MatCheckbox>
+                                            </span>
+                                        }
+
+                                        <br />
+
+                                        @foreach (var ignoredWork in Model.Works)
+                                        {
+                                            <span class="box">
+                                                <MatCheckbox ValueChanged="@(val => IgnoredWorkChange(person, ignoredWork, val))" TValue="bool" Value="WorkIsIgnored(person, ignoredWork)" Label="@ignoredWork.Name" Disabled="CheckRole(CsomorRole.Read)"></MatCheckbox>
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </MatTab>
+                <MatTab Label="Works">
+                    @if (CheckRole(CsomorRole.Owner, CsomorRole.Write))
+                    {
+                        <EditForm EditContext="WorkContext">
+                            <DataAnnotationsValidator />
+                            <div class="input-row">
+                                <MatTextField class="w-100" @bind-Value="WorkModel.Name" Label="Name" Dense="true" Outlined="true"></MatTextField>
+                                <ValidationMessage For="() => WorkModel.Name" />
+                            </div>
+                            <div class="action">
+                                <span class="spacer"></span>
+                                <MatButton Raised="true" @onclick="AddWork">Add</MatButton>
+                            </div>
+                        </EditForm>
+                    }
+                    @if (Model.Works.Count > 0)
+                    {
+                        <div class="list">
+                            @foreach (var work in Model.Works)
+                            {
+                                <div class="entity">
+                                    <div class="data-row"><strong>Name: </strong> @work.Name</div>
+                                    <div class="data-row">
+                                        <strong>Settings:</strong> <br />
+
+                                        @foreach (var table in work.Tables)
+                                        {
+                                            <span class="box">
+                                                <MatCheckbox TValue="bool" Value="table.IsActive" ValueChanged="@((val) => ChangeIsActiveStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)" Disabled="CheckRole(CsomorRole.Read)"></MatCheckbox>
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </MatTab>
+            }
             @if (Model.HasGeneratedCsomor)
             {
                 <MatTab Label="Csomor">
                     <CsomorComponent Settings="Settings"></CsomorComponent>
                 </MatTab>
             }
-            @if (this.Id != null)
+            @if (this.Id != null && CheckRole(CsomorRole.Owner))
             {
                 <MatTab Label="Share"></MatTab>
             }

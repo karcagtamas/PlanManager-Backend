@@ -2,6 +2,7 @@
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.CSM;
+using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
 using System;
 using System.Collections.Generic;
@@ -83,6 +84,17 @@ namespace EventManager.Client.Services
             var settings = new HttpSettings($"{this._url}/public");
 
             return this._http.Get<List<CsomorListDTO>>(settings);
+        }
+
+        public Task<CsomorRole> GetRole(int id)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add(id, -1);
+            pathParams.Add("role", -1);
+
+            var settings = new HttpSettings($"{this._url}", null, pathParams);
+
+            return this._http.Get<CsomorRole>(settings);
         }
 
         public Task<List<CsomorListDTO>> GetSharedList()

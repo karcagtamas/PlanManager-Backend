@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ManagerAPI.Shared.DTOs.CSM;
+using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
 
 namespace CsomorGenerator.Services.Interfaces
@@ -17,5 +18,6 @@ namespace CsomorGenerator.Services.Interfaces
         List<CsomorListDTO> GetSharedList();
         void Share(int id, List<CsomorAccessModel> models);
         void ChangePublicStatus(int id, GeneratorPublishModel model);
+        CsomorRole GetRoleForCsomor(int id);
     }
 }

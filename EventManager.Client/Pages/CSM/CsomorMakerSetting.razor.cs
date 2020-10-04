@@ -3,6 +3,7 @@ using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Common;
 using ManagerAPI.Shared.DTOs.CSM;
+using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -32,6 +33,7 @@ namespace EventManager.Client.Pages.CSM
         private EditContext WorkContext { get; set; }
         private WorkModel WorkModel { get; set; }
         private bool IsModifiedState { get; set; }
+        private CsomorRole Role { get; set; }
 
         protected override void OnInitialized()
         {
@@ -54,6 +56,7 @@ namespace EventManager.Client.Pages.CSM
 
         protected override async Task OnParametersSetAsync()
         {
+            await this.GetRole();
             await this.GetSettings();
         }
 
@@ -75,6 +78,27 @@ namespace EventManager.Client.Pages.CSM
             }
             this.IsModifiedState = false;
             StateHasChanged();
+        }
+
+        private async Task GetRole()
+        {
+            if (this.Id != null)
+            {
+                var role = await this.GeneratorService.GetRole((int)this.Id);
+
+                if (role == CsomorRole.Denied)
+                {
+                    this.NavigationManager.NavigateTo("/csomors");
+                }
+                else
+                {
+                    this.Role = role;
+                }
+            }
+            else
+            {
+                this.Role = CsomorRole.Owner;
+            }
         }
 
         private async void SaveSettings()
@@ -133,11 +157,10 @@ namespace EventManager.Client.Pages.CSM
             {
                 this.Model.Finish = date.AddMinutes(-date.Minute);
             }
-            Console.WriteLine(this.Model.Start);
-            Console.WriteLine(this.Model.Finish);
             this.Model.Persons.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
             this.Model.Works.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
             this.IsModifiedState = true;
+            this.Model.HasGeneratedCsomor = false;
             StateHasChanged();
         }
 
@@ -182,12 +205,12 @@ namespace EventManager.Client.Pages.CSM
 
         private bool CanSave()
         {
-            return this.IsModifiedState;
+            return this.IsModifiedState && this.CheckRole(CsomorRole.Owner, CsomorRole.Write);
         }
 
         private bool CanGenerate()
         {
-            return !this.CanSave();
+            return !this.CanSave() && this.CheckRole(CsomorRole.Owner, CsomorRole.Write);
         }
 
         public void Dispose()
@@ -236,6 +259,19 @@ namespace EventManager.Client.Pages.CSM
             }
 
             Modal.OnClose -= ConfirmDialogClosed;
+        }
+
+        private bool CheckRole(params CsomorRole[] roles)
+        {
+            foreach (var role in roles)
+            {
+                if (this.Role == role)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

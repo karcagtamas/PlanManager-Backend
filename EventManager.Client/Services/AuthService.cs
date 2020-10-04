@@ -51,8 +51,8 @@ namespace EventManager.Client.Services
             if (!string.IsNullOrEmpty(result))
             {
                 await _localStorageService.SetItemAsync("authToken", result);
-                ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(model.UserName);
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result);
+                ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated();
             }
 
             return result;
