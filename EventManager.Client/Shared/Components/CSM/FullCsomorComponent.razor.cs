@@ -53,11 +53,11 @@ namespace EventManager.Client.Shared.Components.CSM
                 {
                     if (i == 0)
                     {
-                        this.Rows.Add(tables[j].Date, new List<DisplayMember> { new DisplayMember(this.GetWork(tables[j].WorkId)) });
+                        this.Rows.Add(tables[j].Date, new List<DisplayMember> { new DisplayMember(this.GetWork(tables[j].WorkId), !tables[j].IsAvailable) });
                     }
                     else
                     {
-                        this.Rows[tables[j].Date].Add(new DisplayMember(this.GetWork(tables[j].WorkId)));
+                        this.Rows[tables[j].Date].Add(new DisplayMember(this.GetWork(tables[j].WorkId), !tables[j].IsAvailable));
                     }
                 }
             }
@@ -146,6 +146,7 @@ namespace EventManager.Client.Shared.Components.CSM
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string Tooltip { get; set; }
 
         public DisplayMember() { }
 
@@ -155,25 +156,30 @@ namespace EventManager.Client.Shared.Components.CSM
             {
                 this.Id = "";
                 this.Name = "-";
+                this.Tooltip = "Hours: 0";
             }
             else
             {
                 this.Id = person.Id;
                 this.Name = person.Name;
+                int works = person.Tables.Count(x => !string.IsNullOrEmpty(x.WorkId));
+                this.Tooltip = $"Hours: {works}";
             }
         }
 
-        public DisplayMember(Work work)
+        public DisplayMember(Work work, bool outside)
         {
             if (work == null)
             {
                 this.Id = "";
                 this.Name = "-";
+                this.Tooltip = outside ? "Out" : "Free";
             }
             else
             {
                 this.Id = work.Id;
                 this.Name = work.Name;
+                this.Tooltip = "In Work";
             }
         }
     }

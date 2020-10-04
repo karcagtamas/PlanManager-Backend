@@ -53,11 +53,13 @@
 
             <div class="element interval @(ManagerAPI.Shared.Helpers.DateHelper.CompareDates(DateTime.UtcNow, row.Key) ? "current" : "") @(ManagerAPI.Shared.Helpers.DateHelper.CompareDates(DateTime.UtcNow.AddHours(1), row.Key) ? "next" : "")">@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(row.Key, 1)</div>
 
-            @foreach (var person in row.Value)
+            @foreach (var element in row.Value)
             {
-                @if (person != null)
+                @if (element != null)
                 {
-                    <div class="element @(HoveredMemberId == person.Id ? "hovered" : "") @(ManagerAPI.Shared.Helpers.DateHelper.CompareDates(DateTime.UtcNow, row.Key) ? "current" : "") @(ManagerAPI.Shared.Helpers.DateHelper.CompareDates(DateTime.UtcNow.AddHours(1), row.Key) ? "next" : "")" @onmouseover="@(() => Hover(person.Id))" @onmouseout="@(() => Hover(null))">@person.Name</div>
+                    <MatTooltip Tooltip="@element.Tooltip">
+                        <div @ref="context.Current" class="element @(HoveredMemberId == element.Id ? "hovered" : "") @(ManagerAPI.Shared.Helpers.DateHelper.CompareDates(DateTime.UtcNow, row.Key) ? "current" : "") @(ManagerAPI.Shared.Helpers.DateHelper.CompareDates(DateTime.UtcNow.AddHours(1), row.Key) ? "next" : "")" @onmouseover="@(() => Hover(element.Id))" @onmouseout="@(() => Hover(null))">@element.Name</div>
+                    </MatTooltip>
                 }
                 else
                 {
