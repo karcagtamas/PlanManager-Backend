@@ -545,16 +545,40 @@ namespace CsomorGenerator.Services
         /// <returns>Generator settings</returns>
         public GeneratorSettings Get(int id)
         {
-            var user = this._utils.GetCurrentUser();
+            User user;
+
+            try
+            {
+                user = this._utils.GetCurrentUser();
+            }
+            catch (Exception)
+            {
+                user = null;
+            }
 
             var csomor = this._context.Csomors.Find(id);
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                if (user == null)
+                {
+                    throw this._logger.LogAnonymousInvalidThings(GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                }
+                else
+                {
+                    throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                }
             }
 
-            this._logger.LogInformation(user, GeneratorServiceSource, "get csomor", id);
+            if (user == null)
+            {
+                this._logger.LogAnonymousInformation(GeneratorServiceSource, "get csomor", id);
+            }
+            else
+            {
+                this._logger.LogInformation(user, GeneratorServiceSource, "get csomor", id);
+            }
+
 
             return this._mapper.Map<GeneratorSettings>(csomor);
         }

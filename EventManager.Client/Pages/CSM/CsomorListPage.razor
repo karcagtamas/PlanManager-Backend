@@ -4,7 +4,7 @@
     <h1 class="em-page-title">Generators</h1>
     <div class="action-bar">
         <MatTooltip Tooltip="New Csomor">
-            <MatIconButton RefBack="@context" Icon="add" OnClick="@(() => Navigation.NavigateTo("/csomor"))"></MatIconButton>
+            <MatIconButton RefBack="@context" Icon="add" OnClick="@(() => Navigation.NavigateTo("/csomor"))" Disabled="!IsLoggedIn"></MatIconButton>
         </MatTooltip>
     </div>
     <div class="lists">

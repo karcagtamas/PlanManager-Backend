@@ -8,5 +8,6 @@ namespace EventManager.Client.Services.Interfaces {
         Task<string> Login (LoginModel model);
         Task Logout ();
         Task<bool> HasRole(params string[] roles);
+        public Task<bool> IsLoggedIn();
     }
 }

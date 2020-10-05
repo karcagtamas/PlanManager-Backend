@@ -71,5 +71,10 @@ namespace EventManager.Client.Services
 
             return claims.Any(roles.Contains);
         }
+
+        public async Task<bool> IsLoggedIn()
+        {
+            return !string.IsNullOrEmpty(await _localStorageService.GetItemAsync<string>("authToken"));
+        }
     }
 }

@@ -51,12 +51,14 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public IActionResult Get([FromRoute] int id)
         {
             return Ok(this._generatorService.Get(id));
         }
 
         [HttpGet("public")]
+        [AllowAnonymous]
         public IActionResult GetPublicList()
         {
             return Ok(this._generatorService.GetPublicList());
@@ -91,6 +93,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpGet("{id}/role")]
+        [AllowAnonymous]
         public IActionResult GetRoleForCsomor([FromRoute] int id)
         {
             return Ok(this._generatorService.GetRoleForCsomor(id));

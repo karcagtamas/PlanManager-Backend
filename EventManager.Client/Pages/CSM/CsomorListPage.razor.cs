@@ -14,19 +14,27 @@ namespace EventManager.Client.Pages.CSM
         [Inject]
         private IGeneratorService GeneratorService { get; set; }
 
+        [Inject]
+        private IAuthService Auth { get; set; }
+
         private List<CsomorListDTO> OwnedList { get; set; }
         private List<CsomorListDTO> SharedList { get; set; }
         private List<CsomorListDTO> PublicList { get; set; }
+        private bool IsLoggedIn { get; set; } = false;
 
         protected override async Task OnInitializedAsync()
         {
+            this.IsLoggedIn = await this.Auth.IsLoggedIn();
             await this.GetList();
         }
 
         private async Task GetList()
         {
-            await this.GetOwnedList();
-            await this.GetSharedList();
+            if (this.IsLoggedIn)
+            {
+                await this.GetOwnedList();
+                await this.GetSharedList();
+            }
             await this.GetPublicList();
             StateHasChanged();
         }
