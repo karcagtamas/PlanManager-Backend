@@ -122,6 +122,11 @@ namespace CsomorGenerator.Services
         {
             var person = GetValidRandomPerson(persons);
 
+            if (person == null)
+            {
+                return;
+            }
+
             if (this.WorkerIsValid(person, table.Date, workId, maxHour))
             {
                 table.PersonId = person.Id;
@@ -136,19 +141,16 @@ namespace CsomorGenerator.Services
                 pTable.WorkId = workId;
                 person.Hours--;
             }
-            else
+            else if (counter < this.GenerateLimit)
             {
-                if (counter < this.GenerateLimit)
+                if (counter > 100)
                 {
-                    if (counter > 100)
-                    {
-                        // TODO: Worker switch
-                        Console.WriteLine("Bigger than 100");
-                    }
-                    else
-                    {
-                        this.GenerateToDate(ref table, ref persons, workId, maxHour, counter++);
-                    }
+                    // TODO: Worker switch
+                    Console.WriteLine("Bigger than 100");
+                }
+                else
+                {
+                    this.GenerateToDate(ref table, ref persons, workId, maxHour, counter++);
                 }
             }
         }
@@ -164,7 +166,7 @@ namespace CsomorGenerator.Services
             Random r = new Random();
             var validList = persons.Where(x => !x.IsIgnored && x.Hours != 0).ToList();
 
-            return validList[r.Next(validList.Count)];
+            return validList.Count == 0 ? null : validList[r.Next(validList.Count)];
         }
 
         /// <summary>
