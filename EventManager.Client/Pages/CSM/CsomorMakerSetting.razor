@@ -106,29 +106,7 @@
                         <div class="list">
                             @foreach (var person in Model.Persons)
                             {
-                                <div class="entity">
-                                    <div class="data-row"><strong>Name: </strong> @person.Name</div>
-                                    <div class="data-row">
-                                        <strong>Settings:</strong> <br />
-                                        <MatCheckbox TValue="bool" Value="person.IsIgnored" ValueChanged="@((val) => ChangeIsIgnoredStatus(person, val))" Label="Is Ignored" Disabled="CheckRole(CsomorRole.Read)"></MatCheckbox> <br />
-
-                                        @foreach (var table in person.Tables)
-                                        {
-                                            <span class="box">
-                                                <MatCheckbox TValue="bool" Value="table.IsAvailable" ValueChanged="@((val) => ChangeIsAvailableStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)" Disabled="CheckRole(CsomorRole.Read)"></MatCheckbox>
-                                            </span>
-                                        }
-
-                                        <br />
-
-                                        @foreach (var ignoredWork in Model.Works)
-                                        {
-                                            <span class="box">
-                                                <MatCheckbox ValueChanged="@(val => IgnoredWorkChange(person, ignoredWork, val))" TValue="bool" Value="WorkIsIgnored(person, ignoredWork)" Label="@ignoredWork.Name" Disabled="CheckRole(CsomorRole.Read)"></MatCheckbox>
-                                            </span>
-                                        }
-                                    </div>
-                                </div>
+                                <PersonComponent Person="person" Works="Model.Works" RoleChecker="CheckRole" StateChanged="StateChanged" IsEditable="true"></PersonComponent>
                             }
                         </div>
                     }
@@ -151,21 +129,9 @@
                     @if (Model.Works.Count > 0)
                     {
                         <div class="list">
-                            @foreach (var work in Model.Works)
+                            @foreach(var work in Model.Works)
                             {
-                                <div class="entity">
-                                    <div class="data-row"><strong>Name: </strong> @work.Name</div>
-                                    <div class="data-row">
-                                        <strong>Settings:</strong> <br />
-
-                                        @foreach (var table in work.Tables)
-                                        {
-                                            <span class="box">
-                                                <MatCheckbox TValue="bool" Value="table.IsActive" ValueChanged="@((val) => ChangeIsActiveStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)" Disabled="CheckRole(CsomorRole.Read)"></MatCheckbox>
-                                            </span>
-                                        }
-                                    </div>
-                                </div>
+                                <WorkComponent Work="work" RoleChecker="CheckRole" StateChanged="StateChanged" IsEditable="true"></WorkComponent>
                             }
                         </div>
                     }

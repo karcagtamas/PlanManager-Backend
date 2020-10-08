@@ -38,5 +38,13 @@
   {
     "outputFile": "Shared/Components/Notifications/MyNotificationComponent.razor.css",
     "inputFile": "Shared/Components/Notifications/MyNotificationComponent.razor.scss"
+  },
+  {
+    "outputFile": "Shared/Components/CSM/PersonComponent.razor.css",
+    "inputFile": "Shared/Components/CSM/PersonComponent.razor.scss"
+  },
+  {
+    "outputFile": "Shared/Components/CSM/WorkComponent.razor.css",
+    "inputFile": "Shared/Components/CSM/WorkComponent.razor.scss"
   }
 ]

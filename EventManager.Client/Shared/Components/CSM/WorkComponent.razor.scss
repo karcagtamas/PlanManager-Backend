@@ -1,0 +1,20 @@
+﻿@import "../../../Styles/_common.scss";
+
+.entity {
+    @include panel;
+    background-color: $white-trans;
+
+    .data-row {
+        .row-header {
+            display: flex;
+
+            .spacer {
+                flex-grow: 1;
+            }
+        }
+
+        .row-body {
+            padding: 0.8rem;
+        }
+    }
+}

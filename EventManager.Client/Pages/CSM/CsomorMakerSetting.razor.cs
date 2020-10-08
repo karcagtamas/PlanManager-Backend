@@ -146,6 +146,12 @@ namespace EventManager.Client.Pages.CSM
             }
         }
 
+        private void StateChanged()
+        {
+            this.IsModifiedState = true;
+            StateHasChanged();
+        }
+
         private void ReSetup(DateTime date, string type)
         {
             Console.WriteLine(date);
@@ -162,30 +168,6 @@ namespace EventManager.Client.Pages.CSM
             this.IsModifiedState = true;
             this.Model.HasGeneratedCsomor = false;
             StateHasChanged();
-        }
-
-        private void IgnoredWorkChange(PersonModel person, WorkModel work, bool value)
-        {
-            if (value)
-            {
-                if (!person.IgnoredWorks.Any(x => x == work.Id))
-                {
-                    person.IgnoredWorks.Add(work.Id);
-                }
-            }
-            else
-            {
-                if (person.IgnoredWorks.Any(x => x == work.Id))
-                {
-                    person.IgnoredWorks.Remove(work.Id);
-                }
-            }
-            this.IsModifiedState = true;
-        }
-
-        private bool WorkIsIgnored(PersonModel person, WorkModel work)
-        {
-            return person.IgnoredWorks.Any(x => x == work.Id);
         }
 
         private async void Generate()
@@ -216,24 +198,6 @@ namespace EventManager.Client.Pages.CSM
         public void Dispose()
         {
             this.Context.OnFieldChanged -= OnFieldChanged;
-        }
-
-        private void ChangeIsAvailableStatus(PersonTableModel model, bool value)
-        {
-            model.IsAvailable = value;
-            this.IsModifiedState = true;
-        }
-
-        private void ChangeIsIgnoredStatus(PersonModel model, bool value)
-        {
-            model.IsIgnored = value;
-            this.IsModifiedState = true;
-        }
-
-        private void ChangeIsActiveStatus(WorkTableModel model, bool value)
-        {
-            model.IsActive = value;
-            this.IsModifiedState = true;
         }
 
         private void OpenConfirmDialog(bool status)

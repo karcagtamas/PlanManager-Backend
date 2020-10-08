@@ -1,0 +1,75 @@
+﻿@using ManagerAPI.Shared.Enums
+
+<div class="entity">
+    <div class="data-row">
+        <div class="row-header">
+            <strong>Name: </strong> &nbsp; @Work.Name
+            <span class="spacer"></span>
+            @if (IsOpened)
+            {
+                <MatTooltip Tooltip="Close">
+                    <MatIconButton RefBack="@context" Icon="expand_less" @onclick="@(() => IsOpened = false)"></MatIconButton>
+                </MatTooltip>
+            }
+            else
+            {
+                <MatTooltip Tooltip="Open">
+                    <MatIconButton RefBack="@context" Icon="expand_more" @onclick="@(() => IsOpened = true)"></MatIconButton>
+                </MatTooltip>
+            }
+        </div>
+    </div>
+    @if (IsOpened)
+    {
+        <div class="data-row open-animation">
+            <div class="row-header">
+
+                <strong>Settings:</strong> <br />
+                <span class="spacer"></span>
+                @if (IsEditable && !IsEdit)
+                {
+                    <MatTooltip Tooltip="Edit">
+                        <MatIconButton RefBack="@context" Icon="edit" @onclick="@(() => IsEdit = true)"></MatIconButton>
+                    </MatTooltip>
+                }
+                @if (IsEditable && IsEdit)
+                {
+                    <MatTooltip Tooltip="Back">
+                        <MatIconButton RefBack="@context" Icon="arrow_left" @onclick="@(() => IsEdit = false)"></MatIconButton>
+                    </MatTooltip>
+                }
+            </div>
+            @if (IsEdit)
+            {
+                <div class="row-body">
+                    <div class="w-100">
+                        @foreach (var table in Work.Tables)
+                        {
+                            <span class="box">
+                                <MatCheckbox TValue="bool" Value="table.IsActive" ValueChanged="@((val) => ChangeIsActiveStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)" Disabled="CheckRole(CsomorRole.Read)"></MatCheckbox>
+                            </span>
+                        }
+                    </div>
+                </div>
+
+            }
+            else
+            {
+                <div class="row-body">
+                    <div class="data-row">
+                        <strong>Hour statuses: </strong>
+                        <div class="row-body">
+                            @foreach (var table in Work.Tables)
+                            {
+                                <div class="data-row">
+                                    <strong>@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1): </strong>
+                                    @(table.IsActive ? "Active" : "Not Active")
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
