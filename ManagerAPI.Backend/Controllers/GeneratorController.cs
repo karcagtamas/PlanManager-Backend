@@ -1,12 +1,10 @@
 ﻿using CsomorGenerator.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.CSM;
+using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ManagerAPI.Backend.Controllers
 {
@@ -97,6 +95,19 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult GetRoleForCsomor([FromRoute] int id)
         {
             return Ok(this._generatorService.GetRoleForCsomor(id));
+        }
+
+        [HttpGet("{id}/export/pdf")]
+        public IActionResult ExportPdf([FromRoute] int id)
+        {
+            return Ok(this._generatorService.ExportPdf(id));
+        }
+
+        [HttpPut("{id}/export/xls")]
+        public IActionResult ExportXls([FromRoute] int id, [FromBody] ExportSettingsModel model)
+        {
+            return Ok(this._generatorService.ExportXls(id, model.Type, model.FilterList));
+            // return File(res.Stream.ToArray(), res.ContentType, res.FileName);
         }
     }
 }

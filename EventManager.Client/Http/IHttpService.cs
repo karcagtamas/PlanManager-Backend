@@ -1,3 +1,4 @@
+using ManagerAPI.Shared.Models.CSM;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Http
@@ -13,5 +14,7 @@ namespace EventManager.Client.Http
         Task<string> CreateString<T>(HttpSettings settings, HttpBody<T> body);
         Task<T> UpdateWithResult<T, V>(HttpSettings settings, HttpBody<V> body);
         Task<int> CreateInt<T>(HttpSettings settings, HttpBody<T> body);
+        Task<bool> Download(HttpSettings settings);
+        Task<bool> Download<T>(HttpSettings settings, T model);
     }
 }

@@ -47,6 +47,12 @@
                 </MatTooltip>
             }
         }
+        <MatTooltip Tooltip="Export Xlsx">
+            <MatIconButton RefBack="@context" Icon="arrow_circle_down" @onclick="ExportXls" Disabled="!CanExport()"></MatIconButton>
+        </MatTooltip>
+        <MatTooltip Tooltip="Export Pdf">
+            <MatIconButton RefBack="@context" Icon="arrow_circle_down" @onclick="ExportPdf" Disabled="!CanExport()"></MatIconButton>
+        </MatTooltip>
         <span class="spacer"></span>
         <MatTooltip Tooltip="Back to List">
             <MatIconButton RefBack="@context" Icon="arrow_left" @onclick="@(() => NavigationManager.NavigateTo("/csomors"))"></MatIconButton>
@@ -140,7 +146,7 @@
             @if (Model.HasGeneratedCsomor)
             {
                 <MatTab Label="Csomor">
-                    <CsomorComponent Settings="Settings"></CsomorComponent>
+                    <CsomorComponent Settings="Settings" @bind-TableType="Type" @bind-FilterList="FilterList"></CsomorComponent>
                 </MatTab>
             }
             @if (this.Id != null && CheckRole(CsomorRole.Owner))

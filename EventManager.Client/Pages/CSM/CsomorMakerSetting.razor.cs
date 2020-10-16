@@ -7,7 +7,9 @@ using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,6 +27,9 @@ namespace EventManager.Client.Pages.CSM
         private NavigationManager NavigationManager { get; set; }
         [Inject] private IModalService Modal { get; set; }
 
+        [Inject]
+        private IJSRuntime JSRuntime { get; set; }
+
         private GeneratorSettings Settings { get; set; }
         private EditContext Context { get; set; }
         private GeneratorSettingsModel Model { get; set; }
@@ -34,6 +39,9 @@ namespace EventManager.Client.Pages.CSM
         private WorkModel WorkModel { get; set; }
         private bool IsModifiedState { get; set; }
         private CsomorRole Role { get; set; }
+
+        private List<string> FilterList { get; set; } = new List<string>();
+        private CsomorType Type { get; set; } = CsomorType.Work;
 
         protected override void OnInitialized()
         {
@@ -193,6 +201,27 @@ namespace EventManager.Client.Pages.CSM
         private bool CanGenerate()
         {
             return !this.CanSave() && this.CheckRole(CsomorRole.Owner, CsomorRole.Write);
+        }
+
+        private bool CanExport()
+        {
+            return !this.CanSave() && this.Id != null && this.CheckRole(CsomorRole.Owner, CsomorRole.Write, CsomorRole.Read);
+        }
+
+        private async void ExportXls()
+        {
+            if (this.Id != null)
+            {
+                await this.GeneratorService.ExportXls((int)this.Id, new ExportSettingsModel { Type = this.Type, FilterList = this.FilterList });
+            }
+        }
+
+        private async void ExportPdf()
+        {
+            if (this.Id != null)
+            {
+                await this.GeneratorService.ExportPdf((int)this.Id);
+            }
         }
 
         public void Dispose()

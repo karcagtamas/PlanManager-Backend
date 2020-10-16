@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CsomorGenerator.Services.Interfaces
 {
@@ -19,5 +21,7 @@ namespace CsomorGenerator.Services.Interfaces
         void Share(int id, List<CsomorAccessModel> models);
         void ChangePublicStatus(int id, GeneratorPublishModel model);
         CsomorRole GetRoleForCsomor(int id);
+        FileStreamResult ExportPdf(int id);
+        ExportResult ExportXls(int id, CsomorType type, List<string> filterList);
     }
 }

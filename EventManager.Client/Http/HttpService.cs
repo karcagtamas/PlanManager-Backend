@@ -2,6 +2,8 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using EventManager.Client.Services.Interfaces;
+using ManagerAPI.Shared.DTOs.CSM;
+using Microsoft.JSInterop;
 
 /// <summary>
 /// HTTP Service
@@ -12,16 +14,18 @@ namespace EventManager.Client.Http
     {
         private readonly HttpClient _httpClient;
         private readonly IHelperService _helperService;
+        private readonly IJSRuntime _jsRuntime;
 
         /// <summary>
         /// HTTP Service Injector
         /// </summary>
         /// <param name="httpClient">HTTP Client</param>
         /// <param name="helperService">Helper Service</param>
-        public HttpService(HttpClient httpClient, IHelperService helperService)
+        public HttpService(HttpClient httpClient, IHelperService helperService, IJSRuntime jsRuntime)
         {
             this._httpClient = httpClient;
             this._helperService = helperService;
+            this._jsRuntime = jsRuntime;
         }
 
         /// <summary>
@@ -398,6 +402,28 @@ namespace EventManager.Client.Http
         public async Task<int> CreateInt<T>(HttpSettings settings, HttpBody<T> body)
         {
             return int.Parse(await this.CreateString(settings, body));
+        }
+
+        public async Task<bool> Download(HttpSettings settings)
+        {
+            return this.Download(await this.Get<ExportResult>(settings));
+        }
+
+        public async Task<bool> Download<T>(HttpSettings settings, T model)
+        {
+            var body = new HttpBody<T>(model);
+
+            return this.Download(await this.UpdateWithResult<ExportResult, T>(settings, body));
+        }
+
+        private bool Download(ExportResult result)
+        {
+            if (this._jsRuntime is IJSUnmarshalledRuntime unmarshalledRuntime)
+            {
+                unmarshalledRuntime.InvokeUnmarshalled<string, string, byte[], bool>("manageDownload", result.FileName, result.ContentType, result.Content);
+            }
+
+            return true;
         }
     }
 }

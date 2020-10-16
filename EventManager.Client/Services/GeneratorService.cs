@@ -53,6 +53,30 @@ namespace EventManager.Client.Services
             return this._http.Delete(settings);
         }
 
+        public Task<object> ExportPdf(int id)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add(id, -1);
+            pathParams.Add("export", -1);
+            pathParams.Add("pdf", -1);
+
+            var settings = new HttpSettings($"{this._url}", null, pathParams, "Exporting to PDF");
+
+            return this._http.Get<object>(settings);
+        }
+
+        public Task<bool> ExportXls(int id, ExportSettingsModel model)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add(id, -1);
+            pathParams.Add("export", -1);
+            pathParams.Add("xls", -1);
+
+            var settings = new HttpSettings($"{this._url}", null, pathParams, "Exporting to XLS");
+
+            return this._http.Download(settings, model);
+        }
+
         public Task<GeneratorSettings> GenerateSimple(GeneratorSettings settings)
         {
             var httpSettings = new HttpSettings($"{this._url}/generate", null, null, "Csomor generating");

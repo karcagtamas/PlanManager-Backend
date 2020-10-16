@@ -21,13 +21,13 @@
             </MatSelect>
         }
         <span class="spacer"></span>
-        <span>Is Personal table: <MatSlideToggle TValue="bool" Value="SelectedIsPerson" ValueChanged="@((val) => TableTypeChanged(val))"></MatSlideToggle></span>
+        <span>Is Personal table: <MatSlideToggle TValue="bool" Value="SelectedIsPerson" ValueChanged="@((val) => TableStyleTypeChanged(val))"></MatSlideToggle></span>
     </div>
     <div class="table-row">
         <div class="element header interval">Full</div>
         @if (SelectedIsPerson)
         {
-            @foreach (var person in Settings.Persons)
+            @foreach (var person in Settings.Persons.OrderBy(x => x.Name))
             {
                 @if (string.IsNullOrEmpty(Selected) || Selected == person.Id)
                 {
@@ -37,7 +37,7 @@
         }
         else
         {
-            @foreach (var work in Settings.Works)
+            @foreach (var work in Settings.Works.OrderBy(x => x.Name))
             {
                 @if (string.IsNullOrEmpty(Selected) || Selected == work.Id)
                 {
