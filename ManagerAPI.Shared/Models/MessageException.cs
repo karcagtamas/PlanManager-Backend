@@ -21,5 +21,9 @@ namespace ManagerAPI.Shared.Models
         public MessageException(string msg) : base(msg)
         {
         }
+
+        public MessageException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
     }
 }

@@ -1,0 +1,105 @@
+﻿@using ManagerAPI.Shared.Enums
+
+<div class="entity">
+    <div class="data-row">
+        <div class="row-header">
+            <strong>Name: </strong> &nbsp; @Person.Name
+            <span class="spacer"></span>
+            @if (IsOpened)
+            {
+                <MatTooltip Tooltip="Close">
+                    <MatIconButton RefBack="@context" Icon="expand_less" @onclick="@(() => IsOpened = false)"></MatIconButton>
+                </MatTooltip>
+            }
+            else
+            {
+                <MatTooltip Tooltip="Open">
+                    <MatIconButton RefBack="@context" Icon="expand_more" @onclick="@(() => IsOpened = true)"></MatIconButton>
+                </MatTooltip>
+            }
+        </div>
+    </div>
+    @if (IsOpened)
+    {
+        <div class="data-row open-animation">
+            <div class="row-header">
+
+                <strong>Settings:</strong> <br />
+                <span class="spacer"></span>
+                @if (IsEditable && !IsEdit)
+                {
+                    <MatTooltip Tooltip="Edit">
+                        <MatIconButton RefBack="@context" Icon="edit" @onclick="@(() => IsEdit = true)" Disabled="CheckRole(CsomorRole.Read)"></MatIconButton>
+                    </MatTooltip>
+                }
+                @if (IsEditable && IsEdit)
+                {
+                    <MatTooltip Tooltip="Back">
+                        <MatIconButton RefBack="@context" Icon="arrow_left" @onclick="@(() => IsEdit = false)"></MatIconButton>
+                    </MatTooltip>
+                }
+            </div>
+            @if (IsEdit)
+            {
+                <div class="row-body">
+                    <div class="w-100">
+                        <MatCheckbox TValue="bool" Value="Person.IsIgnored" ValueChanged="@((val) => ChangeIsIgnoredStatus(Person, val))" Label="Is Ignored"></MatCheckbox> <br />
+                        @if (!Person.IsIgnored)
+                        {
+                            @foreach (var table in Person.Tables)
+                            {
+                                <span class="box">
+                                    <MatCheckbox TValue="bool" Value="table.IsAvailable" ValueChanged="@((val) => ChangeIsAvailableStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)"></MatCheckbox>
+                                </span>
+                            }
+                            <br />
+
+                            @foreach (var ignoredWork in Works)
+                            {
+                                <span class="box">
+                                    <MatCheckbox ValueChanged="@(val => IgnoredWorkChange(Person, ignoredWork, val))" TValue="bool" Value="WorkIsIgnored(Person, ignoredWork)" Label="@ignoredWork.Name"></MatCheckbox>
+                                </span>
+                            }
+                        }
+                    </div>
+                </div>
+
+            }
+            else
+            {
+                <div class="row-body">
+                    <div class="data-row">
+                        <strong>Status: </strong>
+                        @(Person.IsIgnored ? "Ignored" : "Not Ignored")
+                    </div>
+
+                    <div class="data-row">
+                        <strong>Hour statuses: </strong>
+                        <div class="row-body">
+                            @foreach (var table in Person.Tables)
+                            {
+                                <div class="data-row">
+                                    <strong>@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1): </strong>
+                                    @(table.IsAvailable ? "Available" : "Not Available")
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <strong>Ignored works: </strong>
+                        <div class="row-body">
+                            @foreach (var ignoredWork in Works)
+                            {
+                                <div class="data-row">
+                                    <strong>@ignoredWork.Name: </strong>
+                                    @(WorkIsIgnored(Person, ignoredWork) ? "Ignored" : "Not Ignored")
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+

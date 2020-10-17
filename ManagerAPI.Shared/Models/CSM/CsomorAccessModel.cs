@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ManagerAPI.Shared.DTOs.CSM;
 
 namespace ManagerAPI.Shared.Models.CSM
 {
@@ -8,5 +6,13 @@ namespace ManagerAPI.Shared.Models.CSM
     {
         public string Id { get; set; }
         public bool HasWriteAccess { get; set; }
+
+        public CsomorAccessModel() { }
+
+        public CsomorAccessModel(CsomorAccessDTO dto)
+        {
+            this.Id = dto.Id;
+            this.HasWriteAccess = dto.HasWriteAccess;
+        }
     }
 }

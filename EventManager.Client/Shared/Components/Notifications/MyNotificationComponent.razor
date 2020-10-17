@@ -2,12 +2,12 @@
 @using ManagerAPI.Shared.Helpers
 @if (Notification != null)
 {
-    <div class="em-notification col col-12 row importance-@Notification.ImportanceLevel">
-        <div class="col col-10 em-notification-content">
-            @Notification.Content
-        </div>
-        <div class="col col-2 em-notification-right">
-            <div>
+    <div class="notification importance-@Notification.ImportanceLevel">
+        <div class="content">
+            <div class="text">
+                @Notification.Content
+            </div>
+            <div class="status">
                 @if (Notification.IsRead)
                 {
                     <span>
@@ -21,13 +21,14 @@
                     </span>
                 }
             </div>
-            <div></div>
-            <div></div>
         </div>
-        <div class="col col-12 em-notification-footer">
-            <span>@Notification.SystemName - @Notification.SystemShortName</span>
-            <span class="spacer"></span>
-            <span>@DateHelper.DateToString(Notification.SentDate)</span>
+        <div class="footer">
+            <div class="source">
+                @Notification.SystemName - @Notification.SystemShortName
+            </div>
+            <div class="date">
+                @DateHelper.DateToString(Notification.SentDate)
+            </div>
         </div>
     </div>
 }

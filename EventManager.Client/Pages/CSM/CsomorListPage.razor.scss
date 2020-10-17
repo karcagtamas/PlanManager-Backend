@@ -1,0 +1,37 @@
+﻿@import '../../Styles/_common.scss';
+
+.csomor-list {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+
+    .action-bar {
+        @include action-panel;
+    }
+
+    .lists {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: hidden;
+
+        .tabs {
+            flex-grow: 1;
+            width: 100% !important;
+            overflow: hidden;
+        }
+
+        .list {
+            @include main-panel;
+            flex-grow: 1;
+            width: 100%;
+            overflow: auto;
+
+            .elements {
+                display: grid;
+                grid-template-columns: auto auto auto;
+            }
+        }
+    }
+}

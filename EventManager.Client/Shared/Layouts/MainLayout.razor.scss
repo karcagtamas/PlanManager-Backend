@@ -10,6 +10,8 @@
         flex-grow: 1;
         max-height: 100vh;
         padding: 1rem;
+        max-width: calc(100% - 270px);
+        overflow: hidden;
     }
 
     .em-navbar-box {

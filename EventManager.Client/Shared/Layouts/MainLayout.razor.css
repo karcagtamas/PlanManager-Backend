@@ -1,4 +1,4 @@
-.em-body {
+﻿.em-body {
   flex-grow: 1;
   display: flex;
   flex-direction: row;
@@ -6,7 +6,9 @@
   .em-body .main-box {
     flex-grow: 1;
     max-height: 100vh;
-    padding: 1rem; }
+    padding: 1rem;
+    max-width: calc(100% - 270px);
+    overflow: hidden; }
   .em-body .em-navbar-box {
     width: auto;
     display: flex;

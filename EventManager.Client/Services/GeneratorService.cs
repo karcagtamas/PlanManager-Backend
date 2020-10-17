@@ -1,11 +1,11 @@
 ﻿using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.DTOs.CSM;
+using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
@@ -20,22 +20,26 @@ namespace EventManager.Client.Services
             this._http = httpService;
         }
 
-        public Task<bool> ChangePublicStatus(int id, bool status)
+        public Task<bool> ChangePublicStatus(int id, GeneratorPublishModel model)
         {
-            var settings = new HttpSettings($"{this._url}", null, null, "Public status changing");
+            var pathParams = new HttpPathParameters();
+            pathParams.Add(id, -1);
+            pathParams.Add("publish", -1);
 
-            var body = new HttpBody<bool>(status);
+            var settings = new HttpSettings($"{this._url}", null, pathParams, "Public status changing");
 
-            return this._http.Update<bool>(settings, body);
+            var body = new HttpBody<GeneratorPublishModel>(model);
+
+            return this._http.Update<GeneratorPublishModel>(settings, body);
         }
 
-        public Task<bool> Create(GeneratorSettingsModel model)
+        public Task<int> Create(GeneratorSettingsModel model)
         {
             var settings = new HttpSettings($"{this._url}", null, null, "Generator setting creating");
 
             var body = new HttpBody<GeneratorSettingsModel>(model);
 
-            return this._http.Create<GeneratorSettingsModel>(settings, body);
+            return this._http.CreateInt<GeneratorSettingsModel>(settings, body);
         }
 
         public Task<bool> Delete(int id)
@@ -46,6 +50,30 @@ namespace EventManager.Client.Services
             var settings = new HttpSettings($"{this._url}", null, pathParams, "Generator setting deleting");
 
             return this._http.Delete(settings);
+        }
+
+        public Task<bool> ExportPdf(int id, ExportSettingsModel model)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add(id, -1);
+            pathParams.Add("export", -1);
+            pathParams.Add("pdf", -1);
+
+            var settings = new HttpSettings($"{this._url}", null, pathParams, "Exporting to PDF");
+
+            return this._http.Download(settings, model);
+        }
+
+        public Task<bool> ExportXls(int id, ExportSettingsModel model)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add(id, -1);
+            pathParams.Add("export", -1);
+            pathParams.Add("xls", -1);
+
+            var settings = new HttpSettings($"{this._url}", null, pathParams, "Exporting to XLS");
+
+            return this._http.Download(settings, model);
         }
 
         public Task<GeneratorSettings> GenerateSimple(GeneratorSettings settings)
@@ -67,9 +95,19 @@ namespace EventManager.Client.Services
             return this._http.Get<GeneratorSettings>(settings);
         }
 
+        public Task<List<UserShortDto>> GetCorrectPersonsForSharing(int id, string name)
+        {
+            var queryParams = new HttpQueryParameters();
+            queryParams.Add<string>("name", name);
+
+            var settings = new HttpSettings($"{this._url}/{id}/shared/correct", queryParams, null);
+
+            return this._http.Get<List<UserShortDto>>(settings);
+        }
+
         public Task<List<CsomorListDTO>> GetOwnedList()
         {
-            var settings = new HttpSettings($"{this._url}");
+            var settings = new HttpSettings($"{this._url}/my");
 
             return this._http.Get<List<CsomorListDTO>>(settings);
         }
@@ -81,11 +119,29 @@ namespace EventManager.Client.Services
             return this._http.Get<List<CsomorListDTO>>(settings);
         }
 
+        public Task<CsomorRole> GetRole(int id)
+        {
+            var pathParams = new HttpPathParameters();
+            pathParams.Add(id, -1);
+            pathParams.Add("role", -1);
+
+            var settings = new HttpSettings($"{this._url}", null, pathParams);
+
+            return this._http.Get<CsomorRole>(settings);
+        }
+
         public Task<List<CsomorListDTO>> GetSharedList()
         {
             var settings = new HttpSettings($"{this._url}/shared");
 
             return this._http.Get<List<CsomorListDTO>>(settings);
+        }
+
+        public Task<List<CsomorAccessDTO>> GetSharedPersonList(int id)
+        {
+            var settings = new HttpSettings($"{this._url}/{id}/shared");
+
+            return this._http.Get<List<CsomorAccessDTO>>(settings);
         }
 
         public Task<bool> Share(int id, List<CsomorAccessModel> models)

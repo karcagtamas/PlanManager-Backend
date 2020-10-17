@@ -1,0 +1,36 @@
+﻿.shared-list {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; }
+  .shared-list .person-list {
+    flex-grow: 1;
+    overflow: auto; }
+    .shared-list .person-list .shared-person {
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+      border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+      border-radius: 4px;
+      color: #5120a5;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      background-color: rgba(249, 249, 249, 0.55); }
+      .shared-list .person-list .shared-person .spacer {
+        flex-grow: 1; }
+      .shared-list .person-list .shared-person .access:hover {
+        cursor: pointer; }
+  .shared-list .correct-person {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+    border-radius: 4px;
+    color: #5120a5;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(203, 255, 187, 0.4); }
+    .shared-list .correct-person .spacer {
+      flex-grow: 1; }
+    .shared-list .correct-person:hover {
+      cursor: pointer; }

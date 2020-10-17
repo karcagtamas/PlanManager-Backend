@@ -1,0 +1,71 @@
+﻿<div class="csomor">
+    <div class="filter">
+        @if (!SelectedIsPerson)
+        {
+            <MatSelect TValue="string" Value="Selected" ValueChanged="@((val) => SelectedWorkChanged(val))" Outlined="true" Label="Work Filter">
+                <MatOption TValue="string" Value="null"></MatOption>
+                @foreach (var work in Settings.Works)
+                {
+                    <MatOption TValue="string" Value="work.Id">@work.Name</MatOption>
+                }
+            </MatSelect>
+        }
+        else
+        {
+            <MatSelect TValue="string" Value="Selected" ValueChanged="@((val) => SelectedPersonChanged(val))" Outlined="true" Label="Person Filter">
+                <MatOption TValue="string" Value="null"></MatOption>
+                @foreach (var person in Settings.Persons)
+                {
+                    <MatOption TValue="string" Value="person.Id">@person.Name</MatOption>
+                }
+            </MatSelect>
+        }
+        <span class="spacer"></span>
+        <span>Is Personal table: <MatSlideToggle TValue="bool" Value="SelectedIsPerson" ValueChanged="@((val) => TableStyleTypeChanged(val))"></MatSlideToggle></span>
+    </div>
+    <div class="table-row">
+        <div class="element header interval">Full</div>
+        @if (SelectedIsPerson)
+        {
+            @foreach (var person in Settings.Persons.OrderBy(x => x.Name))
+            {
+                @if (string.IsNullOrEmpty(Selected) || Selected == person.Id)
+                {
+                    <div class="element header">@person.Name</div>
+                }
+            }
+        }
+        else
+        {
+            @foreach (var work in Settings.Works.OrderBy(x => x.Name))
+            {
+                @if (string.IsNullOrEmpty(Selected) || Selected == work.Id)
+                {
+                    <div class="element header">@work.Name</div>
+                }
+            }
+        }
+    </div>
+
+    @foreach (var row in Rows)
+    {
+        <div class="table-row">
+
+            <div class="element interval @(ManagerAPI.Shared.Helpers.DateHelper.CompareDates(DateTime.UtcNow, row.Key) ? "current" : "") @(ManagerAPI.Shared.Helpers.DateHelper.CompareDates(DateTime.UtcNow.AddHours(1), row.Key) ? "next" : "")">@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(row.Key, 1)</div>
+
+            @foreach (var element in row.Value)
+            {
+                @if (element != null)
+                {
+                    <MatTooltip Tooltip="@element.Tooltip">
+                        <div @ref="context.Current" class="element @(HoveredMemberId == element.Id ? "hovered" : "") @(ManagerAPI.Shared.Helpers.DateHelper.CompareDates(DateTime.UtcNow, row.Key) ? "current" : "") @(ManagerAPI.Shared.Helpers.DateHelper.CompareDates(DateTime.UtcNow.AddHours(1), row.Key) ? "next" : "")" @onmouseover="@(() => Hover(element.Id))" @onmouseout="@(() => Hover(null))">@element.Name</div>
+                    </MatTooltip>
+                }
+                else
+                {
+                    <div class="element">-</div>
+                }
+            }
+        </div>
+    }
+</div>

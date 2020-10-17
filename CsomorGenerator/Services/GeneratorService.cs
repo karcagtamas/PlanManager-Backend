@@ -1,13 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using CsomorGenerator.Services.Interfaces;
 using ManagerAPI.DataAccess;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.CSM;
+using ManagerAPI.Services.Common.Excel;
+using ManagerAPI.Services.Common.PDF;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.DTOs.CSM;
+using ManagerAPI.Shared.Enums;
+using ManagerAPI.Shared.Models;
 using ManagerAPI.Shared.Models.CSM;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CsomorGenerator.Services
 {
@@ -16,18 +22,52 @@ namespace CsomorGenerator.Services
     /// </summary>
     public class GeneratorService : IGeneratorService
     {
+        private const string CsomorDoesNotExistMessage = "Csomor does not exist";
+        private const string CsomorThing = "csomor";
+        private const string GeneratorServiceSource = "Generator Service";
         private readonly DatabaseContext _context;
         private readonly IMapper _mapper;
         private readonly IUtilsService _utils;
         private readonly ILoggerService _logger;
+        private readonly IExcelService _excelService;
+        private readonly IPDFService _pdfService;
         private readonly int GenerateLimit = 500;
 
-        public GeneratorService(DatabaseContext context, IMapper mapper, IUtilsService utils, ILoggerService logger)
+        public GeneratorService(DatabaseContext context, IMapper mapper, IUtilsService utils, ILoggerService logger, IExcelService excelService, IPDFService pdfService)
         {
             this._context = context;
             this._mapper = mapper;
             this._utils = utils;
             this._logger = logger;
+            this._excelService = excelService;
+            this._pdfService = pdfService;
+        }
+
+
+        public GeneratorSettings Generate(GeneratorSettings settings)
+        {
+            if (!this.PreCheckSimple(settings))
+            {
+                return null;
+            }
+
+            this.SetWorkHours(ref settings);
+
+            for (int i = 0; i < settings.Works.Count; i++)
+            {
+                var work = settings.Works[i];
+                var persons = settings.Persons;
+
+                this.GenerateToWork(ref work, ref persons, settings.MaxWorkHour);
+
+                settings.Works[i] = work;
+                settings.Persons = persons;
+            }
+
+            settings.HasGeneratedCsomor = true;
+            settings.LastGeneration = DateTime.Now;
+
+            return settings;
         }
 
         /// <summary>
@@ -38,17 +78,25 @@ namespace CsomorGenerator.Services
         public GeneratorSettings GenerateSimple(GeneratorSettings settings)
         {
             // Pre check
-            if (PreCheckSimple(settings))
+            if (!PreCheckSimple(settings))
             {
-                this.SetWorkHours(ref settings);
-
-                settings.Works.ForEach(work =>
-                {
-                    settings.Persons = this.GenerateToWork(ref work, settings.Persons, settings.MaxWorkHour);
-                });
+                return null;
             }
 
-            return null;
+            this.SetWorkHours(ref settings);
+
+            for (int i = 0; i < settings.Works.Count; i++)
+            {
+                var work = settings.Works[i];
+                var persons = settings.Persons;
+
+                this.GenerateToWork(ref work, ref persons, settings.MaxWorkHour);
+
+                settings.Works[i] = work;
+                settings.Persons = persons;
+            }
+
+            return settings;
         }
 
         /// <summary>
@@ -58,14 +106,16 @@ namespace CsomorGenerator.Services
         /// <param name="persons">Persons</param>
         /// <param name="maxHour">Maximum work hour</param>
         /// <returns>List of modified persons</returns>
-        private List<Person> GenerateToWork(ref Work work, List<Person> persons, int maxHour)
+        private void GenerateToWork(ref Work work, ref List<Person> persons, int maxHour)
         {
             for (int i = 0; i < work.Tables.Count; i++)
             {
                 var table = work.Tables[i];
+
                 GenerateToDate(ref table, ref persons, work.Id, maxHour, 0);
+
+                work.Tables[i] = table;
             }
-            return persons;
         }
 
         /// <summary>
@@ -79,6 +129,11 @@ namespace CsomorGenerator.Services
         private void GenerateToDate(ref WorkTable table, ref List<Person> persons, string workId, int maxHour, int counter = 0)
         {
             var person = GetValidRandomPerson(persons);
+
+            if (person == null)
+            {
+                return;
+            }
 
             if (this.WorkerIsValid(person, table.Date, workId, maxHour))
             {
@@ -94,18 +149,16 @@ namespace CsomorGenerator.Services
                 pTable.WorkId = workId;
                 person.Hours--;
             }
-            else
+            else if (counter < this.GenerateLimit)
             {
-                if (counter < this.GenerateLimit)
+                if (counter > 100)
                 {
-                    if (counter > 100)
-                    {
-                        // TODO: Worker switch
-                    }
-                    else
-                    {
-                        this.GenerateToDate(ref table, ref persons, workId, maxHour, counter++);
-                    }
+                    // TODO: Worker switch
+                    Console.WriteLine("Bigger than 100");
+                }
+                else
+                {
+                    this.GenerateToDate(ref table, ref persons, workId, maxHour, counter++);
                 }
             }
         }
@@ -115,17 +168,17 @@ namespace CsomorGenerator.Services
         /// Filtered to active and available persons
         /// </summary>
         /// <param name="persons">Person list</param>
-        /// <returns>Randomoized person</returns>
+        /// <returns>Randomized person</returns>
         private Person GetValidRandomPerson(List<Person> persons)
         {
             Random r = new Random();
             var validList = persons.Where(x => !x.IsIgnored && x.Hours != 0).ToList();
 
-            return validList[r.Next(validList.Count)];
+            return validList.Count == 0 ? null : validList[r.Next(validList.Count)];
         }
 
         /// <summary>
-        /// Pre check simple generation
+        /// Precheck simple generation
         /// </summary>
         /// <param name="settings">Generator settings</param>
         /// <returns>Is startable or not</returns>
@@ -157,13 +210,13 @@ namespace CsomorGenerator.Services
             // Check all hour is unavailable
             if (!person.Tables.Any(x => x.IsAvailable))
             {
-                throw new ArgumentException($"Person ({person.Name}) cannot be unavailable all the time.");
+                throw new MessageException($"Person ({person.Name}) cannot be unavailable all the time.");
             }
 
             // All works is ignored
             if (person.IgnoredWorks.Count == works)
             {
-                throw new ArgumentException($"Person ({person.Name}) must has least one not ignored Work");
+                throw new MessageException($"Person ({person.Name}) must has least one not ignored Work");
             }
         }
 
@@ -188,7 +241,7 @@ namespace CsomorGenerator.Services
         {
             if (!work.Tables.Any(x => x.IsActive))
             {
-                throw new ArgumentException($"Work ({work.Name}) cannot be unavailable all the time.");
+                throw new MessageException($"Work ({work.Name}) cannot be unavailable all the time.");
             }
         }
 
@@ -216,7 +269,7 @@ namespace CsomorGenerator.Services
                 // Work number has to be less thank works
                 if (works > persons)
                 {
-                    throw new ArgumentException($"There are not enough person in hour {start.Month}-{start.Day}-{start.Hour}.");
+                    throw new MessageException($"There are not enough person in hour {start.Month.ToString().PadLeft(2, '0')}-{start.Day.ToString().PadLeft(2, '0')}-{start.Hour.ToString().PadLeft(2, '0')}.");
                 }
 
                 start = start.AddHours(1);
@@ -237,9 +290,9 @@ namespace CsomorGenerator.Services
             var workSum = settings.Works.Sum(x => x.Tables.Count(y => y.IsActive));
 
             // Work sum has to be less than person sum's 90% and minus the res hour sum
-            if (workSum > (personSum * 0.9) - this.GetLength(settings.Start, settings.Finish) / (settings.MaxWorkHour + settings.MinRestHour) * settings.MinRestHour)
+            if (workSum > (personSum * 0.75) - this.GetLength(settings.Start, settings.Finish) / (settings.MaxWorkHour + settings.MinRestHour) * settings.MinRestHour)
             {
-                throw new ArgumentException("Does not have enough person.");
+                throw new MessageException("Does not have enough person.");
             }
 
             return true;
@@ -266,11 +319,12 @@ namespace CsomorGenerator.Services
             // Worker does not have hour table.
             if (table == null)
             {
-                throw new ArgumentException("Wrong person table");
+                throw new MessageException("Wrong person table");
             }
 
-            // Person is available and not has any work
-            if (table.IsAvailable && string.IsNullOrEmpty(table.WorkId))
+            // Person is not available or already has any work
+            var a = string.IsNullOrEmpty(table.WorkId);
+            if (!table.IsAvailable || !string.IsNullOrEmpty(table.WorkId))
             {
                 return false;
             }
@@ -374,16 +428,40 @@ namespace CsomorGenerator.Services
         /// Create Csomor from settings model
         /// </summary>
         /// <param name="model">Settings model</param>
-        public void Create(GeneratorSettingsModel model)
+        public int Create(GeneratorSettingsModel model)
         {
             var user = this._utils.GetCurrentUser();
 
             var csomor = this._mapper.Map<Csomor>(model);
+            csomor.OwnerId = user.Id;
+
+            model.Persons.ForEach(x =>
+            {
+                var person = csomor.Persons.FirstOrDefault(y => y.Id == x.Id);
+
+                person.IgnoredWorks = new List<IgnoredWork>();
+
+                x.IgnoredWorks.ForEach(y =>
+                {
+                    var ignored = new IgnoredWork
+                    {
+                        PersonId = x.Id,
+                        WorkId = y
+                    };
+
+                    person.IgnoredWorks.Add(ignored);
+                });
+            });
+
+            csomor.Persons = this._mapper.Map<List<CsomorPerson>>(model.Persons);
+            csomor.Works = this._mapper.Map<List<CsomorWork>>(model.Works);
 
             this._context.Csomors.Add(csomor);
             this._context.SaveChanges();
 
-            this._logger.LogInformation(user, "Generator Service", "create csomor", csomor.Id);
+            this._logger.LogInformation(user, GeneratorServiceSource, "create csomor", csomor.Id);
+
+            return csomor.Id;
         }
 
         /// <summary>
@@ -399,15 +477,54 @@ namespace CsomorGenerator.Services
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, "Generator Service", "csomor", "Csomor does not exist");
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
             }
 
+            csomor.Works.ToList().ForEach(x =>
+            {
+                x.Tables.ToList().ForEach(y =>
+                {
+                    y.PersonId = null;
+                    this._context.CsomorWorkTables.Update(y);
+                });
+
+            });
+            csomor.Persons.ToList().ForEach(x =>
+            {
+                x.Tables.ToList().ForEach(y =>
+                {
+                    y.WorkId = null;
+                    this._context.CsomorPersonTables.Update(y);
+                });
+            });
+            this._context.SaveChanges();
+
+            csomor.Works.ToList().ForEach(x =>
+            {
+                this._context.CsomorWorkTables.RemoveRange(x.Tables);
+                this._context.CsomorWorks.Remove(x);
+                this._context.SaveChanges();
+            });
+
+            csomor.Persons.ToList().ForEach(x =>
+            {
+                this._context.CsomorPersonTables.RemoveRange(x.Tables);
+                this._context.CsomorPersons.Remove(x);
+                this._context.SaveChanges();
+            });
+
             this._mapper.Map(model, csomor);
+
+            csomor.Persons = this._mapper.Map<List<CsomorPerson>>(model.Persons);
+            csomor.Works = this._mapper.Map<List<CsomorWork>>(model.Works);
+            csomor.LastUpdate = DateTime.Now;
+            csomor.LastUpdaterId = user.Id;
+
 
             this._context.Csomors.Update(csomor);
             this._context.SaveChanges();
 
-            this._logger.LogInformation(user, "Generator Service", "update csomor", csomor.Id);
+            this._logger.LogInformation(user, GeneratorServiceSource, "update csomor", csomor.Id);
         }
 
         /// <summary>
@@ -422,13 +539,13 @@ namespace CsomorGenerator.Services
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, "Generator Service", "csomor", "Csomor does not exist");
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
             }
 
             this._context.Csomors.Remove(csomor);
             this._context.SaveChanges();
 
-            this._logger.LogInformation(user, "Generator Service", "delete csomor", id);
+            this._logger.LogInformation(user, GeneratorServiceSource, "delete csomor", id);
         }
 
         /// <summary>
@@ -438,16 +555,40 @@ namespace CsomorGenerator.Services
         /// <returns>Generator settings</returns>
         public GeneratorSettings Get(int id)
         {
-            var user = this._utils.GetCurrentUser();
+            User user;
+
+            try
+            {
+                user = this._utils.GetCurrentUser();
+            }
+            catch (Exception)
+            {
+                user = null;
+            }
 
             var csomor = this._context.Csomors.Find(id);
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, "Generator Service", "csomor", "Csomor does not exist");
+                if (user == null)
+                {
+                    throw this._logger.LogAnonymousInvalidThings(GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                }
+                else
+                {
+                    throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                }
             }
 
-            this._logger.LogInformation(user, "Generator Service", "get csomor", id);
+            if (user == null)
+            {
+                this._logger.LogAnonymousInformation(GeneratorServiceSource, "get csomor", id);
+            }
+            else
+            {
+                this._logger.LogInformation(user, GeneratorServiceSource, "get csomor", id);
+            }
+
 
             return this._mapper.Map<GeneratorSettings>(csomor);
         }
@@ -458,17 +599,17 @@ namespace CsomorGenerator.Services
         /// <returns></returns>
         public List<CsomorListDTO> GetPublicList()
         {
-            var list = this._mapper.Map<List<CsomorListDTO>>(this._context.Csomors.Where(x => x.IsPublic).OrderBy(x => x.Id));
+            var list = this._mapper.Map<List<CsomorListDTO>>(this._context.Csomors.Where(x => x.IsPublic && x.HasGeneratedCsomor).OrderBy(x => x.Id));
 
             try
             {
                 var user = this._utils.GetCurrentUser();
 
-                this._logger.LogInformation(user, "Generator Service", "get csomor", list.Select(x => x.Id).ToList());
+                this._logger.LogInformation(user, GeneratorServiceSource, "get csomor", list.Select(x => x.Id).ToList());
             }
             catch (Exception)
             {
-                this._logger.LogAnonymousInformation("Generator Service", "get csomor", list.Select(x => x.Id).ToList());
+                this._logger.LogAnonymousInformation(GeneratorServiceSource, "get csomor", list.Select(x => x.Id).ToList());
             }
 
             return list;
@@ -480,7 +621,7 @@ namespace CsomorGenerator.Services
 
             var list = this._mapper.Map<List<CsomorListDTO>>(user.OwnedCsomors.OrderBy(x => x.Id));
 
-            this._logger.LogInformation(user, "Generator Service", "get csomor", list.Select(x => x.Id).ToList());
+            this._logger.LogInformation(user, GeneratorServiceSource, "get csomor", list.Select(x => x.Id).ToList());
 
             return list;
         }
@@ -491,7 +632,7 @@ namespace CsomorGenerator.Services
 
             var list = this._mapper.Map<List<CsomorListDTO>>(user.SharedCsomors.Select(x => x.Csomor).OrderBy(x => x.Id));
 
-            this._logger.LogInformation(user, "Generator Service", "get csomor", list.Select(x => x.Id).ToList());
+            this._logger.LogInformation(user, GeneratorServiceSource, "get csomor", list.Select(x => x.Id).ToList());
 
             return list;
         }
@@ -507,7 +648,7 @@ namespace CsomorGenerator.Services
 
             var csomor = this._context.Csomors.Find(id);
 
-            var shareList = this._context.SharedCsomors.ToList();
+            var shareList = csomor.SharedWith.ToList();
 
             models.ForEach(x =>
             {
@@ -544,29 +685,165 @@ namespace CsomorGenerator.Services
 
             this._context.SaveChanges();
 
-            this._logger.LogInformation(user, "Generator Service", "update shared", models.Select(x => x.Id).ToList());
+            this._logger.LogInformation(user, GeneratorServiceSource, "update shared", models.Select(x => x.Id).ToList());
         }
 
         /// <summary>
         /// Change public status
         /// </summary>
         /// <param name="id">Csomor Id</param>
-        /// <param name="status">New status</param>
-        public void ChangePublicStatus(int id, bool status)
+        /// <param name="model">New status</param>
+        public void ChangePublicStatus(int id, GeneratorPublishModel model)
         {
             var user = this._utils.GetCurrentUser();
             var csomor = this._context.Csomors.Find(id);
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, "Generator Service", "csomor", "Csomor does not exist");
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
             }
 
-            csomor.IsPublic = status;
+            csomor.IsPublic = model.Status;
             this._context.Update(csomor);
             this._context.SaveChanges();
 
-            this._logger.LogInformation(user, "Generator Service", status ? "publish" : "unpublish" + " csomor", id);
+            this._logger.LogInformation(user, GeneratorServiceSource, model.Status ? "publish" : "unpublish" + " csomor", id);
+        }
+
+        public CsomorRole GetRoleForCsomor(int id)
+        {
+            User user;
+
+            try
+            {
+                user = this._utils.GetCurrentUser();
+            }
+            catch
+            {
+                user = null;
+            }
+
+            var csomor = this._context.Csomors.Find(id);
+
+            if (csomor == null)
+            {
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+            }
+
+            if (user != null)
+            {
+                if (csomor.OwnerId == user.Id)
+                {
+                    return CsomorRole.Owner;
+                }
+
+                var shared = csomor.SharedWith.Where(x => x.UserId == user.Id).FirstOrDefault();
+
+                if (shared != null)
+                {
+                    if (shared.HasWriteAccess)
+                    {
+                        return CsomorRole.Write;
+                    }
+                    else
+                    {
+                        return CsomorRole.Read;
+                    }
+                }
+            }
+
+            if (csomor.IsPublic)
+            {
+                return CsomorRole.Public;
+            }
+
+            return CsomorRole.Denied;
+        }
+
+        public ExportResult ExportPdf(int id, CsomorType type, List<string> filterList)
+        {
+            var user = this._utils.GetCurrentUser();
+
+            var csomor = this._context.Csomors.Find(id);
+
+            if (csomor == null)
+            {
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+            }
+
+            if (type == CsomorType.Work)
+            {
+                var works = csomor.Works.Where(x => !filterList.Contains(x.Id)).ToList();
+                var result = this._pdfService.GenerateWorkCsomor(works);
+                this._logger.LogInformation(user, GeneratorServiceSource, "export works", id);
+                return result;
+            }
+            else
+            {
+                var persons = csomor.Persons.Where(x => !filterList.Contains(x.Id)).ToList();
+                var result = this._pdfService.GeneratePersonCsomor(persons);
+                this._logger.LogInformation(user, GeneratorServiceSource, "export persons", id);
+                return result;
+            }
+        }
+
+        public ExportResult ExportXls(int id, CsomorType type, List<string> filterList)
+        {
+            var user = this._utils.GetCurrentUser();
+
+            var csomor = this._context.Csomors.Find(id);
+
+            if (csomor == null)
+            {
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+            }
+
+            if (type == CsomorType.Work)
+            {
+                var works = csomor.Works.Where(x => !filterList.Contains(x.Id)).ToList();
+                var result = this._excelService.GenerateWorkCsomor(works);
+                this._logger.LogInformation(user, GeneratorServiceSource, "export works", id);
+                return result;
+            }
+            else
+            {
+                var persons = csomor.Persons.Where(x => !filterList.Contains(x.Id)).ToList();
+                var result = this._excelService.GeneratePersonCsomor(persons);
+                this._logger.LogInformation(user, GeneratorServiceSource, "export persons", id);
+                return result;
+            }
+        }
+
+        public List<CsomorAccessDTO> GetSharedPersonList(int id)
+        {
+            var user = this._utils.GetCurrentUser();
+
+            var csomor = this._context.Csomors.Find(id);
+
+            if (csomor == null)
+            {
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+            }
+
+            this._logger.LogInformation(user, GeneratorServiceSource, "get shared persons", id);
+            return this._mapper.Map<List<CsomorAccessDTO>>(csomor.SharedWith);
+        }
+
+        public List<UserShortDto> GetCorrectPersonsForSharing(int id, string name)
+        {
+            var user = this._utils.GetCurrentUser();
+
+            var csomor = this._context.Csomors.Find(id);
+
+            if (csomor == null)
+            {
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+            }
+
+            var alreadyAdded = this.GetSharedPersonList(id).Select(x => x.Id).ToList();
+            var users = this._context.AppUsers.Where(x => x.Id != csomor.Owner.Id && !alreadyAdded.Contains(x.Id) && (x.UserName.Contains(name) || x.FullName.Contains(name) || x.Email.Contains(name))).OrderBy(x => x.UserName).ThenBy(x => x.FullName).ThenBy(x => x.Email).Take(5).ToList();
+            this._logger.LogInformation(user, GeneratorServiceSource, "get correct persons", id);
+            return this._mapper.Map<List<UserShortDto>>(users);
         }
     }
 }

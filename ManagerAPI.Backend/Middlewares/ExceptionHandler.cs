@@ -12,7 +12,7 @@ namespace ManagerAPI.Backend.Middlewares
     {
         private readonly RequestDelegate _next;
         private ILoggerService _loggerService;
-        private const string FatalError = "Something bad happened. Try againg later";
+        private const string FatalError = "Something bad happened. Try again later";
 
         public ExceptionHandler(RequestDelegate next)
         {

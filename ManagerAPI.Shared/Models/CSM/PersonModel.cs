@@ -1,4 +1,5 @@
-﻿using ManagerAPI.Shared.Helpers;
+﻿using ManagerAPI.Shared.DTOs.CSM;
+using ManagerAPI.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -27,6 +28,24 @@ namespace ManagerAPI.Shared.Models.CSM
             this.Tables = new List<PersonTableModel>();
             this.IgnoredWorks = new List<string>();
             this.IsIgnored = false;
+        }
+
+        public PersonModel(string name)
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.Tables = new List<PersonTableModel>();
+            this.IgnoredWorks = new List<string>();
+            this.IsIgnored = false;
+            this.Name = name;
+        }
+
+        public PersonModel(Person person)
+        {
+            this.Id = person.Id;
+            this.Name = person.Name;
+            this.Tables = person.Tables.Select(x => new PersonTableModel(x)).OrderBy(x => x.Date).ToList();
+            this.IgnoredWorks = person.IgnoredWorks;
+            this.IsIgnored = person.IsIgnored;
         }
 
         public void SetTables(DateTime start, DateTime finish)

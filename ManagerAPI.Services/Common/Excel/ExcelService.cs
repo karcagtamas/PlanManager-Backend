@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ClosedXML.Excel;
+using ManagerAPI.Domain.Entities.CSM;
+using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +15,44 @@ namespace ManagerAPI.Services.Common.Excel
     /// </summary>
     public class ExcelService : IExcelService
     {
+        public ExportResult GeneratePersonCsomor(List<CsomorPerson> persons)
+        {
+            persons = persons.OrderBy(x => x.Name).ToList();
+            const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            var name = $"{DateHelper.ToFileName(DateTime.Now)}_persons.xlsx";
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Persons");
+
+                // Header
+                for (int i = 0; i < persons.Count; i++)
+                {
+                    worksheet.Cell(1, i + 2).Value = persons[i].Name;
+                }
+
+                var groups = persons.SelectMany(x => x.Tables).GroupBy(x => x.Date).OrderBy(x => x.Key);
+
+                // Date Col
+                int rowNo = 2;
+                foreach (var row in groups)
+                {
+                    worksheet.Cell(rowNo, 1).Value = WriteHelper.HourInterval(row.Key, 1);
+
+                    int colNo = 2;
+                    foreach (var col in row)
+                    {
+                        worksheet.Cell(rowNo, colNo).Value = col.Work != null ? col.Work.Name : "-";
+                        colNo++;
+                    }
+                    rowNo++;
+                }
+
+                var stream = new MemoryStream();
+                workbook.SaveAs(stream);
+                return new ExportResult { Content = stream.ToArray(), FileName = name, ContentType = contentType };
+            }
+        }
 
         /// <summary>
         /// Generate table export
@@ -56,10 +96,47 @@ namespace ManagerAPI.Services.Common.Excel
                 {
                     workbook.SaveAs(stream);
 
-                    var result = new FileStreamResult(stream, contentType) {FileDownloadName = name};
-                    
-                    return result;
+                    return new FileStreamResult(stream, contentType) { FileDownloadName = name };
                 }
+            }
+        }
+
+        public ExportResult GenerateWorkCsomor(List<CsomorWork> works)
+        {
+            works = works.OrderBy(x => x.Name).ToList();
+            const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            var name = $"{DateHelper.ToFileName(DateTime.Now)}_works.xlsx";
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Works");
+
+                // Header
+                for (int i = 0; i < works.Count; i++)
+                {
+                    worksheet.Cell(1, i + 2).Value = works[i].Name;
+                }
+
+                var groups = works.SelectMany(x => x.Tables).GroupBy(x => x.Date).OrderBy(x => x.Key);
+
+                // Date Col
+                int rowNo = 2;
+                foreach (var row in groups)
+                {
+                    worksheet.Cell(rowNo, 1).Value = WriteHelper.HourInterval(row.Key, 1);
+
+                    int colNo = 2;
+                    foreach (var col in row)
+                    {
+                        worksheet.Cell(rowNo, colNo).Value = col.Person != null ? col.Person.Name : "-";
+                        colNo++;
+                    }
+                    rowNo++;
+                }
+
+                var stream = new MemoryStream();
+                workbook.SaveAs(stream);
+                return new ExportResult { Content = stream.ToArray(), FileName = name, ContentType = contentType };
             }
         }
     }

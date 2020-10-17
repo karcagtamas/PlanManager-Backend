@@ -1,0 +1,29 @@
+﻿.header {
+    text-align: center;
+    color: #5120a5;
+    padding-bottom: 2rem;
+}
+
+table {
+    width: auto;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+td, th {
+    border: 1px solid black;
+    padding: 1rem;
+    font-size: 13px;
+    text-align: center;
+}
+
+table th {
+    background-color: #5120a5;
+    color: white;
+}
+
+.empty {
+    max-width: 80px;
+    min-width: 80px;
+    width: 80px;
+}

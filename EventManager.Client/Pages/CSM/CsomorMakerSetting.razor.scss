@@ -4,6 +4,7 @@
     display: flex;
     flex-grow: 1;
     flex-direction: column;
+    overflow: hidden;
 
     .action-bar {
         @include action-panel;
@@ -13,16 +14,20 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1;
+        overflow: hidden;
 
         @include main-panel;
 
         .tabs {
             flex-grow: 1;
             width: 100% !important;
+            overflow: hidden;
         }
     }
 
     .list {
+        flex-grow: 1;
+        overflow: auto;
         .entity {
             @include panel;
             background-color: $white-trans;
@@ -32,8 +37,15 @@
 
 .action {
     display: flex;
+    padding: 0 1rem;
 
     .spacer {
         flex-grow: 1;
+    }
+}
+
+.group {
+    label {
+        margin-bottom: unset;
     }
 }

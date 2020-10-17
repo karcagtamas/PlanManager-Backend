@@ -1,0 +1,55 @@
+@page "/csomors"
+
+<div class="csomor-list">
+    <h1 class="em-page-title">Generators</h1>
+    <div class="action-bar">
+        <MatTooltip Tooltip="New Csomor">
+            <MatIconButton RefBack="@context" Icon="add" OnClick="@(() => Navigation.NavigateTo("/csomor"))" Disabled="!IsLoggedIn"></MatIconButton>
+        </MatTooltip>
+    </div>
+    <div class="lists">
+        <MatTabGroup Class="tabs tab-group">
+            @if (OwnedList != null && OwnedList.Count != 0)
+            {
+                <MatTab Label="Owned">
+                    <div class="list owned-list">
+                        <div class="elements">
+                            @foreach (var csomor in OwnedList)
+                            {
+                                <CsomorListElementComponent Csomor="csomor" ShowOwner="false"></CsomorListElementComponent>
+                            }
+                        </div>
+                    </div>
+                </MatTab>
+            }
+            @if (SharedList != null && SharedList.Count != 0)
+            {
+                <MatTab Label="Shared">
+                    <div class="list shared-list">
+                        <div class="elements">
+                            @foreach (var csomor in SharedList)
+                            {
+                                <CsomorListElementComponent Csomor="csomor" ShowIsShared="false"></CsomorListElementComponent>
+                            }
+                        </div>
+                    </div>
+                </MatTab>
+            }
+            @if (PublicList != null && PublicList.Count != 0)
+            {
+                <MatTab Label="Public">
+                    <div class="list public-list">
+                        <div class="em-sub-title">Public</div>
+                        <div class="elements">
+                            @foreach (var csomor in PublicList)
+                            {
+                                <CsomorListElementComponent Csomor="csomor" ShowIsPublished="false"></CsomorListElementComponent>
+                            }
+                        </div>
+                    </div>
+                </MatTab>
+            }
+        </MatTabGroup>
+
+    </div>
+</div>

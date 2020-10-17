@@ -1,25 +1,37 @@
 ﻿@import "../../../Styles/_common.scss";
 
-.em-notification {
+.notification {
     @include panel;
+    flex-direction: column;
 
-    .em-notification-footer {
-        font-size: 0.8rem;
-        color: $primary;
-        font-style: italic;
+    .content {
         display: flex;
+        flex-direction: row;
 
-        .spacer {
+        .text {
             flex-grow: 1;
+            text-align: justify;
+        }
+
+        .status {
+            text-align: right;
         }
     }
 
-    .em-notification-content {
-        text-align: justify;
-    }
+    .footer {
+        display: flex;
+        flex-direction: row;
+        font-size: 0.8rem;
+        font-style: italic;
 
-    .em-notification-right {
-        text-align: right;
+        .source {
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .date {
+            text-align: right;
+        }
     }
 
     &.importance-1 {

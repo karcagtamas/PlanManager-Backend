@@ -107,6 +107,21 @@ namespace ManagerAPI.Services.Services
         }
 
         /// <summary>
+        /// Log invalid things.
+        /// </summary>
+        /// <param name="service">Service's name</param>
+        /// <param name="thing">Thing</param>
+        /// <param name="message">Log message</param>
+        /// <returns>Invalid message</returns>
+        public MessageException LogAnonymousInvalidThings(string service, string thing, string message)
+        {
+            string end = $"Invalid {thing}";
+            this._logger.LogError($"Anonymous: {service} - {end}");
+            return new MessageException(message);
+        }
+
+
+        /// <summary>
         /// Log executed events
         /// </summary>
         /// <param name="user">User</param>

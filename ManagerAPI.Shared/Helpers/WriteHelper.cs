@@ -68,7 +68,7 @@ namespace ManagerAPI.Shared.Helpers
 
         public static string HourInterval(DateTime date, int count)
         {
-            return $"{date.Hour} - {date.Hour + count}";
+            return $"{date.ToLocalTime().Hour}h - {date.ToLocalTime().Hour + count}h";
         }
     }
 }

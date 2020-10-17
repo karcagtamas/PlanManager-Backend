@@ -1,0 +1,20 @@
+﻿<div class="element" @onclick="@(() => NavigationManager.NavigateTo($"/csomor/{Csomor.Id}"))">
+    <div class="data-row"><strong>Id:</strong> #@Csomor.Id</div>
+    <div class="data-row"><strong>Title:</strong> @Csomor.Title</div>
+    <div class="data-row"><strong>Creation:</strong> @ManagerAPI.Shared.Helpers.DateHelper.DateToString(Csomor.Creation)</div>
+    @if (ShowOwner)
+    {
+        <div class="data-row"><strong>Owner:</strong> @Csomor.Owner</div>
+    }
+    <div class="data-row"><strong>Has Csomor:</strong> @(Csomor.HasCsomor ? "Yes" : "No")</div>
+
+    @if (ShowIsPublished)
+    {
+        <div class="data-row"><strong>Is Published:</strong> @(Csomor.IsPublished ? "Yes" : "No")</div>
+    }
+
+    @if (ShowIsShared)
+    {
+        <div class="data-row"><strong>Is Shared:</strong> @(Csomor.IsShared ? "Yes" : "No")</div>
+    }
+</div>

@@ -1,0 +1,26 @@
+﻿<div class="shared-list">
+    <div>
+        <div class="em-section-title">Sharing</div>
+        <MatTextField Value="Name" @oninput="RefreshCorrectPersons" FullWidth="true" Dense="true" Label="Search" Outlined="true"></MatTextField>
+        @foreach (var person in CorrectList)
+        {
+            <div class="correct-person" @onclick="@(() => AddPerson(person.Id))">
+                <div class="data-row"><strong>Name: </strong> @person.Username</div>
+            </div>
+        }
+    </div>
+    <div class="person-list">
+        @foreach (var person in SharedList)
+        {
+            <div class="shared-person">
+                <div class="data-row"><strong>Name: </strong> @person.UserName - @(string.IsNullOrEmpty(person.FullName) ? person.Email : person.FullName)</div>
+                <div class="data-row access" @onclick="@(() => ChangeAccess(person.Id))"><strong>Access Type: </strong>@(person.HasWriteAccess ? "Write" : "Read")</div>
+                <div class="data-row"><strong>Added On: </strong>@ManagerAPI.Shared.Helpers.DateHelper.DateToString(person.SharedOn)</div>
+                <MatTooltip Tooltip="@("Remove " + person.UserName)">
+                    <MatIconButton RefBack="@context" Icon="remove" @onclick="@(() => RemovePerson(person.Id))"></MatIconButton>
+                </MatTooltip>
+
+            </div>
+        }
+    </div>
+</div>

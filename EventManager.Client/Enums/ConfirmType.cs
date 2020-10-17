@@ -5,6 +5,8 @@ namespace EventManager.Client.Enums
         Delete,
         Update,
         Disable,
-        Archive
+        Archive,
+        Publish,
+        Hide
     }
 }

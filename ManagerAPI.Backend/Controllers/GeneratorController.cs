@@ -1,14 +1,16 @@
 ﻿using CsomorGenerator.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.CSM;
+using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ManagerAPI.Backend.Controllers
 {
+    [Route("api/csomor")]
+    [ApiController]
+    [Authorize]
     public class GeneratorController : ControllerBase
     {
         private readonly IGeneratorService _generatorService;
@@ -21,15 +23,13 @@ namespace ManagerAPI.Backend.Controllers
         [HttpPut("generate")]
         public IActionResult Generate([FromBody] GeneratorSettings settings)
         {
-            return Ok(this._generatorService.GenerateSimple(settings));
+            return Ok(this._generatorService.Generate(settings));
         }
 
         [HttpPost]
         public IActionResult Create([FromBody] GeneratorSettingsModel model)
         {
-            this._generatorService.Create(model);
-
-            return Ok();
+            return Ok(this._generatorService.Create(model));
         }
 
         [HttpPut("{id}")]
@@ -49,12 +49,14 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public IActionResult Get([FromRoute] int id)
         {
             return Ok(this._generatorService.Get(id));
         }
 
         [HttpGet("public")]
+        [AllowAnonymous]
         public IActionResult GetPublicList()
         {
             return Ok(this._generatorService.GetPublicList());
@@ -73,19 +75,50 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPut("{id}/share")]
-        public IActionResult Share([FromQuery] int id, [FromBody] List<CsomorAccessModel> models)
+        public IActionResult Share([FromRoute] int id, [FromBody] List<CsomorAccessModel> models)
         {
             this._generatorService.Share(id, models);
 
             return Ok();
         }
 
-        [HttpPut("{id}/public")]
-        public IActionResult ChangePublicStatus([FromQuery] int id, [FromBody] bool status)
+        [HttpPut("{id}/publish")]
+        public IActionResult ChangePublicStatus([FromRoute] int id, [FromBody] GeneratorPublishModel model)
         {
-            this._generatorService.ChangePublicStatus(id, status);
+            this._generatorService.ChangePublicStatus(id, model);
 
             return Ok();
+        }
+
+        [HttpGet("{id}/role")]
+        [AllowAnonymous]
+        public IActionResult GetRoleForCsomor([FromRoute] int id)
+        {
+            return Ok(this._generatorService.GetRoleForCsomor(id));
+        }
+
+        [HttpPut("{id}/export/pdf")]
+        public IActionResult ExportPdf([FromRoute] int id, [FromBody] ExportSettingsModel model)
+        {
+            return Ok(this._generatorService.ExportPdf(id, model.Type, model.FilterList));
+        }
+
+        [HttpPut("{id}/export/xls")]
+        public IActionResult ExportXls([FromRoute] int id, [FromBody] ExportSettingsModel model)
+        {
+            return Ok(this._generatorService.ExportXls(id, model.Type, model.FilterList));
+        }
+
+        [HttpGet("{id}/shared")]
+        public IActionResult GetSharedPersonList([FromRoute] int id)
+        {
+            return Ok(this._generatorService.GetSharedPersonList(id));
+        }
+
+        [HttpGet("{id}/shared/correct")]
+        public IActionResult GetCorrectPersonsForSharing([FromRoute] int id, [FromQuery] string name)
+        {
+            return Ok(this._generatorService.GetCorrectPersonsForSharing(id, name));
         }
     }
 }
