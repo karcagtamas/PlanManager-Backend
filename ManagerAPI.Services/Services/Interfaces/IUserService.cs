@@ -1,6 +1,6 @@
-using System.Threading.Tasks;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
+using System.Threading.Tasks;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {

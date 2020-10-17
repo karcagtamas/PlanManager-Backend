@@ -21,12 +21,12 @@ namespace ManagerAPI.Shared.DTOs
         /// <returns>Generated image path</returns>
         public string ImageUrl(string defaultImage)
         {
-            if (FriendImageData.Length == 0)
+            if (this.FriendImageData.Length == 0)
             {
                 return defaultImage;
             }
 
-            string base64 = Convert.ToBase64String(FriendImageData);
+            string base64 = Convert.ToBase64String(this.FriendImageData);
             return $"data:image/gif;base64,{base64}";
 
         }

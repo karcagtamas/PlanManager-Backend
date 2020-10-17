@@ -14,18 +14,18 @@ namespace ManagerAPI.Shared.Models.CSM
 
         public WorkTableModel(DateTime date)
         {
-            Id = Guid.NewGuid().ToString();
-            Date = date;
-            IsActive = true;
-            PersonId = null;
+            this.Id = Guid.NewGuid().ToString();
+            this.Date = date;
+            this.IsActive = true;
+            this.PersonId = null;
         }
 
         public WorkTableModel(WorkTable table)
         {
-            Id = table.Id;
-            Date = table.Date;
-            IsActive = table.IsActive;
-            PersonId = table.PersonId;
+            this.Id = table.Id;
+            this.Date = table.Date;
+            this.IsActive = table.IsActive;
+            this.PersonId = table.PersonId;
         }
     }
 }

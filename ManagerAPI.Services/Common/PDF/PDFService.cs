@@ -1,12 +1,10 @@
-﻿using ClosedXML.Excel;
-using DinkToPdf;
+﻿using DinkToPdf;
 using DinkToPdf.Contracts;
 using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -25,7 +23,7 @@ namespace ManagerAPI.Services.Common.PDF
         {
             persons = persons.OrderBy(x => x.Name).ToList();
             const string contentType = "application/pdf";
-            var name = $"{DateHelper.ToFileName(DateTime.Now)}_persons.pdf";
+            string name = $"{DateHelper.ToFileName(DateTime.Now)}_persons.pdf";
 
             var globalSettings = new GlobalSettings
             {
@@ -78,7 +76,7 @@ namespace ManagerAPI.Services.Common.PDF
                 Objects = { objectSettings }
             };
 
-            var file = this._converter.Convert(pdf);
+            byte[] file = this._converter.Convert(pdf);
 
             return new ExportResult { Content = file, ContentType = contentType, FileName = name };
         }
@@ -87,7 +85,7 @@ namespace ManagerAPI.Services.Common.PDF
         {
             works = works.OrderBy(x => x.Name).ToList();
             const string contentType = "application/pdf";
-            var name = $"{DateHelper.ToFileName(DateTime.Now)}_works.pdf";
+            string name = $"{DateHelper.ToFileName(DateTime.Now)}_works.pdf";
 
             var globalSettings = new GlobalSettings
             {
@@ -140,7 +138,7 @@ namespace ManagerAPI.Services.Common.PDF
                 Objects = { objectSettings }
             };
 
-            var file = this._converter.Convert(pdf);
+            byte[] file = this._converter.Convert(pdf);
 
             return new ExportResult { Content = file, ContentType = contentType, FileName = name };
         }

@@ -21,50 +21,50 @@ namespace ManagerAPI.Shared.Models.CSM
 
         public PersonModel()
         {
-            Id = Guid.NewGuid().ToString();
-            Tables = new List<PersonTableModel>();
-            IgnoredWorks = new List<string>();
-            IsIgnored = false;
+            this.Id = Guid.NewGuid().ToString();
+            this.Tables = new List<PersonTableModel>();
+            this.IgnoredWorks = new List<string>();
+            this.IsIgnored = false;
         }
 
         public PersonModel(string name)
         {
-            Id = Guid.NewGuid().ToString();
-            Tables = new List<PersonTableModel>();
-            IgnoredWorks = new List<string>();
-            IsIgnored = false;
-            Name = name;
+            this.Id = Guid.NewGuid().ToString();
+            this.Tables = new List<PersonTableModel>();
+            this.IgnoredWorks = new List<string>();
+            this.IsIgnored = false;
+            this.Name = name;
         }
 
         public PersonModel(Person person)
         {
-            Id = person.Id;
-            Name = person.Name;
-            Tables = person.Tables.Select(x => new PersonTableModel(x)).OrderBy(x => x.Date).ToList();
-            IgnoredWorks = person.IgnoredWorks;
-            IsIgnored = person.IsIgnored;
+            this.Id = person.Id;
+            this.Name = person.Name;
+            this.Tables = person.Tables.Select(x => new PersonTableModel(x)).OrderBy(x => x.Date).ToList();
+            this.IgnoredWorks = person.IgnoredWorks;
+            this.IsIgnored = person.IsIgnored;
         }
 
         public void SetTables(DateTime start, DateTime finish)
         {
-            DateTime s = start;
+            var s = start;
             while (s < finish)
             {
-                Tables.Add(new PersonTableModel(s));
+                this.Tables.Add(new PersonTableModel(s));
                 s = s.AddHours(1);
             }
         }
 
         public void UpdateTable(DateTime newStart, DateTime newFinish)
         {
-            List<PersonTableModel> oldList = Tables;
-            Tables = new List<PersonTableModel>();
+            var oldList = this.Tables;
+            this.Tables = new List<PersonTableModel>();
 
-            SetTables(newStart, newFinish);
+            this.SetTables(newStart, newFinish);
 
-            foreach (PersonTableModel i in Tables)
+            foreach (var i in this.Tables)
             {
-                PersonTableModel e = oldList.FirstOrDefault(x => DateHelper.CompareDates(x.Date, i.Date));
+                var e = oldList.FirstOrDefault(x => DateHelper.CompareDates(x.Date, i.Date));
                 if (e != null)
                 {
                     i.IsAvailable = e.IsAvailable;

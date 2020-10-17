@@ -34,10 +34,10 @@ namespace ManagerAPI.Shared.Models
         /// <param name="task">Task object</param>
         public TaskModel(TaskDto task)
         {
-            Title = task.Title;
-            Deadline = task.Deadline;
-            Description = task.Description;
-            IsSolved = task.IsSolved;
+            this.Title = task.Title;
+            this.Deadline = task.Deadline;
+            this.Description = task.Description;
+            this.IsSolved = task.IsSolved;
         }
     }
 }

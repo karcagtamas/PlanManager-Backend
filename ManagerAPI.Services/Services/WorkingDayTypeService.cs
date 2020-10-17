@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.WM;
 using ManagerAPI.Domain.Enums.WM;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace ManagerAPI.Services.Services
 {
@@ -27,8 +27,9 @@ namespace ManagerAPI.Services.Services
             utilsService, notificationService, mapper, "Working day type",
             new NotificationArguments
             {
-                CreateArguments = new List<string> {"Title"}, DeleteArguments = new List<string> {"Title"},
-                UpdateArguments = new List<string> {"Title"}
+                CreateArguments = new List<string> { "Title" },
+                DeleteArguments = new List<string> { "Title" },
+                UpdateArguments = new List<string> { "Title" }
             })
         {
         }

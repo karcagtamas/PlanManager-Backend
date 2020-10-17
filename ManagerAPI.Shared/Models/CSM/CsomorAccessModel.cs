@@ -11,8 +11,8 @@ namespace ManagerAPI.Shared.Models.CSM
 
         public CsomorAccessModel(CsomorAccessDTO dto)
         {
-            Id = dto.Id;
-            HasWriteAccess = dto.HasWriteAccess;
+            this.Id = dto.Id;
+            this.HasWriteAccess = dto.HasWriteAccess;
         }
     }
 }

@@ -14,18 +14,18 @@ namespace ManagerAPI.Shared.Models.CSM
 
         public PersonTableModel(DateTime date)
         {
-            Id = Guid.NewGuid().ToString();
-            Date = date;
-            IsAvailable = true;
-            WorkId = null;
+            this.Id = Guid.NewGuid().ToString();
+            this.Date = date;
+            this.IsAvailable = true;
+            this.WorkId = null;
         }
 
         public PersonTableModel(PersonTable table)
         {
-            Id = table.Id;
-            Date = table.Date;
-            IsAvailable = table.IsAvailable;
-            WorkId = table.WorkId;
+            this.Id = table.Id;
+            this.Date = table.Date;
+            this.IsAvailable = table.IsAvailable;
+            this.WorkId = table.WorkId;
         }
     }
 }

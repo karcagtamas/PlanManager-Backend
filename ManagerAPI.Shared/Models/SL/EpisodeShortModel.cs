@@ -28,8 +28,8 @@ namespace ManagerAPI.Shared.Models.SL
         /// <param name="episode"></param>
         public EpisodeShortModel(EpisodeDto episode)
         {
-            Description = episode.Description;
-            Title = episode.Title;
+            this.Description = episode.Description;
+            this.Title = episode.Title;
         }
     }
 }

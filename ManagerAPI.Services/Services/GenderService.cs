@@ -1,10 +1,10 @@
-using System.Collections.Generic;
 using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace ManagerAPI.Services.Services
 {
@@ -26,8 +26,9 @@ namespace ManagerAPI.Services.Services
             utilsService, notificationService, mapper, "Gender",
             new NotificationArguments
             {
-                DeleteArguments = new List<string> {"Name"}, CreateArguments = new List<string> {"Name"},
-                UpdateArguments = new List<string> {"Name"}
+                DeleteArguments = new List<string> { "Name" },
+                CreateArguments = new List<string> { "Name" },
+                UpdateArguments = new List<string> { "Name" }
             })
         {
         }

@@ -36,12 +36,12 @@ namespace ManagerAPI.Shared.Models.SL
         /// <param name="movie">Movie data object</param>
         public MovieModel(MovieDto movie)
         {
-            Title = movie.Title;
-            Description = movie.Description;
-            ReleaseYear = movie.ReleaseYear;
-            Length = movie.Length;
-            Director = movie.Director;
-            TrailerUrl = movie.TrailerUrl;
+            this.Title = movie.Title;
+            this.Description = movie.Description;
+            this.ReleaseYear = movie.ReleaseYear;
+            this.Length = movie.Length;
+            this.Director = movie.Director;
+            this.TrailerUrl = movie.TrailerUrl;
         }
     }
 }

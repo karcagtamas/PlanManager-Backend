@@ -34,11 +34,11 @@ namespace ManagerAPI.Shared.Models.SL
         /// <param name="series">Series data object</param>
         public SeriesModel(SeriesDto series)
         {
-            Title = series.Title;
-            Description = series.Description;
-            StartYear = series.StartYear;
-            EndYear = series.EndYear;
-            TrailerUrl = series.TrailerUrl;
+            this.Title = series.Title;
+            this.Description = series.Description;
+            this.StartYear = series.StartYear;
+            this.EndYear = series.EndYear;
+            this.TrailerUrl = series.TrailerUrl;
         }
     }
 }

@@ -26,10 +26,10 @@ namespace ManagerAPI.Shared.Models.EM
         /// <param name="gtEvent">Gt event data object</param>
         public GtEventModel(GtEventDto gtEvent)
         {
-            Id = gtEvent.Id;
-            TShirtColor = gtEvent.TShirtColor;
-            Greeny = gtEvent.Greeny;
-            GreenyCost = gtEvent.GreenyCost;
+            this.Id = gtEvent.Id;
+            this.TShirtColor = gtEvent.TShirtColor;
+            this.Greeny = gtEvent.Greeny;
+            this.GreenyCost = gtEvent.GreenyCost;
         }
     }
 }

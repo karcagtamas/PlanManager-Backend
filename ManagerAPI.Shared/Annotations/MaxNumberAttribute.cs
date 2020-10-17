@@ -17,7 +17,7 @@ namespace ManagerAPI.Shared.Annotations
         /// <param name="max">Max value parameter</param>
         public MaxNumberAttribute(int max)
         {
-            Max = max;
+            this.Max = max;
         }
 
         /// <summary>
@@ -40,9 +40,9 @@ namespace ManagerAPI.Shared.Annotations
                 }
 
                 // Check maximum (explicit)
-                if (number > Max)
+                if (number > this.Max)
                 {
-                    return new ValidationResult($"Value is bigger than {Max}");
+                    return new ValidationResult($"Value is bigger than {this.Max}");
                 }
             }
             catch (Exception)

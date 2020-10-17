@@ -17,7 +17,7 @@ namespace ManagerAPI.Shared.Annotations
         /// <param name="min">Min value parameter</param>
         public MinNumberAttribute(int min)
         {
-            Min = min;
+            this.Min = min;
         }
 
         /// <summary>
@@ -40,9 +40,9 @@ namespace ManagerAPI.Shared.Annotations
                 }
 
                 // Check minimum (explicit)
-                if (number < Min)
+                if (number < this.Min)
                 {
-                    return new ValidationResult($"Value is less than {Min}");
+                    return new ValidationResult($"Value is less than {this.Min}");
                 }
             }
             catch (Exception)

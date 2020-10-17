@@ -1,6 +1,5 @@
 ﻿using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Common.Repository;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Services.Common
@@ -35,7 +34,7 @@ namespace ManagerAPI.Services.Common
         public virtual IActionResult Create([FromBody] TModel model)
         {
             this._service.Add<TModel>(model);
-            return Ok();
+            return this.Ok();
         }
 
         /// <summary>
@@ -47,7 +46,7 @@ namespace ManagerAPI.Services.Common
         public virtual IActionResult Delete(int id)
         {
             this._service.Remove(id);
-            return Ok();
+            return this.Ok();
         }
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace ManagerAPI.Services.Common
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(this._service.Get<TSimple>(id));
+            return this.Ok(this._service.Get<TSimple>(id));
         }
 
         /// <summary>
@@ -72,10 +71,10 @@ namespace ManagerAPI.Services.Common
         {
             if (string.IsNullOrEmpty(orderBy) || string.IsNullOrEmpty(direction))
             {
-                return Ok(this._service.GetAll<TList>());
+                return this.Ok(this._service.GetAll<TList>());
             }
 
-            return Ok(this._service.GetOrderedAll<TList>(orderBy, direction));
+            return this.Ok(this._service.GetOrderedAll<TList>(orderBy, direction));
         }
 
         /// <summary>
@@ -88,7 +87,7 @@ namespace ManagerAPI.Services.Common
         public virtual IActionResult Update(int id, TModel model)
         {
             this._service.Update<TModel>(id, model);
-            return Ok();
+            return this.Ok();
         }
     }
 }

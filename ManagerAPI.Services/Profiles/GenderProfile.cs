@@ -12,9 +12,9 @@ namespace ManagerAPI.Services.Profiles
     {
         public GenderProfile()
         {
-            CreateMap<Gender, GenderDto>();
-            CreateMap<Gender, GenderListDto>();
-            CreateMap<GenderModel, Gender>();
+            this.CreateMap<Gender, GenderDto>();
+            this.CreateMap<Gender, GenderListDto>();
+            this.CreateMap<GenderModel, Gender>();
         }
     }
 }

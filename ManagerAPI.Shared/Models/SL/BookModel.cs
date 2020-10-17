@@ -22,10 +22,10 @@ namespace ManagerAPI.Shared.Models.SL
         /// <param name="book">Book data object</param>
         public BookModel(BookDto book)
         {
-            Name = book.Name;
-            Author = book.Author;
-            Description = book.Description;
-            Publish = book.Publish;
+            this.Name = book.Name;
+            this.Author = book.Author;
+            this.Description = book.Description;
+            this.Publish = book.Publish;
         }
 
         [Required(ErrorMessage = "Field is required")]

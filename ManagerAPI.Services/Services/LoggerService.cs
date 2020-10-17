@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.Models;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ManagerAPI.Services.Services
 {
@@ -45,7 +45,7 @@ namespace ManagerAPI.Services.Services
         /// <returns>Error Response from Exception</returns>
         public void LogError(Exception e)
         {
-            _logger.LogError(e.Message);
+            this._logger.LogError(e.Message);
         }
 
         /// <summary>

@@ -53,22 +53,22 @@ namespace ManagerAPI.Shared.Models.EM
         /// <param name="sportEvent">Sport event data object</param>
         public SportEventModel(SportEventDto sportEvent)
         {
-            Id = sportEvent.Id;
-            Injured = sportEvent.Injured;
-            Visitors = sportEvent.Visitors;
-            VisitorLimit = sportEvent.VisitorLimit;
-            VisitorCost = sportEvent.VisitorCost;
-            Players = sportEvent.Players;
-            PlayerLimit = sportEvent.PlayerLimit;
-            PlayerCost = sportEvent.PlayerCost;
-            PlayerDeposit = sportEvent.PlayerDeposit;
-            Helpers = sportEvent.Helpers;
-            HelperLimit = sportEvent.HelperLimit;
-            FixTeamDeposit = sportEvent.FixTeamDeposit;
-            FixTeamCost = sportEvent.FixTeamCost;
-            TeamLimit = sportEvent.TeamLimit;
-            MatchJudges = sportEvent.MatchJudges;
-            Doctors = sportEvent.Doctors;
+            this.Id = sportEvent.Id;
+            this.Injured = sportEvent.Injured;
+            this.Visitors = sportEvent.Visitors;
+            this.VisitorLimit = sportEvent.VisitorLimit;
+            this.VisitorCost = sportEvent.VisitorCost;
+            this.Players = sportEvent.Players;
+            this.PlayerLimit = sportEvent.PlayerLimit;
+            this.PlayerCost = sportEvent.PlayerCost;
+            this.PlayerDeposit = sportEvent.PlayerDeposit;
+            this.Helpers = sportEvent.Helpers;
+            this.HelperLimit = sportEvent.HelperLimit;
+            this.FixTeamDeposit = sportEvent.FixTeamDeposit;
+            this.FixTeamCost = sportEvent.FixTeamCost;
+            this.TeamLimit = sportEvent.TeamLimit;
+            this.MatchJudges = sportEvent.MatchJudges;
+            this.Doctors = sportEvent.Doctors;
         }
     }
 }

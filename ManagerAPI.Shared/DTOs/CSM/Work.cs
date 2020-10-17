@@ -14,9 +14,9 @@ namespace ManagerAPI.Shared.DTOs.CSM
 
         public Work(WorkModel model)
         {
-            Id = model.Id;
-            Name = model.Name;
-            Tables = model.Tables.Select(x => new WorkTable(x)).ToList();
+            this.Id = model.Id;
+            this.Name = model.Name;
+            this.Tables = model.Tables.Select(x => new WorkTable(x)).ToList();
         }
     }
 }

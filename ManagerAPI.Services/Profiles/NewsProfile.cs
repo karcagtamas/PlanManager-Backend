@@ -12,13 +12,13 @@ namespace ManagerAPI.Services.Profiles
     {
         public NewsProfile()
         {
-            CreateMap<News, NewsDto>()
+            this.CreateMap<News, NewsDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
                 .ForMember(dest => dest.LastUpdater, opt => opt.MapFrom(src => src.LastUpdater.UserName));
-            CreateMap<News, NewsListDto>()
+            this.CreateMap<News, NewsListDto>()
                 .ForMember(dest => dest.Creator, opt => opt.MapFrom(src => src.Creator.UserName))
                 .ForMember(dest => dest.LastUpdater, opt => opt.MapFrom(src => src.LastUpdater.UserName));
-            CreateMap<PostModel, News>();
+            this.CreateMap<PostModel, News>();
         }
     }
 }

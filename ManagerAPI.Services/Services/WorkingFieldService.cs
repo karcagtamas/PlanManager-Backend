@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.WM;
 using ManagerAPI.Domain.Enums.WM;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ManagerAPI.Services.Services
 {
@@ -28,9 +28,9 @@ namespace ManagerAPI.Services.Services
             INotificationService notificationService, ILoggerService loggerService) : base(context, loggerService,
             utilsService, notificationService, mapper, "Working field", new NotificationArguments
             {
-                CreateArguments = new List<string> {"Length"},
-                DeleteArguments = new List<string> {"WorkingDay.Day"},
-                UpdateArguments = new List<string> {"WorkingDay.Day"}
+                CreateArguments = new List<string> { "Length" },
+                DeleteArguments = new List<string> { "WorkingDay.Day" },
+                UpdateArguments = new List<string> { "WorkingDay.Day" }
             })
         {
         }
@@ -63,7 +63,7 @@ namespace ManagerAPI.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var list = this.Mapper.Map<WorkingMonthStatDto>(GetList(x =>
+            var list = this.Mapper.Map<WorkingMonthStatDto>(this.GetList(x =>
                 x.WorkingDay.Day.Year == year && x.WorkingDay.Day.Month == month && x.WorkingDay.User.Id == user.Id));
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get month stat for"),

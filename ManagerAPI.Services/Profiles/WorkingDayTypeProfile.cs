@@ -12,9 +12,9 @@ namespace ManagerAPI.Services.Profiles
     {
         public WorkingDayTypeProfile()
         {
-            CreateMap<WorkingDayType, WorkingDayTypeDto>();
-            CreateMap<WorkingDayType, WorkingDayTypeListDto>();
-            CreateMap<WorkingDayTypeModel, WorkingDayType>()
+            this.CreateMap<WorkingDayType, WorkingDayTypeDto>();
+            this.CreateMap<WorkingDayType, WorkingDayTypeListDto>();
+            this.CreateMap<WorkingDayTypeModel, WorkingDayType>()
                 .ForMember(dest => dest.WorkingDays, opt => opt.Ignore());
         }
     }

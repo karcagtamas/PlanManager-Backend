@@ -19,44 +19,44 @@ namespace ManagerAPI.Shared.Models.CSM
 
         public WorkModel()
         {
-            Id = Guid.NewGuid().ToString();
-            Tables = new List<WorkTableModel>();
+            this.Id = Guid.NewGuid().ToString();
+            this.Tables = new List<WorkTableModel>();
         }
 
         public WorkModel(string name)
         {
-            Id = Guid.NewGuid().ToString();
-            Tables = new List<WorkTableModel>();
-            Name = name;
+            this.Id = Guid.NewGuid().ToString();
+            this.Tables = new List<WorkTableModel>();
+            this.Name = name;
         }
 
         public WorkModel(Work work)
         {
-            Id = work.Id;
-            Name = work.Name;
-            Tables = work.Tables.Select(x => new WorkTableModel(x)).OrderBy(x => x.Date).ToList();
+            this.Id = work.Id;
+            this.Name = work.Name;
+            this.Tables = work.Tables.Select(x => new WorkTableModel(x)).OrderBy(x => x.Date).ToList();
         }
 
         public void SetTables(DateTime start, DateTime finish)
         {
-            DateTime s = start;
+            var s = start;
             while (s < finish)
             {
-                Tables.Add(new WorkTableModel(s));
+                this.Tables.Add(new WorkTableModel(s));
                 s = s.AddHours(1);
             }
         }
 
         public void UpdateTable(DateTime newStart, DateTime newFinish)
         {
-            List<WorkTableModel> oldList = Tables;
-            Tables = new List<WorkTableModel>();
+            var oldList = this.Tables;
+            this.Tables = new List<WorkTableModel>();
 
-            SetTables(newStart, newFinish);
+            this.SetTables(newStart, newFinish);
 
-            foreach (WorkTableModel i in Tables)
+            foreach (var i in this.Tables)
             {
-                WorkTableModel e = oldList.FirstOrDefault(x => DateHelper.CompareDates(x.Date, i.Date));
+                var e = oldList.FirstOrDefault(x => DateHelper.CompareDates(x.Date, i.Date));
                 if (e != null)
                 {
                     i.IsActive = e.IsActive;

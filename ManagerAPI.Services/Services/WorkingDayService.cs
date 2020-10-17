@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.DataAccess;
-using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.WM;
 using ManagerAPI.Domain.Enums.WM;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ManagerAPI.Services.Services
 {
@@ -33,8 +32,9 @@ namespace ManagerAPI.Services.Services
             utilsService, notificationService, mapper, "Working day",
             new NotificationArguments
             {
-                CreateArguments = new List<string> {"Day"}, DeleteArguments = new List<string> {"Day"},
-                UpdateArguments = new List<string> {"Day"}
+                CreateArguments = new List<string> { "Day" },
+                DeleteArguments = new List<string> { "Day" },
+                UpdateArguments = new List<string> { "Day" }
             })
         {
             this._databaseContext = context;
@@ -47,7 +47,7 @@ namespace ManagerAPI.Services.Services
         /// <returns>Working day</returns>
         public WorkingDayListDto Get(DateTime day)
         {
-            User user = this.Utils.GetCurrentUser();
+            var user = this.Utils.GetCurrentUser();
             var workingDay = user.WorkingDays.FirstOrDefault(x => x.Day == day);
 
             if (workingDay == null)

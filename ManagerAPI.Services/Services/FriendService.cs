@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
@@ -10,6 +6,10 @@ using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ManagerAPI.Services.Services
 {
@@ -60,12 +60,12 @@ namespace ManagerAPI.Services.Services
         public FriendService(IUtilsService utilsService, IMapper mapper, DatabaseContext context,
             INotificationService notificationService, ILoggerService loggerService, UserManager<User> userManager)
         {
-            _utilsService = utilsService;
-            _mapper = mapper;
-            _context = context;
-            _notificationService = notificationService;
-            _loggerService = loggerService;
-            _userManager = userManager;
+            this._utilsService = utilsService;
+            this._mapper = mapper;
+            this._context = context;
+            this._notificationService = notificationService;
+            this._loggerService = loggerService;
+            this._userManager = userManager;
         }
 
         /// <summary>
@@ -74,12 +74,12 @@ namespace ManagerAPI.Services.Services
         /// <returns>List of friend requests</returns>
         public List<FriendRequestListDto> GetMyFriendRequests()
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
 
-            var list = _mapper.Map<List<FriendRequestListDto>>(user.ReceivedFriendRequest.Where(x => x.Response == null)
+            var list = this._mapper.Map<List<FriendRequestListDto>>(user.ReceivedFriendRequest.Where(x => x.Response == null)
                 .OrderByDescending(x => x.SentDate).ToList());
 
-            _loggerService.LogInformation(user, nameof(FriendService), GetFriendRequestAction,
+            this._loggerService.LogInformation(user, nameof(FriendService), GetFriendRequestAction,
                 list.Select(x => x.Id).ToList());
 
             return list;
@@ -92,11 +92,11 @@ namespace ManagerAPI.Services.Services
         /// <returns>List of friends</returns>
         public List<FriendListDto> GetMyFriends()
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
 
-            var list = _mapper.Map<List<FriendListDto>>(user.FriendListLeft.OrderBy(x => x.Friend.UserName).ToList());
+            var list = this._mapper.Map<List<FriendListDto>>(user.FriendListLeft.OrderBy(x => x.Friend.UserName).ToList());
 
-            _loggerService.LogInformation(user, nameof(FriendService), GetFriendsAction,
+            this._loggerService.LogInformation(user, nameof(FriendService), GetFriendsAction,
                 list.Select(x => x.FriendId).ToList());
 
             return list;
@@ -109,27 +109,27 @@ namespace ManagerAPI.Services.Services
         /// <param name="friendId">Friend Id</param>
         public void RemoveFriend(string friendId)
         {
-            var user = _utilsService.GetCurrentUser();
-            var friend = _context.AppUsers.Find(friendId);
+            var user = this._utilsService.GetCurrentUser();
+            var friend = this._context.AppUsers.Find(friendId);
 
-            var friends = _context.Friends.Where(x =>
+            var friends = this._context.Friends.Where(x =>
                     x.User.Id == user.Id && x.Friend.Id == friendId || x.User.Id == friendId && x.Friend.Id == user.Id)
                 .ToList();
 
             if (friends.Count == 0)
             {
-                throw _loggerService.LogInvalidThings(user, nameof(FriendService), FriendThing,
+                throw this._loggerService.LogInvalidThings(user, nameof(FriendService), FriendThing,
                     ThisUserIsNotYourFriendMessage);
             }
 
-            _context.Friends.RemoveRange(friends);
-            _context.SaveChanges();
+            this._context.Friends.RemoveRange(friends);
+            this._context.SaveChanges();
 
-            _loggerService.LogInformation(user, nameof(FriendService), RemoveFriendAction, friendId);
+            this._loggerService.LogInformation(user, nameof(FriendService), RemoveFriendAction, friendId);
 
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRemoved, user,
+            this._notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRemoved, user,
                 friend.UserName);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRemoved, friend,
+            this._notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRemoved, friend,
                 user.UserName);
         }
 
@@ -140,48 +140,50 @@ namespace ManagerAPI.Services.Services
         /// <param name="model">Model of the request</param>
         public void SendFriendRequest(FriendRequestModel model)
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
 
             if (user.UserName == model.DestinationUserName)
             {
-                throw _loggerService.LogInvalidThings(user, nameof(FriendService), UserNameThing,
+                throw this._loggerService.LogInvalidThings(user, nameof(FriendService), UserNameThing,
                     ThisNameIsYoursMessage);
             }
 
-            var destination = _context.AppUsers.FirstOrDefault(x => x.UserName == model.DestinationUserName);
+            var destination = this._context.AppUsers.FirstOrDefault(x => x.UserName == model.DestinationUserName);
 
             if (destination == null)
             {
-                throw _loggerService.LogInvalidThings(user, nameof(FriendService), UserNameThing,
+                throw this._loggerService.LogInvalidThings(user, nameof(FriendService), UserNameThing,
                     ThisUserDoesNotExistMessage);
             }
 
-            if (HasFriendAlready(user, destination.Id))
+            if (this.HasFriendAlready(user, destination.Id))
             {
-                throw _loggerService.LogInvalidThings(user, nameof(FriendService), UserNameThing,
+                throw this._loggerService.LogInvalidThings(user, nameof(FriendService), UserNameThing,
                     ThisUserIsYourFriendAlready);
             }
 
-            if (HasOpenFriendRequestAlready(user, destination.Id))
+            if (this.HasOpenFriendRequestAlready(user, destination.Id))
             {
-                throw _loggerService.LogInvalidThings(user, nameof(FriendService), UserNameThing,
+                throw this._loggerService.LogInvalidThings(user, nameof(FriendService), UserNameThing,
                     YouHasOpenFriendRequestWithThisUserMessage);
             }
 
             var request = new FriendRequest
             {
-                Message = model.Message, SenderId = user.Id, DestinationId = destination.Id
+                Message = model.Message,
+                SenderId = user.Id,
+                DestinationId = destination.Id
             };
 
 
-            _context.FriendRequests.Add(request);
-            _context.SaveChanges();
+            this._context.FriendRequests.Add(request);
+            this._context.SaveChanges();
 
-            _loggerService.LogInformation(user, nameof(FriendService), SendFriendRequestAction, request.Id);
+            this._loggerService.LogInformation(user, nameof(FriendService), SendFriendRequestAction, request.Id);
 
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRequestSent, user,
+            this._notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRequestSent, user,
                 destination.UserName);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRequestReceived, destination,
+            this._notificationService.AddSystemNotificationByType(SystemNotificationType.FriendRequestReceived, destination,
                 user.UserName);
         }
 
@@ -192,39 +194,39 @@ namespace ManagerAPI.Services.Services
         /// <param name="model">Model of response</param>
         public void SendFriendRequestResponse(FriendRequestResponseModel model)
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
 
-            var request = _context.FriendRequests.Find(model.RequestId);
+            var request = this._context.FriendRequests.Find(model.RequestId);
 
             if (request == null)
             {
-                throw _loggerService.LogInvalidThings(user, nameof(FriendService), RequestIdThing,
+                throw this._loggerService.LogInvalidThings(user, nameof(FriendService), RequestIdThing,
                     RequestDoesNotExistMessage);
             }
 
             request.Response = model.Response;
             request.ResponseDate = DateTime.Now;
-            _context.FriendRequests.Update(request);
-            _context.SaveChanges();
-            _loggerService.LogInformation(user, nameof(FriendService), SendFriendRequestResponseAction, request.Id);
-            _notificationService.AddSystemNotificationByType(
+            this._context.FriendRequests.Update(request);
+            this._context.SaveChanges();
+            this._loggerService.LogInformation(user, nameof(FriendService), SendFriendRequestResponseAction, request.Id);
+            this._notificationService.AddSystemNotificationByType(
                 model.Response
                     ? SystemNotificationType.FriendRequestAccepted
                     : SystemNotificationType.FriendRequestDeclined, request.Sender, user.UserName);
 
             if (model.Response)
             {
-                var friend1 = new Friends {RequestId = model.RequestId, UserId = user.Id, FriendId = request.Sender.Id};
-                _context.Friends.Add(friend1);
+                var friend1 = new Friends { RequestId = model.RequestId, UserId = user.Id, FriendId = request.Sender.Id };
+                this._context.Friends.Add(friend1);
 
-                var friend2 = new Friends {RequestId = model.RequestId, UserId = request.Sender.Id, FriendId = user.Id};
-                _context.Friends.Add(friend2);
+                var friend2 = new Friends { RequestId = model.RequestId, UserId = request.Sender.Id, FriendId = user.Id };
+                this._context.Friends.Add(friend2);
 
-                _context.SaveChanges();
+                this._context.SaveChanges();
 
-                _notificationService.AddSystemNotificationByType(SystemNotificationType.YouHasANewFriend, user,
+                this._notificationService.AddSystemNotificationByType(SystemNotificationType.YouHasANewFriend, user,
                     request.Sender.UserName);
-                _notificationService.AddSystemNotificationByType(SystemNotificationType.YouHasANewFriend,
+                this._notificationService.AddSystemNotificationByType(SystemNotificationType.YouHasANewFriend,
                     request.Sender, user.UserName);
             }
         }
@@ -261,9 +263,9 @@ namespace ManagerAPI.Services.Services
         /// <returns>Friend data</returns>
         public async Task<FriendDataDto> GetFriendData(string friendId)
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
 
-            var friend = await _context.AppUsers.FindAsync(friendId);
+            var friend = await this._context.AppUsers.FindAsync(friendId);
 
             if (friend == null)
             {
@@ -271,9 +273,9 @@ namespace ManagerAPI.Services.Services
                     FriendDoesNotExistMessage);
             }
 
-            var friendDto = _mapper.Map<FriendDataDto>(friend);
-            var list = (await _userManager.GetRolesAsync(user)).ToList();
-            friendDto.Roles = _context.AppRoles.OrderByDescending(x => x.AccessLevel).Where(x => list.Contains(x.Name))
+            var friendDto = this._mapper.Map<FriendDataDto>(friend);
+            var list = (await this._userManager.GetRolesAsync(user)).ToList();
+            friendDto.Roles = this._context.AppRoles.OrderByDescending(x => x.AccessLevel).Where(x => list.Contains(x.Name))
                 .Select(x => x.Name).ToList();
             return friendDto;
         }

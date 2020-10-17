@@ -1,7 +1,6 @@
-using System;
-using System.Collections.Generic;
 using ManagerAPI.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {

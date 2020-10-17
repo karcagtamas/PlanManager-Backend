@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.Domain.Entities.WM;
 using ManagerAPI.Shared.DTOs.WM;
 using ManagerAPI.Shared.Models.WM;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ManagerAPI.Services.Profiles
 {
@@ -19,23 +19,23 @@ namespace ManagerAPI.Services.Profiles
 
         public WorkingDayProfile()
         {
-            CreateMap<WorkingDay, WorkingDayListDto>()
+            this.CreateMap<WorkingDay, WorkingDayListDto>()
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type.Id));
-            CreateMap<WorkingDay, WorkingDayDto>();
-            CreateMap<WorkingDayModel, WorkingDay>()
+            this.CreateMap<WorkingDay, WorkingDayDto>();
+            this.CreateMap<WorkingDayModel, WorkingDay>()
                 .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.Type))
                 .ForMember(dest => dest.Type, opt => opt.Ignore())
                 .ForMember(dest => dest.Day, opt => opt.MapFrom(src => src.Date));
-            CreateMap<WorkingDay, WorkingDayStatDto>()
+            this.CreateMap<WorkingDay, WorkingDayStatDto>()
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.Type.DayIsActive))
                 .ForMember(dest => dest.SumMinutes,
-                    opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList())))
+                    opt => opt.MapFrom(src => this.GetSumMinutes(src.WorkingFields.ToList())))
                 .ForMember(dest => dest.IsALot,
-                    opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) >= LotHour * HourToMin))
+                    opt => opt.MapFrom(src => this.GetSumMinutes(src.WorkingFields.ToList()) >= LotHour * HourToMin))
                 .ForMember(dest => dest.IsOptimal,
-                    opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) >= OptimalHour * HourToMin))
+                    opt => opt.MapFrom(src => this.GetSumMinutes(src.WorkingFields.ToList()) >= OptimalHour * HourToMin))
                 .ForMember(dest => dest.IsEnough,
-                    opt => opt.MapFrom(src => GetSumMinutes(src.WorkingFields.ToList()) >= EnoughHour * HourToMin));
+                    opt => opt.MapFrom(src => this.GetSumMinutes(src.WorkingFields.ToList()) >= EnoughHour * HourToMin));
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace ManagerAPI.Services.Profiles
         /// <returns>Sum of minutes</returns>
         private int GetSumMinutes(List<WorkingField> fields)
         {
-            return fields.Sum(x => (int) (x.Length * HourToMin));
+            return fields.Sum(x => (int)(x.Length * HourToMin));
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ManagerAPI.Shared.Helpers;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using ManagerAPI.Shared.Helpers;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Services.Common.CSV
 {

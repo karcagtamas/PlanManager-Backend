@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using ManagerAPI.Domain.Entities.CSM;
+﻿using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Shared.DTOs.CSM;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace ManagerAPI.Services.Common.Excel
 {
