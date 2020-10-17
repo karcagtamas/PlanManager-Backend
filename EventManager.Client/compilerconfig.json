@@ -46,5 +46,9 @@
   {
     "outputFile": "Shared/Components/CSM/WorkComponent.razor.css",
     "inputFile": "Shared/Components/CSM/WorkComponent.razor.scss"
+  },
+  {
+    "outputFile": "Shared/Components/CSM/CsomorShareComponent.razor.css",
+    "inputFile": "Shared/Components/CSM/CsomorShareComponent.razor.scss"
   }
 ]

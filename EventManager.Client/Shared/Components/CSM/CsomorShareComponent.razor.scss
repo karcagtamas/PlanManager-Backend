@@ -1,0 +1,23 @@
+﻿@import "../../../Styles/_common.scss";
+
+.shared-list {
+    .shared-person {
+        @include panel;
+        background-color: $white-trans;
+
+        .access {
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .correct-person {
+        @include panel;
+        background-color: $green-light-trans;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}

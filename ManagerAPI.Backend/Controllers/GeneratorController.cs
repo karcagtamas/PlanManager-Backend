@@ -75,7 +75,7 @@ namespace ManagerAPI.Backend.Controllers
         }
 
         [HttpPut("{id}/share")]
-        public IActionResult Share([FromQuery] int id, [FromBody] List<CsomorAccessModel> models)
+        public IActionResult Share([FromRoute] int id, [FromBody] List<CsomorAccessModel> models)
         {
             this._generatorService.Share(id, models);
 
@@ -107,6 +107,18 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult ExportXls([FromRoute] int id, [FromBody] ExportSettingsModel model)
         {
             return Ok(this._generatorService.ExportXls(id, model.Type, model.FilterList));
+        }
+
+        [HttpGet("{id}/shared")]
+        public IActionResult GetSharedPersonList([FromRoute] int id)
+        {
+            return Ok(this._generatorService.GetSharedPersonList(id));
+        }
+
+        [HttpGet("{id}/shared/correct")]
+        public IActionResult GetCorrectPersonsForSharing([FromRoute] int id, [FromQuery] string name)
+        {
+            return Ok(this._generatorService.GetCorrectPersonsForSharing(id, name));
         }
     }
 }

@@ -1,12 +1,11 @@
 ﻿using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
@@ -96,6 +95,16 @@ namespace EventManager.Client.Services
             return this._http.Get<GeneratorSettings>(settings);
         }
 
+        public Task<List<UserShortDto>> GetCorrectPersonsForSharing(int id, string name)
+        {
+            var queryParams = new HttpQueryParameters();
+            queryParams.Add<string>("name", name);
+
+            var settings = new HttpSettings($"{this._url}/{id}/shared/correct", queryParams, null);
+
+            return this._http.Get<List<UserShortDto>>(settings);
+        }
+
         public Task<List<CsomorListDTO>> GetOwnedList()
         {
             var settings = new HttpSettings($"{this._url}/my");
@@ -126,6 +135,13 @@ namespace EventManager.Client.Services
             var settings = new HttpSettings($"{this._url}/shared");
 
             return this._http.Get<List<CsomorListDTO>>(settings);
+        }
+
+        public Task<List<CsomorAccessDTO>> GetSharedPersonList(int id)
+        {
+            var settings = new HttpSettings($"{this._url}/{id}/shared");
+
+            return this._http.Get<List<CsomorAccessDTO>>(settings);
         }
 
         public Task<bool> Share(int id, List<CsomorAccessModel> models)

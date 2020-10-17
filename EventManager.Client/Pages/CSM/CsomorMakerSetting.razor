@@ -151,7 +151,9 @@
             }
             @if (this.Id != null && CheckRole(CsomorRole.Owner))
             {
-                <MatTab Label="Share"></MatTab>
+                <MatTab Label="Share">
+                    <CsomorShareComponent Id="(int)Id"></CsomorShareComponent>
+                </MatTab>
             }
         </MatTabGroup>
     </div>

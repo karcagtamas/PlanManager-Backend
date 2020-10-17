@@ -3,8 +3,7 @@ using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Models.CSM;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace CsomorGenerator.Profiles
 {
@@ -40,9 +39,8 @@ namespace CsomorGenerator.Profiles
                 .ForMember(dest => dest.SharedOn, opt => opt.MapFrom(src => src.SharedOn))
                 .ForMember(dest => dest.HasWriteAccess, opt => opt.MapFrom(src => src.HasWriteAccess));
 
-            CreateMap<CsomorPerson, Person>();
-            /*CreateMap<IgnoredWork, string>()
-                .ForMember(dest => dest, opt => opt.MapFrom(src => src.WorkId));*/
+            CreateMap<CsomorPerson, Person>()
+                .ForMember(dest => dest.IgnoredWorks, opt => opt.MapFrom(src => src.IgnoredWorks.Select(x => x.WorkId).ToList()));
             CreateMap<CsomorWork, Work>();
             CreateMap<CsomorPersonTable, PersonTable>();
             CreateMap<CsomorWorkTable, WorkTable>();

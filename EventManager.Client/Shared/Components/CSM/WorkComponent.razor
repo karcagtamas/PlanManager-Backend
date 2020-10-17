@@ -29,7 +29,7 @@
                 @if (IsEditable && !IsEdit)
                 {
                     <MatTooltip Tooltip="Edit">
-                        <MatIconButton RefBack="@context" Icon="edit" @onclick="@(() => IsEdit = true)"></MatIconButton>
+                        <MatIconButton RefBack="@context" Icon="edit" @onclick="@(() => IsEdit = true)" Disabled="CheckRole(CsomorRole.Read)"></MatIconButton>
                     </MatTooltip>
                 }
                 @if (IsEditable && IsEdit)
@@ -46,7 +46,7 @@
                         @foreach (var table in Work.Tables)
                         {
                             <span class="box">
-                                <MatCheckbox TValue="bool" Value="table.IsActive" ValueChanged="@((val) => ChangeIsActiveStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)" Disabled="CheckRole(CsomorRole.Read)"></MatCheckbox>
+                                <MatCheckbox TValue="bool" Value="table.IsActive" ValueChanged="@((val) => ChangeIsActiveStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)"></MatCheckbox>
                             </span>
                         }
                     </div>

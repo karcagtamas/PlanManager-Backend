@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.IO;
+using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CsomorGenerator.Services.Interfaces
 {
@@ -23,5 +22,7 @@ namespace CsomorGenerator.Services.Interfaces
         CsomorRole GetRoleForCsomor(int id);
         ExportResult ExportPdf(int id, CsomorType type, List<string> filterList);
         ExportResult ExportXls(int id, CsomorType type, List<string> filterList);
+        List<CsomorAccessDTO> GetSharedPersonList(int id);
+        List<UserShortDto> GetCorrectPersonsForSharing(int id, string name);
     }
 }

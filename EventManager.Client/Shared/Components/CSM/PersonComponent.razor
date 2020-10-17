@@ -29,7 +29,7 @@
                 @if (IsEditable && !IsEdit)
                 {
                     <MatTooltip Tooltip="Edit">
-                        <MatIconButton RefBack="@context" Icon="edit" @onclick="@(() => IsEdit = true)"></MatIconButton>
+                        <MatIconButton RefBack="@context" Icon="edit" @onclick="@(() => IsEdit = true)" Disabled="CheckRole(CsomorRole.Read)"></MatIconButton>
                     </MatTooltip>
                 }
                 @if (IsEditable && IsEdit)
@@ -43,13 +43,13 @@
             {
                 <div class="row-body">
                     <div class="w-100">
-                        <MatCheckbox TValue="bool" Value="Person.IsIgnored" ValueChanged="@((val) => ChangeIsIgnoredStatus(Person, val))" Label="Is Ignored" Disabled="CheckRole(CsomorRole.Read)"></MatCheckbox> <br />
+                        <MatCheckbox TValue="bool" Value="Person.IsIgnored" ValueChanged="@((val) => ChangeIsIgnoredStatus(Person, val))" Label="Is Ignored"></MatCheckbox> <br />
                         @if (!Person.IsIgnored)
                         {
                             @foreach (var table in Person.Tables)
                             {
                                 <span class="box">
-                                    <MatCheckbox TValue="bool" Value="table.IsAvailable" ValueChanged="@((val) => ChangeIsAvailableStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)" Disabled="CheckRole(CsomorRole.Read)"></MatCheckbox>
+                                    <MatCheckbox TValue="bool" Value="table.IsAvailable" ValueChanged="@((val) => ChangeIsAvailableStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)"></MatCheckbox>
                                 </span>
                             }
                             <br />
@@ -57,7 +57,7 @@
                             @foreach (var ignoredWork in Works)
                             {
                                 <span class="box">
-                                    <MatCheckbox ValueChanged="@(val => IgnoredWorkChange(Person, ignoredWork, val))" TValue="bool" Value="WorkIsIgnored(Person, ignoredWork)" Label="@ignoredWork.Name" Disabled="CheckRole(CsomorRole.Read)"></MatCheckbox>
+                                    <MatCheckbox ValueChanged="@(val => IgnoredWorkChange(Person, ignoredWork, val))" TValue="bool" Value="WorkIsIgnored(Person, ignoredWork)" Label="@ignoredWork.Name"></MatCheckbox>
                                 </span>
                             }
                         }

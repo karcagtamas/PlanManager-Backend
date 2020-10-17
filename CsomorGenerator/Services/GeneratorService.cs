@@ -6,11 +6,11 @@ using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Services.Common.Excel;
 using ManagerAPI.Services.Common.PDF;
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models;
 using ManagerAPI.Shared.Models.CSM;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -648,7 +648,7 @@ namespace CsomorGenerator.Services
 
             var csomor = this._context.Csomors.Find(id);
 
-            var shareList = this._context.SharedCsomors.ToList();
+            var shareList = csomor.SharedWith.ToList();
 
             models.ForEach(x =>
             {
@@ -774,12 +774,16 @@ namespace CsomorGenerator.Services
             if (type == CsomorType.Work)
             {
                 var works = csomor.Works.Where(x => !filterList.Contains(x.Id)).ToList();
-                return this._pdfService.GenerateWorkCsomor(works);
+                var result = this._pdfService.GenerateWorkCsomor(works);
+                this._logger.LogInformation(user, GeneratorServiceSource, "export works", id);
+                return result;
             }
             else
             {
                 var persons = csomor.Persons.Where(x => !filterList.Contains(x.Id)).ToList();
-                return this._pdfService.GeneratePersonCsomor(persons);
+                var result = this._pdfService.GeneratePersonCsomor(persons);
+                this._logger.LogInformation(user, GeneratorServiceSource, "export persons", id);
+                return result;
             }
         }
 
@@ -797,13 +801,49 @@ namespace CsomorGenerator.Services
             if (type == CsomorType.Work)
             {
                 var works = csomor.Works.Where(x => !filterList.Contains(x.Id)).ToList();
-                return this._excelService.GenerateWorkCsomor(works);
+                var result = this._excelService.GenerateWorkCsomor(works);
+                this._logger.LogInformation(user, GeneratorServiceSource, "export works", id);
+                return result;
             }
             else
             {
                 var persons = csomor.Persons.Where(x => !filterList.Contains(x.Id)).ToList();
-                return this._excelService.GeneratePersonCsomor(persons);
+                var result = this._excelService.GeneratePersonCsomor(persons);
+                this._logger.LogInformation(user, GeneratorServiceSource, "export persons", id);
+                return result;
             }
+        }
+
+        public List<CsomorAccessDTO> GetSharedPersonList(int id)
+        {
+            var user = this._utils.GetCurrentUser();
+
+            var csomor = this._context.Csomors.Find(id);
+
+            if (csomor == null)
+            {
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+            }
+
+            this._logger.LogInformation(user, GeneratorServiceSource, "get shared persons", id);
+            return this._mapper.Map<List<CsomorAccessDTO>>(csomor.SharedWith);
+        }
+
+        public List<UserShortDto> GetCorrectPersonsForSharing(int id, string name)
+        {
+            var user = this._utils.GetCurrentUser();
+
+            var csomor = this._context.Csomors.Find(id);
+
+            if (csomor == null)
+            {
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+            }
+
+            var alreadyAdded = this.GetSharedPersonList(id).Select(x => x.Id).ToList();
+            var users = this._context.AppUsers.Where(x => x.Id != csomor.Owner.Id && !alreadyAdded.Contains(x.Id) && (x.UserName.Contains(name) || x.FullName.Contains(name) || x.Email.Contains(name))).OrderBy(x => x.UserName).ThenBy(x => x.FullName).ThenBy(x => x.Email).Take(5).ToList();
+            this._logger.LogInformation(user, GeneratorServiceSource, "get correct persons", id);
+            return this._mapper.Map<List<UserShortDto>>(users);
         }
     }
 }

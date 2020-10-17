@@ -1,4 +1,4 @@
-﻿using EventManager.Client.Pages.CSM;
+﻿using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
@@ -22,5 +22,7 @@ namespace EventManager.Client.Services.Interfaces
         Task<CsomorRole> GetRole(int id);
         Task<bool> ExportPdf(int id, ExportSettingsModel model);
         Task<bool> ExportXls(int id, ExportSettingsModel model);
+        Task<List<CsomorAccessDTO>> GetSharedPersonList(int id);
+        Task<List<UserShortDto>> GetCorrectPersonsForSharing(int id, string name);
     }
 }
