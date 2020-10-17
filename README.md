@@ -6,6 +6,30 @@
 
 ## Version log
 
+### V1.0.0 - 2020-10-17
+
+- Generator
+  - Generate
+  - Person and work handling
+  - Sharing
+  - Public access
+  - Importing
+  - General settings
+  - Csomor displaying
+  - Exporting
+- Extend movie data
+- Extend series data
+- Mail service
+- Excel / CSV service
+- PDF service
+- Ordering lists
+- Fix login problems
+- Add error handler
+- Add SL auth
+- Authorization
+- Upgrade dependencies
+- Refactor Blazor components
+
 ### V0.9.0 - 2020-08-14
 
 - Movie manage
