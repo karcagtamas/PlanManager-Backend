@@ -1,13 +1,23 @@
 ﻿@import "../../../Styles/_common.scss";
 
 .shared-list {
-    .shared-person {
-        @include panel;
-        background-color: $white-trans;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 
-        .access {
-            &:hover {
-                cursor: pointer;
+    .person-list {
+        flex-grow: 1;
+        overflow: auto;
+
+        .shared-person {
+            @include panel;
+            background-color: $white-trans;
+
+            .access {
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }
     }

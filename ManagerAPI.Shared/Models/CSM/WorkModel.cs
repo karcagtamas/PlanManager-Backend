@@ -24,6 +24,13 @@ namespace ManagerAPI.Shared.Models.CSM
             this.Tables = new List<WorkTableModel>();
         }
 
+        public WorkModel(string name)
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.Tables = new List<WorkTableModel>();
+            this.Name = name;
+        }
+
         public WorkModel(Work work)
         {
             this.Id = work.Id;

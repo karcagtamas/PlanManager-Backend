@@ -9,16 +9,18 @@
             </div>
         }
     </div>
-    @foreach (var person in SharedList)
-    {
-        <div class="shared-person">
-            <div class="data-row"><strong>Name: </strong> @person.UserName - @(string.IsNullOrEmpty(person.FullName) ? person.Email : person.FullName)</div>
-            <div class="data-row access" @onclick="@(() => ChangeAccess(person.Id))"><strong>Access Type: </strong>@(person.HasWriteAccess ? "Write" : "Read")</div>
-            <div class="data-row"><strong>Added On: </strong>@ManagerAPI.Shared.Helpers.DateHelper.DateToString(person.SharedOn)</div>
-            <MatTooltip Tooltip="Remove">
-                <MatIconButton RefBack="@context" Icon="remove" @onclick="@(() => RemovePerson(person.Id))"></MatIconButton>
-            </MatTooltip>
+    <div class="person-list">
+        @foreach (var person in SharedList)
+        {
+            <div class="shared-person">
+                <div class="data-row"><strong>Name: </strong> @person.UserName - @(string.IsNullOrEmpty(person.FullName) ? person.Email : person.FullName)</div>
+                <div class="data-row access" @onclick="@(() => ChangeAccess(person.Id))"><strong>Access Type: </strong>@(person.HasWriteAccess ? "Write" : "Read")</div>
+                <div class="data-row"><strong>Added On: </strong>@ManagerAPI.Shared.Helpers.DateHelper.DateToString(person.SharedOn)</div>
+                <MatTooltip Tooltip="@("Remove " + person.UserName)">
+                    <MatIconButton RefBack="@context" Icon="remove" @onclick="@(() => RemovePerson(person.Id))"></MatIconButton>
+                </MatTooltip>
 
-        </div>
-    }
+            </div>
+        }
+    </div>
 </div>

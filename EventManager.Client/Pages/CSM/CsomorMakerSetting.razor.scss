@@ -37,8 +37,15 @@
 
 .action {
     display: flex;
+    padding: 0 1rem;
 
     .spacer {
         flex-grow: 1;
+    }
+}
+
+.group {
+    label {
+        margin-bottom: unset;
     }
 }

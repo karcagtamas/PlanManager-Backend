@@ -5,11 +5,14 @@ using EventManager.Client.Shared.Common;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
+using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,6 +33,9 @@ namespace EventManager.Client.Pages.CSM
         [Inject]
         private IJSRuntime JSRuntime { get; set; }
 
+        [Inject]
+        private IMatToaster Toaster { get; set; }
+
         private GeneratorSettings Settings { get; set; }
         private EditContext Context { get; set; }
         private GeneratorSettingsModel Model { get; set; }
@@ -39,6 +45,8 @@ namespace EventManager.Client.Pages.CSM
         private WorkModel WorkModel { get; set; }
         private bool IsModifiedState { get; set; }
         private CsomorRole Role { get; set; }
+        private AddType PersonEvent { get; set; }
+        private AddType WorkEvent { get; set; }
 
         private List<string> FilterList { get; set; } = new List<string>();
         private CsomorType Type { get; set; } = CsomorType.Work;
@@ -129,29 +137,62 @@ namespace EventManager.Client.Pages.CSM
 
         private void AddPerson()
         {
-            if (this.PersonContext.Validate())
+            if (this.PersonContext.Validate() && this.AddPerson(this.PersonModel))
             {
-                this.PersonModel.SetTables(this.Model.Start, this.Model.Finish);
-                this.Model.Persons.Add(this.PersonModel);
                 this.PersonModel = new PersonModel();
-                this.PersonContext.NotifyValidationStateChanged();
                 this.PersonContext = new EditContext(this.PersonModel);
-                this.IsModifiedState = true;
-                StateHasChanged();
             }
+        }
+
+        private bool AddPerson(PersonModel person)
+        {
+            if (string.IsNullOrEmpty(person.Name))
+            {
+                Toaster.Add($"Person name is incorrect ({person.Name})", MatToastType.Info, "Person adding");
+                return false;
+            }
+            if (this.Model.Persons.Exists(x => x.Name == person.Name))
+            {
+                Toaster.Add($"Person already exists ({person.Name})", MatToastType.Info, "Person adding");
+                return false;
+            }
+
+            person.SetTables(this.Model.Start, this.Model.Finish);
+            this.Model.Persons.Add(person);
+            this.IsModifiedState = true;
+            StateHasChanged();
+            Toaster.Add($"Person added ({person.Name})", MatToastType.Success, "Person adding");
+            return true;
         }
 
         private void AddWork()
         {
-            if (this.WorkContext.Validate())
+            if (this.WorkContext.Validate() && this.AddWork(this.WorkModel))
             {
-                this.WorkModel.SetTables(this.Model.Start, this.Model.Finish);
-                this.Model.Works.Add(this.WorkModel);
                 this.WorkModel = new WorkModel();
                 this.WorkContext = new EditContext(this.WorkModel);
-                this.IsModifiedState = true;
-                StateHasChanged();
             }
+        }
+
+        private bool AddWork(WorkModel work)
+        {
+            if (string.IsNullOrEmpty(work.Name))
+            {
+                Toaster.Add($"Work name is incorrect ({work.Name})", MatToastType.Info, "Work adding");
+                return false;
+            }
+            if (this.Model.Works.Exists(x => x.Name == work.Name))
+            {
+                Toaster.Add($"Work already exists ({work.Name})", MatToastType.Info, "Work adding");
+                return false;
+            }
+
+            work.SetTables(this.Model.Start, this.Model.Finish);
+            this.Model.Works.Add(work);
+            this.IsModifiedState = true;
+            StateHasChanged();
+            Toaster.Add($"Work added ({work.Name})", MatToastType.Success, "Work adding");
+            return true;
         }
 
         private void StateChanged()
@@ -265,6 +306,67 @@ namespace EventManager.Client.Pages.CSM
             }
 
             return false;
+        }
+
+
+        private async Task<string> GetContent(IMatFileUploadEntry[] files)
+        {
+            try
+            {
+                var file = files.FirstOrDefault();
+                if (file == null)
+                {
+                    Toaster.Add("Cannot find any file", MatToastType.Info, "File Importing");
+                    return "";
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    var sw = Stopwatch.StartNew();
+                    await file.WriteToStreamAsync(stream);
+                    sw.Stop();
+                    if (stream.Length > 1024 * 1024 && !(file.Type == "txt" || file.Type == "csv"))
+                    {
+                        Toaster.Add("File is too big or type is not acceptable", MatToastType.Danger, "File Importing");
+                        return "";
+                    }
+                    else
+                    {
+                        stream.Seek(0, SeekOrigin.Begin);
+                        using (var reader = new StreamReader(stream))
+                        {
+                            return await reader.ReadToEndAsync();
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                await InvokeAsync(StateHasChanged);
+            }
+
+            Toaster.Add("Error during import", MatToastType.Danger, "File Importing");
+            return "";
+        }
+
+        private async void ImportPersons(IMatFileUploadEntry[] files)
+        {
+            foreach (var e in (string[])(await this.GetContent(files)).Split("\n"))
+            {
+                this.AddPerson(new PersonModel(e));
+            }
+        }
+
+        private async void ImportWorks(IMatFileUploadEntry[] files)
+        {
+            foreach (var e in (string[])(await this.GetContent(files)).Split("\n"))
+            {
+                this.AddWork(new WorkModel(e));
+            }
         }
     }
 }

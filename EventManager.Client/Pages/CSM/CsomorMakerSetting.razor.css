@@ -53,6 +53,10 @@
         flex-grow: 1; }
 
 .action {
-  display: flex; }
+  display: flex;
+  padding: 0 1rem; }
   .action .spacer {
     flex-grow: 1; }
+
+.group label {
+  margin-bottom: unset; }

@@ -30,6 +30,15 @@ namespace ManagerAPI.Shared.Models.CSM
             this.IsIgnored = false;
         }
 
+        public PersonModel(string name)
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.Tables = new List<PersonTableModel>();
+            this.IgnoredWorks = new List<string>();
+            this.IsIgnored = false;
+            this.Name = name;
+        }
+
         public PersonModel(Person person)
         {
             this.Id = person.Id;
