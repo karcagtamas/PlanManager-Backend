@@ -11,16 +11,16 @@ namespace CsomorGenerator.Profiles
     {
         public CsomorProfile()
         {
-            CreateMap<GeneratorSettingsModel, Csomor>()
+            this.CreateMap<GeneratorSettingsModel, Csomor>()
                 .ForMember(dest => dest.Persons, opt => opt.Ignore())
                 .ForMember(dest => dest.Works, opt => opt.Ignore());
-            CreateMap<PersonModel, CsomorPerson>()
+            this.CreateMap<PersonModel, CsomorPerson>()
                 .ForMember(dest => dest.IgnoredWorks, opt => opt.Ignore());
-            CreateMap<WorkModel, CsomorWork>();
-            CreateMap<PersonTableModel, CsomorPersonTable>();
-            CreateMap<WorkTableModel, CsomorWorkTable>();
+            this.CreateMap<WorkModel, CsomorWork>();
+            this.CreateMap<PersonTableModel, CsomorPersonTable>();
+            this.CreateMap<WorkTableModel, CsomorWorkTable>();
 
-            CreateMap<Csomor, GeneratorSettings>()
+            this.CreateMap<Csomor, GeneratorSettings>()
                 .ForMember(dest => dest.Creation, opt => opt.MapFrom(src => (DateTime?)src.Creation))
                 .ForMember(dest => dest.LastUpdate, opt => opt.MapFrom(src => src.LastUpdate))
                 .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => src.Owner.UserName))
@@ -31,7 +31,7 @@ namespace CsomorGenerator.Profiles
                 .ForMember(dest => dest.LastGeneration, opt => opt.MapFrom(src => src.LastGeneration))
                 .ForMember(dest => dest.SharedWith, opt => opt.MapFrom(src => src.SharedWith));
 
-            CreateMap<UserCsomor, CsomorAccessDTO>()
+            this.CreateMap<UserCsomor, CsomorAccessDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.User.Id))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
@@ -39,14 +39,14 @@ namespace CsomorGenerator.Profiles
                 .ForMember(dest => dest.SharedOn, opt => opt.MapFrom(src => src.SharedOn))
                 .ForMember(dest => dest.HasWriteAccess, opt => opt.MapFrom(src => src.HasWriteAccess));
 
-            CreateMap<CsomorPerson, Person>()
+            this.CreateMap<CsomorPerson, Person>()
                 .ForMember(dest => dest.IgnoredWorks, opt => opt.MapFrom(src => src.IgnoredWorks.Select(x => x.WorkId).ToList()));
-            CreateMap<CsomorWork, Work>();
-            CreateMap<CsomorPersonTable, PersonTable>();
-            CreateMap<CsomorWorkTable, WorkTable>();
+            this.CreateMap<CsomorWork, Work>();
+            this.CreateMap<CsomorPersonTable, PersonTable>();
+            this.CreateMap<CsomorWorkTable, WorkTable>();
 
 
-            CreateMap<Csomor, CsomorListDTO>()
+            this.CreateMap<Csomor, CsomorListDTO>()
                 .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => src.Owner.UserName))
                 .ForMember(dest => dest.IsPublished, opt => opt.MapFrom(src => src.IsPublic))
                 .ForMember(dest => dest.HasCsomor, opt => opt.MapFrom(src => src.HasGeneratedCsomor))

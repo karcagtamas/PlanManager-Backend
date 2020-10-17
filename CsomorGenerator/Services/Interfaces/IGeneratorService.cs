@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using ManagerAPI.Shared.DTOs;
+﻿using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
+using System.Collections.Generic;
 
 namespace CsomorGenerator.Services.Interfaces
 {

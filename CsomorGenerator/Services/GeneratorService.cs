@@ -78,7 +78,7 @@ namespace CsomorGenerator.Services
         public GeneratorSettings GenerateSimple(GeneratorSettings settings)
         {
             // Pre check
-            if (!PreCheckSimple(settings))
+            if (!this.PreCheckSimple(settings))
             {
                 return null;
             }
@@ -112,7 +112,7 @@ namespace CsomorGenerator.Services
             {
                 var table = work.Tables[i];
 
-                GenerateToDate(ref table, ref persons, work.Id, maxHour, 0);
+                this.GenerateToDate(ref table, ref persons, work.Id, maxHour, 0);
 
                 work.Tables[i] = table;
             }
@@ -128,7 +128,7 @@ namespace CsomorGenerator.Services
         /// <param name="counter">Counter against infinite loop</param>
         private void GenerateToDate(ref WorkTable table, ref List<Person> persons, string workId, int maxHour, int counter = 0)
         {
-            var person = GetValidRandomPerson(persons);
+            var person = this.GetValidRandomPerson(persons);
 
             if (person == null)
             {
@@ -138,7 +138,7 @@ namespace CsomorGenerator.Services
             if (this.WorkerIsValid(person, table.Date, workId, maxHour))
             {
                 table.PersonId = person.Id;
-                DateTime date = table.Date;
+                var date = table.Date;
                 var pTable = person.Tables.FirstOrDefault(x => this.CompareDates(date, x.Date));
 
                 if (pTable == null)
@@ -171,7 +171,7 @@ namespace CsomorGenerator.Services
         /// <returns>Randomized person</returns>
         private Person GetValidRandomPerson(List<Person> persons)
         {
-            Random r = new Random();
+            var r = new Random();
             var validList = persons.Where(x => !x.IsIgnored && x.Hours != 0).ToList();
 
             return validList.Count == 0 ? null : validList[r.Next(validList.Count)];
@@ -184,7 +184,7 @@ namespace CsomorGenerator.Services
         /// <returns>Is startable or not</returns>
         private bool PreCheckSimple(GeneratorSettings settings)
         {
-            return CheckPersons(settings.Persons, settings.Works) && CheckWorks(settings.Works) && CheckHours(settings) && CheckSum(settings);
+            return this.CheckPersons(settings.Persons, settings.Works) && this.CheckWorks(settings.Works) && this.CheckHours(settings) && this.CheckSum(settings);
         }
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace CsomorGenerator.Services
         /// <returns>Valid or not</returns>
         private bool CheckPersons(List<Person> persons, List<Work> works)
         {
-            persons.ForEach(x => CheckPerson(x, works.Count));
+            persons.ForEach(x => this.CheckPerson(x, works.Count));
 
             return true;
         }
@@ -227,7 +227,7 @@ namespace CsomorGenerator.Services
         /// <returns>Valid or not</returns>
         private bool CheckWorks(List<Work> works)
         {
-            works.ForEach(CheckWork);
+            works.ForEach(this.CheckWork);
 
             return true;
         }
@@ -259,12 +259,12 @@ namespace CsomorGenerator.Services
             while (start < settings.Finish)
             {
                 // Count of works
-                var works = settings.Works.Count(x =>
-                    x.Tables.FirstOrDefault(y => CompareDates(start, y.Date))?.IsActive ?? false);
+                int works = settings.Works.Count(x =>
+                    x.Tables.FirstOrDefault(y => this.CompareDates(start, y.Date))?.IsActive ?? false);
 
                 // Count of persons
-                var persons = settings.Persons.Count(x =>
-                    x.Tables.FirstOrDefault(y => CompareDates(start, y.Date))?.IsAvailable ?? false);
+                int persons = settings.Persons.Count(x =>
+                    x.Tables.FirstOrDefault(y => this.CompareDates(start, y.Date))?.IsAvailable ?? false);
 
                 // Work number has to be less thank works
                 if (works > persons)
@@ -286,8 +286,8 @@ namespace CsomorGenerator.Services
         private bool CheckSum(GeneratorSettings settings)
         {
             // Sums
-            var personSum = settings.Persons.Sum(x => x.Tables.Count(y => y.IsAvailable));
-            var workSum = settings.Works.Sum(x => x.Tables.Count(y => y.IsActive));
+            int personSum = settings.Persons.Sum(x => x.Tables.Count(y => y.IsAvailable));
+            int workSum = settings.Works.Sum(x => x.Tables.Count(y => y.IsActive));
 
             // Work sum has to be less than person sum's 90% and minus the res hour sum
             if (workSum > (personSum * 0.75) - this.GetLength(settings.Start, settings.Finish) / (settings.MaxWorkHour + settings.MinRestHour) * settings.MinRestHour)
@@ -323,7 +323,7 @@ namespace CsomorGenerator.Services
             }
 
             // Person is not available or already has any work
-            var a = string.IsNullOrEmpty(table.WorkId);
+            bool a = string.IsNullOrEmpty(table.WorkId);
             if (!table.IsAvailable || !string.IsNullOrEmpty(table.WorkId))
             {
                 return false;
@@ -388,7 +388,7 @@ namespace CsomorGenerator.Services
         /// <returns>Length</returns>
         private int GetLength(DateTime start, DateTime end)
         {
-            var length = 0;
+            int length = 0;
             var date = start;
             while (date < end)
             {
@@ -406,7 +406,7 @@ namespace CsomorGenerator.Services
         private void SetWorkHours(ref GeneratorSettings settings)
         {
             // All hour
-            var hours = settings.Works.Sum(x => x.Tables.Count(y => y.IsActive));
+            int hours = settings.Works.Sum(x => x.Tables.Count(y => y.IsActive));
 
             // Add hours to the persons
             while (hours > 0)
@@ -414,7 +414,7 @@ namespace CsomorGenerator.Services
                 for (int i = 0; i < settings.Persons.Count && hours > 0; i++)
                 {
                     // Max hours
-                    var availableHours = settings.Persons[i].Tables.Count(x => x.IsAvailable);
+                    int availableHours = settings.Persons[i].Tables.Count(x => x.IsAvailable);
                     if (settings.Persons[i].Hours < availableHours)
                     {
                         settings.Persons[i].Hours++;
