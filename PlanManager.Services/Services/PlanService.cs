@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.PM;
@@ -7,6 +5,8 @@ using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.PM;
 using ManagerAPI.Shared.Models.PM;
 using PlanManager.Services.Services.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PlanManager.Services.Services
 {
@@ -45,22 +45,22 @@ namespace PlanManager.Services.Services
         /// <param name="loggerService">Logger Service</param>
         public PlanService(IMapper mapper, DatabaseContext context, IUtilsService utilsService, ILoggerService loggerService)
         {
-            _mapper = mapper;
-            _context = context;
-            _utilsService = utilsService;
-            _loggerService = loggerService;
+            this._mapper = mapper;
+            this._context = context;
+            this._utilsService = utilsService;
+            this._loggerService = loggerService;
         }
-        
+
         /// <summary>
         /// Get all plans
         /// </summary>
         /// <returns>List of plans</returns>
         public List<PlanListDto> GetPlans()
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
 
-            var plans = _mapper.Map<List<PlanListDto>>(_context.Plans.ToList());
-            
+            var plans = this._mapper.Map<List<PlanListDto>>(this._context.Plans.ToList());
+
             this._loggerService.LogInformation(user, nameof(PlanService), GetPlansAction, plans.Select(x => x.Id).ToList());
             return plans;
         }
@@ -71,9 +71,9 @@ namespace PlanManager.Services.Services
         /// <returns>List of plans</returns>
         public List<PlanListDto> GetMyPlans()
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
 
-            var plans = _mapper.Map<List<PlanListDto>>(user.Plans);
+            var plans = this._mapper.Map<List<PlanListDto>>(user.Plans);
 
             this._loggerService.LogInformation(user, nameof(PlanService), GetPlansAction, plans.Select(x => x.Id).ToList());
             return plans;
@@ -86,15 +86,15 @@ namespace PlanManager.Services.Services
         /// <returns>Plan</returns>
         public PlanDto GetPlan(int id)
         {
-            var user = _utilsService.GetCurrentUser();
-            var plan = _context.Plans.Find(id);
+            var user = this._utilsService.GetCurrentUser();
+            var plan = this._context.Plans.Find(id);
 
             if (plan == null)
             {
                 throw this._loggerService.LogInvalidThings(user, nameof(PlanService), PlanIdThing, PlanDoesNotExistMessage);
             }
 
-            var planDto = _mapper.Map<PlanDto>(plan);
+            var planDto = this._mapper.Map<PlanDto>(plan);
             this._loggerService.LogInformation(user, nameof(PlanService), GetPlanAction, plan.Id);
             return planDto;
         }
@@ -106,15 +106,15 @@ namespace PlanManager.Services.Services
         /// <returns>List of public plans</returns>
         public List<PlanListDto> GetUserPublicPlans(string userId)
         {
-            var user = _utilsService.GetCurrentUser();
-            var otherUser = _context.AppUsers.Find(userId);
+            var user = this._utilsService.GetCurrentUser();
+            var otherUser = this._context.AppUsers.Find(userId);
 
             if (otherUser == null)
             {
                 throw this._loggerService.LogInvalidThings(user, nameof(PlanService), UserThing, UserDoesNotExistMessage);
             }
 
-            var plans = _mapper.Map<List<PlanListDto>>(otherUser.Plans.Where(x => x.IsPublic).ToList());
+            var plans = this._mapper.Map<List<PlanListDto>>(otherUser.Plans.Where(x => x.IsPublic).ToList());
 
             this._loggerService.LogInformation(user, nameof(PlanService), GetPlansAction, plans.Select(x => x.Id).ToList());
 
@@ -127,11 +127,11 @@ namespace PlanManager.Services.Services
         /// <param name="model">Model of create</param>
         public void CreatePlan(PlanModel model)
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
 
-            var plan = _mapper.Map<Plan>(model);
-            _context.Plans.Add(plan);
-            _context.SaveChanges();
+            var plan = this._mapper.Map<Plan>(model);
+            this._context.Plans.Add(plan);
+            this._context.SaveChanges();
 
             this._loggerService.LogInformation(user, nameof(PlanService), CreatePlanAction, plan.Id);
         }
@@ -143,18 +143,18 @@ namespace PlanManager.Services.Services
         /// <param name="model">Mode of update</param>
         public void UpdatePlan(int id, PlanModel model)
         {
-            var user = _utilsService.GetCurrentUser();
-            var plan = _context.Plans.Find(id);
+            var user = this._utilsService.GetCurrentUser();
+            var plan = this._context.Plans.Find(id);
 
             if (plan == null)
             {
                 throw this._loggerService.LogInvalidThings(user, nameof(PlanService), PlanIdThing, PlanDoesNotExistMessage);
             }
 
-            _mapper.Map(model, plan);
-            _context.Plans.Update(plan);
-            _context.SaveChanges(); 
-            
+            this._mapper.Map(model, plan);
+            this._context.Plans.Update(plan);
+            this._context.SaveChanges();
+
             this._loggerService.LogInformation(user, nameof(PlanService), UpdatePlanAction, plan.Id);
         }
 
@@ -164,16 +164,16 @@ namespace PlanManager.Services.Services
         /// <param name="id"></param>
         public void DeletePlan(int id)
         {
-            var user = _utilsService.GetCurrentUser();
-            var plan = _context.Plans.Find(id);
+            var user = this._utilsService.GetCurrentUser();
+            var plan = this._context.Plans.Find(id);
 
             if (plan == null)
             {
                 throw this._loggerService.LogInvalidThings(user, nameof(PlanService), PlanIdThing, PlanDoesNotExistMessage);
             }
 
-            _context.Plans.Remove(plan);
-            _context.SaveChanges();
+            this._context.Plans.Remove(plan);
+            this._context.SaveChanges();
 
             this._loggerService.LogInformation(user, nameof(PlanService), DeletePlanAction, id);
         }
