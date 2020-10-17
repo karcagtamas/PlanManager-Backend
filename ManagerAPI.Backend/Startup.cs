@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-using System.Text;
 using AutoMapper;
 using CsomorGenerator.Profiles;
 using CsomorGenerator.Services;
@@ -34,6 +31,9 @@ using MovieCorner.Services.Services.Interfaces;
 using PlanManager.Services.Profiles;
 using PlanManager.Services.Services;
 using PlanManager.Services.Services.Interfaces;
+using System;
+using System.IO;
+using System.Text;
 
 namespace ManagerAPI.Backend
 {
@@ -41,7 +41,7 @@ namespace ManagerAPI.Backend
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -62,8 +62,8 @@ namespace ManagerAPI.Backend
                     });
             });
 
-            services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
-            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.Configure<ApplicationSettings>(this.Configuration.GetSection("ApplicationSettings"));
+            services.Configure<MailSettings>(this.Configuration.GetSection("MailSettings"));
 
             var mapperConfig = new MapperConfiguration(x =>
             {
@@ -84,7 +84,7 @@ namespace ManagerAPI.Backend
                 x.AddProfile(new CsomorProfile());
             });
 
-            IMapper mapper = mapperConfig.CreateMapper();
+            var mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
             services.AddSingleton<ExceptionHandler>();
@@ -131,13 +131,13 @@ namespace ManagerAPI.Backend
 
             services.AddDbContextPool<DatabaseContext>(options =>
             {
-                options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("ManagerDb"));
+                options.UseLazyLoadingProxies().UseSqlServer(this.Configuration.GetConnectionString("ManagerDb"));
             });
 
             services.AddIdentity<User, WebsiteRole>(o => o.Stores.MaxLengthForKeys = 128)
                 .AddEntityFrameworkStores<DatabaseContext>().AddDefaultTokenProviders();
 
-            var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JwtSecret"]);
+            byte[] key = Encoding.UTF8.GetBytes(this.Configuration["ApplicationSettings:JwtSecret"]);
 
             services.AddAuthentication(x =>
             {

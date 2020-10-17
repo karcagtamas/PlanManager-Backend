@@ -21,7 +21,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("date")]
         public IActionResult GetDate([FromQuery] bool? isSolved)
         {
-            return Ok(this._taskService.GetDate(isSolved));
+            return this.Ok(this._taskService.GetDate(isSolved));
         }
     }
 }

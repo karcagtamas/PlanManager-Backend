@@ -1,10 +1,10 @@
-﻿using System;
-using ManagerAPI.Domain.Entities.WM;
+﻿using ManagerAPI.Domain.Entities.WM;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
 using ManagerAPI.Shared.Models.WM;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace ManagerAPI.Backend.Controllers
 {
@@ -22,13 +22,13 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("day/{day}")]
         public IActionResult Get(DateTime day)
         {
-            return Ok(this._workingDayService.Get(day));
+            return this.Ok(this._workingDayService.Get(day));
         }
 
         [HttpGet("{id}/stat")]
         public IActionResult Stat(int id)
         {
-            return Ok(this._workingDayService.Stat(id));
+            return this.Ok(this._workingDayService.Stat(id));
         }
     }
 }

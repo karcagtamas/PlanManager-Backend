@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ManagerAPI.Backend.Controllers
 {
@@ -15,23 +15,23 @@ namespace ManagerAPI.Backend.Controllers
 
         public AuthController(IAuthService authService)
         {
-            _authService = authService;
+            this._authService = authService;
         }
 
         [HttpPost("registration")]
         [AllowAnonymous]
         public async Task<IActionResult> Registration([FromBody] RegistrationModel model)
         {
-            await _authService.Registration(model);
-            return Ok();
+            await this._authService.Registration(model);
+            return this.Ok();
         }
 
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var token = await _authService.Login(model);
-            return Ok(token);
+            string token = await this._authService.Login(model);
+            return this.Ok(token);
         }
     }
 }

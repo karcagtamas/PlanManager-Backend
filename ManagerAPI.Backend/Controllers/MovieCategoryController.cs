@@ -24,7 +24,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("selector/{movieId}")]
         public IActionResult GetSelectorList(int movieId)
         {
-            return Ok(this._movieCategoryService.GetSelectorList(movieId));
+            return this.Ok(this._movieCategoryService.GetSelectorList(movieId));
         }
     }
 }

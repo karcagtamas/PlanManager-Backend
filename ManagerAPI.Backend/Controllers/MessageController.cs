@@ -24,7 +24,7 @@ namespace ManagerAPI.Backend.Controllers
         /// <param name="messageService">Message Service</param>
         public MessageController(IMessageService messageService) : base(messageService)
         {
-            _messageService = messageService;
+            this._messageService = messageService;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("friend/{friendId}")]
         public IActionResult GetMessages(string friendId)
         {
-            return Ok(this._messageService.GetMessages(friendId));
+            return this.Ok(this._messageService.GetMessages(friendId));
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult SendMessage([FromBody] MessageModel model)
         {
             this._messageService.SendMessage(model);
-            return Ok();
+            return this.Ok();
         }
     }
 }

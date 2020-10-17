@@ -22,9 +22,9 @@ namespace ManagerAPI.Backend.Controllers
         /// Injector Constructor
         /// </summary>
         /// <param name="newsService">News Service</param>
-        public NewsController(INewsService newsService):base(newsService)
+        public NewsController(INewsService newsService) : base(newsService)
         {
-            _newsService = newsService;
+            this._newsService = newsService;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("series/{seriesId}")]
         public IActionResult GetList(int seriesId)
         {
-            return Ok(this._seriesCommentService.GetList(seriesId));
+            return this.Ok(this._seriesCommentService.GetList(seriesId));
         }
 
         [HttpPost]
@@ -34,7 +34,7 @@ namespace ManagerAPI.Backend.Controllers
         public override IActionResult Create([FromBody] SeriesCommentModel model)
         {
             this._seriesCommentService.Add<SeriesCommentModel>(model);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpDelete("{id}")]
@@ -43,7 +43,7 @@ namespace ManagerAPI.Backend.Controllers
         public override IActionResult Delete(int id)
         {
             this._seriesCommentService.Remove(id);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPut("{id}")]
@@ -52,7 +52,7 @@ namespace ManagerAPI.Backend.Controllers
         public override IActionResult Update(int id, SeriesCommentModel model)
         {
             this._seriesCommentService.Update<SeriesCommentModel>(id, model);
-            return Ok();
+            return this.Ok();
         }
     }
 }

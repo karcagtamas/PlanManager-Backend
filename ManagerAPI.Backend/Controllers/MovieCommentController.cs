@@ -24,7 +24,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("movie/{movieId}")]
         public IActionResult GetList(int movieId)
         {
-            return Ok(this._movieCommentService.GetList(movieId));
+            return this.Ok(this._movieCommentService.GetList(movieId));
         }
 
         [HttpPost]
@@ -33,7 +33,7 @@ namespace ManagerAPI.Backend.Controllers
         public override IActionResult Create([FromBody] MovieCommentModel model)
         {
             this._movieCommentService.Add<MovieCommentModel>(model);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpDelete("{id}")]
@@ -42,7 +42,7 @@ namespace ManagerAPI.Backend.Controllers
         public override IActionResult Delete(int id)
         {
             this._movieCommentService.Remove(id);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPut("{id}")]
@@ -51,7 +51,7 @@ namespace ManagerAPI.Backend.Controllers
         public override IActionResult Update(int id, MovieCommentModel model)
         {
             this._movieCommentService.Update<MovieCommentModel>(id, model);
-            return Ok();
+            return this.Ok();
         }
     }
 }

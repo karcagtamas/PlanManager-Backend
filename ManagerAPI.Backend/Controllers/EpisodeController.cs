@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using ManagerAPI.Domain.Entities.SL;
+﻿using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieCorner.Services.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace ManagerAPI.Backend.Controllers
 {
@@ -29,7 +29,7 @@ namespace ManagerAPI.Backend.Controllers
                 this._episodeService.UpdateSeenStatus(episode.Id, episode.Seen);
             }
 
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPost("{seasonId}")]
@@ -37,7 +37,7 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult AddIncremented(int seasonId)
         {
             this._episodeService.AddIncremented(seasonId);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpDelete("decremented/{episodeId}")]
@@ -45,13 +45,13 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult DeleteDecremented(int episodeId)
         {
             this._episodeService.DeleteDecremented(episodeId);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpGet("my/{id}")]
         public IActionResult GetMy(int id)
         {
-            return Ok(this._episodeService.GetMy(id));
+            return this.Ok(this._episodeService.GetMy(id));
         }
 
         [HttpPut("short/{id}")]
@@ -59,7 +59,7 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult UpdateShort(int id, [FromBody] EpisodeShortModel model)
         {
             this._episodeService.Update<EpisodeShortModel>(id, model);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPut("image/{id}")]
@@ -67,7 +67,7 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult UpdateImage(int id, [FromBody] EpisodeImageModel model)
         {
             this._episodeService.UpdateImage(id, model);
-            return Ok();
+            return this.Ok();
         }
     }
 }

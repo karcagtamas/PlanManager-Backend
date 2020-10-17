@@ -1,6 +1,5 @@
 ﻿using CsomorGenerator.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.CSM;
-using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,13 +22,13 @@ namespace ManagerAPI.Backend.Controllers
         [HttpPut("generate")]
         public IActionResult Generate([FromBody] GeneratorSettings settings)
         {
-            return Ok(this._generatorService.Generate(settings));
+            return this.Ok(this._generatorService.Generate(settings));
         }
 
         [HttpPost]
         public IActionResult Create([FromBody] GeneratorSettingsModel model)
         {
-            return Ok(this._generatorService.Create(model));
+            return this.Ok(this._generatorService.Create(model));
         }
 
         [HttpPut("{id}")]
@@ -37,7 +36,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             this._generatorService.Update(id, model);
 
-            return Ok();
+            return this.Ok();
         }
 
         [HttpDelete("{id}")]
@@ -45,33 +44,33 @@ namespace ManagerAPI.Backend.Controllers
         {
             this._generatorService.Delete(id);
 
-            return Ok();
+            return this.Ok();
         }
 
         [HttpGet("{id}")]
         [AllowAnonymous]
         public IActionResult Get([FromRoute] int id)
         {
-            return Ok(this._generatorService.Get(id));
+            return this.Ok(this._generatorService.Get(id));
         }
 
         [HttpGet("public")]
         [AllowAnonymous]
         public IActionResult GetPublicList()
         {
-            return Ok(this._generatorService.GetPublicList());
+            return this.Ok(this._generatorService.GetPublicList());
         }
 
         [HttpGet("my")]
         public IActionResult GetOwnedList()
         {
-            return Ok(this._generatorService.GetOwnedList());
+            return this.Ok(this._generatorService.GetOwnedList());
         }
 
         [HttpGet("shared")]
         public IActionResult GetSharedList()
         {
-            return Ok(this._generatorService.GetSharedList());
+            return this.Ok(this._generatorService.GetSharedList());
         }
 
         [HttpPut("{id}/share")]
@@ -79,7 +78,7 @@ namespace ManagerAPI.Backend.Controllers
         {
             this._generatorService.Share(id, models);
 
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPut("{id}/publish")]
@@ -87,38 +86,38 @@ namespace ManagerAPI.Backend.Controllers
         {
             this._generatorService.ChangePublicStatus(id, model);
 
-            return Ok();
+            return this.Ok();
         }
 
         [HttpGet("{id}/role")]
         [AllowAnonymous]
         public IActionResult GetRoleForCsomor([FromRoute] int id)
         {
-            return Ok(this._generatorService.GetRoleForCsomor(id));
+            return this.Ok(this._generatorService.GetRoleForCsomor(id));
         }
 
         [HttpPut("{id}/export/pdf")]
         public IActionResult ExportPdf([FromRoute] int id, [FromBody] ExportSettingsModel model)
         {
-            return Ok(this._generatorService.ExportPdf(id, model.Type, model.FilterList));
+            return this.Ok(this._generatorService.ExportPdf(id, model.Type, model.FilterList));
         }
 
         [HttpPut("{id}/export/xls")]
         public IActionResult ExportXls([FromRoute] int id, [FromBody] ExportSettingsModel model)
         {
-            return Ok(this._generatorService.ExportXls(id, model.Type, model.FilterList));
+            return this.Ok(this._generatorService.ExportXls(id, model.Type, model.FilterList));
         }
 
         [HttpGet("{id}/shared")]
         public IActionResult GetSharedPersonList([FromRoute] int id)
         {
-            return Ok(this._generatorService.GetSharedPersonList(id));
+            return this.Ok(this._generatorService.GetSharedPersonList(id));
         }
 
         [HttpGet("{id}/shared/correct")]
         public IActionResult GetCorrectPersonsForSharing([FromRoute] int id, [FromQuery] string name)
         {
-            return Ok(this._generatorService.GetCorrectPersonsForSharing(id, name));
+            return this.Ok(this._generatorService.GetCorrectPersonsForSharing(id, name));
         }
     }
 }

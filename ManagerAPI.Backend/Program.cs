@@ -1,6 +1,6 @@
-using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace ManagerAPI.Backend
 {
@@ -11,13 +11,14 @@ namespace ManagerAPI.Backend
             CreateWebHost(args).Run();
         }
 
-        private static IWebHost CreateWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .Build();
-
+        private static IWebHost CreateWebHost(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+.UseKestrel()
+.UseContentRoot(Directory.GetCurrentDirectory())
+.UseIISIntegration()
+.UseStartup<Startup>()
+.Build();
+        }
     }
 }
