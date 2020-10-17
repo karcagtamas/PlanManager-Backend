@@ -27,7 +27,7 @@ namespace ManagerAPI.Shared.Helpers
         /// <returns>Formatted text or N/A if the date is null</returns>
         public static string DateToString(DateTime? date)
         {
-            return date == null ? "N/A" : DateToString((DateTime) date);
+            return date == null ? "N/A" : DateToString((DateTime)date);
         }
 
         /// <summary>

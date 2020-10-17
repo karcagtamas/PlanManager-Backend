@@ -30,14 +30,14 @@ namespace ManagerAPI.Shared.DTOs.CSM
 
         public GeneratorSettings(int? id, GeneratorSettingsModel model)
         {
-            this.Id = id;
-            this.Title = model.Title;
-            this.Start = model.Start;
-            this.Finish = model.Finish;
-            this.MaxWorkHour = model.MaxWorkHour;
-            this.MinRestHour = model.MinRestHour;
-            this.Persons = model.Persons.Select(x => new Person(x)).ToList();
-            this.Works = model.Works.Select(x => new Work(x)).ToList();
+            Id = id;
+            Title = model.Title;
+            Start = model.Start;
+            Finish = model.Finish;
+            MaxWorkHour = model.MaxWorkHour;
+            MinRestHour = model.MinRestHour;
+            Persons = model.Persons.Select(x => new Person(x)).ToList();
+            Works = model.Works.Select(x => new Work(x)).ToList();
         }
     }
 }

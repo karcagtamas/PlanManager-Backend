@@ -4,9 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace ManagerAPI.Shared.Models.CSM
 {
@@ -24,33 +21,33 @@ namespace ManagerAPI.Shared.Models.CSM
 
         public PersonModel()
         {
-            this.Id = Guid.NewGuid().ToString();
-            this.Tables = new List<PersonTableModel>();
-            this.IgnoredWorks = new List<string>();
-            this.IsIgnored = false;
+            Id = Guid.NewGuid().ToString();
+            Tables = new List<PersonTableModel>();
+            IgnoredWorks = new List<string>();
+            IsIgnored = false;
         }
 
         public PersonModel(string name)
         {
-            this.Id = Guid.NewGuid().ToString();
-            this.Tables = new List<PersonTableModel>();
-            this.IgnoredWorks = new List<string>();
-            this.IsIgnored = false;
-            this.Name = name;
+            Id = Guid.NewGuid().ToString();
+            Tables = new List<PersonTableModel>();
+            IgnoredWorks = new List<string>();
+            IsIgnored = false;
+            Name = name;
         }
 
         public PersonModel(Person person)
         {
-            this.Id = person.Id;
-            this.Name = person.Name;
-            this.Tables = person.Tables.Select(x => new PersonTableModel(x)).OrderBy(x => x.Date).ToList();
-            this.IgnoredWorks = person.IgnoredWorks;
-            this.IsIgnored = person.IsIgnored;
+            Id = person.Id;
+            Name = person.Name;
+            Tables = person.Tables.Select(x => new PersonTableModel(x)).OrderBy(x => x.Date).ToList();
+            IgnoredWorks = person.IgnoredWorks;
+            IsIgnored = person.IsIgnored;
         }
 
         public void SetTables(DateTime start, DateTime finish)
         {
-            var s = start;
+            DateTime s = start;
             while (s < finish)
             {
                 Tables.Add(new PersonTableModel(s));
@@ -60,14 +57,14 @@ namespace ManagerAPI.Shared.Models.CSM
 
         public void UpdateTable(DateTime newStart, DateTime newFinish)
         {
-            var oldList = this.Tables;
-            this.Tables = new List<PersonTableModel>();
+            List<PersonTableModel> oldList = Tables;
+            Tables = new List<PersonTableModel>();
 
-            this.SetTables(newStart, newFinish);
+            SetTables(newStart, newFinish);
 
-            foreach (var i in this.Tables)
+            foreach (PersonTableModel i in Tables)
             {
-                var e = oldList.FirstOrDefault(x => DateHelper.CompareDates(x.Date, i.Date));
+                PersonTableModel e = oldList.FirstOrDefault(x => DateHelper.CompareDates(x.Date, i.Date));
                 if (e != null)
                 {
                     i.IsAvailable = e.IsAvailable;

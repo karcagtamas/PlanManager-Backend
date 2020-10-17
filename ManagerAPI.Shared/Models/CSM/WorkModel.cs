@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 
 namespace ManagerAPI.Shared.Models.CSM
 {
@@ -20,27 +19,27 @@ namespace ManagerAPI.Shared.Models.CSM
 
         public WorkModel()
         {
-            this.Id = Guid.NewGuid().ToString();
-            this.Tables = new List<WorkTableModel>();
+            Id = Guid.NewGuid().ToString();
+            Tables = new List<WorkTableModel>();
         }
 
         public WorkModel(string name)
         {
-            this.Id = Guid.NewGuid().ToString();
-            this.Tables = new List<WorkTableModel>();
-            this.Name = name;
+            Id = Guid.NewGuid().ToString();
+            Tables = new List<WorkTableModel>();
+            Name = name;
         }
 
         public WorkModel(Work work)
         {
-            this.Id = work.Id;
-            this.Name = work.Name;
-            this.Tables = work.Tables.Select(x => new WorkTableModel(x)).OrderBy(x => x.Date).ToList();
+            Id = work.Id;
+            Name = work.Name;
+            Tables = work.Tables.Select(x => new WorkTableModel(x)).OrderBy(x => x.Date).ToList();
         }
 
         public void SetTables(DateTime start, DateTime finish)
         {
-            var s = start;
+            DateTime s = start;
             while (s < finish)
             {
                 Tables.Add(new WorkTableModel(s));
@@ -50,14 +49,14 @@ namespace ManagerAPI.Shared.Models.CSM
 
         public void UpdateTable(DateTime newStart, DateTime newFinish)
         {
-            var oldList = this.Tables;
-            this.Tables = new List<WorkTableModel>();
+            List<WorkTableModel> oldList = Tables;
+            Tables = new List<WorkTableModel>();
 
-            this.SetTables(newStart, newFinish);
+            SetTables(newStart, newFinish);
 
-            foreach (var i in this.Tables)
+            foreach (WorkTableModel i in Tables)
             {
-                var e = oldList.FirstOrDefault(x => DateHelper.CompareDates(x.Date, i.Date));
+                WorkTableModel e = oldList.FirstOrDefault(x => DateHelper.CompareDates(x.Date, i.Date));
                 if (e != null)
                 {
                     i.IsActive = e.IsActive;

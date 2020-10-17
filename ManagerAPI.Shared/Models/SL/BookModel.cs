@@ -1,6 +1,6 @@
+using ManagerAPI.Shared.DTOs.SL;
 using System;
 using System.ComponentModel.DataAnnotations;
-using ManagerAPI.Shared.DTOs.SL;
 
 namespace ManagerAPI.Shared.Models.SL
 {

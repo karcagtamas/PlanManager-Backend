@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ManagerAPI.Shared.DTOs;
+using System;
 using System.ComponentModel.DataAnnotations;
-using ManagerAPI.Shared.DTOs;
 
 namespace ManagerAPI.Shared.Models
 {
@@ -34,10 +34,10 @@ namespace ManagerAPI.Shared.Models
         /// <param name="task">Task object</param>
         public TaskModel(TaskDto task)
         {
-            this.Title = task.Title;
-            this.Deadline = task.Deadline;
-            this.Description = task.Description;
-            this.IsSolved = task.IsSolved;
+            Title = task.Title;
+            Deadline = task.Deadline;
+            Description = task.Description;
+            IsSolved = task.IsSolved;
         }
     }
 }

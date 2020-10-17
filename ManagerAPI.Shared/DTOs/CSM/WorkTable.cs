@@ -14,10 +14,10 @@ namespace ManagerAPI.Shared.DTOs.CSM
 
         public WorkTable(WorkTableModel model)
         {
-            this.Id = model.Id;
-            this.Date = model.Date;
-            this.IsActive = model.IsActive;
-            this.PersonId = null;
+            Id = model.Id;
+            Date = model.Date;
+            IsActive = model.IsActive;
+            PersonId = null;
         }
     }
 }

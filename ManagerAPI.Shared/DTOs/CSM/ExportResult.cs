@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-
-namespace ManagerAPI.Shared.DTOs.CSM
+﻿namespace ManagerAPI.Shared.DTOs.CSM
 {
     public class ExportResult
     {

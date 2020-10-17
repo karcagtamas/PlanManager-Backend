@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Annotations
 {
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     /// <summary>
     /// Maximum number checked annotation
     /// </summary>
@@ -16,7 +17,7 @@ namespace ManagerAPI.Shared.Annotations
         /// <param name="max">Max value parameter</param>
         public MaxNumberAttribute(int max)
         {
-            this.Max = max;
+            Max = max;
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace ManagerAPI.Shared.Annotations
             try
             {
                 // Try convert to nullable int
-                var number = (int?) value;
+                int? number = (int?)value;
 
                 // Ignore null values
                 if (number == null)
@@ -39,9 +40,9 @@ namespace ManagerAPI.Shared.Annotations
                 }
 
                 // Check maximum (explicit)
-                if (number > this.Max)
+                if (number > Max)
                 {
-                    return new ValidationResult($"Value is bigger than {this.Max}");
+                    return new ValidationResult($"Value is bigger than {Max}");
                 }
             }
             catch (Exception)

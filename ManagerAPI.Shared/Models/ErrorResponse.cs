@@ -17,15 +17,15 @@ namespace ManagerAPI.Shared.Models
         /// <param name="e">Exception</param>
         public ErrorResponse(Exception e)
         {
-            this.Message = e.Message;
+            Message = e.Message;
             if (e.InnerException != null)
             {
-                this.Inner = new ErrorResponse(e.InnerException);
+                Inner = new ErrorResponse(e.InnerException);
             }
 
             if (e.StackTrace != null)
             {
-                this.StackTrace = e.StackTrace;
+                StackTrace = e.StackTrace;
             }
         }
     }

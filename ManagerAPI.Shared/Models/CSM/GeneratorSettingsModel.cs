@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 
 namespace ManagerAPI.Shared.Models.CSM
 {
@@ -37,32 +36,32 @@ namespace ManagerAPI.Shared.Models.CSM
 
         public GeneratorSettingsModel()
         {
-            this.Title = "New Generator";
-            var date = DateTime.UtcNow;
+            Title = "New Generator";
+            DateTime date = DateTime.UtcNow;
             date = date.AddMinutes(-date.Minute).AddSeconds(-date.Second);
-            this.Start = date;
-            this.Finish = date.AddDays(1);
-            this.MaxWorkHour = 3;
-            this.MinRestHour = 1;
-            this.HasGeneratedCsomor = false;
-            this.LastGeneration = null;
+            Start = date;
+            Finish = date.AddDays(1);
+            MaxWorkHour = 3;
+            MinRestHour = 1;
+            HasGeneratedCsomor = false;
+            LastGeneration = null;
 
-            this.Persons = new List<PersonModel>();
-            this.Works = new List<WorkModel>();
+            Persons = new List<PersonModel>();
+            Works = new List<WorkModel>();
         }
 
         public GeneratorSettingsModel(GeneratorSettings settings)
         {
-            this.Title = settings.Title;
-            this.Start = settings.Start;
-            this.Finish = settings.Finish;
-            this.MaxWorkHour = settings.MaxWorkHour;
-            this.MinRestHour = settings.MinRestHour;
-            this.HasGeneratedCsomor = settings.HasGeneratedCsomor;
-            this.LastGeneration = settings.LastGeneration;
+            Title = settings.Title;
+            Start = settings.Start;
+            Finish = settings.Finish;
+            MaxWorkHour = settings.MaxWorkHour;
+            MinRestHour = settings.MinRestHour;
+            HasGeneratedCsomor = settings.HasGeneratedCsomor;
+            LastGeneration = settings.LastGeneration;
 
-            this.Persons = settings.Persons.Select(x => new PersonModel(x)).OrderBy(x => x.Name).ToList();
-            this.Works = settings.Works.Select(x => new WorkModel(x)).OrderBy(x => x.Name).ToList();
+            Persons = settings.Persons.Select(x => new PersonModel(x)).OrderBy(x => x.Name).ToList();
+            Works = settings.Works.Select(x => new WorkModel(x)).OrderBy(x => x.Name).ToList();
         }
     }
 }

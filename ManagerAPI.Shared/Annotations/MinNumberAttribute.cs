@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Annotations
 {
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     /// <summary>
     /// Minimum number checked annotation
     /// </summary>
@@ -16,7 +17,7 @@ namespace ManagerAPI.Shared.Annotations
         /// <param name="min">Min value parameter</param>
         public MinNumberAttribute(int min)
         {
-            this.Min = min;
+            Min = min;
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace ManagerAPI.Shared.Annotations
             try
             {
                 // Try convert to nullable int
-                var number = (int?) value;
+                int? number = (int?)value;
 
                 // Ignore null values
                 if (number == null)
@@ -39,9 +40,9 @@ namespace ManagerAPI.Shared.Annotations
                 }
 
                 // Check minimum (explicit)
-                if (number < this.Min)
+                if (number < Min)
                 {
-                    return new ValidationResult($"Value is less than {this.Min}");
+                    return new ValidationResult($"Value is less than {Min}");
                 }
             }
             catch (Exception)

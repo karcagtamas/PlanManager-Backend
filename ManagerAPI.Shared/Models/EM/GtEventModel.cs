@@ -1,5 +1,5 @@
-using System.ComponentModel.DataAnnotations;
 using ManagerAPI.Shared.DTOs.EM;
+using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Models.EM
 {
@@ -26,10 +26,10 @@ namespace ManagerAPI.Shared.Models.EM
         /// <param name="gtEvent">Gt event data object</param>
         public GtEventModel(GtEventDto gtEvent)
         {
-            this.Id = gtEvent.Id;
-            this.TShirtColor = gtEvent.TShirtColor;
-            this.Greeny = gtEvent.Greeny;
-            this.GreenyCost = gtEvent.GreenyCost;
+            Id = gtEvent.Id;
+            TShirtColor = gtEvent.TShirtColor;
+            Greeny = gtEvent.Greeny;
+            GreenyCost = gtEvent.GreenyCost;
         }
     }
 }

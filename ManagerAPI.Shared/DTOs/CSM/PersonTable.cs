@@ -14,10 +14,10 @@ namespace ManagerAPI.Shared.DTOs.CSM
 
         public PersonTable(PersonTableModel model)
         {
-            this.Id = model.Id;
-            this.Date = model.Date;
-            this.IsAvailable = model.IsAvailable;
-            this.WorkId = null;
+            Id = model.Id;
+            Date = model.Date;
+            IsAvailable = model.IsAvailable;
+            WorkId = null;
         }
     }
 }

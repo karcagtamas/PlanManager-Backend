@@ -1,6 +1,6 @@
+using ManagerAPI.Shared.DTOs.EM;
 using System;
 using System.ComponentModel.DataAnnotations;
-using ManagerAPI.Shared.DTOs.EM;
 
 namespace ManagerAPI.Shared.Models.EM
 {
@@ -31,14 +31,14 @@ namespace ManagerAPI.Shared.Models.EM
         /// <param name="masterEvent">Master event data object</param>
         public MasterEventModel(MasterEventDto masterEvent)
         {
-            this.Id = masterEvent.Id;
-            this.Title = masterEvent.Title;
-            this.Description = masterEvent.Description;
-            this.StartDate = masterEvent.StartDate;
-            this.EndDate = masterEvent.EndDate;
-            this.IsLocked = masterEvent.IsLocked;
-            this.IsDisabled = masterEvent.IsDisabled;
-            this.IsPublic = masterEvent.IsPublic;
+            Id = masterEvent.Id;
+            Title = masterEvent.Title;
+            Description = masterEvent.Description;
+            StartDate = masterEvent.StartDate;
+            EndDate = masterEvent.EndDate;
+            IsLocked = masterEvent.IsLocked;
+            IsDisabled = masterEvent.IsDisabled;
+            IsPublic = masterEvent.IsPublic;
         }
     }
 }

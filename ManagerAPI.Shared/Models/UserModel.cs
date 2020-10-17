@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ManagerAPI.Shared.DTOs;
+using System;
 using System.ComponentModel.DataAnnotations;
-using ManagerAPI.Shared.DTOs;
 
 namespace ManagerAPI.Shared.Models
 {
@@ -43,7 +43,7 @@ namespace ManagerAPI.Shared.Models
 
         [MaxLength(120, ErrorMessage = "Maximum length is 120")]
         public string City { get; set; }
-        
+
         /// <summary>
         /// Empty init
         /// </summary>
@@ -55,18 +55,18 @@ namespace ManagerAPI.Shared.Models
         /// <param name="user"></param>
         public UserModel(UserDto user)
         {
-            this.Id = user.Id;
-            this.FullName = user.FullName;
-            this.Email = user.Email;
-            this.SecondaryEmail = user.SecondaryEmail;
-            this.PhoneNumber = user.PhoneNumber;
-            this.TShirtSize = user.TShirtSize;
-            this.Allergy = user.Allergy;
-            this.Group = user.Group;
-            this.BirthDay = user.BirthDay;
-            this.Country = user.Country;
-            this.GenderId = user.GenderId;
-            this.City = user.City;
+            Id = user.Id;
+            FullName = user.FullName;
+            Email = user.Email;
+            SecondaryEmail = user.SecondaryEmail;
+            PhoneNumber = user.PhoneNumber;
+            TShirtSize = user.TShirtSize;
+            Allergy = user.Allergy;
+            Group = user.Group;
+            BirthDay = user.BirthDay;
+            Country = user.Country;
+            GenderId = user.GenderId;
+            City = user.City;
         }
     }
 }

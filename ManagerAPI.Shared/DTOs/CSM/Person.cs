@@ -20,11 +20,11 @@ namespace ManagerAPI.Shared.DTOs.CSM
 
         public Person(PersonModel model)
         {
-            this.Id = model.Id;
-            this.Name = model.Name;
-            this.Tables = model.Tables.Select(x => new PersonTable(x)).ToList();
-            this.IgnoredWorks = model.IgnoredWorks;
-            this.IsIgnored = model.IsIgnored;
+            Id = model.Id;
+            Name = model.Name;
+            Tables = model.Tables.Select(x => new PersonTable(x)).ToList();
+            IgnoredWorks = model.IgnoredWorks;
+            IsIgnored = model.IsIgnored;
         }
     }
 }

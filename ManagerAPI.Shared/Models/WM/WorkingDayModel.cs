@@ -10,7 +10,7 @@ namespace ManagerAPI.Shared.Models.WM
     {
         [Required]
         public DateTime Date { get; set; }
-        
+
         [Required(ErrorMessage = "Field is required")]
         public int Type { get; set; }
     }

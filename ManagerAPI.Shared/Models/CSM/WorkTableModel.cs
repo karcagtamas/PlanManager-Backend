@@ -1,7 +1,5 @@
 ﻿using ManagerAPI.Shared.DTOs.CSM;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ManagerAPI.Shared.Models.CSM
 {
@@ -16,18 +14,18 @@ namespace ManagerAPI.Shared.Models.CSM
 
         public WorkTableModel(DateTime date)
         {
-            this.Id = Guid.NewGuid().ToString();
-            this.Date = date;
-            this.IsActive = true;
-            this.PersonId = null;
+            Id = Guid.NewGuid().ToString();
+            Date = date;
+            IsActive = true;
+            PersonId = null;
         }
 
         public WorkTableModel(WorkTable table)
         {
-            this.Id = table.Id;
-            this.Date = table.Date;
-            this.IsActive = table.IsActive;
-            this.PersonId = table.PersonId;
+            Id = table.Id;
+            Date = table.Date;
+            IsActive = table.IsActive;
+            PersonId = table.PersonId;
         }
     }
 }
