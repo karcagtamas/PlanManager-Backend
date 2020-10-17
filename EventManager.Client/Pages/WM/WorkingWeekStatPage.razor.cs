@@ -28,10 +28,10 @@ namespace EventManager.Client.Pages.WM
         private async Task GetWeekStat()
         {
             this.IsLoading = true;
-            StateHasChanged();
+            this.StateHasChanged();
             this.WeekStat = await this.FieldService.GetWeekStat(this.Week);
             this.IsLoading = false;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private void Redirect(bool direction)

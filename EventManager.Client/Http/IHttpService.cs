@@ -1,4 +1,3 @@
-using ManagerAPI.Shared.Models.CSM;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Http

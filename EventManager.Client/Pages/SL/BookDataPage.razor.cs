@@ -26,20 +26,20 @@ namespace EventManager.Client.Pages.SL
 
         protected override async Task OnInitializedAsync()
         {
-            await GetBook();
-            this.CanEdit = await Auth.HasRole("Administrator", "Status Library Moderator",
+            await this.GetBook();
+            this.CanEdit = await this.Auth.HasRole("Administrator", "Status Library Moderator",
                 "Status Library Administrator", "Root");
-            this.CanDelete = await Auth.HasRole("Administrator",
+            this.CanDelete = await this.Auth.HasRole("Administrator",
                 "Status Library Administrator", "Root");
         }
 
         private async Task GetBook()
         {
-            IsLoading = true;
-            StateHasChanged();
-            Book = await BookService.GetMy(this.Id);
-            IsLoading = false;
-            StateHasChanged();
+            this.IsLoading = true;
+            this.StateHasChanged();
+            this.Book = await this.BookService.GetMy(this.Id);
+            this.IsLoading = false;
+            this.StateHasChanged();
         }
 
         private void OpenEditBookDialog()
@@ -53,16 +53,19 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += BookModalClosed;
+            this.Modal.OnClose += this.BookModalClosed;
 
-            Modal.Show<BookDialog>("Edit Book", parameters, options);
+            this.Modal.Show<BookDialog>("Edit Book", parameters, options);
         }
 
         private async void BookModalClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetBook();
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetBook();
+            }
 
-            Modal.OnClose -= BookModalClosed;
+            this.Modal.OnClose -= this.BookModalClosed;
         }
 
         private async void AddToMyBooks()
@@ -100,18 +103,18 @@ namespace EventManager.Client.Pages.SL
             var options =
                 new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
 
-            Modal.OnClose += DeleteDialogClosed;
-            Modal.Show<Confirm>("Book Delete", parameters, options);
+            this.Modal.OnClose += this.DeleteDialogClosed;
+            this.Modal.Show<Confirm>("Book Delete", parameters, options);
         }
 
         private async void DeleteDialogClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data && await BookService.Delete(this.Id))
+            if (!modalResult.Cancelled && (bool)modalResult.Data && await this.BookService.Delete(this.Id))
             {
                 this.Navigation.NavigateTo("books");
             }
 
-            Modal.OnClose -= DeleteDialogClosed;
+            this.Modal.OnClose -= this.DeleteDialogClosed;
         }
     }
 }

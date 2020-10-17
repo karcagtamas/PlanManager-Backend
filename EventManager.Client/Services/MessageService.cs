@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
@@ -14,7 +14,7 @@ namespace EventManager.Client.Services
 
         public MessageService(IHttpService httpService, IHelperService helperService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/message", "Message")
         {
-            _helperService = helperService;
+            this._helperService = helperService;
         }
 
         public async Task<List<MessageDto>> GetMessages(int friendId)

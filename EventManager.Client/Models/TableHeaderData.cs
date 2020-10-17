@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using EventManager.Client.Enums;
+﻿using EventManager.Client.Enums;
 using ManagerAPI.Shared;
+using System;
+using System.Collections.Generic;
 
 namespace EventManager.Client.Models
 {
@@ -25,7 +25,7 @@ namespace EventManager.Client.Models
             this.IsFilterable = true;
             this.HeaderAlignment = alignment;
         }
-        
+
         public TableHeaderData(string propertyName, bool isSortable, Alignment alignment)
         {
             this.PropertyName = propertyName;
@@ -35,7 +35,7 @@ namespace EventManager.Client.Models
             this.IsFilterable = true;
             this.HeaderAlignment = alignment;
         }
-        
+
         public TableHeaderData(string propertyName, string displayName, bool isSortable, bool isFilterable, Alignment alignment)
         {
             this.PropertyName = propertyName;
@@ -55,7 +55,7 @@ namespace EventManager.Client.Models
             this.IsFilterable = true;
             this.HeaderAlignment = alignment;
         }
-        
+
         public TableHeaderData(string propertyName, string displayName, bool isSortable, Alignment alignment)
         {
             this.PropertyName = propertyName;
@@ -75,7 +75,7 @@ namespace EventManager.Client.Models
             this.IsFilterable = true;
             this.HeaderAlignment = alignment;
         }
-        
+
         public TableHeaderData(string propertyName, string displayName, bool isSortable, Func<object, string> displaying, Alignment alignment)
         {
             this.PropertyName = propertyName;
@@ -85,7 +85,7 @@ namespace EventManager.Client.Models
             this.IsFilterable = true;
             this.HeaderAlignment = alignment;
         }
-        
+
         public TableHeaderData(string propertyName, string displayName, bool isSortable, bool isFilterable, Func<object, string> displaying, Alignment alignment)
         {
             this.PropertyName = propertyName;

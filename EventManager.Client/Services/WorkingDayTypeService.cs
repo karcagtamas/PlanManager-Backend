@@ -9,7 +9,7 @@ namespace EventManager.Client.Services
     public class WorkingDayTypeService : HttpCall<WorkingDayTypeListDto, WorkingDayTypeDto, WorkingDayTypeModel>, IWorkingDayTypeService
     {
 
-        public WorkingDayTypeService(IHttpService httpService) : base (httpService, $"{ApplicationSettings.BaseApiUrl}/working-day-type", "Working day type")
+        public WorkingDayTypeService(IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/working-day-type", "Working day type")
         {
         }
     }

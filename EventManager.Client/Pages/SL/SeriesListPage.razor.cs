@@ -34,23 +34,23 @@ namespace EventManager.Client.Pages.SL
 
         protected override async Task OnInitializedAsync()
         {
-            await GetSeries();
-            this.CanAdd = await Auth.HasRole("Administrator", "Status Library Moderator",
+            await this.GetSeries();
+            this.CanAdd = await this.Auth.HasRole("Administrator", "Status Library Moderator",
                 "Status Library Administrator", "Root");
         }
 
         private async Task GetSeries()
         {
-            IsLoading = true;
-            StateHasChanged();
-            SeriesList = await SeriesService.GetAll("Title");
-            IsLoading = false;
-            StateHasChanged();
+            this.IsLoading = true;
+            this.StateHasChanged();
+            this.SeriesList = await this.SeriesService.GetAll("Title");
+            this.IsLoading = false;
+            this.StateHasChanged();
         }
 
         private void RedirectToData(SeriesListDto series)
         {
-            Navigation.NavigateTo($"/series/{series.Id}");
+            this.Navigation.NavigateTo($"/series/{series.Id}");
         }
 
         private void OpenAddSeriesDialog()
@@ -63,16 +63,19 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += AddSeriesDialogClosed;
+            this.Modal.OnClose += this.AddSeriesDialogClosed;
 
-            Modal.Show<SeriesDialog>("Create Series", parameters, options);
+            this.Modal.Show<SeriesDialog>("Create Series", parameters, options);
         }
 
         private async void AddSeriesDialogClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetSeries();
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetSeries();
+            }
 
-            Modal.OnClose -= AddSeriesDialogClosed;
+            this.Modal.OnClose -= this.AddSeriesDialogClosed;
         }
     }
 }

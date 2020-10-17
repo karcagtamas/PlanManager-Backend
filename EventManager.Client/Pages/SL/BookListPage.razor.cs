@@ -34,23 +34,23 @@ namespace EventManager.Client.Pages.SL
 
         protected override async Task OnInitializedAsync()
         {
-            await GetBooks();
-            this.CanAdd = await Auth.HasRole("Administrator", "Status Library Moderator",
+            await this.GetBooks();
+            this.CanAdd = await this.Auth.HasRole("Administrator", "Status Library Moderator",
                 "Status Library Administrator", "Root");
         }
 
         private async Task GetBooks()
         {
-            IsLoading = true;
-            StateHasChanged();
-            BookList = await BookService.GetAll("Name");
-            IsLoading = false;
-            StateHasChanged();
+            this.IsLoading = true;
+            this.StateHasChanged();
+            this.BookList = await this.BookService.GetAll("Name");
+            this.IsLoading = false;
+            this.StateHasChanged();
         }
 
         private void RedirectToData(BookListDto book)
         {
-            Navigation.NavigateTo($"/books/{book.Id}");
+            this.Navigation.NavigateTo($"/books/{book.Id}");
         }
 
         private void OpenAddBookDialog()
@@ -63,16 +63,19 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += BookModalClosed;
+            this.Modal.OnClose += this.BookModalClosed;
 
-            Modal.Show<BookDialog>("Create Book", parameters, options);
+            this.Modal.Show<BookDialog>("Create Book", parameters, options);
         }
 
         private async void BookModalClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetBooks();
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetBooks();
+            }
 
-            Modal.OnClose -= BookModalClosed;
+            this.Modal.OnClose -= this.BookModalClosed;
         }
     }
 }

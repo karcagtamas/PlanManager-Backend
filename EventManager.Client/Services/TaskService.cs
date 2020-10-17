@@ -12,7 +12,7 @@ namespace EventManager.Client.Services
     {
         private readonly IHelperService _helperService;
 
-        public TaskService(IHelperService helperService, IHttpService httpService):base(httpService, $"{ApplicationSettings.BaseApiUrl}/task", "Task")
+        public TaskService(IHelperService helperService, IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/task", "Task")
         {
             this._helperService = helperService;
         }

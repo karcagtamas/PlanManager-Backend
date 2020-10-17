@@ -30,21 +30,21 @@ namespace EventManager.Client.Pages.SL
 
         protected override async Task OnInitializedAsync()
         {
-            await GetMovies();
+            await this.GetMovies();
         }
 
         private async Task GetMovies()
         {
-            IsLoading = true;
-            StateHasChanged();
-            SeriesList = await SeriesService.GetMyList();
-            IsLoading = false;
-            StateHasChanged();
+            this.IsLoading = true;
+            this.StateHasChanged();
+            this.SeriesList = await this.SeriesService.GetMyList();
+            this.IsLoading = false;
+            this.StateHasChanged();
         }
 
         private void RedirectToData(MySeriesListDto series)
         {
-            Navigation.NavigateTo($"/series/{series.Id}");
+            this.Navigation.NavigateTo($"/series/{series.Id}");
         }
 
         private void OpenEditMySeriesDialog()
@@ -57,16 +57,19 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += EditMySeriesDialogClosed;
+            this.Modal.OnClose += this.EditMySeriesDialogClosed;
 
-            Modal.Show<SeriesSelectorDialog>("Edit My Series", parameters, options);
+            this.Modal.Show<SeriesSelectorDialog>("Edit My Series", parameters, options);
         }
 
         private async void EditMySeriesDialogClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetMovies();
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetMovies();
+            }
 
-            Modal.OnClose -= EditMySeriesDialogClosed;
+            this.Modal.OnClose -= this.EditMySeriesDialogClosed;
         }
     }
 }

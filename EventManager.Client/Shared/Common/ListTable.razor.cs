@@ -38,7 +38,7 @@ namespace EventManager.Client.Shared.Common
 
         private void RowClick(TList entity)
         {
-            OnRowClick.InvokeAsync(entity);
+            this.OnRowClick.InvokeAsync(entity);
         }
 
         private void Filter(string val)
@@ -85,7 +85,7 @@ namespace EventManager.Client.Shared.Common
 
             if (!string.IsNullOrEmpty(this.FilterValue))
             {
-                query = query.Where(x => IsFiltered(x));
+                query = query.Where(x => this.IsFiltered(x));
             }
 
             if (this.OrderBy != null)
@@ -99,19 +99,19 @@ namespace EventManager.Client.Shared.Common
             }
 
             this.DisplayList = query.ToList();
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private bool IsFiltered(TList val)
         {
-            var res = false;
+            bool res = false;
 
             foreach (var head in this.Header)
             {
                 if (head.IsFilterable && !res)
                 {
-                    var propVal = head.Displaying(this.GetProperty(val, head.PropertyName));
-                    res = propVal.ToLower().Contains(this.FilterValue.ToLower());
+                    string propVal = head.Displaying(this.GetProperty(val, head.PropertyName));
+                    res = propVal.Contains(this.FilterValue, StringComparison.OrdinalIgnoreCase);
                 }
             }
 

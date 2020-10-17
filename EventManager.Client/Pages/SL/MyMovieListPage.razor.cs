@@ -29,21 +29,21 @@ namespace EventManager.Client.Pages.SL
 
         protected override async Task OnInitializedAsync()
         {
-            await GetMovies();
+            await this.GetMovies();
         }
 
         private async Task GetMovies()
         {
-            IsLoading = true;
-            StateHasChanged();
-            MovieList = await MovieService.GetMyList();
-            IsLoading = false;
-            StateHasChanged();
+            this.IsLoading = true;
+            this.StateHasChanged();
+            this.MovieList = await this.MovieService.GetMyList();
+            this.IsLoading = false;
+            this.StateHasChanged();
         }
 
         private void RedirectToData(MyMovieListDto book)
         {
-            Navigation.NavigateTo($"/movies/{book.Id}");
+            this.Navigation.NavigateTo($"/movies/{book.Id}");
         }
 
         private void OpenEditMyMoviesDialog()
@@ -56,16 +56,19 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += EditMyMoviesModalClosed;
+            this.Modal.OnClose += this.EditMyMoviesModalClosed;
 
-            Modal.Show<MovieSelectorDialog>("Edit My Books", parameters, options);
+            this.Modal.Show<MovieSelectorDialog>("Edit My Books", parameters, options);
         }
 
         private async void EditMyMoviesModalClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetMovies();
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetMovies();
+            }
 
-            Modal.OnClose -= EditMyMoviesModalClosed;
+            this.Modal.OnClose -= this.EditMyMoviesModalClosed;
         }
 
         private void OpenEditSeenMoviesDialog()
@@ -78,16 +81,19 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += EditSeenMoviesModalClosed;
+            this.Modal.OnClose += this.EditSeenMoviesModalClosed;
 
-            Modal.Show<MovieSeenSelectorDialog>("Edit Seen Books", parameters, options);
+            this.Modal.Show<MovieSeenSelectorDialog>("Edit Seen Books", parameters, options);
         }
 
         private async void EditSeenMoviesModalClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetMovies();
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetMovies();
+            }
 
-            Modal.OnClose -= EditSeenMoviesModalClosed;
+            this.Modal.OnClose -= this.EditSeenMoviesModalClosed;
         }
     }
 }

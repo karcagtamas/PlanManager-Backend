@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
@@ -29,7 +29,7 @@ namespace EventManager.Client.Services
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(id, -1);
-            
+
             var settings = new HttpSettings($"{this.Url}/my", null, pathParams);
 
             return await this.Http.Get<MySeriesDto>(settings);
@@ -46,9 +46,9 @@ namespace EventManager.Client.Services
         {
             var queryParams = new HttpQueryParameters();
             queryParams.Add("onlyMine", onlyMine);
-            
+
             var settings = new HttpSettings($"{this.Url}/selector", queryParams, null);
-            
+
             return await this.Http.Get<List<MySeriesSelectorListDto>>(settings);
         }
 
@@ -56,9 +56,9 @@ namespace EventManager.Client.Services
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(id, -1);
-            
+
             var settings = new HttpSettings($"{this.Url}/image", null, pathParams, "Series image updating");
-            
+
             var body = new HttpBody<SeriesImageModel>(model);
 
             return await this.Http.Update<SeriesImageModel>(settings, body);
@@ -68,9 +68,9 @@ namespace EventManager.Client.Services
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(id, -1);
-            
+
             var settings = new HttpSettings($"{this.Url}/categories", null, pathParams, "Series category updating");
-            
+
             var body = new HttpBody<SeriesCategoryUpdateModel>(model);
 
             return await this.Http.Update<SeriesCategoryUpdateModel>(settings, body);
@@ -80,9 +80,9 @@ namespace EventManager.Client.Services
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(id, -1);
-            
+
             var settings = new HttpSettings($"{this.Url}/rate", null, pathParams, "Series rating");
-            
+
             var body = new HttpBody<SeriesRateModel>(model);
 
             return await this.Http.Update<SeriesRateModel>(settings, body);

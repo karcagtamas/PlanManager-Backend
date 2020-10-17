@@ -27,26 +27,26 @@ namespace EventManager.Client.Pages.SL
 
         protected override async Task OnInitializedAsync()
         {
-            await GetEpisode();
-            this.CanEdit = await Auth.HasRole("Administrator", "Status Library Moderator",
+            await this.GetEpisode();
+            this.CanEdit = await this.Auth.HasRole("Administrator", "Status Library Moderator",
                 "Status Library Administrator", "Root");
-            this.CanDelete = await Auth.HasRole("Administrator",
+            this.CanDelete = await this.Auth.HasRole("Administrator",
                 "Status Library Administrator", "Root");
         }
 
         private async Task GetEpisode()
         {
-            IsLoading = true;
-            StateHasChanged();
-            this.Episode = await EpisodeService.GetMy(this.Id);
+            this.IsLoading = true;
+            this.StateHasChanged();
+            this.Episode = await this.EpisodeService.GetMy(this.Id);
             if (this.Episode.ImageData.Length != 0)
             {
-                var base64 = Convert.ToBase64String(this.Episode.ImageData);
+                string base64 = Convert.ToBase64String(this.Episode.ImageData);
                 this.EpisodeImage = $"data:image/gif;base64,{base64}";
             }
 
-            IsLoading = false;
-            StateHasChanged();
+            this.IsLoading = false;
+            this.StateHasChanged();
         }
 
         private async void DeleteDecremented()
@@ -68,16 +68,19 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += EpisodeDialogClosed;
+            this.Modal.OnClose += this.EpisodeDialogClosed;
 
-            Modal.Show<EpisodeDialog>("Edit Episode", parameters, options);
+            this.Modal.Show<EpisodeDialog>("Edit Episode", parameters, options);
         }
 
         private async void EpisodeDialogClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetEpisode();
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetEpisode();
+            }
 
-            Modal.OnClose -= EpisodeDialogClosed;
+            this.Modal.OnClose -= this.EpisodeDialogClosed;
         }
 
         private async void SetSeenStatus(bool status)
@@ -100,16 +103,19 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += EditEpisodeImageDialogClosed;
+            this.Modal.OnClose += this.EditEpisodeImageDialogClosed;
 
-            Modal.Show<EpisodeImageDialog>("Edit Episode Image", parameters, options);
+            this.Modal.Show<EpisodeImageDialog>("Edit Episode Image", parameters, options);
         }
 
         private async void EditEpisodeImageDialogClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetEpisode();
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetEpisode();
+            }
 
-            Modal.OnClose -= EditEpisodeImageDialogClosed;
+            this.Modal.OnClose -= this.EditEpisodeImageDialogClosed;
         }
     }
 }

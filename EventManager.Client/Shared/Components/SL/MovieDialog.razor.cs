@@ -30,46 +30,46 @@ namespace EventManager.Client.Shared.Components.SL
 
         protected override async Task OnInitializedAsync()
         {
-            FormId = Parameters.Get<int>("FormId");
-            Id = Parameters.TryGet<int>("movie");
+            this.FormId = this.Parameters.Get<int>("FormId");
+            this.Id = this.Parameters.TryGet<int>("movie");
 
-            ((ModalService)ModalService).OnConfirm += OnConfirm;
+            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
 
-            Model = new MovieModel
+            this.Model = new MovieModel
             {
                 Title = "",
                 Description = "",
                 ReleaseYear = DateTime.Now.Year
             };
 
-            Context = new EditContext(Model);
+            this.Context = new EditContext(this.Model);
 
-            if (Id != 0)
+            if (this.Id != 0)
             {
-                Movie = await MovieService.Get(Id);
-                Model = new MovieModel(Movie);
-                IsEdit = true;
-                Context = new EditContext(Model);
+                this.Movie = await this.MovieService.Get(this.Id);
+                this.Model = new MovieModel(this.Movie);
+                this.IsEdit = true;
+                this.Context = new EditContext(this.Model);
             }
         }
 
         private async void OnConfirm()
         {
-            var isValid = Context.Validate();
-            if (IsEdit)
+            bool isValid = this.Context.Validate();
+            if (this.IsEdit)
             {
-                if (isValid && await MovieService.Update(Id, Model))
+                if (isValid && await this.MovieService.Update(this.Id, this.Model))
                 {
-                    ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                    this.ModalService.Close(ModalResult.Ok(true));
+                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
                 }
             }
             else
             {
-                if (isValid && await MovieService.Create(Model))
+                if (isValid && await this.MovieService.Create(this.Model))
                 {
-                    ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                    this.ModalService.Close(ModalResult.Ok(true));
+                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
                 }
             }
         }

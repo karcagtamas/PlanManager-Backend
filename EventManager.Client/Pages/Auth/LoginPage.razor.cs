@@ -1,8 +1,7 @@
-using System.Threading.Tasks;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.Models;
-using MatBlazor;
 using Microsoft.AspNetCore.Components;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.Auth
 {
@@ -19,7 +18,7 @@ namespace EventManager.Client.Pages.Auth
 
         protected override void OnInitialized()
         {
-            Model = new LoginModel
+            this.Model = new LoginModel
             {
                 UserName = "",
                 Password = ""
@@ -28,14 +27,14 @@ namespace EventManager.Client.Pages.Auth
 
         protected void Navigate(string path)
         {
-            NavigationManager.NavigateTo(path);
+            this.NavigationManager.NavigateTo(path);
         }
 
         protected async Task SignIn()
         {
-            if (!string.IsNullOrEmpty(await AuthService.Login(Model)))
+            if (!string.IsNullOrEmpty(await this.AuthService.Login(this.Model)))
             {
-                NavigationManager.NavigateTo("/");
+                this.NavigationManager.NavigateTo("/");
             }
         }
     }

@@ -1,9 +1,6 @@
-using System;
+using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
-using EventManager.Client.Services;
-using EventManager.Client.Services.Interfaces;
-using Newtonsoft.Json;
 
 namespace EventManager.Client.Http
 {

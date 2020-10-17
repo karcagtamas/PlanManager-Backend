@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.CSM
 {
@@ -42,7 +41,7 @@ namespace EventManager.Client.Shared.Components.CSM
 
         private bool CheckRole(params CsomorRole[] roles)
         {
-            return RoleChecker.Invoke(roles);
+            return this.RoleChecker.Invoke(roles);
         }
 
         private bool WorkIsIgnored(PersonModel person, WorkModel work)

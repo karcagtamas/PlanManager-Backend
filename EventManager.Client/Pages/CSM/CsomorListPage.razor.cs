@@ -36,7 +36,7 @@ namespace EventManager.Client.Pages.CSM
                 await this.GetSharedList();
             }
             await this.GetPublicList();
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private async Task GetPublicList()

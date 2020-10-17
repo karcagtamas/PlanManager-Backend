@@ -1,17 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
-using EventManager.Client.Http;
+﻿using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
 using ManagerAPI.Shared.Helpers;
 using ManagerAPI.Shared.Models.WM;
+using System;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
     public class WorkingDayService : HttpCall<WorkingDayListDto, WorkingDayDto, WorkingDayModel>, IWorkingDayService
     {
-        public WorkingDayService(IHttpService http): base(http, $"{ApplicationSettings.BaseApiUrl}/working-day", "Working day")
+        public WorkingDayService(IHttpService http) : base(http, $"{ApplicationSettings.BaseApiUrl}/working-day", "Working day")
         {
         }
 

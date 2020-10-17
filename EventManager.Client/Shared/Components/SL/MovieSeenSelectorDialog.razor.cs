@@ -21,7 +21,7 @@ namespace EventManager.Client.Shared.Components.SL
         private List<MyMovieSelectorListDto> List { get; set; }
         private List<int> SelectedIndexList { get; set; } = new List<int>();
         private bool IsLoading { get; set; } = false;
-        private List<MovieSeenUpdateModel> SaveList = new List<MovieSeenUpdateModel>();
+        private readonly List<MovieSeenUpdateModel> SaveList = new List<MovieSeenUpdateModel>();
 
         private List<TableHeaderData<MyMovieSelectorListDto>> Header { get; set; } = new List<TableHeaderData<MyMovieSelectorListDto>>
         {
@@ -32,29 +32,29 @@ namespace EventManager.Client.Shared.Components.SL
 
         protected override async Task OnInitializedAsync()
         {
-            this.FormId = Parameters.Get<int>("FormId");
+            this.FormId = this.Parameters.Get<int>("FormId");
 
             await this.GetSelectorList();
             this.SelectedIndexList = this.List.Where(x => x.IsSeen).Select(x => x.Id).ToList();
 
-            ((ModalService)ModalService).OnConfirm += OnConfirm;
+            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
         }
 
         private async Task GetSelectorList()
         {
             this.IsLoading = true;
-            StateHasChanged();
+            this.StateHasChanged();
             this.List = await this.MovieService.GetMySelectorList(true);
             this.IsLoading = false;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private async void OnConfirm()
         {
             if (await this.MovieService.UpdateSeenStatuses(this.SaveList))
             {
-                ModalService.Close(ModalResult.Ok(true));
-                ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                this.ModalService.Close(ModalResult.Ok(true));
+                ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
             }
         }
 

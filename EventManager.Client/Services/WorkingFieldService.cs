@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using EventManager.Client.Http;
+﻿using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
 using ManagerAPI.Shared.Helpers;
 using ManagerAPI.Shared.Models.WM;
+using System;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {

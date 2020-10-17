@@ -1,11 +1,9 @@
 ﻿using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Enums;
-using ManagerAPI.Shared.Models.CSM;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.CSM
 {
@@ -33,7 +31,7 @@ namespace EventManager.Client.Shared.Components.CSM
         protected override void OnParametersSet()
         {
             this.CreateTable();
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private void CreateTable()
@@ -51,7 +49,7 @@ namespace EventManager.Client.Shared.Components.CSM
 
         private void CreatePersonTable()
         {
-            var persons = Settings.Persons.OrderBy(x => x.Name).ToList();
+            var persons = this.Settings.Persons.OrderBy(x => x.Name).ToList();
 
             if (!string.IsNullOrEmpty(this.Selected))
             {
@@ -77,7 +75,7 @@ namespace EventManager.Client.Shared.Components.CSM
 
         private void CreateWorkTable()
         {
-            var works = Settings.Works.OrderBy(x => x.Name).ToList();
+            var works = this.Settings.Works.OrderBy(x => x.Name).ToList();
 
             if (!string.IsNullOrEmpty(this.Selected))
             {
@@ -136,7 +134,7 @@ namespace EventManager.Client.Shared.Components.CSM
             this.Selected = val;
             await this.FilterListChanged.InvokeAsync(this.Settings.Works.Where(x => x.Id != val).Select(x => x.Id).ToList());
             this.CreateTable();
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private async void SelectedPersonChanged(string val)
@@ -144,7 +142,7 @@ namespace EventManager.Client.Shared.Components.CSM
             this.Selected = val;
             await this.FilterListChanged.InvokeAsync(this.Settings.Persons.Where(x => x.Id != val).Select(x => x.Id).ToList());
             this.CreateTable();
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private async void TableStyleTypeChanged(bool val)
@@ -154,7 +152,7 @@ namespace EventManager.Client.Shared.Components.CSM
             this.Selected = null;
             await this.FilterListChanged.InvokeAsync(new List<string>());
             this.CreateTable();
-            StateHasChanged();
+            this.StateHasChanged();
         }
     }
 

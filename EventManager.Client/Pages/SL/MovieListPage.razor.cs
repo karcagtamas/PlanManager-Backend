@@ -33,23 +33,23 @@ namespace EventManager.Client.Pages.SL
 
         protected override async Task OnInitializedAsync()
         {
-            await GetMovies();
-            this.CanAdd = await Auth.HasRole("Administrator", "Status Library Moderator",
+            await this.GetMovies();
+            this.CanAdd = await this.Auth.HasRole("Administrator", "Status Library Moderator",
                 "Status Library Administrator", "Root");
         }
 
         private async Task GetMovies()
         {
-            IsLoading = true;
-            StateHasChanged();
-            MovieList = await MovieService.GetAll("Title");
-            IsLoading = false;
-            StateHasChanged();
+            this.IsLoading = true;
+            this.StateHasChanged();
+            this.MovieList = await this.MovieService.GetAll("Title");
+            this.IsLoading = false;
+            this.StateHasChanged();
         }
 
         private void RedirectToData(MovieListDto movie)
         {
-            Navigation.NavigateTo($"/movies/{movie.Id}");
+            this.Navigation.NavigateTo($"/movies/{movie.Id}");
         }
 
         private void OpenAddMovieDialog()
@@ -62,16 +62,19 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += MovieModalClosed;
+            this.Modal.OnClose += this.MovieModalClosed;
 
-            Modal.Show<MovieDialog>("Create Movie", parameters, options);
+            this.Modal.Show<MovieDialog>("Create Movie", parameters, options);
         }
 
         private async void MovieModalClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetMovies();
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetMovies();
+            }
 
-            Modal.OnClose -= MovieModalClosed;
+            this.Modal.OnClose -= this.MovieModalClosed;
         }
     }
 }

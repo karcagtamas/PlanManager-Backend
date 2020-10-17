@@ -39,13 +39,13 @@ namespace EventManager.Client.Shared.Components
 
         protected override void OnInitialized()
         {
-            ((ModalService)ModalService).OnShow += ShowModal;
-            ((ModalService)ModalService).CloseModal += CloseModal;
+            ((ModalService)this.ModalService).OnShow += this.ShowModal;
+            ((ModalService)this.ModalService).CloseModal += this.CloseModal;
         }
 
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -62,7 +62,7 @@ namespace EventManager.Client.Shared.Components
                 this.SetButtonSettings(options);
             }
 
-            await InvokeAsync(StateHasChanged);
+            await this.InvokeAsync(this.StateHasChanged);
         }
 
         private async void CloseModal()
@@ -70,16 +70,16 @@ namespace EventManager.Client.Shared.Components
             this.Title = "";
             this.Content = null;
             this.ComponentStyle = "";
-            IsVisible = false;
-            await InvokeAsync(StateHasChanged);
+            this.IsVisible = false;
+            await this.InvokeAsync(this.StateHasChanged);
         }
 
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                ((ModalService)ModalService).OnShow -= ShowModal;
-                ((ModalService)ModalService).CloseModal -= CloseModal;
+                ((ModalService)this.ModalService).OnShow -= this.ShowModal;
+                ((ModalService)this.ModalService).CloseModal -= this.CloseModal;
             }
         }
 
@@ -87,52 +87,52 @@ namespace EventManager.Client.Shared.Components
         {
             if (!value)
             {
-                if (ComponentDisableBackgroundCancel)
+                if (this.ComponentDisableBackgroundCancel)
                 {
                     return;
                 }
 
-                ModalService.Cancel();
+                this.ModalService.Cancel();
             }
         }
 
         private void SetModalOptions(ModalOptions options)
         {
-            ComponentHideHeader = HideHeader;
+            this.ComponentHideHeader = this.HideHeader;
             if (options.HideHeader.HasValue)
             {
-                ComponentHideHeader = options.HideHeader.Value;
+                this.ComponentHideHeader = options.HideHeader.Value;
             }
 
-            ComponentHideCloseButton = HideCloseButton;
+            this.ComponentHideCloseButton = this.HideCloseButton;
             if (options.HideCloseButton.HasValue)
             {
-                ComponentHideCloseButton = options.HideCloseButton.Value;
+                this.ComponentHideCloseButton = options.HideCloseButton.Value;
             }
 
-            ComponentDisableBackgroundCancel = DisableBackgroundCancel;
+            this.ComponentDisableBackgroundCancel = this.DisableBackgroundCancel;
             if (options.DisableBackgroundCancel.HasValue)
             {
-                ComponentDisableBackgroundCancel = options.DisableBackgroundCancel.Value;
+                this.ComponentDisableBackgroundCancel = options.DisableBackgroundCancel.Value;
             }
 
-            ComponentPosition = string.IsNullOrWhiteSpace(options.Position) ? Position : options.Position;
-            if (string.IsNullOrWhiteSpace(ComponentPosition))
+            this.ComponentPosition = string.IsNullOrWhiteSpace(options.Position) ? this.Position : options.Position;
+            if (string.IsNullOrWhiteSpace(this.ComponentPosition))
             {
-                ComponentPosition = DefaultPosition;
+                this.ComponentPosition = DefaultPosition;
             }
 
-            ComponentStyle = string.IsNullOrWhiteSpace(options.Style) ? Style : options.Style;
-            if (string.IsNullOrWhiteSpace(ComponentStyle))
+            this.ComponentStyle = string.IsNullOrWhiteSpace(options.Style) ? this.Style : options.Style;
+            if (string.IsNullOrWhiteSpace(this.ComponentStyle))
             {
-                ComponentStyle = DefaultStyle;
+                this.ComponentStyle = DefaultStyle;
             }
         }
 
         public void SetTitle(string title)
         {
-            Title = title;
-            StateHasChanged();
+            this.Title = title;
+            this.StateHasChanged();
         }
 
         public void SetButtonSettings(ModalOptions options)

@@ -35,9 +35,9 @@ namespace EventManager.Client.Shared.Components.MyProfile
 
         protected override void OnInitialized()
         {
-            this.FormId = Parameters.Get<int>("FormId");
+            this.FormId = this.Parameters.Get<int>("FormId");
 
-            ((ModalService)ModalService).OnConfirm += OnConfirm;
+            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
         }
 
         private async void OnConfirm()
@@ -47,28 +47,28 @@ namespace EventManager.Client.Shared.Components.MyProfile
                 return;
             }
 
-            if (ImageExtensions.Contains(this.File.Type))
+            if (this.ImageExtensions.Contains(this.File.Type))
             {
                 try
                 {
                     await using var stream = new MemoryStream();
                     await this.File.WriteToStreamAsync(stream);
-                    if (await UserService.UpdateProfileImage(stream.ToArray()))
+                    if (await this.UserService.UpdateProfileImage(stream.ToArray()))
                     {
-                        ModalService.Close(ModalResult.Ok<bool>(true));
-                        ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                        this.ModalService.Close(ModalResult.Ok<bool>(true));
+                        ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
                     }
                 }
                 catch (Exception e)
                 {
-                    Toaster.Add("Problem during the image uploading. Please try again later.", MatToastType.Danger,
+                    this.Toaster.Add("Problem during the image uploading. Please try again later.", MatToastType.Danger,
                         "My Profile Error");
                     Console.WriteLine(e);
                 }
             }
             else
             {
-                Toaster.Add("Invalid file extension. Please try again with a correct type.", MatToastType.Danger,
+                this.Toaster.Add("Invalid file extension. Please try again with a correct type.", MatToastType.Danger,
                     "My Profile Error");
             }
         }

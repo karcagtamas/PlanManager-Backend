@@ -16,10 +16,10 @@ namespace EventManager.Client.Shared.Components.Friends
         public BlazoredModal BlazoredModal { get; set; }
 
         [Inject]
-        IFriendService FriendService { get; set; }
+        private IFriendService FriendService { get; set; }
 
         [Inject]
-        IModalService ModalService { get; set; }
+        private IModalService ModalService { get; set; }
 
         public int FormId { get; set; }
 
@@ -28,9 +28,9 @@ namespace EventManager.Client.Shared.Components.Friends
 
         protected override void OnInitialized()
         {
-            this.FormId = Parameters.Get<int>("FormId");
+            this.FormId = this.Parameters.Get<int>("FormId");
 
-            ((ModalService)ModalService).OnConfirm += OnConfirm;
+            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
 
             this.Model = new FriendRequestModel
             {
@@ -43,11 +43,11 @@ namespace EventManager.Client.Shared.Components.Friends
 
         protected async void OnConfirm()
         {
-            var isValid = this.Context.Validate();
-            if (isValid && await FriendService.SendFriendRequest(Model))
+            bool isValid = this.Context.Validate();
+            if (isValid && await this.FriendService.SendFriendRequest(this.Model))
             {
-                ModalService.Close(ModalResult.Ok<bool>(true));
-                ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                this.ModalService.Close(ModalResult.Ok<bool>(true));
+                ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
             }
         }
     }

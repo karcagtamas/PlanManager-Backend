@@ -32,36 +32,36 @@ namespace EventManager.Client.Pages.SL
 
         protected override async Task OnInitializedAsync()
         {
-            await GetMovie();
-            await GetComments();
-            this.CanEdit = await Auth.HasRole("Administrator", "Status Library Moderator",
+            await this.GetMovie();
+            await this.GetComments();
+            this.CanEdit = await this.Auth.HasRole("Administrator", "Status Library Moderator",
                 "Status Library Administrator", "Root");
-            this.CanDelete = await Auth.HasRole("Administrator",
+            this.CanDelete = await this.Auth.HasRole("Administrator",
                 "Status Library Administrator", "Root");
         }
 
         private async Task GetMovie()
         {
-            IsLoading = true;
-            StateHasChanged();
-            this.Movie = await MovieService.GetMy(this.Id);
+            this.IsLoading = true;
+            this.StateHasChanged();
+            this.Movie = await this.MovieService.GetMy(this.Id);
             if (this.Movie.ImageData.Length != 0)
             {
-                var base64 = Convert.ToBase64String(this.Movie.ImageData);
+                string base64 = Convert.ToBase64String(this.Movie.ImageData);
                 this.MovieImage = $"data:image/gif;base64,{base64}";
             }
 
-            IsLoading = false;
-            StateHasChanged();
+            this.IsLoading = false;
+            this.StateHasChanged();
         }
 
         private async Task GetComments()
         {
-            IsLoading = true;
-            StateHasChanged();
-            this.CommentList = await MovieCommentService.GetList(this.Id);
-            IsLoading = false;
-            StateHasChanged();
+            this.IsLoading = true;
+            this.StateHasChanged();
+            this.CommentList = await this.MovieCommentService.GetList(this.Id);
+            this.IsLoading = false;
+            this.StateHasChanged();
         }
 
         private void OpenEditMovieDialog()
@@ -75,16 +75,19 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += MovieDialogClosed;
+            this.Modal.OnClose += this.MovieDialogClosed;
 
-            Modal.Show<MovieDialog>("Edit Movie", parameters, options);
+            this.Modal.Show<MovieDialog>("Edit Movie", parameters, options);
         }
 
         private async void MovieDialogClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetMovie();
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetMovie();
+            }
 
-            Modal.OnClose -= MovieDialogClosed;
+            this.Modal.OnClose -= this.MovieDialogClosed;
         }
 
         private void OpenEditMovieImageDialog()
@@ -98,16 +101,19 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += EditMovieImageDialogClosed;
+            this.Modal.OnClose += this.EditMovieImageDialogClosed;
 
-            Modal.Show<MovieImageDialog>("Edit Movie Image", parameters, options);
+            this.Modal.Show<MovieImageDialog>("Edit Movie Image", parameters, options);
         }
 
         private async void EditMovieImageDialogClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetMovie();
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetMovie();
+            }
 
-            Modal.OnClose -= EditMovieImageDialogClosed;
+            this.Modal.OnClose -= this.EditMovieImageDialogClosed;
         }
 
         private async void AddToMyMovies()
@@ -146,24 +152,34 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += EditMovieCategoriesDialogClosed;
+            this.Modal.OnClose += this.EditMovieCategoriesDialogClosed;
 
-            Modal.Show<MovieCategoryDialog>("Edit Categories", parameters, options);
+            this.Modal.Show<MovieCategoryDialog>("Edit Categories", parameters, options);
         }
 
         private async void EditMovieCategoriesDialogClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetMovie();
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetMovie();
+            }
 
-            Modal.OnClose -= EditMovieCategoriesDialogClosed;
+            this.Modal.OnClose -= this.EditMovieCategoriesDialogClosed;
         }
 
         private async void SaveComment()
         {
-            if (string.IsNullOrEmpty(this.Comment)) return;
+            if (string.IsNullOrEmpty(this.Comment))
+            {
+                return;
+            }
 
             if (!await this.MovieCommentService.Create(
-                new MovieCommentModel { Comment = this.Comment, MovieId = this.Id })) return;
+                new MovieCommentModel { Comment = this.Comment, MovieId = this.Id }))
+            {
+                return;
+            }
+
             this.Comment = "";
             await this.GetComments();
         }
@@ -186,18 +202,18 @@ namespace EventManager.Client.Pages.SL
             var options =
                 new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
 
-            Modal.OnClose += DeleteDialogClosed;
-            Modal.Show<Confirm>("Movie Delete", parameters, options);
+            this.Modal.OnClose += this.DeleteDialogClosed;
+            this.Modal.Show<Confirm>("Movie Delete", parameters, options);
         }
 
         private async void DeleteDialogClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data && await MovieService.Delete(this.Id))
+            if (!modalResult.Cancelled && (bool)modalResult.Data && await this.MovieService.Delete(this.Id))
             {
                 this.Navigation.NavigateTo("movies");
             }
 
-            Modal.OnClose -= DeleteDialogClosed;
+            this.Modal.OnClose -= this.DeleteDialogClosed;
         }
     }
 }

@@ -1,7 +1,7 @@
-using System;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
+using System;
 
 namespace EventManager.Client.Services
 {
@@ -16,24 +16,24 @@ namespace EventManager.Client.Services
         public void Cancel()
         {
             CloseModal?.Invoke();
-            OnClose?.Invoke(ModalResult.Cancel(_modalType));
+            OnClose?.Invoke(ModalResult.Cancel(this._modalType));
         }
 
         public void Close(ModalResult modalResult)
         {
-            modalResult.ModalType = _modalType;
+            modalResult.ModalType = this._modalType;
             CloseModal?.Invoke();
             OnClose?.Invoke(modalResult);
         }
 
         public void Show<T>(string title, ModalParameters parameters) where T : ComponentBase
         {
-            Show<T>(title, parameters, new ModalOptions());
+            this.Show<T>(title, parameters, new ModalOptions());
         }
 
         public void Show<T>(string title, ModalParameters parameters = null, ModalOptions options = null) where T : ComponentBase
         {
-            Show(typeof(T), title, parameters, options);
+            this.Show(typeof(T), title, parameters, options);
         }
 
         public void Show(Type contentComponent, string title, ModalParameters parameters, ModalOptions options)
@@ -44,7 +44,7 @@ namespace EventManager.Client.Services
             }
 
             var content = new RenderFragment(x => { x.OpenComponent(1, contentComponent); x.CloseComponent(); });
-            _modalType = contentComponent;
+            this._modalType = contentComponent;
 
             OnShow?.Invoke(title, content, parameters, options);
         }

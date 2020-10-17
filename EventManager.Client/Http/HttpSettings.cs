@@ -65,7 +65,7 @@ namespace EventManager.Client.Http
             this.SetUrl(url);
             this.QueryParameters = queryParameters == null ? new HttpQueryParameters() : queryParameters;
             this.PathParameters = pathParameters == null ? new HttpPathParameters() : pathParameters;
-            this.ToasterSettings = String.IsNullOrEmpty(toasterCaption) ? new ToasterSettings() : new ToasterSettings(toasterCaption);
+            this.ToasterSettings = string.IsNullOrEmpty(toasterCaption) ? new ToasterSettings() : new ToasterSettings(toasterCaption);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace EventManager.Client.Http
         /// <param name="url">New url</param>
         private void SetUrl(string url)
         {
-            if (String.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(url))
             {
                 throw new ArgumentException("Invalid url");
             }

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using EventManager.Client.Http;
+﻿using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
@@ -23,7 +23,7 @@ namespace EventManager.Client.Services
         {
             var settings = new HttpSettings($"{this._url}/unreads/count");
 
-            return await _httpService.GetInt(settings);
+            return await this._httpService.GetInt(settings);
         }
 
         public async Task<List<NotificationDto>> GetMyNotifications()

@@ -1,11 +1,11 @@
-using System;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
+using System;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
@@ -17,13 +17,13 @@ namespace EventManager.Client.Services
 
         public HelperService(NavigationManager navigationManager, IMatToaster toaster)
         {
-            _navigationManager = navigationManager;
-            _toaster = toaster;
+            this._navigationManager = navigationManager;
+            this._toaster = toaster;
         }
 
         public void Navigate(string path)
         {
-            _navigationManager.NavigateTo(path);
+            this._navigationManager.NavigateTo(path);
         }
 
         public JsonSerializerOptions GetSerializerOptions()
@@ -35,18 +35,18 @@ namespace EventManager.Client.Services
         {
             if (response.IsSuccessStatusCode)
             {
-                _toaster.Add("Event successfully accomplished", MatToastType.Success, caption);
+                this._toaster.Add("Event successfully accomplished", MatToastType.Success, caption);
             }
             else
             {
                 using (var sr = await response.Content.ReadAsStreamAsync())
                 {
-                    var e = await System.Text.Json.JsonSerializer.DeserializeAsync<ErrorResponse>(sr, GetSerializerOptions());
-                    _toaster.Add(e.Message, MatToastType.Danger, caption);
+                    var e = await System.Text.Json.JsonSerializer.DeserializeAsync<ErrorResponse>(sr, this.GetSerializerOptions());
+                    this._toaster.Add(e.Message, MatToastType.Danger, caption);
                 }
             }
         }
-        
+
         public decimal MinToHour(int min)
         {
             return min / (decimal)60;

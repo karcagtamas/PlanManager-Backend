@@ -24,25 +24,25 @@ namespace EventManager.Client.Shared.Common
 
         protected override async Task OnInitializedAsync()
         {
-            User = null;
-            await GetUser();
-            await GetCountOfUnreadNotifications();
+            this.User = null;
+            await this.GetUser();
+            await this.GetCountOfUnreadNotifications();
         }
 
         protected async Task GetUser()
         {
-            User = await UserService.GetShortUser();
+            this.User = await this.UserService.GetShortUser();
         }
 
         protected async Task GetCountOfUnreadNotifications()
         {
-            int? val = await NotificationService.GetCountOfUnReadNotifications();
-            UnReadNotificationCount = val == null ? 0 : (int)val;
+            int? val = await this.NotificationService.GetCountOfUnReadNotifications();
+            this.UnReadNotificationCount = val == null ? 0 : (int)val;
         }
 
         protected async Task Logout()
         {
-            await AuthService.Logout();
+            await this.AuthService.Logout();
         }
     }
 }

@@ -31,11 +31,11 @@ namespace EventManager.Client.Shared.Components.WM
 
         protected override async Task OnInitializedAsync()
         {
-            this.FormId = Parameters.Get<int>("FormId");
-            this.Id = Parameters.TryGet<int>("field");
-            this.WorkingDayId = Parameters.Get<int>("working-day");
+            this.FormId = this.Parameters.Get<int>("FormId");
+            this.Id = this.Parameters.TryGet<int>("field");
+            this.WorkingDayId = this.Parameters.Get<int>("working-day");
 
-            ((ModalService)ModalService).OnConfirm += OnConfirm;
+            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
 
             this.Model = new WorkingFieldModel
             {
@@ -48,7 +48,7 @@ namespace EventManager.Client.Shared.Components.WM
 
             if (this.Id != 0)
             {
-                this.Field = await WorkingFieldService.Get(this.Id);
+                this.Field = await this.WorkingFieldService.Get(this.Id);
                 this.Model = new WorkingFieldModel
                 {
                     Title = this.Field.Title,
@@ -62,22 +62,22 @@ namespace EventManager.Client.Shared.Components.WM
 
         private async void OnConfirm()
         {
-            var isValid = this.Context.Validate();
+            bool isValid = this.Context.Validate();
             this.Model.WorkingDayId = this.WorkingDayId;
             if (this.IsEdit)
             {
-                if (isValid && await WorkingFieldService.Update(this.Id, this.Model))
+                if (isValid && await this.WorkingFieldService.Update(this.Id, this.Model))
                 {
-                    ModalService.Close(ModalResult.Ok<bool>(true));
-                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                    this.ModalService.Close(ModalResult.Ok<bool>(true));
+                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
                 }
             }
             else
             {
-                if (isValid && await WorkingFieldService.Create(this.Model))
+                if (isValid && await this.WorkingFieldService.Create(this.Model))
                 {
-                    ModalService.Close(ModalResult.Ok<bool>(true));
-                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                    this.ModalService.Close(ModalResult.Ok<bool>(true));
+                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
                 }
             }
         }
@@ -86,7 +86,7 @@ namespace EventManager.Client.Shared.Components.WM
         {
             if (await this.WorkingFieldService.Delete(this.Id))
             {
-                ModalService.Close(ModalResult.Ok<bool>(true));
+                this.ModalService.Close(ModalResult.Ok<bool>(true));
             }
         }
 
@@ -97,23 +97,23 @@ namespace EventManager.Client.Shared.Components.WM
             parameters.Add("type", ConfirmType.Delete);
             parameters.Add("name", this.Field.Title);
 
-            ((ModalService)ModalService).OnConfirm -= OnConfirm;
+            ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
 
             var options =
                 new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
 
-            ModalService.OnClose += DeleteDialogClosed;
-            ModalService.Show<Confirm>("Working Field Delete", parameters, options);
+            this.ModalService.OnClose += this.DeleteDialogClosed;
+            this.ModalService.Show<Confirm>("Working Field Delete", parameters, options);
         }
 
         private async void DeleteDialogClosed(ModalResult modalResult)
         {
             if (!modalResult.Cancelled && (bool)modalResult.Data && await this.WorkingFieldService.Delete(this.Id))
             {
-                ModalService.Close(ModalResult.Ok<bool>(true));
+                this.ModalService.Close(ModalResult.Ok<bool>(true));
             }
 
-            ModalService.OnClose -= DeleteDialogClosed;
+            this.ModalService.OnClose -= this.DeleteDialogClosed;
         }
     }
 }

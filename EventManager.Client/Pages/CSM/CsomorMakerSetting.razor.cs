@@ -56,7 +56,7 @@ namespace EventManager.Client.Pages.CSM
             this.Model = new GeneratorSettingsModel();
             this.Context = new EditContext(this.Model);
 
-            this.Context.OnFieldChanged += OnFieldChanged;
+            this.Context.OnFieldChanged += this.OnFieldChanged;
 
             this.PersonModel = new PersonModel();
             this.WorkModel = new WorkModel();
@@ -93,7 +93,7 @@ namespace EventManager.Client.Pages.CSM
                 this.Settings = null;
             }
             this.IsModifiedState = false;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private async Task GetRole()
@@ -148,20 +148,20 @@ namespace EventManager.Client.Pages.CSM
         {
             if (string.IsNullOrEmpty(person.Name))
             {
-                Toaster.Add($"Person name is incorrect ({person.Name})", MatToastType.Info, "Person adding");
+                this.Toaster.Add($"Person name is incorrect ({person.Name})", MatToastType.Info, "Person adding");
                 return false;
             }
             if (this.Model.Persons.Exists(x => x.Name == person.Name))
             {
-                Toaster.Add($"Person already exists ({person.Name})", MatToastType.Info, "Person adding");
+                this.Toaster.Add($"Person already exists ({person.Name})", MatToastType.Info, "Person adding");
                 return false;
             }
 
             person.SetTables(this.Model.Start, this.Model.Finish);
             this.Model.Persons.Add(person);
             this.IsModifiedState = true;
-            StateHasChanged();
-            Toaster.Add($"Person added ({person.Name})", MatToastType.Success, "Person adding");
+            this.StateHasChanged();
+            this.Toaster.Add($"Person added ({person.Name})", MatToastType.Success, "Person adding");
             return true;
         }
 
@@ -178,27 +178,27 @@ namespace EventManager.Client.Pages.CSM
         {
             if (string.IsNullOrEmpty(work.Name))
             {
-                Toaster.Add($"Work name is incorrect ({work.Name})", MatToastType.Info, "Work adding");
+                this.Toaster.Add($"Work name is incorrect ({work.Name})", MatToastType.Info, "Work adding");
                 return false;
             }
             if (this.Model.Works.Exists(x => x.Name == work.Name))
             {
-                Toaster.Add($"Work already exists ({work.Name})", MatToastType.Info, "Work adding");
+                this.Toaster.Add($"Work already exists ({work.Name})", MatToastType.Info, "Work adding");
                 return false;
             }
 
             work.SetTables(this.Model.Start, this.Model.Finish);
             this.Model.Works.Add(work);
             this.IsModifiedState = true;
-            StateHasChanged();
-            Toaster.Add($"Work added ({work.Name})", MatToastType.Success, "Work adding");
+            this.StateHasChanged();
+            this.Toaster.Add($"Work added ({work.Name})", MatToastType.Success, "Work adding");
             return true;
         }
 
         private void StateChanged()
         {
             this.IsModifiedState = true;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private void ReSetup(DateTime date, string type)
@@ -216,7 +216,7 @@ namespace EventManager.Client.Pages.CSM
             this.Model.Works.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
             this.IsModifiedState = true;
             this.Model.HasGeneratedCsomor = false;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private async void Generate()
@@ -230,7 +230,7 @@ namespace EventManager.Client.Pages.CSM
                 this.Model.LastGeneration = settings.LastGeneration;
                 this.Settings = settings;
                 this.IsModifiedState = true;
-                StateHasChanged();
+                this.StateHasChanged();
             }
         }
 
@@ -267,7 +267,7 @@ namespace EventManager.Client.Pages.CSM
 
         public void Dispose()
         {
-            this.Context.OnFieldChanged -= OnFieldChanged;
+            this.Context.OnFieldChanged -= this.OnFieldChanged;
         }
 
         private void OpenConfirmDialog(bool status)
@@ -280,8 +280,8 @@ namespace EventManager.Client.Pages.CSM
             var options =
                 new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
 
-            Modal.OnClose += ConfirmDialogClosed;
-            Modal.Show<Confirm>(status ? "Confirm Publish" : "Confirm Hide", parameters, options);
+            this.Modal.OnClose += this.ConfirmDialogClosed;
+            this.Modal.Show<Confirm>(status ? "Confirm Publish" : "Confirm Hide", parameters, options);
         }
 
         private async void ConfirmDialogClosed(ModalResult modalResult)
@@ -289,10 +289,10 @@ namespace EventManager.Client.Pages.CSM
             if (!modalResult.Cancelled && (bool)modalResult.Data && this.Settings != null && this.Settings.IsPublic != null && await this.GeneratorService.ChangePublicStatus((int)this.Id, new GeneratorPublishModel { Status = !(bool)this.Settings.IsPublic }))
             {
                 this.Settings.IsPublic = !(bool)this.Settings.IsPublic;
-                StateHasChanged();
+                this.StateHasChanged();
             }
 
-            Modal.OnClose -= ConfirmDialogClosed;
+            this.Modal.OnClose -= this.ConfirmDialogClosed;
         }
 
         private bool CheckRole(params CsomorRole[] roles)
@@ -316,7 +316,7 @@ namespace EventManager.Client.Pages.CSM
                 var file = files.FirstOrDefault();
                 if (file == null)
                 {
-                    Toaster.Add("Cannot find any file", MatToastType.Info, "File Importing");
+                    this.Toaster.Add("Cannot find any file", MatToastType.Info, "File Importing");
                     return "";
                 }
 
@@ -327,7 +327,7 @@ namespace EventManager.Client.Pages.CSM
                     sw.Stop();
                     if (stream.Length > 1024 * 1024 && !(file.Type == "txt" || file.Type == "csv"))
                     {
-                        Toaster.Add("File is too big or type is not acceptable", MatToastType.Danger, "File Importing");
+                        this.Toaster.Add("File is too big or type is not acceptable", MatToastType.Danger, "File Importing");
                         return "";
                     }
                     else
@@ -346,16 +346,16 @@ namespace EventManager.Client.Pages.CSM
             }
             finally
             {
-                await InvokeAsync(StateHasChanged);
+                await this.InvokeAsync(this.StateHasChanged);
             }
 
-            Toaster.Add("Error during import", MatToastType.Danger, "File Importing");
+            this.Toaster.Add("Error during import", MatToastType.Danger, "File Importing");
             return "";
         }
 
         private async void ImportPersons(IMatFileUploadEntry[] files)
         {
-            foreach (var e in (string[])(await this.GetContent(files)).Split("\n"))
+            foreach (string e in (await this.GetContent(files)).Split("\n"))
             {
                 this.AddPerson(new PersonModel(e));
             }
@@ -363,7 +363,7 @@ namespace EventManager.Client.Pages.CSM
 
         private async void ImportWorks(IMatFileUploadEntry[] files)
         {
-            foreach (var e in (string[])(await this.GetContent(files)).Split("\n"))
+            foreach (string e in (await this.GetContent(files)).Split("\n"))
             {
                 this.AddWork(new WorkModel(e));
             }

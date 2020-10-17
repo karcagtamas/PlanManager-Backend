@@ -52,7 +52,7 @@ namespace EventManager.Client.Pages.WM
         private async Task GetWorkingDay()
         {
             this.IsLoading = true;
-            StateHasChanged();
+            this.StateHasChanged();
             var workingDay = await this.WorkingDayService.Get(this.Date);
             this.WorkingDay = workingDay != null ? new WorkingDayModel
             {
@@ -64,7 +64,7 @@ namespace EventManager.Client.Pages.WM
             this.WorkingDayStat =
                 this.WorkingDayId == null ? null : await this.WorkingDayService.Stat((int)this.WorkingDayId);
             this.IsLoading = false;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private async Task GetWorkingDayTypes()
@@ -111,9 +111,9 @@ namespace EventManager.Client.Pages.WM
                 options.ButtonOptions.ConfirmButtonType = ConfirmButton.Save;
                 options.ButtonOptions.ShowConfirmButton = true;
 
-                Modal.OnClose += FieldModalClosed;
+                this.Modal.OnClose += this.FieldModalClosed;
 
-                Modal.Show<FieldModal>("Create Working Field", parameters, options);
+                this.Modal.Show<FieldModal>("Create Working Field", parameters, options);
             }
         }
 
@@ -124,7 +124,7 @@ namespace EventManager.Client.Pages.WM
                 await this.GetWorkingDay();
             }
 
-            Modal.OnClose -= FieldModalClosed;
+            this.Modal.OnClose -= this.FieldModalClosed;
         }
     }
 }

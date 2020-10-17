@@ -19,7 +19,7 @@ namespace EventManager.Client.Shared.Components.MyProfile
         private IUserService UserService { get; set; }
 
         [Inject]
-        IModalService ModalService { get; set; }
+        private IModalService ModalService { get; set; }
         public int FormId { get; set; }
 
         protected UsernameUpdateModel UsernameUpdate { get; set; }
@@ -28,9 +28,9 @@ namespace EventManager.Client.Shared.Components.MyProfile
 
         protected override void OnInitialized()
         {
-            this.FormId = Parameters.Get<int>("FormId");
+            this.FormId = this.Parameters.Get<int>("FormId");
 
-            ((ModalService)ModalService).OnConfirm += OnConfirm;
+            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
 
             this.UsernameUpdate = new UsernameUpdateModel
             {
@@ -42,11 +42,11 @@ namespace EventManager.Client.Shared.Components.MyProfile
 
         protected async void OnConfirm()
         {
-            var isValid = this.Context.Validate();
-            if (isValid && await UserService.UpdateUsername(this.UsernameUpdate))
+            bool isValid = this.Context.Validate();
+            if (isValid && await this.UserService.UpdateUsername(this.UsernameUpdate))
             {
-                ModalService.Close(ModalResult.Ok<bool>(true));
-                ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                this.ModalService.Close(ModalResult.Ok<bool>(true));
+                ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
             }
         }
     }

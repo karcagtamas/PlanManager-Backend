@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace EventManager.Client.Models
+﻿namespace EventManager.Client.Models
 {
     public class ModalButtonOptions
     {
@@ -14,7 +9,7 @@ namespace EventManager.Client.Models
 
         public ModalButtonOptions() { }
 
-        public ModalButtonOptions(bool showCancel, bool showConfirm) 
+        public ModalButtonOptions(bool showCancel, bool showConfirm)
         {
             this.ShowCancelButton = showCancel;
             this.ShowConfirmButton = showConfirm;

@@ -1,6 +1,6 @@
+using EventManager.Client.Models.Interfaces;
 using System;
 using System.Collections.Generic;
-using EventManager.Client.Models.Interfaces;
 
 namespace EventManager.Client.Http
 {
@@ -10,7 +10,7 @@ namespace EventManager.Client.Http
     public class HttpPathParameters : IListState
     {
 
-        private List<object> _pathParams;
+        private readonly List<object> _pathParams;
 
         /// <summary>
         /// HTTP path parameters
@@ -145,11 +145,11 @@ namespace EventManager.Client.Http
         /// List to string.
         /// </summary>
         /// <returns>String in path format</returns>
-        override public string ToString()
+        public override string ToString()
         {
             string val = "";
 
-            foreach (var param in this._pathParams)
+            foreach (object param in this._pathParams)
             {
                 val += $"/{param.ToString()}";
             }

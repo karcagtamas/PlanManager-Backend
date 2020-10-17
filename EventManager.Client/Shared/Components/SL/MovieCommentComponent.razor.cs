@@ -27,7 +27,7 @@ namespace EventManager.Client.Shared.Components.SL
         {
             this.IsEdit = true;
             this.CommentText = this.Comment.Comment;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private async void SaveEdit()

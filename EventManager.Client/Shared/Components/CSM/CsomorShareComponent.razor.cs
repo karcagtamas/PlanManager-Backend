@@ -3,7 +3,6 @@ using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Models.CSM;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -69,7 +68,7 @@ namespace EventManager.Client.Shared.Components.CSM
             this.Name = "";
             await this.RefreshCorrectPersons(null);
             await this.GetSharedList();
-            StateHasChanged();
+            this.StateHasChanged();
         }
     }
 }
