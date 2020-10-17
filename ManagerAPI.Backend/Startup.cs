@@ -1,15 +1,19 @@
 using System;
+using System.IO;
 using System.Text;
 using AutoMapper;
 using CsomorGenerator.Profiles;
 using CsomorGenerator.Services;
 using CsomorGenerator.Services.Interfaces;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using ManagerAPI.Backend.Middlewares;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Common.CSV;
 using ManagerAPI.Services.Common.Excel;
 using ManagerAPI.Services.Common.Mail;
+using ManagerAPI.Services.Common.PDF;
 using ManagerAPI.Services.Profiles;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
@@ -60,7 +64,7 @@ namespace ManagerAPI.Backend
 
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
-            
+
             var mapperConfig = new MapperConfiguration(x =>
             {
                 x.AddProfile(new UserProfile());
@@ -84,7 +88,7 @@ namespace ManagerAPI.Backend
             services.AddSingleton(mapper);
 
             services.AddSingleton<ExceptionHandler>();
-            
+
             /*services.AddAutoMapper(typeof(UserProfile));
             services.AddAutoMapper(typeof(EventProfile));
             services.AddAutoMapper(typeof(PlanProfile));*/
@@ -118,9 +122,13 @@ namespace ManagerAPI.Backend
             services.AddScoped<ISeriesCategoryService, SeriesCategoryService>();
             services.AddScoped<ISeriesCommentService, SeriesCommentService>();
             services.AddScoped<IGeneratorService, GeneratorService>();
+            services.AddScoped<IPDFService, PDFService>();
+
+            new CustomAssemblyLoadContext().LoadUnmanagedLibrary($"{Directory.GetCurrentDirectory()}/dll/libwkhtmltox.dll");
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            
+
             services.AddDbContextPool<DatabaseContext>(options =>
             {
                 options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("ManagerDb"));
@@ -166,8 +174,8 @@ namespace ManagerAPI.Backend
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseAuthentication();
-            
-            
+
+
 
             if (env.IsDevelopment())
             {
@@ -177,7 +185,7 @@ namespace ManagerAPI.Backend
             {
                 app.UseHttpsRedirection();
             }
-            
+
             app.UseMyExceptionHandler();
 
             app.UseRouting();

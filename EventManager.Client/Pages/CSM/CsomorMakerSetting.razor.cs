@@ -220,7 +220,7 @@ namespace EventManager.Client.Pages.CSM
         {
             if (this.Id != null)
             {
-                await this.GeneratorService.ExportPdf((int)this.Id);
+                await this.GeneratorService.ExportPdf((int)this.Id, new ExportSettingsModel { Type = this.Type, FilterList = this.FilterList });
             }
         }
 

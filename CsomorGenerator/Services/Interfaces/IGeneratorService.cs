@@ -21,7 +21,7 @@ namespace CsomorGenerator.Services.Interfaces
         void Share(int id, List<CsomorAccessModel> models);
         void ChangePublicStatus(int id, GeneratorPublishModel model);
         CsomorRole GetRoleForCsomor(int id);
-        FileStreamResult ExportPdf(int id);
+        ExportResult ExportPdf(int id, CsomorType type, List<string> filterList);
         ExportResult ExportXls(int id, CsomorType type, List<string> filterList);
     }
 }

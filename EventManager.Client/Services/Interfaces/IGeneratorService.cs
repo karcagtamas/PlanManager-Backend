@@ -20,7 +20,7 @@ namespace EventManager.Client.Services.Interfaces
         Task<bool> Share(int id, List<CsomorAccessModel> models);
         Task<bool> ChangePublicStatus(int id, GeneratorPublishModel model);
         Task<CsomorRole> GetRole(int id);
-        Task<object> ExportPdf(int id);
+        Task<bool> ExportPdf(int id, ExportSettingsModel model);
         Task<bool> ExportXls(int id, ExportSettingsModel model);
     }
 }

@@ -4,6 +4,7 @@ using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Services.Common.Excel;
+using ManagerAPI.Services.Common.PDF;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Enums;
@@ -29,16 +30,19 @@ namespace CsomorGenerator.Services
         private readonly IUtilsService _utils;
         private readonly ILoggerService _logger;
         private readonly IExcelService _excelService;
+        private readonly IPDFService _pdfService;
         private readonly int GenerateLimit = 500;
 
-        public GeneratorService(DatabaseContext context, IMapper mapper, IUtilsService utils, ILoggerService logger, IExcelService excelService)
+        public GeneratorService(DatabaseContext context, IMapper mapper, IUtilsService utils, ILoggerService logger, IExcelService excelService, IPDFService pdfService)
         {
             this._context = context;
             this._mapper = mapper;
             this._utils = utils;
             this._logger = logger;
             this._excelService = excelService;
+            this._pdfService = pdfService;
         }
+
 
         public GeneratorSettings Generate(GeneratorSettings settings)
         {
@@ -756,9 +760,27 @@ namespace CsomorGenerator.Services
             return CsomorRole.Denied;
         }
 
-        public FileStreamResult ExportPdf(int id)
+        public ExportResult ExportPdf(int id, CsomorType type, List<string> filterList)
         {
-            throw new NotImplementedException();
+            var user = this._utils.GetCurrentUser();
+
+            var csomor = this._context.Csomors.Find(id);
+
+            if (csomor == null)
+            {
+                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+            }
+
+            if (type == CsomorType.Work)
+            {
+                var works = csomor.Works.Where(x => !filterList.Contains(x.Id)).ToList();
+                return this._pdfService.GenerateWorkCsomor(works);
+            }
+            else
+            {
+                var persons = csomor.Persons.Where(x => !filterList.Contains(x.Id)).ToList();
+                return this._pdfService.GeneratePersonCsomor(persons);
+            }
         }
 
         public ExportResult ExportXls(int id, CsomorType type, List<string> filterList)

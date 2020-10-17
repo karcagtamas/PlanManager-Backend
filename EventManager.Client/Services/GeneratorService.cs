@@ -53,7 +53,7 @@ namespace EventManager.Client.Services
             return this._http.Delete(settings);
         }
 
-        public Task<object> ExportPdf(int id)
+        public Task<bool> ExportPdf(int id, ExportSettingsModel model)
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add(id, -1);
@@ -62,7 +62,7 @@ namespace EventManager.Client.Services
 
             var settings = new HttpSettings($"{this._url}", null, pathParams, "Exporting to PDF");
 
-            return this._http.Get<object>(settings);
+            return this._http.Download(settings, model);
         }
 
         public Task<bool> ExportXls(int id, ExportSettingsModel model)

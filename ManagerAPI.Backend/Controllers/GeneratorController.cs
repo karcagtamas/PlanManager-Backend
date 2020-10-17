@@ -97,17 +97,16 @@ namespace ManagerAPI.Backend.Controllers
             return Ok(this._generatorService.GetRoleForCsomor(id));
         }
 
-        [HttpGet("{id}/export/pdf")]
-        public IActionResult ExportPdf([FromRoute] int id)
+        [HttpPut("{id}/export/pdf")]
+        public IActionResult ExportPdf([FromRoute] int id, [FromBody] ExportSettingsModel model)
         {
-            return Ok(this._generatorService.ExportPdf(id));
+            return Ok(this._generatorService.ExportPdf(id, model.Type, model.FilterList));
         }
 
         [HttpPut("{id}/export/xls")]
         public IActionResult ExportXls([FromRoute] int id, [FromBody] ExportSettingsModel model)
         {
             return Ok(this._generatorService.ExportXls(id, model.Type, model.FilterList));
-            // return File(res.Stream.ToArray(), res.ContentType, res.FileName);
         }
     }
 }
