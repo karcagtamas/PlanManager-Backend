@@ -26,7 +26,7 @@ namespace ManagerAPI.Domain.Entities.SL
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Number, SeriesId, Series, Episodes);
+            return HashCode.Combine(this.Id, this.Number, this.SeriesId, this.Series, this.Episodes);
         }
 
         public override string ToString()

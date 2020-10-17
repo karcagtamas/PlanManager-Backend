@@ -7,17 +7,17 @@ namespace ManagerAPI.Domain.Entities.PM
     {
         [Required]
         public int Id { get; set; }
-        
+
         [Required]
         [MaxLength(256)]
         public string Comment { get; set; }
-        
+
         [Required]
         public string SenderId { get; set; }
-        
+
         [Required]
         public DateTime Creation { get; set; }
-        
+
         [Required]
         public int PlanId { get; set; }
 

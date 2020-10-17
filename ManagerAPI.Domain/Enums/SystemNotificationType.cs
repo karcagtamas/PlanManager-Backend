@@ -22,11 +22,11 @@ namespace ManagerAPI.Domain.Enums
         FriendRemoved = 48,
         AddNews = 49,
         UpdateNews = 50,
-        DeleteNews = 51, 
-        AddMessage = 61, 
+        DeleteNews = 51,
+        AddMessage = 61,
         DeleteMessage = 62,
-        UpdateMessage = 63, 
-        AddGender = 64, 
+        UpdateMessage = 63,
+        AddGender = 64,
         DeleteGender = 65,
         UpdateGender = 66
     }

@@ -13,14 +13,14 @@ namespace ManagerAPI.Domain.Entities.SL
 
         public override bool Equals(object obj)
         {
-            return obj != null && this.Id == ((Movie) obj).Id;
+            return obj != null && this.Id == ((Movie)obj).Id;
         }
 
         public override int GetHashCode()
         {
             var hash = new HashCode();
-            hash.Add(Id);
-            hash.Add(Name);
+            hash.Add(this.Id);
+            hash.Add(this.Name);
             return hash.ToHashCode();
         }
 

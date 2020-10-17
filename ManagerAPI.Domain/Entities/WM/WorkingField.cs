@@ -29,7 +29,7 @@ namespace ManagerAPI.Domain.Entities.WM
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Title, Description, Length, WorkingDayId);
+            return HashCode.Combine(this.Id, this.Title, this.Description, this.Length, this.WorkingDayId);
         }
 
         public override string ToString()

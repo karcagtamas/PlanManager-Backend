@@ -8,7 +8,7 @@ namespace ManagerAPI.Domain.Entities
         {
             var type = entity.GetType();
             var values = new List<string>();
-            foreach (var prop in properties)
+            foreach (string prop in properties)
             {
                 var property = type.GetProperty(prop);
 

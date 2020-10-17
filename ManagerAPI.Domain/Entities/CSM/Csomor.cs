@@ -1,7 +1,7 @@
+using ManagerAPI.Shared.Annotations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using ManagerAPI.Shared.Annotations;
 
 namespace ManagerAPI.Domain.Entities.CSM
 {
