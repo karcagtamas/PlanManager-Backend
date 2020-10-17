@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.SL;
@@ -10,6 +7,9 @@ using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using MovieCorner.Services.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MovieCorner.Services.Services
 {
@@ -34,11 +34,12 @@ namespace MovieCorner.Services.Services
             utilsService, notificationService, mapper, "Series",
             new NotificationArguments
             {
-                DeleteArguments = new List<string> {"Title"}, UpdateArguments = new List<string> {"Title"},
-                CreateArguments = new List<string> {"Title"}
+                DeleteArguments = new List<string> { "Title" },
+                UpdateArguments = new List<string> { "Title" },
+                CreateArguments = new List<string> { "Title" }
             })
         {
-            _databaseContext = context;
+            this._databaseContext = context;
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace MovieCorner.Services.Services
 
             if (mapping == null)
             {
-                mapping = new UserSeries {SeriesId = id, UserId = user.Id, AddedOn = DateTime.Now, IsAdded = true};
+                mapping = new UserSeries { SeriesId = id, UserId = user.Id, AddedOn = DateTime.Now, IsAdded = true };
                 this._databaseContext.UserSeriesSwitch.Add(mapping);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
@@ -159,7 +160,10 @@ namespace MovieCorner.Services.Services
         {
             var series = this._databaseContext.Series.Find(id);
 
-            if (series == null) return;
+            if (series == null)
+            {
+                return;
+            }
 
             this.Mapper.Map(model, series);
 
@@ -177,7 +181,10 @@ namespace MovieCorner.Services.Services
 
             var series = this._databaseContext.Series.Find(id);
 
-            if (series == null) return;
+            if (series == null)
+            {
+                return;
+            }
 
             var currentMappings = series.Categories;
 
@@ -192,10 +199,10 @@ namespace MovieCorner.Services.Services
             var addList = model.Ids.Where(x =>
                 !currentMappings.Select(y => y.Category.Id).Contains(x)).ToList();
 
-            foreach (var modelId in addList)
+            foreach (int modelId in addList)
             {
                 this._databaseContext.SeriesSeriesCategoriesSwitch.Add(new SeriesSeriesCategory
-                    {CategoryId = modelId, SeriesId = series.Id});
+                { CategoryId = modelId, SeriesId = series.Id });
             }
 
             this._databaseContext.SaveChanges();
@@ -217,14 +224,14 @@ namespace MovieCorner.Services.Services
             if (map != null)
             {
                 map.Rate = model.Rate;
-                _databaseContext.UserSeriesSwitch.Update(map);
-                _databaseContext.SaveChanges();
+                this._databaseContext.UserSeriesSwitch.Update(map);
+                this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("rate"), map.Series.Id);
             }
             else
             {
                 map = new UserSeries
-                    {UserId = user.Id, SeriesId = id, IsAdded = false, Rate = model.Rate};
+                { UserId = user.Id, SeriesId = id, IsAdded = false, Rate = model.Rate };
                 this._databaseContext.UserSeriesSwitch.Add(map);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("rate"), id);
@@ -262,7 +269,7 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var currentMappings = _databaseContext.UserSeriesSwitch.Where(x => x.UserId == user.Id).ToList();
+            var currentMappings = this._databaseContext.UserSeriesSwitch.Where(x => x.UserId == user.Id).ToList();
             foreach (var i in currentMappings)
             {
                 if (ids.FindIndex(x => x == i.SeriesId) == -1)
@@ -279,16 +286,16 @@ namespace MovieCorner.Services.Services
                 }
             }
 
-            foreach (var i in ids)
+            foreach (int i in ids)
             {
                 if (currentMappings.FirstOrDefault(x => x.SeriesId == i) == null)
                 {
-                    var map = new UserSeries {SeriesId = i, UserId = user.Id, AddedOn = DateTime.Now, IsAdded = true};
-                    _databaseContext.UserSeriesSwitch.Add(map);
+                    var map = new UserSeries { SeriesId = i, UserId = user.Id, AddedOn = DateTime.Now, IsAdded = true };
+                    this._databaseContext.UserSeriesSwitch.Add(map);
                 }
             }
 
-            _databaseContext.SaveChanges();
+            this._databaseContext.SaveChanges();
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
             this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated,
                 user);
@@ -304,14 +311,14 @@ namespace MovieCorner.Services.Services
             var user = this.Utils.GetCurrentUser();
             var series = this._databaseContext.Series.Find(id);
 
-            var episodes = _databaseContext.Episodes.Where(x => x.Season.Series.Id == id).ToList();
+            var episodes = this._databaseContext.Episodes.Where(x => x.Season.Series.Id == id).ToList();
             foreach (var i in episodes)
             {
                 var connection = i.ConnectedUsers.FirstOrDefault(x => x.User.Id == user.Id);
                 if (connection != null)
                 {
                     connection.Seen = seen;
-                    connection.SeenOn = seen ? (DateTime?) DateTime.Now : null;
+                    connection.SeenOn = seen ? (DateTime?)DateTime.Now : null;
                     this._databaseContext.UserEpisodeSwitch.Update(connection);
                 }
                 else
@@ -330,7 +337,7 @@ namespace MovieCorner.Services.Services
                 }
             }
 
-            _databaseContext.SaveChanges();
+            this._databaseContext.SaveChanges();
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set series seen status for"), id);
             this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.SeriesSeenStatusUpdated,
