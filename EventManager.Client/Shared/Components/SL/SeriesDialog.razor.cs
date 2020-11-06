@@ -29,12 +29,12 @@ namespace EventManager.Client.Shared.Components.SL
 
         protected override async Task OnInitializedAsync()
         {
-            FormId = Parameters.Get<int>("FormId");
-            Id = Parameters.TryGet<int>("series");
+            this.FormId = this.Parameters.Get<int>("FormId");
+            this.Id = this.Parameters.TryGet<int>("series");
 
-            ((ModalService)ModalService).OnConfirm += OnConfirm;
+            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
 
-            Model = new SeriesModel
+            this.Model = new SeriesModel
             {
                 Title = "",
                 Description = "",
@@ -42,34 +42,34 @@ namespace EventManager.Client.Shared.Components.SL
                 EndYear = null
             };
 
-            Context = new EditContext(Model);
+            this.Context = new EditContext(this.Model);
 
-            if (Id != 0)
+            if (this.Id != 0)
             {
-                Series = await SeriesService.Get(Id);
-                Model = new SeriesModel(Series);
-                IsEdit = true;
-                Context = new EditContext(Model);
+                this.Series = await this.SeriesService.Get(this.Id);
+                this.Model = new SeriesModel(this.Series);
+                this.IsEdit = true;
+                this.Context = new EditContext(this.Model);
             }
         }
 
         private async void OnConfirm()
         {
-            var isValid = Context.Validate();
-            if (IsEdit)
+            bool isValid = this.Context.Validate();
+            if (this.IsEdit)
             {
-                if (isValid && await SeriesService.Update(Id, Model))
+                if (isValid && await this.SeriesService.Update(this.Id, this.Model))
                 {
-                    ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                    this.ModalService.Close(ModalResult.Ok(true));
+                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
                 }
             }
             else
             {
-                if (isValid && await SeriesService.Create(Model))
+                if (isValid && await this.SeriesService.Create(this.Model))
                 {
-                    ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                    this.ModalService.Close(ModalResult.Ok(true));
+                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
                 }
             }
         }

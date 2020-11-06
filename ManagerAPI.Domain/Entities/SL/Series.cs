@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ManagerAPI.Shared.Annotations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using ManagerAPI.Shared.Annotations;
 
 namespace ManagerAPI.Domain.Entities.SL
 {
@@ -28,24 +28,24 @@ namespace ManagerAPI.Domain.Entities.SL
 
         public override bool Equals(object obj)
         {
-            return obj != null && this.Id == ((Series) obj).Id;
+            return obj != null && this.Id == ((Series)obj).Id;
         }
 
         public override int GetHashCode()
         {
-            HashCode hash = new HashCode();
-            hash.Add(Id);
-            hash.Add(Title);
-            hash.Add(Description);
-            hash.Add(TrailerUrl);
-            hash.Add(ImageTitle);
-            hash.Add(ImageData);
-            hash.Add(StartYear);
-            hash.Add(EndYear);
-            hash.Add(Creation);
-            hash.Add(LastUpdate);
-            hash.Add(CreatorId);
-            hash.Add(LastUpdaterId);
+            var hash = new HashCode();
+            hash.Add(this.Id);
+            hash.Add(this.Title);
+            hash.Add(this.Description);
+            hash.Add(this.TrailerUrl);
+            hash.Add(this.ImageTitle);
+            hash.Add(this.ImageData);
+            hash.Add(this.StartYear);
+            hash.Add(this.EndYear);
+            hash.Add(this.Creation);
+            hash.Add(this.LastUpdate);
+            hash.Add(this.CreatorId);
+            hash.Add(this.LastUpdaterId);
             return hash.ToHashCode();
         }
 

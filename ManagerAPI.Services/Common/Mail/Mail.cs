@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using ManagerAPI.Domain.Entities;
+﻿using ManagerAPI.Domain.Entities;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace ManagerAPI.Services.Common.Mail
 {

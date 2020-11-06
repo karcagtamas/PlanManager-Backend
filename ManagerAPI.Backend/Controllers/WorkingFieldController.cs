@@ -1,10 +1,10 @@
-﻿using System;
-using ManagerAPI.Domain.Entities.WM;
+﻿using ManagerAPI.Domain.Entities.WM;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
 using ManagerAPI.Shared.Models.WM;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace ManagerAPI.Backend.Controllers
 {
@@ -23,13 +23,13 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("week-stat/{week}")]
         public IActionResult GetWeekStat(DateTime week)
         {
-            return Ok(this._workingFieldService.GetWeekStat(week));
+            return this.Ok(this._workingFieldService.GetWeekStat(week));
         }
 
         [HttpGet("month-stat/{year}/{month}")]
         public IActionResult GetMonthStat(int year, int month)
         {
-            return Ok(this._workingFieldService.GetMonthStat(year, month));
+            return this.Ok(this._workingFieldService.GetMonthStat(year, month));
         }
     }
 }

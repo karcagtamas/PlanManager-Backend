@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using ManagerAPI.Domain.Entities.SL;
+﻿using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieCorner.Services.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace ManagerAPI.Backend.Controllers
 {
@@ -29,7 +29,7 @@ namespace ManagerAPI.Backend.Controllers
                 this._seasonService.UpdateSeenStatus(season.Id, season.Seen);
             }
 
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPost("{seriesId}")]
@@ -37,7 +37,7 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult AddIncremented(int seriesId)
         {
             this._seasonService.AddIncremented(seriesId);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpDelete("decremented/{seasonId}")]
@@ -45,7 +45,7 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult DeleteDecremented(int seasonId)
         {
             this._seasonService.DeleteDecremented(seasonId);
-            return Ok();
+            return this.Ok();
         }
     }
 }

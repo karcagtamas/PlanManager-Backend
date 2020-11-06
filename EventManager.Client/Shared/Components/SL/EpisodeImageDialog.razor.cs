@@ -35,10 +35,10 @@ namespace EventManager.Client.Shared.Components.SL
 
         protected override void OnInitialized()
         {
-            FormId = Parameters.Get<int>("FormId");
-            Id = Parameters.TryGet<int>("episode");
+            this.FormId = this.Parameters.Get<int>("FormId");
+            this.Id = this.Parameters.TryGet<int>("episode");
 
-            ((ModalService)ModalService).OnConfirm += OnConfirm;
+            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
         }
 
         private async void OnConfirm()
@@ -48,7 +48,7 @@ namespace EventManager.Client.Shared.Components.SL
                 return;
             }
 
-            if (ImageExtensions.Contains(File.Type))
+            if (this.ImageExtensions.Contains(this.File.Type))
             {
                 try
                 {
@@ -56,20 +56,24 @@ namespace EventManager.Client.Shared.Components.SL
                     await this.File.WriteToStreamAsync(stream);
 
                     if (!await this.EpisodeService.UpdateImage(this.Id,
-                        new EpisodeImageModel { ImageData = stream.ToArray(), ImageTitle = this.File.Name })) return;
-                    ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                        new EpisodeImageModel { ImageData = stream.ToArray(), ImageTitle = this.File.Name }))
+                    {
+                        return;
+                    }
+
+                    this.ModalService.Close(ModalResult.Ok(true));
+                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
                 }
                 catch (Exception e)
                 {
-                    Toaster.Add("Problem during the image uploading. Please try again later.", MatToastType.Danger,
+                    this.Toaster.Add("Problem during the image uploading. Please try again later.", MatToastType.Danger,
                         "Episode Update Error");
                     Console.WriteLine(e);
                 }
             }
             else
             {
-                Toaster.Add("Invalid file extension. Please try again with a correct type.", MatToastType.Danger,
+                this.Toaster.Add("Invalid file extension. Please try again with a correct type.", MatToastType.Danger,
                     "Episode Update Error");
             }
         }

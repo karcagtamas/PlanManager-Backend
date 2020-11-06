@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ManagerAPI.Backend.Controllers
 {
@@ -15,54 +15,54 @@ namespace ManagerAPI.Backend.Controllers
 
         public UserController(IUserService userService)
         {
-            _userService = userService;
+            this._userService = userService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetUser()
         {
-            return Ok(await _userService.GetUser());
+            return this.Ok(await this._userService.GetUser());
         }
 
         [HttpGet("shorter")]
         public IActionResult GetShortUser()
         {
-            return Ok(_userService.GetShortUser());
+            return this.Ok(this._userService.GetShortUser());
         }
 
         [HttpPut]
         public IActionResult UpdateUser([FromBody] UserModel model)
         {
-            _userService.UpdateUser(model);
-            return Ok();
+            this._userService.UpdateUser(model);
+            return this.Ok();
         }
 
         [HttpPut("profile-image")]
         public IActionResult UpdateProfileImage([FromBody] byte[] image)
         {
-            _userService.UpdateProfileImage(image);
-            return Ok();
+            this._userService.UpdateProfileImage(image);
+            return this.Ok();
         }
 
         [HttpPut("password")]
         public async Task<IActionResult> UpdatePassword([FromBody] PasswordUpdateModel model)
         {
-            await _userService.UpdatePassword(model.OldPassword, model.NewPassword);
-            return Ok();
+            await this._userService.UpdatePassword(model.OldPassword, model.NewPassword);
+            return this.Ok();
         }
 
         [HttpPut("username")]
         public async Task<IActionResult> UpdateUsername([FromBody] UsernameUpdateModel model)
         {
-            await _userService.UpdateUsername(model.UserName);
-            return Ok();
+            await this._userService.UpdateUsername(model.UserName);
+            return this.Ok();
         }
 
         [HttpPut("disable")]
         public IActionResult DisableUser()
         {
-            _userService.DisableUser();
-            return Ok();
+            this._userService.DisableUser();
+            return this.Ok();
         }
     }
 }

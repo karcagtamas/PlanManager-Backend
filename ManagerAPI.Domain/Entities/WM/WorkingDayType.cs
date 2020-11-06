@@ -25,7 +25,7 @@ namespace ManagerAPI.Domain.Entities.WM
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Title, DayIsActive);
+            return HashCode.Combine(this.Id, this.Title, this.DayIsActive);
         }
 
         public override string ToString()

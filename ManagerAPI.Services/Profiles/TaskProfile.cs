@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
-using ManagerAPI.Domain.Entities;
+using System;
+using System.Linq;
 
 namespace ManagerAPI.Services.Profiles
 {
@@ -14,8 +14,8 @@ namespace ManagerAPI.Services.Profiles
     {
         public TaskProfile()
         {
-            CreateMap<Task, TaskDto>();
-            CreateMap<IGrouping<DateTime, Task>, TaskDateDto>()
+            this.CreateMap<Task, TaskDto>();
+            this.CreateMap<IGrouping<DateTime, Task>, TaskDateDto>()
                 .ForMember(dest => dest.Deadline, opt => opt.MapFrom(src => src.Key))
                 .ForMember(dest => dest.TaskList, opt => opt.MapFrom(src => src.ToList()))
                 .ForMember(dest => dest.OutOfRange,
@@ -23,8 +23,8 @@ namespace ManagerAPI.Services.Profiles
                         src.Key < DateTime.Now && src.Count(x => !x.IsSolved) != 0))
                 .ForMember(dest => dest.AllSolved,
                     opt => opt.MapFrom(src => src.ToList().Where(x => !x.IsSolved).Count() == 0));
-            CreateMap<TaskModel, Task>();
-            CreateMap<Task, TaskListDto>();
+            this.CreateMap<TaskModel, Task>();
+            this.CreateMap<Task, TaskListDto>();
         }
     }
 }

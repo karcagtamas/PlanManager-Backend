@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using ClosedXML.Excel;
+﻿using ClosedXML.Excel;
 using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace ManagerAPI.Services.Common.Excel
 {
@@ -19,7 +19,7 @@ namespace ManagerAPI.Services.Common.Excel
         {
             persons = persons.OrderBy(x => x.Name).ToList();
             const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            var name = $"{DateHelper.ToFileName(DateTime.Now)}_persons.xlsx";
+            string name = $"{DateHelper.ToFileName(DateTime.Now)}_persons.xlsx";
 
             using (var workbook = new XLWorkbook())
             {
@@ -68,7 +68,7 @@ namespace ManagerAPI.Services.Common.Excel
             bool appendCurrentDate)
         {
             const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            var name = appendCurrentDate
+            string name = appendCurrentDate
                 ? $"{DateHelper.DateToString(DateTime.Now)}{fileName}.xlsx"
                 : $"{fileName}.xlsx";
 
@@ -78,15 +78,15 @@ namespace ManagerAPI.Services.Common.Excel
 
                 // Header
                 var columns = columnList.ToList();
-                for (var i = 0; i < columns.Count; i++)
+                for (int i = 0; i < columns.Count; i++)
                 {
                     worksheet.Cell(1, i + 1).Value = columns[i].DisplayName;
                 }
 
                 var objects = objectList.ToList();
-                for (var i = 0; i < objects.Count; i++)
+                for (int i = 0; i < objects.Count; i++)
                 {
-                    for (var j = 0; j < columns.Count; j++)
+                    for (int j = 0; j < columns.Count; j++)
                     {
                         worksheet.Cell(2 + i, j + 1).Value = columns[j].GetValue(objects[i]);
                     }
@@ -105,7 +105,7 @@ namespace ManagerAPI.Services.Common.Excel
         {
             works = works.OrderBy(x => x.Name).ToList();
             const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            var name = $"{DateHelper.ToFileName(DateTime.Now)}_works.xlsx";
+            string name = $"{DateHelper.ToFileName(DateTime.Now)}_works.xlsx";
 
             using (var workbook = new XLWorkbook())
             {

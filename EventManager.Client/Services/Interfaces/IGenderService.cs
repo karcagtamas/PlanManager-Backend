@@ -6,6 +6,6 @@ namespace EventManager.Client.Services.Interfaces
 {
     public interface IGenderService : IHttpCall<GenderListDto, GenderDto, GenderModel>
     {
-        
+
     }
 }

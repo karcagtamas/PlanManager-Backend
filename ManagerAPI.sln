@@ -31,6 +31,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerAPI.Shared", "Manage
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsomorGenerator", "CsomorGenerator\CsomorGenerator.csproj", "{C70832A1-1B52-453B-9A22-30B876D0A93D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4314A63-4672-4DC8-9AE4-664A2E672F40}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

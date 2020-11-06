@@ -2,14 +2,14 @@ namespace ManagerAPI.Domain.Enums.SL
 {
     public enum StatusLibraryNotificationType
     {
-        AddMovie = 67, 
-        DeleteMovie = 68, 
-        UpdateMovie = 69, 
+        AddMovie = 67,
+        DeleteMovie = 68,
+        UpdateMovie = 69,
         AddBook = 70,
         DeleteBook = 71,
         UpdateBook = 72,
         BookReadStatusUpdated = 73,
-        MyBookListUpdated = 74, 
+        MyBookListUpdated = 74,
         MovieSeenStatusUpdated = 75,
         MyMovieListUpdated = 76,
         AddSeries = 77,

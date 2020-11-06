@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
 using ManagerAPI.Domain.Enums.SL;
 using ManagerAPI.Domain.Enums.WM;
 using ManagerAPI.Shared.DTOs;
+using System;
+using System.Collections.Generic;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {

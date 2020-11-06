@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.SL;
@@ -8,6 +6,8 @@ using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using MovieCorner.Services.Services.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MovieCorner.Services.Services
 {
@@ -30,8 +30,9 @@ namespace MovieCorner.Services.Services
             INotificationService notification, IMapper mapper) : base(context, logger, utils, notification, mapper,
             "Movie Category", new NotificationArguments
             {
-                DeleteArguments = new List<string> {"Name"}, UpdateArguments = new List<string> {"Name"},
-                CreateArguments = new List<string> {"Name"}
+                DeleteArguments = new List<string> { "Name" },
+                UpdateArguments = new List<string> { "Name" },
+                CreateArguments = new List<string> { "Name" }
             })
         {
             this._databaseContext = context;

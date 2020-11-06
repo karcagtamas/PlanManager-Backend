@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace ManagerAPI.Services.Services
 {
@@ -26,9 +26,9 @@ namespace ManagerAPI.Services.Services
             loggerService, utilsService, notificationService, mapper, "News",
             new NotificationArguments
             {
-                DeleteArguments = new List<string> {"CurrentUser.UserName"},
-                UpdateArguments = new List<string> {"CurrentUser.UserName"},
-                CreateArguments = new List<string> {"CurrentUser.UserName"}
+                DeleteArguments = new List<string> { "CurrentUser.UserName" },
+                UpdateArguments = new List<string> { "CurrentUser.UserName" },
+                CreateArguments = new List<string> { "CurrentUser.UserName" }
             })
         {
         }

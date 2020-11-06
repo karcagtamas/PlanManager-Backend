@@ -1,8 +1,8 @@
-﻿using System.IO;
+﻿using ManagerAPI.Services.Utils;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using ManagerAPI.Services.Utils;
 
 namespace ManagerAPI.Services.Common.Mail
 {
@@ -12,16 +12,16 @@ namespace ManagerAPI.Services.Common.Mail
     public class MailService : IMailService
     {
         private readonly MailSettings _settings;
-        
+
         /// <summary>
         /// Mail Service init
         /// </summary>
         /// <param name="settings">Mail Settings</param>
         public MailService(MailSettings settings)
         {
-            _settings = settings;
+            this._settings = settings;
         }
-        
+
         /// <summary>
         /// Send email async
         /// </summary>
@@ -30,9 +30,9 @@ namespace ManagerAPI.Services.Common.Mail
         public async Task SendEmailAsync(Common.Mail.Mail mail)
         {
             var message = new MailMessage();
-            
+
             var smtp = new SmtpClient();
-            
+
             // From
             message.From = new MailAddress(this._settings.Mail, this._settings.DisplayName);
 
@@ -64,23 +64,23 @@ namespace ManagerAPI.Services.Common.Mail
                 {
                     await using var ms = new MemoryStream();
                     await attachment.CopyToAsync(ms);
-                    var fileBytes = ms.ToArray();
+                    byte[] fileBytes = ms.ToArray();
                     var att = new Attachment(new MemoryStream(fileBytes), attachment.FileName);
                     message.Attachments.Add(att);
                 }
             }
-            
+
             // Body
             message.IsBodyHtml = true;
             message.Body = mail.Body;
-            
+
             // Config
             smtp = this.ConfigSmpt(smtp);
-            
+
             // Send
             await smtp.SendMailAsync(message);
         }
-        
+
         /// <summary>
         /// Config SMTP client
         /// </summary>

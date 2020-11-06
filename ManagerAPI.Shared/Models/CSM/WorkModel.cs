@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 
 namespace ManagerAPI.Shared.Models.CSM
 {
@@ -43,7 +42,7 @@ namespace ManagerAPI.Shared.Models.CSM
             var s = start;
             while (s < finish)
             {
-                Tables.Add(new WorkTableModel(s));
+                this.Tables.Add(new WorkTableModel(s));
                 s = s.AddHours(1);
             }
         }

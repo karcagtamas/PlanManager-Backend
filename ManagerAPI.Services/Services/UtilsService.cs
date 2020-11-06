@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ManagerAPI.Services.Services
 {
@@ -24,8 +24,8 @@ namespace ManagerAPI.Services.Services
         /// <param name="context">Context</param>
         public UtilsService(IHttpContextAccessor contextAccessor, DatabaseContext context)
         {
-            _contextAccessor = contextAccessor;
-            _context = context;
+            this._contextAccessor = contextAccessor;
+            this._context = context;
         }
 
         /// <summary>
@@ -34,8 +34,8 @@ namespace ManagerAPI.Services.Services
         /// <returns>Current user</returns>
         public User GetCurrentUser()
         {
-            var userId = GetCurrentUserId();
-            var user = _context.AppUsers.Find(userId);
+            string userId = this.GetCurrentUserId();
+            var user = this._context.AppUsers.Find(userId);
             if (user == null)
             {
                 throw new Exception("Invalid user Id");
@@ -50,7 +50,7 @@ namespace ManagerAPI.Services.Services
         /// <returns>Current user's Id</returns>
         public string GetCurrentUserId()
         {
-            var userId = _contextAccessor.HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+            string userId = this._contextAccessor.HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
             return userId;
         }
 

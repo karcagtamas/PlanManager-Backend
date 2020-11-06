@@ -9,7 +9,7 @@ namespace EventManager.Client.Services
     public class NewsService : HttpCall<NewsListDto, NewsDto, PostModel>, INewsService
     {
 
-        public NewsService(IHttpService httpService):base(httpService, $"{ApplicationSettings.BaseApiUrl}/news", "News")
+        public NewsService(IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/news", "News")
         {
         }
     }

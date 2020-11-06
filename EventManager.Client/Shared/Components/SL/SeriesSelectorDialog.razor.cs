@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using EventManager.Client.Enums;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
@@ -9,6 +6,9 @@ using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Helpers;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.SL
 {
@@ -32,21 +32,21 @@ namespace EventManager.Client.Shared.Components.SL
 
         protected override async Task OnInitializedAsync()
         {
-            this.FormId = Parameters.Get<int>("FormId");
+            this.FormId = this.Parameters.Get<int>("FormId");
 
             await this.GetSelectorList();
             this.SelectedIndexList = this.List.Where(x => x.IsMine).Select(x => x.Id).ToList();
 
-            ((ModalService)ModalService).OnConfirm += OnConfirm;
+            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
         }
 
         private async Task GetSelectorList()
         {
             this.IsLoading = true;
-            StateHasChanged();
+            this.StateHasChanged();
             this.List = await this.SeriesService.GetMySelectorList(false);
             this.IsLoading = false;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private async void OnConfirm()
@@ -55,8 +55,8 @@ namespace EventManager.Client.Shared.Components.SL
 
             if (await this.SeriesService.UpdateMySeries(new MySeriesModel { Ids = indexList }))
             {
-                ModalService.Close(ModalResult.Ok(true));
-                ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                this.ModalService.Close(ModalResult.Ok(true));
+                ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
             }
         }
 

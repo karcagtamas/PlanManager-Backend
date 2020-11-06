@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
@@ -36,7 +36,7 @@ namespace EventManager.Client.Services
         {
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(id, -1);
-            
+
             var settings = new HttpSettings($"{this.Url}/my", null, pathParams);
 
             return await this.Http.Get<MyBookDto>(settings);
@@ -55,9 +55,9 @@ namespace EventManager.Client.Services
         {
             var queryParams = new HttpQueryParameters();
             queryParams.Add("onlyMine", onlyMine);
-            
+
             var settings = new HttpSettings($"{this.Url}/selector", queryParams, null);
-            
+
             return await this.Http.Get<List<MyBookSelectorListDto>>(settings);
         }
 

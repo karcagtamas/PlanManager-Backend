@@ -4,9 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace ManagerAPI.Shared.Models.CSM
 {
@@ -53,7 +50,7 @@ namespace ManagerAPI.Shared.Models.CSM
             var s = start;
             while (s < finish)
             {
-                Tables.Add(new PersonTableModel(s));
+                this.Tables.Add(new PersonTableModel(s));
                 s = s.AddHours(1);
             }
         }

@@ -34,10 +34,10 @@ namespace EventManager.Client.Shared.Components.Tasks
 
         protected override async Task OnInitializedAsync()
         {
-            this.FormId = Parameters.Get<int>("FormId");
-            this.Id = Parameters.TryGet<int>("task");
+            this.FormId = this.Parameters.Get<int>("FormId");
+            this.Id = this.Parameters.TryGet<int>("task");
 
-            ((ModalService)ModalService).OnConfirm += OnConfirm;
+            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
 
             this.Model = new TaskModel
             {
@@ -50,7 +50,7 @@ namespace EventManager.Client.Shared.Components.Tasks
 
             if (this.Id != 0)
             {
-                this.Task = await TaskService.Get(this.Id);
+                this.Task = await this.TaskService.Get(this.Id);
                 this.Model = new TaskModel
                 {
                     Title = this.Task.Title,
@@ -64,21 +64,21 @@ namespace EventManager.Client.Shared.Components.Tasks
 
         protected async void OnConfirm()
         {
-            var isValid = this.Context.Validate();
+            bool isValid = this.Context.Validate();
             if (this.IsEdit)
             {
-                if (isValid && await TaskService.Update(this.Id, this.Model))
+                if (isValid && await this.TaskService.Update(this.Id, this.Model))
                 {
-                    ModalService.Close(ModalResult.Ok<bool>(true));
-                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                    this.ModalService.Close(ModalResult.Ok<bool>(true));
+                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
                 }
             }
             else
             {
-                if (isValid && await TaskService.Create(this.Model))
+                if (isValid && await this.TaskService.Create(this.Model))
                 {
-                    ModalService.Close(ModalResult.Ok<bool>(true));
-                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                    this.ModalService.Close(ModalResult.Ok<bool>(true));
+                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
                 }
             }
         }

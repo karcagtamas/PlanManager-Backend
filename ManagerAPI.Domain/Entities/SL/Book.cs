@@ -10,15 +10,15 @@ namespace ManagerAPI.Domain.Entities.SL
         public int Id { get; set; }
 
         [Required]
-        [MaxLength (150)]
+        [MaxLength(150)]
         public string Name { get; set; }
 
         [Required]
-        [MaxLength (150)]
+        [MaxLength(150)]
         public string Author { get; set; }
 
         public string Description { get; set; }
-        
+
         public DateTime? Publish { get; set; }
 
         [Required]
@@ -48,19 +48,19 @@ namespace ManagerAPI.Domain.Entities.SL
 
         public override int GetHashCode()
         {
-            HashCode hash = new HashCode();
-            hash.Add(Id);
-            hash.Add(Name);
-            hash.Add(Author);
-            hash.Add(Description);
-            hash.Add(Publish);
-            hash.Add(CreatorId);
-            hash.Add(LastUpdaterId);
-            hash.Add(Creation);
-            hash.Add(LastUpdate);
-            hash.Add(Creator);
-            hash.Add(LastUpdater);
-            hash.Add(ConnectedUsers);
+            var hash = new HashCode();
+            hash.Add(this.Id);
+            hash.Add(this.Name);
+            hash.Add(this.Author);
+            hash.Add(this.Description);
+            hash.Add(this.Publish);
+            hash.Add(this.CreatorId);
+            hash.Add(this.LastUpdaterId);
+            hash.Add(this.Creation);
+            hash.Add(this.LastUpdate);
+            hash.Add(this.Creator);
+            hash.Add(this.LastUpdater);
+            hash.Add(this.ConnectedUsers);
             return hash.ToHashCode();
         }
 

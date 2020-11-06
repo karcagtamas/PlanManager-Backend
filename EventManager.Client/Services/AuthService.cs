@@ -1,15 +1,14 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Components.Authorization;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
@@ -46,13 +45,13 @@ namespace EventManager.Client.Services
 
             var body = new HttpBody<LoginModel>(model);
 
-            var result = await this._httpService.CreateString<LoginModel>(settings, body);
+            string result = await this._httpService.CreateString<LoginModel>(settings, body);
 
             if (!string.IsNullOrEmpty(result))
             {
-                await _localStorageService.SetItemAsync("authToken", result);
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result);
-                ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated();
+                await this._localStorageService.SetItemAsync("authToken", result);
+                this._httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result);
+                ((ApiAuthenticationStateProvider)this._authenticationStateProvider).MarkUserAsAuthenticated();
             }
 
             return result;
@@ -60,12 +59,12 @@ namespace EventManager.Client.Services
 
         public async Task Logout()
         {
-            await ((ApiAuthenticationStateProvider)_authenticationStateProvider).ClearStorage();
+            await ((ApiAuthenticationStateProvider)this._authenticationStateProvider).ClearStorage();
         }
 
         public async Task<bool> HasRole(params string[] roles)
         {
-            var state = await  _authenticationStateProvider.GetAuthenticationStateAsync();
+            var state = await this._authenticationStateProvider.GetAuthenticationStateAsync();
             var claims = state.User.Claims.Where(x => x.Type == ClaimTypes.Role)
                 .Select(x => x.Value).ToList();
 
@@ -74,7 +73,7 @@ namespace EventManager.Client.Services
 
         public async Task<bool> IsLoggedIn()
         {
-            return !string.IsNullOrEmpty(await _localStorageService.GetItemAsync<string>("authToken"));
+            return !string.IsNullOrEmpty(await this._localStorageService.GetItemAsync<string>("authToken"));
         }
     }
 }

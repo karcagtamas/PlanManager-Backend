@@ -29,36 +29,36 @@ namespace EventManager.Client.Shared.Components.SL
 
         protected override async Task OnInitializedAsync()
         {
-            FormId = Parameters.Get<int>("FormId");
-            Id = Parameters.TryGet<int>("episode");
+            this.FormId = this.Parameters.Get<int>("FormId");
+            this.Id = this.Parameters.TryGet<int>("episode");
 
-            ((ModalService)ModalService).OnConfirm += OnConfirm;
+            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
 
-            Model = new EpisodeShortModel
+            this.Model = new EpisodeShortModel
             {
                 Description = ""
             };
 
-            Context = new EditContext(Model);
+            this.Context = new EditContext(this.Model);
 
-            if (Id != 0)
+            if (this.Id != 0)
             {
-                Episode = await EpisodeService.Get(Id);
-                Model = new EpisodeShortModel(Episode);
-                IsEdit = true;
-                Context = new EditContext(Model);
+                this.Episode = await this.EpisodeService.Get(this.Id);
+                this.Model = new EpisodeShortModel(this.Episode);
+                this.IsEdit = true;
+                this.Context = new EditContext(this.Model);
             }
         }
 
         private async void OnConfirm()
         {
-            var isValid = Context.Validate();
-            if (IsEdit)
+            bool isValid = this.Context.Validate();
+            if (this.IsEdit)
             {
-                if (isValid && await EpisodeService.UpdateShort(this.Id, this.Model))
+                if (isValid && await this.EpisodeService.UpdateShort(this.Id, this.Model))
                 {
-                    ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                    this.ModalService.Close(ModalResult.Ok(true));
+                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
                 }
             }
         }

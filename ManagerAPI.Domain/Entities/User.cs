@@ -1,54 +1,56 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Domain.Entities.PM;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Entities.WM;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ManagerAPI.Domain.Entities {
-    public class User : IdentityUser {
-        [MaxLength (100)]
+namespace ManagerAPI.Domain.Entities
+{
+    public class User : IdentityUser
+    {
+        [MaxLength(100)]
         public string FullName { get; set; }
 
         [Required]
         public bool IsActive { get; set; }
 
         [Required]
-        [Column (TypeName = "datetime2")]
+        [Column(TypeName = "datetime2")]
         public DateTime RegistrationDate { get; set; }
 
         [Required]
-        [Column (TypeName = "datetime2")]
+        [Column(TypeName = "datetime2")]
         public DateTime LastLogin { get; set; }
-        
-        [EmailAddress] 
+
+        [EmailAddress]
         public string SecondaryEmail { get; set; }
-        
+
         [MaxLength(6)]
         public string TShirtSize { get; set; }
-        
+
         public string Allergy { get; set; }
 
         [MaxLength(40)]
         public string Group { get; set; }
 
         public DateTime? BirthDay { get; set; }
-        
+
         public string ProfileImageTitle { get; set; }
 
         public byte[] ProfileImageData { get; set; }
-        
+
         [MaxLength(120)]
         public string Country { get; set; }
 
         public int? GenderId { get; set; }
-        
+
         [MaxLength(120)]
         public string City { get; set; }
-        
+
         public virtual ICollection<Plan> Plans { get; set; }
         public virtual ICollection<PlanGroup> CreatedPlanGroups { get; set; }
         public virtual ICollection<PlanGroup> LastUpdatedPlanGroups { get; set; }

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Annotations
 {
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     /// <summary>
     /// Maximum number checked annotation
     /// </summary>
@@ -30,7 +31,7 @@ namespace ManagerAPI.Shared.Annotations
             try
             {
                 // Try convert to nullable int
-                var number = (int?) value;
+                int? number = (int?)value;
 
                 // Ignore null values
                 if (number == null)

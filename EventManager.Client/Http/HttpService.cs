@@ -1,9 +1,9 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.CSM;
 using Microsoft.JSInterop;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 /// <summary>
 /// HTTP Service
@@ -39,14 +39,14 @@ namespace EventManager.Client.Http
         {
             this.CheckSettings(settings);
 
-            var url = this.CreateUrl(settings);
+            string url = this.CreateUrl(settings);
 
             HttpResponseMessage response;
 
             try
             {
 
-                response = await _httpClient.PostAsync(url, body.GetStringContent());
+                response = await this._httpClient.PostAsync(url, body.GetStringContent());
             }
             catch (Exception e)
             {
@@ -57,7 +57,7 @@ namespace EventManager.Client.Http
             // Optional toast
             if (settings.ToasterSettings.IsNeeded)
             {
-                await _helperService.AddToaster(response, settings.ToasterSettings.Caption);
+                await this._helperService.AddToaster(response, settings.ToasterSettings.Caption);
             }
 
             return response.IsSuccessStatusCode;
@@ -74,13 +74,13 @@ namespace EventManager.Client.Http
         {
             this.CheckSettings(settings);
 
-            var url = this.CreateUrl(settings);
+            string url = this.CreateUrl(settings);
 
             HttpResponseMessage response;
 
             try
             {
-                response = await _httpClient.PostAsync(url, body.GetStringContent());
+                response = await this._httpClient.PostAsync(url, body.GetStringContent());
             }
             catch (Exception e)
             {
@@ -92,7 +92,7 @@ namespace EventManager.Client.Http
             // Optional toast
             if (settings.ToasterSettings.IsNeeded)
             {
-                await _helperService.AddToaster(response, settings.ToasterSettings.Caption);
+                await this._helperService.AddToaster(response, settings.ToasterSettings.Caption);
             }
 
             // De-serialize JSON
@@ -121,13 +121,13 @@ namespace EventManager.Client.Http
         {
             this.CheckSettings(settings);
 
-            var url = this.CreateUrl(settings);
+            string url = this.CreateUrl(settings);
 
             HttpResponseMessage response;
 
             try
             {
-                response = await _httpClient.DeleteAsync(url);
+                response = await this._httpClient.DeleteAsync(url);
             }
             catch (Exception e)
             {
@@ -138,7 +138,7 @@ namespace EventManager.Client.Http
             // Optional toast
             if (settings.ToasterSettings.IsNeeded)
             {
-                await _helperService.AddToaster(response, settings.ToasterSettings.Caption);
+                await this._helperService.AddToaster(response, settings.ToasterSettings.Caption);
             }
 
             return response.IsSuccessStatusCode;
@@ -154,13 +154,13 @@ namespace EventManager.Client.Http
         {
             this.CheckSettings(settings);
 
-            var url = this.CreateUrl(settings);
+            string url = this.CreateUrl(settings);
 
             HttpResponseMessage response;
 
             try
             {
-                response = await _httpClient.GetAsync(url);
+                response = await this._httpClient.GetAsync(url);
             }
             catch (Exception e)
             {
@@ -175,7 +175,7 @@ namespace EventManager.Client.Http
                 {
                     using (var sr = await response.Content.ReadAsStreamAsync())
                     {
-                        return await System.Text.Json.JsonSerializer.DeserializeAsync<T>(sr, _helperService.GetSerializerOptions());
+                        return await System.Text.Json.JsonSerializer.DeserializeAsync<T>(sr, this._helperService.GetSerializerOptions());
                     }
                 }
                 catch (Exception e)
@@ -199,13 +199,13 @@ namespace EventManager.Client.Http
         {
             this.CheckSettings(settings);
 
-            var url = this.CreateUrl(settings);
+            string url = this.CreateUrl(settings);
 
             HttpResponseMessage response;
 
             try
             {
-                response = await _httpClient.GetAsync(url);
+                response = await this._httpClient.GetAsync(url);
             }
             catch (Exception e)
             {
@@ -242,13 +242,13 @@ namespace EventManager.Client.Http
         {
             this.CheckSettings(settings);
 
-            var url = this.CreateUrl(settings);
+            string url = this.CreateUrl(settings);
 
             HttpResponseMessage response;
 
             try
             {
-                response = await _httpClient.GetAsync(url);
+                response = await this._httpClient.GetAsync(url);
             }
             catch (Exception e)
             {
@@ -287,13 +287,13 @@ namespace EventManager.Client.Http
         {
             this.CheckSettings(settings);
 
-            var url = this.CreateUrl(settings);
+            string url = this.CreateUrl(settings);
 
             HttpResponseMessage response;
 
             try
             {
-                response = await _httpClient.PutAsync(url, body.GetStringContent());
+                response = await this._httpClient.PutAsync(url, body.GetStringContent());
             }
             catch (Exception e)
             {
@@ -304,7 +304,7 @@ namespace EventManager.Client.Http
             // Optional toast
             if (settings.ToasterSettings.IsNeeded)
             {
-                await _helperService.AddToaster(response, settings.ToasterSettings.Caption);
+                await this._helperService.AddToaster(response, settings.ToasterSettings.Caption);
             }
 
             return response.IsSuccessStatusCode;
@@ -357,13 +357,13 @@ namespace EventManager.Client.Http
         {
             this.CheckSettings(settings);
 
-            var url = this.CreateUrl(settings);
+            string url = this.CreateUrl(settings);
 
             HttpResponseMessage response;
 
             try
             {
-                response = await _httpClient.PutAsync(url, body.GetStringContent());
+                response = await this._httpClient.PutAsync(url, body.GetStringContent());
             }
             catch (Exception e)
             {
@@ -374,7 +374,7 @@ namespace EventManager.Client.Http
             // Optional toast
             if (settings.ToasterSettings.IsNeeded)
             {
-                await _helperService.AddToaster(response, settings.ToasterSettings.Caption);
+                await this._helperService.AddToaster(response, settings.ToasterSettings.Caption);
             }
 
             // De-serialize JSON
@@ -384,7 +384,7 @@ namespace EventManager.Client.Http
                 {
                     using (var sr = await response.Content.ReadAsStreamAsync())
                     {
-                        return await System.Text.Json.JsonSerializer.DeserializeAsync<T>(sr, _helperService.GetSerializerOptions());
+                        return await System.Text.Json.JsonSerializer.DeserializeAsync<T>(sr, this._helperService.GetSerializerOptions());
                     }
                 }
                 catch (Exception e)

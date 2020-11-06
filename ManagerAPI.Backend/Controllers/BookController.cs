@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using ManagerAPI.Domain.Entities.SL;
+﻿using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Services.Common;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieCorner.Services.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace ManagerAPI.Backend.Controllers
 {
@@ -24,26 +24,26 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("my")]
         public IActionResult GetMyList()
         {
-            return Ok(this._bookService.GetMyList());
+            return this.Ok(this._bookService.GetMyList());
         }
 
         [HttpGet("my/{id}")]
         public IActionResult GetMy(int id)
         {
-            return Ok(this._bookService.GetMy(id));
+            return this.Ok(this._bookService.GetMy(id));
         }
 
         [HttpGet("selector")]
         public IActionResult GetMySelectorList([FromQuery] bool onlyMine)
         {
-            return Ok(this._bookService.GetMySelectorList(onlyMine));
+            return this.Ok(this._bookService.GetMySelectorList(onlyMine));
         }
 
         [HttpPut("map")]
         public IActionResult UpdateMyBooks([FromBody] MyBookModel model)
         {
             this._bookService.UpdateMyBooks(model.Ids);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPut("map/status")]
@@ -54,29 +54,29 @@ namespace ManagerAPI.Backend.Controllers
                 this._bookService.UpdateReadStatus(model.Id, model.Read);
             }
 
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPost("map/{id}")]
         public IActionResult AddBookToMyBooks(int id)
         {
             this._bookService.AddBookToMyBooks(id);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpDelete("map/{id}")]
         public IActionResult RemoveBookFromMyBooks(int id)
         {
             this._bookService.RemoveBookFromMyBooks(id);
-            return Ok();
+            return this.Ok();
         }
-        
+
         [HttpPost]
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public override IActionResult Create([FromBody] BookModel model)
         {
             this._bookService.Add<BookModel>(model);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpDelete("{id}")]
@@ -84,15 +84,15 @@ namespace ManagerAPI.Backend.Controllers
         public override IActionResult Delete(int id)
         {
             this._bookService.Remove(id);
-            return Ok();
+            return this.Ok();
         }
-        
+
         [HttpPut("{id}")]
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public override IActionResult Update(int id, BookModel model)
         {
             this._bookService.Update<BookModel>(id, model);
-            return Ok();
+            return this.Ok();
         }
     }
 }

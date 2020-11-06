@@ -7,7 +7,7 @@ namespace ManagerAPI.Domain.Entities.PM
     {
         [Required]
         public int Id { get; set; }
-        
+
         [Required]
         [MaxLength(120)]
         public string Title { get; set; }

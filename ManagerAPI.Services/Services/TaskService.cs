@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
@@ -8,6 +6,8 @@ using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Helpers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ManagerAPI.Services.Services
 {
@@ -32,8 +32,9 @@ namespace ManagerAPI.Services.Services
             : base(context, loggerService, utilsService, notificationService, mapper, "Task",
                 new NotificationArguments
                 {
-                    DeleteArguments = new List<string> {"Title"}, CreateArguments = new List<string> {"Title"},
-                    UpdateArguments = new List<string> {"Title"}
+                    DeleteArguments = new List<string> { "Title" },
+                    CreateArguments = new List<string> { "Title" },
+                    UpdateArguments = new List<string> { "Title" }
                 })
         {
         }

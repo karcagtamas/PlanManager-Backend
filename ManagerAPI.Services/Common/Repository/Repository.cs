@@ -1,12 +1,12 @@
-﻿using System;
+﻿using AutoMapper;
+using ManagerAPI.Domain.Entities;
+using ManagerAPI.Services.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using AutoMapper;
-using ManagerAPI.Domain.Entities;
-using ManagerAPI.Services.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace ManagerAPI.Services.Common.Repository
 {
@@ -98,7 +98,7 @@ namespace ManagerAPI.Services.Common.Repository
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add"), entity.Id);
 
                 // Notification generate
-                List<string> args = this.DetermineArguments(this._arguments.CreateArguments, type, entity, user);
+                var args = this.DetermineArguments(this._arguments.CreateArguments, type, entity, user);
 
                 this.Notification.AddNotificationByType(typeof(TNotificationType),
                     Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user,
@@ -182,7 +182,7 @@ namespace ManagerAPI.Services.Common.Repository
                 {
                     var type = entity.GetType();
 
-                    List<string> args = this.DetermineArguments(this._arguments.CreateArguments, type, entity, user);
+                    var args = this.DetermineArguments(this._arguments.CreateArguments, type, entity, user);
 
                     this.Notification.AddNotificationByType(typeof(TNotificationType),
                         Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user,
@@ -323,13 +323,13 @@ namespace ManagerAPI.Services.Common.Repository
             // Count
             if (count != null)
             {
-                query = query.Take((int) count);
+                query = query.Take((int)count);
             }
 
             // Skip
             if (skip != null)
             {
-                query = query.Skip((int) skip);
+                query = query.Skip((int)skip);
             }
 
             // To list
@@ -465,7 +465,7 @@ namespace ManagerAPI.Services.Common.Repository
             // Determine arguments
             var entityList = entities.ToList();
             var type = entityList.ToList()[0].GetType();
-            Dictionary<TEntity, List<string>> args = new Dictionary<TEntity, List<string>>();
+            var args = new Dictionary<TEntity, List<string>>();
             foreach (var entity in entityList)
             {
                 try
@@ -562,7 +562,7 @@ namespace ManagerAPI.Services.Common.Repository
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update"), entity.Id);
 
                 // Notification generate
-                List<string> args = this.DetermineArguments(this._arguments.UpdateArguments, type, entity, user);
+                var args = this.DetermineArguments(this._arguments.UpdateArguments, type, entity, user);
 
                 this.Notification.AddNotificationByType(typeof(TNotificationType),
                     Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("update"), true), user,
@@ -625,7 +625,7 @@ namespace ManagerAPI.Services.Common.Repository
                 {
                     var type = entity.GetType();
 
-                    List<string> args = this.DetermineArguments(this._arguments.UpdateArguments, type, entity, user);
+                    var args = this.DetermineArguments(this._arguments.UpdateArguments, type, entity, user);
 
                     this.Notification.AddNotificationByType(typeof(TNotificationType),
                         Enum.Parse(typeof(TNotificationType), this.GetNotificationAction("add"), true), user,
@@ -648,7 +648,7 @@ namespace ManagerAPI.Services.Common.Repository
         public void UpdateRange<T>(Dictionary<int, T> entities)
         {
             // Update
-            foreach (var i in entities.Keys)
+            foreach (int i in entities.Keys)
             {
                 this.Update(i, entities[i]);
             }
@@ -703,15 +703,15 @@ namespace ManagerAPI.Services.Common.Repository
         /// <returns>Declared argument value list</returns>
         private List<string> DetermineArguments(List<string> nameList, Type firstType, TEntity entity, User user)
         {
-            List<string> args = new List<string>();
+            var args = new List<string>();
 
-            foreach (var i in nameList)
+            foreach (string i in nameList)
             {
-                var propList = i.Split(".");
+                string[] propList = i.Split(".");
                 var lastType = firstType;
                 object lastEntity = entity;
 
-                foreach (var propElement in propList)
+                foreach (string propElement in propList)
                 {
                     // Special event for updater
                     if (propElement == "CurrentUser")
@@ -739,23 +739,23 @@ namespace ManagerAPI.Services.Common.Repository
                 {
                     if (lastType == typeof(string))
                     {
-                        args.Add((string) lastEntity);
+                        args.Add((string)lastEntity);
                     }
                     else if (lastType == typeof(DateTime))
                     {
-                        args.Add(((DateTime) lastEntity).ToLongDateString());
+                        args.Add(((DateTime)lastEntity).ToLongDateString());
                     }
                     else if (lastType == typeof(int))
                     {
-                        args.Add(((int) lastEntity).ToString());
+                        args.Add(((int)lastEntity).ToString());
                     }
                     else if (lastType == typeof(decimal))
                     {
-                        args.Add(((decimal) lastEntity).ToString(CultureInfo.CurrentCulture));
+                        args.Add(((decimal)lastEntity).ToString(CultureInfo.CurrentCulture));
                     }
                     else if (lastType == typeof(double))
                     {
-                        args.Add(((double) lastEntity).ToString(CultureInfo.CurrentCulture));
+                        args.Add(((double)lastEntity).ToString(CultureInfo.CurrentCulture));
                     }
                     else
                     {

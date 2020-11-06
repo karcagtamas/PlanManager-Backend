@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,7 +10,7 @@ namespace ManagerAPI.Domain.Entities
 
         [Required]
         public string Name { get; set; }
-        
+
         public virtual ICollection<User> Users { get; set; }
     }
 }

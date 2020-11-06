@@ -31,22 +31,22 @@ namespace EventManager.Client.Shared.Components.SL
 
         protected override async Task OnInitializedAsync()
         {
-            this.FormId = Parameters.Get<int>("FormId");
-            this.MovieId = Parameters.Get<int>("movie");
+            this.FormId = this.Parameters.Get<int>("FormId");
+            this.MovieId = this.Parameters.Get<int>("movie");
 
             await this.GetSelectorList();
             this.SelectedIndexList = this.List.Where(x => x.IsSelected).Select(x => x.Id).ToList();
 
-            ((ModalService)ModalService).OnConfirm += OnConfirm;
+            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
         }
 
         private async Task GetSelectorList()
         {
             this.IsLoading = true;
-            StateHasChanged();
+            this.StateHasChanged();
             this.List = await this.MovieCategoryService.GetSelectorList(this.MovieId);
             this.IsLoading = false;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private async void OnConfirm()
@@ -55,8 +55,8 @@ namespace EventManager.Client.Shared.Components.SL
 
             if (await this.MovieService.UpdateCategories(this.MovieId, new MovieCategoryUpdateModel { Ids = indexList }))
             {
-                ModalService.Close(ModalResult.Ok(true));
-                ((ModalService)ModalService).OnConfirm -= OnConfirm;
+                this.ModalService.Close(ModalResult.Ok(true));
+                ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
             }
         }
 

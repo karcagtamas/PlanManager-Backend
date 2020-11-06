@@ -32,25 +32,25 @@ namespace EventManager.Client.Pages.MyTasks
         private async Task GetTasks()
         {
             this.IsLoading = true;
-            StateHasChanged();
+            this.StateHasChanged();
             this.TaskList = await this.TaskService.GetDate(this.IsSolvedSelectorValue);
             this.IsLoading = false;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         protected async void IsSolvedChanged(bool newValue, int taskId, TaskDateDto group)
         {
             var task = this.TaskList.SelectMany(x => x.TaskList).FirstOrDefault(x => x.Id == taskId);
 
-            var taskData = await TaskService.Get(taskId);
+            var taskData = await this.TaskService.Get(taskId);
             if (taskData != null)
             {
                 taskData.IsSolved = newValue;
-                task.IsSolved = await TaskService.Update(taskId, new TaskModel(taskData)) ? newValue : !newValue;
+                task.IsSolved = await this.TaskService.Update(taskId, new TaskModel(taskData)) ? newValue : !newValue;
                 group.AllSolved = @group.TaskList.Count(x => !x.IsSolved) == 0;
                 group.OutOfRange = group.Deadline < DateTime.Now && !group.AllSolved;
 
-                StateHasChanged();
+                this.StateHasChanged();
             }
         }
 
@@ -64,9 +64,9 @@ namespace EventManager.Client.Pages.MyTasks
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += TaskModalClosed;
+            this.Modal.OnClose += this.TaskModalClosed;
 
-            Modal.Show<TaskDialog>("Create Task", parameters, options);
+            this.Modal.Show<TaskDialog>("Create Task", parameters, options);
         }
 
         protected void OpenUpdateTaskModal(int taskId)
@@ -79,9 +79,9 @@ namespace EventManager.Client.Pages.MyTasks
             options.ButtonOptions.ConfirmButtonType = ConfirmButton.Save;
             options.ButtonOptions.ShowConfirmButton = true;
 
-            Modal.OnClose += TaskModalClosed;
+            this.Modal.OnClose += this.TaskModalClosed;
 
-            Modal.Show<TaskDialog>("Update Task", parameters, options);
+            this.Modal.Show<TaskDialog>("Update Task", parameters, options);
         }
 
         protected async void TaskModalClosed(ModalResult modalResult)
@@ -91,7 +91,7 @@ namespace EventManager.Client.Pages.MyTasks
                 await this.GetTasks();
             }
 
-            Modal.OnClose -= TaskModalClosed;
+            this.Modal.OnClose -= this.TaskModalClosed;
         }
 
         protected void OpenDeleteModal(TaskDto task)
@@ -104,17 +104,17 @@ namespace EventManager.Client.Pages.MyTasks
 
             var options = new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
 
-            Modal.OnClose += DeleteDialogClosed;
-            Modal.Show<Confirm>("Task Delete", parameters, options);
+            this.Modal.OnClose += this.DeleteDialogClosed;
+            this.Modal.Show<Confirm>("Task Delete", parameters, options);
         }
 
         private async void DeleteDialogClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data && await TaskService.Delete(this.SelectedTask))
+            if (!modalResult.Cancelled && (bool)modalResult.Data && await this.TaskService.Delete(this.SelectedTask))
             {
                 await this.GetTasks();
             }
-            Modal.OnClose -= DeleteDialogClosed;
+            this.Modal.OnClose -= this.DeleteDialogClosed;
         }
 
         protected async void IsSolvedSelectorValueChanged(bool? value)

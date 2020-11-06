@@ -23,47 +23,47 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("my")]
         public IActionResult GetMyList()
         {
-            return Ok(this._seriesService.GetMyList());
+            return this.Ok(this._seriesService.GetMyList());
         }
 
         [HttpGet("my/{id}")]
         public IActionResult GetMy(int id)
         {
-            return Ok(this._seriesService.GetMy(id));
+            return this.Ok(this._seriesService.GetMy(id));
         }
 
         [HttpGet("selector")]
         public IActionResult GetMySelectorList([FromQuery] bool onlyMine)
         {
-            return Ok(this._seriesService.GetMySelectorList(onlyMine));
+            return this.Ok(this._seriesService.GetMySelectorList(onlyMine));
         }
 
         [HttpPut("map")]
         public IActionResult UpdateMySeries([FromBody] MySeriesModel model)
         {
             this._seriesService.UpdateMySeries(model.Ids);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPut("map/status")]
         public IActionResult UpdateSeenStatus([FromBody] SeriesSeenStatusModel model)
         {
             this._seriesService.UpdateSeenStatus(model.Id, model.Seen);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPost("map/{id}")]
         public IActionResult AddSeriesToMySeries(int id)
         {
             this._seriesService.AddSeriesToMySeries(id);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpDelete("map/{id}")]
         public IActionResult RemoveBookFromMyBooks(int id)
         {
             this._seriesService.RemoveSeriesFromMySeries(id);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPut("image/{id}")]
@@ -71,7 +71,7 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult UpdateImage(int id, [FromBody] SeriesImageModel model)
         {
             this._seriesService.UpdateImage(id, model);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPut("categories/{id}")]
@@ -79,14 +79,14 @@ namespace ManagerAPI.Backend.Controllers
         public IActionResult UpdateCategories(int id, [FromBody] SeriesCategoryUpdateModel model)
         {
             this._seriesService.UpdateCategories(id, model);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPut("rate/{id}")]
         public IActionResult UpdateRate(int id, [FromBody] SeriesRateModel model)
         {
             this._seriesService.UpdateRate(id, model);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPost]
@@ -94,7 +94,7 @@ namespace ManagerAPI.Backend.Controllers
         public override IActionResult Create([FromBody] SeriesModel model)
         {
             this._seriesService.Add<SeriesModel>(model);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpDelete("{id}")]
@@ -102,7 +102,7 @@ namespace ManagerAPI.Backend.Controllers
         public override IActionResult Delete(int id)
         {
             this._seriesService.Remove(id);
-            return Ok();
+            return this.Ok();
         }
 
         [HttpPut("{id}")]
@@ -110,7 +110,7 @@ namespace ManagerAPI.Backend.Controllers
         public override IActionResult Update(int id, SeriesModel model)
         {
             this._seriesService.Update<SeriesModel>(id, model);
-            return Ok();
+            return this.Ok();
         }
     }
 }

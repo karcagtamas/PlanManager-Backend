@@ -1,8 +1,3 @@
-using System;
-using System.IO;
-using System.Net.Http;
-using System.Reflection;
-using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using EventManager.Client.Http;
 using EventManager.Client.Models;
@@ -14,6 +9,11 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Net.Http;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace EventManager.Client
 {
@@ -28,7 +28,7 @@ namespace EventManager.Client
             builder.Services.AddAuthorizationCore();
             // builder.Services.AddSingleton<HttpClient>();
             builder.Services.AddScoped(
-                sp => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
+                sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IHelperService, HelperService>();

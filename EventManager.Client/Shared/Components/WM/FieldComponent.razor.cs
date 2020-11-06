@@ -24,11 +24,11 @@ namespace EventManager.Client.Shared.Components.WM
 
         private void OpenUpdateFieldModal()
         {
-            if (IsModifiable)
+            if (this.IsModifiable)
             {
                 var parameters = new ModalParameters();
                 parameters.Add("FormId", 1);
-                parameters.Add("working-day", (int)this.WorkingDayId);
+                parameters.Add("working-day", this.WorkingDayId);
                 parameters.Add("field", this.WorkingField.Id);
 
                 var options = new ModalOptions
@@ -36,9 +36,9 @@ namespace EventManager.Client.Shared.Components.WM
                     ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
                 };
 
-                Modal.OnClose += FieldModalClosed;
+                this.Modal.OnClose += this.FieldModalClosed;
 
-                Modal.Show<FieldModal>("Update Working Field", parameters, options);
+                this.Modal.Show<FieldModal>("Update Working Field", parameters, options);
             }
         }
 
@@ -49,7 +49,7 @@ namespace EventManager.Client.Shared.Components.WM
                 await this.Close.InvokeAsync(null);
             }
 
-            Modal.OnClose -= FieldModalClosed;
+            this.Modal.OnClose -= this.FieldModalClosed;
         }
     }
 }

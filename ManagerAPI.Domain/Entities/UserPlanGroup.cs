@@ -1,6 +1,6 @@
+using ManagerAPI.Domain.Entities.PM;
 using System;
 using System.ComponentModel.DataAnnotations;
-using ManagerAPI.Domain.Entities.PM;
 
 namespace ManagerAPI.Domain.Entities
 {
@@ -8,16 +8,16 @@ namespace ManagerAPI.Domain.Entities
     {
         [Required]
         public string UserId { get; set; }
-        
+
         [Required]
         public int GroupId { get; set; }
-        
+
         [Required]
         public int RoleId { get; set; }
-        
+
         [Required]
         public DateTime Connection { get; set; }
-        
+
         [Required]
         public string AddedById { get; set; }
 

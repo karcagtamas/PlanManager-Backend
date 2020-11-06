@@ -1,5 +1,7 @@
-namespace EventManager.Client.Models {
-    public class ModalOptions {
+namespace EventManager.Client.Models
+{
+    public class ModalOptions
+    {
         public string Position { get; set; }
         public string Style { get; set; }
         public bool? DisableBackgroundCancel { get; set; }
@@ -13,7 +15,7 @@ namespace EventManager.Client.Models {
             this.ButtonOptions = new ModalButtonOptions();
         }
 
-        public ModalOptions(ModalButtonOptions options) 
+        public ModalOptions(ModalButtonOptions options)
         {
             this.ButtonOptions = options == null ? new ModalButtonOptions() : options;
         }

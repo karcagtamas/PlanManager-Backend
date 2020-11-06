@@ -20,7 +20,7 @@ namespace ManagerAPI.Backend.Controllers
         /// <param name="notificationService">Notification Service</param>
         public NotificationController(INotificationService notificationService)
         {
-            _notificationService = notificationService;
+            this._notificationService = notificationService;
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet]
         public IActionResult GetMyNotifications()
         {
-            return Ok(_notificationService.GetMyNotifications());
+            return this.Ok(this._notificationService.GetMyNotifications());
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("unreads/count")]
         public IActionResult GetCountOfUnReadNotifications()
         {
-            return Ok(_notificationService.GetCountOfUnReadNotifications());
+            return this.Ok(this._notificationService.GetCountOfUnReadNotifications());
         }
 
         /// <summary>
@@ -51,8 +51,8 @@ namespace ManagerAPI.Backend.Controllers
         [HttpPut]
         public IActionResult SetAsReadNotificationsById([FromBody] int[] notifications)
         {
-            _notificationService.SetAsReadNotificationsById(notifications);
-            return Ok();
+            this._notificationService.SetAsReadNotificationsById(notifications);
+            return this.Ok();
         }
     }
 }

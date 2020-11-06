@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
@@ -8,6 +6,8 @@ using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ManagerAPI.Services.Services
 {
@@ -42,7 +42,8 @@ namespace ManagerAPI.Services.Services
             utilsService, notificationService, mapper, "Message",
             new NotificationArguments
             {
-                DeleteArguments = new List<string>(), UpdateArguments = new List<string>(),
+                DeleteArguments = new List<string>(),
+                UpdateArguments = new List<string>(),
                 CreateArguments = new List<string>()
             })
         {
@@ -87,7 +88,7 @@ namespace ManagerAPI.Services.Services
                     PartnerIsNeededForSendingMessage);
             }
 
-            var message = new Message {SenderId = user.Id, ReceiverId = model.PartnerId, Text = model.Message};
+            var message = new Message { SenderId = user.Id, ReceiverId = model.PartnerId, Text = model.Message };
 
 
             this._databaseContext.Messages.Add(message);

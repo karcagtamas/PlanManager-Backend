@@ -18,7 +18,7 @@ namespace EventManager.Client.Pages.Auth
 
         protected override void OnInitialized()
         {
-            Model = new RegistrationModel
+            this.Model = new RegistrationModel
             {
                 UserName = "",
                 Email = "",
@@ -30,13 +30,13 @@ namespace EventManager.Client.Pages.Auth
 
         protected void Navigate(string path)
         {
-            NavigationManager.NavigateTo(path);
+            this.NavigationManager.NavigateTo(path);
         }
 
         protected async Task SignUp()
         {
-            await AuthService.Register(Model);
-            Model = new RegistrationModel
+            await this.AuthService.Register(this.Model);
+            this.Model = new RegistrationModel
             {
                 UserName = "",
                 Email = "",

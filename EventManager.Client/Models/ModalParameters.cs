@@ -4,26 +4,32 @@ namespace EventManager.Client.Models
 {
     public class ModalParameters
     {
-        private Dictionary<string, object> _parameters;
+        private readonly Dictionary<string, object> _parameters;
 
-        public ModalParameters() {
-            _parameters = new Dictionary<string, object>();
+        public ModalParameters()
+        {
+            this._parameters = new Dictionary<string, object>();
         }
 
-        public void Add(string parameterName, object value) {
-            _parameters[parameterName] = value;
+        public void Add(string parameterName, object value)
+        {
+            this._parameters[parameterName] = value;
         }
 
-        public T Get<T>(string parameterName) {
-            if (!_parameters.ContainsKey(parameterName)) {
+        public T Get<T>(string parameterName)
+        {
+            if (!this._parameters.ContainsKey(parameterName))
+            {
                 throw new KeyNotFoundException("Not exist.");
             }
-            return (T)_parameters[parameterName];
+            return (T)this._parameters[parameterName];
         }
 
-        public T TryGet<T>(string parameterName) {
-            if (_parameters.ContainsKey(parameterName)) {
-                return (T)_parameters[parameterName];
+        public T TryGet<T>(string parameterName)
+        {
+            if (this._parameters.ContainsKey(parameterName))
+            {
+                return (T)this._parameters[parameterName];
             }
             return default;
         }

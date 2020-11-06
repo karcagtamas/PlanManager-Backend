@@ -1,7 +1,3 @@
-using System;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
@@ -10,6 +6,10 @@ using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ManagerAPI.Services.Services
 {
@@ -59,11 +59,11 @@ namespace ManagerAPI.Services.Services
             UserManager<User> userManager,
             INotificationService notificationService, ILoggerService loggerService)
         {
-            _context = context;
-            _mapper = mapper;
-            _utilsService = utilsService;
-            _userManager = userManager;
-            _notificationService = notificationService;
+            this._context = context;
+            this._mapper = mapper;
+            this._utilsService = utilsService;
+            this._userManager = userManager;
+            this._notificationService = notificationService;
             this._loggerService = loggerService;
         }
 
@@ -74,14 +74,14 @@ namespace ManagerAPI.Services.Services
         /// <exception cref="Exception">Invalid user id</exception>
         public async Task<UserDto> GetUser()
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
 
-            var userDto = _mapper.Map<UserDto>(user);
-            var list = (await _userManager.GetRolesAsync(user)).ToList();
-            userDto.Roles = _context.AppRoles.OrderByDescending(x => x.AccessLevel).Where(x => list.Contains(x.Name))
+            var userDto = this._mapper.Map<UserDto>(user);
+            var list = (await this._userManager.GetRolesAsync(user)).ToList();
+            userDto.Roles = this._context.AppRoles.OrderByDescending(x => x.AccessLevel).Where(x => list.Contains(x.Name))
                 .Select(x => x.Name).ToList();
 
-            _loggerService.LogInformation(user, nameof(UserService), "get user", user.Id);
+            this._loggerService.LogInformation(user, nameof(UserService), "get user", user.Id);
             return userDto;
         }
 
@@ -91,10 +91,10 @@ namespace ManagerAPI.Services.Services
         /// <returns>Minimized user data object</returns>
         public UserShortDto GetShortUser()
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
 
-            var userDto = _mapper.Map<UserShortDto>(user);
-            _loggerService.LogInformation(user, nameof(UserService), "get short user", user.Id);
+            var userDto = this._mapper.Map<UserShortDto>(user);
+            this._loggerService.LogInformation(user, nameof(UserService), "get short user", user.Id);
             return userDto;
         }
 
@@ -105,19 +105,19 @@ namespace ManagerAPI.Services.Services
         /// <exception cref="Exception">Invalid user update object</exception>
         public void UpdateUser(UserModel model)
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
             if (model == null)
             {
-                throw _loggerService.LogInvalidThings(user, nameof(UserService), UserUpdateObjectThing,
+                throw this._loggerService.LogInvalidThings(user, nameof(UserService), UserUpdateObjectThing,
                     ErrorDuringUserUpdateMessage);
             }
 
-            _mapper.Map(model, user);
+            this._mapper.Map(model, user);
 
-            _context.AppUsers.Update(user);
-            _context.SaveChanges();
-            _loggerService.LogInformation(user, nameof(UserService), UpdateUserAction, user.Id);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.MyProfileUpdated, user);
+            this._context.AppUsers.Update(user);
+            this._context.SaveChanges();
+            this._loggerService.LogInformation(user, nameof(UserService), UpdateUserAction, user.Id);
+            this._notificationService.AddSystemNotificationByType(SystemNotificationType.MyProfileUpdated, user);
         }
 
         /// <summary>
@@ -126,19 +126,19 @@ namespace ManagerAPI.Services.Services
         /// <param name="image">New image</param>
         public void UpdateProfileImage(byte[] image)
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
 
             if (image == null || image.Length == 0)
             {
-                throw _loggerService.LogInvalidThings(user, nameof(UserService), ImageThing, ImageCannotBeEmptyMessage);
+                throw this._loggerService.LogInvalidThings(user, nameof(UserService), ImageThing, ImageCannotBeEmptyMessage);
             }
 
             user.ProfileImageData = image;
             user.ProfileImageTitle = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-            _context.AppUsers.Update(user);
-            _context.SaveChanges();
-            _loggerService.LogInformation(user, nameof(UserService), UpdateImageAction, user.Id);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.ProfileImageChanged, user);
+            this._context.AppUsers.Update(user);
+            this._context.SaveChanges();
+            this._loggerService.LogInformation(user, nameof(UserService), UpdateImageAction, user.Id);
+            this._notificationService.AddSystemNotificationByType(SystemNotificationType.ProfileImageChanged, user);
         }
 
         /// <summary>
@@ -149,31 +149,31 @@ namespace ManagerAPI.Services.Services
         /// <returns>Void</returns>
         public async System.Threading.Tasks.Task UpdatePassword(string oldPassword, string newPassword)
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
 
-            if (await _userManager.CheckPasswordAsync(user, oldPassword))
+            if (await this._userManager.CheckPasswordAsync(user, oldPassword))
             {
                 if (newPassword == oldPassword)
                 {
-                    throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing,
+                    throw this._loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing,
                         OldAndNewPasswordCannotBeSameMessage);
                 }
 
-                var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+                var result = await this._userManager.ChangePasswordAsync(user, oldPassword, newPassword);
                 if (!result.Succeeded)
                 {
-                    throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing,
+                    throw this._loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing,
                         this._utilsService.ErrorsToString(result.Errors));
                 }
             }
             else
             {
-                throw _loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing,
+                throw this._loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing,
                     IncorrectOldPasswordMessage);
             }
 
-            _loggerService.LogInformation(user, nameof(UserService), UpdatePasswordAction, user.Id);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.PasswordChanged, user);
+            this._loggerService.LogInformation(user, nameof(UserService), UpdatePasswordAction, user.Id);
+            this._notificationService.AddSystemNotificationByType(SystemNotificationType.PasswordChanged, user);
         }
 
         /// <summary>
@@ -183,24 +183,24 @@ namespace ManagerAPI.Services.Services
         /// <returns>Void</returns>
         public async System.Threading.Tasks.Task UpdateUsername(string newUsername)
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
             if (newUsername != user.UserName)
             {
-                var result = await _userManager.SetUserNameAsync(user, newUsername);
+                var result = await this._userManager.SetUserNameAsync(user, newUsername);
                 if (!result.Succeeded)
                 {
-                    throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing,
+                    throw this._loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing,
                         this._utilsService.ErrorsToString(result.Errors));
                 }
             }
             else
             {
-                throw _loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing,
+                throw this._loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing,
                     NewEqualOldUserNameMessage);
             }
 
-            _loggerService.LogInformation(user, nameof(UserService), UpdateUserNameAction, user.Id);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.UsernameChanged, user,
+            this._loggerService.LogInformation(user, nameof(UserService), UpdateUserNameAction, user.Id);
+            this._notificationService.AddSystemNotificationByType(SystemNotificationType.UsernameChanged, user,
                 user.UserName, newUsername);
         }
 
@@ -209,13 +209,13 @@ namespace ManagerAPI.Services.Services
         /// </summary>
         public void DisableUser()
         {
-            var user = _utilsService.GetCurrentUser();
+            var user = this._utilsService.GetCurrentUser();
             user.IsActive = false;
 
-            _context.AppUsers.Update(user);
-            _context.SaveChanges();
-            _loggerService.LogInformation(user, nameof(UserService), DisableUserAction, user.Id);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.ProfileDisabled, user);
+            this._context.AppUsers.Update(user);
+            this._context.SaveChanges();
+            this._loggerService.LogInformation(user, nameof(UserService), DisableUserAction, user.Id);
+            this._notificationService.AddSystemNotificationByType(SystemNotificationType.ProfileDisabled, user);
         }
     }
 }

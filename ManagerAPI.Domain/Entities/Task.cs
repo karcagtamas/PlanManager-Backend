@@ -15,7 +15,7 @@ namespace ManagerAPI.Domain.Entities
         public string Title { get; set; }
 
         [Required]
-        public string Description { get; set;}
+        public string Description { get; set; }
 
         [Required]
         public bool IsSolved { get; set; } = false;
@@ -42,16 +42,16 @@ namespace ManagerAPI.Domain.Entities
 
         public override int GetHashCode()
         {
-            HashCode hash = new HashCode();
-            hash.Add(Id);
-            hash.Add(Title);
-            hash.Add(Description);
-            hash.Add(IsSolved);
-            hash.Add(OwnerId);
-            hash.Add(Creation);
-            hash.Add(LastUpdate);
-            hash.Add(Deadline);
-            hash.Add(Owner);
+            var hash = new HashCode();
+            hash.Add(this.Id);
+            hash.Add(this.Title);
+            hash.Add(this.Description);
+            hash.Add(this.IsSolved);
+            hash.Add(this.OwnerId);
+            hash.Add(this.Creation);
+            hash.Add(this.LastUpdate);
+            hash.Add(this.Deadline);
+            hash.Add(this.Owner);
             return hash.ToHashCode();
         }
 

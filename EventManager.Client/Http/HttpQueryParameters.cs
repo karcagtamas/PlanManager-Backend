@@ -1,6 +1,6 @@
+using EventManager.Client.Models.Interfaces;
 using System;
 using System.Collections.Generic;
-using EventManager.Client.Models.Interfaces;
 
 namespace EventManager.Client.Http
 {
@@ -18,7 +18,7 @@ namespace EventManager.Client.Http
         {
             this._queryParams = new Dictionary<string, object>();
         }
-/// 
+        /// 
         /// <summary>
         /// Add key with the given value.
         /// If the given key already exists it will throw an error
@@ -32,7 +32,7 @@ namespace EventManager.Client.Http
             {
                 throw new ArgumentException("Key already exists");
             }
-            _queryParams[key] = value;
+            this._queryParams[key] = value;
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace EventManager.Client.Http
             {
                 throw new ArgumentException("Key does not exist");
             }
-            return (T)_queryParams[key];
+            return (T)this._queryParams[key];
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace EventManager.Client.Http
             {
                 return;
             }
-            _queryParams[key] = value;
+            this._queryParams[key] = value;
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace EventManager.Client.Http
             {
                 return default;
             }
-            return (T)_queryParams[key];
+            return (T)this._queryParams[key];
         }
 
         /// <summary>
@@ -99,9 +99,9 @@ namespace EventManager.Client.Http
         /// <returns></returns>
         public override string ToString()
         {
-            var val = "";
-            
-            foreach (var key in this._queryParams.Keys)
+            string val = "";
+
+            foreach (string key in this._queryParams.Keys)
             {
                 val += val != "" ? "&" : "";
                 val += $"{key}={this._queryParams[key]}";

@@ -14,16 +14,16 @@ namespace ManagerAPI.Domain.Entities
 
         [Required]
         public DateTime SentDate { get; set; }
-        
-        [Required] 
+
+        [Required]
         public string OwnerId { get; set; }
-        
-        [Required] 
+
+        [Required]
         public bool IsRead { get; set; }
-        
+
         [Required]
         public bool Archived { get; set; }
-        
+
         [Required]
         public int TypeId { get; set; }
 

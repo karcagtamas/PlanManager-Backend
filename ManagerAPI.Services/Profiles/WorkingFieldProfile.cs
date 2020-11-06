@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.Domain.Entities.WM;
 using ManagerAPI.Shared.DTOs.WM;
 using ManagerAPI.Shared.Models.WM;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ManagerAPI.Services.Profiles
 {
@@ -15,19 +15,19 @@ namespace ManagerAPI.Services.Profiles
     {
         public WorkingFieldProfile()
         {
-            CreateMap<WorkingField, WorkingFieldListDto>();
-            CreateMap<WorkingField, WorkingFieldDto>();
-            CreateMap<WorkingFieldModel, WorkingField>()
+            this.CreateMap<WorkingField, WorkingFieldListDto>();
+            this.CreateMap<WorkingField, WorkingFieldDto>();
+            this.CreateMap<WorkingFieldModel, WorkingField>()
                 .ForMember(dest => dest.WorkingDayId, opt => opt.MapFrom(src => src.WorkingDayId))
                 .ForMember(dest => dest.WorkingDay, opt => opt.Ignore());
-            CreateMap<List<WorkingField>, WorkingMonthStatDto>()
+            this.CreateMap<List<WorkingField>, WorkingMonthStatDto>()
                 .ForMember(dest => dest.Fields, opt => opt.MapFrom(src => src))
                 .ForMember(dest => dest.HourSum, opt => opt.MapFrom(src => this.CalcSumHour(src)))
                 .ForMember(dest => dest.HourAvg, opt => opt.MapFrom(src => this.CalcAvgHour(src)))
                 .ForMember(dest => dest.ActiveDays, opt => opt.MapFrom(src => this.ActiveDays(src)))
                 .ForMember(dest => dest.WorkDays, opt => opt.MapFrom(src => this.WorkDays(src)))
                 .ForMember(dest => dest.Counts, opt => opt.MapFrom(src => this.CalcCounts(src)));
-            CreateMap<List<WorkingField>, WorkingWeekStatDto>()
+            this.CreateMap<List<WorkingField>, WorkingWeekStatDto>()
                 .ForMember(dest => dest.Fields, opt => opt.MapFrom(src => src))
                 .ForMember(dest => dest.HourSum, opt => opt.MapFrom(src => this.CalcSumHour(src)))
                 .ForMember(dest => dest.HourAvg, opt => opt.MapFrom(src => this.CalcAvgHour(src)))
@@ -55,7 +55,7 @@ namespace ManagerAPI.Services.Profiles
         /// <returns>Avg of hours</returns>
         private double CalcAvgHour(List<WorkingField> fields)
         {
-            return fields == null || !fields.Any() ? 0 : (double) CalcSumHour(fields) / this.ActiveDays(fields);
+            return fields == null || !fields.Any() ? 0 : (double)this.CalcSumHour(fields) / this.ActiveDays(fields);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace ManagerAPI.Services.Profiles
             int year = fields[0].WorkingDay.Day.Year;
             int month = fields[0].WorkingDay.Day.Month;
             var date = new DateTime(year, month, 1);
-            var monthDays = DateTime.DaysInMonth(year, month);
+            int monthDays = DateTime.DaysInMonth(year, month);
 
             while (date.Day != monthDays)
             {
@@ -107,7 +107,7 @@ namespace ManagerAPI.Services.Profiles
         private List<WorkingDayTypeCountDto> CalcCounts(List<WorkingField> fields)
         {
             return fields.GroupBy(x => x.WorkingDay.Type).Select(x => new WorkingDayTypeCountDto
-                {Type = x.Key.Title, Count = x.GroupBy(y => y.WorkingDay).Count()}).ToList();
+            { Type = x.Key.Title, Count = x.GroupBy(y => y.WorkingDay).Count() }).ToList();
         }
     }
 }

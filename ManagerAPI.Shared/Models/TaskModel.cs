@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ManagerAPI.Shared.DTOs;
+using System;
 using System.ComponentModel.DataAnnotations;
-using ManagerAPI.Shared.DTOs;
 
 namespace ManagerAPI.Shared.Models
 {

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Domain.Entities.PM;
@@ -6,6 +5,7 @@ using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Entities.WM;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace ManagerAPI.DataAccess
 {

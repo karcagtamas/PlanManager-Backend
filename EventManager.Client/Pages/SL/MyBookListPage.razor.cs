@@ -33,21 +33,21 @@ namespace EventManager.Client.Pages.SL
 
         protected override async Task OnInitializedAsync()
         {
-            await GetBooks();
+            await this.GetBooks();
         }
 
         private async Task GetBooks()
         {
-            IsLoading = true;
-            StateHasChanged();
-            BookList = await BookService.GetMyList();
-            IsLoading = false;
-            StateHasChanged();
+            this.IsLoading = true;
+            this.StateHasChanged();
+            this.BookList = await this.BookService.GetMyList();
+            this.IsLoading = false;
+            this.StateHasChanged();
         }
 
         private void RedirectToData(MyBookListDto book)
         {
-            Navigation.NavigateTo($"/books/{book.Id}");
+            this.Navigation.NavigateTo($"/books/{book.Id}");
         }
 
         private void OpenEditMyBooksDialog()
@@ -60,16 +60,19 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += EditMyBooksModalClosed;
+            this.Modal.OnClose += this.EditMyBooksModalClosed;
 
-            Modal.Show<BookSelectorDialog>("Edit My Books", parameters, options);
+            this.Modal.Show<BookSelectorDialog>("Edit My Books", parameters, options);
         }
 
         private async void EditMyBooksModalClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetBooks();
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetBooks();
+            }
 
-            Modal.OnClose -= EditMyBooksModalClosed;
+            this.Modal.OnClose -= this.EditMyBooksModalClosed;
         }
 
         private void OpenEditReadBooksDialog()
@@ -82,16 +85,19 @@ namespace EventManager.Client.Pages.SL
                 ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
             };
 
-            Modal.OnClose += EditReadBooksModalClosed;
+            this.Modal.OnClose += this.EditReadBooksModalClosed;
 
-            Modal.Show<BookReadSelectorDialog>("Edit Read Books", parameters, options);
+            this.Modal.Show<BookReadSelectorDialog>("Edit Read Books", parameters, options);
         }
 
         private async void EditReadBooksModalClosed(ModalResult modalResult)
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data) await GetBooks();
+            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            {
+                await this.GetBooks();
+            }
 
-            Modal.OnClose -= EditReadBooksModalClosed;
+            this.Modal.OnClose -= this.EditReadBooksModalClosed;
         }
     }
 }

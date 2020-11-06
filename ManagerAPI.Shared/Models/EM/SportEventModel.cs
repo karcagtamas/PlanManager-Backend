@@ -1,5 +1,5 @@
-using System.ComponentModel.DataAnnotations;
 using ManagerAPI.Shared.DTOs.EM;
+using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Models.EM
 {

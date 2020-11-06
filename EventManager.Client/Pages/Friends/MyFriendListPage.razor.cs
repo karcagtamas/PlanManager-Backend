@@ -24,28 +24,28 @@ namespace EventManager.Client.Pages.Friends
 
         protected override async Task OnInitializedAsync()
         {
-            await GetFriends();
-            await GetFriendRequests();
+            await this.GetFriends();
+            await this.GetFriendRequests();
         }
 
         protected async Task GetFriendRequests()
         {
             this.MyFriendRequestsIsLoading = true;
-            StateHasChanged();
-            this.FriendRequests = await FriendService.GetMyFriendRequests();
-            StateHasChanged();
+            this.StateHasChanged();
+            this.FriendRequests = await this.FriendService.GetMyFriendRequests();
+            this.StateHasChanged();
             this.MyFriendRequestsIsLoading = false;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         protected async Task GetFriends()
         {
             this.MyFriendsIsLoading = true;
-            StateHasChanged();
-            this.Friends = await FriendService.GetMyFriends();
-            StateHasChanged();
+            this.StateHasChanged();
+            this.Friends = await this.FriendService.GetMyFriends();
+            this.StateHasChanged();
             this.MyFriendsIsLoading = false;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         protected async Task SendFriendRequestResponse(int id, bool response)
@@ -56,7 +56,7 @@ namespace EventManager.Client.Pages.Friends
                 Response = response
             }))
             {
-                await GetFriendRequests();
+                await this.GetFriendRequests();
             }
         }
 
@@ -67,9 +67,9 @@ namespace EventManager.Client.Pages.Friends
 
             var options = new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Save));
 
-            Modal.OnClose += FriendRequestDialogClosed;
+            this.Modal.OnClose += this.FriendRequestDialogClosed;
 
-            Modal.Show<FriendRequestDialog>("Friend request", parameters, options);
+            this.Modal.Show<FriendRequestDialog>("Friend request", parameters, options);
         }
 
         protected async void FriendRequestDialogClosed(ModalResult modalResult)
@@ -79,7 +79,7 @@ namespace EventManager.Client.Pages.Friends
                 await this.GetFriendRequests();
             }
 
-            Modal.OnClose -= FriendRequestDialogClosed;
+            this.Modal.OnClose -= this.FriendRequestDialogClosed;
         }
 
         protected void OpenFriendDataModal(string friendId)
@@ -91,19 +91,19 @@ namespace EventManager.Client.Pages.Friends
             var options = new ModalOptions();
             options.ButtonOptions.CancelButtonType = CancelButton.Close;
 
-            Modal.OnClose += FriendDataModalClosed;
+            this.Modal.OnClose += this.FriendDataModalClosed;
 
-            Modal.Show<FriendData>("Friend data form", parameters, options);
+            this.Modal.Show<FriendData>("Friend data form", parameters, options);
         }
 
         protected async void FriendDataModalClosed(ModalResult modalResult)
         {
             if (!modalResult.Cancelled && (bool)modalResult.Data)
             {
-                await GetFriends();
+                await this.GetFriends();
             }
 
-            Modal.OnClose -= FriendDataModalClosed;
+            this.Modal.OnClose -= this.FriendDataModalClosed;
         }
     }
 }

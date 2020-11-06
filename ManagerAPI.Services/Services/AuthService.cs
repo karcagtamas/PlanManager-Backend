@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
@@ -14,6 +8,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ManagerAPI.Services.Services
 {
@@ -42,12 +41,12 @@ namespace ManagerAPI.Services.Services
             ILogger<AuthService> logger, DatabaseContext context,
             INotificationService notificationService, IUtilsService utilsService)
         {
-            _userManager = userManager;
-            _appSettings = appSettings.Value;
-            _logger = logger;
-            _context = context;
-            _notificationService = notificationService;
-            _utilsService = utilsService;
+            this._userManager = userManager;
+            this._appSettings = appSettings.Value;
+            this._logger = logger;
+            this._context = context;
+            this._notificationService = notificationService;
+            this._utilsService = utilsService;
         }
 
         /// <summary>
@@ -57,19 +56,19 @@ namespace ManagerAPI.Services.Services
         /// <returns>Result of the registration</returns>
         public async System.Threading.Tasks.Task Registration(RegistrationModel model)
         {
-            User appUser = new User
+            var appUser = new User
             {
                 UserName = model.UserName,
                 Email = model.Email,
                 FullName = model.FullName
             };
-            IdentityResult result = await _userManager.CreateAsync(appUser, model.Password);
+            var result = await this._userManager.CreateAsync(appUser, model.Password);
             if (result.Succeeded)
             {
-                User user = await _userManager.FindByNameAsync(appUser.UserName);
-                await _userManager.AddToRoleAsync(user, Roles.NormalWebsiteRole);
-                _logger.LogInformation($"{user.UserName}'s registration was successfully with e-mail {user.Email}");
-                _notificationService.AddSystemNotificationByType(SystemNotificationType.Registration, user);
+                var user = await this._userManager.FindByNameAsync(appUser.UserName);
+                await this._userManager.AddToRoleAsync(user, Roles.NormalWebsiteRole);
+                this._logger.LogInformation($"{user.UserName}'s registration was successfully with e-mail {user.Email}");
+                this._notificationService.AddSystemNotificationByType(SystemNotificationType.Registration, user);
             }
             else
             {
@@ -85,11 +84,11 @@ namespace ManagerAPI.Services.Services
         /// <exception cref="Exception">Incorrect credentials</exception>
         public async Task<string> Login(LoginModel model)
         {
-            User user = await _userManager.FindByNameAsync(model.UserName);
-            if (user != null && user.IsActive && await _userManager.CheckPasswordAsync(user, model.Password))
+            var user = await this._userManager.FindByNameAsync(model.UserName);
+            if (user != null && user.IsActive && await this._userManager.CheckPasswordAsync(user, model.Password))
             {
-                IList<string> roles = await _userManager.GetRolesAsync(user);
-                Claim[] claims = new Claim[3 + roles.Count];
+                var roles = await this._userManager.GetRolesAsync(user);
+                var claims = new Claim[3 + roles.Count];
                 claims[0] = new Claim("UserId", user.Id);
                 claims[1] = new Claim(ClaimTypes.Name, user.UserName);
                 claims[2] = new Claim(ClaimTypes.Email, user.Email);
@@ -98,22 +97,22 @@ namespace ManagerAPI.Services.Services
                     claims[i] = new Claim(ClaimTypes.Role, roles[i - 3]);
                 }
 
-                SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+                var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(claims),
                     Expires = DateTime.UtcNow.AddDays(1),
                     SigningCredentials = new SigningCredentials(
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JwtSecret)),
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._appSettings.JwtSecret)),
                         SecurityAlgorithms.HmacSha256Signature)
                 };
-                JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-                SecurityToken securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 string token = tokenHandler.WriteToken(securityToken);
                 user.LastLogin = DateTime.Now;
-                _context.AppUsers.Update(user);
-                await _context.SaveChangesAsync();
-                _logger.LogInformation($"User {user.UserName} successfully logged in.");
-                _notificationService.AddSystemNotificationByType(SystemNotificationType.Login, user);
+                this._context.AppUsers.Update(user);
+                await this._context.SaveChangesAsync();
+                this._logger.LogInformation($"User {user.UserName} successfully logged in.");
+                this._notificationService.AddSystemNotificationByType(SystemNotificationType.Login, user);
                 return token;
             }
 
@@ -126,8 +125,8 @@ namespace ManagerAPI.Services.Services
         /// <param name="userId">User Id</param>
         public void Logout(string userId)
         {
-            var user = _context.AppUsers.Find(userId);
-            _notificationService.AddSystemNotificationByType(SystemNotificationType.Logout, user);
+            var user = this._context.AppUsers.Find(userId);
+            this._notificationService.AddSystemNotificationByType(SystemNotificationType.Logout, user);
         }
     }
 }

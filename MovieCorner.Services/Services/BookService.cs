@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.SL;
@@ -9,6 +6,9 @@ using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using MovieCorner.Services.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MovieCorner.Services.Services
 {
@@ -39,8 +39,9 @@ namespace MovieCorner.Services.Services
             utilsService, notificationService, mapper, "Book",
             new NotificationArguments
             {
-                DeleteArguments = new List<string> {"Name"}, CreateArguments = new List<string> {"Name"},
-                UpdateArguments = new List<string> {"Name"}
+                DeleteArguments = new List<string> { "Name" },
+                CreateArguments = new List<string> { "Name" },
+                UpdateArguments = new List<string> { "Name" }
             })
         {
             this._databaseContext = context;
@@ -59,7 +60,7 @@ namespace MovieCorner.Services.Services
 
             if (mapping == null)
             {
-                mapping = new UserBook {BookId = id, UserId = user.Id, Read = false};
+                mapping = new UserBook { BookId = id, UserId = user.Id, Read = false };
                 this._databaseContext.UserBookSwitch.Add(mapping);
                 this._databaseContext.SaveChanges();
                 this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
@@ -160,25 +161,25 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var currentMappings = _databaseContext.UserBookSwitch.Where(x => x.UserId == user.Id).ToList();
+            var currentMappings = this._databaseContext.UserBookSwitch.Where(x => x.UserId == user.Id).ToList();
             foreach (var i in currentMappings)
             {
                 if (ids.FindIndex(x => x == i.BookId) == -1)
                 {
-                    _databaseContext.UserBookSwitch.Remove(i);
+                    this._databaseContext.UserBookSwitch.Remove(i);
                 }
             }
 
-            foreach (var i in ids)
+            foreach (int i in ids)
             {
                 if (currentMappings.FirstOrDefault(x => x.BookId == i) == null)
                 {
-                    var map = new UserBook() {BookId = i, UserId = user.Id, Read = false};
-                    _databaseContext.UserBookSwitch.Add(map);
+                    var map = new UserBook() { BookId = i, UserId = user.Id, Read = false };
+                    this._databaseContext.UserBookSwitch.Add(map);
                 }
             }
 
-            _databaseContext.SaveChanges();
+            this._databaseContext.SaveChanges();
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
             this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyBookListUpdated, user);
         }
@@ -192,7 +193,7 @@ namespace MovieCorner.Services.Services
         {
             var user = this.Utils.GetCurrentUser();
 
-            var userBook = _databaseContext.UserBookSwitch.Find(user.Id, id);
+            var userBook = this._databaseContext.UserBookSwitch.Find(user.Id, id);
             if (userBook == null)
             {
                 throw this.Logger.LogInvalidThings(user, this.GetService(), UserBookThing,
@@ -200,9 +201,9 @@ namespace MovieCorner.Services.Services
             }
 
             userBook.Read = status;
-            userBook.ReadOn = status ? (DateTime?) DateTime.Now : null;
-            _databaseContext.UserBookSwitch.Update(userBook);
-            _databaseContext.SaveChanges();
+            userBook.ReadOn = status ? (DateTime?)DateTime.Now : null;
+            this._databaseContext.UserBookSwitch.Update(userBook);
+            this._databaseContext.SaveChanges();
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set read status for"), userBook.Book.Id);
             this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.BookReadStatusUpdated,

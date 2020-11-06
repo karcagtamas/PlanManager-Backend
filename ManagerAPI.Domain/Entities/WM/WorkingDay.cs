@@ -34,7 +34,7 @@ namespace ManagerAPI.Domain.Entities.WM
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Day, UserId, TypeId);
+            return HashCode.Combine(this.Id, this.Day, this.UserId, this.TypeId);
         }
 
         public override string ToString()

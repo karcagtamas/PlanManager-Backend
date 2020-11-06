@@ -5,6 +5,6 @@ namespace ManagerAPI.Shared.Models.PM
     /// </summary>
     public class PlanModel
     {
-        
+
     }
 }

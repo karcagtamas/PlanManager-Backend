@@ -25,17 +25,17 @@ namespace EventManager.Client.Pages.Notifications
 
         protected override async Task OnInitializedAsync()
         {
-            await GetNotifications();
-            await SetUnReadsToRead();
+            await this.GetNotifications();
+            await this.SetUnReadsToRead();
         }
 
         private async Task GetNotifications()
         {
             this.IsLoading = true;
-            Notifications = await NotificationService.GetMyNotifications();
-            if (Notifications.Any())
+            this.Notifications = await this.NotificationService.GetMyNotifications();
+            if (this.Notifications.Any())
             {
-                FilterNotifications();
+                this.FilterNotifications();
             }
             this.IsLoading = false;
         }
@@ -44,7 +44,7 @@ namespace EventManager.Client.Pages.Notifications
         {
             try
             {
-                var result = await NotificationService.SetUnReadsToRead((from i in Notifications where !i.IsRead select i.Id).ToArray());
+                bool result = await this.NotificationService.SetUnReadsToRead((from i in this.Notifications where !i.IsRead select i.Id).ToArray());
             }
             catch (Exception e)
             {
@@ -55,33 +55,33 @@ namespace EventManager.Client.Pages.Notifications
         protected void ShowReadValueChangedEvent(bool value)
         {
             this.IsLoading = true;
-            ShowRead = value;
-            FilterNotifications();
+            this.ShowRead = value;
+            this.FilterNotifications();
             this.IsLoading = false;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         protected void ImportanceValueChangedEvent(int? value)
         {
             this.IsLoading = true;
-            Importance = value;
-            FilterNotifications();
+            this.Importance = value;
+            this.FilterNotifications();
             this.IsLoading = false;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private void FilterNotifications()
         {
-            var query = Notifications.AsQueryable();
-            if (!ShowRead)
+            var query = this.Notifications.AsQueryable();
+            if (!this.ShowRead)
             {
                 query = query.Where(x => !x.IsRead);
             }
-            if (Importance != null)
+            if (this.Importance != null)
             {
-                query = query.Where(x => x.ImportanceLevel == Importance);
+                query = query.Where(x => x.ImportanceLevel == this.Importance);
             }
-            FilteredNotifications = query.ToList();
+            this.FilteredNotifications = query.ToList();
         }
     }
 }

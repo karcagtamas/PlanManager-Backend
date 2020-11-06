@@ -11,7 +11,7 @@ namespace ManagerAPI.Services.Profiles
     {
         public NotificationProfile()
         {
-            CreateMap<Notification, NotificationDto>()
+            this.CreateMap<Notification, NotificationDto>()
                 .ForMember(dest => dest.ImportanceLevel, opt => opt.MapFrom(src => src.Type.ImportanceLevel))
                 .ForMember(dest => dest.TypeTitle, opt => opt.MapFrom(src => src.Type.Title))
                 .ForMember(dest => dest.SystemName, opt => opt.MapFrom(src => src.Type.System.Name))

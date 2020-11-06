@@ -7,13 +7,13 @@ namespace ManagerAPI.Domain.Entities.PM
     {
         [Required]
         public int Id { get; set; }
-        
+
         [Required]
         public string Message { get; set; }
-        
+
         [Required]
         public string SenderId { get; set; }
-        
+
         [Required]
         public DateTime Sent { get; set; }
 

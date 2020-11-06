@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.SL;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using MovieCorner.Services.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MovieCorner.Services.Services
 {
@@ -32,8 +32,9 @@ namespace MovieCorner.Services.Services
             utilsService, notificationService, mapper, "Season",
             new NotificationArguments
             {
-                DeleteArguments = new List<string> {"Number"}, UpdateArguments = new List<string> {"Number"},
-                CreateArguments = new List<string> {"Number"}
+                DeleteArguments = new List<string> { "Number" },
+                UpdateArguments = new List<string> { "Number" },
+                CreateArguments = new List<string> { "Number" }
             })
         {
             this._databaseContext = context;
@@ -49,14 +50,14 @@ namespace MovieCorner.Services.Services
             var user = this.Utils.GetCurrentUser();
             var season = this._databaseContext.Seasons.Find(id);
 
-            var episodes = _databaseContext.Episodes.Where(x => x.Season.Id == id).ToList();
+            var episodes = this._databaseContext.Episodes.Where(x => x.Season.Id == id).ToList();
             foreach (var i in episodes)
             {
                 var connection = i.ConnectedUsers.FirstOrDefault(x => x.User.Id == user.Id);
                 if (connection != null)
                 {
                     connection.Seen = seen;
-                    connection.SeenOn = seen ? (DateTime?) DateTime.Now : null;
+                    connection.SeenOn = seen ? (DateTime?)DateTime.Now : null;
                     this._databaseContext.UserEpisodeSwitch.Update(connection);
                 }
                 else
@@ -75,7 +76,7 @@ namespace MovieCorner.Services.Services
                 }
             }
 
-            _databaseContext.SaveChanges();
+            this._databaseContext.SaveChanges();
 
             this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set season seen status for"), id);
             this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.SeasonSeenStatusUpdated,
@@ -91,7 +92,7 @@ namespace MovieCorner.Services.Services
         {
             var last = this.GetList(x => x.Series.Id == seriesId).OrderBy(x => x.Number).LastOrDefault();
 
-            var number = last?.Number + 1 ?? 1;
+            int number = last?.Number + 1 ?? 1;
 
             var season = new Season
             {
@@ -110,8 +111,8 @@ namespace MovieCorner.Services.Services
         public void DeleteDecremented(int seasonId)
         {
             var season = this.Get(seasonId);
-            var seriesId = season.Series.Id;
-            var number = season.Number;
+            int seriesId = season.Series.Id;
+            int number = season.Number;
 
             this.Remove(seasonId);
 

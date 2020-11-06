@@ -7,10 +7,10 @@ namespace ManagerAPI.Domain.Entities.PM
     {
         [Required]
         public int Id { get; set; }
-        
+
         [Required]
         public string Title { get; set; }
-        
+
         [Required]
         public int AccessLevel { get; set; }
 

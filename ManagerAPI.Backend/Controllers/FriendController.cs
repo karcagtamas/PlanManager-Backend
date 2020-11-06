@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using ManagerAPI.Services.Services.Interfaces;
+﻿using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ManagerAPI.Backend.Controllers
 {
@@ -22,7 +22,7 @@ namespace ManagerAPI.Backend.Controllers
         /// <param name="friendService">Friend Service</param>
         public FriendController(IFriendService friendService)
         {
-            _friendService = friendService;
+            this._friendService = friendService;
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("request")]
         public IActionResult GetMyFriendRequests()
         {
-            return Ok(_friendService.GetMyFriendRequests());
+            return this.Ok(this._friendService.GetMyFriendRequests());
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet]
         public IActionResult GetMyFriends()
         {
-            return Ok(_friendService.GetMyFriends());
+            return this.Ok(this._friendService.GetMyFriends());
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace ManagerAPI.Backend.Controllers
         [HttpGet("data/{friendId}")]
         public async Task<IActionResult> GetFriendData(string friendId)
         {
-            return Ok(await _friendService.GetFriendData(friendId));
+            return this.Ok(await this._friendService.GetFriendData(friendId));
         }
 
         /// <summary>
@@ -64,8 +64,8 @@ namespace ManagerAPI.Backend.Controllers
         [HttpDelete("{friendId}")]
         public IActionResult RemoveFriend(string friendId)
         {
-            _friendService.RemoveFriend(friendId);
-            return Ok();
+            this._friendService.RemoveFriend(friendId);
+            return this.Ok();
         }
 
         /// <summary>
@@ -76,8 +76,8 @@ namespace ManagerAPI.Backend.Controllers
         [HttpPost("request")]
         public IActionResult SendFriendRequest(FriendRequestModel model)
         {
-            _friendService.SendFriendRequest(model);
-            return Ok();
+            this._friendService.SendFriendRequest(model);
+            return this.Ok();
         }
 
         /// <summary>
@@ -88,8 +88,8 @@ namespace ManagerAPI.Backend.Controllers
         [HttpPut("request")]
         public IActionResult SendFriendRequestResponse(FriendRequestResponseModel model)
         {
-            _friendService.SendFriendRequestResponse(model);
-            return Ok();
+            this._friendService.SendFriendRequestResponse(model);
+            return this.Ok();
         }
     }
 }

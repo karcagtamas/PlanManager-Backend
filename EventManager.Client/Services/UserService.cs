@@ -1,9 +1,9 @@
-using System.Threading.Tasks;
 using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
+using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
@@ -15,8 +15,8 @@ namespace EventManager.Client.Services
 
         public UserService(IHttpService httpService, IHelperService helperService)
         {
-            _httpService = httpService;
-            _helperService = helperService;
+            this._httpService = httpService;
+            this._helperService = helperService;
         }
 
         public async Task<UserDto> GetUser()

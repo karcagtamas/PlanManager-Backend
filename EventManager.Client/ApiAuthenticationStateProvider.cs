@@ -1,3 +1,5 @@
+using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +8,6 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components.Authorization;
 
 namespace EventManager.Client
 {
@@ -18,58 +18,58 @@ namespace EventManager.Client
 
         public ApiAuthenticationStateProvider(HttpClient httpClient, ILocalStorageService localStorageService)
         {
-            _httpClient = httpClient;
-            _localStorageService = localStorageService;
+            this._httpClient = httpClient;
+            this._localStorageService = localStorageService;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var savedToken = await _localStorageService.GetItemAsync<string>("authToken");
+            string savedToken = await this._localStorageService.GetItemAsync<string>("authToken");
 
             if (string.IsNullOrWhiteSpace(savedToken))
             {
-                await ClearStorage();
+                await this.ClearStorage();
                 return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
             }
 
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", savedToken);
+            this._httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", savedToken);
 
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(await ParseClaimsFromJwt(savedToken), "jwt")));
+            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(await this.ParseClaimsFromJwt(savedToken), "jwt")));
         }
 
         public void MarkUserAsAuthenticated()
         {
-            NotifyAuthenticationStateChanged(this.GetAuthenticationStateAsync());
+            this.NotifyAuthenticationStateChanged(this.GetAuthenticationStateAsync());
         }
 
         private void MarkUserAsLoggedOut()
         {
             var anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
             var authState = Task.FromResult(new AuthenticationState(anonymousUser));
-            NotifyAuthenticationStateChanged(authState);
+            this.NotifyAuthenticationStateChanged(authState);
         }
 
         private async Task<IEnumerable<Claim>> ParseClaimsFromJwt(string jwt)
         {
             var claims = new List<Claim>();
-            var payload = jwt.Split('.')[1];
-            var jsonBytes = ParseBase64WithoutPadding(payload);
+            string payload = jwt.Split('.')[1];
+            byte[] jsonBytes = this.ParseBase64WithoutPadding(payload);
             var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
 
             if (keyValuePairs != null && keyValuePairs.Keys.Contains("exp"))
             {
                 long.TryParse(keyValuePairs["exp"].ToString(), out long exp);
-                DateTime date = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                var date = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
                 date = date.AddSeconds(exp);
                 if (date < DateTime.Now)
                 {
-                    await ClearStorage();
+                    await this.ClearStorage();
                     return null;
                 }
             }
             else
             {
-                await ClearStorage();
+                await this.ClearStorage();
                 return null;
             }
 
@@ -83,9 +83,9 @@ namespace EventManager.Client
                     case "role":
                         if (dic.Value.ToString().Trim().StartsWith("["))
                         {
-                            var parsedRoles = JsonSerializer.Deserialize<string[]>(dic.Value.ToString());
+                            string[] parsedRoles = JsonSerializer.Deserialize<string[]>(dic.Value.ToString());
 
-                            foreach (var parsedRole in parsedRoles)
+                            foreach (string parsedRole in parsedRoles)
                             {
                                 claims.Add(new Claim(ClaimTypes.Role, parsedRole));
                             }
@@ -108,9 +108,9 @@ namespace EventManager.Client
 
         public async Task ClearStorage()
         {
-            await _localStorageService.RemoveItemAsync("authToken");
-            MarkUserAsLoggedOut();
-            _httpClient.DefaultRequestHeaders.Authorization = null;
+            await this._localStorageService.RemoveItemAsync("authToken");
+            this.MarkUserAsLoggedOut();
+            this._httpClient.DefaultRequestHeaders.Authorization = null;
         }
 
         private byte[] ParseBase64WithoutPadding(string base64)

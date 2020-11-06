@@ -38,24 +38,24 @@ namespace EventManager.Client.Pages.WM
         private async Task GetMonthStat()
         {
             this.IsLoading = true;
-            StateHasChanged();
+            this.StateHasChanged();
             this.MonthStat = await this.FieldService.GetMonthStat(this.Year, this.Month);
             this.IsLoading = false;
-            StateHasChanged();
+            this.StateHasChanged();
         }
 
         private void Redirect(bool direction)
         {
             if (direction)
             {
-                var month = this.Month == 11 ? 0 : this.Month++;
-                var year = month == 0 ? this.Year++ : this.Year;
+                int month = this.Month == 11 ? 0 : this.Month++;
+                int year = month == 0 ? this.Year++ : this.Year;
                 this.NavigationManager.NavigateTo($"/wm/month/{year}/{month}");
             }
             else
             {
-                var month = this.Month == 0 ? 11 : this.Month--;
-                var year = month == 11 ? this.Year-- : this.Year;
+                int month = this.Month == 0 ? 11 : this.Month--;
+                int year = month == 11 ? this.Year-- : this.Year;
                 this.NavigationManager.NavigateTo($"/wm/month/{year}/{month}");
             }
         }
