@@ -1,7 +1,4 @@
-﻿@using ManagerAPI.Shared.Helpers
-@inject EventManager.Client.Services.Interfaces.IHelperService HelperService
-
-<div class="em-navbar">
+﻿<div class="em-navbar">
     <div class="em-navbar-brand-outer">
         <div class="em-navbar-brand">
             Manager
@@ -70,25 +67,3 @@
         </AuthorizeView>
     </div>
 </div>
-
-@code {
-
-    [Parameter]
-    public RenderFragment ChildContent { get; set; }
-
-    private string GetWorkingManagerUri()
-    {
-        return $"/wm/{DateHelper.DateToNumberDayString(DateTime.Now)}";
-    }
-
-    private string GetWorkingMonthStatUri()
-    {
-        return $"/wm/month/{HelperService.CurrentYear()}/{HelperService.CurrentMonth()}";
-    }
-
-    private string GetWorkingWeekStatUri()
-    {
-        return $"/wm/week/{DateHelper.DateToNumberDayString(HelperService.CurrentWeek())}";
-    }
-
-}
