@@ -6,6 +6,7 @@
     <Authors>karcagtamas@outlook.com</Authors>
     <Company>karcags</Company>
     <PackageVersion>1.0.0</PackageVersion>
+    <UserSecretsId>07ced520-3a32-46a1-bf0b-119d48786f81</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

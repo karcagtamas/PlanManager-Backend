@@ -51,14 +51,23 @@ namespace ManagerAPI.Backend
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy",
+                options.AddPolicy("ReleasePolicy",
                     builder =>
                     {
                         builder
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials()
-                            .WithOrigins("https://localhost:5001", "http://localhost:8080", "http://192.168.1.80:8080");
+                            .WithOrigins("http://localhost:8080", "http://192.168.1.80:8080", "https://localhost:8080", "https://192.168.1.80:8080");
+                    });
+                options.AddPolicy("TestPolicy", 
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials()
+                            .WithOrigins("https://localhost:5001");
                     });
             });
 
@@ -124,7 +133,7 @@ namespace ManagerAPI.Backend
             services.AddScoped<IGeneratorService, GeneratorService>();
             services.AddScoped<IPDFService, PDFService>();
 
-            new CustomAssemblyLoadContext().LoadUnmanagedLibrary($"{Directory.GetCurrentDirectory()}/dll/libwkhtmltox.dll");
+            new CustomAssemblyLoadContext().LoadUnmanagedLibrary($"{Directory.GetCurrentDirectory()}/assets/dll/libwkhtmltox.dll");
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -175,8 +184,6 @@ namespace ManagerAPI.Backend
         {
             app.UseAuthentication();
 
-
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -192,7 +199,7 @@ namespace ManagerAPI.Backend
 
             app.UseAuthorization();
 
-            app.UseCors("CorsPolicy");
+            app.UseCors(env.IsDevelopment() ? "TestPolicy" : "ReleasePolicy");
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
