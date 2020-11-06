@@ -58,7 +58,7 @@ namespace ManagerAPI.Backend
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials()
-                            .WithOrigins("https://localhost:5001", "http://localhost:8080", "http://192.168.1.6:8080");
+                            .WithOrigins("https://localhost:5001", "http://localhost:8080", "http://192.168.1.80:8080");
                     });
             });
 
