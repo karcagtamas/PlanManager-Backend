@@ -58,16 +58,16 @@ namespace ManagerAPI.Backend
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials()
-                            .WithOrigins("http://localhost:8080", "http://192.168.1.80:8080", "https://localhost:8080", "https://192.168.1.80:8080");
+                            .WithOrigins("http://localhost:8080", "http://192.168.1.80:8080", "https://localhost:8080", "https://192.168.1.80:8080", "http://100.98.107.134:8080");
                     });
-                options.AddPolicy("TestPolicy", 
+                options.AddPolicy("TestPolicy",
                     builder =>
                     {
                         builder
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials()
-                            .WithOrigins("https://localhost:5001");
+                            .WithOrigins("https://localhost:5001", "https://localhost:44328");
                     });
             });
 
